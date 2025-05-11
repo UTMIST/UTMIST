@@ -1,5 +1,5 @@
 # Set up a Continuous Integration (CI) pipeline using GitHub Actions.
-name: Continuous Integration
+name: Client CI
 
 on:
   push:
