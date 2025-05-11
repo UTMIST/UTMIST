@@ -26,21 +26,40 @@ npm -v
 This will display the installed versions of Node.js and npm, respectively.
 
 ## Install Dependencies
+### Client
 ```bash
-cd src/client
+cd client
 npm install
 ```
 
+### Server
+```
+cd server
+bash setup.bash
+```
+
 ## Running the Application
-### Development Mode
+### Client
+#### Development Mode
 ```bash
 npm run dev
 ```
 
-### Production Mode
+#### Production Mode
 ```bash
 npm run build
 npm start
+```
+
+### Server
+#### Development Mode
+```bash
+python3 manage.py runserver
+```
+
+#### Production Mode
+```bash
+gunicorn projectname.wsgi:application --bind 0.0.0.0:8000
 ```
 
 ## Troubleshooting
