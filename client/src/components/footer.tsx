@@ -9,6 +9,8 @@ import facebook from "../assets/logos/facebook.svg";
 import instagram from "../assets/logos/instagram.svg"; 
 import medium from "../assets/logos/medium.svg"; 
 
+
+
 export default function Footer() { 
     return (
         <footer className="footer-container">

@@ -5,7 +5,6 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 
 // Importing fonts from Google Fonts
-
 const roboto = Roboto({
   variable: "--font-roboto",
   subsets: ["latin"],
@@ -16,11 +15,14 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
+//Metadata for the page
 export const metadata: Metadata = {
   title: "UTMIST (University of Toronto Machine Intelligence Student Team)",
   description: "UTMIST - Largest AI and ML student org in Canada",
 };
 
+// Root layout for the application
+// This layout wraps around all pages and includes the Navbar and Footer
 export default function RootLayout({
   children,
 }: Readonly<{
