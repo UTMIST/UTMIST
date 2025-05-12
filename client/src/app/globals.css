@@ -1,15 +1,26 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary: #ffffff;
+  --secondary: #1e19b1;
+  --gray1: #a1a1a1;
+  --gray2: #a6a6a6;
+  --gray3: #d9d9d9;
+  --gray4: #5c5c5c;
+}
+
+h1, h2, h3{
+  font-weight: 700;
+  font-family: var(--font-roboto);
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--foreground);
+  --color-secondary:var(--secondary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,3 +35,23 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+.hero{
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family: var(--font-spce-grotesk);
+}
+
+.hero1{
+  font-size: 2.5rem;
+}
+
+.hero2{
+  font-size: 2.5rem;
+}
+
+.hero3{
+  font-size: 2.5rem;
+}
+
