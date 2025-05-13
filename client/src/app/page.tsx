@@ -2,8 +2,11 @@ import HeroCard from "@/components/cards/hero-card";
 import Image from "next/image";
 import utmistLogo from "@/assets/logos/utmist-logo-large.svg"; 
 import execPhoto from "@/assets/photos/eigenai-exec-photo.png";
+import copresPhoto from "@/assets/photos/eigenai-copres-speech.png";
 import Sponsors from "@/components/sponsors";
 import Statistics from "@/components/stats";
+import Events from "@/components/events";
+import ValueProps from "@/components/valueprops";
 
 export default function Home() {
     return (
@@ -39,7 +42,7 @@ export default function Home() {
 
       {/*Statistics Section */}
       <div className="flex flex-col gap-8 justify-center items-center my-16">
-      <p className="text-4xl font-bold text-center max-w-3xl">
+      <p className="text-4xl font-bold text-center max-w-3xl text-black">
         UTMIST is Canada's largest student-lead organization for Artificial Intelligence and Machine Learning
       </p>
       <Statistics/>
@@ -54,11 +57,22 @@ export default function Home() {
       />
       <div className= "hero-line" />
       <HeroCard 
-        image={execPhoto}
+        image={copresPhoto}
         title="Our Mission"
         description="At UTMIST, we produce in-house academic content, spearhead design teams to collaborate on machine learning and infrastructure projects, and host annual milestone events, empowering our members to become the next generation of engineers, researchers, and leaders in AI/ML."
       />
     </div> 
+
+    {/*Events Section */}
+    <Events />
+
+    <div className="flex flex-col gap-8 justify-center items-center my-16">
+
+    <p className="text-4xl font-bold text-center max-w-3xl text-black">
+    We bring together students, experts, and innovators to explore AI from every angle      </p>
+      </div>
+
+      <ValueProps/>
     </main>
 
   );

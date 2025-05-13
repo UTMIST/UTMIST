@@ -1,0 +1,251 @@
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 2rem; 
+    max-width: 1000px; 
+    margin: 0rem auto;
+    text-align: center;
+}
+
+
+.hero-title{
+    font-size: 3rem;
+    font-weight: 700;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+}
+
+.hero-subtitle{
+    font-size: 1rem;
+    font-weight: 200;
+    color: #111827;
+    font-family: var(--system-font);
+    padding: 0 15rem;
+}
+
+
+.project-section-container{
+    width: 80%;
+    height: 350px;
+    border-radius: 15px;
+    max-width: 1000px;
+    padding: 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    text-align: left;
+    margin: 0 auto;
+}
+
+.gradient-genai{
+    background-image: var(--gradient-proj1), var(--gradient-proj2);
+}
+
+.gradient-cvpr{
+    background: var(--gradient-proj3), var(--gradient-proj4);
+    background-blend-mode: overlay;
+}
+
+.gradient-nlp{
+    background: var(--gradient-proj1), var(--gradient-proj2);
+}
+
+.gradient-medai{
+    background: var(--gradient-proj3), var(--gradient-proj4);
+    background-blend-mode: overlay;
+
+}
+
+.project-section-title{
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: var(--system-font);
+    text-align: left;
+    letter-spacing: -3%;
+}
+
+.project-section-description{
+    font-size: 1.125rem;
+    font-weight: 400;
+    color: #ffffff;
+    font-family: var(--system-font);
+    margin-top: 0.5rem;
+}
+
+.project-card {
+    position: relative;
+    width:90%;
+    min-height: 250px;
+    border-radius: 13px;
+    padding: 2rem;
+    background: white;
+    border: 1px solid #E5E7EB;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.project-card-title {
+    color: #111827;
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: var(--font-space-grotesk);
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.5rem;
+
+}
+
+.project-card-description {
+    color: #6B7280;
+    font-size: 0.8rem;
+    line-height: 1.0rem;
+    font-family: var(--system-font);
+    font-weight: 400;
+}
+
+.github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #111827;
+    text-decoration: none;
+    font-family: var(--system-font);
+    font-weight: 500;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+}
+
+.github-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 2rem 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+.project-gallery-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 1rem;
+  }
+  
+  .project-gallery-title {
+    font-size: 2rem;
+    font-weight: 700;
+    position: relative;
+    text-align: center;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .project-gallery-subtitle {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
+  }
+  
+  .search-bar-container {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    width: 320px;
+    max-width: 90%;
+    transition: border 0.3s;
+    background-color: white;
+    position: relative;
+    
+    /* Remove the original border */
+    border: none;
+  }
+  
+  /* Create a pseudo-element for the gradient border */
+  .search-bar-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 999px;
+    padding: 2px; /* This determines border thickness */
+    background: var(--gradient-search); /* Example gradient - change colors as needed */
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .search-bar-input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 1rem;
+    background: transparent;
+    color: black;
+  }
+  
+  .search-icon {
+    color: #1E19B1;
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+  
+
+  .card-border-wrapper {
+    padding: 0.1rem; /* Equivalent to p-1 in Tailwind for border thickness */
+    border-radius: 1rem; /* Equivalent to rounded-2xl */
+    background-color: #D1D5DB; /* Default border color (Tailwind gray-300) */
+    /* Ensures the wrapper itself doesn't collapse if its child is also flex/grid */
+  }
+
+  .card-border-wrapper:hover {
+    transition: fade-in 0.3s ease-in;
+    background: linear-gradient(to right, #6366f1, #a855f7, #ec4899); /* Gradient from-indigo-500 via-purple-500 to-pink-500 */
+  }
+
+  /* Optional: Ensure cards in a grid row maintain same height if using this custom wrapper */
+  /* This might be needed depending on your exact grid setup if cards have varying content height */
+  .grid .card-border-wrapper {
+    display: flex;
+  } 

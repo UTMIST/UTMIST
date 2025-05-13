@@ -35,7 +35,7 @@
   color: var(--gray1);
   font-size: 1rem;
   font-weight: 200;
-  font-family: var(--font-roboto);
+  font-family: var(--system-font);
 }
 
 .nav-item:hover {
@@ -43,7 +43,7 @@
 }
 
 .nav-button {
-    font-family: var(--font-roboto);
+    font-family: var(--system-font);
     font-weight: 200;
     transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
     background: var(--gradient-b2);

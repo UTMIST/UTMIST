@@ -6,12 +6,14 @@ import Footer from "@/components/footer";
 
 // Importing fonts from Google Fonts
 const roboto = Roboto({
+  weight: ['300', '400', '500', '700'],  // Added specific weights
   variable: "--font-roboto",
   subsets: ["latin"],
+  display: 'swap',
 });
 
 const spaceGrotesk = Space_Grotesk({
-  variable: "--font-spce-grotesk",
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
 });
 
