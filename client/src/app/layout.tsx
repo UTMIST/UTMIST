@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 import { Roboto, Space_Grotesk } from "next/font/google";
 
 // Importing fonts from Google Fonts
@@ -30,8 +32,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.className} ${spaceGrotesk.className}`}>
-      <main>{children}</main>
+      <body
+        className={`${roboto.variable} ${spaceGrotesk.variable} antialiased`}
+      >
+        <Navbar/>
+        {children}
+        <Footer/>
       </body>
     </html>
   );
