@@ -55,6 +55,7 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     font-family: var(--system-font);
+    margin-bottom: 0.5rem;
 }
 
 .career-card-row{

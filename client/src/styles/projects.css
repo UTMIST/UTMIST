@@ -3,14 +3,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 4rem 2rem; 
-    max-width: 1000px; 
+    padding: 4rem 2rem;
+    max-width: 1000px;
     margin: 0rem auto;
     text-align: center;
 }
 
 
-.hero-title{
+.hero-title {
     font-size: 3rem;
     font-weight: 700;
     background: var(--gradient-bl1);
@@ -19,7 +19,7 @@
     font-family: var(--system-font);
 }
 
-.hero-subtitle{
+.hero-subtitle {
     font-size: 1rem;
     font-weight: 200;
     color: #111827;
@@ -28,7 +28,7 @@
 }
 
 
-.project-section-container{
+.project-section-container {
     width: 80%;
     height: 350px;
     border-radius: 15px;
@@ -42,26 +42,39 @@
     margin: 0 auto;
 }
 
-.gradient-genai{
+.gradient-genai {
     background-image: var(--gradient-proj1), var(--gradient-proj2);
 }
 
-.gradient-cvpr{
+.gradient-cvpr {
     background: var(--gradient-proj3), var(--gradient-proj4);
     background-blend-mode: overlay;
 }
 
-.gradient-nlp{
+.gradient-finml {
     background: var(--gradient-proj1), var(--gradient-proj2);
 }
 
-.gradient-medai{
+.gradient-medai {
     background: var(--gradient-proj3), var(--gradient-proj4);
     background-blend-mode: overlay;
-
 }
 
-.project-section-title{
+.gradient-supvlr {
+    background: var(--gradient-proj1), var(--gradient-proj2);
+}
+
+.gradient-mlops {
+    background: var(--gradient-proj3), var(--gradient-proj4);
+    background-blend-mode: overlay;
+}
+
+.gradient-aiapps {
+    background: var(--gradient-proj1), var(--gradient-proj2);
+}
+
+
+.project-section-title {
     font-size: 2.5rem;
     font-weight: 700;
     color: #ffffff;
@@ -70,7 +83,7 @@
     letter-spacing: -3%;
 }
 
-.project-section-description{
+.project-section-description {
     font-size: 1.125rem;
     font-weight: 400;
     color: #ffffff;
@@ -80,10 +93,12 @@
 
 .project-card {
     position: relative;
-    width:90%;
+    width: 100%;
+    min-width: 300px;
     min-height: 250px;
     border-radius: 13px;
     padding: 2rem;
+    margin: 0 2rem;
     background: white;
     border: 1px solid #E5E7EB;
     overflow: hidden;
@@ -163,9 +178,9 @@
     flex-direction: column;
     align-items: center;
     padding: 4rem 1rem;
-  }
-  
-  .project-gallery-title {
+}
+
+.project-gallery-title {
     font-size: 2rem;
     font-weight: 700;
     position: relative;
@@ -173,16 +188,16 @@
     background: var(--gradient-bl1);
     background-clip: text;
     -webkit-text-fill-color: transparent;
-  }
-  
-  .project-gallery-subtitle {
+}
+
+.project-gallery-subtitle {
     margin-top: 0.5rem;
     font-size: 1rem;
     color: #333;
     text-align: center;
-  }
-  
-  .search-bar-container {
+}
+
+.search-bar-container {
     margin-top: 2rem;
     display: flex;
     align-items: center;
@@ -193,13 +208,10 @@
     transition: border 0.3s;
     background-color: white;
     position: relative;
-    
-    /* Remove the original border */
     border: none;
-  }
-  
-  /* Create a pseudo-element for the gradient border */
-  .search-bar-container::before {
+}
+
+.search-bar-container::before {
     content: "";
     position: absolute;
     top: 0;
@@ -207,45 +219,119 @@
     right: 0;
     bottom: 0;
     border-radius: 999px;
-    padding: 2px; /* This determines border thickness */
-    background: var(--gradient-search); /* Example gradient - change colors as needed */
+    padding: 2px;
+    background: var(--gradient-search);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
     z-index: 1;
-  }
-  
-  .search-bar-input {
+}
+
+.search-bar-input {
     border: none;
     outline: none;
     flex: 1;
     font-size: 1rem;
     background: transparent;
     color: black;
-  }
-  
-  .search-icon {
+}
+
+.search-icon {
     color: #1E19B1;
     width: 1.2rem;
     height: 1.2rem;
-  }
-  
+}
 
-  .card-border-wrapper {
-    padding: 0.1rem; /* Equivalent to p-1 in Tailwind for border thickness */
-    border-radius: 1rem; /* Equivalent to rounded-2xl */
-    background-color: #D1D5DB; /* Default border color (Tailwind gray-300) */
-    /* Ensures the wrapper itself doesn't collapse if its child is also flex/grid */
-  }
 
-  .card-border-wrapper:hover {
-    transition: fade-in 0.3s ease-in;
-    background: linear-gradient(to right, #6366f1, #a855f7, #ec4899); /* Gradient from-indigo-500 via-purple-500 to-pink-500 */
-  }
+.search-bar-container {
+    position: relative;
+    max-width: 32rem;
+    margin: 2rem 2.5rem;
+}
 
-  /* Optional: Ensure cards in a grid row maintain same height if using this custom wrapper */
-  /* This might be needed depending on your exact grid setup if cards have varying content height */
-  .grid .card-border-wrapper {
+
+.search-icon {
+    position: absolute;
+    right: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+/* Carousel styling */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 0rem 8rem;
+}
+
+.carousel-content {
     display: flex;
-  } 
+    padding: 2rem 0;
+    scroll-snap-type: x mandatory;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.carousel-content::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* Navigation buttons */
+.carousel-nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    background-color: white;
+    border-radius: 50%;
+    padding: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.carousel-nav-button:hover {
+    background-color: #f3f4f6;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-nav-button.left {
+    left: 1rem;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Fade gradients */
+.fade-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4rem;
+    background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.fade-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 4rem;
+    background: linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+    z-index: 10;
+}

@@ -1,5 +1,6 @@
 import HeroCard from "@/components/cards/hero-card";
 import Image from "next/image";
+import plusIcon from "@/assets/icons/plus-icon.svg";
 import utmistLogo from "@/assets/logos/utmist-logo-large.svg"; 
 import execPhoto from "@/assets/photos/eigenai-exec-photo.png";
 import copresPhoto from "@/assets/photos/eigenai-copres-speech.png";
@@ -49,7 +50,8 @@ export default function Home() {
       </div>
 
       {/*Who We Are / Mission Section */}
-      <div className="hero-container">
+      <section id="about-us">
+      <div  className="hero-container">
         <HeroCard 
         image={execPhoto}
         title="Who We Are"
@@ -62,6 +64,7 @@ export default function Home() {
         description="At UTMIST, we produce in-house academic content, spearhead design teams to collaborate on machine learning and infrastructure projects, and host annual milestone events, empowering our members to become the next generation of engineers, researchers, and leaders in AI/ML."
       />
     </div> 
+      </section>
 
     {/*Events Section */}
     <Events />
@@ -69,10 +72,72 @@ export default function Home() {
     <div className="flex flex-col gap-8 justify-center items-center my-16">
 
     <p className="text-4xl font-bold text-center max-w-3xl text-black">
-    We bring together students, experts, and innovators to explore AI from every angle      </p>
+    We bring together students, experts, and innovators to explore AI from every angle</p>
       </div>
 
       <ValueProps/>
+
+      <div className="faq-section">
+          <h2 className="faq-title">Have Questions?</h2>
+          <h2 className="faq-title">UTMIST Has Answers</h2>
+      </div>
+      <div className="faq-container">
+      <div className="faq-row">
+          <h2 className="faq-row-title">How do I join UTMIST?</h2>
+          <Image
+            src={plusIcon}
+            alt="Plus Icon"
+            width={20}
+            height={20}
+            priority
+          />
+          </div>
+          <div className="faq-row">
+          <h2 className="faq-row-title">I don't know ML, can I still join UTMIST?</h2>
+          <Image
+            src={plusIcon}
+            alt="Plus Icon"
+            width={20}
+            height={20}
+            priority
+          />
+          </div>
+          <div className="faq-row">
+          <h2 className="faq-row-title">How do I start a project?</h2>
+          <Image
+            src={plusIcon}
+            alt="Plus Icon"
+            width={20}
+            height={20}
+            priority
+          />
+          </div>
+          <div className="faq-row">
+          <h2 className="faq-row-title">What resources do UTMIST members have access to?</h2>
+          <Image
+            src={plusIcon}
+            alt="Plus Icon"
+            width={20}
+            height={20}
+            priority
+          />
+          </div>
+          <div className="faq-row">
+          <h2 className="faq-row-title">
+        What are the events that UTMIST hosts?
+          </h2>
+          <Image
+            src={plusIcon}
+            alt="Plus Icon"
+            width={20}
+            height={20}
+            priority
+          />
+          </div>
+      </div>
+      <div className="faq-tail-section">
+      <h2 className="faq-subtitle">More Questions? Reach Out To Us</h2>
+      </div>
     </main>
 
   );

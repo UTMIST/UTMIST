@@ -25,7 +25,7 @@ export default function EventsPage() {
           </p>
          </div>
     <div className="p-6 rounded-lg px-56">
-      <h2 className="text-3xl mb-2 text-black">Upcoming Events</h2>
+      <h2 className="text-3xl mb-2 text-black tracking-[-3%]">Upcoming Events</h2>
       <p className="text-gray-600 mb-6">Explore what's happening on campus right now</p>
       
       <div className="space-y-2">
@@ -64,7 +64,7 @@ export default function EventsPage() {
     
     <section className="featured-section">
       <div className="featured-container">
-        <h2 className="featured-title">Featured</h2>
+        <h2 className="featured-title tracking-[-3%]">Featured</h2>
         <p className="featured-description">
         UTMIST's Flagship Events - hackathons, conferences, workshops, showcases
         </p>

@@ -1,13 +1,20 @@
-import "@/styles/projects.css"  
+'use client';
+import "@/styles/projects.css";
+import { useRef, useState, useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
-import { Search } from "lucide-react";
-import github from "@/assets/logos/github.svg";
-import dummy from "@/assets/photos/fibseq.png"
+import { Search, ChevronRight, ChevronLeft } from "lucide-react";
+import projectsData from "@/assets/projects.json";
+import githubIcon from "@/assets/logos/github.svg";
+import dummy from "@/assets/photos/fibseq.png";
+
 enum ProjectType {
-    genai = "Generative AI",
-    cvpr = "Computer Vision and Pattern Recognition",
-    nlp = "Natural Language Processing",
-    medai = "Medical AI",
+    genai = "genai",
+    cvpr = "cvpr",
+    finml = "finml",
+    medai = "medai",
+    supvlr = "supvlr",
+    mlops = "mlops",
+    aiapps = "aiapps",
   }
 
 interface Project {
@@ -23,85 +30,175 @@ interface Project {
 
 const ProjectCard: React.FC<Project> = ({
     title,
+    description,
+    github,
     image,
     readMoreLink,
     imageAltText = "Project Image",
   }) => {
     return (
+        <div key={title} className="project-card max-w-[320px] w-full mx-auto">
+        <div className="project-card-image">
+        <Image
+          src={image}
+          alt={title}
+          width={400}
+          height={200}
+          objectFit="cover"
+          className="project-image"
+        />
+      </div>
+      <div>
+        <h2 className="project-card-title">{title}</h2>
+        <p className="project-card-description">{description}</p>
+      </div>
+      {github && (
+        <a
+          href={github}
+          className="github-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src={githubIcon}
+            alt="GitHub Icon"
+            width={20}
+            height={20}
+            className="github-icon"
+          />
+          Read More
+        </a>
+      )}
+</div>
+    );
+  };
 
-      <div className="card-border-wrapper">
-        <div className="max-w-xs w-full bg-white rounded-xl shadow-lg overflow-hidden">
-          <div className="p-5 bg-white relative">
-            <div className="bg-gray-200 h-48 w-full rounded-lg mb-4 flex items-center justify-center border border-gray-300">
-              {image ? (
-                <Image
-                  src={image}
-                  alt={imageAltText}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              ) : (
-                <div className="text-gray-500 text-center p-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <p className="mt-2 text-sm">Image Placeholder</p>
-                </div>
-              )}
-            </div>
+
+  const ProjectCarousel = ({ projects }: { projects: Project[] }) => {
+    const carouselRef = useRef<HTMLDivElement>(null);
+    const [showLeftArrow, setShowLeftArrow] = useState(false);
+    const [showRightArrow, setShowRightArrow] = useState(true);
   
-            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 leading-tight">
-              {title}
-            </h2>
-            <a
-              href={readMoreLink}
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="inline-block text-indigo-600 hover:text-indigo-800 hover:underline font-medium transition-colors duration-150 ease-in-out"
-            >
-              Read More
-            </a>
-          </div>
+    const scroll = (direction: "left" | "right") => {
+      if (carouselRef.current) {
+        const scrollAmount = direction === "left" ? -300 : 300;
+        carouselRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      }
+    };
+  
+    const checkArrows = () => {
+      if (carouselRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+        setShowLeftArrow(scrollLeft > 0);
+        setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 10);
+      }
+    };
+  
+    useEffect(() => {
+      const carousel = carouselRef.current;
+      if (carousel) {
+        carousel.addEventListener("scroll", checkArrows);
+        checkArrows();
+        return () => carousel.removeEventListener("scroll", checkArrows);
+      }
+    }, []);
+  
+    return (
+      <div className="carousel-container relative px-2 lg:px-6 my-8">
+        {/* Left fade gradient */}
+        {showLeftArrow && (
+          <div className="absolute left-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+        )}
+  
+        {/* Left Navigation Button */}
+        {showLeftArrow && (
+          <button
+            onClick={() => scroll("left")}
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-all"
+            aria-label="Previous projects"
+          >
+            <ChevronLeft className="w-6 h-6 text-gray-700" />
+          </button>
+        )}
+  
+        {/* Carousel Content */}
+        <div
+          ref={carouselRef}
+          className="carousel-content flex overflow-x-auto py-4 no-scrollbar scroll-smooth"
+          onScroll={checkArrows}
+        >
+          {projects.map((project, index) => (
+            <ProjectCard key={index} {...project} />
+          ))}
         </div>
+  
+        {/* Right fade gradient */}
+        {showRightArrow && (
+          <div className="absolute right-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+        )}
+  
+        {/* Right Navigation Button */}
+        {showRightArrow && (
+          <button
+            onClick={() => scroll("right")}
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-all"
+            aria-label="Next projects"
+          >
+            <ChevronRight className="w-6 h-6 text-gray-700" />
+          </button>
+        )}
       </div>
     );
   };
 
 export default function ProjectsPage() {
 
-    const projects: Project[] = [
-        {
-            title: "Computer Vision",
-            description: "Canada's largest student-lead organization for Artificial Intelligence and Machine Learning",
-            github: "https://github.com/utmist",
-            image: dummy,
-            type: ProjectType.cvpr,
-            readMoreLink: "https://github.com/utmist",
-        },
-        {
-            title: "Natural Language Processing",
-            description: "Canada's largest student-lead organization for Artificial Intelligence and Machine Learning",
-            github: "https://github.com/utmist",
-            image: dummy,
-            type: ProjectType.genai,
-            readMoreLink: "https://github.com/utmist",
-        },
-        {
-            title: "Reinforcement Learning",
-            description: "Canada's largest student-lead organization for Artificial Intelligence and Machine Learning",
-            github: "https://github.com/utmist",
-            image: dummy,
-            type: ProjectType.genai,
-            readMoreLink: "https://github.com/utmist",
-        }
-    ];
+    const displayNames: Record<ProjectType, string> = {
+        genai: "Generative AI",
+        cvpr: "Computer Vision and Pattern Recognition",
+        finml: "Financial Machine Learning",
+        medai: "Medical AI",
+        supvlr: "Supervised Learning",
+        mlops: "MLOps",
+        aiapps: "AI Applications",
+      };
+
+    const projectTypeMap: Record<string, ProjectType> = {
+        genai: ProjectType.genai,
+        cvpr: ProjectType.cvpr,
+        finml: ProjectType.finml,
+        medai: ProjectType.medai,
+        supvlr: ProjectType.supvlr,
+        mlops: ProjectType.mlops,
+        aiapps: ProjectType.aiapps,
+      };
+      
+    const projects: Project[] = projectsData.map((project) => ({
+        title: project.name || "Untitled Project",
+        description: project.description || "No description available.",
+        github: project.github || undefined,
+        image: dummy,
+        imageAltText: project.name || "Project Image",
+        type: projectTypeMap[project.type] ?? ProjectType.genai, // fallback
+        readMoreLink: project.readMoreLink || "#",
+      }));
 
 
     const gradientClassMap: Record<ProjectType, string> = {
         [ProjectType.cvpr]: "gradient-cvpr",
-        [ProjectType.nlp]: "gradient-nlp",
+        [ProjectType.finml]: "gradient-finml",
         [ProjectType.genai]: "gradient-genai",
         [ProjectType.medai]: "gradient-medai",
+        [ProjectType.supvlr]: "gradient-supvlr",    
+        [ProjectType.mlops]: "gradient-mlops",
+        [ProjectType.aiapps]: "gradient-aiapps",
       };
+
+      const [searchTerm, setSearchTerm] = useState("");
+      const filteredProjects = projects.filter(project => 
+        project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        project.description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     
     return (
         <main>
@@ -111,58 +208,24 @@ export default function ProjectsPage() {
             See the work of the engineers, researchers and pioneers of ML advancements
           </p>
         </div>
-  
-        {Object.entries(ProjectType).map(([key, type]) => {
-        const filteredProjects = projects.filter((project) => project.type === type);
-        if (filteredProjects.length === 0) return null;
-          return (
-            <div key={type}>
-              <div className={`project-section-container ${gradientClassMap[type]}`}>
-                <h2 className="project-section-title">{type}</h2>
-                <p className="projects-section-subtitle">
-                  Explore the projects that our members have worked on.
-                </p>
-              </div>
-              <div className="projects-grid">
-                {filteredProjects.map((project, index) => (
-                  <div key={index} className="project-card">
-                    <div className="project-card-image">
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        width={400}
-                        height={200}
-                        objectFit="cover"
-                        className="project-image"
-                      />
-                    </div>
-                    <div>
-                      <h2 className="project-card-title">{project.title}</h2>
-                      <p className="project-card-description">{project.description}</p>
-                    </div>
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        className="github-link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Image
-                          src={github}
-                          alt="GitHub Icon"
-                          width={20}
-                          height={20}
-                          className="github-icon"
-                        />
-                        Read More
-                      </a>
-                    )}
-                  </div>
-                ))}
-              </div>
+
+      {/* Project Sections with Carousels */}
+      {Object.entries(ProjectType).map(([key, type]) => {
+        const typeProjects = projects.filter((project) => project.type === type);
+        if (typeProjects.length === 0) return null;     
+        return (
+          <div key={type} className="mb-16">
+            <div className={`project-section-container ${gradientClassMap[type]}`}>
+              <h2 className="project-section-title">{displayNames[type]}</h2>
+              <p className="projects-section-subtitle">
+                Explore the projects that our members have worked on.
+              </p>
             </div>
-          );
-        })}
+            
+            <ProjectCarousel projects={typeProjects} />
+          </div>
+        );
+      })}
 
     <section className="project-gallery-container">
       <h2 className="project-gallery-title">See All Projects</h2>
@@ -170,16 +233,19 @@ export default function ProjectsPage() {
         Browse all of our AI and ML projects developed by our students
       </p>
 
-      <div className="search-bar-container mb-10">
-        <input
-          type="text"
-          className="search-bar-input"
-          placeholder="Search projects..."
-        />
-        <Search className="search-icon" />
-      </div>
+        <div className="search-bar-container mb-10">
+          <input
+            type="text"
+            className="search-bar-input"
+            placeholder="Search projects..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Search className="search-icon" />
+        </div>
+        
       <div className="px-10 sm:px-16 lg:px-24 xl:px-32 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 lg:gap-8">
-      {projects.map((card, index) => (
+      {filteredProjects.map((card, index) => (
             <div key={index} className="project-card max-w-[320px] w-full mx-auto">
                     <div className="project-card-image">
                     <Image
@@ -203,7 +269,7 @@ export default function ProjectsPage() {
                       rel="noopener noreferrer"
                     >
                       <Image
-                        src={github}
+                        src={githubIcon}
                         alt="GitHub Icon"
                         width={20}
                         height={20}

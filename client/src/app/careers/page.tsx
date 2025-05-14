@@ -43,7 +43,7 @@ export default function CareersPage() {
                 height={20}
                 objectFit="cover"/>
                 <p className="career-card-description">
-                Build impactful projects solving real problems using AI and ML 
+                Build impactful projects using AI and ML 
                 </p>
                 </div>
                 <div className="career-card-line" />
@@ -55,7 +55,7 @@ export default function CareersPage() {
                 height={20}
                 objectFit="cover"/>
                 <p className="career-card-description">
-                Join study groups, workshops to learn cutting-edge research
+                Join study groups, workshops for cutting-edge research
                 </p>
                 </div>
                 <div className="career-card-line" />
@@ -67,7 +67,7 @@ export default function CareersPage() {
                 height={20}
                 objectFit="cover"/>
                 <p className="career-card-description">
-                Learn to write scalable, robust software building ML systems.
+                Learn to write robust software in building ML systems
                 </p>
                 </div>
             </div>
@@ -93,7 +93,7 @@ export default function CareersPage() {
                 height={20}
                 objectFit="cover"/>
                 <p className="career-card-description">
-                Network with professors, students through academic events
+                Network with professors, students in academic events
                 </p>
                 </div>
                 <div className="career-card-line" />
@@ -105,8 +105,7 @@ export default function CareersPage() {
                 height={20}
                 objectFit="cover"/>
                 <p className="career-card-description">
-                Learn to write scalable, robust software building ML systems.
-                </p>
+                Engage with industry professionals in talks and workshops                </p>
                 </div>
             </div>
         </div>

@@ -110,7 +110,7 @@
 /* FeaturedSection.css */
 
 .featured-section {
-    padding: 4rem 11rem; 
+    padding: 4rem 14rem; 
   }
   
   .featured-container {
@@ -166,6 +166,7 @@
     font-weight: 700;
     margin: 0;
     align-self: flex-end;
+    font-family: var(--system-font);
   }
   
   .featured-card-title-right {

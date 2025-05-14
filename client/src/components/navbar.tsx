@@ -13,7 +13,7 @@ export default function Navbar() {
         </div>
         </a>
         <ul className="flex space-x-10">
-          <li><a href="/about" className="nav-item">About Us</a></li>
+          <li><a href="/#about-us" className="nav-item">About Us</a></li>
           <li><a href="/projects" className="nav-item">Projects</a></li>
           <li><a href="/blog" className="nav-item">Blog</a></li>
           <li><a href="/events" className="nav-item">Events</a></li>
