@@ -1,11 +1,6 @@
 import EventCard from "./cards/events-card";
 import "../styles/home.css";
-
-interface Event {
-    title: string;
-    description: string;
-    url: string;
-}
+import { Event } from "@/app/types/home";
 
 export default function Events() {
     const events: Event[] = [
@@ -15,17 +10,12 @@ export default function Events() {
             url: "https://eigenai.ca/"
         },
         {
-            title: "CUCAI",
-            description: "A student-led AI conference featuring hands-on workshops, expert talks, and diverse perspectives across fields like fintech, healthcare, and robotics.",
-            url: "https://eigenai.ca/"
-        },
-        {
             title: "AI^2",
             description: "A student-led AI conference featuring hands-on workshops, expert talks, and diverse perspectives across fields like fintech, healthcare, and robotics.",
             url: "https://eigenai.ca/"
         },
         {
-            title: "GenAI Genesis Hackathon",
+            title: "GenAI Genesis",
             description: "A student-led AI conference featuring hands-on workshops, expert talks, and diverse perspectives across fields like fintech, healthcare, and robotics.",
             url: "https://eigenai.ca/"
 

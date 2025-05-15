@@ -8,6 +8,7 @@ import Sponsors from "@/components/sponsors";
 import Statistics from "@/components/stats";
 import Events from "@/components/events";
 import ValueProps from "@/components/valueprops";
+import FAQ from "@/components/faq";
 
 export default function Home() {
     return (
@@ -70,7 +71,6 @@ export default function Home() {
     <Events />
 
     <div className="flex flex-col gap-8 justify-center items-center my-16">
-
     <p className="text-4xl font-bold text-center max-w-3xl text-black">
     We bring together students, experts, and innovators to explore AI from every angle</p>
       </div>
@@ -81,63 +81,8 @@ export default function Home() {
           <h2 className="faq-title">Have Questions?</h2>
           <h2 className="faq-title">UTMIST Has Answers</h2>
       </div>
-      <div className="faq-container">
-      <div className="faq-row">
-          <h2 className="faq-row-title">How do I join UTMIST?</h2>
-          <Image
-            src={plusIcon}
-            alt="Plus Icon"
-            width={20}
-            height={20}
-            priority
-          />
-          </div>
-          <div className="faq-row">
-          <h2 className="faq-row-title">I don&apos;t know ML, can I still join UTMIST?</h2>
-          <Image
-            src={plusIcon}
-            alt="Plus Icon"
-            width={20}
-            height={20}
-            priority
-          />
-          </div>
-          <div className="faq-row">
-          <h2 className="faq-row-title">How do I start a project?</h2>
-          <Image
-            src={plusIcon}
-            alt="Plus Icon"
-            width={20}
-            height={20}
-            priority
-          />
-          </div>
-          <div className="faq-row">
-          <h2 className="faq-row-title">What resources do UTMIST members have access to?</h2>
-          <Image
-            src={plusIcon}
-            alt="Plus Icon"
-            width={20}
-            height={20}
-            priority
-          />
-          </div>
-          <div className="faq-row">
-          <h2 className="faq-row-title">
-        What are the events that UTMIST hosts?
-          </h2>
-          <Image
-            src={plusIcon}
-            alt="Plus Icon"
-            width={20}
-            height={20}
-            priority
-          />
-          </div>
-      </div>
-      <div className="faq-tail-section">
-      <h2 className="faq-subtitle">More Questions? Reach Out To Us</h2>
-      </div>
+      
+      <FAQ/>
     </main>
 
   );
