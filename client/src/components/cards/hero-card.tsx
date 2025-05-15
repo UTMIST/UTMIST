@@ -1,11 +1,7 @@
 import "../../styles/home.css";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
+import { HeroCardProps } from "@/app/types/home";
 
-interface HeroCardProps {
-    image: StaticImageData;
-    title: string;
-    description: string;
-}
 
 export default function HeroCard({ image, title, description }: HeroCardProps) {
     return (

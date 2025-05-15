@@ -1,8 +1,4 @@
-
-interface StatItemProps {
-    number: string;
-    description: string;
-}
+import { StatItemProps } from "@/app/types/home";
 
 function StatItem({ number, description }: StatItemProps) {
     return (

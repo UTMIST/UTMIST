@@ -1,6 +1,5 @@
 import HeroCard from "@/components/cards/hero-card";
 import Image from "next/image";
-import plusIcon from "@/assets/icons/plus-icon.svg";
 import utmistLogo from "@/assets/logos/utmist-logo-large.svg"; 
 import execPhoto from "@/assets/photos/eigenai-exec-photo.png";
 import copresPhoto from "@/assets/photos/eigenai-copres-speech.png";
