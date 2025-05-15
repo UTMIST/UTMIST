@@ -1,13 +1,8 @@
-import Image , {StaticImageData} from "next/image";
+import Image from "next/image";
+import { EventCardProps } from "@/types/Blog";
 
-interface BlogCardSmallProps {
-  title: string;
-  date: string;
-  image: string | StaticImageData;
-  url?: string;
-}
 
-export default function BlogCardSmall({ title, date, image, url }: BlogCardSmallProps) {
+export default function BlogCardSmall({ title, date, image, url }: EventCardProps) {
   return (
     <a href={url} target="_blank" rel="noopener noreferrer">
     <div className="w-[240px]">

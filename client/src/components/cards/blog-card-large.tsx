@@ -1,11 +1,5 @@
-import Image , {StaticImageData} from "next/image";
-
-interface EventCardProps {
-  title: string;
-  date: string;
-  image: string | StaticImageData;
-  url: string;
-}
+import Image from "next/image";
+import { EventCardProps } from "@/types/Blog";
 
 export default function BlogCardLarge({ title, date, image, url }: EventCardProps) {
   return (
