@@ -8,6 +8,7 @@ import Statistics from "@/components/stats";
 import Events from "@/components/events";
 import ValueProps from "@/components/valueprops";
 import FAQ from "@/components/faq";
+import Link from "next/link"; // Import Link from next/link
 
 export default function Home() {
     return (
@@ -20,8 +21,8 @@ export default function Home() {
             University of Toronto Machine Intelligence Student Team
           </p>
           <div className="cta-buttons">
-            <button className="primary-button">Join Us</button>
-            <button className="secondary-button">Contact Us</button>
+            <Link href="/careers" className="primary-button" >Join Us</Link>
+            <Link href="/sponsors#contact-us" className="secondary-button">Contact Us</Link>
           </div>
         </div>
         <div className="cta-logo">
@@ -61,7 +62,7 @@ export default function Home() {
       <HeroCard 
         image={copresPhoto}
         title="Our Mission"
-        description="At UTMIST, we produce in-house academic content, spearhead design teams to collaborate on machine learning and infrastructure projects, and host annual milestone events, empowering our members to become the next generation of engineers, researchers, and leaders in AI/ML."
+        description="Our mission is to empower students of all skill levels and experiences to foster their passion and accelerate their career in Artificial Intelligence and Machine Learning. Through workshops, conference, hackthons and many other initiatives, we hope to provide the best oppurtunities to UofT students in this field."
       />
     </div> 
       </section>
@@ -75,11 +76,6 @@ export default function Home() {
       </div>
 
       <ValueProps/>
-
-      <div className="faq-section">
-          <h2 className="faq-title">Have Questions?</h2>
-          <h2 className="faq-title">UTMIST Has Answers</h2>
-      </div>
       
       <FAQ/>
     </main>

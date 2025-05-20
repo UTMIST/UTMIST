@@ -68,7 +68,7 @@ export default function FAQ() {
               </div>
             )}
             
-            <hr className="h-px mx-8 my-0 bg-gray-200 border-0 dark:bg-gray-700"/>
+            <hr className="faq-line"/>
           </div>
         ))}
       </div>
