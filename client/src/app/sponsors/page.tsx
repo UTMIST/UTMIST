@@ -26,10 +26,9 @@ export default function SponsorsPage() {
       ))}
         </div>
         </div>
-
-        <div className="sponsor-us-section talk-to-us-section">
-        </div>
+        <section id="contact-us">
         <ContactUsCard/>
+        </section>
         </main>
     )
 }
