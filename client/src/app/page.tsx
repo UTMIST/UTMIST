@@ -22,7 +22,7 @@ export default function Home() {
           </p>
           <div className="cta-buttons">
             <Link href="/careers" className="primary-button" >Join Us</Link>
-            <Link href="/sponsors#contact-us" className="secondary-button">Contact Us</Link>
+            <Link href="mailto:utorontomist@gmail.com" className="secondary-button">Contact Us</Link>
           </div>
         </div>
         <div className="cta-logo">
