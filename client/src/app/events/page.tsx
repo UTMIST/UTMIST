@@ -22,12 +22,13 @@ export default function EventsPage() {
             See what is happening in our UTMIST community
           </p>
          </div>
-    <div className="p-6 rounded-lg px-56">
+    <div className="upcoming-events-container p-6 rounded-lg">
       <h2 className="text-3xl mb-2 text-black tracking-[-3%]">Upcoming Events</h2>
       <p className="text-gray-600 mb-6">Explore what is happening on campus right now</p>
       
-      <div className="space-y-2">
-        {events.map(event => (
+      <div className="text-black space-y-2">
+          more events are in the works, stay tuned! 👀
+        {/* {events.map(event => (
           <div key={event.id} className="bg-gray-200 rounded-lg p-4 flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <svg 
@@ -56,7 +57,7 @@ export default function EventsPage() {
               </button>
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
     

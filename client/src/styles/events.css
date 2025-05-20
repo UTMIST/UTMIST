@@ -30,9 +30,8 @@
 /* events.css */
   
 .upcoming-events-container {
-    max-width: 1200px;
+    max-width: 1050px;
     margin: 0 auto;
-    padding: 1rem;
   }
   
   .upcoming-events-title {
@@ -105,12 +104,20 @@
     font-weight: 200;
     margin-left: 1.5rem;
     cursor: pointer;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+  }
+
+  .rsvp-button:hover{
+    opacity: 0.9;
+    transform: scale(1.05) ;
   }
 
 /* FeaturedSection.css */
 
 .featured-section {
-    padding: 4rem 14rem; 
+    padding: 4rem 0rem; 
+    margin: 0 auto;
+    max-width: 1000px;
   }
   
   .featured-container {
