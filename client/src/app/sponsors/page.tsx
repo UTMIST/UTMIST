@@ -8,9 +8,9 @@ export default function SponsorsPage() {
     return (
         <main>
         <div className="hero-section">
-          <h2 className="hero-title">Let's Work Together</h2>
+          <h2 className="hero-title">Let&rsquo;s Work Together</h2>
           <p className="hero-subtitle">
-          Support UTMIST and gain exclusive access to Canada’s top student talent, networking opportunities, and nationwide visibility through events, hackathons, and workshops.
+          Support UTMIST and gain exclusive access to Canada&rsquo;s top student talent, networking opportunities, and nationwide visibility through events, hackathons, and workshops.
           </p>
         </div>
         <div className="sponsor-us-section">
