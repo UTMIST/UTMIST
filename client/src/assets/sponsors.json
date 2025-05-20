@@ -1,0 +1,44 @@
+[
+    {
+      "category": "Bronze",
+      "price": "1000",
+      "perks": [
+        "Social Media Marketing",
+        "In-person sponsor booth"
+      ]
+    },
+    {
+      "category": "Silver",
+      "price": "3000",
+      "perks": [
+        "Social Media Marketing",
+        "In-person sponsor booth",
+        "Database Access"
+      ]
+    },
+    {
+      "category": "Gold",
+      "price": "6000",
+      "perks": [
+        "Social Media Marketing",
+        "In-person sponsor booth",
+        "Database Access",
+        "Workshop Timeslot",
+        "Hackathon Prize Category",
+        "Coffee Chat Category"
+      ]
+    },
+    {
+      "category": "Diamond",
+      "price": "10000",
+      "perks": [
+        "Social Media Marketing",
+        "In-person sponsor booth",
+        "Database Access",
+        "Workshop Timeslot",
+        "Hackathon Prize Category",
+        "Coffee Chat Category"
+      ]
+    }
+  ]
+  
