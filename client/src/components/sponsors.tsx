@@ -13,16 +13,16 @@ import womboLogo from "../assets/logos/wombo.svg";
 
 
 const logos = [
-    { src: amdLogo, alt: "AMD Logo" },
-    { src: qualcommLogo, alt: "Qualcomm Logo" },
-    { src: vectorLogo, alt: "Vector Institute Logo" },
-    { src: googleCloudLogo, alt: "Google Cloud Logo" },
-    { src: cohereLogo, alt: "Cohere Logo" },
-    { src: jarvisLogo, alt: "Jarvis Logo" },
-    { src: rotmanLogo, alt: "Rotman School of Management Logo" },
-    { src: tenstorrentLogo, alt: "Tenstorrent Logo" },
-    { src: aerocousticsLogo, alt: "Aerocoustics Logo" },
-    { src: womboLogo, alt: "Wombo Logo" },
+    { src: amdLogo, alt: "AMD Logo", link: "https://www.amd.com/en" },
+    { src: qualcommLogo, alt: "Qualcomm Logo", link: "https://www.qualcomm.com/" },
+    { src: vectorLogo, alt: "Vector Institute Logo", link: "https://vectorinstitute.ai/" },
+    { src: googleCloudLogo, alt: "Google Cloud Logo", link: "https://cloud.google.com/" },
+    { src: cohereLogo, alt: "Cohere Logo", link: "https://cohere.ai/" },
+    { src: jarvisLogo, alt: "Jarvis Logo", link: "https://www.jrvs.ca/" },
+    { src: rotmanLogo, alt: "Rotman School of Management Logo", link: "https://www.rotman.utoronto.ca/" },
+    { src: tenstorrentLogo, alt: "Tenstorrent Logo", link: "https://tenstorrent.com/" },
+    { src: aerocousticsLogo, alt: "Aerocoustics Logo", link: "https://aercoustics.com/" },
+    { src: womboLogo, alt: "Wombo Logo", link: "https://www.wombo.ai/" },
 ];
 
 export default function Sponsors() {
@@ -33,13 +33,15 @@ export default function Sponsors() {
                 <div className="sponsors-carousel">
                     {[...logos, ...logos].map((logo, index) => (
                         <div className="sponsors-logo" key={index}>
-                            <Image 
-                                src={logo.src}
-                                alt={logo.alt}
-                                width={150}
-                                height={80}
-                                style={{ objectFit: "contain" }}
-                            />
+                            <a href ={logo.link} target="_blank" rel="noopener noreferrer">
+                                <Image 
+                                    src={logo.src}
+                                    alt={logo.alt}
+                                    width={150}
+                                    height={80}
+                                    style={{ objectFit: "contain" }}
+                                />
+                            </a>
                         </div>
                     ))}
                 </div>
