@@ -1,5 +1,6 @@
 'use client';
 import { useState } from "react";
+import "@/styles/faq.css";
 import Image from "next/image";
 import plusIcon from "@/assets/icons/plus-icon.svg";
 
@@ -63,8 +64,8 @@ export default function FAQ() {
             </div>
             
             {expandedIndex === index && (
-              <div className="faq-answer px-8 py-4">
-                <p className="text-gray-700">{item.answer}</p>
+              <div className="faq-answer">
+                <p>{item.answer}</p>
               </div>
             )}
             
@@ -73,7 +74,7 @@ export default function FAQ() {
         ))}
       </div>
       <div className="faq-tail-section">
-        <h2 className="faq-subtitle">More Questions? Reach Out To Us</h2>
+        <h1 className="faq-subtitle"><b>More questions? Reach out to us on any platform!</b></h1>
       </div>
     </>
   );
