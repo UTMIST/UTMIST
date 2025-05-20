@@ -55,7 +55,7 @@ export const ProjectCarousel = ({ projects }: { projects: Project[] }) => {
         {/* Carousel Content */}
         <div
           ref={carouselRef}
-          className=" flex overflow-x-auto py-4 no-scrollbar scroll-smooth"
+          className=" flex overflow-x-auto py-4 no-scrollbar scroll-smooth items-center justify-center"
           onScroll={checkArrows}
         >
           {projects.map((project, index) => (
