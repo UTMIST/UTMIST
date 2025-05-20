@@ -1,20 +1,20 @@
 import "@/styles/events.css"  
 
 export default function EventsPage() {
-    const events = [
-        {
-          id: 1,
-          title: "SciML Workshop",
-          location: "Bahen 1190",
-          time: "May 12th 17:00-19:00"
-        },
-        {
-          id: 2,
-          title: "Paper Reading Workshop",
-          location: "Bahen 1200",
-          time: "May 12th 17:00-19:00"
-        }
-      ];
+    // const events = [
+    //     {
+    //       id: 1,
+    //       title: "SciML Workshop",
+    //       location: "Bahen 1190",
+    //       time: "May 12th 17:00-19:00"
+    //     },
+    //     {
+    //       id: 2,
+    //       title: "Paper Reading Workshop",
+    //       location: "Bahen 1200",
+    //       time: "May 12th 17:00-19:00"
+    //     }
+    //   ];
     return <main>
               <div className="hero-section">
           <h2 className="hero-title">Events</h2>
