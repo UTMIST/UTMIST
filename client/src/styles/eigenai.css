@@ -307,7 +307,7 @@ padding: 0.5rem 0rem;
     transition: background-color 0.2s ease;
 }
 
-accordion-content-container{
+.accordion-content-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
