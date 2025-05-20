@@ -25,9 +25,9 @@ export default function Navbar() {
       </ul>
 
       <div className="flex items-center space-x-4">
-        <button className="nav-button">
+        {/* <button className="nav-button">
           Log In
-        </button>
+        </button> */}
       <Image src={lightMode} alt="UTMIST Logo" className="hover:brightness-75 transition" width={32} height={32} />
       </div>
 
