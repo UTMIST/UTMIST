@@ -69,32 +69,32 @@ export default function EventsPage() {
         </p>
         
         <div className="featured-grid">
-          <div className="featured-card featured-card-large" style={{
+          <a href="/eigenai" className="featured-card featured-card-large" style={{
             background: 'linear-gradient(135deg, #e57fe5 0%, #8055e6 50%, #4099ee 100%)'
           }}>
             <h3 className="featured-card-title eigenai">EigenAI</h3>
-          </div>
-          
-          <div className="featured-card" style={{
+          </a>
+
+          <a href="https://genaigenesis.ca" className="featured-card" style={{
             background: 'linear-gradient(135deg, #9966ff 0%, #4040e5 100%)'
-          }}>
-            <div className="featured-card-content">
+          }}> 
+          <div className="featured-card-content">
               <h3 className="featured-card-title genai">GenAI</h3>
               <h3 className="featured-card-title">Gensis</h3>
             </div>
-          </div>
-          
-          <div className="featured-card featured-card-large" style={{
+            </a>
+          <a href="https://www.eventbrite.ca/e/ai2-reinforcement-learning-tournament-tickets-1141689918279" className="featured-card featured-card-large" style={{
             background: 'linear-gradient(135deg, #e57fe5 0%, #6655e6 100%)'
           }}>
             <h3 className="featured-card-title featured-card-title-right aisqr">AI^2</h3>
-          </div>
-          
-          <div className="featured-card" style={{
+          </a>
+       
+          <a href="/eigenai" className="featured-card" style={{
             background: 'linear-gradient(135deg, #372a5b 0%, #8673a1 50%, #e5a2d3 100%)'
           }}>
               <h3 className="featured-card-title">Project Showcase</h3>
-              </div>
+          </a>
+
         </div>
       </div>
     </section>
