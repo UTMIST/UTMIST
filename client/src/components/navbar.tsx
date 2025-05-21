@@ -3,6 +3,7 @@ import "../styles/gradients.css";
 import Image from "next/image";
 import Link from "next/link"; // Import Link from next/link
 import logo from "../assets/logos/utmist-logo-small.svg";
+// import lightMode from "../assets/icons/light-mode.svg"; // Uncomment if you have a light mode icon
 
 export default function Navbar() {
   return (
@@ -18,15 +19,21 @@ export default function Navbar() {
         <li><Link href="/#about-us" className="nav-item">About Us</Link></li>
         <li><Link href="/projects" className="nav-item">Projects</Link></li>
         <li><Link href="/blog" className="nav-item">Blog</Link></li>
+        <li><Link href="/sponsors" className="nav-item">Sponsors</Link></li>
         <li><Link href="/events" className="nav-item">Events</Link></li>
         <li><Link href="/careers" className="nav-item">Careers</Link></li>
       </ul>
 
       <div className="flex items-center space-x-4">
-        <button className="nav-button">
+        {/* Disable Log In Button Until Applicant Portal Completion */}
+        {/* <button className="nav-button">
           Log In
-        </button>
+        </button> */}
+
+        {/* Disable Color Mode Toggle until Completion */}
+        {/* <Image src={lightMode} alt="Color Mode Logo" className="hover:brightness-75 transition" width={32} height={32} /> */}
       </div>
+
     </nav>
   );
 }

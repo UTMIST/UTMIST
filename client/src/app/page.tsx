@@ -1,103 +1,84 @@
+import HeroCard from "@/components/cards/hero-card";
 import Image from "next/image";
+import utmistLogo from "@/assets/logos/utmist-logo-large.svg"; 
+import execPhoto from "@/assets/photos/eigenai-exec-photo.png";
+import copresPhoto from "@/assets/photos/eigenai-copres-speech.png";
+import Sponsors from "@/components/sponsors";
+import Statistics from "@/components/stats";
+import Events from "@/components/events";
+import ValueProps from "@/components/valueprops";
+import FAQ from "@/components/faq";
+import Link from "next/link"; // Import Link from next/link
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    return (
+      <main>
+        {/*Hero Section */}
+        <div className="cta-container">
+        <div className="cta-content">
+          <h2 className="cta-title">Clear The MIST</h2>
+          <p className="cta-subtitle">
+            University of Toronto Machine Intelligence Student Team
+          </p>
+          <div className="cta-buttons">
+            <Link href="/careers" className="primary-button" >Join Us</Link>
+            <Link href="mailto:utorontomist@gmail.com" className="secondary-button">Contact Us</Link>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <div className="cta-logo">
           <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            src={utmistLogo}
+            alt="UTMIST Logo"
+            width={500}
+            height={500}
+            priority
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        </div>
+        <div className="cta-big-title">
+          UTMIST
+        </div>
+      </div>
+
+      {/*Sponsors Section */}
+      <Sponsors />
+
+      {/*Statistics Section */}
+      <div className="flex flex-col gap-8 justify-center items-center my-16">
+      <p className="text-4xl font-bold text-center max-w-3xl text-black">
+        UTMIST is Canada&apos;s largest student-lead organization for Artificial Intelligence and Machine Learning
+      </p>
+      <Statistics/>
+      </div>
+
+      {/*Who We Are / Mission Section */}
+      <section id="about-us">
+      <div  className="hero-container">
+        <HeroCard 
+        image={execPhoto}
+        title="Who We Are"
+        description="At UTMIST, we produce in-house academic content, spearhead design teams to collaborate on machine learning and infrastructure projects, and host annual milestone events, empowering our members to become the next generation of engineers, researchers, and leaders in AI/ML."
+      />
+      <div className= "hero-line" />
+      <HeroCard 
+        image={copresPhoto}
+        title="Our Mission"
+        description="Our mission is to empower students of all skill levels and experiences to foster their passion and accelerate their career in Artificial Intelligence and Machine Learning. Through workshops, conference, hackthons and many other initiatives, we hope to provide the best oppurtunities to UofT students in this field."
+      />
+    </div> 
+      </section>
+
+    {/*Events Section */}
+    <Events />
+
+    <div className="flex flex-col gap-8 justify-center items-center my-16">
+    <p className="text-4xl font-bold text-center max-w-3xl text-black">
+    We bring together students, experts, and innovators to explore AI from every angle</p>
+      </div>
+
+      <ValueProps/>
+      
+      <FAQ/>
+    </main>
+
   );
 }
