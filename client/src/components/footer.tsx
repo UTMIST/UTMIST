@@ -3,7 +3,7 @@ import Image from "next/image";
 import logo from "../assets/logos/utmist-logo-small.svg"; 
 import github from "../assets/logos/github.svg"; 
 import linkedin from "../assets/logos/linkedin.svg"; 
-import twitter from "../assets/logos/twitter.svg"; 
+import twitter from "../assets/logos/x.svg"; 
 import discord from "../assets/logos/discord.svg"; 
 import facebook from "../assets/logos/facebook.svg"; 
 import instagram from "../assets/logos/instagram.svg"; 
@@ -19,53 +19,53 @@ export default function Footer() {
           <span className="navbar-logo-text">UTMIST</span>
         </div>            <ul className="flex items-center space-x-4">
                 <li>
-                    <a href="/privacy">
-                        <div className="footer-logo-container">
+                    <div className="footer-logo-container">
+                        <a href="https://discord.com/invite/88mSPw8" target="_blank" rel="noopener noreferrer">
                             <Image src={discord} alt="UTMIST Logo" />
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </li>
                 <li>
-                    <a href="/privacy">
-                        <div className="footer-logo-container">
+                    <div className="footer-logo-container">
+                        <a href="https://www.linkedin.com/company/utmist/" target="_blank" rel="noopener noreferrer">
                             <Image src={linkedin} alt="UTMIST Logo" />
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </li>
                 <li>
-                    <a href="/privacy">
-                        <div className="footer-logo-container">
+                    <div className="footer-logo-container">
+                        <a href="https://www.instagram.com/uoft_utmist/" target="_blank" rel="noopener noreferrer">
                             <Image src={instagram} alt="UTMIST Logo" />
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </li>
                 <li>
-                    <a href="/privacy">
-                        <div className="footer-logo-container">
+                    <div className="footer-logo-container">
+                        <a href="https://www.facebook.com/UofT.MIST" target="_blank" rel="noopener noreferrer">
                             <Image src={facebook} alt="UTMIST Logo"/>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </li>
                 <li>
-                    <a href="/privacy">
-                        <div className="footer-logo-container">
+                    <div className="footer-logo-container">
+                        <a href="https://x.com/utmist1" target="_blank" rel="noopener noreferrer">
                             <Image src={twitter} alt="UTMIST Logo" />
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </li>
                 <li>
-                    <a href="/privacy">
-                        <div className="footer-logo-container">
+                    <div className="footer-logo-container">
+                        <a href="https://github.com/UTMIST" target="_blank" rel="noopener noreferrer">
                             <Image src={github} alt="UTMIST Logo"  />
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </li>
                 <li>
-                    <a href="/privacy">
-                        <div className="footer-logo-container">
+                    <div className="footer-logo-container">
+                        <a href="https://utorontomist.medium.com/" target="_blank" rel="noopener noreferrer">
                             <Image src={medium} alt="UTMIST Logo"/>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </li>
                 
             </ul>

@@ -14,7 +14,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.4rem 1.5rem;
-    margin: 2.5rem 12.5rem; 
+    max-width: 1000px;
+    margin: 2.5rem auto; 
     border-radius: 9999px; 
     border: 1px solid var(--gray3); /* border-[var(--gray3)] border-1 */
 }
