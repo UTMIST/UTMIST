@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import "@/styles/eigenai.css";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
-import copresPhoto from "@/assets/photos/eigenai-copres-speech.png";
-import execPhoto from "@/assets/photos/eigenai-exec-photo.png";
+import copresPhoto from "@/assets/photos/eigenai-copres-speech.webp";
+import execPhoto from "@/assets/photos/eigenai-exec-photo.webp";
 interface AccordionItemProps {
   title: string;
   content?: string;

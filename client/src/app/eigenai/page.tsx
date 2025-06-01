@@ -1,8 +1,8 @@
 import "@/styles/eigenai.css";
 import Image from "next/image";
-import copresPhoto from "@/assets/photos/eigenai-copres-speech.png";
-import execPhoto from "@/assets/photos/eigenai-exec-photo.png";
-import fibPhoto from "@/assets/photos/fibseq.png";
+import copresPhoto from "@/assets/photos/eigenai-copres-speech.webp";
+import execPhoto from "@/assets/photos/eigenai-exec-photo.webp";
+import fibPhoto from "@/assets/photos/fibseq.webp";
 import SpeakersGrid from "@/components/speakers";
 import LamdaSection from "@/components/lambda";
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
