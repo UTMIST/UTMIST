@@ -8,13 +8,11 @@ const roboto = Roboto({
 
 const StartupsPage = () => {
   return (
-    <main>
+    <main className={`${roboto.className}`}>
       <section>
         {/* Hero Component */}
         <div className="flex flex-col gap-4 text-center">
-          <h1 className={`${roboto.className} font-bold text-4xl`}>
-            Innovation @ UTMIST
-          </h1>
+          <h1 className="font-bold text-4xl">Innovation @ UTMIST</h1>
           <p className="text-lg m-0 leading-snug text-center">
             <span className="block ">
               Help build AI startups with Canada's largest student-led
