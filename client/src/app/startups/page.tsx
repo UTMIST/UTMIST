@@ -25,7 +25,12 @@ const StartupsPage = () => {
           <div>
             <Link
               href="/apply"
-              className="bg-gradient-to-r from-indigo-400 to-blue-800 text-white px-12 py-1 rounded-full text-lg font-medium shadow mx-auto"
+              className="
+                bg-gradient-to-r from-indigo-400 to-blue-800
+                hover:from-indigo-600 hover:to-blue-900
+                text-white px-12 py-1 rounded-full text-lg font-medium shadow mx-auto
+                hover:shadow-lg transition-colors duration-400
+              "
             >
               Apply
             </Link>
