@@ -49,7 +49,7 @@ const HeroIntroductionSection = () => {
       <h1 className="font-bold text-4xl">Innovation @ UTMIST</h1>
       <p className="text-lg m-0 leading-snug text-center">
         <span className="block ">
-          Help build AI startups with Canada's largest student-led
+          Help build AI startups with Canada&#39;s largest student-led
         </span>
         <span className="block ">
           organization for Artificial Intelligence and Machine
@@ -99,13 +99,13 @@ const HeroStartupSection = () => {
   );
 };
 
-const SliderSection = (title: string, direction: string) => {
-  return (
-    <div>
-      <h1>Slider Section</h1>
-    </div>
-  );
-};
+// const SliderSection = (title: string, direction: string) => {
+//   return (
+//     <div>
+//       <h1>Slider Section</h1>
+//     </div>
+//   );
+// };
 
 const StartupsPage = () => {
   return (
