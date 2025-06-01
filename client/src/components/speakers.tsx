@@ -1,11 +1,12 @@
 import React from "react";
 import "../styles/eigenai.css";
+import Image from "next/image";
 
 interface Speaker {
   name: string;
   role: string;
   profileURL: string;
-  profileImageURL: string;
+  profileImageURL: any;
 }
 
 interface Props {
@@ -13,14 +14,13 @@ interface Props {
 }
 
 export default function SpeakersGrid({ speakers }: Props) {
-
   const firstRow = speakers.slice(0, 3);
   const secondRow = speakers.slice(3, 7);
 
   return (
     <div className="speakers-container">
       <h2 className="speakers-title">Our Past Speakers</h2>
-      
+
       <div className="speakers-row">
         {firstRow.map((s, i) => (
           <a
@@ -30,13 +30,12 @@ export default function SpeakersGrid({ speakers }: Props) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <div
-              className="speaker-photo"
-              style={{
-                backgroundImage: s.profileImageURL
-                  ? `url(${s.profileImageURL})`
-                  : `url('/placeholder-avatar.png')`,
-              }}
+            <Image
+              src={s.profileImageURL}
+              alt={`${s.name}'s profile picture`}
+              width={100}
+              height={100}
+              className="speaker-photo object-cover"
             />
             <div className="speaker-info">
               <p className="speaker-name">{s.name}</p>
@@ -55,13 +54,12 @@ export default function SpeakersGrid({ speakers }: Props) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <div
-              className="speaker-photo"
-              style={{
-                backgroundImage: s.profileImageURL
-                  ? `url(${s.profileImageURL})`
-                  : `url('/placeholder-avatar.png')`,
-              }}
+            <Image
+              src={s.profileImageURL}
+              alt={`${s.name}'s profile picture`}
+              width={100}
+              height={100}
+              className="speaker-photo object-cover"
             />
             <div className="speaker-info">
               <p className="speaker-name">{s.name}</p>

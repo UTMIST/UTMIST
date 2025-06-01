@@ -7,7 +7,7 @@ import SpeakersGrid from "@/components/speakers";
 import LamdaSection from "@/components/lambda";
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
 import BasisVectors from "@/components/basisvectors";
-import speakers from "@/assets/eigenai-speakers.json";
+
 export default function EigenAIPage() {
   return (
     <main className="sm: items-start sm: justify-center">
@@ -124,3 +124,51 @@ export default function EigenAIPage() {
     </main>
   );
 }
+
+import * as speakerPhotos from "@/assets/photos/speakers";
+
+const speakers = [
+  {
+    name: "Amrit Krishnan",
+    role: "Technical Team Lead at Vector Institute",
+    profileURL: "",
+    profileImageURL: speakerPhotos.Amrit,
+  },
+  {
+    name: "Devang Sharma",
+    role: "Engineer at Amazon",
+    profileURL: "",
+    profileImageURL: speakerPhotos.Devang,
+  },
+  {
+    name: "Tyler Smith",
+    role: "Software Engineer at AI Warehouse",
+    profileURL: "",
+    profileImageURL: speakerPhotos.Tyler,
+  },
+  {
+    name: "Priyanka Velagala",
+    role: "Speaker",
+    profileURL: "",
+    profileImageURL: speakerPhotos.Priyanka,
+  },
+  {
+    name: "Marcelo Ponce",
+    role: "Professor at University of Toronto",
+    profileURL: "",
+    profileImageURL: speakerPhotos.Marcelo,
+  },
+  {
+    name: "Mustafa Khan",
+    role: "Technical Director at aUToronto",
+    profileURL: "",
+    profileImageURL: speakerPhotos.Mustafa,
+  },
+
+  {
+    name: "Ryan Koh",
+    role: "Postdoctoral Fellow at UofT/KITE-UHN",
+    profileURL: "",
+    profileImageURL: speakerPhotos.Ryan,
+  },
+];
