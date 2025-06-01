@@ -1,12 +1,12 @@
 import React from "react";
 import "../styles/eigenai.css";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 interface Speaker {
   name: string;
   role: string;
   profileURL: string;
-  profileImageURL: any;
+  profileImage: StaticImageData;
 }
 
 interface Props {
@@ -31,7 +31,7 @@ export default function SpeakersGrid({ speakers }: Props) {
             rel="noopener noreferrer"
           >
             <Image
-              src={s.profileImageURL}
+              src={s.profileImage}
               alt={`${s.name}'s profile picture`}
               width={100}
               height={100}
@@ -55,7 +55,7 @@ export default function SpeakersGrid({ speakers }: Props) {
             rel="noopener noreferrer"
           >
             <Image
-              src={s.profileImageURL}
+              src={s.profileImage}
               alt={`${s.name}'s profile picture`}
               width={100}
               height={100}
