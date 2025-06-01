@@ -185,9 +185,6 @@
     font-weight: 700;
     position: relative;
     text-align: center;
-    background: var(--gradient-bl1);
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 .project-gallery-subtitle {
