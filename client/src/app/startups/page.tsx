@@ -18,17 +18,30 @@ const images: StaticImageData[] = [Myhal, genai, genaiTwo, MyhalTwo];
 const PhotosGrid = () => {
   return (
     <div className="grid grid-cols-2 grid-rows-2 w-full h-full">
-      {images.map((img, idx) => (
-        <div key={idx} className="flex items-center justify-center">
-          <Image
-            src={img}
-            alt={`grid-img-${idx}`}
-            width={400}
-            height={300}
-            className="w-full h-full object-cover"
-          />
-        </div>
-      ))}
+      {images.map((img, idx) => {
+        const roundedClass =
+          idx === 0
+            ? "rounded-tl-2xl"
+            : idx === 1
+            ? "rounded-tr-2xl"
+            : idx === 2
+            ? "rounded-bl-2xl"
+            : "rounded-br-2xl";
+        return (
+          <div
+            key={idx}
+            className={`flex items-center justify-center overflow-hidden ${roundedClass}`}
+          >
+            <Image
+              src={img}
+              alt={`grid-img-${idx}`}
+              width={400}
+              height={300}
+              className={`w-full h-full object-cover ${roundedClass}`}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 };
