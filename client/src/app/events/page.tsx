@@ -194,7 +194,7 @@ export default function EventsPage() {
       {/* Past events section */}
       <div className="upcoming-events-container p-4 sm:p-6 rounded-lg">
         <h2 className="text-2xl sm:text-3xl mb-2 text-black tracking-[-3%]">Past Events</h2>
-        <p className="text-gray-600 mb-6 text-sm sm:text-base">Browse our previous events and achievements</p>
+        <p className="text-gray-600 mb-6 text-sm sm:text-base">Browse our previous events and workshops</p>
         
         {/* Search and filter section */}
         <div className="space-y-4 mb-6">
