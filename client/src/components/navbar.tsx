@@ -7,8 +7,6 @@ import logo from "../assets/logos/utmist-logo-small.svg";
 
 export default function Navbar() {
 
-  return;
-
   return (
     <nav className="navbar-container">
       <Link href="/" passHref>
