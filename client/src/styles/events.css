@@ -263,18 +263,6 @@
         padding: 0 !important;
     }
 
-    .eigenai {
-        font-size: 2rem !important;
-    }
-
-    .aisqr {
-        font-size: 1.75rem !important;
-    }
-
-    .genai {
-        font-size: 1.5rem !important;
-    }
-
     /* Force all titles to be on one line with minimal spacing */
     .featured-card h3 + h3 {
         margin-left: 0.25rem !important;
@@ -293,6 +281,8 @@
 
     .featured-title {
         padding: 0;
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
     }
 }
 
