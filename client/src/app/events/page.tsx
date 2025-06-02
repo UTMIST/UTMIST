@@ -1,20 +1,37 @@
+"use client";
+import { useState } from 'react';
 import "@/styles/events.css"  
+import { EventItem } from "./events/event-item";
 
 export default function EventsPage() {
-    // const events = [
-    //     {
-    //       id: 1,
-    //       title: "SciML Workshop",
-    //       location: "Bahen 1190",
-    //       time: "May 12th 17:00-19:00"
-    //     },
-    //     {
-    //       id: 2,
-    //       title: "Paper Reading Workshop",
-    //       location: "Bahen 1200",
-    //       time: "May 12th 17:00-19:00"
-    //     }
-    //   ];
+    const [searchQuery, setSearchQuery] = useState('');
+    
+    const events = [
+        {
+          id: 1,
+          title: "SciML Workshop",
+          location: "Bahen 1190",
+          date: "May 12th, 2024",
+          time: "17:00-19:00",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        },
+        {
+          id: 2,
+          title: "Paper Reading Workshop",
+          location: "Bahen 1200",
+          date: "May 12th, 2024",
+          time: "17:00-19:00",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        }
+    ];
+
+    // Filter events based on search query (title, location, description)
+    const filteredEvents = events.filter(event => 
+      event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      event.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      event.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return <main>
               <div className="hero-section">
           <h2 className="hero-title">Events</h2>
@@ -26,38 +43,44 @@ export default function EventsPage() {
       <h2 className="text-3xl mb-2 text-black tracking-[-3%]">Upcoming Events</h2>
       <p className="text-gray-600 mb-6">Explore what is happening on campus right now</p>
       
+      {/* Search bar */}
+      <div className="relative mb-6">
+        <input
+          type="text"
+          placeholder="Search for events"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full px-4 py-2 pr-10 rounded-lg border-2 border-gray-300 focus:border-blue-500 focus:outline-none placeholder-gray-500 text-gray-700"
+        />
+        <svg
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+      </div>
+      
       <div className="text-black space-y-2">
-          more events are in the works, stay tuned! 👀
-        {/* {events.map(event => (
-          <div key={event.id} className="bg-gray-200 rounded-lg p-4 flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <svg 
-                className="w-5 h-5 text-gray-700" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24" 
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth="2" 
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-              <span className="event-title">{event.title}</span>
-            </div>
-            
-            <div className="flex items-center">
-              <span className="text-gray-700">{event.location}</span>
-              <span className="mx-2 text-gray-700">•</span>
-              <span className="text-gray-700">{event.time}</span>
-              <button className="rsvp-button ml-4">
-                RSVP
-              </button>
-            </div>
+        {filteredEvents.length === 0 && (
+          <p className="text-gray-600 mb-6">
+            {events.length === 0 ? "More events are in the works, stay tuned! 👀" : "No events found matching your search."}
+          </p>
+        )}
+          
+        {filteredEvents.length > 0 && 
+          <div className="space-y-2 border-2 border-gray-300 border-2 rounded-lg p-4">
+            {filteredEvents.map(event => (
+              <EventItem key={event.id} event={event} />
+            ))}
           </div>
-        ))} */}
+        }
       </div>
     </div>
     
