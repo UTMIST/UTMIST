@@ -142,9 +142,8 @@
     color: #555;
     margin-bottom: 2.5rem;
     max-width: none;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: visible;
 }
 
 .featured-grid {
@@ -283,12 +282,17 @@
 
     .featured-description {
         font-size: 0.875rem;
-        padding: 0 1rem;
+        padding: 0;
+        margin: 0 0 1rem 0;
     }
 
     /* Override any custom positioning */
     .featured-card-title-right {
         margin-left: 0 !important;
+    }
+
+    .featured-title {
+        padding: 0;
     }
 }
 

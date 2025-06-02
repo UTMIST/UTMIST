@@ -43,6 +43,28 @@ const featuredEvents: FeaturedEvent[] = [
   }
 ];
 
+// Sample events data - replace with actual data source
+const events = [
+  {
+    id: 1,
+    title: "SciML Workshop",
+    location: "Bahen 1190",
+    date: "May 12th, 2024",
+    time: "17:00-19:00",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    tags: ["Workshop", "Scientific ML", "Beginner-Friendly"]
+  },
+  {
+    id: 2,
+    title: "Paper Reading Workshop",
+    location: "Bahen 1200",
+    date: "May 12th, 2024",
+    time: "17:00-19:00",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    tags: ["Workshop", "Research", "LLMs"]
+  }
+];
+
 /**
  * Main Events page component
  * Displays upcoming events with search/filter functionality and featured events
@@ -53,28 +75,6 @@ export default function EventsPage() {
     // State for search and tag filtering
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
-    
-    // Sample events data - replace with actual data source
-    const events = [
-        {
-          id: 1,
-          title: "SciML Workshop",
-          location: "Bahen 1190",
-          date: "May 12th, 2024",
-          time: "17:00-19:00",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-          tags: ["Workshop", "Scientific ML", "Beginner-Friendly"]
-        },
-        {
-          id: 2,
-          title: "Paper Reading Workshop",
-          location: "Bahen 1200",
-          date: "May 12th, 2024",
-          time: "17:00-19:00",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-          tags: ["Workshop", "Research", "LLMs"]
-        }
-    ];
 
     // Extract unique tags from all events
     const allTags = Array.from(new Set(events.flatMap(event => event.tags))).sort();
