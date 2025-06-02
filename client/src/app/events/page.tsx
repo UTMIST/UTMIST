@@ -6,7 +6,14 @@ import { SearchBar } from "./components/search-bar";
 import { TagFilter } from "./components/tag-filter";
 import { EventCard, type FeaturedEvent } from './components/event-card';
 
-// Featured events data
+/**
+ * Configuration for the featured events section
+ * Layout is based on a 5x4 grid where:
+ * - Feature 1: spans 3x2 (columns x rows)
+ * - Feature 2: spans 2x3
+ * - Feature 3: spans 3x2
+ * - Feature 4: spans 2x1
+ */
 const featuredEvents: FeaturedEvent[] = [
   {
     title: "EigenAI",
@@ -36,10 +43,18 @@ const featuredEvents: FeaturedEvent[] = [
   }
 ];
 
+/**
+ * Main Events page component
+ * Displays upcoming events with search/filter functionality and featured events
+ * 
+ * @returns {JSX.Element} The complete events page
+ */
 export default function EventsPage() {
+    // State for search and tag filtering
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     
+    // Sample events data - replace with actual data source
     const events = [
         {
           id: 1,
@@ -61,10 +76,13 @@ export default function EventsPage() {
         }
     ];
 
-    // Get all unique tags
+    // Extract unique tags from all events
     const allTags = Array.from(new Set(events.flatMap(event => event.tags))).sort();
 
-    // Toggle tag selection
+    /**
+     * Toggle a tag's selected state
+     * If tag is selected, it will be removed; if not selected, it will be added
+     */
     const toggleTag = (tag: string) => {
       setSelectedTags(prev => 
         prev.includes(tag) 
@@ -73,7 +91,11 @@ export default function EventsPage() {
       );
     };
 
-    // Filter events based on search query and selected tags
+    /**
+     * Filter events based on:
+     * 1. Search query (matches title, location, or description)
+     * 2. Selected tags (all selected tags must be present)
+     */
     const filteredEvents = events.filter(event => {
       const matchesSearch = 
         event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -88,7 +110,7 @@ export default function EventsPage() {
     });
 
     return <main className="px-4 sm:px-0">
-    {/* Hero section */}
+    {/* Hero section - Main title and subtitle */}
     <div className="hero-section">
       <h2 className="hero-title text-3xl sm:text-4xl">Events</h2>
       <p className="hero-subtitle text-sm sm:text-base px-2 sm:px-15">
@@ -96,12 +118,12 @@ export default function EventsPage() {
       </p>
     </div>
 
-    {/* Upcoming events section */}
+    {/* Upcoming events section with search and filtering */}
     <div className="upcoming-events-container p-4 sm:p-6 rounded-lg">
       <h2 className="text-2xl sm:text-3xl mb-2 text-black tracking-[-3%]">Upcoming Events</h2>
       <p className="text-gray-600 mb-6 text-sm sm:text-base">Explore what is happening on campus right now</p>
       
-      {/* Search and filter section */}
+      {/* Search and filter controls */}
       <div className="space-y-4 mb-6">
         <SearchBar 
           value={searchQuery}
@@ -115,16 +137,14 @@ export default function EventsPage() {
         />
       </div>
       
-      {/* Event list section */}
+      {/* Event list section - Shows filtered events or empty state */}
       <div className="text-black space-y-2">
-        {/* No events found */}
         {filteredEvents.length === 0 && (
           <p className="text-gray-600 mb-6 text-sm sm:text-base">
             {events.length === 0 ? "More events are in the works, stay tuned! 👀" : "No events found matching your search."}
           </p>
         )}
 
-        {/* Event list (Filtered) */}
         {filteredEvents.length > 0 && 
           <div className="space-y-2 border-2 border-gray-300 rounded-lg p-2 sm:p-4">
             {filteredEvents.map(event => (
@@ -135,12 +155,12 @@ export default function EventsPage() {
       </div>
     </div>
 
-    {/* Featured events section */}
+    {/* Featured events section - Fixed grid layout */}
     <section className="featured-section">
       <div className="featured-container">
         <h2 className="featured-title tracking-[-3%]">Featured</h2>
         <p className="featured-description">
-          UTMIST Flagship Events - hackathons, conferences, workshops, showcases
+          Canada's largest student-lead organization for Artificial Intelligence and Machine Learning
         </p>
         
         <div className="featured-grid">
