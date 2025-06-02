@@ -6,6 +6,9 @@ import logo from "../assets/logos/utmist-logo-small.svg";
 // import lightMode from "../assets/icons/light-mode.svg"; // Uncomment if you have a light mode icon
 
 export default function Navbar() {
+
+  return;
+
   return (
     <nav className="navbar-container">
       <Link href="/" passHref>

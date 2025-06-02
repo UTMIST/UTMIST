@@ -19,13 +19,20 @@
     font-family: var(--system-font);
 }
 
-.hero-subtitle{
-    font-size: 1rem;
-    font-weight: 200;
-    color: #111827;
-    font-family: var(--system-font);
-    padding: 0 15rem;
+.hero-subtitle {
+  font-size: 1rem;
+  font-weight: 200;
+  color: #111827;
+  font-family: var(--system-font);
+  padding: 0 1rem; /* default mobile padding */
 }
+
+@media (min-width: 640px) {
+  .hero-subtitle {
+    padding: 0 15rem; /* only for larger screens */
+  }
+}
+
 
 /* events.css */
   

@@ -17,12 +17,12 @@ interface TagFilterProps {
  */
 export function TagFilter({ tags, selectedTags, onToggleTag }: TagFilterProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2 px-1">
       {tags.map(tag => (
         <button
           key={tag}
           onClick={() => onToggleTag(tag)}
-          className={`px-3 py-1 rounded-full text-sm transition-colors ${
+          className={`px-3 py-1 rounded-full text-sm transition-colors whitespace-nowrap ${
             selectedTags.includes(tag)
               ? 'bg-[#372a5b] text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'

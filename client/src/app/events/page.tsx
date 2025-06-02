@@ -56,19 +56,19 @@ export default function EventsPage() {
       return matchesSearch && matchesTags;
     });
 
-    return <main>
+    return <main className="px-4 sm:px-0">
     {/* Hero section */}
     <div className="hero-section">
-      <h2 className="hero-title">Events</h2>
-      <p className="hero-subtitle">
+      <h2 className="hero-title text-3xl sm:text-4xl">Events</h2>
+      <p className="hero-subtitle text-sm sm:text-base px-2 sm:px-15">
         See what is happening in our UTMIST community
       </p>
     </div>
 
     {/* Upcoming events section */}
-    <div className="upcoming-events-container p-6 rounded-lg">
-      <h2 className="text-3xl mb-2 text-black tracking-[-3%]">Upcoming Events</h2>
-      <p className="text-gray-600 mb-6">Explore what is happening on campus right now</p>
+    <div className="upcoming-events-container p-4 sm:p-6 rounded-lg">
+      <h2 className="text-2xl sm:text-3xl mb-2 text-black tracking-[-3%]">Upcoming Events</h2>
+      <p className="text-gray-600 mb-6 text-sm sm:text-base">Explore what is happening on campus right now</p>
       
       {/* Search and filter section */}
       <div className="space-y-4 mb-6">
@@ -88,14 +88,14 @@ export default function EventsPage() {
       <div className="text-black space-y-2">
         {/* No events found */}
         {filteredEvents.length === 0 && (
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-600 mb-6 text-sm sm:text-base">
             {events.length === 0 ? "More events are in the works, stay tuned! 👀" : "No events found matching your search."}
           </p>
         )}
 
         {/* Event list (Filtered) */}
         {filteredEvents.length > 0 && 
-          <div className="space-y-2 border-2 border-gray-300 border-2 rounded-lg p-4">
+          <div className="space-y-2 border-2 border-gray-300 rounded-lg p-2 sm:p-4">
             {filteredEvents.map(event => (
               <EventItem key={event.id} event={event} />
             ))}
