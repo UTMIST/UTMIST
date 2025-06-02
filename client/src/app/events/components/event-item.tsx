@@ -26,8 +26,9 @@ interface Event {
  * A collapsible event item component that shows event details
  * Displays basic info in collapsed state and full details when expanded
  * @param {Event} event - The event data to display
+ * @param {boolean} isPassed - Whether the event is past
  */
-export function EventItem({ event }: { event: Event }) {
+export function EventItem({ event, isPassed }: { event: Event, isPassed: boolean }) {
   // Controls the expanded/collapsed state
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -108,12 +109,14 @@ export function EventItem({ event }: { event: Event }) {
             <span className="text-gray-700">•</span>
             <span className="text-gray-700">{event.time}</span>
           </div>
-          <button 
-            className="rsvp-button flex-shrink-0" 
-            onClick={(e) => e.stopPropagation()}
-          >
-            RSVP
-          </button>
+          {!isPassed && (
+            <button 
+              className="rsvp-button flex-shrink-0" 
+              onClick={(e) => e.stopPropagation()}
+            >
+              RSVP
+            </button>
+          )}
         </div>
       </div>
 
@@ -217,9 +220,11 @@ export function EventItem({ event }: { event: Event }) {
               <p className="text-gray-700">
                 {event.description || 'More details coming soon...'}
               </p>
-              <button className="rsvp-button">
-                RSVP
-              </button>
+              {!isPassed && (
+                <button className="rsvp-button">
+                  RSVP
+                </button>
+              )}
             </div>
           </div>
         </div>

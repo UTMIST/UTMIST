@@ -4,7 +4,7 @@
  * @property {string} url - URL the card links to
  * @property {string} background - CSS background value (usually a gradient)
  * @property {string} [titleClassName] - Optional class for custom title styling
- * @property {string} [titlePosition] - Optional position for title ('right' for right-aligned)
+ * @property {string} [titleAlignment] - Optional alignment for title ('left' or 'right')
  * @property {string} [className] - Optional additional classes for the card
  */
 interface FeaturedEvent {
@@ -12,9 +12,11 @@ interface FeaturedEvent {
   url: string;
   background: string;
   titleClassName?: string;
-  titlePosition?: string;
+  titleAlignment?: 'left' | 'right';
   className?: string;
 }
+
+export type { FeaturedEvent };
 
 /**
  * A card component for featured events that displays with a gradient background and custom styling
@@ -28,12 +30,11 @@ export function EventCard({
   title, 
   url, 
   background, 
-  titleClassName,
-  titlePosition,
-  className = ''
+  titleClassName = '', 
+  titleAlignment = 'left',
+  className = '' 
 }: FeaturedEvent) {
-  // Split title into parts if it contains line breaks
-  const titles = title.split('\n');
+  const alignmentClass = titleAlignment === 'right' ? 'title-align-right' : 'title-align-left';
   
   return (
     <a 
@@ -41,17 +42,16 @@ export function EventCard({
       className={`featured-card ${className}`}
       style={{ background }}
     >
-      {/* Container for title(s) with optional right alignment */}
-      <div className={`featured-card-content ${titlePosition === 'right' ? 'text-right' : ''}`}>
-        {/* Render each part of the title on a new line */}
-        {titles.map((titlePart, index) => (
-          <h3 key={index} className={`featured-card-title ${titleClassName || ''}`}>
-            {titlePart}
+      <div className="featured-card-content">
+        {title.split('\n').map((part, i) => (
+          <h3 
+            key={i} 
+            className={`featured-card-title ${titleClassName} ${alignmentClass}`}
+          >
+            {part}
           </h3>
         ))}
       </div>
     </a>
   );
-}
-
-export type { FeaturedEvent }; 
+} 

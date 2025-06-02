@@ -39,9 +39,41 @@
 .upcoming-events-container {
     max-width: 1050px;
     margin: 0 auto;
-  }
+}
+
+.events-list-container {
+    max-height: 600px;
+    overflow-y: auto;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    /* Add custom scrollbar styling */
+    scrollbar-width: thin;
+    scrollbar-color: #9ca3af #e5e7eb;
+}
+
+/* Webkit scrollbar styling */
+.events-list-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.events-list-container::-webkit-scrollbar-track {
+    background: #e5e7eb;
+    border-radius: 4px;
+}
+
+.events-list-container::-webkit-scrollbar-thumb {
+    background-color: #9ca3af;
+    border-radius: 4px;
+}
+
+/* Ensure consistent spacing */
+.events-list-container > div:not(:last-child) {
+    margin-bottom: 0.75rem;
+}
   
-  .upcoming-events-title {
+.upcoming-events-title {
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
@@ -203,6 +235,31 @@
     font-family: var(--system-font);
 }
 
+.title-align-left {
+    text-align: left;
+    margin-right: auto;
+}
+
+.title-align-right {
+    text-align: right;
+    margin-left: auto;
+}
+
+.title-small {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.title-medium {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.title-large {
+    font-size: 4rem;
+    font-weight: 700;
+}
+
 .featured-card-title-right {
     margin-left: auto;
 }
@@ -284,22 +341,16 @@
         font-size: 1.75rem;
         margin-bottom: 0.5rem;
     }
-}
 
-.eigenai {
-    font-size: 5rem;
-    font-weight: 700;
-}
+    .title-small {
+        font-size: 1.25rem;
+    }
 
-.aisqr {
-    font-size: 4rem;
-    font-weight: 700;
-}
+    .title-medium {
+        font-size: 1.5rem;
+    }
 
-.genai {
-    text-align: left;
-    font-size: 3.5rem;
-    font-weight: 700;
-    line-height: 1;
-    margin-bottom: 0.5rem;
+    .title-large {
+        font-size: 2rem;
+    }
 }
