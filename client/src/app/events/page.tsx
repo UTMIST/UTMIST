@@ -4,6 +4,37 @@ import "@/styles/events.css"
 import { EventItem } from "./components/event-item";
 import { SearchBar } from "./components/search-bar";
 import { TagFilter } from "./components/tag-filter";
+import { EventCard, type FeaturedEvent } from './components/event-card';
+
+// Featured events data
+const featuredEvents: FeaturedEvent[] = [
+  {
+    title: "EigenAI",
+    url: "/eigenai",
+    background: 'linear-gradient(135deg, #e57fe5 0%, #8055e6 50%, #4099ee 100%)',
+    titleClassName: 'eigenai',
+    className: 'featured-card-large'
+  },
+  {
+    title: "GenAI\nGenesis",
+    url: "https://genaigenesis.ca",
+    background: 'linear-gradient(135deg, #9966ff 0%, #4040e5 100%)',
+    titleClassName: 'genai'
+  },
+  {
+    title: "AI^2",
+    url: "https://www.eventbrite.ca/e/ai2-reinforcement-learning-tournament-tickets-1141689918279",
+    background: 'linear-gradient(135deg, #e57fe5 0%, #6655e6 100%)',
+    titleClassName: 'aisqr',
+    titlePosition: 'right',
+    className: 'featured-card-large'
+  },
+  {
+    title: "Project\nShowcase",
+    url: "/showcase",
+    background: 'linear-gradient(135deg, #372a5b 0%, #8673a1 50%, #e5a2d3 100%)'
+  }
+];
 
 export default function EventsPage() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -42,7 +73,7 @@ export default function EventsPage() {
       );
     };
 
-    // Filter events based on search query (title, location, description) and selected tags
+    // Filter events based on search query and selected tags
     const filteredEvents = events.filter(event => {
       const matchesSearch = 
         event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -103,44 +134,29 @@ export default function EventsPage() {
         }
       </div>
     </div>
-    
+
     {/* Featured events section */}
     <section className="featured-section">
       <div className="featured-container">
         <h2 className="featured-title tracking-[-3%]">Featured</h2>
         <p className="featured-description">
-        UTMIST Flagship Events - hackathons, conferences, workshops, showcases
+          UTMIST Flagship Events - hackathons, conferences, workshops, showcases
         </p>
         
         <div className="featured-grid">
-          <a href="/eigenai" className="featured-card featured-card-large" style={{
-            background: 'linear-gradient(135deg, #e57fe5 0%, #8055e6 50%, #4099ee 100%)'
-          }}>
-            <h3 className="featured-card-title eigenai">EigenAI</h3>
-          </a>
-
-          <a href="https://genaigenesis.ca" className="featured-card" style={{
-            background: 'linear-gradient(135deg, #9966ff 0%, #4040e5 100%)'
-          }}> 
-          <div className="featured-card-content">
-              <h3 className="featured-card-title genai">GenAI</h3>
-              <h3 className="featured-card-title">Gensis</h3>
-            </div>
-            </a>
-          <a href="https://www.eventbrite.ca/e/ai2-reinforcement-learning-tournament-tickets-1141689918279" className="featured-card featured-card-large" style={{
-            background: 'linear-gradient(135deg, #e57fe5 0%, #6655e6 100%)'
-          }}>
-            <h3 className="featured-card-title featured-card-title-right aisqr">AI^2</h3>
-          </a>
-       
-          <a href="/eigenai" className="featured-card" style={{
-            background: 'linear-gradient(135deg, #372a5b 0%, #8673a1 50%, #e5a2d3 100%)'
-          }}>
-              <h3 className="featured-card-title">Project Showcase</h3>
-          </a>
-
+          {featuredEvents.map((event, index) => (
+            <EventCard
+              key={index}
+              title={event.title}
+              url={event.url}
+              background={event.background}
+              titleClassName={event.titleClassName}
+              titlePosition={event.titlePosition}
+              className={event.className}
+            />
+          ))}
         </div>
       </div>
     </section>
     </main>
-  }
+}

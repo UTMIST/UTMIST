@@ -124,116 +124,154 @@
     padding: 4rem 0rem; 
     margin: 0 auto;
     max-width: 1000px;
-  }
-  
-  .featured-container {
+}
+
+.featured-container {
     max-width: 1200px;
     margin: 0 auto;
-  }
-  
-  .featured-title {
+}
+
+.featured-title {
     font-size: 2.5rem;
     font-weight: 700;
     color: #333;
-  }
-  
-  .featured-description {
+}
+
+.featured-description {
     font-size: 1rem;
     color: #555;
     margin-bottom: 2.5rem;
     max-width: 600px;
-  }
-  
-  .featured-grid {
+}
+
+.featured-grid {
     display: grid;
-    /* Adjust the grid template to give different heights to rows */
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 60% 40%;  /* First row is taller than second row */
+    grid-template-columns: repeat(5, 1fr); /* 5 columns */
+    grid-template-rows: repeat(4, 1fr); /* 4 rows */
     gap: 1.25rem;
-    height: 600px;  /* Increased overall height */
-  }
-  
-  .featured-card {
+    height: 800px; /* Increased height to accommodate 4 rows */
+}
+
+/* EigenAI - 3x2 */
+.featured-grid > *:nth-child(1) {
+    grid-column: span 3;
+    grid-row: span 2;
+}
+
+/* GenAI - 2x3 */
+.featured-grid > *:nth-child(2) {
+    grid-column: span 2;
+    grid-row: span 3;
+}
+
+/* AI^2 - 3x2 */
+.featured-grid > *:nth-child(3) {
+    grid-column: span 3;
+    grid-row: span 2;
+}
+
+/* Project Showcase - 2x1 */
+.featured-grid > *:nth-child(4) {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+.featured-card {
     border-radius: 1rem;
     overflow: hidden;
     position: relative;
     display: flex;
     color: white;
-    padding: 1.5rem 2rem;  /* Increased padding for better spacing */
+    padding: 1.5rem 2rem;
     transition: transform 0.3s ease;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  }
-  
-  .featured-card:hover {
+    height: 100%; /* Make sure cards fill their grid areas */
+    width: 100%;
+}
+
+.featured-card:hover {
     transform: translateY(-5px);
-  }
-  
-  .featured-card-large {
-    grid-row: span 1;
-    grid-column: span 1;
-    /* Each card in the left column takes exactly one row */
-  }
-  
-  .featured-card-title {
+}
+
+.featured-card-title {
     font-size: 2.5rem;
     font-weight: 700;
     margin: 0;
     align-self: flex-end;
     font-family: var(--system-font);
-  }
-  
-  .featured-card-title-right {
+}
+
+.featured-card-title-right {
     margin-left: auto;
-  }
-  
-  .featured-card-content {
+}
+
+.featured-card-content {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    align-items: flex-start;  /* This ensures left alignment */
+    align-items: flex-start;
     height: 100%;
-    width: 100%;  /* Take full width to allow proper alignment */
-  }
-  
-  /* Make sure the grid is responsive */
-  @media (max-width: 768px) {
+    width: 100%;
+}
+
+/* Make sure the grid is responsive */
+@media (max-width: 768px) {
     .featured-section {
-      padding: 4rem 2rem;  /* Reduce padding on mobile */
+        padding: 2rem 1rem;
     }
-  
+
     .featured-grid {
-      grid-template-columns: 1fr;
-      grid-template-rows: repeat(4, 200px);
-      height: auto;
+        grid-template-columns: 1fr;
+        height: auto;
+        gap: 1rem;
     }
-  
-    .featured-card-large {
-      grid-column: span 1;
+
+    /* Reset spans for mobile */
+    .featured-grid > * {
+        grid-column: 1 !important;
+        grid-row: span 1 !important;
     }
-  
+
+    /* Set specific heights for mobile */
+    .featured-grid > *:nth-child(1) {
+        height: 300px;
+    }
+
+    .featured-grid > *:nth-child(2) {
+        height: 400px;
+    }
+
+    .featured-grid > *:nth-child(3) {
+        height: 300px;
+    }
+
+    .featured-grid > *:nth-child(4) {
+        height: 200px;
+    }
+
+    .featured-card {
+        padding: 1.25rem;
+    }
+
     .featured-card-title {
-      font-size: 2rem;
+        font-size: 2rem;
     }
-  
-    .featured-title {
-      font-size: 2rem;
-    }
-  }
-  
-  .eigenai {
+}
+
+.eigenai {
     font-size: 5rem;
     font-weight: 700;
-  }
-  
-  .aisqr {
+}
+
+.aisqr {
     font-size: 4rem;
     font-weight: 700;
-  }
-  
-  .genai {
+}
+
+.genai {
     text-align: left;
     font-size: 3.5rem;
     font-weight: 700;
-    line-height: 1;  /* Changed from 1.2rem to just 1 for better spacing */
-    margin-bottom: 0.5rem;  /* Add some spacing between GenAI and Genesis */
-  }
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
