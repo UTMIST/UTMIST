@@ -173,7 +173,7 @@ export default function EventsPage() {
         <div className="featured-container">
           <h2 className="featured-title tracking-[-3%]">Featured</h2>
           <p className="featured-description">
-            Canada's largest student-lead organization for Artificial Intelligence and Machine Learning
+            Canada&apos;s largest student-led organization for Artificial Intelligence and Machine Learning
           </p>
           <div className="featured-grid">
             {featuredEvents.map((event, index) => (
