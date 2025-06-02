@@ -8,6 +8,11 @@ import { EventCard } from './components/event-card';
 import { getUpcomingEvents, getPastEvents, getFeaturedEvents } from './api/events';
 import type { UpcomingEvent, PastEvent, FeaturedEvent } from './api/events';
 
+/**
+ * Main Events Page Component
+ * Displays upcoming and past events with search and filtering capabilities
+ * Features a featured events section with a fixed grid layout
+ */
 export default function EventsPage() {
     // State for events data
     const [upcomingEvents, setUpcomingEvents] = useState<UpcomingEvent[]>([]);
@@ -57,6 +62,7 @@ export default function EventsPage() {
       );
     };
 
+    // Toggle past tag selection
     const togglePastTag = (tag: string) => {
       setPastSelectedTags(prev => 
         prev.includes(tag) 
@@ -104,6 +110,7 @@ export default function EventsPage() {
     const filteredUpcomingEvents = filterUpcomingEvents(upcomingEvents, upcomingSearchQuery, upcomingSelectedTags);
     const filteredPastEvents = filterPastEvents(pastEvents, pastSearchQuery, pastSelectedTags);
 
+    // Loading state
     if (isLoading) {
       return (
         <main className="px-4 sm:px-0 min-h-screen flex items-center justify-center">
