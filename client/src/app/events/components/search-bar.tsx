@@ -7,6 +7,7 @@ interface SearchBarProps {
 export function SearchBar({ value, onChange, placeholder = "Search for events" }: SearchBarProps) {
   return (
     <div className="relative">
+      {/* Search input */}
       <input
         type="text"
         placeholder={placeholder}

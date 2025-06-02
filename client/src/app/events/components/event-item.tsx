@@ -11,12 +11,12 @@ interface Event {
   id: number;
   title: string;
   date?: string;
-  isPast?: boolean;
   // Fields for upcoming events
   location?: string;
   time?: string;
   description?: string;
   tags?: string[];
+  rsvpLink?: string;
   // Fields for past events
   overview?: string;
   learningGoals?: string[];
@@ -35,8 +35,9 @@ export function EventItem({ event, isPassed }: { event: Event, isPassed: boolean
 
   // Handle RSVP button click without triggering expansion
   const handleRSVPClick = (e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
-    // Add your RSVP logic here
+    window.open(event.rsvpLink, '_blank');
   };
 
   return (
@@ -52,6 +53,7 @@ export function EventItem({ event, isPassed }: { event: Event, isPassed: boolean
         <div className="flex flex-col gap-2 sm:hidden w-full">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2 flex-grow min-w-0">
+              {/* Chevron icon for mobile layout */}
               <svg 
                 className={`w-5 h-5 text-gray-700 transform transition-transform flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`}
                 fill="none" 
@@ -66,6 +68,7 @@ export function EventItem({ event, isPassed }: { event: Event, isPassed: boolean
                   d="M19 9l-7 7-7-7"
                 />
               </svg>
+              {/* Event title */}
               <span 
                 className="event-title text-sm line-clamp-1"
               >
@@ -73,6 +76,7 @@ export function EventItem({ event, isPassed }: { event: Event, isPassed: boolean
               </span>
             </div>
           </div>
+          {/* Event info */}
           <div className="flex items-center text-xs text-gray-700 gap-1 flex-wrap">
             {event.instructor && <span>{event.instructor}</span>}
             {event.date && (
@@ -112,6 +116,7 @@ export function EventItem({ event, isPassed }: { event: Event, isPassed: boolean
               d="M19 9l-7 7-7-7"
             />
           </svg>
+          {/* Event title */}
           <span 
             className="event-title line-clamp-1"
           >
@@ -119,6 +124,7 @@ export function EventItem({ event, isPassed }: { event: Event, isPassed: boolean
           </span>
         </div>
         
+        {/* Event details */}
         <div className="hidden sm:flex items-center justify-end w-auto gap-4">
           <div className="flex items-center text-sm gap-2">
             {event.instructor && <span className="text-gray-700">{event.instructor}</span>}
@@ -221,6 +227,7 @@ export function EventItem({ event, isPassed }: { event: Event, isPassed: boolean
                 {event.location && (
                   <div className="flex items-center gap-2 flex-wrap">
                     <div className="flex items-center gap-2 min-w-[120px]">
+                      {/* Location icon */}
                       <svg 
                         className="w-5 h-5 text-gray-600 flex-shrink-0"
                         fill="none" 
