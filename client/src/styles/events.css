@@ -25,6 +25,7 @@
   color: #111827;
   font-family: var(--system-font);
   padding: 0 1rem; /* default mobile padding */
+  margin-top: 0.5rem;
 }
 
 @media (min-width: 640px) {

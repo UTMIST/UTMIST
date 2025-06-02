@@ -190,6 +190,7 @@ export default function EventsPage() {
       });
     };
 
+    // Filter events based on search and selected tags
     const filteredUpcomingEvents = filterEvents(upcomingEvents, upcomingSearchQuery, upcomingSelectedTags);
     const filteredPastEvents = filterEvents(pastEvents, pastSearchQuery, pastSelectedTags);
 
@@ -209,11 +210,13 @@ export default function EventsPage() {
       
       {/* Search and filter controls */}
       <div className="space-y-4 mb-6">
+        {/* Search bar for upcoming events */}
         <SearchBar 
           value={upcomingSearchQuery}
           onChange={setUpcomingSearchQuery}
         />
 
+        {/* Tag filter for upcoming events */}
         <TagFilter
           tags={upcomingTags}
           selectedTags={upcomingSelectedTags}
@@ -223,12 +226,14 @@ export default function EventsPage() {
       
       {/* Event list section */}
       <div className="text-black">
+        {/* No events found message */}
         {filteredUpcomingEvents.length === 0 && (
           <p className="text-gray-600 mb-6 text-sm sm:text-base">
             {upcomingEvents.length === 0 ? "More events are in the works, stay tuned! 👀" : "No events found matching your search."}
           </p>
         )}
 
+        {/* Event list container */}
         {filteredUpcomingEvents.length > 0 && 
           <div className="events-list-container">
             {filteredUpcomingEvents.map(event => (
@@ -242,7 +247,9 @@ export default function EventsPage() {
     {/* Featured events section - Fixed grid layout */}
     <section className="featured-section">
       <div className="featured-container">
+        {/* Featured title */}
         <h2 className="featured-title tracking-[-3%]">Featured</h2>
+        {/* Featured description */}
         <p className="featured-description">
           Canada's largest student-lead organization for Artificial Intelligence and Machine Learning
         </p>
@@ -254,6 +261,7 @@ export default function EventsPage() {
           * - Feature 3: spans 3x2
           * - Feature 4: spans 2x1
         */}
+        {/* Featured grid */}
         <div className="featured-grid">
           {featuredEvents.map((event, index) => (
             <EventCard
@@ -272,7 +280,9 @@ export default function EventsPage() {
 
     {/* Past events section */}
     <div className="upcoming-events-container p-4 sm:p-6 rounded-lg">
+      {/* Past events title */}
       <h2 className="text-2xl sm:text-3xl mb-2 text-black tracking-[-3%]">Past Events</h2>
+      {/* Past events description */}
       <p className="text-gray-600 mb-6 text-sm sm:text-base">Browse our previous events and achievements</p>
       
       {/* Search and filter section */}
@@ -297,6 +307,7 @@ export default function EventsPage() {
           </p>
         )}
 
+        {/* Event list container */}
         {filteredPastEvents.length > 0 && 
           <div className="events-list-container">
             {filteredPastEvents.map(event => (
