@@ -1,46 +1,48 @@
 "use client";
 import { useState } from 'react';
+import { Tag } from './tag';
 
-// Event interface defining the shape of our event data
+/**
+ * Interface defining the structure of an event
+ * @property {number} id - Unique identifier for the event
+ * @property {string} title - Event title
+ * @property {string} location - Where the event is taking place
+ * @property {string} time - Time of the event
+ * @property {string} [description] - Optional detailed description
+ * @property {string} [date] - Optional event date
+ * @property {string[]} tags - Categories or types for the event
+ */
 interface Event {
   id: number;
   title: string;
   location: string;
   time: string;
-  description?: string;  // Optional description field
-  date?: string;        // Optional date field
+  description?: string;
+  date?: string;
   tags: string[];
 }
 
-// Tag component for consistent styling
-function Tag({ text }: { text: string }) {
-  return (
-    <span className="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">
-      {text}
-    </span>
-  );
-}
-
+/**
+ * A collapsible event item component that shows event details
+ * Displays basic info in collapsed state and full details when expanded
+ * @param {Event} event - The event data to display
+ */
 export function EventItem({ event }: { event: Event }) {
-  // State to track if the dropdown is expanded
+  // Controls the expanded/collapsed state
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    // Main container - gray background with rounded corners
     <div className="bg-gray-200 rounded-lg overflow-hidden">
-      {/* Clickable header section
-          - p-4: padding all around
-          - hover:bg-gray-300: darkens on hover
-          - transition-colors: smooth color change animation */}
+      {/* Header section - always visible */}
       <div 
         className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-300 transition-colors"
       >
-        {/* Left side: Arrow icon + Title */}
+        {/* Title and dropdown arrow */}
         <div 
           className="flex items-center space-x-3 flex-grow"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          {/* Arrow icon */}
+          {/* Dropdown arrow */}
           <svg 
             className={`w-5 h-5 text-gray-700 transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}
             fill="none" 
@@ -58,7 +60,7 @@ export function EventItem({ event }: { event: Event }) {
           <span className="event-title">{event.title}</span>
         </div>
         
-        {/* Right side: Location, Time, and RSVP */}
+        {/* Summary information and RSVP button */}
         <div className="flex items-center space-x-4">
           <div className="flex items-center text-sm">
             <span className="text-gray-700">{event.location}</span>
@@ -73,15 +75,13 @@ export function EventItem({ event }: { event: Event }) {
         </div>
       </div>
 
-      {/* Expandable section - only shown when isExpanded is true
-          - border-2: visible border
-          - rounded-b-lg: rounded corners at bottom
-          - grid layout for two columns */}
+      {/* Expanded details section */}
       {isExpanded && (
         <div className="p-4 bg-white border-t border-gray-300 border-2 border-gray-200 rounded-b-lg">
           <div className="grid grid-cols-[auto,1fr] gap-4">
+            {/* Left column - Event details with icons */}
             <div className="space-y-2">
-              {/* Location detail with icon */}
+              {/* Location */}
               <div className="flex items-center space-x-2">
                 <svg 
                   className="w-5 h-5 text-gray-600"
@@ -89,7 +89,6 @@ export function EventItem({ event }: { event: Event }) {
                   stroke="currentColor" 
                   viewBox="0 0 24 24"
                 >
-                  {/* Location icon */}
                   <path 
                     strokeLinecap="round" 
                     strokeLinejoin="round" 
@@ -101,7 +100,7 @@ export function EventItem({ event }: { event: Event }) {
                 <span className="text-gray-800">{event.location}</span>
               </div>
               
-              {/* Date detail with icon */}
+              {/* Date */}
               <div className="flex items-center space-x-2">
                 <svg 
                   className="w-5 h-5 text-gray-600"
@@ -109,7 +108,6 @@ export function EventItem({ event }: { event: Event }) {
                   stroke="currentColor" 
                   viewBox="0 0 24 24"
                 >
-                  {/* Date icon */}
                   <path 
                     strokeLinecap="round" 
                     strokeLinejoin="round" 
@@ -121,7 +119,7 @@ export function EventItem({ event }: { event: Event }) {
                 <span className="text-gray-800">{event.date}</span>
               </div>
 
-              {/* Time detail with icon */}
+              {/* Time */}
               <div className="flex items-center space-x-2">
                 <svg 
                   className="w-5 h-5 text-gray-600"
@@ -129,7 +127,6 @@ export function EventItem({ event }: { event: Event }) {
                   stroke="currentColor" 
                   viewBox="0 0 24 24"
                 >
-                  {/* Time icon */}
                   <path 
                     strokeLinecap="round" 
                     strokeLinejoin="round" 
@@ -165,6 +162,7 @@ export function EventItem({ event }: { event: Event }) {
               </div>
             </div>
 
+            {/* Right column - Description and RSVP */}
             <div className="space-y-4">
               <p className="text-gray-700">
                 {event.description || 'More details coming soon...'}
