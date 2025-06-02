@@ -226,43 +226,69 @@
     .featured-grid {
         grid-template-columns: 1fr;
         height: auto;
-        gap: 1rem;
+        gap: 0.75rem;
+        display: flex;
+        flex-direction: column;
     }
 
-    /* Reset spans for mobile */
+    /* Make all cards same size on mobile */
     .featured-grid > * {
         grid-column: 1 !important;
         grid-row: span 1 !important;
-    }
-
-    /* Set specific heights for mobile */
-    .featured-grid > *:nth-child(1) {
-        height: 300px;
-    }
-
-    .featured-grid > *:nth-child(2) {
-        height: 400px;
-    }
-
-    .featured-grid > *:nth-child(3) {
-        height: 300px;
-    }
-
-    .featured-grid > *:nth-child(4) {
-        height: 200px;
+        height: 180px !important;
+        margin: 0 !important;
     }
 
     .featured-card {
         padding: 1.25rem;
+        position: relative !important;
     }
 
+    /* Mobile card content positioning */
+    .featured-card-content {
+        position: absolute !important;
+        bottom: 1.25rem !important;
+        left: 1.25rem !important;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        gap: 0.25rem;
+    }
+
+    /* Smaller text sizes for mobile */
     .featured-card-title {
-        font-size: 2rem;
+        font-size: 1.5rem;
+        margin: 0 !important;
+        line-height: 1 !important;
+        padding: 0 !important;
+    }
+
+    .eigenai {
+        font-size: 2rem !important;
+    }
+
+    .aisqr {
+        font-size: 1.75rem !important;
+    }
+
+    .genai {
+        font-size: 1.5rem !important;
+    }
+
+    /* Force all titles to be on one line with minimal spacing */
+    .featured-card h3 + h3 {
+        margin-left: 0.25rem !important;
     }
 
     .featured-description {
-        font-size: 0.875rem; /* Slightly smaller on mobile */
+        font-size: 0.875rem;
         padding: 0 1rem;
+    }
+
+    /* Override any custom positioning */
+    .featured-card-title-right {
+        margin-left: 0 !important;
     }
 }
 
