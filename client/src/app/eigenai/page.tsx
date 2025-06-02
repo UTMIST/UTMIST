@@ -12,14 +12,16 @@ export default function EigenAIPage() {
   return (
     <main className="sm: items-start sm: justify-center">
       <div className="hero-section px-4 md:px-8">
-        <h2 className="hero-title text-4xl md:text-5xl lg:text-6xl">EigenAI</h2>
+        <h2 className="hero-title text-4xl md:text-5xl lg:text-6xl pb-2">
+          EigenAI
+        </h2>
         <p className="hero-subtitle text-sm md:text-base px-4 md:px-8 lg:px-16">
           Help shape the future of AI and ML at UTMIST
         </p>
         <button className="ticket-button mt-4">Get Your Tickets Now</button>
       </div>
-      <section className="flex flex-col lg:flex-row w-full gap-6 md:gap-8 items-start justify-center px-4 md:px-6 lg:px-8 py-6 md:py-8">
-        <div className="w-full lg:w-1/2 max-w-md lg:max-w-lg">
+      <section className="flex flex-col w-full gap-6 md:gap-8 items-center justify-center px-4 md:px-6 lg:px-8 py-6 md:py-8">
+        <div className="w-full lg:w-1/2 max-w-md lg:max-w-lg md:mx-auto">
           <h2 className="intro-section-title">What is EigenAI?</h2>
           <p className="intro-section-description">
             EigenAI is a UTMIST and CSSU conference exploring AI through diverse
@@ -63,7 +65,7 @@ export default function EigenAIPage() {
       <section className="speakers-section">
         <SpeakersGrid speakers={speakers} />
       </section>
-      <section className="eigen-section">
+      <section className="eigen-section p-4">
         <LamdaSection />
       </section>
       <section className="lambda-statement-section px-4 md:px-8">
