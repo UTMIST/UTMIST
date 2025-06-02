@@ -9,6 +9,16 @@ interface Event {
   time: string;
   description?: string;  // Optional description field
   date?: string;        // Optional date field
+  tags: string[];
+}
+
+// Tag component for consistent styling
+function Tag({ text }: { text: string }) {
+  return (
+    <span className="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">
+      {text}
+    </span>
+  );
 }
 
 export function EventItem({ event }: { event: Event }) {
@@ -25,7 +35,7 @@ export function EventItem({ event }: { event: Event }) {
       <div 
         className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-300 transition-colors"
       >
-        {/* Left side: Arrow icon + Title - clicking this part expands */}
+        {/* Left side: Arrow icon + Title */}
         <div 
           className="flex items-center space-x-3 flex-grow"
           onClick={() => setIsExpanded(!isExpanded)}
@@ -70,8 +80,6 @@ export function EventItem({ event }: { event: Event }) {
       {isExpanded && (
         <div className="p-4 bg-white border-t border-gray-300 border-2 border-gray-200 rounded-b-lg">
           <div className="grid grid-cols-[auto,1fr] gap-4">
-            {/* Left column: Icons with details
-                - space-y-2: vertical spacing between items */}
             <div className="space-y-2">
               {/* Location detail with icon */}
               <div className="flex items-center space-x-2">
@@ -110,7 +118,7 @@ export function EventItem({ event }: { event: Event }) {
                   />
                 </svg>
                 <span className="text-gray-600 font-medium">Date:</span>
-                <span className="text-gray-800">{event.date || 'TBD'}</span>
+                <span className="text-gray-800">{event.date}</span>
               </div>
 
               {/* Time detail with icon */}
@@ -132,16 +140,35 @@ export function EventItem({ event }: { event: Event }) {
                 <span className="text-gray-600 font-medium">Time:</span>
                 <span className="text-gray-800">{event.time}</span>
               </div>
+
+              {/* Tags */}
+              <div className="flex items-center space-x-2">
+                <svg 
+                  className="w-5 h-5 text-gray-600"
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth="2" 
+                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                  />
+                </svg>
+                <span className="text-gray-600 font-medium">Tags:</span>
+                <div className="flex flex-wrap gap-1">
+                  {event.tags.map((tag, index) => (
+                    <Tag key={index} text={tag} />
+                  ))}
+                </div>
+              </div>
             </div>
 
-            {/* Right column: Description and RSVP button
-                - space-y-4: vertical spacing between items */}
             <div className="space-y-4">
-              {/* Description */}
               <p className="text-gray-700">
                 {event.description || 'More details coming soon...'}
               </p>
-              {/* RSVP button */}
               <button className="rsvp-button">
                 RSVP
               </button>
