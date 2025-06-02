@@ -7,7 +7,6 @@ import { TagFilter } from "./components/tag-filter";
 import { EventCard, type FeaturedEvent } from './components/event-card';
 
 // Sample featured events data
-
 const featuredEvents: FeaturedEvent[] = [
   {
     title: "EigenAI",
@@ -41,8 +40,31 @@ const featuredEvents: FeaturedEvent[] = [
   }
 ];
 
+interface PastEvent {
+  id: number;
+  title: string;
+  instructor: string;
+  date: string;
+  overview: string;
+  learningGoals: string[];
+  resources: { title: string; url: string; }[];
+  tags: string[];
+}
+
+interface UpcomingEvent {
+  id: number;
+  title: string;
+  location: string;
+  date: string;
+  time: string;
+  description: string;
+  tags: string[];
+}
+
+type Event = UpcomingEvent | PastEvent;
+
 // Sample upcoming events data
-const upcomingEvents = [
+const upcomingEvents: UpcomingEvent[] = [
   {
     id: 1,
     title: "SciML Workshop",
@@ -64,79 +86,60 @@ const upcomingEvents = [
 ];
 
 // Sample past events data
-const pastEvents = [
+const pastEvents: PastEvent[] = [
   {
     id: 3,
-    title: "Introduction to Neural Networks",
-    location: "Online",
-    date: "March 15th, 2024",
-    time: "18:00-20:00",
-    description: "A beginner-friendly workshop covering the fundamentals of neural networks, including perceptrons, activation functions, and backpropagation.",
-    tags: ["Workshop", "Deep Learning", "Beginner-Friendly"],
-    isPast: true
+    title: "RL Workshop",
+    instructor: "Andrew Magnuson",
+    date: "May 5th, 2023",
+    overview: "Curious about how AI agents learn to play games, control robots, or make decisions on their own? This beginner-friendly workshop is your gateway into the world of Reinforcement Learning (RL) – one of the most exciting fields in artificial intelligence.",
+    learningGoals: [
+      "Understand core concepts of Reinforcement Learning",
+      "Learn about environments, rewards, and Q-learning",
+      "Implement basic RL algorithms",
+      "Gain hands-on experience with Python RL frameworks"
+    ],
+    resources: [
+      {
+        title: "Workshop Slides",
+        url: "/resources/rl-workshop-slides.pdf"
+      },
+      {
+        title: "GitHub Repository",
+        url: "https://github.com/UTMIST/RL-Workshop"
+      },
+      {
+        title: "OpenAI Gym Documentation",
+        url: "https://gymnasium.farama.org/"
+      }
+    ],
+    tags: ["Workshop", "Reinforcement Learning", "Python", "Beginner-Friendly"]
   },
   {
     id: 4,
-    title: "Computer Vision Hackathon",
-    location: "Myhal Centre",
-    date: "February 24th, 2024",
-    time: "09:00-21:00",
-    description: "A day-long hackathon focused on computer vision applications, featuring mentorship from industry experts and exciting prizes.",
-    tags: ["Hackathon", "Computer Vision", "Competition"],
-    isPast: true
-  },
-  {
-    id: 5,
-    title: "Computer Vision Hackathon",
-    location: "Myhal Centre",
-    date: "February 24th, 2024",
-    time: "09:00-21:00",
-    description: "A day-long hackathon focused on computer vision applications, featuring mentorship from industry experts and exciting prizes.",
-    tags: ["Hackathon", "Computer Vision", "Competition"],
-    isPast: true
-  },
-  {
-    id: 6,
-    title: "Computer Vision Hackathon",
-    location: "Myhal Centre",
-    date: "February 24th, 2024",
-    time: "09:00-21:00",
-    description: "A day-long hackathon focused on computer vision applications, featuring mentorship from industry experts and exciting prizes.",
-    tags: ["Hackathon", "Computer Vision", "Competition"],
-    isPast: true
-  },
-  {
-    id: 7,
-    title: "Computer Vision Hackathon",
-    location: "Myhal Centre",
-    date: "February 24th, 2024",
-    time: "09:00-21:00",
-    description: "A day-long hackathon focused on computer vision applications, featuring mentorship from industry experts and exciting prizes.",
-    tags: ["Hackathon", "Computer Vision", "Competition"],
-    isPast: true
-  },
-  {
-    id: 8,
-    title: "Computer Vision Hackathon",
-    location: "Myhal Centre",
-    date: "February 24th, 2024",
-    time: "09:00-21:00",
-    description: "A day-long hackathon focused on computer vision applications, featuring mentorship from industry experts and exciting prizes.",
-    tags: ["Hackathon", "Computer Vision", "Competition"],
-    isPast: true
+    title: "Computer Vision Deep Dive",
+    instructor: "Sarah Chen",
+    date: "March 15th, 2024",
+    overview: "An intensive workshop covering advanced computer vision techniques, from classical methods to modern deep learning approaches. Participants learned about CNN architectures, object detection, and image segmentation.",
+    learningGoals: [
+      "Master fundamental CV concepts and techniques",
+      "Understand CNN architectures for vision tasks",
+      "Implement object detection algorithms",
+      "Practice with real-world CV applications"
+    ],
+    resources: [
+      {
+        title: "Workshop Materials",
+        url: "/resources/cv-workshop-materials.zip"
+      },
+      {
+        title: "PyTorch Vision Tutorial",
+        url: "https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html"
+      }
+    ],
+    tags: ["Workshop", "Computer Vision", "Deep Learning", "PyTorch"]
   }
 ];
-
-// Define event type
-interface Event {
-  id: number;
-  title: string;
-  location: string;
-  date: string;
-  time: string;
-  description: string;
-  tags: string[];
-}
 
 /**
  * Main Events page component
@@ -153,7 +156,7 @@ export default function EventsPage() {
     const [pastSearchQuery, setPastSearchQuery] = useState('');
     const [pastSelectedTags, setPastSelectedTags] = useState<string[]>([]);
 
-    // Get all unique tags for both sections
+    // Get all unique tags from both upcoming and past events
     const upcomingTags = Array.from(new Set(upcomingEvents.flatMap(event => event.tags))).sort();
     const pastTags = Array.from(new Set(pastEvents.flatMap(event => event.tags))).sort();
 
@@ -174,9 +177,9 @@ export default function EventsPage() {
       );
     };
 
-    // Filter functions for both sections
-    const filterEvents = (events: Event[], searchQuery: string, selectedTags: string[]) => {
-      return events.filter((event: Event) => {
+    // Filter functions
+    const filterUpcomingEvents = (events: UpcomingEvent[], searchQuery: string, selectedTags: string[]) => {
+      return events.filter(event => {
         const matchesSearch = 
           event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           event.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -184,15 +187,32 @@ export default function EventsPage() {
         
         const matchesTags = 
           selectedTags.length === 0 || 
-          selectedTags.every((tag: string) => event.tags.includes(tag));
+          selectedTags.every(tag => event.tags.includes(tag));
 
         return matchesSearch && matchesTags;
       });
     };
 
-    // Filter events based on search and selected tags
-    const filteredUpcomingEvents = filterEvents(upcomingEvents, upcomingSearchQuery, upcomingSelectedTags);
-    const filteredPastEvents = filterEvents(pastEvents, pastSearchQuery, pastSelectedTags);
+    const filterPastEvents = (events: PastEvent[], searchQuery: string, selectedTags: string[]) => {
+      return events.filter(event => {
+        const matchesSearch = 
+          event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          event.instructor.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          event.overview.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          event.learningGoals.some(goal => 
+            goal.toLowerCase().includes(searchQuery.toLowerCase())
+          );
+
+        const matchesTags = 
+          selectedTags.length === 0 || 
+          selectedTags.every(tag => event.tags.includes(tag));
+
+        return matchesSearch && matchesTags;
+      });
+    };
+
+    const filteredUpcomingEvents = filterUpcomingEvents(upcomingEvents, upcomingSearchQuery, upcomingSelectedTags);
+    const filteredPastEvents = filterPastEvents(pastEvents, pastSearchQuery, pastSelectedTags);
 
     return <main className="px-4 sm:px-0">
     {/* Hero section - Main title and subtitle */}
@@ -280,9 +300,7 @@ export default function EventsPage() {
 
     {/* Past events section */}
     <div className="upcoming-events-container p-4 sm:p-6 rounded-lg">
-      {/* Past events title */}
       <h2 className="text-2xl sm:text-3xl mb-2 text-black tracking-[-3%]">Past Events</h2>
-      {/* Past events description */}
       <p className="text-gray-600 mb-6 text-sm sm:text-base">Browse our previous events and achievements</p>
       
       {/* Search and filter section */}
@@ -307,11 +325,10 @@ export default function EventsPage() {
           </p>
         )}
 
-        {/* Event list container */}
         {filteredPastEvents.length > 0 && 
           <div className="events-list-container">
             {filteredPastEvents.map(event => (
-              <EventItem key={event.id} event={event} isPassed={true}/>
+              <EventItem key={event.id} event={event} isPassed={true} />
             ))}
           </div>
         }
