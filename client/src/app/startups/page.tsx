@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Roboto } from "next/font/google";
 import Image, { type StaticImageData } from "next/image";
+import { useState, useEffect, useRef } from "react";
 
 import Myhal from "../../../public/myhal.webp";
 import genai from "../../../public/genai.webp";
@@ -112,13 +113,127 @@ const HeroStartupSection = () => {
   );
 };
 
-// const SliderSection = (title: string, direction: string) => {
-//   return (
-//     <div>
-//       <h1>Slider Section</h1>
-//     </div>
-//   );
-// };
+// Placeholder avatar image (public domain SVG)
+const placeholderAvatar =
+  "https://www.svgrepo.com/show/382106/avatar-placeholder.svg";
+
+interface Person {
+  name: string;
+  image?: string;
+}
+
+const guessSpeakers: Person[] = [
+  { name: "Name", image: placeholderAvatar },
+  { name: "Name", image: placeholderAvatar },
+  { name: "Name", image: placeholderAvatar },
+  { name: "Name", image: placeholderAvatar },
+];
+
+const investors: Person[] = [
+  { name: "Name", image: placeholderAvatar },
+  { name: "Name", image: placeholderAvatar },
+  { name: "Name", image: placeholderAvatar },
+  { name: "Name", image: placeholderAvatar },
+];
+
+const SliderSection = ({
+  title,
+  people,
+  direction = "right",
+}: {
+  title: string;
+  people: Person[];
+  direction?: "left" | "right";
+}) => {
+  const visibleCount = 4;
+  const total = people.length;
+  const [index, setIndex] = useState(direction === "right" ? 0 : total - 1);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const rowRef = useRef<HTMLDivElement>(null);
+
+  // Duplicate for seamless looping
+  const displayPeople =
+    direction === "right"
+      ? [...people, ...people.slice(0, visibleCount)]
+      : [...people.slice(-visibleCount), ...people];
+
+  // Auto-advance in the specified direction
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (direction === "right" ? prev + 1 : prev - 1));
+      setIsTransitioning(true);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [direction]);
+
+  // Seamless looping logic for both directions
+  useEffect(() => {
+    if (direction === "right" && index === total) {
+      const timeout = setTimeout(() => {
+        setIsTransitioning(false);
+        setIndex(0);
+      }, 500);
+      return () => clearTimeout(timeout);
+    } else if (direction === "left" && index === -1) {
+      const timeout = setTimeout(() => {
+        setIsTransitioning(false);
+        setIndex(total - 1);
+      }, 500);
+      return () => clearTimeout(timeout);
+    } else if (!isTransitioning) {
+      const reenable = setTimeout(() => {
+        setIsTransitioning(true);
+      }, 20);
+      return () => clearTimeout(reenable);
+    } else {
+      setIsTransitioning(true);
+    }
+  }, [index, total, isTransitioning, direction]);
+
+  // Calculate translateX percentage
+  const translateX =
+    direction === "right"
+      ? `-${(index * 100) / visibleCount}%`
+      : `-${((index + 1) * 100) / visibleCount}%`;
+
+  return (
+    <section className="flex flex-row items-center gap-4 py-6 px-4 bg-gradient-to-br from-[#f5f8ff] to-[#eaf1fb] rounded-2xl border border-blue-200 shadow-sm w-full max-w-5xl mx-auto mb-6">
+      <div className="w-1/4 text-right pr-6">
+        <h2 className="font-bold text-2xl text-gray-700">{title}</h2>
+      </div>
+      <div className="relative w-3/4 overflow-hidden">
+        <div
+          ref={rowRef}
+          className={`flex ${
+            isTransitioning
+              ? "transition-transform duration-500 ease-in-out"
+              : ""
+          }`}
+          style={{
+            width: `${(displayPeople.length * 100) / visibleCount}%`,
+            transform: `translateX(${translateX})`,
+          }}
+        >
+          {displayPeople.map((person, idx) => (
+            <article
+              key={idx}
+              className="flex-shrink-0 w-1/4 flex flex-col items-center bg-white rounded-xl shadow p-3"
+            >
+              <img
+                src={person.image}
+                alt={person.name}
+                className="w-24 h-24 object-cover rounded-lg mb-2 border border-gray-200"
+              />
+              <span className="font-medium text-base text-gray-800 mt-1">
+                {person.name}
+              </span>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 const StartupsPage = () => {
   return (
@@ -126,10 +241,20 @@ const StartupsPage = () => {
       <HeroSection />
       <div>
         <div>
-          <section>{/* Investors slider with article cards */}</section>
+          {/* Investors slider with article cards */}
+          <SliderSection
+            title="Guess Speakers"
+            people={guessSpeakers}
+            direction="left"
+          />
         </div>
         <div>
-          <section>{/* Guess Speakers slider with article cards */}</section>
+          {/* Guess Speakers slider with article cards */}
+          <SliderSection
+            title="Investors"
+            people={investors}
+            direction="right"
+          />
         </div>
       </div>
       {/* Add a final quote that could be inspirational (Come make an impact at UTMIST) */}
