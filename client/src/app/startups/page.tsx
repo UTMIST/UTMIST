@@ -199,7 +199,9 @@ const SliderSection = ({
   return (
     <section className="flex flex-row items-center gap-4 py-6 px-4 bg-gradient-to-br from-[#f5f8ff] to-[#eaf1fb] rounded-2xl border border-blue-200 shadow-sm w-full max-w-5xl mx-auto mb-6">
       <div className="w-1/4 text-right pr-6">
-        <h2 className="font-bold text-2xl text-gray-700">{title}</h2>
+        <h2 className="font-bold text-center text-2xl text-gray-700">
+          {title}
+        </h2>
       </div>
       <div className="relative w-3/4 overflow-hidden">
         <div
