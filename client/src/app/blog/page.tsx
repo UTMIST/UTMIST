@@ -90,6 +90,42 @@ export default function BlogPage() {
       image: dummy,
       url: "https://www.utmist.com/demistify/ml-math",
     },
+    {
+      title: "Introduction to PyTorch",
+      date: "Dec 25th 2024",
+      image: dummy,
+      url: "https://www.utmist.com/demistify/pytorch",
+    },
+    {
+      title: "Deep Learning Architectures",
+      date: "Dec 18th 2024",
+      image: dummy,
+      url: "https://www.utmist.com/demistify/architectures",
+    },
+    {
+      title: "Natural Language Processing Basics",
+      date: "Dec 11th 2024",
+      image: dummy,
+      url: "https://www.utmist.com/demistify/nlp",
+    },
+    {
+      title: "Computer Vision Fundamentals",
+      date: "Dec 4th 2024",
+      image: dummy,
+      url: "https://www.utmist.com/demistify/cv",
+    },
+    {
+      title: "Machine Learning Optimization",
+      date: "Nov 27th 2024",
+      image: dummy,
+      url: "https://www.utmist.com/demistify/optimization",
+    },
+    {
+      title: "Ethics in AI",
+      date: "Nov 20th 2024",
+      image: dummy,
+      url: "https://www.utmist.com/demistify/ethics",
+    },
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -130,11 +166,11 @@ export default function BlogPage() {
           <h3 className="text-black text-2xl font-semibold mb-2 tracking-[-3%]">
             Search Our Archive
           </h3>
-          <p className="text-gray-600 mb-4">Find more articles from our technical content series</p>
+          <p className="text-gray-600 text-base sm:text-lg mb-4">Find more articles from our technical content series</p>
           <div className="search-bar-container">
             <input
               type="text"
-              className="search-bar-input"
+              className="search-bar-input text-sm sm:text-base"
               placeholder="Search articles..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -142,13 +178,20 @@ export default function BlogPage() {
             <Search className="search-icon" />
           </div>
         </div>
-        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm space-y-3">
-          {filteredArchive.map((blog, index) => (
-            <BlogListItem key={index} {...blog} />
-          ))}
-          {filteredArchive.length === 0 && (
-            <p className="text-center text-gray-500 py-4">No articles found matching your search.</p>
-          )}
+        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+          <div className={`space-y-0.5 ${filteredArchive.length > 8 ? 'max-h-[480px] overflow-y-auto pr-2' : ''}`}>
+            {filteredArchive.map((blog, index) => (
+              <BlogListItem 
+                key={index} 
+                {...blog} 
+                isFirst={index === 0}
+                isLast={index === filteredArchive.length - 1}
+              />
+            ))}
+            {filteredArchive.length === 0 && (
+              <p className="text-center text-gray-500 py-4">No articles found matching your search.</p>
+            )}
+          </div>
         </div>
       </div>
     </main>
