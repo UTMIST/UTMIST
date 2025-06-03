@@ -4,8 +4,8 @@ import { EventCardProps } from "@/types/Blog";
 export default function BlogCardLarge({ title, date, image, url }: EventCardProps) {
   return (
     <a href={url} target="_blank" rel="noopener noreferrer">
-    <div className="relative w-full h-full min-h-[440px] rounded-lg overflow-hidden shadow-sm border border-gray-200 bg-white">
-      <div className="relative w-full h-[65%]">
+    <div className="relative w-full h-full min-h-[440px] lg:min-h-0 flex flex-col rounded-lg overflow-hidden shadow-sm border border-gray-200 bg-white">
+      <div className="relative w-full h-[70%]">
         <Image
           src={image}
           alt={title}
