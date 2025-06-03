@@ -5,26 +5,14 @@ import dummy from "@/assets/photos/fibseq.webp";
 export default function BlogCardSmall({ title, date, author, image, url }: EventCardProps) {
   return (
     <a href={url} target="_blank" rel="noopener noreferrer">
-    <div className="w-full aspect-[5/4] rounded-lg overflow-hidden border border-gray-200 bg-white shadow-sm">
+    <div className="w-full aspect-[4/3] rounded-lg overflow-hidden border border-gray-200 bg-white shadow-sm">
       <div className="relative w-full h-[60%]">
-        {/* If image is provided, use it, otherwise use the dummy image */}
-        {
-          image ? (
-            <Image
-            src={image}
-            alt={title}
-            fill
-            className="object-cover object-center"
-          />
-        ) : (
-          <Image
-            src={dummy}
-            alt={title}
-            fill
-            className="object-cover object-center"
-          />
-        )
-        }
+        <Image
+          src={image || dummy}
+          alt={title}
+          fill
+          className="object-cover object-center"
+        />
       </div>
       <div className="p-3 h-[40%]">
         <h3 className="text-black font-semibold leading-tight line-clamp-2 text-base">{title}</h3>

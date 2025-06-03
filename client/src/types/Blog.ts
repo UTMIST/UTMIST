@@ -4,6 +4,6 @@ export interface EventCardProps {
   title: string;
   date: string;
   author: string;
-  image: string | StaticImageData;
+  image?: string | StaticImageData;
   url: string;
 }
