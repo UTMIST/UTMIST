@@ -5,8 +5,8 @@ import BlogCardLarge from "@/components/cards/blog-card-large";
 import dummy from "@/assets/photos/fibseq.webp";
 import BlogCardSmall from "@/components/cards/blog-card-small";
 import BlogListItem from "@/components/cards/blog-list-item";
-import { Search } from "lucide-react";
-import { useState } from "react";
+import { Search, ChevronDown } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 
 const featuredPosts = {
   main: {
@@ -128,8 +128,19 @@ const archiveList = [
 ];
 
 export default function BlogPage() {
-
   const [searchTerm, setSearchTerm] = useState("");
+  const [isAtBottom, setIsAtBottom] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Handle scroll event
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
+      const isBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 1;
+      setIsAtBottom(isBottom);
+    }
+  };
+
   const filteredArchive = archiveList.filter(
     (blog) =>
       blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -186,20 +197,33 @@ export default function BlogPage() {
           </div>
         </div>
         {/* Archive List */}
-        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-          <div className={`space-y-0.5 ${filteredArchive.length > 8 ? 'max-h-[480px] overflow-y-auto pr-2' : ''}`}>
+        <div className="bg-white rounded-xl p-4 sm:p-5 border border-gray-200 shadow-sm relative">
+          <div
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+            className={`space-y-[0.25rem] overflow-y-auto px-0.5 scrollbar max-h-[320px] sm:max-h-[480px]`}
+            style={{ overscrollBehavior: 'contain' }}
+          >
             {filteredArchive.map((blog, index) => (
-              <BlogListItem 
-                key={index} 
-                {...blog} 
+              <BlogListItem
+                key={index}
+                {...blog}
                 isFirst={index === 0}
                 isLast={index === filteredArchive.length - 1}
               />
             ))}
             {filteredArchive.length === 0 && (
-              <p className="text-center text-gray-500 py-4">No articles found matching your search.</p>
+              <p className="text-center text-gray-500 py-4">
+                No articles found matching your search.
+              </p>
             )}
           </div>
+          {/* Show more button */}
+          {filteredArchive.length > 4 && !isAtBottom && (
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 sm:hidden bg-white/80 backdrop-blur rounded-full p-1 shadow-sm animate-bounce flex items-center justify-center w-7 h-7">
+              <ChevronDown className="w-5 h-5 text-gray-500" />
+            </div>
+          )}
         </div>
       </div>
     </main>

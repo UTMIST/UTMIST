@@ -120,3 +120,45 @@
     width: 1.2rem;
     height: 1.2rem;
 }
+
+.scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 3px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #64748B;
+}
+
+/* For Firefox */
+.scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* Target custom scrollbar */
+.scroll-dark::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .scroll-dark::-webkit-scrollbar-track {
+    background: #cbd5e1; /* lighter slate */
+  }
+  
+  .scroll-dark::-webkit-scrollbar-thumb {
+    background: #334155; /* darker slate */
+    border-radius: 4px;
+  }
+  
+  .scroll-dark::-webkit-scrollbar-thumb:hover {
+    background: #1e293b; /* even darker on hover */
+  }
