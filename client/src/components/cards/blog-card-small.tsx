@@ -2,10 +2,10 @@ import Image from "next/image";
 import { EventCardProps } from "@/types/Blog";
 
 
-export default function BlogCardSmall({ title, date, image, url }: EventCardProps) {
+export default function BlogCardSmall({ title, date, author, image, url }: EventCardProps) {
   return (
     <a href={url} target="_blank" rel="noopener noreferrer">
-    <div className="w-full h-[220px] rounded-lg overflow-hidden border border-gray-200 bg-white shadow-sm">
+    <div className="w-full aspect-[4/3] rounded-lg overflow-hidden border border-gray-200 bg-white shadow-sm">
       <div className="relative w-full h-[60%]">
         <Image
           src={image}
@@ -17,6 +17,7 @@ export default function BlogCardSmall({ title, date, image, url }: EventCardProp
       <div className="p-3 h-[40%]">
         <h3 className="text-black font-semibold leading-tight line-clamp-2 text-base">{title}</h3>
         <p className="text-gray-500 text-xs mt-1">{date}</p>
+        <p className="text-gray-500 text-xs">{author}</p>
       </div>
     </div>
     </a>

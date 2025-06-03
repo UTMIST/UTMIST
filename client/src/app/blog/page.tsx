@@ -67,7 +67,7 @@ export default function BlogPage() {
       </div>
       <div className="hero-blog-section">
         {featuredPosts.length > 0 && <BlogCardLarge {...featuredPosts[0]} />}
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
           {featuredPosts.slice(1).map((post, index) => (
             <BlogCardSmall key={index} {...post} />
           ))}

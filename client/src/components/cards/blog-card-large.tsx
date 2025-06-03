@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { EventCardProps } from "@/types/Blog";
 
-export default function BlogCardLarge({ title, date, image, url }: EventCardProps) {
+export default function BlogCardLarge({ title, date, author, image, url }: EventCardProps) {
   return (
     <a href={url} target="_blank" rel="noopener noreferrer">
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden h-full">
@@ -19,6 +19,9 @@ export default function BlogCardLarge({ title, date, image, url }: EventCardProp
           </h3>
           <p className="text-gray-600 text-sm sm:text-base">
             {date}
+          </p>
+          <p className="text-gray-600 text-sm sm:text-base mt-1">
+            {author}
           </p>
         </div>
       </div>

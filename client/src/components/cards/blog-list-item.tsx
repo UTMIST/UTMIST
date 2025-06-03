@@ -5,7 +5,7 @@ interface BlogListItemProps extends EventCardProps {
   isLast?: boolean;
 }
 
-export default function BlogListItem({ title, date, url, isFirst, isLast }: BlogListItemProps) {
+export default function BlogListItem({ title, date, author, url, isFirst, isLast }: BlogListItemProps) {
   return (
     <a href={url} target="_blank" rel="noopener noreferrer">
       <div className={`bg-gray-50 hover:bg-gray-100 transition-colors p-3 sm:p-4 flex items-center justify-between
@@ -16,9 +16,10 @@ export default function BlogListItem({ title, date, url, isFirst, isLast }: Blog
             {title}
           </h3>
         </div>
-        <p className="text-gray-500 text-xs sm:text-sm ml-3 sm:ml-4 flex-shrink-0">
-          {date}
-        </p>
+        <div className="text-gray-500 text-xs sm:text-sm ml-3 sm:ml-4 flex-shrink-0 flex flex-col items-end">
+          <p>{date}</p>
+          <p>{author}</p>
+        </div>
       </div>
     </a>
   );
