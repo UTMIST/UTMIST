@@ -21,12 +21,12 @@ const PhotosGrid = () => {
       {images.map((img, idx) => {
         const roundedClass =
           idx === 0
-            ? "rounded-tl-2xl"
+            ? "rounded-tl-xl"
             : idx === 1
-            ? "rounded-tr-2xl"
+            ? "rounded-tr-xl"
             : idx === 2
-            ? "rounded-bl-2xl"
-            : "rounded-br-2xl";
+            ? "rounded-bl-xl"
+            : "rounded-br-xl";
         return (
           <div
             key={idx}
@@ -104,7 +104,7 @@ const HeroStartupSection = () => {
       </div>
       {/* Right: Visuals */}
       <div className="w-1/2 flex items-center justify-center">
-        <div className="bg-gradient-to-br from-blue-100 via-white to-purple-100 border-2 border-blue-300 rounded-2xl p-6 w-full max-w-lg h-64 flex items-center justify-center">
+        <div className=" rounded-2xl p-4 w-full max-w-lg h-64 flex items-center justify-center">
           <PhotosGrid />
         </div>
       </div>
