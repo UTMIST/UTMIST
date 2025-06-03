@@ -14,7 +14,7 @@ export default function BlogCardLarge({ title, date, image, url }: EventCardProp
           />
         </div>
         <div className="p-6">
-          <h3 className="font-medium text-lg sm:text-xl lg:text-2xl bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+          <h3 className="font-medium text-lg sm:text-xl md:text-2xl lg:text-2xl bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
             {title}
           </h3>
           <p className="text-gray-600 text-sm sm:text-base">
