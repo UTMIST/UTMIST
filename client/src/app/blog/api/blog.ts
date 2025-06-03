@@ -1,4 +1,3 @@
-import dummy from "@/assets/photos/fibseq.webp";
 import { StaticImageData } from "next/image";
 
 export interface BlogPost {
