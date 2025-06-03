@@ -4,8 +4,8 @@
     justify-content: center;
     align-items: center;
     padding: 4rem 2rem; 
-    max-width: 1000px; 
-    margin: 0rem auto;
+    max-width: 1050px; 
+    margin: 0 auto;
     text-align: center;
 }
 
@@ -24,13 +24,99 @@
     font-weight: 200;
     color: #111827;
     font-family: var(--system-font);
-    padding: 0 15rem;
+    padding: 0 2rem;
 }
 
 .hero-blog-section{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+@media (min-width: 640px) {
+    .hero-blog-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero-blog-section {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+.hero-blog-section > a:first-child {
+    min-width: 0;
+    height: 460px;
+}
+
+.hero-blog-section > div:last-child {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 0;
+    height: 440px;
     justify-content: space-between;
-    gap: 1rem;
-    padding: 0 14rem;
+}
+
+.blog-archive-section {
+    background-color: #f8f9fa;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    margin-top: 4rem;
+    border-radius: 2rem;
+}
+
+.search-bar-container {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    border-radius: 1rem;
+    padding: 0.75rem 1.25rem;
+    width: 400px;
+    max-width: 90%;
+    transition: all 0.3s;
+    background-color: white;
+    position: relative;
+    border: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.search-bar-container:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 1rem;
+    padding: 2px;
+    background: var(--gradient-bl1);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.search-bar-input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 1rem;
+    background: transparent;
+    color: black;
+}
+
+.search-icon {
+    color: #1E19B1;
+    width: 1.2rem;
+    height: 1.2rem;
 }
