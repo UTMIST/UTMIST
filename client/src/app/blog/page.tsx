@@ -2,20 +2,18 @@
 
 import "@/styles/blog.css";
 import BlogCardLarge from "@/components/cards/blog-card-large";
-import dummy from "@/assets/photos/fibseq.webp";
 import BlogCardSmall from "@/components/cards/blog-card-small";
 import BlogListItem from "@/components/cards/blog-list-item";
 import { Search, ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import { BlogPost, getFeaturedPosts, getRecentPosts, getArchivePosts, FeaturedBlogPost } from "./api/blog";
-
+import { BlogPost, getFeaturedPosts, getRecentPosts, getArchivePosts } from "./api/blog";
 
 export default function BlogPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isAtBottom, setIsAtBottom] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const [featuredPosts, setFeaturedPosts] = useState<FeaturedBlogPost[]>([]);
+  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([]);
   const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
   const [archiveList, setArchiveList] = useState<BlogPost[]>([]);
 
@@ -65,7 +63,7 @@ export default function BlogPage() {
       {/* Hero Section */}
       <div className="hero-section">
         <h2 className="hero-title">DeMISTify</h2>
-        <p className="hero-subtitle">UTMIST's technical content newsletter</p>
+        <p className="hero-subtitle">UTMIST&apos;s technical content newsletter</p>
       </div>
       <div className="hero-blog-section">
         {featuredPosts.length > 0 && <BlogCardLarge {...featuredPosts[0]} />}

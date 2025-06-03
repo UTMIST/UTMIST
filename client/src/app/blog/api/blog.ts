@@ -1,16 +1,15 @@
 import dummy from "@/assets/photos/fibseq.webp";
+import { StaticImageData } from "next/image";
 
 export interface BlogPost {
   title: string;
   date: string;
-  image: any;
+  image: StaticImageData | string;
   url: string;
 }
 
-export interface FeaturedBlogPost extends BlogPost {}
-
 // 1. Featured Posts
-const featuredPosts: FeaturedBlogPost[] = [
+const featuredPosts: BlogPost[] = [
   {
     title: "DeMISTify: The AI Revolution",
     date: "Explore the latest trends and breakthroughs in AI and ML. Stay ahead of the curve with our curated content.",
@@ -132,7 +131,7 @@ const archivePosts: BlogPost[] = [
 
 // Dummy API calls
 
-export async function getFeaturedPosts(): Promise<FeaturedBlogPost[]> {
+export async function getFeaturedPosts(): Promise<BlogPost[]> {
   return new Promise((resolve) => {
     setTimeout(() => resolve(featuredPosts), 500);
   });
