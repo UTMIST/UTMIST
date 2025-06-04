@@ -6,10 +6,10 @@ import { Roboto, Space_Grotesk } from "next/font/google";
 
 // Importing fonts from Google Fonts
 const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],  // Added specific weights
+  weight: ["300", "400", "500", "700"], // Added specific weights
   variable: "--font-roboto",
   subsets: ["latin"],
-  display: 'swap',
+  display: "swap",
 });
 
 const spaceGrotesk = Space_Grotesk({
@@ -38,9 +38,9 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${spaceGrotesk.variable} antialiased`}
       >
-        <Navbar/>
+        {/* <Navbar/> */}
         {children}
-        <Footer/>
+        {/* <Footer/> */}
       </body>
     </html>
   );

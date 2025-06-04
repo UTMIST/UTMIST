@@ -145,17 +145,28 @@ const SliderSection = ({
   people: Person[];
   direction?: "left" | "right";
 }) => {
-  const visibleCount = 4;
+  const visibleCount = 3;
   const total = people.length;
   const [index, setIndex] = useState(direction === "right" ? 0 : total - 1);
   const [isTransitioning, setIsTransitioning] = useState(true);
   const rowRef = useRef<HTMLDivElement>(null);
+  const cardWidth = 160; // w-40 in px
 
-  // Duplicate for seamless looping
+  // If fewer than 3 people, fill with placeholders
+  const filledPeople =
+    people.length < visibleCount
+      ? [
+          ...people,
+          ...Array.from({ length: visibleCount - people.length }, (_, i) => ({
+            name: "",
+            image: "",
+          })),
+        ]
+      : people;
   const displayPeople =
     direction === "right"
-      ? [...people, ...people.slice(0, visibleCount)]
-      : [...people.slice(-visibleCount), ...people];
+      ? [...filledPeople, ...filledPeople.slice(0, visibleCount)]
+      : [...filledPeople.slice(-visibleCount), ...filledPeople];
 
   // Auto-advance in the specified direction
   useEffect(() => {
@@ -193,17 +204,25 @@ const SliderSection = ({
   // Calculate translateX percentage
   const translateX =
     direction === "right"
-      ? `-${(index * 100) / visibleCount}%`
-      : `-${((index + 1) * 100) / visibleCount}%`;
+      ? `-${index * cardWidth}px`
+      : `-${(index + 1) * cardWidth}px`;
 
   return (
-    <section className="flex flex-row items-center gap-4 py-6 px-4 bg-gradient-to-br from-[#f5f8ff] to-[#eaf1fb] rounded-2xl border border-blue-200 shadow-sm w-full max-w-5xl mx-auto mb-6">
-      <div className="w-1/4 text-right pr-6">
-        <h2 className="font-bold text-center text-2xl text-gray-700">
+    <section
+      className="flex flex-col md:flex-row items-center md:items-center gap-0.5 md:gap-4 py-0.5 md:py-4 bg-gradient-to-br from-[#f5f8ff] to-[#eaf1fb] rounded-2xl border border-blue-200 shadow-sm mx-auto w-full max-w-[700px]"
+      style={{
+        marginBottom: "1.5rem",
+      }}
+    >
+      <div className="w-full md:w-1/4 text-center md:text-right md:pr-6 mb-0.5 md:mb-0">
+        <h2 className="font-bold text-[13px] md:text-2xl text-gray-700">
           {title}
         </h2>
       </div>
-      <div className="relative w-3/4 overflow-hidden">
+      <div
+        className="relative w-full md:w-auto overflow-x-auto md:overflow-hidden flex-shrink-0"
+        style={{ maxWidth: "100vw" }}
+      >
         <div
           ref={rowRef}
           className={`flex ${
@@ -212,22 +231,28 @@ const SliderSection = ({
               : ""
           }`}
           style={{
-            width: `${(displayPeople.length * 100) / visibleCount}%`,
+            width: `${displayPeople.length * cardWidth}px`,
+            maxWidth: `${visibleCount * cardWidth}px`,
+            minWidth: "100%",
             transform: `translateX(${translateX})`,
           }}
         >
           {displayPeople.map((person, idx) => (
             <article
               key={idx}
-              className="flex-shrink-0 w-1/4 flex flex-col items-center bg-white rounded-xl shadow p-3"
+              className="flex-shrink-0 w-20 h-20 md:w-40 md:h-40 flex flex-col items-center bg-white rounded-xl shadow p-1 mx-auto mb-0.5 md:mb-1"
             >
-              <img
-                src={person.image}
-                alt={person.name}
-                className="w-24 h-24 object-cover rounded-lg mb-2 border border-gray-200"
-              />
-              <span className="font-medium text-base text-gray-800 mt-1">
-                {person.name}
+              {person.image ? (
+                <img
+                  src={person.image}
+                  alt={person.name}
+                  className="w-10 h-6 md:w-28 md:h-16 object-cover rounded-lg mb-1 border border-gray-200"
+                />
+              ) : (
+                <div className="w-10 h-6 md:w-28 md:h-16 rounded-lg mb-1 border border-gray-200 bg-gray-100" />
+              )}
+              <span className="font-medium text-[10px] md:text-base text-gray-800 mt-0.5">
+                {person.name || ""}
               </span>
             </article>
           ))}
