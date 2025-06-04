@@ -155,7 +155,7 @@ const SliderSection = ({
     people.length < visibleCount
       ? [
           ...people,
-          ...Array.from({ length: visibleCount - people.length }, (_, i) => ({
+          ...Array.from({ length: visibleCount - people.length }, () => ({
             name: "",
             image: "",
           })),
@@ -239,9 +239,11 @@ const SliderSection = ({
                 className="flex-shrink-0 w-40 h-40 flex flex-col items-center bg-white rounded-xl shadow p-1 mx-auto mb-1"
               >
                 {person.image ? (
-                  <img
+                  <Image
                     src={person.image}
                     alt={person.name}
+                    width={112}
+                    height={40}
                     className="w-28 h-16 object-cover rounded-lg mb-1 border border-gray-200"
                   />
                 ) : (
@@ -271,9 +273,11 @@ const SliderSection = ({
                 <div key={idx} className="col-span-2 flex justify-center">
                   <article className="w-full max-w-[10rem] h-28 flex flex-col items-center bg-white rounded-xl shadow p-1 mb-1">
                     {person.image ? (
-                      <img
+                      <Image
                         src={person.image}
                         alt={person.name}
+                        width={64}
+                        height={40}
                         className="w-16 h-10 object-cover rounded-lg mb-1 border border-gray-200"
                       />
                     ) : (
@@ -292,9 +296,11 @@ const SliderSection = ({
                 className="w-full h-28 flex flex-col items-center bg-white rounded-xl shadow p-1 mb-1"
               >
                 {person.image ? (
-                  <img
+                  <Image
                     src={person.image}
                     alt={person.name}
+                    width={64}
+                    height={40}
                     className="w-16 h-10 object-cover rounded-lg mb-1 border border-gray-200"
                   />
                 ) : (
