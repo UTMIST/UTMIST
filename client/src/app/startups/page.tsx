@@ -93,9 +93,9 @@ const HeroIntroductionSection = () => {
 
 const HeroStartupSection = () => {
   return (
-    <div className="flex flex-row gap-10 items-center w-full max-w-6xl mx-auto">
+    <div className="flex flex-col md:flex-row gap-4 md:gap-10 items-center w-full max-w-6xl mx-auto">
       {/* Left: Title & Description, fully centered vertically, left-aligned text */}
-      <div className="w-1/2 flex flex-col justify-center text-center">
+      <div className="w-full md:w-1/2 flex flex-col justify-center text-center mb-4 md:mb-0">
         <h2 className="font-bold text-3xl mb-4">Startups @ UTMIST</h2>
         <p className="text-lg text-gray-700">
           Build your AI startup without putting school on hold. Join the Startup
@@ -104,8 +104,8 @@ const HeroStartupSection = () => {
         </p>
       </div>
       {/* Right: Visuals */}
-      <div className="w-1/2 flex items-center justify-center">
-        <div className=" rounded-2xl p-4 w-full max-w-lg h-64 flex items-center justify-center">
+      <div className="w-full md:w-1/2 flex items-center justify-center">
+        <div className="rounded-2xl p-4 w-full max-w-xs md:max-w-lg h-48 md:h-64 flex items-center justify-center">
           <PhotosGrid />
         </div>
       </div>
@@ -214,7 +214,7 @@ const SliderSection = ({
         marginBottom: "1.5rem",
       }}
     >
-      <div className="w-full md:w-1/4 text-center md:text-right md:pr-6 mb-0.5 md:mb-0">
+      <div className="w-full md:w-1/4 text-center md:text-right md:pr-6 mb-2 md:mb-0">
         <h2 className="font-bold text-[13px] md:text-2xl text-gray-700">
           {title}
         </h2>
