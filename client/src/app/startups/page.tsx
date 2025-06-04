@@ -16,7 +16,7 @@ const roboto = Roboto({
 
 // Placeholder avatar image (public domain SVG)
 const placeholderAvatar =
-  "https://www.svgrepo.com/show/382106/avatar-placeholder.svg";
+  "https://www.svgrepo.com/show/484043/person-button.svg";
 
 interface Person {
   name: string;
@@ -212,8 +212,8 @@ const SliderSection = ({
         className="hidden md:flex flex-row items-center gap-4 py-4 bg-gradient-to-br from-[#f5f8ff] to-[#eaf1fb] rounded-2xl border border-blue-200 shadow-sm mx-auto w-full max-w-[700px]"
         style={{ marginBottom: "1.5rem" }}
       >
-        <div className="w-1/4 text-right pr-6">
-          <h2 className="font-bold text-2xl text-gray-700">{title}</h2>
+        <div className="w-1/4 text-right pr-6 items-center justify-center">
+          <h2 className="font-bold text-2xl text-gray-700 ">{title}</h2>
         </div>
         <div
           className="relative w-auto overflow-hidden flex-shrink-0"
@@ -242,12 +242,12 @@ const SliderSection = ({
                   <Image
                     src={person.image}
                     alt={person.name}
-                    width={112}
-                    height={40}
-                    className="w-28 h-16 object-cover rounded-lg mb-1 border border-gray-200"
+                    width={128}
+                    height={112}
+                    className="w-32 h-28 object-contain rounded-lg mb-1 border border-gray-200"
                   />
                 ) : (
-                  <div className="w-28 h-16 rounded-lg mb-1 border border-gray-200 bg-gray-100" />
+                  <div className="w-32 h-28 rounded-lg mb-1 border border-gray-200 bg-gray-100" />
                 )}
                 <span className="font-medium text-base text-gray-800 mt-0.5">
                   {person.name || ""}
@@ -276,12 +276,12 @@ const SliderSection = ({
                       <Image
                         src={person.image}
                         alt={person.name}
-                        width={64}
-                        height={40}
-                        className="w-16 h-10 object-cover rounded-lg mb-1 border border-gray-200"
+                        width={96}
+                        height={80}
+                        className="w-24 h-20 object-contain rounded-lg mb-1 border border-gray-200"
                       />
                     ) : (
-                      <div className="w-16 h-10 rounded-lg mb-1 border border-gray-200 bg-gray-100" />
+                      <div className="w-24 h-20 rounded-lg mb-1 border border-gray-200 bg-gray-100" />
                     )}
                     <span className="font-medium text-xs text-gray-800 mt-0.5">
                       {person.name || ""}
@@ -299,12 +299,12 @@ const SliderSection = ({
                   <Image
                     src={person.image}
                     alt={person.name}
-                    width={64}
-                    height={40}
-                    className="w-16 h-10 object-cover rounded-lg mb-1 border border-gray-200"
+                    width={96}
+                    height={80}
+                    className="w-24 h-20 object-contain rounded-lg mb-1 border border-gray-200"
                   />
                 ) : (
-                  <div className="w-16 h-10 rounded-lg mb-1 border border-gray-200 bg-gray-100" />
+                  <div className="w-24 h-20 rounded-lg mb-1 border border-gray-200 bg-gray-100" />
                 )}
                 <span className="font-medium text-xs text-gray-800 mt-0.5">
                   {person.name || ""}
