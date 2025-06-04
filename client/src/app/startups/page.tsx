@@ -73,7 +73,7 @@ const PhotosGrid = () => {
 
 const HeroSection = () => {
   return (
-    <section className="flex flex-col gap-8">
+    <section className="flex flex-col gap-4 md:gap-6">
       {/* Hero Component */}
       <HeroIntroductionSection />
       <HeroStartupSection />
@@ -83,30 +83,25 @@ const HeroSection = () => {
 
 const HeroIntroductionSection = () => {
   return (
-    <div className="flex flex-col gap-4 text-center">
-      <h1 className="font-bold text-4xl">Innovation @ UTMIST</h1>
-      <p className="text-lg m-0 leading-snug text-center">
-        <span className="block ">
+    <div className="flex flex-col gap-2 text-center">
+      <h1 className="font-bold text-2xl md:text-3xl">Innovation @ UTMIST</h1>
+      <p className="text-base md:text-lg m-0 leading-snug text-center">
+        <span className="block">
           Help build AI startups with Canada&#39;s largest student-led
         </span>
-        <span className="block ">
+        <span className="block">
           organization for Artificial Intelligence and Machine
         </span>
-        <span className="block ">Learning</span>
+        <span className="block">Learning</span>
       </p>
       <div>
         <Link
           href="/apply"
-          className="
-                bg-gradient-to-r from-indigo-400 to-blue-800
-                hover:from-indigo-600 hover:to-blue-900
-                text-white px-12 py-1 rounded-full text-lg font-medium shadow mx-auto
-                hover:shadow-lg transition-colors duration-400
-              "
+          className="bg-gradient-to-r from-indigo-400 to-blue-800 hover:from-indigo-600 hover:to-blue-900 text-white px-6 py-1 rounded-full text-base font-medium shadow mx-auto hover:shadow-lg transition-colors duration-400"
         >
           Apply
         </Link>
-        <p className="text-xs text-gray-500 text-center mt-2">
+        <p className="text-xs text-gray-500 text-center mt-1">
           <span className="block">Applications close</span>
           <span className="block">Sept 31st</span>
         </p>
@@ -117,11 +112,13 @@ const HeroIntroductionSection = () => {
 
 const HeroStartupSection = () => {
   return (
-    <div className="flex flex-col md:flex-row gap-4 md:gap-10 items-center w-full max-w-6xl mx-auto">
+    <div className="flex flex-col md:flex-row gap-3 md:gap-8 items-center w-full max-w-6xl mx-auto">
       {/* Left: Title & Description, fully centered vertically, left-aligned text */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center text-center mb-4 md:mb-0">
-        <h2 className="font-bold text-3xl mb-4">Startups @ UTMIST</h2>
-        <p className="text-lg text-gray-700">
+      <div className="w-full md:w-1/2 flex flex-col justify-center text-center mb-3 md:mb-0">
+        <h2 className="font-bold text-xl md:text-2xl mb-2">
+          Startups @ UTMIST
+        </h2>
+        <p className="text-sm md:text-base text-gray-700">
           Build your AI startup without putting school on hold. Join the Startup
           Department @ UTMIST to turn your AI ideas into reality with
           mentorship, workshops, and a flexible, student-friendly structure.
@@ -129,7 +126,7 @@ const HeroStartupSection = () => {
       </div>
       {/* Right: Visuals */}
       <div className="w-full md:w-1/2 flex items-center justify-center">
-        <div className="rounded-2xl p-4 w-full max-w-xs md:max-w-lg h-48 md:h-64 flex items-center justify-center">
+        <div className="rounded-2xl p-2 md:p-4 w-full max-w-xs md:max-w-lg h-40 md:h-64 flex items-center justify-center">
           <PhotosGrid />
         </div>
       </div>
