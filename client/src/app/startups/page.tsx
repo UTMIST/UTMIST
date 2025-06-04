@@ -208,57 +208,84 @@ const SliderSection = ({
       : `-${(index + 1) * cardWidth}px`;
 
   return (
-    <section
-      className="flex flex-col md:flex-row items-center md:items-center gap-0.5 md:gap-4 py-0.5 md:py-4 bg-gradient-to-br from-[#f5f8ff] to-[#eaf1fb] rounded-2xl border border-blue-200 shadow-sm mx-auto w-full max-w-[700px]"
-      style={{
-        marginBottom: "1.5rem",
-      }}
-    >
-      <div className="w-full md:w-1/4 text-center md:text-right md:pr-6 mb-2 md:mb-0">
-        <h2 className="font-bold text-[13px] md:text-2xl text-gray-700">
+    <>
+      {/* Desktop/Tablet Slider */}
+      <section
+        className="hidden md:flex flex-row items-center gap-4 py-4 bg-gradient-to-br from-[#f5f8ff] to-[#eaf1fb] rounded-2xl border border-blue-200 shadow-sm mx-auto w-full max-w-[700px]"
+        style={{ marginBottom: "1.5rem" }}
+      >
+        <div className="w-1/4 text-right pr-6">
+          <h2 className="font-bold text-2xl text-gray-700">{title}</h2>
+        </div>
+        <div
+          className="relative w-auto overflow-hidden flex-shrink-0"
+          style={{ width: "480px" }}
+        >
+          <div
+            ref={rowRef}
+            className={`flex ${
+              isTransitioning
+                ? "transition-transform duration-500 ease-in-out"
+                : ""
+            }`}
+            style={{
+              width: `${displayPeople.length * cardWidth}px`,
+              maxWidth: `${visibleCount * cardWidth}px`,
+              minWidth: "100%",
+              transform: `translateX(${translateX})`,
+            }}
+          >
+            {displayPeople.map((person, idx) => (
+              <article
+                key={idx}
+                className="flex-shrink-0 w-40 h-40 flex flex-col items-center bg-white rounded-xl shadow p-1 mx-auto mb-1"
+              >
+                {person.image ? (
+                  <img
+                    src={person.image}
+                    alt={person.name}
+                    className="w-28 h-16 object-cover rounded-lg mb-1 border border-gray-200"
+                  />
+                ) : (
+                  <div className="w-28 h-16 rounded-lg mb-1 border border-gray-200 bg-gray-100" />
+                )}
+                <span className="font-medium text-base text-gray-800 mt-0.5">
+                  {person.name || ""}
+                </span>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Mobile Grid */}
+      <section className="block md:hidden bg-gradient-to-br from-[#f5f8ff] to-[#eaf1fb] rounded-2xl border border-blue-200 shadow-sm mx-auto w-full max-w-[400px] mb-4">
+        <h2 className="font-bold text-base text-center text-gray-700 py-2">
           {title}
         </h2>
-      </div>
-      <div
-        className="relative w-full md:w-auto overflow-x-auto md:overflow-hidden flex-shrink-0"
-        style={{ maxWidth: "100vw" }}
-      >
-        <div
-          ref={rowRef}
-          className={`flex ${
-            isTransitioning
-              ? "transition-transform duration-500 ease-in-out"
-              : ""
-          }`}
-          style={{
-            width: `${displayPeople.length * cardWidth}px`,
-            maxWidth: `${visibleCount * cardWidth}px`,
-            minWidth: "100%",
-            transform: `translateX(${translateX})`,
-          }}
-        >
-          {displayPeople.map((person, idx) => (
+        <div className="grid grid-cols-2 gap-2 px-2 pb-2">
+          {people.map((person, idx) => (
             <article
               key={idx}
-              className="flex-shrink-0 w-20 h-20 md:w-40 md:h-40 flex flex-col items-center bg-white rounded-xl shadow p-1 mx-auto mb-0.5 md:mb-1"
+              className="w-full h-28 flex flex-col items-center bg-white rounded-xl shadow p-1 mb-1"
             >
               {person.image ? (
                 <img
                   src={person.image}
                   alt={person.name}
-                  className="w-10 h-6 md:w-28 md:h-16 object-cover rounded-lg mb-1 border border-gray-200"
+                  className="w-16 h-10 object-cover rounded-lg mb-1 border border-gray-200"
                 />
               ) : (
-                <div className="w-10 h-6 md:w-28 md:h-16 rounded-lg mb-1 border border-gray-200 bg-gray-100" />
+                <div className="w-16 h-10 rounded-lg mb-1 border border-gray-200 bg-gray-100" />
               )}
-              <span className="font-medium text-[10px] md:text-base text-gray-800 mt-0.5">
+              <span className="font-medium text-xs text-gray-800 mt-0.5">
                 {person.name || ""}
               </span>
             </article>
           ))}
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
@@ -267,8 +294,7 @@ const StartupsPage = () => {
     <main className={`${roboto.className}`}>
       <HeroSection />
       <div>
-        <div>
-          {/* Investors slider with article cards */}
+        <div className="mt-8 md:mt-12">
           <SliderSection
             title="Guess Speakers"
             people={guessSpeakers}
