@@ -14,6 +14,30 @@ const roboto = Roboto({
   weight: ["400", "700"],
 });
 
+// Placeholder avatar image (public domain SVG)
+const placeholderAvatar =
+  "https://www.svgrepo.com/show/382106/avatar-placeholder.svg";
+
+interface Person {
+  name: string;
+  image?: string;
+}
+
+const guessSpeakers: Person[] = [
+  { name: "Name", image: placeholderAvatar },
+  { name: "Name", image: placeholderAvatar },
+  { name: "Name", image: placeholderAvatar },
+  { name: "Name", image: placeholderAvatar },
+  { name: "Name", image: placeholderAvatar },
+];
+
+const investors: Person[] = [
+  { name: "Name", image: placeholderAvatar },
+  { name: "Name", image: placeholderAvatar },
+  { name: "Name", image: placeholderAvatar },
+  { name: "Name", image: placeholderAvatar },
+];
+
 const images: StaticImageData[] = [Myhal, genai, genaiTwo, MyhalTwo];
 
 const PhotosGrid = () => {
@@ -112,29 +136,6 @@ const HeroStartupSection = () => {
     </div>
   );
 };
-
-// Placeholder avatar image (public domain SVG)
-const placeholderAvatar =
-  "https://www.svgrepo.com/show/382106/avatar-placeholder.svg";
-
-interface Person {
-  name: string;
-  image?: string;
-}
-
-const guessSpeakers: Person[] = [
-  { name: "Name", image: placeholderAvatar },
-  { name: "Name", image: placeholderAvatar },
-  { name: "Name", image: placeholderAvatar },
-  { name: "Name", image: placeholderAvatar },
-];
-
-const investors: Person[] = [
-  { name: "Name", image: placeholderAvatar },
-  { name: "Name", image: placeholderAvatar },
-  { name: "Name", image: placeholderAvatar },
-  { name: "Name", image: placeholderAvatar },
-];
 
 const SliderSection = ({
   title,
@@ -264,25 +265,50 @@ const SliderSection = ({
           {title}
         </h2>
         <div className="grid grid-cols-2 gap-2 px-2 pb-2">
-          {people.map((person, idx) => (
-            <article
-              key={idx}
-              className="w-full h-28 flex flex-col items-center bg-white rounded-xl shadow p-1 mb-1"
-            >
-              {person.image ? (
-                <img
-                  src={person.image}
-                  alt={person.name}
-                  className="w-16 h-10 object-cover rounded-lg mb-1 border border-gray-200"
-                />
-              ) : (
-                <div className="w-16 h-10 rounded-lg mb-1 border border-gray-200 bg-gray-100" />
-              )}
-              <span className="font-medium text-xs text-gray-800 mt-0.5">
-                {person.name || ""}
-              </span>
-            </article>
-          ))}
+          {people.map((person, idx) => {
+            const isOdd = people.length % 2 === 1;
+            const isLast = idx === people.length - 1;
+            if (isOdd && isLast) {
+              // Center the last card in a row by wrapping it
+              return (
+                <div key={idx} className="col-span-2 flex justify-center">
+                  <article className="w-full max-w-[10rem] h-28 flex flex-col items-center bg-white rounded-xl shadow p-1 mb-1">
+                    {person.image ? (
+                      <img
+                        src={person.image}
+                        alt={person.name}
+                        className="w-16 h-10 object-cover rounded-lg mb-1 border border-gray-200"
+                      />
+                    ) : (
+                      <div className="w-16 h-10 rounded-lg mb-1 border border-gray-200 bg-gray-100" />
+                    )}
+                    <span className="font-medium text-xs text-gray-800 mt-0.5">
+                      {person.name || ""}
+                    </span>
+                  </article>
+                </div>
+              );
+            }
+            return (
+              <article
+                key={idx}
+                className="w-full h-28 flex flex-col items-center bg-white rounded-xl shadow p-1 mb-1"
+              >
+                {person.image ? (
+                  <img
+                    src={person.image}
+                    alt={person.name}
+                    className="w-16 h-10 object-cover rounded-lg mb-1 border border-gray-200"
+                  />
+                ) : (
+                  <div className="w-16 h-10 rounded-lg mb-1 border border-gray-200 bg-gray-100" />
+                )}
+                <span className="font-medium text-xs text-gray-800 mt-0.5">
+                  {person.name || ""}
+                </span>
+              </article>
+            );
+          })}
         </div>
       </section>
     </>
