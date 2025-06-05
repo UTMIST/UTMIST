@@ -75,14 +75,6 @@ export default function Home() {
 
       {/*Events Section */}
       <Events />
-
-      <div className="flex flex-col gap-8 justify-center items-center my-16">
-        <p className="text-4xl font-bold text-center max-w-3xl text-black">
-          We bring together students, experts, and innovators to explore AI from
-          every angle
-        </p>
-      </div>
-
       <ValueProps />
 
       <FAQ />

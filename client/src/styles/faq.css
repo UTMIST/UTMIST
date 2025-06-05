@@ -3,22 +3,22 @@
   max-width: 1200px;
   margin: 0 auto;
   box-sizing: border-box;
+  padding: 0 1rem;
 }
 
 .faq-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
   width: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
+  padding: 1rem 0;
 }
 
 .faq-row-title {
   flex: 1;
-  padding-right: 1rem;
-  word-break: break-word;
-  line-height: 1.4;
+  padding-right: 0.5rem;
+  font-size: 1rem;
 }
 
 .faq-answer {
@@ -53,4 +53,33 @@ hr.faq-line {
   margin-bottom: 1rem;
   border-radius: 8px;
   overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .faq-title {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .faq-row-title {
+    font-size: 1rem;
+  }
+
+  .faq-answer p {
+    font-size: 0.95rem;
+  }
+
+  .faq-container {
+    padding: 0 1rem;
+  }
+}
+
+.faq-tail-section {
+  width: 100%;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: black;
 }
