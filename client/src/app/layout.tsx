@@ -38,9 +38,9 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${spaceGrotesk.variable} antialiased`}
       >
-        {/* <Navbar/> */}
+        <Navbar/>
         {children}
-        {/* <Footer/> */}
+        <Footer/>
       </body>
     </html>
   );
