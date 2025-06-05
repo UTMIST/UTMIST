@@ -96,7 +96,7 @@ const HeroIntroductionSection = () => {
       </p>
       <div>
         <Link
-          href="/apply"
+          href="/careers"
           className="bg-gradient-to-r from-indigo-400 to-blue-800 hover:from-indigo-600 hover:to-blue-900 text-white px-6 py-1 rounded-full text-base font-medium shadow mx-auto hover:shadow-lg transition-colors duration-400"
         >
           Apply
