@@ -112,7 +112,7 @@ const HeroIntroductionSection = () => {
 
 const HeroStartupSection = () => {
   return (
-    <div className="flex flex-col md:flex-row gap-3 md:gap-8 items-center w-full max-w-6xl mx-auto">
+    <div className="flex flex-col md:flex-row text-center items-center w-full max-w-6xl mx-auto">
       {/* Left: Title & Description, fully centered vertically, left-aligned text */}
       <div className="w-full md:w-1/2 flex flex-col justify-center text-center mb-3 md:mb-0">
         <h2 className="font-bold text-xl md:text-2xl mb-2">
