@@ -140,6 +140,8 @@ const SliderSection = ({
   const [isTransitioning, setIsTransitioning] = useState(true);
   const rowRef = useRef<HTMLDivElement>(null);
   const cardWidth = 160; // w-40 in px
+  const gap = 16; // px, matches gap-x-4
+  const cardWithGap = cardWidth + gap;
 
   // If fewer than 3 people, fill with placeholders
   const filledPeople =
@@ -193,8 +195,8 @@ const SliderSection = ({
   // Calculate translateX percentage
   const translateX =
     direction === "right"
-      ? `-${index * cardWidth}px`
-      : `-${(index + 1) * cardWidth}px`;
+      ? `-${index * cardWithGap}px`
+      : `-${(index + 1) * cardWithGap}px`;
 
   return (
     <>
@@ -210,18 +212,18 @@ const SliderSection = ({
         </div>
         <div
           className="relative w-auto overflow-hidden flex-shrink-0"
-          style={{ width: "480px" }}
+          style={{ width: `${visibleCount * cardWidth + (visibleCount - 1) * gap}px` }}
         >
           <div
             ref={rowRef}
-            className={`flex ${
+            className={`flex gap-x-4 ${
               isTransitioning
                 ? "transition-transform duration-500 ease-in-out"
                 : ""
             }`}
             style={{
-              width: `${displayPeople.length * cardWidth}px`,
-              maxWidth: `${visibleCount * cardWidth}px`,
+              width: `${displayPeople.length * cardWidth + (displayPeople.length - 1) * 16}px`,
+              maxWidth: `${visibleCount * cardWidth + (visibleCount - 1) * 16}px`,
               minWidth: "100%",
               transform: `translateX(${translateX})`,
             }}
@@ -229,7 +231,7 @@ const SliderSection = ({
             {displayPeople.map((person, idx) => (
               <article
                 key={idx}
-                className="flex-shrink-0 w-40 h-40 flex flex-col items-center bg-white rounded-xl shadow p-1 mx-auto mb-1"
+                className="flex-shrink-0 w-40 h-40 flex flex-col items-center bg-white rounded-xl shadow p-1 mb-1"
               >
                 {person.image ? (
                   <Image
