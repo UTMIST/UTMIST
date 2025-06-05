@@ -1,14 +1,14 @@
-import HeroCard from "@/components/cards/hero-card";
-import Image from "next/image";
-import utmistLogo from "@/assets/logos/utmist-logo-large.svg";
-import execPhoto from "@/assets/photos/eigenai-exec-photo.webp";
-import copresPhoto from "@/assets/photos/eigenai-copres-speech.webp";
-import Sponsors from "@/components/sponsors";
-import Statistics from "@/components/stats";
-import Events from "@/components/events";
-import ValueProps from "@/components/valueprops";
-import FAQ from "@/components/faq";
-import Link from "next/link"; // Import Link from next/link
+import HeroCard from '@/components/cards/hero-card';
+import Image from 'next/image';
+import utmistLogo from '@/assets/logos/utmist-logo-large.svg';
+import execPhoto from '@/assets/photos/eigenai-exec-photo.webp';
+import copresPhoto from '@/assets/photos/eigenai-copres-speech.webp';
+import Sponsors from '@/components/sponsors';
+import Statistics from '@/components/stats';
+import Events from '@/components/events';
+import ValueProps from '@/components/valueprops';
+import FAQ from '@/components/faq';
+import Link from 'next/link'; // Import Link from next/link
 
 export default function Home() {
   return (
@@ -48,8 +48,8 @@ export default function Home() {
       <Sponsors />
 
       {/*Statistics Section */}
-      <div className="flex flex-col gap-8 justify-center items-center my-16">
-        <p className="text-4xl font-bold text-center max-w-3xl text-black">
+      <div className="flex flex-col  justify-center items-center my-16 text-center">
+        <p className="text-4xl font-bold text-center max-w-3xl text-black justify-center">
           UTMIST is Canada&apos;s largest student-lead organization for
           Artificial Intelligence and Machine Learning
         </p>
