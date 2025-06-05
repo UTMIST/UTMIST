@@ -46,7 +46,7 @@ const PhotosGrid = () => {
               alt={`grid-img-${idx}`}
               width={480}
               height={360}
-              className={`object-contain rounded-lg max-w-full max-h-full`}
+              className={`object-cover rounded-lg w-full h-full`}
             />
           </div>
         );
