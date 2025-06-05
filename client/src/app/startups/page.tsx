@@ -315,7 +315,7 @@ const SliderSection = ({
 
 const StartupsPage = () => {
   return (
-    <main>
+    <main className="pt-10">
       <HeroSection />
       <div>
         <div className="mt-8 md:mt-12">
