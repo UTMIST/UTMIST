@@ -117,7 +117,7 @@ const HeroStartupSection = () => {
       </div>
       {/* Right: Visuals */}
       <div className="w-full md:w-1/2 flex items-center justify-center">
-        <div className="rounded-2xl p-2 md:p-4 w-full max-w-xs md:max-w-lg h-40 md:h-64 flex items-center justify-center">
+        <div className="rounded-2xl p-2 md:p-4 w-full max-w-full h-auto flex items-center justify-center">
           <PhotosGrid />
         </div>
       </div>
