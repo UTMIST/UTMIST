@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { Roboto } from "next/font/google";
 import Image, { type StaticImageData } from "next/image";
 import { useState, useEffect, useRef } from "react";
 
@@ -8,11 +7,6 @@ import Myhal from "../../../public/myhal.webp";
 import genai from "../../../public/genai.webp";
 import genaiTwo from "../../../public/genai-two.webp";
 import MyhalTwo from "../../../public/myhal-two.webp";
-
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
 
 // Placeholder avatar image (public domain SVG)
 const placeholderAvatar =
@@ -322,7 +316,7 @@ const SliderSection = ({
 
 const StartupsPage = () => {
   return (
-    <main className={`${roboto.className}`}>
+    <main>
       <HeroSection />
       <div>
         <div className="mt-8 md:mt-12">
