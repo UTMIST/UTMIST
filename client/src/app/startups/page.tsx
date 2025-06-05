@@ -33,27 +33,20 @@ const images: StaticImageData[] = [Myhal, genai, genaiTwo, MyhalTwo];
 
 const PhotosGrid = () => {
   return (
-    <div className="grid grid-cols-2 grid-rows-2 w-full h-full">
+    <div className="grid grid-cols-2 grid-rows-2 w-full h-full gap-4">
       {images.map((img, idx) => {
-        const roundedClass =
-          idx === 0
-            ? "rounded-tl-xl"
-            : idx === 1
-            ? "rounded-tr-xl"
-            : idx === 2
-            ? "rounded-bl-xl"
-            : "rounded-br-xl";
+
         return (
           <div
             key={idx}
-            className={`flex items-center justify-center overflow-hidden ${roundedClass}`}
+            className={`flex items-center justify-center overflow-hidden bg-white p-2 border border-gray-200 shadow-md rounded-xl`}
           >
             <Image
               src={img}
               alt={`grid-img-${idx}`}
-              width={400}
-              height={300}
-              className={`w-full h-full object-cover ${roundedClass}`}
+              width={480}
+              height={360}
+              className={`object-contain rounded-lg max-w-full max-h-full`}
             />
           </div>
         );
