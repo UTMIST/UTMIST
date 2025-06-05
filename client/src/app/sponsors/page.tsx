@@ -2,6 +2,7 @@ import "@/styles/sponsors.css";
 import sponsorData from "@/assets/sponsors.json";
 import SponsorCard from "@/components/cards/sponsor-card";
 import ContactUsCard from "@/components/cards/contact-us-card";
+
 export default function SponsorsPage() {
   return (
     <main>
