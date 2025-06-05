@@ -1,35 +1,35 @@
 @import "tailwindcss";
 
-.navbar-logo-text{
-    background: var(--gradient-logo);
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-size: 1.5rem;
-    font-weight: 500;
-    font-family: var(--font-space-grotesk);
+.navbar-logo-text {
+  background: var(--gradient-logo);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: var(--font-space-grotesk);
 }
 
 .navbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.4rem 1.5rem;
-    max-width: 1000px;
-    margin: 2.5rem auto; 
-    border-radius: 9999px; 
-    border: 1px solid var(--gray3); /* border-[var(--gray3)] border-1 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 1.5rem;
+  max-width: 1000px;
+  margin: 2.5rem auto;
+  border-radius: 9999px;
+  border: 1px solid var(--gray3); /* border-[var(--gray3)] border-1 */
 }
 
 @media (max-width: 1200px) {
-    .navbar-container {
-        margin: 2.5rem 7.75rem; /* mx-15 my-10 */
-    }
+  .navbar-container {
+    margin: 2.5rem 7.75rem; /* mx-15 my-10 */
+  }
 }
 
 @media (max-width: 768px) {
-    .navbar-container {
-        margin: 2.5rem 2.5rem; /* mx-10 my-10 */
-    }
+  .navbar-container {
+    margin: 2.5rem 2.5rem; /* mx-10 my-10 */
+  }
 }
 
 .nav-item {
@@ -44,17 +44,68 @@
 }
 
 .nav-button {
-    font-family: var(--system-font);
-    font-weight: 200;
-    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-    background: var(--gradient-b2);
-    color: white; 
-    border-radius: 10px; 
-    padding: 0.2rem 1.4rem; 
-    cursor: pointer; 
-  }
-  
+  font-family: var(--system-font);
+  font-weight: 200;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+  background: var(--gradient-b2);
+  color: white;
+  border-radius: 10px;
+  padding: 0.2rem 1.4rem;
+  cursor: pointer;
+}
+
 .nav-button:hover {
-    opacity: 0.9;
-    transform: scale(1.05);
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+/* Full nav links visible only on desktop */
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+.hamburger {
+  display: none;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gray1);
+}
+
+/* Dropdown styling */
+.mobile-dropdown {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-dropdown {
+    position: absolute;
+    top: 70px; /* Just below navbar */
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: white;
+    padding: 1rem 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-top: 1px solid var(--gray3);
+    animation: fadeIn 0.2s ease-in-out;
   }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
