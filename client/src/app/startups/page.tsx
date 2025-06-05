@@ -209,11 +209,13 @@ const SliderSection = ({
     <>
       {/* Desktop/Tablet Slider */}
       <section
-        className="hidden md:flex flex-row items-center gap-4 py-4 bg-gradient-to-br from-[#f5f8ff] to-[#eaf1fb] rounded-2xl border border-blue-200 shadow-sm mx-auto w-full max-w-[700px]"
+        className="hidden md:flex flex-row items-center py-4 bg-gradient-to-br from-[#f5f8ff] to-[#eaf1fb] rounded-2xl border border-blue-200 shadow-sm mx-auto w-full max-w-[700px]"
         style={{ marginBottom: "1.5rem" }}
       >
-        <div className="w-1/4 text-right pr-6 items-center justify-center">
-          <h2 className="font-bold text-2xl text-gray-700 ">{title}</h2>
+        <div className="w-1/4 text-right items-center justify-center text-center">
+          <h2 className="font-bold text-2xl text-gray-700 justify-center p-2 text-center">
+            {title}
+          </h2>
         </div>
         <div
           className="relative w-auto overflow-hidden flex-shrink-0"
