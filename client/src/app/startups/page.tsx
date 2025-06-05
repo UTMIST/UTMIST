@@ -2,20 +2,17 @@
 import Link from "next/link";
 import Image, { type StaticImageData } from "next/image";
 import { useState, useEffect, useRef } from "react";
+import {Person} from "@/types/startups";
 
 import Myhal from "../../../public/myhal.webp";
 import genai from "../../../public/genai.webp";
 import genaiTwo from "../../../public/genai-two.webp";
 import MyhalTwo from "../../../public/myhal-two.webp";
 
+
 // Placeholder avatar image (public domain SVG)
 const placeholderAvatar =
   "https://www.svgrepo.com/show/484043/person-button.svg";
-
-interface Person {
-  name: string;
-  image?: string;
-}
 
 const guessSpeakers: Person[] = [
   { name: "Name", image: placeholderAvatar },
