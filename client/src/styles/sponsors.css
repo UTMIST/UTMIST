@@ -124,8 +124,7 @@
 }
 
 .sponsor-card--silver {
-  border: none;
-  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+  border-color: #777;
 }
 
 .sponsor-card__title--silver {
