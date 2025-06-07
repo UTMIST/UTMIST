@@ -62,3 +62,10 @@ html {
   font-size: 2.5rem;
 }
 
+.no-scrollbar {
+  -ms-overflow-style: none;  
+  scrollbar-width: none;    
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;            
+}

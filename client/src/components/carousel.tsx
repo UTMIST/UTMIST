@@ -1,5 +1,5 @@
 'use client';
-import "@/styles/projects.css";
+// import "@/styles/projects.css";
 import { useRef, useState, useEffect } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import ProjectCard from "@/components/cards/project-card";
@@ -35,17 +35,17 @@ export const ProjectCarousel = ({ projects }: { projects: Project[] }) => {
     }, []);
   
     return (
-      <div className="carousel-container relative px-2 lg:px-6 my-8">
+      <div className="relative w-[80%] max-w-[1000px] mx-auto px-2 sm:px-8 py-8 overflow-visible">
         {/* Left fade gradient */}
         {showLeftArrow && (
-          <div className="absolute left-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 sm:w-16 z-10 bg-gradient-to-r from-white/90 to-transparent"></div>
         )}
   
         {/* Left Navigation Button */}
         {showLeftArrow && (
           <button
             onClick={() => scroll("left")}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-all"
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-all"
             aria-label="Previous projects"
           >
             <ChevronLeft className="w-6 h-6 text-gray-700" />
@@ -55,24 +55,31 @@ export const ProjectCarousel = ({ projects }: { projects: Project[] }) => {
         {/* Carousel Content */}
         <div
           ref={carouselRef}
-          className=" flex overflow-x-auto py-4 no-scrollbar scroll-smooth items-center justify-center"
+          className="flex overflow-x-auto py-4 items-center justify-start scroll-smooth no-scrollbar gap-4 sm:gap-8"
           onScroll={checkArrows}
+          style={{ scrollSnapType: 'x mandatory' }}
         >
           {projects.map((project, index) => (
-            <ProjectCard key={index} {...project} />
+            <div
+              key={index}
+              className="flex-shrink-0 w-[120px] h-[160px] sm:w-[200px] sm:h-[300px] md:w-[320px] md:h-[500px]"
+              style={{ scrollSnapAlign: 'start' }}
+            >
+              <ProjectCard {...project} />
+            </div>
           ))}
         </div>
   
         {/* Right fade gradient */}
         {showRightArrow && (
-          <div className="absolute right-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 sm:w-16 z-10 bg-gradient-to-l from-white/90 to-transparent"></div>
         )}
   
         {/* Right Navigation Button */}
         {showRightArrow && (
           <button
             onClick={() => scroll("right")}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-all"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-all"
             aria-label="Next projects"
           >
             <ChevronRight className="w-6 h-6 text-gray-700" />
