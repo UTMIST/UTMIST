@@ -5,8 +5,8 @@ import dummy from "@/assets/photos/fibseq.webp";
 export default function BlogCardSmall({ title, date, author, image, url }: EventCardProps) {
   return (
     <a href={url} target="_blank" rel="noopener noreferrer">
-    <div className="w-full aspect-[4/3] min-h-[250px] rounded-lg overflow-hidden border border-gray-200 bg-white shadow-sm">
-      <div className="relative w-full h-[70%] md:h-[55%]">
+    <div className="w-full h-[260px] rounded-lg overflow-hidden border border-gray-200 bg-white shadow-sm flex flex-col">
+      <div className="relative w-full h-[160px]">
         <Image
           src={image || dummy}
           alt={title}
@@ -14,11 +14,11 @@ export default function BlogCardSmall({ title, date, author, image, url }: Event
           className="object-cover object-center"
         />
       </div>
-      <div className="p-2 md:p-3 h-[30%] md:h-[45%] flex flex-col justify-between">
-        <h3 className="text-black font-semibold leading-tight line-clamp-2 text-base">{title}</h3>
+      <div className="p-2.5">
+        <h3 className="font-medium text-base sm:text-lg text-black line-clamp-2 leading-normal mb-1.5">{title}</h3>
         <div>
-          <p className="text-gray-500 text-xs">{date}</p>
-          <p className="text-gray-500 text-xs">{author}</p>
+          <p className="text-gray-600 text-sm">{date}</p>
+          <p className="text-gray-600 text-sm">{author}</p>
         </div>
       </div>
     </div>
