@@ -31,8 +31,20 @@
 
 .hero-blog-section {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0 14rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  max-width: 1200px;
+}
+
+@media (max-width: 640px) {
+  .hero-blog-section {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1rem;
+    text-align: center;
+  }
 }
