@@ -26,6 +26,7 @@
     padding: 0 2rem;
 }
 
+<<<<<<< HEAD
 .hero-blog-section{
     display: grid;
     grid-template-columns: 1fr;
@@ -33,6 +34,26 @@
     max-width: 1050px;
     margin: 0 auto;
     padding: 0 2rem;
+=======
+.hero-blog-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  max-width: 1200px;
+}
+
+@media (max-width: 640px) {
+  .hero-blog-section {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1rem;
+    text-align: center;
+  }
+>>>>>>> 8590029 (blog has mobile interface done, only career is)
 }
 
 @media (min-width: 640px) {
