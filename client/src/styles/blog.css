@@ -51,13 +51,13 @@
   }
 }
 
-.hero-title{
-    font-size: 3rem;
-    font-weight: 700;
-    background: var(--gradient-bl1);
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-family: var(--system-font);
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  background: var(--gradient-bl1);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: var(--system-font);
 }
 
 .hero-subtitle{
