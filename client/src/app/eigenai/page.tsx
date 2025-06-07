@@ -81,7 +81,7 @@ export default function EigenAIPage() {
             width={20}
             height={20}
             style={{ objectFit: "contain" }}
-            className="flex-shrink-0"
+            className="flex-shrink-0 mx-auto sm:mx-0"
           />
           <p className="lambda-skill-description">
             Begineers: Learn fundamentals of AI/ML, meet peers and build your
@@ -96,7 +96,7 @@ export default function EigenAIPage() {
             width={20}
             height={20}
             objectFit="cover"
-            className="flex-shrink-0"
+            className="flex-shrink-0 mx-auto sm:mx-0"
           />
           <p className="lambda-skill-description">
             Enthusiasts: Explore professional networking and internships, learn
@@ -111,7 +111,7 @@ export default function EigenAIPage() {
             width={20}
             height={20}
             style={{ objectFit: "contain" }}
-            className="flex-shrink-0"
+            className="flex-shrink-0 mx-auto sm:mx-0"
           />
           <p className="lambda-skill-description">
             Experts: Connect with professors and industry leaders to understand
