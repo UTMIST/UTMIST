@@ -104,19 +104,17 @@ export default function ProjectsPage() {
           <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-indigo-700 w-5 h-5" />
         </div>
 
-        <div className="mt-10 px-10 sm:px-16 lg:px-24 xl:px-32 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 lg:gap-8">
+        <div className="mt-10 w-full max-w-5xl mx-auto grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-4 sm:gap-x-10 md:gap-x-14 xl:gap-x-58 2xl:gap-x-64 justify-items-center px-2 sm:px-8 xl:px-32 2xl:px-64">
           {filteredProjects.map((card, index) => (
             <div
               key={index}
               className="
                 relative
-                w-[150px] h-[220px]
-                sm:w-[200px] sm:h-[300px]
-                md:w-[320px] md:h-[500px]
-                rounded-[13px] p-3 sm:p-6 md:p-8 bg-white border border-gray-200 overflow-hidden
+                w-[130px] h-[170px] sm:w-[220px] sm:h-[320px] md:w-[320px] md:h-[500px]
+                rounded-[13px] p-2 sm:p-6 md:p-8 bg-white border border-gray-200 overflow-hidden
                 flex flex-col justify-between
                 transition-transform duration-300 ease-in-out
-                hover:-translate-y-1 hover:shadow-lg cursor-pointer
+                hover:-translate-y-1 hover:shadow-lg cursor-pointer mx-0
               "
             >
               <div className="mb-2 sm:mb-4 rounded-lg overflow-hidden">
@@ -126,14 +124,14 @@ export default function ProjectsPage() {
                   width={400}
                   height={200}
                   style={{ objectFit: "cover" }}
-                  className="w-full h-[80px] sm:h-[120px] md:h-[200px] object-cover rounded-lg"
+                  className="w-full h-[56px] sm:h-[140px] md:h-[200px] object-cover rounded-lg"
                 />
               </div>
               <div>
                 <h2 className="font-bold font-sans mt-1 mb-1 leading-5 text-gray-900 text-xs sm:text-base md:text-xl">
                   {card.title}
                 </h2>
-                <p className="hidden sm:block text-gray-500 font-sans font-normal text-[10px] sm:text-sm md:text-base leading-4">
+                <p className="hidden sm:block text-gray-500 font-sans font-normal text-xs sm:text-sm md:text-base leading-4">
                   {card.description}
                 </p>
               </div>
@@ -149,11 +147,19 @@ export default function ProjectsPage() {
                     alt="GitHub Icon"
                     width={20}
                     height={20}
-                    className="w-5 h-5"
+                    className="w-4 h-4 sm:w-5 sm:h-5"
                   />
-                  Read More
+                  <span className="hidden sm:inline">Read More</span>
                 </a>
               )}
+              <a
+                href={card.readMoreLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:inline-block mt-2 text-indigo-700 hover:underline font-medium text-sm"
+              >
+                Read More
+              </a>
             </div>
           ))}
         </div>
