@@ -19,22 +19,62 @@
     font-family: var(--system-font);
 }
 
-.hero-subtitle{
-    font-size: 1rem;
-    font-weight: 200;
-    color: #111827;
-    font-family: var(--system-font);
-    padding: 0 15rem;
+.hero-subtitle {
+  font-size: 1rem;
+  font-weight: 200;
+  color: #111827;
+  font-family: var(--system-font);
+  padding: 0 1rem; /* default mobile padding */
+  margin-top: 0.5rem;
 }
+
+@media (min-width: 640px) {
+  .hero-subtitle {
+    padding: 0 15rem; /* only for larger screens */
+  }
+}
+
 
 /* events.css */
   
 .upcoming-events-container {
     max-width: 1050px;
     margin: 0 auto;
-  }
+}
+
+.events-list-container {
+    max-height: 600px;
+    overflow-y: auto;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    /* Add custom scrollbar styling */
+    scrollbar-width: thin;
+    scrollbar-color: #9ca3af #e5e7eb;
+}
+
+/* Webkit scrollbar styling */
+.events-list-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.events-list-container::-webkit-scrollbar-track {
+    background: #e5e7eb;
+    border-radius: 4px;
+}
+
+.events-list-container::-webkit-scrollbar-thumb {
+    background-color: #9ca3af;
+    border-radius: 4px;
+}
+
+/* Ensure consistent spacing */
+.events-list-container > div:not(:last-child) {
+    margin-bottom: 0.75rem;
+}
   
-  .upcoming-events-title {
+.upcoming-events-title {
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
@@ -102,7 +142,6 @@
     border-radius: 50px;
     padding: 0.2rem 1.5rem;
     font-weight: 200;
-    margin-left: 1.5rem;
     cursor: pointer;
     transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
   }
@@ -115,119 +154,210 @@
 /* FeaturedSection.css */
 
 .featured-section {
-    padding: 4rem 0rem; 
+    padding: 4rem 1rem; 
     margin: 0 auto;
-    max-width: 1000px;
-  }
-  
-  .featured-container {
-    max-width: 1200px;
+    max-width: 1050px;
+}
+
+.featured-container {
+    max-width: 1050px;
     margin: 0 auto;
-  }
-  
-  .featured-title {
+}
+
+@media (min-width: 768px) {
+    .featured-container {
+        padding: 0 1rem;
+    }
+}
+
+.featured-title {
     font-size: 2.5rem;
     font-weight: 700;
     color: #333;
-  }
-  
-  .featured-description {
+}
+
+.featured-description {
     font-size: 1rem;
     color: #555;
     margin-bottom: 2.5rem;
-    max-width: 600px;
-  }
-  
-  .featured-grid {
+    max-width: none;
+    white-space: normal;
+    overflow: visible;
+}
+
+.featured-grid {
     display: grid;
-    /* Adjust the grid template to give different heights to rows */
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 60% 40%;  /* First row is taller than second row */
+    grid-template-columns: repeat(5, 1fr); /* 5 columns */
+    grid-template-rows: repeat(4, 1fr); /* 4 rows */
     gap: 1.25rem;
-    height: 600px;  /* Increased overall height */
-  }
-  
-  .featured-card {
+    height: 800px; /* Increased height to accommodate 4 rows */
+}
+
+/* Feature 1 - 3x2 */
+.featured-grid > *:nth-child(1) {
+    grid-column: span 3;
+    grid-row: span 2;
+}
+
+/* Feature 2 - 2x3 */
+.featured-grid > *:nth-child(2) {
+    grid-column: span 2;
+    grid-row: span 3;
+}
+
+/* Feature 3 - 3x2 */
+.featured-grid > *:nth-child(3) {
+    grid-column: span 3;
+    grid-row: span 2;
+}
+
+/* Feature 4 - 2x1 */
+.featured-grid > *:nth-child(4) {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+.featured-card {
     border-radius: 1rem;
     overflow: hidden;
     position: relative;
     display: flex;
     color: white;
-    padding: 1.5rem 2rem;  /* Increased padding for better spacing */
+    padding: 1.5rem 2rem;
     transition: transform 0.3s ease;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  }
-  
-  .featured-card:hover {
+    height: 100%; /* Make sure cards fill their grid areas */
+    width: 100%;
+}
+
+.featured-card:hover {
     transform: translateY(-5px);
-  }
-  
-  .featured-card-large {
-    grid-row: span 1;
-    grid-column: span 1;
-    /* Each card in the left column takes exactly one row */
-  }
-  
-  .featured-card-title {
+}
+
+.featured-card-title {
     font-size: 2.5rem;
     font-weight: 700;
     margin: 0;
     align-self: flex-end;
     font-family: var(--system-font);
-  }
-  
-  .featured-card-title-right {
+}
+
+.title-align-left {
+    text-align: left;
+    margin-right: auto;
+}
+
+.title-align-right {
+    text-align: right;
     margin-left: auto;
-  }
-  
-  .featured-card-content {
+}
+
+.title-small {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.title-medium {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.title-large {
+    font-size: 4rem;
+    font-weight: 700;
+}
+
+.featured-card-title-right {
+    margin-left: auto;
+}
+
+.featured-card-content {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    align-items: flex-start;  /* This ensures left alignment */
+    align-items: flex-start;
     height: 100%;
-    width: 100%;  /* Take full width to allow proper alignment */
-  }
-  
-  /* Make sure the grid is responsive */
-  @media (max-width: 768px) {
+    width: 100%;
+}
+
+/* Make sure the grid is responsive */
+@media (max-width: 768px) {
     .featured-section {
-      padding: 4rem 2rem;  /* Reduce padding on mobile */
+        padding: 2rem 1rem;
     }
-  
+
     .featured-grid {
-      grid-template-columns: 1fr;
-      grid-template-rows: repeat(4, 200px);
-      height: auto;
+        grid-template-columns: 1fr;
+        height: auto;
+        gap: 0.75rem;
+        display: flex;
+        flex-direction: column;
     }
-  
-    .featured-card-large {
-      grid-column: span 1;
+
+    /* Make all cards same size on mobile */
+    .featured-grid > * {
+        grid-column: 1 !important;
+        grid-row: span 1 !important;
+        height: 180px !important;
+        margin: 0 !important;
     }
-  
+
+    .featured-card {
+        padding: 1.25rem;
+        position: relative !important;
+    }
+
+    /* Mobile card content positioning */
+    .featured-card-content {
+        position: absolute !important;
+        bottom: 1.25rem !important;
+        left: 1.25rem !important;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        gap: 0.25rem;
+    }
+
+    /* Smaller text sizes for mobile */
     .featured-card-title {
-      font-size: 2rem;
+        font-size: 1.5rem;
+        margin: 0 !important;
+        line-height: 1 !important;
+        padding: 0 !important;
     }
-  
+
+    /* Force all titles to be on one line with minimal spacing */
+    .featured-card h3 + h3 {
+        margin-left: 0.25rem !important;
+    }
+
+    .featured-description {
+        font-size: 0.875rem;
+        padding: 0;
+        margin: 0 0 1rem 0;
+    }
+
+    /* Override any custom positioning */
+    .featured-card-title-right {
+        margin-left: 0 !important;
+    }
+
     .featured-title {
-      font-size: 2rem;
+        padding: 0;
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
     }
-  }
-  
-  .eigenai {
-    font-size: 5rem;
-    font-weight: 700;
-  }
-  
-  .aisqr {
-    font-size: 4rem;
-    font-weight: 700;
-  }
-  
-  .genai {
-    text-align: left;
-    font-size: 3.5rem;
-    font-weight: 700;
-    line-height: 1;  /* Changed from 1.2rem to just 1 for better spacing */
-    margin-bottom: 0.5rem;  /* Add some spacing between GenAI and Genesis */
-  }
+
+    .title-small {
+        font-size: 1.25rem;
+    }
+
+    .title-medium {
+        font-size: 1.5rem;
+    }
+
+    .title-large {
+        font-size: 2rem;
+    }
+}
