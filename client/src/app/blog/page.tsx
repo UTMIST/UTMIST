@@ -65,12 +65,16 @@ export default function BlogPage() {
         <h2 className="hero-title">DeMISTify</h2>
         <p className="hero-subtitle">UTMIST&apos;s technical content newsletter</p>
       </div>
-      <div className="hero-blog-section">
-        {featuredPosts.length > 0 && <BlogCardLarge {...featuredPosts[0]} />}
-        <div className="flex flex-col gap-2">
-          {featuredPosts.slice(1).map((post, index) => (
-            <BlogCardSmall key={index} {...post} />
-          ))}
+      <div className="max-w-[1050px] mx-auto px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 self-start">
+            {featuredPosts.length > 0 && <BlogCardLarge {...featuredPosts[0]} />}
+          </div>
+          <div className="flex flex-col gap-6 self-start">
+            {featuredPosts.slice(1).map((post, index) => (
+              <BlogCardSmall key={index} {...post} />
+            ))}
+          </div>
         </div>
       </div>
 
