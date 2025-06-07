@@ -61,6 +61,14 @@
   justify-content: center;
 }
 
+@media (max-width: 640px) {
+  .sponsor-us-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
 /* Sponsors Cards */
 .sponsor-card {
   box-sizing: border-box;
