@@ -1,91 +1,144 @@
+"use client";
+
 import "@/styles/blog.css";
 import BlogCardLarge from "@/components/cards/blog-card-large";
-import dummy from "@/assets/photos/fibseq.webp";
 import BlogCardSmall from "@/components/cards/blog-card-small";
+import BlogListItem from "@/components/cards/blog-list-item";
+import { Search, ChevronDown } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { BlogPost, getFeaturedPosts, getRecentPosts, getArchivePosts } from "./api/blog";
+
 export default function BlogPage() {
-  const blogList = [
-    {
-      title: "Intro to Transformers",
-      date: "Feb 3rd 2025",
-      image: dummy,
-      url: "https://www.utmist.com/demistify/transformers",
-    },
-    {
-      title: "RAG: Retrieval-Augmented Generation",
-      date: "Feb 10th 2025",
-      image: dummy,
-      url: "https://www.utmist.com/demistify/rag",
-    },
-    {
-      title: "Attention Is All You Need",
-      date: "Feb 17th 2025",
-      image: dummy,
-      url: "https://www.utmist.com/demistify/attention",
-    },
-    {
-      title: "Diffusion Models Demystified",
-      date: "Feb 24th 2025",
-      image: dummy,
-      url: "https://www.utmist.com/demistify/diffusion",
-    },
-    {
-      title: "How GPUs Actually Work",
-      date: "Mar 1st 2025",
-      image: dummy,
-      url: "https://www.utmist.com/demistify/gpus",
-    },
-    {
-      title: "Foundations of Reinforcement Learning",
-      date: "Mar 8th 2025",
-      image: dummy,
-      url: "https://www.utmist.com/demistify/rl",
-    },
-  ];
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isAtBottom, setIsAtBottom] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([]);
+  const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
+  const [archiveList, setArchiveList] = useState<BlogPost[]>([]);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      const [featuredRes, recentRes, archiveRes] = await Promise.all([
+        getFeaturedPosts(),
+        getRecentPosts(),
+        getArchivePosts()
+      ]);
+      setFeaturedPosts(featuredRes);
+      setRecentPosts(recentRes);
+      setArchiveList(archiveRes);
+    }
+    fetchData().then(() => setLoading(false));
+  }, []);
+
+  // Handle scroll event
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
+      const isBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 1;
+      setIsAtBottom(isBottom);
+    }
+  };
+
+  const filteredArchive = archiveList.filter(
+    (blog) =>
+      blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      blog.date.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (loading) {
+    return (
+      <main className="flex flex-col items-center justify-center py-20 text-gray-600">
+        <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full mb-4" />
+        <p>Loading blog content...</p>
+      </main>
+    );
+  }
+  
 
   return (
     <main>
-      <div className="justify-content-center items-center flex flex-col">
-        <div className="hero-section">
-          <h2 className="hero-title">DeMISTify</h2>
-          <p className="hero-subtitle">UTMIST’s technical content newletter</p>
-        </div>
-        <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-between sm:items-start sm:px-56 px-4">
-          <BlogCardLarge
-            title="DeMISTify: The AI Revolution"
-            date="Explore the latest trends and breakthroughs in AI and ML. Stay ahead of the curve with our curated content."
-            image={dummy}
-            url="https://www.utmist.com/demistify"
-          />
-          <BlogCardSmall
-            title="CPU Branch Prediction - Earliest Forms of ML"
-            date="Jan 26th 2025"
-            image={dummy}
-            url="https://www.utmist.com/demistify"
-          />
-          <BlogCardSmall
-            title="DeMISTify: The AI Revolution"
-            date="Jan 26th 2025"
-            image={dummy}
-            url="https://www.utmist.com/demistify"
-          />
-        </div>
-        <div className="blog-grid-section mt-12 px-4 sm:px-0 max-w-7xl mx-auto">
-          <h3 className="text-black text-2xl font-semibold mb-3 tracking-[-3%] text-center sm:text-left max-w-7xl mx-auto px-4 sm:px-0">
-            More from DeMISTify
-          </h3>
-          <div className="flex justify-center">
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl w-full px-4 sm:px-0">
-              {blogList.map((blog, index) => (
-                <BlogCardSmall
-                  key={index}
-                  title={blog.title}
-                  date={blog.date}
-                  image={blog.image}
-                  url={blog.url}
-                />
-              ))}
-            </div>
+      {/* Hero Section */}
+      <div className="hero-section">
+        <h2 className="hero-title">DeMISTify</h2>
+        <p className="hero-subtitle">UTMIST&apos;s technical content newsletter</p>
+      </div>
+      <div className="max-w-[1050px] mx-auto px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 self-start">
+            {featuredPosts.length > 0 && <BlogCardLarge {...featuredPosts[0]} />}
           </div>
+          <div className="flex flex-col gap-6 self-start">
+            {featuredPosts.slice(1).map((post, index) => (
+              <BlogCardSmall key={index} {...post} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* More from DeMISTify Section */}
+      <div className="blog-grid-section mt-12 max-w-[1050px] mx-auto px-8">
+        <h3 className="text-black text-2xl font-semibold mb-6 tracking-[-3%]">
+          More from DeMISTify
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {recentPosts.map((blog, index) => (
+            <BlogCardSmall key={index} {...blog} />
+          ))}
+        </div>
+      </div>
+
+      {/* Archive Section */}
+      <div className="blog-archive-section mt-16 max-w-[1050px] mx-auto px-8 mb-16">
+        <div className="flex flex-col items-center mb-8">
+          {/* Archive Title */}
+          <h3 className="text-black text-2xl font-semibold mb-2 tracking-[-3%]">
+            Search Our Archive
+          </h3>
+          {/* Archive Description */}
+          <p className="text-gray-600 text-base sm:text-lg mb-4">Find more articles from our technical content series</p>
+          {/* Search Bar */}
+          <div className="search-bar-container">
+            <input
+              type="text"
+              className="search-bar-input text-sm sm:text-base"
+              placeholder="Search articles..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <Search className="search-icon" />
+          </div>
+        </div>
+        {/* Archive List */}
+        <div className="bg-white rounded-xl p-4 sm:p-5 border border-gray-200 shadow-sm relative">
+          <div
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+            className={`space-y-[0.25rem] overflow-y-auto px-0.5 scrollbar max-h-[320px] sm:max-h-[480px]`}
+            style={{ overscrollBehavior: 'contain' }}
+          >
+            {filteredArchive.map((blog, index) => (
+              <BlogListItem
+                key={index}
+                {...blog}
+                isFirst={index === 0}
+                isLast={index === filteredArchive.length - 1}
+              />
+            ))}
+            {filteredArchive.length === 0 && (
+              <p className="text-center text-gray-500 py-4">
+                No articles found matching your search.
+              </p>
+            )}
+          </div>
+          {/* Show more button */}
+          {filteredArchive.length > 4 && !isAtBottom && (
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 sm:hidden bg-white/80 backdrop-blur rounded-full p-1 shadow-sm animate-bounce flex items-center justify-center w-7 h-7">
+              <ChevronDown className="w-5 h-5 text-gray-500" />
+            </div>
+          )}
         </div>
       </div>
     </main>
