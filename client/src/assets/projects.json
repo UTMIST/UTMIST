@@ -322,7 +322,7 @@
 
         },
         {
-            "name": "Real-Time Trading with Sequence Models and Reinforcement Learning",
+            "name": "Real-Time Trading with Sequence Models and RL",
             "description": "Develop a deep RL-based real-time trading agent for FX and commodities. Design a custom RL environment and agent leveraging sequence models and DRL techniques.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/realtime-trading.png",

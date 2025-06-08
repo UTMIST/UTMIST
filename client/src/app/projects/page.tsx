@@ -61,7 +61,7 @@ export default function ProjectsPage() {
     <main>
       <div className="flex flex-col justify-center items-center py-16 px-8 max-w-[1000px] mx-auto text-center">
         <h2 className="text-5xl font-bold text-gray-900 font-sans">Projects</h2>
-        <p className="text-base font-extralight text-gray-900 font-sans px-[15rem]">
+        <p className="text-base font-extralight text-gray-900 font-sans px-4 sm:px-8 md:px-16">
           See the work of the engineers, researchers and pioneers of ML
           advancements
         </p>
@@ -104,13 +104,13 @@ export default function ProjectsPage() {
           <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-indigo-700 w-5 h-5" />
         </div>
 
-        <div className="mt-10 w-full max-w-5xl mx-auto grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-4 sm:gap-x-10 md:gap-x-14 xl:gap-x-58 2xl:gap-x-64 justify-items-center px-2 sm:px-8 xl:px-32 2xl:px-64">
+        <div className="mt-10 w-full max-w-7xl mx-auto grid grid-cols-3 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 md:gap-8 justify-items-center px-4 sm:px-8 md:px-16">
           {filteredProjects.map((card, index) => (
             <div
               key={index}
               className="
                 relative
-                w-[130px] h-[170px] sm:w-[220px] sm:h-[320px] md:w-[320px] md:h-[500px]
+                w-[130px] h-[200px] sm:w-[220px] sm:h-[320px] md:w-[280px] md:h-[380px]
                 rounded-[13px] p-2 sm:p-6 md:p-8 bg-white border border-gray-200 overflow-hidden
                 flex flex-col justify-between
                 transition-transform duration-300 ease-in-out
@@ -124,21 +124,21 @@ export default function ProjectsPage() {
                   width={400}
                   height={200}
                   style={{ objectFit: "cover" }}
-                  className="w-full h-[56px] sm:h-[140px] md:h-[200px] object-cover rounded-lg"
+                  className="w-full h-[100px] sm:h-[140px] md:h-[200px] xl:h-[400px] object-cover rounded-lg"
                 />
               </div>
-              <div>
-                <h2 className="font-bold font-sans mt-1 mb-1 leading-5 text-gray-900 text-xs sm:text-base md:text-xl">
+              <div className="mt-0">
+                <h2 className="font-bold font-sans leading-5 text-gray-900 text-xs sm:text-sm md:text-base">
                   {card.title}
                 </h2>
-                <p className="hidden sm:block text-gray-500 font-sans font-normal text-xs sm:text-sm md:text-base leading-4">
+                <p className="text-gray-500 font-sans font-normal text-[8px] sm:text-xs md:text-sm leading-4 line-clamp-3 sm:line-clamp-3 md:line-clamp-4">
                   {card.description}
                 </p>
               </div>
               {card.github && (
                 <a
                   href={card.github}
-                  className="hidden sm:inline-flex items-center gap-2 text-gray-900 no-underline font-sans font-medium text-xs sm:text-sm mt-2"
+                  className="mt-2 hidden sm:inline-flex items-center gap-4  text-gray-900 no-underline font-sans font-medium text-xs sm:text-sm"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -152,14 +152,6 @@ export default function ProjectsPage() {
                   <span className="hidden sm:inline">Read More</span>
                 </a>
               )}
-              <a
-                href={card.readMoreLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden sm:inline-block mt-2 text-indigo-700 hover:underline font-medium text-sm"
-              >
-                Read More
-              </a>
             </div>
           ))}
         </div>
