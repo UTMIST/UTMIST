@@ -119,7 +119,7 @@ export default function ProjectsPage() {
             >
               <div className="mb-2 sm:mb-4 rounded-lg overflow-hidden">
                 <Image
-                  src={card.image}
+                  src={`/project_images/${encodeURIComponent(card.title)}.png`}
                   alt={card.title}
                   width={400}
                   height={200}

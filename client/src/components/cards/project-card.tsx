@@ -17,7 +17,7 @@ const ProjectCard: React.FC<Project> = ({
     >
       <div className="mb-2 sm:mb-4 rounded-lg overflow-hidden">
         <Image
-          src={image}
+          src={`/project_images/${encodeURIComponent(title)}.png`}
           alt={imageAltText}
           width={400}
           height={200}
