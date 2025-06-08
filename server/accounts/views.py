@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status, generics
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer, ProfileSerializer
 
 class EmailLoginView(APIView):
     """
@@ -109,3 +109,35 @@ class LogoutView(APIView):
             {"message": "Successfully logged out"},
             status=status.HTTP_200_OK
         )
+
+class UpdateProfileView(APIView):
+    """
+    API endpoint for updating user profile.
+    
+    PUT:
+    Updates the user's profile information.
+    Required fields: name
+    Optional fields: organization
+    Requires authentication.
+    """
+    permission_classes = [IsAuthenticated]
+    serializer_class = ProfileSerializer
+    
+    def put(self, request):
+        profile = request.user.profile
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+        
+    def get(self, request):
+        """Get current user's profile information"""
+        profile = request.user.profile
+        serializer = ProfileSerializer(profile)
+        return Response(serializer.data)
