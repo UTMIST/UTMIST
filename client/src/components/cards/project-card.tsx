@@ -6,7 +6,6 @@ const ProjectCard: React.FC<Project> = ({
   title,
   description,
   github,
-  image,
   readMoreLink,
   imageAltText = "Project Image",
 }) => {
