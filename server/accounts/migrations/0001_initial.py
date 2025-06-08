@@ -4,6 +4,17 @@ import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
 
+"""
+Initial migration for the accounts app.
+
+Creates the UserProfile model with:
+- One-to-one relationship with Django's User model
+- Name field (required)
+- Organization field (optional)
+
+Dependencies:
+- auth.0001_initial (for User model)
+"""
 
 class Migration(migrations.Migration):
 
@@ -18,9 +29,9 @@ class Migration(migrations.Migration):
             name='UserProfile',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('organization', models.CharField(blank=True, max_length=255, null=True)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='profile', to=settings.AUTH_USER_MODEL)),
+                ('name', models.CharField(max_length=255)),  # Required full name field
+                ('organization', models.CharField(blank=True, max_length=255, null=True)),  # Optional organization field
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='profile', to=settings.AUTH_USER_MODEL)),  # Link to User model
             ],
         ),
     ]
