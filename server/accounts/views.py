@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
 from .serializers import RegisterSerializer
 
 class EmailLoginView(APIView):
@@ -90,3 +91,21 @@ class RegisterView(generics.CreateAPIView):
                 {"error": "Registration failed", "detail": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+class LogoutView(APIView):
+    """
+    API endpoint for user logout.
+    
+    POST:
+    Invalidates the user's authentication token.
+    Requires authentication.
+    """
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        # Delete the user's auth token
+        request.user.auth_token.delete()
+        return Response(
+            {"message": "Successfully logged out"},
+            status=status.HTTP_200_OK
+        )
