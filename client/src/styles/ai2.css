@@ -62,15 +62,13 @@
 .intro-section-left{
     display: flex;
     flex-direction: column;
-    max-width: 350px;
-    margin-left: 100px;
+    max-width:450px;
 }
 
 .intro-section-right{
     display: flex;
     flex-direction: column;
     max-width: 800px;
-    margin-right: 100px;
 }
 
 

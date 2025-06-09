@@ -24,11 +24,7 @@ export default function Slider({
         className="flex transition-transform ease-out duration-500"
         style={{ transform: `translateX(-${curr * 100}%)` }}
       >
-        {slides.map((slide, i) => (
-          <div key={i} className="w-full flex-shrink-0">
-            {slide}
-          </div>
-        ))}
+        {slides}
       </div>
       <div className="absolute inset-0 flex items-center justify-between p-4">
         <button
@@ -47,9 +43,8 @@ export default function Slider({
 
       <div className="absolute bottom-0 right-0 left-0 ">
         <div className="flex items-center justify-center gap-2">
-          {slides.map((slide, i) => (
+          {slides.map((_, i) => (
             <div
-              key={i}
               className={`
               transition-all w-3 h-3 bg-black rounded-full
               ${curr === i ? "p-2" : "bg-opacity-50"}

@@ -126,7 +126,7 @@ const mockFeaturedEvents: FeaturedEvent[] = [
   },
   {
     title: "AI^2",
-    url: "/ai2",
+    url: "https://www.eventbrite.ca/e/ai2-reinforcement-learning-tournament-tickets-1141689918279",
     background: 'linear-gradient(135deg, #e57fe5 0%, #6655e6 100%)',
     titleClassName: 'title-large',
     titleAlignment: 'right',

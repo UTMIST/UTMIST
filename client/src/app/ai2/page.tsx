@@ -4,7 +4,7 @@ import { AI2Card } from "@/components/ai2-cards";
 import { useState } from "react";
 import Image from "next/image";
 import ai2_demo from "@/assets/photos/ai2_demo.png";
-import cube from "@/assets/photos/cube.gif";
+import cube from "@/assets/photos/cube.png";
 import faces from "@/assets/photos/faces.png";
 // import slider from "@/components/slider/slider";
 import Slider from "@/components/slider/slider";
@@ -104,8 +104,8 @@ export default function AI2Page() {
       <h2 className="highlight-battles-title">Highlight Battles</h2>
       <div className="flex flex-col items-center justify-center px-8 mb-20">
           <Slider>
-          {slides.map((i, s) => (
-            <img src={i} key={s} />
+          {slides.map((s) => (
+            <img src={s} />
           ))}
         </Slider>
       </div>
