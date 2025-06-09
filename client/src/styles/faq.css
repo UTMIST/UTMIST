@@ -4,6 +4,7 @@
   margin: 0 auto;
   box-sizing: border-box;
   padding: 0 1rem;
+  justify-content: center;
 }
 
 .faq-row {
@@ -41,11 +42,12 @@
 }
 
 hr.faq-line {
-  margin: 0;
+  margin: 0 auto;
   border: 0;
   height: 1px;
   background-color: #e5e7eb;
   width: 100%;
+  max-width: 1000px;
 }
 
 .faq-item {
