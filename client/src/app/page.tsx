@@ -73,7 +73,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/*Events Section */}
       <Events />
       <ValueProps />
 
