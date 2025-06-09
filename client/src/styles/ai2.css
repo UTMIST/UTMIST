@@ -1,0 +1,365 @@
+.bg {
+    /* background-image: url('./assets/photos/ai2_bg.png'); */
+    background-image: url('../assets/photos/ai2_bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    /* background-position: center center; */
+    /* width: 2000 */
+}
+
+
+
+
+.hero-section {
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+    align-items: center;
+    padding: 4rem 2.5rem; 
+    /* max-width: 1000px;  */
+    margin: 0rem auto;
+    text-align: center;
+}
+
+
+.hero-title{
+    font-size: 3rem;
+    font-weight: 700;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+    
+}
+
+.hero-subtitle{
+    font-size: 1rem;
+    font-weight: 200;
+    color: #111827;
+    font-family: var(--system-font);
+    padding: 0 15rem;
+}
+
+.hero-subtitle-gradient{
+    font-size: 1rem;
+    font-weight: 400;
+    background: -webkit-linear-gradient(#1E19B1, #0D0A4B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+    padding: 0 15rem;
+    margin-top: 5px;
+}
+
+
+.intro-section{
+    display: flex;
+    flex-direction: row;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.intro-section-left{
+    display: flex;
+    flex-direction: column;
+    max-width: 350px;
+    margin-left: 100px;
+}
+
+.intro-section-right{
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin-right: 100px;
+}
+
+
+.intro-section-title{
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+    margin-bottom: 10px;
+}    
+
+.intro-section-description{
+    font-size: 1rem;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font); 
+    margin-top: 10px;
+}
+
+
+.intro-card-image {
+    position: relative;
+    height: 240px;
+    width: 100%; 
+    border-radius: 0.1rem;
+    overflow: hidden;
+}
+
+/* How It Works */
+.how-it-works-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 2.5rem; 
+    max-width: 1000px; 
+    margin: 0 auto;
+}
+
+.how-it-works-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+    margin-bottom: 10px;
+}
+
+.how-it-works-h1 {
+    font-size: 20px;
+    font-weight: 700;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+}
+
+.how-it-works-p {
+    font-size: 15px;
+    font-weight: 700;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+}
+
+.how-it-works-description {
+    font-size: 1rem;
+    font-weight: 200;
+    color: #111827;
+    font-family: var(--system-font);
+    padding: 0 15rem;
+}
+
+.how-it-works-image {
+    width: 100%;
+    border-radius: 0.5rem;
+}
+
+/* What's New Section */
+
+.whats-new-card {
+    box-sizing: border-box;
+    width: 240px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+.whats-new-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.whats-new-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: -webkit-linear-gradient(#FFFFFF, #C4C4C4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+    margin-bottom: 10px;
+    margin-left: 200px;
+}
+
+.whats-new-h1 {
+    font-size: 34px;
+    font-weight: 700;
+    background: -webkit-linear-gradient(#1E19B1, #99B4F9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+    text-align: center;
+}
+
+/* Timeline Section */
+
+.timeline-section-title{
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+    text-align: center;
+}    
+
+/* Highlight Battles Section */
+
+.highlight-battles-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+    /* margin-bottom: 10px; */
+    text-align: center;
+}
+  
+  /* Youtube Section */
+
+/* .youtube-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 2.5rem; 
+    max-width: 1000px; 
+    margin: 0 auto;
+} */
+
+.youtube-section-title{
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+    margin-left: 250px;
+}   
+
+.youtube-section-left{
+    display: flex;
+    flex-direction: column;
+    max-width:450px;
+}
+
+.youtube-section-right{
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+}
+
+/* Special Thanks Section */
+
+.special-section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+    text-align: center;
+    margin-bottom: 40px;
+    margin-top: 40px;
+}    
+
+.special-section-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 3rem;
+    max-width: 64rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.special-section-header {
+    font-size: 1.25rem; /* text-xl → 1.25rem → 20px */
+    font-weight: 700;   /* font-bold → 700 */
+    text-align: center; /* text-center */
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@media (max-width: 768px) {
+    .bg {
+    background-size: cover;
+    background-position: center top;
+    /* Optionally, add a semi-transparent overlay for readability: */
+    }
+
+    .hero-section {
+    display: block;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 2rem 1rem;
+    }
+
+    .hero-subtitle,
+    .hero-subtitle-gradient {
+    padding: 0 1rem;         /* Less horizontal padding */
+    font-size: 1rem;
+    }
+
+  .youtube-section-title{
+    /* font-size: 1.5rem; */
+    margin-left: 0;         /* Remove large left margin */
+    text-align: center;
+    /* font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font); */
+    /* margin-left: 250px; */
+}   
+
+.whats-new-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: -webkit-linear-gradient(#FFFFFF, #C4C4C4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+    text-align: center;
+    margin-left: 0;
+}
+
+.timeline-section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+    text-align: center;
+    margin-right: 0;         
+}
+
+
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.timeline-card {
+  opacity: 0;
+  animation: fadeInUp 0.7s forwards;
+}
+
+.timeline-card.delay-1 { animation-delay: 0.2s; }
+.timeline-card.delay-2 { animation-delay: 0.5s; }
+.timeline-card.delay-3 { animation-delay: 0.8s; }
