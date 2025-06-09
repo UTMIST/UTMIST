@@ -106,8 +106,11 @@ export default function ProjectsPage() {
 
         <div className="mt-10 w-full max-w-7xl mx-auto grid grid-cols-3 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 md:gap-8 justify-items-center px-4 sm:px-8 md:px-16">
           {filteredProjects.map((card, index) => (
-            <div
+            <a
               key={index}
+              href={card.github || card.readMoreLink}
+              target="_blank"
+              rel="noopener noreferrer"
               className="
                 relative
                 w-[130px] h-[200px] sm:w-[220px] sm:h-[320px] md:w-[280px] md:h-[380px]
@@ -115,6 +118,7 @@ export default function ProjectsPage() {
                 flex flex-col justify-between
                 transition-transform duration-300 ease-in-out
                 hover:-translate-y-1 hover:shadow-lg cursor-pointer mx-0
+                no-underline
               "
             >
               <div className="mb-2 sm:mb-4 rounded-lg overflow-hidden">
@@ -136,12 +140,7 @@ export default function ProjectsPage() {
                 </p>
               </div>
               {card.github && (
-                <a
-                  href={card.github}
-                  className="mt-2 hidden sm:inline-flex items-center gap-4  text-gray-900 no-underline font-sans font-medium text-xs sm:text-sm"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <div className="mt-2 hidden sm:inline-flex items-center gap-4 text-gray-900 no-underline font-sans font-medium text-xs sm:text-sm">
                   <Image
                     src={githubIcon}
                     alt="GitHub Icon"
@@ -150,9 +149,9 @@ export default function ProjectsPage() {
                     className="w-4 h-4 sm:w-5 sm:h-5"
                   />
                   <span className="hidden sm:inline">Read More</span>
-                </a>
+                </div>
               )}
-            </div>
+            </a>
           ))}
         </div>
       </section>
