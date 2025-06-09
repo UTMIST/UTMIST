@@ -23,6 +23,7 @@ export default function Navbar() {
         <li><Link href="/sponsors" className="nav-item">Sponsors</Link></li>
         <li><Link href="/events" className="nav-item">Events</Link></li>
         <li><Link href="/careers" className="nav-item">Careers</Link></li>
+        <li><Link href="/ai2" className="nav-item">AI2</Link></li>
       </ul>
 
       <div className="flex items-center space-x-4">
