@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status, generics
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import RegisterSerializer, ProfileSerializer
 import logging
 import json
@@ -20,7 +21,7 @@ class EmailLoginView(APIView):
     Methods:
     - POST: Authenticates a user and returns an auth token
         Required fields: email, password
-        Returns: token and user info
+        Returns: token and profile data
         Status codes:
             200: Success
             400: Missing fields
@@ -56,13 +57,13 @@ class EmailLoginView(APIView):
         user = authenticate(username=user.username, password=password)
         if user:
             token, _ = Token.objects.get_or_create(user=user)
+            profile_serializer = ProfileSerializer(
+                user.profile,
+                context={'request': request}
+            )
             return Response({
                 'token': token.key,
-                'user': {
-                    'id': user.id,
-                    'email': user.email,
-                    'username': user.username
-                }
+                'profile': profile_serializer.data
             })
         return Response(
             {'error': 'Invalid credentials'},
@@ -77,8 +78,8 @@ class RegisterView(generics.CreateAPIView):
     Methods:
     - POST: Creates a new user account
         Required fields: email, password, name
-        Optional fields: organization
-        Returns: user info and success message
+        Optional fields: organization, profile_picture
+        Returns: token and profile data
         Status codes:
             201: Created successfully
             400: Invalid data
@@ -86,6 +87,7 @@ class RegisterView(generics.CreateAPIView):
     """
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
+    parser_classes = (MultiPartParser, FormParser)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -100,15 +102,16 @@ class RegisterView(generics.CreateAPIView):
             user = serializer.save()
             token, _ = Token.objects.get_or_create(user=user)
             
+            profile_serializer = ProfileSerializer(
+                user.profile,
+                context={'request': request}
+            )
+            
             return Response(
                 {
                     "message": "Registration successful",
-                    "user": {
-                        "id": user.id,
-                        "email": user.email,
-                        "username": user.username
-                    },
-                    "token": token.key
+                    "token": token.key,
+                    "profile": profile_serializer.data
                 },
                 status=status.HTTP_201_CREATED
             )
@@ -152,7 +155,8 @@ class UpdateProfileView(APIView):
     - PUT: Update profile information
         Requires: Authentication token
         Required fields: name
-        Optional fields: organization
+        Optional fields: organization, profile_picture
+        Content-Type: multipart/form-data (for file uploads)
         Returns: Updated profile data
         Status codes:
             200: Success
@@ -160,13 +164,24 @@ class UpdateProfileView(APIView):
             401: Unauthorized
     """
     permission_classes = [IsAuthenticated]
-    serializer_class = ProfileSerializer
+    parser_classes = (MultiPartParser, FormParser)
     
     def put(self, request):
         profile = request.user.profile
-        serializer = ProfileSerializer(profile, data=request.data, partial=True)
+        serializer = ProfileSerializer(
+            profile,
+            data=request.data,
+            partial=True,
+            context={'request': request}
+        )
         
         if serializer.is_valid():
+            # If a new profile picture is uploaded, delete the old one if it exists
+            if 'profile_picture' in request.FILES and profile.profile_picture:
+                # Don't delete the default profile picture
+                if not profile.profile_picture.name.endswith('default.webp'):
+                    profile.profile_picture.delete(save=False)
+            
             serializer.save()
             return Response(serializer.data)
         
@@ -177,5 +192,5 @@ class UpdateProfileView(APIView):
         
     def get(self, request):
         profile = request.user.profile
-        serializer = ProfileSerializer(profile)
+        serializer = ProfileSerializer(profile, context={'request': request})
         return Response(serializer.data)

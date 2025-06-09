@@ -5,16 +5,29 @@ from .models import UserProfile
 class ProfileSerializer(serializers.ModelSerializer):
     """
     Serializer for UserProfile model.
-    Used for retrieving and updating user profile information.
+    Used for all profile operations (registration, login, profile management).
     
     Fields:
+    - email: User's email from related User model
     - name: User's full name
     - organization: Optional organization name
+    - profile_picture: Profile picture file (write-only)
+    - profile_picture_url: Full URL to profile picture
     """
+    email = serializers.EmailField(source='user.email', read_only=True)
+    profile_picture_url = serializers.SerializerMethodField()
+
     class Meta:
         model = UserProfile
-        fields = ['name', 'organization']
-    
+        fields = ['email', 'name', 'organization', 'profile_picture', 'profile_picture_url']
+        extra_kwargs = {
+            'profile_picture': {'write_only': True}
+        }
+
+    def get_profile_picture_url(self, obj):
+        if obj.profile_picture:
+            return self.context['request'].build_absolute_uri(obj.profile_picture.url)
+        return None
 
 class RegisterSerializer(serializers.ModelSerializer):
     """
@@ -24,21 +37,18 @@ class RegisterSerializer(serializers.ModelSerializer):
     Fields:
     - email: User's email (used as username)
     - password: User's password (write-only)
-    - name: User's full name (write-only)
-    - organization: Optional organization (write-only)
-    
-    Validation:
-    - Ensures email is unique
-    - Creates user with email as username
-    - Creates associated profile with name and organization
+    - name: User's full name
+    - organization: Optional organization
+    - profile_picture: Optional profile picture
     """
     name = serializers.CharField(write_only=True)
     organization = serializers.CharField(write_only=True, required=False)
+    profile_picture = serializers.ImageField(write_only=True, required=False)
     email = serializers.EmailField()
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'name', 'organization']
+        fields = ['email', 'password', 'name', 'organization', 'profile_picture']
         extra_kwargs = {'password': {'write_only': True}}
 
     def validate_email(self, value):
@@ -50,6 +60,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         # Extract profile data
         name = validated_data.pop('name')
         organization = validated_data.pop('organization', None)
+        profile_picture = validated_data.pop('profile_picture', None)
 
         # Create user
         user = User.objects.create_user(
@@ -59,11 +70,16 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
 
         # Create profile
-        UserProfile.objects.create(
+        profile = UserProfile.objects.create(
             user=user,
             name=name,
             organization=organization
         )
+        
+        # Set profile picture if provided
+        if profile_picture:
+            profile.profile_picture = profile_picture
+            profile.save()
 
         return user
 
