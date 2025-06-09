@@ -1,4 +1,4 @@
-from django.test import TestCase, Client
+from django.test import TestCase, Client, override_settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -11,19 +11,22 @@ import json
 import os
 import shutil
 from django.conf import settings
+from rest_framework import status
+import tempfile
 
+TEST_DIR = tempfile.mkdtemp()
+
+@override_settings(MEDIA_ROOT=TEST_DIR)
 class AccountsTestCase(TestCase):
     def setUp(self):
         """Set up test data and clients"""
         self.client = APIClient()
         
         # Create a test user
-        self.user_data = {
-            'email': 'test@example.com',
-            'password': 'testpass123',
-            'name': 'Test User',
-            'organization': 'Test Org'
-        }
+        self.test_email = "test@example.com"
+        self.test_password = "testpass123"
+        self.test_name = "Test User"
+        self.test_organization = "Test Org"
         
         # Create a test image using PIL
         image = Image.new('RGB', (100, 100), color='red')
@@ -34,6 +37,18 @@ class AccountsTestCase(TestCase):
             content=image_io.getvalue(),
             content_type='image/webp'
         )
+
+        self.user_data = {
+            'email': self.test_email,
+            'password': self.test_password,
+            'name': self.test_name,
+            'organization': self.test_organization
+        }
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(TEST_DIR, ignore_errors=True)
+        super().tearDownClass()
 
     def tearDown(self):
         """Clean up test data"""
@@ -77,17 +92,18 @@ class AccountsTestCase(TestCase):
             }
         )
         self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()['error'], 'Email already taken')
         
-        # Test invalid email
+        # Test invalid data (should return 500)
         response = self.client.post(
             reverse('register'),
             {
-                'email': 'invalid',
-                'password': self.user_data['password'],
-                'name': self.user_data['name']
+                'email': 'new@example.com',
+                # Missing required fields
             }
         )
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 500)
+        self.assertEqual(response.json()['error'], 'Registration failed')
 
     def test_login(self):
         """Test user login"""
@@ -120,14 +136,24 @@ class AccountsTestCase(TestCase):
             'email': self.user_data['email'],
             'password': 'wrongpass'
         })
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()['error'], 'Incorrect email or password')
         
         # Test non-existent user
         response = self.client.post(reverse('login'), {
             'email': 'nonexistent@example.com',
             'password': self.user_data['password']
         })
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()['error'], 'Incorrect email or password')
+        
+        # Test invalid email format
+        response = self.client.post(reverse('login'), {
+            'email': 'invalid',
+            'password': self.user_data['password']
+        })
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()['error'], 'Incorrect email or password')
 
     def test_profile_management(self):
         """Test profile viewing and updating"""
@@ -204,3 +230,25 @@ class AccountsTestCase(TestCase):
         self.client.credentials()  # Remove authentication
         response = self.client.post(reverse('logout'))
         self.assertEqual(response.status_code, 401)
+
+    def create_test_image(self):
+        image = Image.new('RGB', (100, 100), color='red')
+        image_io = io.BytesIO()
+        image.save(image_io, format='JPEG')
+        image_io.seek(0)
+        return SimpleUploadedFile(
+            "test.jpg",
+            image_io.getvalue(),
+            content_type="image/jpeg"
+        )
+
+    def test_register_invalid_email(self):
+        """Test registration with invalid email format"""
+        response = self.client.post('/api/accounts/register/', {
+            'email': 'invalid-email',
+            'password': self.test_password,
+            'name': self.test_name
+        })
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['error'], 'Email not allowed')
+        self.assertEqual(User.objects.count(), 0)

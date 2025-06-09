@@ -24,9 +24,7 @@ class EmailLoginView(APIView):
         Returns: token and profile data
         Status codes:
             200: Success
-            400: Missing fields
-            401: Invalid credentials
-            404: User not found
+            400: Invalid credentials
     """
     def post(self, request):
         email = request.data.get('email')
@@ -34,7 +32,7 @@ class EmailLoginView(APIView):
 
         if not email or not password:
             return Response(
-                {'error': 'Both email and password are required'},
+                {'error': 'Incorrect email or password'},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -42,7 +40,7 @@ class EmailLoginView(APIView):
             validate_email(email)
         except ValidationError:
             return Response(
-                {'error': 'Invalid email format'},
+                {'error': 'Incorrect email or password'},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -50,8 +48,8 @@ class EmailLoginView(APIView):
             user = User.objects.get(email=email)
         except User.DoesNotExist:
             return Response(
-                {'error': 'No user found with this email'},
-                status=status.HTTP_404_NOT_FOUND
+                {'error': 'Incorrect email or password'},
+                status=status.HTTP_400_BAD_REQUEST
             )
 
         user = authenticate(username=user.username, password=password)
@@ -66,8 +64,8 @@ class EmailLoginView(APIView):
                 'profile': profile_serializer.data
             })
         return Response(
-            {'error': 'Invalid credentials'},
-            status=status.HTTP_401_UNAUTHORIZED
+            {'error': 'Incorrect email or password'},
+            status=status.HTTP_400_BAD_REQUEST
         )
 
 
@@ -82,7 +80,7 @@ class RegisterView(generics.CreateAPIView):
         Returns: token and profile data
         Status codes:
             201: Created successfully
-            400: Invalid data
+            400: Email already taken or email not allowed
             500: Server error
     """
     queryset = User.objects.all()
@@ -90,15 +88,32 @@ class RegisterView(generics.CreateAPIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-
-        if not serializer.is_valid():
-            return Response(
-                {'errors': serializer.errors},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
         try:
+            # Check email format first
+            email = request.data.get('email', '').lower()
+            try:
+                validate_email(email)
+            except ValidationError:
+                return Response(
+                    {'error': 'Email not allowed'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Check for duplicate email
+            if User.objects.filter(email=email).exists():
+                return Response(
+                    {'error': 'Email already taken'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            serializer = self.get_serializer(data=request.data)
+            if not serializer.is_valid():
+                # If the error is not about email, it's a server error
+                return Response(
+                    {'error': 'Registration failed'},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+
             user = serializer.save()
             token, _ = Token.objects.get_or_create(user=user)
             
@@ -116,8 +131,9 @@ class RegisterView(generics.CreateAPIView):
                 status=status.HTTP_201_CREATED
             )
         except Exception as e:
+            logger.error(f"Registration error: {str(e)}")
             return Response(
-                {"error": "Registration failed", "detail": str(e)},
+                {"error": "Registration failed"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
