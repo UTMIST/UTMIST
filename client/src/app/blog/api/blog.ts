@@ -1,5 +1,5 @@
 import { StaticImageData } from "next/image";
-import postsData from './posts.json';
+import postsData from '@/assets/posts.json';
 
 export interface BlogPost {
   title: string;
