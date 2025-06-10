@@ -1,5 +1,8 @@
 import "@/styles/eigenai.css";
 import Image from "next/image";
+import verticalEigenai from "@/assets/photos/eigenai-vertical.webp";
+import workshopEigenai from "@/assets/photos/eigenai-workshop.webp";
+import confEigenai from "@/assets/photos/eigenai-conference.webp";
 import copresPhoto from "@/assets/photos/eigenai-copres-speech.webp";
 import execPhoto from "@/assets/photos/eigenai-exec-photo.webp";
 import fibPhoto from "@/assets/photos/fibseq.webp";
@@ -32,7 +35,7 @@ export default function EigenAIPage() {
         <div className="w-full lg:w-1/2 flex flex-col sm:flex-row gap-3 md:gap-4">
           <div className="w-full sm:w-1/2 aspect-[4/3] relative">
             <Image
-              src={execPhoto}
+              src={verticalEigenai}
               alt="Executive photo from EigenAI event"
               fill
               className="rounded-xl md:rounded-2xl object-cover"
@@ -42,7 +45,7 @@ export default function EigenAIPage() {
           <div className="w-full sm:w-1/2 flex flex-col gap-3 md:gap-4">
             <div className="aspect-[4/3] relative w-full">
               <Image
-                src={copresPhoto}
+                src={workshopEigenai}
                 alt="Co-president speech at EigenAI"
                 fill
                 className="rounded-xl md:rounded-2xl object-cover"
@@ -50,7 +53,7 @@ export default function EigenAIPage() {
             </div>
             <div className="aspect-[4/3] relative w-full">
               <Image
-                src={fibPhoto}
+                src={confEigenai}
                 alt="Fibonacci sequence visualization"
                 fill
                 className="rounded-xl md:rounded-2xl object-cover"
