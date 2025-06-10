@@ -19,7 +19,7 @@
         {
             "name": "Deep Emotion: Contrastive Learning for fMRI Classification",
             "description": "This project uses contrastive learning on fMRI brain scans to identify which movie scenes a person is viewing. The goal is to align brain activity with visual stimuli using deep learning techniques.",
-            "github": "https://github.com/UTMIST",
+            "github": "https://github.com/lungerjo/DeepEmotion",
             "image": "/assets/images/deepemotion.png",
             "type": "medai",
             "readMoreLink": ""
@@ -59,7 +59,7 @@
         {
             "name": "Lovelytics: Task Automation LLM",
             "description": "Partnering with Lovelytics, this project extends a LangChain-powered LLM automation tool for business workflows, focusing on task generation via natural language prompts on Azure Databricks.",
-            "github": "https://github.com/UTMIST",
+            "github": "https://github.com/alvina-yang/Lovelytics",
             "image": "/assets/images/lovelytics.png",
             "type": "aiapps",
             "readMoreLink": ""
@@ -75,7 +75,7 @@
         {
             "name": "Aemulus VR: Using Neural Radiance Fields for Luxury E-commerce",
             "description": "Aemulus VR is using neural rendering and Gaussian Splatting to create photorealistic 3D e-commerce displays for luxury products, transforming online shopping experiences.",
-            "github": "https://github.com/UTMIST",
+            "github": "https://docs.google.com/document/d/1hxuRUOMjrEGVizKCHK3ifhrFGOQ5wrx4kK9OHfJNrdE/edit?tab=t.0",
             "image": "/assets/images/aemulusvr.png",
             "type": "genai",
             "readMoreLink": ""
@@ -99,7 +99,7 @@
         {
             "name": "ML Project Platform",
             "description": "A centralized hub to manage the ML project lifecycle, including task tracking, team collaboration, milestone monitoring, and code/resource sharing for ongoing and past projects.",
-            "github": "https://github.com/UTMIST",
+            "github": "https://github.com/UTMIST/Projects-Platform",
             "image": "/assets/images/mlprojectplatform.png",
             "type": "mlops",
             "readMoreLink": ""
@@ -108,7 +108,7 @@
         {
             "name": "ECG Analysis Using Deep CNNs",
             "description": "Applying deep convolutional neural networks to analyze ECG data for cardiovascular disease detection.",
-            "github": "https://github.com/UTMIST",
+            "github": "https://utorontomist.medium.com/an-application-of-deep-learning-model-to-specify-cardiovascular-diseases-via-analyzing-ecg-diagrams-e5360723cd57",
             "image": "/assets/images/ecg-analysis.png",
             "type": "medai",
             "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
@@ -140,7 +140,7 @@
         {
             "name": "WallStreetBots: Stock Price Prediction",
             "description": "Implementing NLP and reinforcement learning for stock price prediction and market analysis.",
-            "github": "https://github.com/UTMIST",
+            "github": "https://utorontomist.medium.com/wall-street-bots-building-an-automatic-stock-trading-platform-based-on-artificial-intelligence-4f49df89ac41",
             "image": "/assets/images/wallstreetbots.png",
             "type": "finml",
             "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
@@ -156,7 +156,7 @@
         {
             "name": "DiffMuse",
             "description": "Exploring music synthesis using diffusion models to generate new compositions.",
-            "github": "https://github.com/UTMIST",
+            "github": "https://youtu.be/gLKfO3fbxlg",
             "image": "/assets/images/diffmuse.png",
             "type": "genai",
             "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
@@ -297,7 +297,7 @@
         {
             "name": "Is Hashing All You Need For Implicit Neural Representations?",
             "description": "Explore why multi-resolution hash embeddings outperform other methods in INRs. Conduct experiments and possibly submit to ICML/NeurIPS 2024.",
-            "github": "https://github.com/UTMIST",
+            "github": "https://drive.google.com/file/d/1FTrMbFmRnFzO5xN8OEJGnEUNuJ1JaL24/view",
             "image": "/assets/images/inr-hashing.png",
             "type": "cvpr",
             "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
@@ -306,7 +306,7 @@
         {
             "name": "QuSparse: Quantum Approaches to Sparse Signal Reconstruction",
             "description": "Use quantum algorithms like QFT to improve sparse signal reconstruction, transforming signals into quantum states and reconstructing using QML.",
-            "github": "https://github.com/UTMIST",
+            "github": "https://drive.google.com/file/d/1t9uDjQ3YaghbyVE_ASK0RJowOQrP5zL9/view",
             "image": "/assets/images/qu-sparse.png",
             "type": "genai",
             "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
@@ -315,14 +315,14 @@
         {
             "name": "NucleAIse: Protein Function Prediction",
             "description": "Predict protein functions and Gene Ontologies using LLMs (Transformers), GNNs, and CNNs. The project aims to identify key model features and improve biological insights for drug discovery.",
-            "github": "https://github.com/UTMIST",
+            "github": "https://github.com/ambroseling/NucleAIse",
             "image": "/assets/images/nuclease.png",
             "type": "medai",
             "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
 
         },
         {
-            "name": "Real-Time Trading with Sequence Models and Reinforcement Learning",
+            "name": "Real-Time Trading with Sequence Models and RL",
             "description": "Develop a deep RL-based real-time trading agent for FX and commodities. Design a custom RL environment and agent leveraging sequence models and DRL techniques.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/realtime-trading.png",

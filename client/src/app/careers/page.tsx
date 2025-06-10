@@ -1,5 +1,6 @@
 
 import "@/styles/careers.css"  
+import positionsData from "@/assets/careers.json"
 import Image from "next/image"
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
 import darkBlueTick from "@/assets/icons/dark-blue-tick-icon.svg";
@@ -7,33 +8,7 @@ import {Positions} from "@/types/careers";
 
 export default function CareersPage() {
 
-    const positions: Positions[] = [
-        {
-            title: "Team Lead (External Collab ML Projects)",
-            department: "Engineering",
-            division: "Internship"
-        },
-        {
-            title: "Developer (External Collab ML Projects)",
-            department: "Engineering",
-            division: "Internship"
-        },
-        {
-            title: "Internal ML Projects - Team Lead",
-            department: "Engineering",
-            division: "Internship"
-        },
-        {
-            title: "Software Developer (Compute Platform)",
-            department: "Infrastructure",
-            division: "Internship"
-        },
-        {
-            title: "Software Developer (Full Stack)",
-            department: "Infrastructure",
-            division: "Internship"
-        }
-    ];
+    const positions: Positions[] = positionsData;
 
     return <main>
               <div className="hero-section">
@@ -133,7 +108,7 @@ export default function CareersPage() {
             <span>{position.division}</span>
             </div>
         </div>
-        <a href="https://docs.google.com/presentation/d/1ylgg5QJmUHto21qrKtv4MsO7T63JWUrp_gxQTNIstY0/edit?slide=id.g2ee8a5c0378_0_0#slide=id.g2ee8a5c0378_0_0" className="apply-button" >Apply Now</a>
+        <a href="https://docs.google.com/presentation/d/1nypaPTCco9uWziAAmBzIHgOKeXG-NgjV4J8RdwiK5XY/edit?slide=id.g35fe6a0187b_0_931#slide=id.g35fe6a0187b_0_931" className="apply-button" >Apply Now</a>
         </div>
     </div>
     ))}
