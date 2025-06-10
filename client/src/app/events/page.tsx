@@ -126,7 +126,7 @@ export default function EventsPage() {
       {/* Hero section - Main title and subtitle */}
       <div className="hero-section">
         <h2 className="hero-title text-3xl sm:text-4xl">Events</h2>
-        <p className="text-sm sm:text-base px-2 sm:px-15">
+        <p className="hero-subtitle text-sm sm:text-base px-2 sm:px-15">
           See what is happening in our UTMIST community
         </p>
         <div className="w-full max-w-4xl mx-auto my-6 rounded-lg overflow-hidden shadow-lg aspect-[3/4] sm:aspect-[3/2]">
