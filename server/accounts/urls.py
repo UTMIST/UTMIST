@@ -10,5 +10,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),  # POST: Logout (requires auth)
     
     # Profile management
-    path('profile/', UpdateProfileView.as_view(), name='profile'),  # GET: View profile, PUT: Update profile
+    path('profile/', UpdateProfileView.as_view(), name='profile'),  # GET: View profile, PUT: Update profile (requires auth)
 ]
