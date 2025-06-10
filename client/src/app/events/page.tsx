@@ -131,7 +131,7 @@ export default function EventsPage() {
         </p>
         <div className="w-full max-w-4xl mx-auto my-6 rounded-lg overflow-hidden shadow-lg aspect-[3/4] sm:aspect-[3/2]">
           <iframe 
-            src="https://calendar.google.com/calendar/embed?src=7000a4997a47b7e3b0a6a6b7f84452ba11881802fe62ec2c0adf6cfc28cf2cd8%40group.calendar.google.com&ctz=America%2FNew_York" 
+            src="https://calendar.google.com/calendar/embed?src=51eeb2795ecb293d64557f280d8114d38b73dffda4c188d63aa65d41f2a7286f%40group.calendar.google.com&ctz=America%2FToronto" 
             style={{ border: 0 }} 
             className="w-full h-full"
             frameBorder="0" 
