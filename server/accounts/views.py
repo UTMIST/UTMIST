@@ -76,7 +76,7 @@ class RegisterView(generics.CreateAPIView):
     Methods:
     - POST: Creates a new user account
         Required fields: email, password, name
-        Optional fields: organization, profile_picture
+        Optional fields: organization, profile_picture, linkedin_url, github_url, discord_username
         Returns: token and profile data
         Status codes:
             201: Created successfully
@@ -167,11 +167,11 @@ class UpdateProfileView(APIView):
     Methods:
     - GET: Get current user's profile
         Requires: Authentication token
-        Returns: Profile data
+        Returns: Profile data including social media links
     - PUT: Update profile information
         Requires: Authentication token
         Required fields: name
-        Optional fields: organization, profile_picture
+        Optional fields: organization, profile_picture, linkedin_url, github_url, discord_username
         Content-Type: multipart/form-data (for file uploads)
         Returns: Updated profile data
         Status codes:

@@ -31,6 +31,10 @@ interface AuthResponse {
     email: string;
     name: string;
     organization?: string;
+    profile_picture_url?: string;
+    linkedin_url?: string;
+    github_url?: string;
+    discord_username?: string;
   };
 }
 
@@ -64,7 +68,10 @@ export async function register(
   email: string, 
   password: string, 
   name: string, 
-  organization?: string
+  organization?: string,
+  linkedin_url?: string,
+  github_url?: string,
+  discord_username?: string
 ): Promise<void> {
   const url = getApiUrl('/api/accounts/register/');
   const formData = new FormData();
@@ -74,6 +81,15 @@ export async function register(
   formData.append('name', name);
   if (organization) {
     formData.append('organization', organization);
+  }
+  if (linkedin_url) {
+    formData.append('linkedin_url', linkedin_url);
+  }
+  if (github_url) {
+    formData.append('github_url', github_url);
+  }
+  if (discord_username) {
+    formData.append('discord_username', discord_username);
   }
 
   const response = await fetch(url, {

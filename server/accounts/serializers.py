@@ -13,13 +13,17 @@ class ProfileSerializer(serializers.ModelSerializer):
     - organization: Optional organization name
     - profile_picture: Profile picture file (write-only)
     - profile_picture_url: Full URL to profile picture
+    - linkedin_url: Optional LinkedIn profile URL
+    - github_url: Optional GitHub profile URL
+    - discord_username: Optional Discord username
     """
     email = serializers.EmailField(source='user.email', read_only=True)
     profile_picture_url = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
-        fields = ['email', 'name', 'organization', 'profile_picture', 'profile_picture_url']
+        fields = ['email', 'name', 'organization', 'profile_picture', 'profile_picture_url',
+                 'linkedin_url', 'github_url', 'discord_username']
         extra_kwargs = {
             'profile_picture': {'write_only': True}
         }
@@ -40,15 +44,22 @@ class RegisterSerializer(serializers.ModelSerializer):
     - name: User's full name
     - organization: Optional organization
     - profile_picture: Optional profile picture
+    - linkedin_url: Optional LinkedIn profile URL
+    - github_url: Optional GitHub profile URL
+    - discord_username: Optional Discord username
     """
     name = serializers.CharField(write_only=True)
     organization = serializers.CharField(write_only=True, required=False)
     profile_picture = serializers.ImageField(write_only=True, required=False)
+    linkedin_url = serializers.URLField(write_only=True, required=False)
+    github_url = serializers.URLField(write_only=True, required=False)
+    discord_username = serializers.CharField(write_only=True, required=False)
     email = serializers.EmailField()
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'name', 'organization', 'profile_picture']
+        fields = ['email', 'password', 'name', 'organization', 'profile_picture',
+                 'linkedin_url', 'github_url', 'discord_username']
         extra_kwargs = {'password': {'write_only': True}}
 
     def validate_email(self, value):
@@ -61,6 +72,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         name = validated_data.pop('name')
         organization = validated_data.pop('organization', None)
         profile_picture = validated_data.pop('profile_picture', None)
+        linkedin_url = validated_data.pop('linkedin_url', None)
+        github_url = validated_data.pop('github_url', None)
+        discord_username = validated_data.pop('discord_username', None)
 
         # Create user
         user = User.objects.create_user(
@@ -73,7 +87,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         profile = UserProfile.objects.create(
             user=user,
             name=name,
-            organization=organization
+            organization=organization,
+            linkedin_url=linkedin_url,
+            github_url=github_url,
+            discord_username=discord_username
         )
         
         # Set profile picture if provided

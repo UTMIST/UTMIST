@@ -166,7 +166,10 @@ class AccountsTestCase(TestCase):
         profile = UserProfile.objects.create(
             user=user,
             name=self.user_data['name'],
-            organization=self.user_data['organization']
+            organization=self.user_data['organization'],
+            linkedin_url='https://linkedin.com/in/testuser',
+            github_url='https://github.com/testuser',
+            discord_username='testuser#1234'
         )
         token = Token.objects.create(user=user)
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {token.key}')
@@ -176,6 +179,9 @@ class AccountsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertEqual(data['name'], self.user_data['name'])
+        self.assertEqual(data['linkedin_url'], 'https://linkedin.com/in/testuser')
+        self.assertEqual(data['github_url'], 'https://github.com/testuser')
+        self.assertEqual(data['discord_username'], 'testuser#1234')
         
         # Test profile updating
         # Create a new test image for update
@@ -193,7 +199,10 @@ class AccountsTestCase(TestCase):
             {
                 'name': 'Updated Name',
                 'organization': 'Updated Org',
-                'profile_picture': update_image
+                'profile_picture': update_image,
+                'linkedin_url': 'https://linkedin.com/in/updateduser',
+                'github_url': 'https://github.com/updateduser',
+                'discord_username': 'updateduser#5678'
             },
             format='multipart'
         )
@@ -201,6 +210,9 @@ class AccountsTestCase(TestCase):
         data = response.json()
         self.assertEqual(data['name'], 'Updated Name')
         self.assertEqual(data['organization'], 'Updated Org')
+        self.assertEqual(data['linkedin_url'], 'https://linkedin.com/in/updateduser')
+        self.assertEqual(data['github_url'], 'https://github.com/updateduser')
+        self.assertEqual(data['discord_username'], 'updateduser#5678')
         self.assertIn('profile_picture_url', data)
         
         # Test unauthorized access
@@ -252,3 +264,33 @@ class AccountsTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data['error'], 'Email not allowed')
         self.assertEqual(User.objects.count(), 0)
+
+    def test_registration_with_social_media(self):
+        """Test user registration with social media fields"""
+        response = self.client.post(
+            reverse('register'),
+            {
+                'email': self.user_data['email'],
+                'password': self.user_data['password'],
+                'name': self.user_data['name'],
+                'organization': self.user_data['organization'],
+                'profile_picture': self.test_image,
+                'linkedin_url': 'https://linkedin.com/in/testuser',
+                'github_url': 'https://github.com/testuser',
+                'discord_username': 'testuser#1234'
+            },
+            format='multipart'
+        )
+        self.assertEqual(response.status_code, 201)
+        
+        # Check response structure
+        data = response.json()
+        self.assertIn('token', data)
+        self.assertIn('profile', data)
+        self.assertEqual(data['profile']['email'], self.user_data['email'])
+        self.assertEqual(data['profile']['name'], self.user_data['name'])
+        self.assertEqual(data['profile']['organization'], self.user_data['organization'])
+        self.assertEqual(data['profile']['linkedin_url'], 'https://linkedin.com/in/testuser')
+        self.assertEqual(data['profile']['github_url'], 'https://github.com/testuser')
+        self.assertEqual(data['profile']['discord_username'], 'testuser#1234')
+        self.assertIn('profile_picture_url', data['profile'])
