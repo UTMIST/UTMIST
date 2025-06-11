@@ -116,14 +116,14 @@ const ApplicationForm = () => {
 
     // Email validation function
     const validateEmail = (email: string) => {
-        // Simple regex for email validation
+        if (!email) return true; // Treat empty as valid for error display
         return /^\S+@\S+\.\S+$/.test(email);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // Validate email
-        if (!validateEmail(personalInfo.email)) {
+        if (personalInfo.email && !validateEmail(personalInfo.email)) {
             setEmailError('Please enter a valid email address.');
             setEmailTouched(true);
             return;
@@ -147,15 +147,15 @@ const ApplicationForm = () => {
                     <input className={`input bg-gray-200 rounded-full px-6 py-3 md:col-span-2${emailError && emailTouched ? ' border-2 border-red-500' : ''}`} type="email" placeholder="Email" value={personalInfo.email} onChange={e => {
                         setPersonalInfo({ ...personalInfo, email: e.target.value });
                         if (emailTouched) {
-                            setEmailError(validateEmail(e.target.value) ? '' : 'Please enter a valid email address.');
+                            setEmailError((e.target.value && !validateEmail(e.target.value)) ? 'Please enter a valid email address.' : '');
                         }
                     }}
                     onBlur={() => {
                         setEmailTouched(true);
-                        setEmailError(validateEmail(personalInfo.email) ? '' : 'Please enter a valid email address.');
+                        setEmailError((personalInfo.email && !validateEmail(personalInfo.email)) ? 'Please enter a valid email address.' : '');
                     }}
                     />
-                    {emailError && emailTouched && (
+                    {emailError && emailTouched && personalInfo.email && (
                         <div className="text-red-500 text-sm md:col-span-2 ml-2 mt-1">{emailError}</div>
                     )}
                     <div className="flex gap-2 md:col-span-2">
