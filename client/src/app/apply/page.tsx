@@ -21,15 +21,18 @@ interface EducationInformation {
     school: string;
     degree: string;
     fieldOfStudy: string;
-    graduationDate: string;
+    graduationMonth: string;
+    graduationYear: string;
 }
 
 interface WorkExperienceInformation {
     workExperience: {
         companyName: string;
         jobTitle: string;
-        startDate: string;
-        endDate: string;
+        startMonth: string;
+        startYear: string;
+        endMonth: string;
+        endYear: string;
         description: string;
     }[];
 }
@@ -60,10 +63,11 @@ const ApplicationForm = () => {
         school: '',
         degree: '',
         fieldOfStudy: '',
-        graduationDate: '',
+        graduationMonth: '',
+        graduationYear: '',
     });
     const [workExperience, setWorkExperience] = useState<WorkExperienceInformation['workExperience']>([
-        { companyName: '', jobTitle: '', startDate: '', endDate: '', description: '' },
+        { companyName: '', jobTitle: '', startMonth: '', startYear: '', endMonth: '', endYear: '', description: '' },
     ]);
     const [resume, setResume] = useState<File | null>(null);
     const [emailError, setEmailError] = useState<string>('');
@@ -101,7 +105,7 @@ const ApplicationForm = () => {
     };
 
     const addWorkExperience = () => {
-        setWorkExperience(prev => ([...prev, { companyName: '', jobTitle: '', startDate: '', endDate: '', description: '' }]));
+        setWorkExperience(prev => ([...prev, { companyName: '', jobTitle: '', startMonth: '', startYear: '', endMonth: '', endYear: '', description: '' }]));
     };
 
     const deleteWorkExperience = (idx: number) => {
@@ -132,6 +136,14 @@ const ApplicationForm = () => {
         }
         // Submission logic here
     };
+
+    // Month and year options
+    const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    const currentYear = new Date().getFullYear();
+    const years = Array.from({ length: 51 }, (_, i) => String(currentYear - 40 + i));
 
     return (
         <form className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-md mt-8" onSubmit={handleSubmit}>
@@ -199,7 +211,28 @@ const ApplicationForm = () => {
                     <input className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="School" value={educationInfo.school} onChange={e => setEducationInfo({ ...educationInfo, school: e.target.value })} />
                     <input className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="Degree" value={educationInfo.degree} onChange={e => setEducationInfo({ ...educationInfo, degree: e.target.value })} />
                     <input className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="Field of Study" value={educationInfo.fieldOfStudy} onChange={e => setEducationInfo({ ...educationInfo, fieldOfStudy: e.target.value })} />
-                    <input className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="Graduation Date (Month / Year)" value={educationInfo.graduationDate} onChange={e => setEducationInfo({ ...educationInfo, graduationDate: e.target.value })} />
+                    <div className="flex gap-2 min-w-0">
+                        <select
+                            className="input bg-gray-200 rounded-full px-4 py-3 flex-1 min-w-0"
+                            value={educationInfo.graduationMonth}
+                            onChange={e => setEducationInfo({ ...educationInfo, graduationMonth: e.target.value })}
+                        >
+                            <option value="">Month</option>
+                            {months.map(month => (
+                                <option key={month} value={month}>{month}</option>
+                            ))}
+                        </select>
+                        <select
+                            className="input bg-gray-200 rounded-full px-4 py-3 flex-1 min-w-0"
+                            value={educationInfo.graduationYear}
+                            onChange={e => setEducationInfo({ ...educationInfo, graduationYear: e.target.value })}
+                        >
+                            <option value="">Year</option>
+                            {years.map(year => (
+                                <option key={year} value={year}>{year}</option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
             </section>
 
@@ -220,8 +253,50 @@ const ApplicationForm = () => {
                                     </button>
                                 )}
                             </div>
-                            <input className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="Start Date (Month / Year)" value={exp.startDate} onChange={e => handleWorkExperienceChange(idx, 'startDate', e.target.value)} />
-                            <input className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="End Date (Month / Year)" value={exp.endDate} onChange={e => handleWorkExperienceChange(idx, 'endDate', e.target.value)} />
+                            <div className="flex gap-2 min-w-0">
+                                <select
+                                    className="input bg-gray-200 rounded-full px-4 py-3 flex-1 min-w-0"
+                                    value={exp.startMonth}
+                                    onChange={e => handleWorkExperienceChange(idx, 'startMonth', e.target.value)}
+                                >
+                                    <option value="">Start Month</option>
+                                    {months.map(month => (
+                                        <option key={month} value={month}>{month}</option>
+                                    ))}
+                                </select>
+                                <select
+                                    className="input bg-gray-200 rounded-full px-4 py-3 flex-1 min-w-0"
+                                    value={exp.startYear}
+                                    onChange={e => handleWorkExperienceChange(idx, 'startYear', e.target.value)}
+                                >
+                                    <option value="">Start Year</option>
+                                    {years.map(year => (
+                                        <option key={year} value={year}>{year}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="flex gap-2 min-w-0">
+                                <select
+                                    className="input bg-gray-200 rounded-full px-4 py-3 flex-1 min-w-0"
+                                    value={exp.endMonth}
+                                    onChange={e => handleWorkExperienceChange(idx, 'endMonth', e.target.value)}
+                                >
+                                    <option value="">End Month</option>
+                                    {months.map(month => (
+                                        <option key={month} value={month}>{month}</option>
+                                    ))}
+                                </select>
+                                <select
+                                    className="input bg-gray-200 rounded-full px-4 py-3 flex-1 min-w-0"
+                                    value={exp.endYear}
+                                    onChange={e => handleWorkExperienceChange(idx, 'endYear', e.target.value)}
+                                >
+                                    <option value="">End Year</option>
+                                    {years.map(year => (
+                                        <option key={year} value={year}>{year}</option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
                         <textarea className="input bg-gray-200 rounded-2xl px-6 py-3 w-full min-h-[60px] mb-2 resize-none" placeholder="Description" value={exp.description} onChange={e => handleWorkExperienceChange(idx, 'description', e.target.value)} />
                     </div>
