@@ -66,6 +66,8 @@ const ApplicationForm = () => {
         { companyName: '', jobTitle: '', startDate: '', endDate: '', description: '' },
     ]);
     const [resume, setResume] = useState<File | null>(null);
+    const [emailError, setEmailError] = useState<string>('');
+    const [emailTouched, setEmailTouched] = useState<boolean>(false);
 
     // Area codes for dropdown
     const areaCodes = ['+1', '+44', '+91', '+61', '+81', '+86'];
@@ -112,8 +114,22 @@ const ApplicationForm = () => {
         }
     };
 
+    // Email validation function
+    const validateEmail = (email: string) => {
+        // Simple regex for email validation
+        return /^\S+@\S+\.\S+$/.test(email);
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        // Validate email
+        if (!validateEmail(personalInfo.email)) {
+            setEmailError('Please enter a valid email address.');
+            setEmailTouched(true);
+            return;
+        } else {
+            setEmailError('');
+        }
         // Submission logic here
     };
 
@@ -128,7 +144,20 @@ const ApplicationForm = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                     <input className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="First Name" value={personalInfo.firstName} onChange={e => setPersonalInfo({ ...personalInfo, firstName: e.target.value })} />
                     <input className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="Last Name" value={personalInfo.lastName} onChange={e => setPersonalInfo({ ...personalInfo, lastName: e.target.value })} />
-                    <input className="input bg-gray-200 rounded-full px-6 py-3 md:col-span-2" type="email" placeholder="Email" value={personalInfo.email} onChange={e => setPersonalInfo({ ...personalInfo, email: e.target.value })} />
+                    <input className={`input bg-gray-200 rounded-full px-6 py-3 md:col-span-2${emailError && emailTouched ? ' border-2 border-red-500' : ''}`} type="email" placeholder="Email" value={personalInfo.email} onChange={e => {
+                        setPersonalInfo({ ...personalInfo, email: e.target.value });
+                        if (emailTouched) {
+                            setEmailError(validateEmail(e.target.value) ? '' : 'Please enter a valid email address.');
+                        }
+                    }}
+                    onBlur={() => {
+                        setEmailTouched(true);
+                        setEmailError(validateEmail(personalInfo.email) ? '' : 'Please enter a valid email address.');
+                    }}
+                    />
+                    {emailError && emailTouched && (
+                        <div className="text-red-500 text-sm md:col-span-2 ml-2 mt-1">{emailError}</div>
+                    )}
                     <div className="flex gap-2 md:col-span-2">
                         <select
                             className="input bg-gray-200 rounded-full px-3 py-3 w-16 min-w-fit text-center"
