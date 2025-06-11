@@ -5,6 +5,7 @@ interface PersonalInformation {
     firstName: string;
     lastName: string;
     email: string;
+    areaCode: string;
     phoneNumber: string;
 }
 
@@ -45,6 +46,7 @@ const ApplicationForm = () => {
         firstName: '',
         lastName: '',
         email: '',
+        areaCode: '+1',
         phoneNumber: '',
     });
     const [locationInfo, setLocationInfo] = useState<ContactInformation>({
@@ -64,6 +66,29 @@ const ApplicationForm = () => {
         { companyName: '', jobTitle: '', startDate: '', endDate: '', description: '' },
     ]);
     const [resume, setResume] = useState<File | null>(null);
+
+    // Area codes for dropdown
+    const areaCodes = ['+1', '+44', '+91', '+61', '+81', '+86'];
+
+    // Phone number formatting (North American style)
+    const formatPhoneNumber = (value: string) => {
+        // Remove all non-digit characters
+        const digits = value.replace(/\D/g, '');
+        let formatted = '';
+        if (digits.length <= 3) {
+            formatted = digits;
+        } else if (digits.length <= 6) {
+            formatted = `${digits.slice(0, 3)}-${digits.slice(3)}`;
+        } else {
+            formatted = `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
+        }
+        return formatted;
+    };
+
+    const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const formatted = formatPhoneNumber(e.target.value);
+        setPersonalInfo({ ...personalInfo, phoneNumber: formatted });
+    };
 
     const handleWorkExperienceChange = (idx: number, field: string, value: string) => {
         setWorkExperience(prev => {
@@ -104,7 +129,25 @@ const ApplicationForm = () => {
                     <input className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="First Name" value={personalInfo.firstName} onChange={e => setPersonalInfo({ ...personalInfo, firstName: e.target.value })} />
                     <input className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="Last Name" value={personalInfo.lastName} onChange={e => setPersonalInfo({ ...personalInfo, lastName: e.target.value })} />
                     <input className="input bg-gray-200 rounded-full px-6 py-3 md:col-span-2" type="email" placeholder="Email" value={personalInfo.email} onChange={e => setPersonalInfo({ ...personalInfo, email: e.target.value })} />
-                    <input className="input bg-gray-200 rounded-full px-6 py-3 md:col-span-2" type="tel" placeholder="Phone Number" value={personalInfo.phoneNumber} onChange={e => setPersonalInfo({ ...personalInfo, phoneNumber: e.target.value })} />
+                    <div className="flex gap-2 md:col-span-2">
+                        <select
+                            className="input bg-gray-200 rounded-full px-3 py-3 w-16 min-w-fit text-center"
+                            value={personalInfo.areaCode}
+                            onChange={e => setPersonalInfo({ ...personalInfo, areaCode: e.target.value })}
+                        >
+                            {areaCodes.map(code => (
+                                <option key={code} value={code}>{code}</option>
+                            ))}
+                        </select>
+                        <input
+                            className="input bg-gray-200 rounded-full px-6 py-3 flex-1"
+                            type="tel"
+                            placeholder="Phone Number"
+                            value={personalInfo.phoneNumber}
+                            onChange={handlePhoneNumberChange}
+                            maxLength={12}
+                        />
+                    </div>
                 </div>
             </section>
 
