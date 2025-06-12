@@ -63,13 +63,14 @@ const ApplicationForm = () => {
     const [educationInfo, setEducationInfo] = useState<EducationInformation>({
         school: '',
         degree: 'Select a Degree',
-        fieldOfStudy: '',
+        fieldOfStudy: 'Select a Major',
         graduationMonth: '',
         graduationYear: '',
     });
     const [otherDegree, setOtherDegree] = useState<string>('');
+    const [otherMajor, setOtherMajor] = useState<string>('');
     const [workExperience, setWorkExperience] = useState<WorkExperienceInformation['workExperience']>([
-        { companyName: '', jobTitle: '', startMonth: '', startYear: '', endMonth: '', endYear: '', description: '', currentlyWorking: false },
+        { companyName: '', jobTitle: '', startMonth: '', startYear: 'W', endMonth: '', endYear: '', description: '', currentlyWorking: false },
     ]);
     const [resume, setResume] = useState<File | null>(null);
     const [emailError, setEmailError] = useState<string>('');
@@ -161,6 +162,52 @@ const ApplicationForm = () => {
         'Bachelor of Applied Science (BASc)',
         'Other'
     ];
+
+    // Field of study options (STEM majors)
+    const stemMajors = {
+        'Computer Science & Software': [
+            'Computer Science',
+            'Software Engineering',
+            'Computer Engineering',
+            'Data Science',
+        ],
+        'Engineering': [
+            'Mechanical Engineering',
+            'Electrical Engineering',
+            'Civil Engineering',
+            'Chemical Engineering',
+            'Industrial Engineering',
+            'Aerospace Engineering',
+            'Biomedical Engineering',
+            'Environmental Engineering',
+            'Materials Engineering'
+        ],
+        'Mathematics & Statistics': [
+            'Mathematics',
+            'Statistics',
+            'Actuarial Science',
+        ],
+        'Physical Sciences': [
+            'Physics',
+            'Chemistry',
+            'Astronomy',
+            'Geology',
+            'Earth Sciences',
+            'Environmental Science'
+        ],
+        'Business': [
+            'Business Administration',
+            'Finance',
+            'Accounting',
+            'Marketing',
+            'Management',
+            'Human Resources',
+            'Economics'
+        ],
+        'Other': [
+            'Other'
+        ]
+    };
 
     return (
         <form className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-md mt-8" onSubmit={handleSubmit}>
@@ -293,7 +340,40 @@ const ApplicationForm = () => {
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="fieldOfStudy" className="text-sm font-medium mb-1 ml-2">Field of Study</label>
-                        <input id="fieldOfStudy" className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="" value={educationInfo.fieldOfStudy} onChange={e => setEducationInfo({ ...educationInfo, fieldOfStudy: e.target.value })} />
+                        <select
+                            id="fieldOfStudy"
+                            className="input bg-gray-200 rounded-full px-6 py-3"
+                            value={educationInfo.fieldOfStudy === otherMajor ? 'Other' : educationInfo.fieldOfStudy}
+                            onChange={e => {
+                                if (e.target.value === 'Other') {
+                                    setEducationInfo({ ...educationInfo, fieldOfStudy: otherMajor || '' });
+                                } else {
+                                    setOtherMajor('');
+                                    setEducationInfo({ ...educationInfo, fieldOfStudy: e.target.value });
+                                }
+                            }}
+                        >
+                            <option value="Select a Major">Select a Major</option>
+                            {Object.entries(stemMajors).map(([category, majors]) => (
+                                <optgroup key={category} label={category}>
+                                    {majors.map(major => (
+                                        <option key={major} value={major}>{major}</option>
+                                    ))}
+                                </optgroup>
+                            ))}
+                        </select>
+                        {educationInfo.fieldOfStudy === otherMajor && (
+                            <input
+                                type="text"
+                                className="input bg-gray-200 rounded-full px-6 py-3 mt-2"
+                                placeholder="Please specify your major"
+                                value={otherMajor}
+                                onChange={e => {
+                                    setOtherMajor(e.target.value);
+                                    setEducationInfo({ ...educationInfo, fieldOfStudy: e.target.value });
+                                }}
+                            />
+                        )}
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="graduationMonth" className="text-sm font-medium mb-1 ml-2">Graduation Date</label>
