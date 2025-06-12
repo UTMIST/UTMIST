@@ -61,7 +61,7 @@ const ApplicationForm = () => {
         provinceOrState: '',
     });
     const [educationInfo, setEducationInfo] = useState<EducationInformation>({
-        school: '',
+        school: 'Select a University',
         degree: 'Select a Degree',
         fieldOfStudy: 'Select a Major',
         graduationMonth: '',
@@ -69,6 +69,7 @@ const ApplicationForm = () => {
     });
     const [otherDegree, setOtherDegree] = useState<string>('');
     const [otherMajor, setOtherMajor] = useState<string>('');
+    const [otherSchool, setOtherSchool] = useState<string>('');
     const [workExperience, setWorkExperience] = useState<WorkExperienceInformation['workExperience']>([
         { companyName: '', jobTitle: '', startMonth: '', startYear: 'W', endMonth: '', endYear: '', description: '', currentlyWorking: false },
     ]);
@@ -209,6 +210,44 @@ const ApplicationForm = () => {
         ]
     };
 
+    // University options
+    const universities = {
+        'Ontario': [
+            'University of Toronto',
+            'University of Waterloo',
+            'University of Ottawa',
+            'Queen\'s University',
+            'Western University',
+            'McMaster University',
+            'University of Guelph',
+            'York University',
+            'Carleton University',
+            'Ryerson University',
+            'University of Windsor',
+            'Brock University',
+            'Trent University',
+            'Lakehead University',
+            'Laurentian University',
+            'Ontario Tech University',
+            'Wilfrid Laurier University'
+        ],
+        'Other Canadian Provinces': [
+            'University of British Columbia',
+            'McGill University',
+            'University of Alberta',
+            'University of Calgary',
+            'University of Montreal',
+            'Simon Fraser University',
+            'University of Victoria',
+            'Dalhousie University',
+            'University of Saskatchewan',
+            'University of Manitoba'
+        ],
+        'Other': [
+            'Other'
+        ]
+    };
+
     return (
         <form className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-md mt-8" onSubmit={handleSubmit}>
             <h1 className="text-3xl font-bold text-center mb-2">Apply Here</h1>
@@ -303,7 +342,40 @@ const ApplicationForm = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                     <div className="flex flex-col gap-1">
                         <label htmlFor="school" className="text-sm font-medium mb-1 ml-2">School</label>
-                        <input id="school" className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="" value={educationInfo.school} onChange={e => setEducationInfo({ ...educationInfo, school: e.target.value })} />
+                        <select
+                            id="school"
+                            className="input bg-gray-200 rounded-full px-6 py-3"
+                            value={educationInfo.school === otherSchool ? 'Other' : educationInfo.school}
+                            onChange={e => {
+                                if (e.target.value === 'Other') {
+                                    setEducationInfo({ ...educationInfo, school: otherSchool || '' });
+                                } else {
+                                    setOtherSchool('');
+                                    setEducationInfo({ ...educationInfo, school: e.target.value });
+                                }
+                            }}
+                        >
+                            <option value="Select a University">Select a University</option>
+                            {Object.entries(universities).map(([province, schools]) => (
+                                <optgroup key={province} label={province}>
+                                    {schools.map(school => (
+                                        <option key={school} value={school}>{school}</option>
+                                    ))}
+                                </optgroup>
+                            ))}
+                        </select>
+                        {educationInfo.school === otherSchool && (
+                            <input
+                                type="text"
+                                className="input bg-gray-200 rounded-full px-6 py-3 mt-2"
+                                placeholder="Please specify your university"
+                                value={otherSchool}
+                                onChange={e => {
+                                    setOtherSchool(e.target.value);
+                                    setEducationInfo({ ...educationInfo, school: e.target.value });
+                                }}
+                            />
+                        )}
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="degree" className="text-sm font-medium mb-1 ml-2">Degree</label>
