@@ -62,11 +62,12 @@ const ApplicationForm = () => {
     });
     const [educationInfo, setEducationInfo] = useState<EducationInformation>({
         school: '',
-        degree: '',
+        degree: 'Select a Degree',
         fieldOfStudy: '',
         graduationMonth: '',
         graduationYear: '',
     });
+    const [otherDegree, setOtherDegree] = useState<string>('');
     const [workExperience, setWorkExperience] = useState<WorkExperienceInformation['workExperience']>([
         { companyName: '', jobTitle: '', startMonth: '', startYear: '', endMonth: '', endYear: '', description: '', currentlyWorking: false },
     ]);
@@ -149,6 +150,17 @@ const ApplicationForm = () => {
     ];
     const currentYear = new Date().getFullYear();
     const years = Array.from({ length: 51 }, (_, i) => String(currentYear - 40 + i));
+
+    // Degree options
+    const degrees = [
+        'Bachelor of Arts (BA)',
+        'Bachelor of Science (BS)',
+        'Bachelor of Business Administration (BBA)',
+        'Bachelor of Engineering (BEng)',
+        'Bachelor of Computer Science (BCS)',
+        'Bachelor of Applied Science (BASc)',
+        'Other'
+    ];
 
     return (
         <form className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-md mt-8" onSubmit={handleSubmit}>
@@ -248,7 +260,36 @@ const ApplicationForm = () => {
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="degree" className="text-sm font-medium mb-1 ml-2">Degree</label>
-                        <input id="degree" className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="" value={educationInfo.degree} onChange={e => setEducationInfo({ ...educationInfo, degree: e.target.value })} />
+                        <select
+                            id="degree"
+                            className="input bg-gray-200 rounded-full px-6 py-3"
+                            value={educationInfo.degree === otherDegree ? 'Other' : educationInfo.degree}
+                            onChange={e => {
+                                if (e.target.value === 'Other') {
+                                    setEducationInfo({ ...educationInfo, degree: otherDegree || '' });
+                                } else {
+                                    setOtherDegree('');
+                                    setEducationInfo({ ...educationInfo, degree: e.target.value });
+                                }
+                            }}
+                        >
+                            <option value="Select a Degree">Select a Degree</option>
+                            {degrees.map(degree => (
+                                <option key={degree} value={degree}>{degree}</option>
+                            ))}
+                        </select>
+                        {educationInfo.degree === otherDegree && (
+                            <input
+                                type="text"
+                                className="input bg-gray-200 rounded-full px-6 py-3 mt-2"
+                                placeholder="Please specify your degree"
+                                value={otherDegree}
+                                onChange={e => {
+                                    setOtherDegree(e.target.value);
+                                    setEducationInfo({ ...educationInfo, degree: e.target.value });
+                                }}
+                            />
+                        )}
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="fieldOfStudy" className="text-sm font-medium mb-1 ml-2">Field of Study</label>
