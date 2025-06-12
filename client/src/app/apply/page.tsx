@@ -78,7 +78,14 @@ const ApplicationForm = () => {
     const [emailTouched, setEmailTouched] = useState<boolean>(false);
 
     // Area codes for dropdown
-    const areaCodes = ['+1', '+44', '+91', '+61', '+81', '+86'];
+    const areaCodes = [
+        { code: '+1', country: 'Canada/USA' },
+        { code: '+44', country: 'United Kingdom' },
+        { code: '+91', country: 'India' },
+        { code: '+61', country: 'Australia' },
+        { code: '+81', country: 'Japan' },
+        { code: '+86', country: 'China' }
+    ];
 
     // Phone number formatting (North American style)
     const formatPhoneNumber = (value: string) => {
@@ -287,12 +294,14 @@ const ApplicationForm = () => {
                         <div className="flex gap-2">
                             <select
                                 id="areaCode"
-                                className="input bg-gray-200 rounded-full px-3 py-3 w-16 min-w-fit text-center"
+                                className="input bg-gray-200 rounded-full px-3 py-3 w-32 min-w-fit text-center"
                                 value={personalInfo.areaCode}
                                 onChange={e => setPersonalInfo({ ...personalInfo, areaCode: e.target.value })}
                             >
-                                {areaCodes.map(code => (
-                                    <option key={code} value={code}>{code}</option>
+                                {areaCodes.map(({ code, country }) => (
+                                    <option key={code} value={code}>
+                                        {code} ({country})
+                                    </option>
                                 ))}
                             </select>
                             <input
