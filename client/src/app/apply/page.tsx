@@ -255,6 +255,25 @@ const ApplicationForm = () => {
         ]
     };
 
+    // Postal code validation patterns
+    const postalCodePatterns: Record<string, { placeholder: string; pattern: string; title: string }> = {
+        'Canada': {
+            placeholder: 'A1A 1A1',
+            pattern: '^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$',
+            title: 'Format: A1A 1A1'
+        },
+        'United States': {
+            placeholder: '12345 or 12345-6789',
+            pattern: '^\d{5}(-\d{4})?$',
+            title: 'Format: 12345 or 12345-6789'
+        },
+        'Other': {
+            placeholder: 'Postal/ZIP Code',
+            pattern: '',
+            title: ''
+        }
+    };
+
     return (
         <form className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-md mt-8" onSubmit={handleSubmit}>
             <h1 className="text-3xl font-bold text-center mb-2">Apply Here</h1>
@@ -324,7 +343,17 @@ const ApplicationForm = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                     <div className="flex flex-col gap-1">
                         <label htmlFor="country" className="text-sm font-medium mb-1 ml-2">Country</label>
-                        <input id="country" className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="" value={locationInfo.country} onChange={e => setLocationInfo({ ...locationInfo, country: e.target.value })} />
+                        <select
+                            id="country"
+                            className="input bg-gray-200 rounded-full px-6 py-3"
+                            value={locationInfo.country}
+                            onChange={e => setLocationInfo({ ...locationInfo, country: e.target.value, provinceOrState: '', postalCode: '' })}
+                        >
+                            <option value="">Select a Country</option>
+                            {['Canada','United States','United Kingdom','Australia','India','China','Other'].map(country => (
+                                <option key={country} value={country}>{country}</option>
+                            ))}
+                        </select>
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="address" className="text-sm font-medium mb-1 ml-2">Address</label>
@@ -336,11 +365,99 @@ const ApplicationForm = () => {
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="postalCode" className="text-sm font-medium mb-1 ml-2">Postal Code</label>
-                        <input id="postalCode" className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="" value={locationInfo.postalCode} onChange={e => setLocationInfo({ ...locationInfo, postalCode: e.target.value })} />
+                        {!locationInfo.country && (
+                            <input
+                                id="postalCode"
+                                className="input bg-gray-200 rounded-full px-6 py-3"
+                                type="text"
+                                placeholder="Please select a country"
+                                disabled
+                            />
+                        )}
+                        {locationInfo.country === 'Canada' && (
+                            <input
+                                id="postalCode"
+                                className="input bg-gray-200 rounded-full px-6 py-3"
+                                type="text"
+                                placeholder={postalCodePatterns['Canada'].placeholder}
+                                pattern={postalCodePatterns['Canada'].pattern}
+                                title={postalCodePatterns['Canada'].title}
+                                value={locationInfo.postalCode}
+                                onChange={e => setLocationInfo({ ...locationInfo, postalCode: e.target.value })}
+                                maxLength={7}
+                            />
+                        )}
+                        {locationInfo.country === 'United States' && (
+                            <input
+                                id="postalCode"
+                                className="input bg-gray-200 rounded-full px-6 py-3"
+                                type="text"
+                                placeholder={postalCodePatterns['United States'].placeholder}
+                                pattern={postalCodePatterns['United States'].pattern}
+                                title={postalCodePatterns['United States'].title}
+                                value={locationInfo.postalCode}
+                                onChange={e => setLocationInfo({ ...locationInfo, postalCode: e.target.value })}
+                                maxLength={10}
+                            />
+                        )}
+                        {locationInfo.country && locationInfo.country !== 'Canada' && locationInfo.country !== 'United States' && (
+                            <input
+                                id="postalCode"
+                                className="input bg-gray-200 rounded-full px-6 py-3"
+                                type="text"
+                                placeholder={postalCodePatterns['Other'].placeholder}
+                                value={locationInfo.postalCode}
+                                onChange={e => setLocationInfo({ ...locationInfo, postalCode: e.target.value })}
+                            />
+                        )}
                     </div>
                     <div className="flex flex-col gap-1 md:col-span-2">
                         <label htmlFor="provinceOrState" className="text-sm font-medium mb-1 ml-2">Province / State</label>
-                        <input id="provinceOrState" className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="" value={locationInfo.provinceOrState} onChange={e => setLocationInfo({ ...locationInfo, provinceOrState: e.target.value })} />
+                        {!locationInfo.country && (
+                            <input
+                                id="provinceOrState"
+                                className="input bg-gray-200 rounded-full px-6 py-3"
+                                type="text"
+                                placeholder="Please select a country"
+                                disabled
+                            />
+                        )}
+                        {locationInfo.country === 'Canada' && (
+                            <select
+                                id="provinceOrState"
+                                className="input bg-gray-200 rounded-full px-6 py-3"
+                                value={locationInfo.provinceOrState}
+                                onChange={e => setLocationInfo({ ...locationInfo, provinceOrState: e.target.value })}
+                            >
+                                <option value="">Select a Province/Territory</option>
+                                {['Alberta','British Columbia','Manitoba','New Brunswick','Newfoundland and Labrador','Northwest Territories','Nova Scotia','Nunavut','Ontario','Prince Edward Island','Quebec','Saskatchewan','Yukon'].map(province => (
+                                    <option key={province} value={province}>{province}</option>
+                                ))}
+                            </select>
+                        )}
+                        {locationInfo.country === 'United States' && (
+                            <select
+                                id="provinceOrState"
+                                className="input bg-gray-200 rounded-full px-6 py-3"
+                                value={locationInfo.provinceOrState}
+                                onChange={e => setLocationInfo({ ...locationInfo, provinceOrState: e.target.value })}
+                            >
+                                <option value="">Select a State</option>
+                                {['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'].map(state => (
+                                    <option key={state} value={state}>{state}</option>
+                                ))}
+                            </select>
+                        )}
+                        {locationInfo.country && locationInfo.country !== 'Canada' && locationInfo.country !== 'United States' && (
+                            <input
+                                id="provinceOrState"
+                                className="input bg-gray-200 rounded-full px-6 py-3"
+                                type="text"
+                                placeholder="Enter your region/state"
+                                value={locationInfo.provinceOrState}
+                                onChange={e => setLocationInfo({ ...locationInfo, provinceOrState: e.target.value })}
+                            />
+                        )}
                     </div>
                 </div>
             </section>
