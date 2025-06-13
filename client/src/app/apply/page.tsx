@@ -196,7 +196,7 @@ const ApplicationForm = () => {
                 alert('There was an error submitting your application.');
             }
         } catch (error) {
-            alert('Network error. Please try again later.');
+            alert(`Network error. Please try again later. ${error}`);
         }
     };
 
