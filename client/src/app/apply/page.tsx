@@ -274,6 +274,27 @@ const ApplicationForm = () => {
         }
     };
 
+    // Postal code formatting
+    const formatPostalCode = (value: string, country: string) => {
+        if (country === 'Canada') {
+            // Remove non-alphanumeric, uppercase, insert space after 3rd char
+            let cleaned = value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+            if (cleaned.length > 3) {
+                cleaned = cleaned.slice(0, 3) + ' ' + cleaned.slice(3, 6);
+            }
+            return cleaned.slice(0, 7);
+        } else if (country === 'United States') {
+            // Remove non-digits, format as 12345 or 12345-6789
+            let cleaned = value.replace(/[^0-9]/g, '');
+            if (cleaned.length > 5) {
+                cleaned = cleaned.slice(0, 5) + '-' + cleaned.slice(5, 9);
+            }
+            return cleaned.slice(0, 10);
+        } else {
+            return value;
+        }
+    };
+
     return (
         <form className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-md mt-8" onSubmit={handleSubmit}>
             <h1 className="text-3xl font-bold text-center mb-2">Apply Here</h1>
@@ -383,7 +404,7 @@ const ApplicationForm = () => {
                                 pattern={postalCodePatterns['Canada'].pattern}
                                 title={postalCodePatterns['Canada'].title}
                                 value={locationInfo.postalCode}
-                                onChange={e => setLocationInfo({ ...locationInfo, postalCode: e.target.value })}
+                                onChange={e => setLocationInfo({ ...locationInfo, postalCode: formatPostalCode(e.target.value, 'Canada') })}
                                 maxLength={7}
                             />
                         )}
@@ -396,7 +417,7 @@ const ApplicationForm = () => {
                                 pattern={postalCodePatterns['United States'].pattern}
                                 title={postalCodePatterns['United States'].title}
                                 value={locationInfo.postalCode}
-                                onChange={e => setLocationInfo({ ...locationInfo, postalCode: e.target.value })}
+                                onChange={e => setLocationInfo({ ...locationInfo, postalCode: formatPostalCode(e.target.value, 'United States') })}
                                 maxLength={10}
                             />
                         )}
