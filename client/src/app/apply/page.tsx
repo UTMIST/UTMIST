@@ -331,7 +331,7 @@ const ApplicationForm = () => {
                     </div>
                     <div className="flex flex-col gap-1 md:col-span-2">
                         <label htmlFor="areaCode" className="text-sm font-medium mb-1 ml-2">Area Code & Phone Number</label>
-                        <div className="flex gap-2">
+                        <div className="flex flex-col sm:flex-row gap-2">
                             <select
                                 id="areaCode"
                                 className="input bg-gray-200 rounded-full px-3 py-3 w-32 min-w-fit text-center"
@@ -648,70 +648,68 @@ const ApplicationForm = () => {
                                 </div>
                             </div>
                             {/* Date labels and inputs */}
-                            <div className="w-full flex flex-col gap-1 md:col-span-2">
-                                <div className="flex w-full gap-8">
-                                    <div className={`${!exp.currentlyWorking ? 'flex-1 max-w-xs' : 'flex-1'} flex flex-col min-w-0`}>
-                                        <label className="text-sm font-medium mb-1 ml-2">Start Date</label>
-                                        <div className="flex gap-2 min-w-0">
+                            <div className={`w-full flex flex-col gap-1 md:col-span-2 ${exp.currentlyWorking ? '' : 'flex-col sm:flex-row'}`}>
+                                <div className="flex-1 flex flex-col min-w-0 max-w-xs">
+                                    <label className="text-sm font-medium mb-1 ml-2">Start Date</label>
+                                    <div className="flex flex-col sm:flex-row gap-2 min-w-0">
+                                        <select
+                                            className="input bg-gray-200 rounded-full px-4 py-3 min-w-0 w-full sm:w-40"
+                                            value={exp.startMonth}
+                                            onChange={e => handleWorkExperienceChange(idx, 'startMonth', e.target.value)}
+                                        >
+                                            <option value="">Month</option>
+                                            {months.map(month => (
+                                                <option key={month} value={month}>{month}</option>
+                                            ))}
+                                        </select>
+                                        <select
+                                            className="input bg-gray-200 rounded-full px-4 py-3 min-w-0 w-full sm:w-32"
+                                            value={exp.startYear}
+                                            onChange={e => handleWorkExperienceChange(idx, 'startYear', e.target.value)}
+                                        >
+                                            <option value="">Year</option>
+                                            {years.map(year => (
+                                                <option key={year} value={year}>{year}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                {!exp.currentlyWorking && (
+                                    <div className="flex-1 flex flex-col min-w-0 max-w-xs mt-4 sm:mt-0">
+                                        <label className="text-sm font-medium mb-1 ml-2">End Date</label>
+                                        <div className="flex flex-col sm:flex-row gap-2 min-w-0">
                                             <select
-                                                className={`input bg-gray-200 rounded-full px-4 py-3 min-w-0 ${exp.currentlyWorking ? 'flex-1' : 'w-40'}`}
-                                                value={exp.startMonth}
-                                                onChange={e => handleWorkExperienceChange(idx, 'startMonth', e.target.value)}
+                                                className="input bg-gray-200 rounded-full px-4 py-3 min-w-0 w-full sm:w-40"
+                                                value={exp.endMonth}
+                                                onChange={e => handleWorkExperienceChange(idx, 'endMonth', e.target.value)}
                                             >
-                                                <option value="">Start Month</option>
+                                                <option value="">Month</option>
                                                 {months.map(month => (
                                                     <option key={month} value={month}>{month}</option>
                                                 ))}
                                             </select>
                                             <select
-                                                className={`input bg-gray-200 rounded-full px-4 py-3 min-w-0 ${exp.currentlyWorking ? 'flex-1' : 'w-32'}`}
-                                                value={exp.startYear}
-                                                onChange={e => handleWorkExperienceChange(idx, 'startYear', e.target.value)}
+                                                className="input bg-gray-200 rounded-full px-4 py-3 min-w-0 w-full sm:w-32"
+                                                value={exp.endYear}
+                                                onChange={e => handleWorkExperienceChange(idx, 'endYear', e.target.value)}
                                             >
-                                                <option value="">Start Year</option>
+                                                <option value="">Year</option>
                                                 {years.map(year => (
                                                     <option key={year} value={year}>{year}</option>
                                                 ))}
                                             </select>
                                         </div>
                                     </div>
-                                    {!exp.currentlyWorking && (
-                                        <div className="flex-1 flex flex-col min-w-0 max-w-xs">
-                                            <label className="text-sm font-medium mb-1 ml-2">End Date</label>
-                                            <div className="flex gap-2 min-w-0">
-                                                <select
-                                                    className="input bg-gray-200 rounded-full px-4 py-3 w-40 min-w-0"
-                                                    value={exp.endMonth}
-                                                    onChange={e => handleWorkExperienceChange(idx, 'endMonth', e.target.value)}
-                                                >
-                                                    <option value="">End Month</option>
-                                                    {months.map(month => (
-                                                        <option key={month} value={month}>{month}</option>
-                                                    ))}
-                                                </select>
-                                                <select
-                                                    className="input bg-gray-200 rounded-full px-4 py-3 w-32 min-w-0"
-                                                    value={exp.endYear}
-                                                    onChange={e => handleWorkExperienceChange(idx, 'endYear', e.target.value)}
-                                                >
-                                                    <option value="">End Year</option>
-                                                    {years.map(year => (
-                                                        <option key={year} value={year}>{year}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    )}
-                                    <div className="flex items-center ml-auto mt-6 md:mt-7">
-                                        <input
-                                            type="checkbox"
-                                            id={`currentlyWorking-${idx}`}
-                                            checked={!!exp.currentlyWorking}
-                                            onChange={e => handleWorkExperienceChange(idx, 'currentlyWorking', e.target.checked)}
-                                            className="ml-2"
-                                        />
-                                        <label htmlFor={`currentlyWorking-${idx}`} className="select-none cursor-pointer ml-1">I currently work here</label>
-                                    </div>
+                                )}
+                                <div className="flex items-center ml-auto mt-6 md:mt-7">
+                                    <input
+                                        type="checkbox"
+                                        id={`currentlyWorking-${idx}`}
+                                        checked={!!exp.currentlyWorking}
+                                        onChange={e => handleWorkExperienceChange(idx, 'currentlyWorking', e.target.checked)}
+                                        className="ml-2"
+                                    />
+                                    <label htmlFor={`currentlyWorking-${idx}`} className="select-none cursor-pointer ml-1">I currently work here</label>
                                 </div>
                             </div>
                         </div>
