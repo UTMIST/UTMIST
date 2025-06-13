@@ -806,7 +806,7 @@ const ApplicationForm = () => {
                     <input type="file" accept=".pdf" className="hidden" onChange={handleResumeUpload} />
                 </label>
                 {resume && <div className="text-center text-sm text-gray-600">{resume.name}</div>}
-                {resumeError && <div className="text-center text-red-500 text-sm mt-2">{resumeError}</div>}
+                {resumeError && <div className="text-center font-bold text-red-500 text-sm mt-2">{resumeError}</div>}
                 {resumePreviewUrl && (
                     <div className="flex flex-col items-center mt-4">
                         <span className="text-sm text-gray-500 mb-2">PDF Preview:</span>
