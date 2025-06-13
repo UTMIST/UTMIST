@@ -51,7 +51,12 @@ const months = [
     'July', 'August', 'September', 'October', 'November', 'December'
 ];
 const currentYear = new Date().getFullYear();
-const years = Array.from({ length: 51 }, (_, i) => String(currentYear - i));
+const maxYear = 2030;
+const minYear = currentYear - 50;
+const years: string[] = [];
+for (let y = maxYear; y >= minYear; y--) {
+    years.push(String(y));
+}
 
 // Add types for props
 
