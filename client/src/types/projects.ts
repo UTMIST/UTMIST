@@ -14,7 +14,7 @@ export interface Project {
   title: string;
   description: string;
   github?: string;
-  image: StaticImageData;
+  image: StaticImageData | string;
   imageAltText?: string;
   type: ProjectType;
   readMoreLink: string;

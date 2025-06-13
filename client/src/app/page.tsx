@@ -49,7 +49,7 @@ export default function Home() {
 
       {/*Statistics Section */}
       <div className="flex flex-col gap-8 justify-center items-center my-16">
-        <p className="text-4xl font-bold text-center max-w-3xl text-black">
+        <p className="text-4xl font-bold text-center max-w-3xl text-black px-8 md:px-0">
           UTMIST is Canada&apos;s largest student-lead organization for
           Artificial Intelligence and Machine Learning
         </p>
@@ -73,16 +73,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/*Events Section */}
       <Events />
-
-      <div className="flex flex-col gap-8 justify-center items-center my-16">
-        <p className="text-4xl font-bold text-center max-w-3xl text-black">
-          We bring together students, experts, and innovators to explore AI from
-          every angle
-        </p>
-      </div>
-
       <ValueProps />
 
       <FAQ />

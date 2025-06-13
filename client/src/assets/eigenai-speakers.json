@@ -1,50 +1,62 @@
 [
-    {
-        "name": "Boogey Wonderland",
-        "role": "ML Engineer @ UofT",
-        "profileURL": "google.com",
-        "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
-    },
-
-    {
-        "name": "Boogey Wonderland",
-        "role": "ML Engineer @ UofT",
-        "profileURL": "google.com",
-        "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
-    },
-
-    {
-        "name": "Boogey Wonderland",
-        "role": "ML Engineer @ UofT",
-        "profileURL": "google.com",
-        "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
-    },
-
-    {
-        "name": "Boogey Wonderland",
-        "role": "ML Engineer @ UofT",
-        "profileURL": "google.com",
-        "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
-    },
-    {
-        "name": "Boogey Wonderland",
-        "role": "ML Engineer @ UofT",
-        "profileURL": "google.com",
-        "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
-    },
-
-    {
-        "name": "Boogey Wonderland",
-        "role": "ML Engineer @ UofT",
-        "profileURL": "google.com",
-        "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
-    },
-    {
-        "name": "Boogey Wonderland",
-        "role": "ML Engineer @ UofT",
-        "profileURL": "google.com",
-        "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
-    }
-
-
+  {
+    "name": "Amrit Krishnan",
+    "role": "Technical Team Lead at Vector Institute",
+    "profileURL": "",
+    "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
+  },
+  {
+    "name": "Devang Sharma",
+    "role": "Engineer at Amazon",
+    "profileURL": "",
+    "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
+  },
+  {
+    "name": "Khantil Desai",
+    "role": "Machine Learning Scientist at Xero",
+    "profileURL": "",
+    "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
+  },
+  {
+    "name": "Marcelo Ponce",
+    "role": "Professor at University of Toronto",
+    "profileURL": "",
+    "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
+  },
+  {
+    "name": "Mustafa Khan",
+    "role": "Technical Director at aUToronto",
+    "profileURL": "",
+    "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
+  },
+  {
+    "name": "Parham Aarabi",
+    "role": "Prof at UofT",
+    "profileURL": "",
+    "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
+  },
+  {
+    "name": "Priyanka Velagala",
+    "role": "Speaker",
+    "profileURL": "",
+    "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
+  },
+  {
+    "name": "Rue Sriharsha",
+    "role": "Risk Advisory Consultant",
+    "profileURL": "",
+    "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
+  },
+  {
+    "name": "Ryan Koh",
+    "role": "Postdoctoral Fellow at UofT/KITE-UHN",
+    "profileURL": "",
+    "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
+  },
+  {
+    "name": "Tyler Smith",
+    "role": "Software Engineer at AI Warehouse",
+    "profileURL": "",
+    "profileImageURL": "https://cdn.prod.website-files.com/60bf2aa66aa293066efc2865/675c202f4954cf3bca2f329c_peter-griffin.jpg"
+  }
 ]
