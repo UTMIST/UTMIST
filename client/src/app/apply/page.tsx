@@ -351,13 +351,13 @@ const WorkExperienceSection = ({
               </div>
             </div>
             {/* Date labels and inputs */}
-            <div className={`w-full flex flex-col gap-1 md:col-span-2`}>
-              <label className="text-sm font-medium mb-1 ml-2">{exp.currentlyWorking ? 'Start Date' : 'Start & End Date'}</label>
-              <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
-                {/* Start Date Selectors */}
-                <div className="flex flex-row gap-4 flex-1 w-full">
+            <div className={`w-full flex flex-col sm:flex-row gap-y-4 sm:gap-y-0 sm:gap-x-4 items-start md:col-span-2`}>
+              {/* Start Date Group */}
+              <div className="flex flex-col flex-1 w-full">
+                <label className="text-sm font-medium mb-1 ml-2">Start Date</label>
+                <div className="flex flex-row gap-4 w-full">
                   <select
-                    className="input bg-gray-200 rounded-full px-4 py-3 flex-1 w-full"
+                    className="input bg-gray-200 rounded-full px-6 py-3 flex-1 w-full text-base"
                     value={exp.startMonth}
                     onChange={e => handleWorkExperienceChange(idx, 'startMonth', e.target.value)}
                   >
@@ -367,7 +367,7 @@ const WorkExperienceSection = ({
                     ))}
                   </select>
                   <select
-                    className="input bg-gray-200 rounded-full px-4 py-3 flex-1 w-full"
+                    className="input bg-gray-200 rounded-full px-6 py-3 flex-1 w-full text-base"
                     value={exp.startYear}
                     onChange={e => handleWorkExperienceChange(idx, 'startYear', e.target.value)}
                   >
@@ -377,11 +377,14 @@ const WorkExperienceSection = ({
                     ))}
                   </select>
                 </div>
-                {/* End Date Selectors (only if not currently working) */}
-                {!exp.currentlyWorking && (
-                  <div className="flex flex-row gap-4 flex-1 w-full mt-2 sm:mt-0">
+              </div>
+              {/* End Date Group (only if not currently working) */}
+              {!exp.currentlyWorking && (
+                <div className="flex flex-col flex-1 w-full">
+                  <label className="text-sm font-medium mb-1 ml-2">End Date</label>
+                  <div className="flex flex-row gap-4 w-full">
                     <select
-                      className="input bg-gray-200 rounded-full px-4 py-3 flex-1 w-full"
+                      className="input bg-gray-200 rounded-full px-6 py-3 flex-1 w-full text-base"
                       value={exp.endMonth}
                       onChange={e => handleWorkExperienceChange(idx, 'endMonth', e.target.value)}
                     >
@@ -391,7 +394,7 @@ const WorkExperienceSection = ({
                       ))}
                     </select>
                     <select
-                      className="input bg-gray-200 rounded-full px-4 py-3 flex-1 w-full"
+                      className="input bg-gray-200 rounded-full px-6 py-3 flex-1 w-full text-base"
                       value={exp.endYear}
                       onChange={e => handleWorkExperienceChange(idx, 'endYear', e.target.value)}
                     >
@@ -401,18 +404,18 @@ const WorkExperienceSection = ({
                       ))}
                     </select>
                   </div>
-                )}
-                {/* Checkbox always present, right-aligned on desktop, below on mobile */}
-                <div className="flex items-center mt-2 sm:mt-0 sm:ml-4 min-w-[180px] w-full sm:w-auto">
-                  <input
-                    type="checkbox"
-                    id={`currentlyWorking-${idx}`}
-                    checked={!!exp.currentlyWorking}
-                    onChange={e => handleWorkExperienceChange(idx, 'currentlyWorking', e.target.checked)}
-                    className="mr-2"
-                  />
-                  <label htmlFor={`currentlyWorking-${idx}`} className="select-none cursor-pointer">I currently work here</label>
                 </div>
+              )}
+              {/* Checkbox always present, right-aligned */}
+              <div className="flex items-center mt-6 sm:mt-7 ml-2 min-w-[180px]">
+                <input
+                  type="checkbox"
+                  id={`currentlyWorking-${idx}`}
+                  checked={!!exp.currentlyWorking}
+                  onChange={e => handleWorkExperienceChange(idx, 'currentlyWorking', e.target.checked)}
+                  className="mr-2"
+                />
+                <label htmlFor={`currentlyWorking-${idx}`} className="select-none cursor-pointer">I currently work here</label>
               </div>
             </div>
           </div>
@@ -658,7 +661,7 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
           <div className="flex gap-2 min-w-0">
             <select
               id="graduationMonth"
-              className="input bg-gray-200 rounded-full px-4 py-3 flex-1 min-w-0"
+              className="input bg-gray-200 rounded-full px-6 py-3 flex-1 min-w-0"
               value={educationInfo.graduationMonth}
               onChange={e => setEducationInfo({ ...educationInfo, graduationMonth: e.target.value })}
             >
@@ -669,7 +672,7 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
             </select>
             <select
               id="graduationYear"
-              className="input bg-gray-200 rounded-full px-4 py-3 flex-1 min-w-0"
+              className="input bg-gray-200 rounded-full px-6 py-3 flex-1 min-w-0"
               value={educationInfo.graduationYear}
               onChange={e => setEducationInfo({ ...educationInfo, graduationYear: e.target.value })}
             >
