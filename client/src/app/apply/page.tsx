@@ -74,6 +74,8 @@ const ApplicationForm = () => {
         { companyName: '', jobTitle: '', startMonth: '', startYear: 'W', endMonth: '', endYear: '', description: '', currentlyWorking: false },
     ]);
     const [resume, setResume] = useState<File | null>(null);
+    const [resumeError, setResumeError] = useState<string>('');
+    const [resumePreviewUrl, setResumePreviewUrl] = useState<string>('');
     const [emailError, setEmailError] = useState<string>('');
     const [emailTouched, setEmailTouched] = useState<boolean>(false);
 
@@ -129,7 +131,26 @@ const ApplicationForm = () => {
 
     const handleResumeUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            setResume(e.target.files[0]);
+            const file = e.target.files[0];
+            // Validate file type
+            if (file.type !== 'application/pdf') {
+                setResume(null);
+                setResumeError('Only PDF files are allowed.');
+                setResumePreviewUrl('');
+                return;
+            }
+            // Validate file size (max 5 MB)
+            if (file.size > 5 * 1024 * 1024) {
+                setResume(null);
+                setResumeError('File size must be 5 MB or less.');
+                setResumePreviewUrl('');
+                return;
+            }
+            setResume(file);
+            setResumeError('');
+            // Create preview URL
+            const url = URL.createObjectURL(file);
+            setResumePreviewUrl(url);
         }
     };
 
@@ -782,10 +803,18 @@ const ApplicationForm = () => {
                         </svg>
                         <span className="text-xl font-bold">Resume Upload</span>
                     </span>
-                    <input type="file" accept=".pdf,.doc,.docx" className="hidden" onChange={handleResumeUpload} />
+                    <input type="file" accept=".pdf" className="hidden" onChange={handleResumeUpload} />
                 </label>
                 {resume && <div className="text-center text-sm text-gray-600">{resume.name}</div>}
-            </section>)
+                {resumeError && <div className="text-center text-red-500 text-sm mt-2">{resumeError}</div>}
+                {resumePreviewUrl && (
+                    <div className="flex flex-col items-center mt-4">
+                        <span className="text-sm text-gray-500 mb-2">PDF Preview:</span>
+                        <embed src={resumePreviewUrl} type="application/pdf" className="w-full max-w-xl h-96 border rounded-lg shadow" />
+                    </div>
+                )}
+            </section>
+        )
     }
 
     return (
