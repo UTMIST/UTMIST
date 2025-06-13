@@ -139,7 +139,7 @@ const ApplicationForm = () => {
         return /^\S+@\S+\.\S+$/.test(email);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         // Validate email
         if (personalInfo.email && !validateEmail(personalInfo.email)) {
@@ -149,7 +149,34 @@ const ApplicationForm = () => {
         } else {
             setEmailError('');
         }
-        // Submission logic here
+    
+        // Gather form data
+        const formData: ApplicationFormData = {
+            personalInfo,
+            locationInfo,
+            experienceInfo: { workExperience },
+            educationInfo,
+        };
+    
+        try {
+            const response = await fetch('/api/apply', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+    
+            if (response.ok) {
+                // Success logic here (e.g., show a success message, reset form, etc.)
+                alert('Application submitted successfully!');
+            } else {
+                // Error logic here
+                alert('There was an error submitting your application.');
+            }
+        } catch (error) {
+            alert('Network error. Please try again later.');
+        }
     };
 
     // Month and year options
@@ -294,13 +321,18 @@ const ApplicationForm = () => {
             return value;
         }
     };
+    
+    const JobInformationSection = () => {
+        return (
+            <>
+                <h1 className="text-3xl font-bold text-center mb-2">Apply Here</h1>
+                <h2 className="text-xl font-bold text-center mb-8">{'{JOB TITLE NAME}'}</h2>
+            </>
+        )
+    }
 
-    return (
-        <form className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-md mt-8" onSubmit={handleSubmit}>
-            <h1 className="text-3xl font-bold text-center mb-2">Apply Here</h1>
-            <h2 className="text-xl font-bold text-center mb-8">{'{JOB TITLE NAME}'}</h2>
-
-            {/* Personal Information */}
+    const PersonalInformationSection = () => {
+        return (
             <section className="mb-10">
                 <h3 className="text-2xl font-semibold mb-4">Personal Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
@@ -357,8 +389,11 @@ const ApplicationForm = () => {
                     </div>
                 </div>
             </section>
+        )
+    }
 
-            {/* Contact Information */}
+    const ContactInformationSection = () => {
+        return (
             <section className="mb-10">
                 <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
@@ -482,8 +517,119 @@ const ApplicationForm = () => {
                     </div>
                 </div>
             </section>
+        )
+    }
 
-            {/* Education */}
+    const WorkExperienceSection = () => {
+        return (
+             <section className="mb-10">
+             <h3 className="text-2xl font-bold mb-6">Work Experience</h3>
+             {workExperience.map((exp, idx) => (
+                 <div key={idx} className="mb-8 relative">
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-6">
+                         <div className="flex flex-col gap-1">
+                             <label htmlFor={`companyName-${idx}`} className="text-sm font-medium mb-1 ml-2">Company Name</label>
+                             <input id={`companyName-${idx}`} className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="" value={exp.companyName} onChange={e => handleWorkExperienceChange(idx, 'companyName', e.target.value)} />
+                         </div>
+                         <div className="flex flex-col gap-1">
+                             <label htmlFor={`jobTitle-${idx}`} className="text-sm font-medium mb-1 ml-2">Job Title</label>
+                             <div className="flex items-center gap-2">
+                                 <input id={`jobTitle-${idx}`} className="input bg-gray-200 rounded-full px-6 py-3 flex-1" type="text" placeholder="" value={exp.jobTitle} onChange={e => handleWorkExperienceChange(idx, 'jobTitle', e.target.value)} />
+                                 {workExperience.length > 1 && (
+                                     <button type="button" onClick={() => deleteWorkExperience(idx)}
+                                         className="bg-gray-200 rounded-full flex items-center justify-center w-12 h-12 text-red-500 hover:text-red-700 hover:bg-gray-300 transition"
+                                         title="Delete">
+                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                                     </button>
+                                 )}
+                             </div>
+                         </div>
+                         {/* Date labels and inputs */}
+                         <div className={`w-full flex flex-col gap-1 md:col-span-2 ${exp.currentlyWorking ? '' : 'flex-col sm:flex-row'}`}>
+                             <div className="flex-1 flex flex-col min-w-0 max-w-xs">
+                                 <label className="text-sm font-medium mb-1 ml-2">Start Date</label>
+                                 <div className="flex flex-col sm:flex-row gap-2 min-w-0">
+                                     <select
+                                         className="input bg-gray-200 rounded-full px-4 py-3 min-w-0 w-full sm:w-40"
+                                         value={exp.startMonth}
+                                         onChange={e => handleWorkExperienceChange(idx, 'startMonth', e.target.value)}
+                                     >
+                                         <option value="">Month</option>
+                                         {months.map(month => (
+                                             <option key={month} value={month}>{month}</option>
+                                         ))}
+                                     </select>
+                                     <select
+                                         className="input bg-gray-200 rounded-full px-4 py-3 min-w-0 w-full sm:w-32"
+                                         value={exp.startYear}
+                                         onChange={e => handleWorkExperienceChange(idx, 'startYear', e.target.value)}
+                                     >
+                                         <option value="">Year</option>
+                                         {years.map(year => (
+                                             <option key={year} value={year}>{year}</option>
+                                         ))}
+                                     </select>
+                                 </div>
+                             </div>
+                             {!exp.currentlyWorking && (
+                                 <div className="flex-1 flex flex-col min-w-0 max-w-xs mt-4 sm:mt-0">
+                                     <label className="text-sm font-medium mb-1 ml-2">End Date</label>
+                                     <div className="flex flex-col sm:flex-row gap-2 min-w-0">
+                                         <select
+                                             className="input bg-gray-200 rounded-full px-4 py-3 min-w-0 w-full sm:w-40"
+                                             value={exp.endMonth}
+                                             onChange={e => handleWorkExperienceChange(idx, 'endMonth', e.target.value)}
+                                         >
+                                             <option value="">Month</option>
+                                             {months.map(month => (
+                                                 <option key={month} value={month}>{month}</option>
+                                             ))}
+                                         </select>
+                                         <select
+                                             className="input bg-gray-200 rounded-full px-4 py-3 min-w-0 w-full sm:w-32"
+                                             value={exp.endYear}
+                                             onChange={e => handleWorkExperienceChange(idx, 'endYear', e.target.value)}
+                                         >
+                                             <option value="">Year</option>
+                                             {years.map(year => (
+                                                 <option key={year} value={year}>{year}</option>
+                                             ))}
+                                         </select>
+                                     </div>
+                                 </div>
+                             )}
+                             <div className="flex items-center ml-auto mt-6 md:mt-7">
+                                 <input
+                                     type="checkbox"
+                                     id={`currentlyWorking-${idx}`}
+                                     checked={!!exp.currentlyWorking}
+                                     onChange={e => handleWorkExperienceChange(idx, 'currentlyWorking', e.target.checked)}
+                                     className="ml-2"
+                                 />
+                                 <label htmlFor={`currentlyWorking-${idx}`} className="select-none cursor-pointer ml-1">I currently work here</label>
+                             </div>
+                         </div>
+                     </div>
+                     <div className="flex flex-col gap-1 mt-2">
+                         <label htmlFor={`description-${idx}`} className="text-sm font-medium mb-1 ml-2">Description</label>
+                         <textarea id={`description-${idx}`} className="input bg-gray-200 rounded-2xl px-6 py-3 w-full min-h-[280px] mb-2 resize-none" placeholder="" value={exp.description} onChange={e => handleWorkExperienceChange(idx, 'description', e.target.value)} />
+                     </div>
+                 </div>
+             ))}
+             <button type="button" className="w-full flex flex-col items-center justify-center py-2 border-2 border-gray-300 rounded-full font-bold text-gray-600 hover:bg-gray-100 mb-2" onClick={addWorkExperience}>
+                 <span className="flex flex-col items-center justify-center gap-2">
+                     <svg fill="none" strokeWidth="3" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-8 h-8 text-gray-600 mb-1">
+                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
+                     </svg>
+                     <span className="text-base font-semibold">Add Work Experience</span>
+                 </span>
+             </button>
+         </section>
+        )
+    }
+
+    const EducationSection = () => {
+        return (
             <section className="mb-10">
                 <h3 className="text-lg font-semibold mb-4">Education</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
@@ -623,113 +769,11 @@ const ApplicationForm = () => {
                     </div>
                 </div>
             </section>
+        )
+    }
 
-            {/* Work Experience */}
-            <section className="mb-10">
-                <h3 className="text-2xl font-bold mb-6">Work Experience</h3>
-                {workExperience.map((exp, idx) => (
-                    <div key={idx} className="mb-8 relative">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-6">
-                            <div className="flex flex-col gap-1">
-                                <label htmlFor={`companyName-${idx}`} className="text-sm font-medium mb-1 ml-2">Company Name</label>
-                                <input id={`companyName-${idx}`} className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="" value={exp.companyName} onChange={e => handleWorkExperienceChange(idx, 'companyName', e.target.value)} />
-                            </div>
-                            <div className="flex flex-col gap-1">
-                                <label htmlFor={`jobTitle-${idx}`} className="text-sm font-medium mb-1 ml-2">Job Title</label>
-                                <div className="flex items-center gap-2">
-                                    <input id={`jobTitle-${idx}`} className="input bg-gray-200 rounded-full px-6 py-3 flex-1" type="text" placeholder="" value={exp.jobTitle} onChange={e => handleWorkExperienceChange(idx, 'jobTitle', e.target.value)} />
-                                    {workExperience.length > 1 && (
-                                        <button type="button" onClick={() => deleteWorkExperience(idx)}
-                                            className="bg-gray-200 rounded-full flex items-center justify-center w-12 h-12 text-red-500 hover:text-red-700 hover:bg-gray-300 transition"
-                                            title="Delete">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                                        </button>
-                                    )}
-                                </div>
-                            </div>
-                            {/* Date labels and inputs */}
-                            <div className={`w-full flex flex-col gap-1 md:col-span-2 ${exp.currentlyWorking ? '' : 'flex-col sm:flex-row'}`}>
-                                <div className="flex-1 flex flex-col min-w-0 max-w-xs">
-                                    <label className="text-sm font-medium mb-1 ml-2">Start Date</label>
-                                    <div className="flex flex-col sm:flex-row gap-2 min-w-0">
-                                        <select
-                                            className="input bg-gray-200 rounded-full px-4 py-3 min-w-0 w-full sm:w-40"
-                                            value={exp.startMonth}
-                                            onChange={e => handleWorkExperienceChange(idx, 'startMonth', e.target.value)}
-                                        >
-                                            <option value="">Month</option>
-                                            {months.map(month => (
-                                                <option key={month} value={month}>{month}</option>
-                                            ))}
-                                        </select>
-                                        <select
-                                            className="input bg-gray-200 rounded-full px-4 py-3 min-w-0 w-full sm:w-32"
-                                            value={exp.startYear}
-                                            onChange={e => handleWorkExperienceChange(idx, 'startYear', e.target.value)}
-                                        >
-                                            <option value="">Year</option>
-                                            {years.map(year => (
-                                                <option key={year} value={year}>{year}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                </div>
-                                {!exp.currentlyWorking && (
-                                    <div className="flex-1 flex flex-col min-w-0 max-w-xs mt-4 sm:mt-0">
-                                        <label className="text-sm font-medium mb-1 ml-2">End Date</label>
-                                        <div className="flex flex-col sm:flex-row gap-2 min-w-0">
-                                            <select
-                                                className="input bg-gray-200 rounded-full px-4 py-3 min-w-0 w-full sm:w-40"
-                                                value={exp.endMonth}
-                                                onChange={e => handleWorkExperienceChange(idx, 'endMonth', e.target.value)}
-                                            >
-                                                <option value="">Month</option>
-                                                {months.map(month => (
-                                                    <option key={month} value={month}>{month}</option>
-                                                ))}
-                                            </select>
-                                            <select
-                                                className="input bg-gray-200 rounded-full px-4 py-3 min-w-0 w-full sm:w-32"
-                                                value={exp.endYear}
-                                                onChange={e => handleWorkExperienceChange(idx, 'endYear', e.target.value)}
-                                            >
-                                                <option value="">Year</option>
-                                                {years.map(year => (
-                                                    <option key={year} value={year}>{year}</option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                    </div>
-                                )}
-                                <div className="flex items-center ml-auto mt-6 md:mt-7">
-                                    <input
-                                        type="checkbox"
-                                        id={`currentlyWorking-${idx}`}
-                                        checked={!!exp.currentlyWorking}
-                                        onChange={e => handleWorkExperienceChange(idx, 'currentlyWorking', e.target.checked)}
-                                        className="ml-2"
-                                    />
-                                    <label htmlFor={`currentlyWorking-${idx}`} className="select-none cursor-pointer ml-1">I currently work here</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 mt-2">
-                            <label htmlFor={`description-${idx}`} className="text-sm font-medium mb-1 ml-2">Description</label>
-                            <textarea id={`description-${idx}`} className="input bg-gray-200 rounded-2xl px-6 py-3 w-full min-h-[280px] mb-2 resize-none" placeholder="" value={exp.description} onChange={e => handleWorkExperienceChange(idx, 'description', e.target.value)} />
-                        </div>
-                    </div>
-                ))}
-                <button type="button" className="w-full flex flex-col items-center justify-center py-2 border-2 border-gray-300 rounded-full font-bold text-gray-600 hover:bg-gray-100 mb-2" onClick={addWorkExperience}>
-                    <span className="flex flex-col items-center justify-center gap-2">
-                        <svg fill="none" strokeWidth="3" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-8 h-8 text-gray-600 mb-1">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
-                        </svg>
-                        <span className="text-base font-semibold">Add Work Experience</span>
-                    </span>
-                </button>
-            </section>
-
-            {/* Resume Upload */}
+    const ResumeUploadModule = () => {
+        return (
             <section className="mb-10">
                 <label className="block w-full border-2 border-blue-200 rounded-2xl p-8 text-center cursor-pointer hover:border-blue-400 transition mb-2 bg-gradient-to-br from-white to-blue-50">
                     <span className="flex flex-col items-center justify-center gap-2">
@@ -741,8 +785,17 @@ const ApplicationForm = () => {
                     <input type="file" accept=".pdf,.doc,.docx" className="hidden" onChange={handleResumeUpload} />
                 </label>
                 {resume && <div className="text-center text-sm text-gray-600">{resume.name}</div>}
-            </section>
+            </section>)
+    }
 
+    return (
+        <form className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-md mt-8" onSubmit={handleSubmit}>
+            <JobInformationSection />
+            <PersonalInformationSection/>
+            <ContactInformationSection/>
+            <EducationSection />
+            <WorkExperienceSection />
+            <ResumeUploadModule />
             <button type="submit" className="w-full py-3 bg-gray-200 rounded-full font-semibold text-lg hover:bg-gray-300 transition">Submit</button>
         </form>
     );
