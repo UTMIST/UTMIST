@@ -786,7 +786,7 @@ const ApplicationForm = () => {
     ];
 
     // Phone number validation based on country
-    const validatePhoneNumber = (number: string, country: string, areaCode: string) => {
+    const validatePhoneNumber = (number: string, country: string) => {
         const digits = number.replace(/\D/g, '');
         switch (country) {
             case 'Canada':
@@ -831,7 +831,7 @@ const ApplicationForm = () => {
         let country = locationInfo.country;
         if (!country && personalInfo.areaCode === '+1') country = 'Canada/USA';
         else if (!country) country = '';
-        if (formatted && !validatePhoneNumber(formatted, country, personalInfo.areaCode)) {
+        if (formatted && !validatePhoneNumber(formatted, country)) {
             setPhoneError('Please enter a valid phone number.');
         } else {
             setPhoneError('');
@@ -858,7 +858,7 @@ const ApplicationForm = () => {
         let country = locationInfo.country;
         if (!country && personalInfo.areaCode === '+1') country = 'Canada/USA';
         else if (!country) country = '';
-        if (personalInfo.phoneNumber && !validatePhoneNumber(personalInfo.phoneNumber, country, personalInfo.areaCode)) {
+        if (personalInfo.phoneNumber && !validatePhoneNumber(personalInfo.phoneNumber, country)) {
             setPhoneError('Please enter a valid phone number.');
             setPhoneTouched(true);
             return;
