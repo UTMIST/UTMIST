@@ -771,6 +771,9 @@ const ApplicationForm = () => {
     
     const [emailError, setEmailError] = useState<string>('');
     const [emailTouched, setEmailTouched] = useState<boolean>(false);
+    // Phone number error state
+    const [phoneError, setPhoneError] = useState<string>('');
+    const [phoneTouched, setPhoneTouched] = useState<boolean>(false);
 
     // Area codes for dropdown
     const areaCodes = [
@@ -781,6 +784,29 @@ const ApplicationForm = () => {
         { code: '+81', country: 'Japan' },
         { code: '+86', country: 'China' }
     ];
+
+    // Phone number validation based on country
+    const validatePhoneNumber = (number: string, country: string, areaCode: string) => {
+        const digits = number.replace(/\D/g, '');
+        switch (country) {
+            case 'Canada':
+            case 'United States':
+            case 'Canada/USA':
+                return /^\d{10}$/.test(digits);
+            case 'United Kingdom':
+                return /^\d{10,11}$/.test(digits);
+            case 'India':
+                return /^\d{10}$/.test(digits);
+            case 'Australia':
+                return /^\d{9}$/.test(digits);
+            case 'Japan':
+                return /^\d{10,11}$/.test(digits);
+            case 'China':
+                return /^\d{11}$/.test(digits);
+            default:
+                return /^\d{6,}$/.test(digits);
+        }
+    };
 
     // Phone number formatting (North American style)
     const formatPhoneNumber = (value: string) => {
@@ -800,6 +826,16 @@ const ApplicationForm = () => {
     const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const formatted = formatPhoneNumber(e.target.value);
         setPersonalInfo({ ...personalInfo, phoneNumber: formatted });
+        setPhoneTouched(true);
+        // Determine country for validation
+        let country = locationInfo.country;
+        if (!country && personalInfo.areaCode === '+1') country = 'Canada/USA';
+        else if (!country) country = '';
+        if (formatted && !validatePhoneNumber(formatted, country, personalInfo.areaCode)) {
+            setPhoneError('Please enter a valid phone number.');
+        } else {
+            setPhoneError('');
+        }
     };
 
     // Email validation function
@@ -817,6 +853,17 @@ const ApplicationForm = () => {
             return;
         } else {
             setEmailError('');
+        }
+        // Validate phone number
+        let country = locationInfo.country;
+        if (!country && personalInfo.areaCode === '+1') country = 'Canada/USA';
+        else if (!country) country = '';
+        if (personalInfo.phoneNumber && !validatePhoneNumber(personalInfo.phoneNumber, country, personalInfo.areaCode)) {
+            setPhoneError('Please enter a valid phone number.');
+            setPhoneTouched(true);
+            return;
+        } else {
+            setPhoneError('');
         }
     
         // Gather form data
@@ -911,6 +958,10 @@ const ApplicationForm = () => {
                 areaCodes={areaCodes}
                 handlePhoneNumberChange={handlePhoneNumberChange}
             />
+            {/* Phone error message below phone input */}
+            {phoneError && phoneTouched && (
+                <div className="text-red-500 text-sm ml-2 mb-4">{phoneError}</div>
+            )}
             <ContactInformationSection
                 locationInfo={locationInfo}
                 setLocationInfo={setLocationInfo}
