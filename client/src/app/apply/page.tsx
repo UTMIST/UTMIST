@@ -19,7 +19,7 @@ interface ContactInformation {
 
 interface EducationInformation {
     school: string;
-    degree: string;
+    educationLevel: string;
     fieldOfStudy: string;
     graduationMonth: string;
     graduationYear: string;
@@ -450,14 +450,11 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
   const [otherMajor, setOtherMajor] = useState<string>('');
   const [otherSchool, setOtherSchool] = useState<string>('');
 
-  // Degree options
-  const degrees = [
-    'Bachelor of Arts (BA)',
-    'Bachelor of Science (BS)',
-    'Bachelor of Business Administration (BBA)',
-    'Bachelor of Engineering (BEng)',
-    'Bachelor of Computer Science (BCS)',
-    'Bachelor of Applied Science (BASc)',
+  // Education Level options
+  const educationLevels = [
+    'Diploma',
+    'Undergraduate',
+    'Graduate',
     'Other'
   ];
 
@@ -587,34 +584,34 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
           )}
         </div>
         <div className="flex flex-col gap-1">
-          <label htmlFor="degree" className="text-sm font-medium mb-1 ml-2">Degree</label>
+          <label htmlFor="educationLevel" className="text-sm font-medium mb-1 ml-2">Education Level</label>
           <select
-            id="degree"
+            id="educationLevel"
             className="input bg-gray-200 rounded-full px-6 py-3"
-            value={educationInfo.degree === otherDegree ? 'Other' : educationInfo.degree}
+            value={educationInfo.educationLevel === otherDegree ? 'Other' : educationInfo.educationLevel}
             onChange={e => {
               if (e.target.value === 'Other') {
-                setEducationInfo({ ...educationInfo, degree: otherDegree || '' });
+                setEducationInfo({ ...educationInfo, educationLevel: otherDegree || '' });
               } else {
                 setOtherDegree('');
-                setEducationInfo({ ...educationInfo, degree: e.target.value });
+                setEducationInfo({ ...educationInfo, educationLevel: e.target.value });
               }
             }}
           >
-            <option value="Select a Degree">Select a Degree</option>
-            {degrees.map(degree => (
-              <option key={degree} value={degree}>{degree}</option>
+            <option value="Select Education Level">Select Education Level</option>
+            {educationLevels.map(level => (
+              <option key={level} value={level}>{level}</option>
             ))}
           </select>
-          {educationInfo.degree === otherDegree && (
+          {educationInfo.educationLevel === otherDegree && (
             <input
               type="text"
               className="input bg-gray-200 rounded-full px-6 py-3 mt-2"
-              placeholder="Please specify your degree"
+              placeholder="Please specify your education level"
               value={otherDegree}
               onChange={e => {
                 setOtherDegree(e.target.value);
-                setEducationInfo({ ...educationInfo, degree: e.target.value });
+                setEducationInfo({ ...educationInfo, educationLevel: e.target.value });
               }}
             />
           )}
@@ -759,7 +756,7 @@ const ApplicationForm = () => {
     });
     const [educationInfo, setEducationInfo] = useState<EducationInformation>({
         school: 'Select a University',
-        degree: 'Select a Degree',
+        educationLevel: 'Select Education Level',
         fieldOfStudy: 'Select a Major',
         graduationMonth: '',
         graduationYear: '',
