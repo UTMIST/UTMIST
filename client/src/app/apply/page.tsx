@@ -563,6 +563,28 @@ const ResumeUploadModule = () => {
     )
 }
 
+type MotivationStatementProps = {
+  whyJoin: string;
+  setWhyJoin: React.Dispatch<React.SetStateAction<string>>;
+};
+
+const MotivationStatement = ({ whyJoin, setWhyJoin }: MotivationStatementProps) => {
+  return (
+    <section className="mb-10">
+      <h3 className="text-lg font-bold mb-4">Why join UTMIST?</h3>
+      <div className="flex flex-col gap-1">
+        <textarea 
+          id="whyJoin" 
+          className="input bg-gray-200 rounded-2xl px-6 py-3 w-full min-h-[200px] resize-none" 
+          placeholder="Share your motivation and what you hope to contribute to UTMIST..."
+          value={whyJoin}
+          onChange={e => setWhyJoin(e.target.value)}
+        />
+      </div>
+    </section>
+  );
+};
+
 const ApplicationForm = () => {
     const [personalInfo, setPersonalInfo] = useState<PersonalInformation>({
         firstName: '',
@@ -592,9 +614,9 @@ const ApplicationForm = () => {
     
     const [emailError, setEmailError] = useState<string>('');
     const [emailTouched, setEmailTouched] = useState<boolean>(false);
-    // Phone number error state
     const [phoneError, setPhoneError] = useState<string>('');
     const [phoneTouched, setPhoneTouched] = useState<boolean>(false);
+    const [whyJoin, setWhyJoin] = useState<string>('');
 
     // Area codes for dropdown
     const areaCodes = [
@@ -795,6 +817,7 @@ const ApplicationForm = () => {
                 months={months}
                 years={years}
             />
+            <MotivationStatement whyJoin={whyJoin} setWhyJoin={setWhyJoin} />
             <ResumeUploadModule />
             <button type="submit" className="w-full py-3 bg-gray-200 rounded-full font-semibold text-lg hover:bg-gray-300 transition">Submit</button>
         </form>
