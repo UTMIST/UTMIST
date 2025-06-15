@@ -74,7 +74,7 @@ const PersonalInformationSection = ({
                     <div className="flex flex-col sm:flex-row gap-2">
                         <select
                             id="areaCode"
-                            className="input bg-gray-200 rounded-full px-3 py-3 w-32 min-w-fit text-center"
+                            className="input bg-gray-200 rounded-full px-3 py-3 w-32 min-w-fit text-center pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
                             value={personalInfo.areaCode}
                             onChange={e => setPersonalInfo({ ...personalInfo, areaCode: e.target.value })}
                         >
@@ -122,7 +122,7 @@ const ContactInformationSection = ({
                     <label htmlFor="country" className="text-sm font-medium mb-1 ml-2">Country</label>
                     <select
                         id="country"
-                        className="input bg-gray-200 rounded-full px-6 py-3"
+                        className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
                         value={locationInfo.country}
                         onChange={e => setLocationInfo({ ...locationInfo, country: e.target.value, provinceOrState: '', postalCode: '' })}
                     >
@@ -202,7 +202,7 @@ const ContactInformationSection = ({
                     {locationInfo.country === 'Canada' && (
                         <select
                             id="provinceOrState"
-                            className="input bg-gray-200 rounded-full px-6 py-3"
+                            className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
                             value={locationInfo.provinceOrState}
                             onChange={e => setLocationInfo({ ...locationInfo, provinceOrState: e.target.value })}
                         >
@@ -215,7 +215,7 @@ const ContactInformationSection = ({
                     {locationInfo.country === 'United States' && (
                         <select
                             id="provinceOrState"
-                            className="input bg-gray-200 rounded-full px-6 py-3"
+                            className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
                             value={locationInfo.provinceOrState}
                             onChange={e => setLocationInfo({ ...locationInfo, provinceOrState: e.target.value })}
                         >
@@ -374,7 +374,7 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
           <label htmlFor="school" className="text-sm font-medium mb-1 ml-2">School</label>
           <select
             id="school"
-            className="input bg-gray-200 rounded-full px-6 py-3"
+            className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
             value={educationInfo.school === otherSchool ? 'Other' : educationInfo.school}
             onChange={e => {
               if (e.target.value === 'Other') {
@@ -411,7 +411,7 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
           <label htmlFor="educationLevel" className="text-sm font-medium mb-1 ml-2">Education Level</label>
           <select
             id="educationLevel"
-            className="input bg-gray-200 rounded-full px-6 py-3"
+            className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
             value={educationInfo.educationLevel === otherDegree ? 'Other' : educationInfo.educationLevel}
             onChange={e => {
               if (e.target.value === 'Other') {
@@ -444,7 +444,7 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
           <label htmlFor="fieldOfStudy" className="text-sm font-medium mb-1 ml-2">Field of Study</label>
           <select
             id="fieldOfStudy"
-            className="input bg-gray-200 rounded-full px-6 py-3"
+            className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
             value={educationInfo.fieldOfStudy === otherMajor ? 'Other' : educationInfo.fieldOfStudy}
             onChange={e => {
               if (e.target.value === 'Other') {
@@ -482,7 +482,7 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
           <div className="flex gap-2 min-w-0">
             <select
               id="graduationMonth"
-              className="input bg-gray-200 rounded-full px-6 py-3 flex-1 min-w-0"
+              className="input bg-gray-200 rounded-full px-6 py-3 flex-1 min-w-0 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
               value={educationInfo.graduationMonth}
               onChange={e => setEducationInfo({ ...educationInfo, graduationMonth: e.target.value })}
             >
@@ -493,7 +493,7 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
             </select>
             <select
               id="graduationYear"
-              className="input bg-gray-200 rounded-full px-6 py-3 flex-1 min-w-0"
+              className="input bg-gray-200 rounded-full px-6 py-3 flex-1 min-w-0 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
               value={educationInfo.graduationYear}
               onChange={e => setEducationInfo({ ...educationInfo, graduationYear: e.target.value })}
             >
