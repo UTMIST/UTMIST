@@ -1,49 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-
-interface PersonalInformation {
-    firstName: string;
-    lastName: string;
-    email: string;
-    areaCode: string;
-    phoneNumber: string;
-}
-
-interface ContactInformation {
-    country: string;
-    address: string;
-    city: string;
-    postalCode: string;
-    provinceOrState: string;
-}
-
-interface EducationInformation {
-    school: string;
-    educationLevel: string;
-    fieldOfStudy: string;
-    graduationMonth: string;
-    graduationYear: string;
-}
-
-interface WorkExperienceInformation {
-    workExperience: {
-        companyName: string;
-        jobTitle: string;
-        startMonth: string;
-        startYear: string;
-        endMonth: string;
-        endYear: string;
-        description: string;
-        currentlyWorking?: boolean;
-    }[];
-}
-
-interface ApplicationFormData {
-    personalInfo: PersonalInformation;
-    locationInfo: ContactInformation;
-    experienceInfo: WorkExperienceInformation;
-    educationInfo: EducationInformation;
-}
+import { PersonalInformation, ContactInformation, EducationInformation, ApplicationFormData } from "../../types/apply"
 
 // Month and year options
 const months = [
