@@ -715,6 +715,7 @@ const ApplicationForm = () => {
             locationInfo,
             experienceInfo: { workExperience },
             educationInfo,
+            whyJoin,
         };
     
         try {

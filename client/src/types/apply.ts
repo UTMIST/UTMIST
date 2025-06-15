@@ -40,4 +40,5 @@ export interface ApplicationFormData {
     locationInfo: ContactInformation;
     experienceInfo: WorkExperienceInformation;
     educationInfo: EducationInformation;
+    whyJoin: String;
 } 
