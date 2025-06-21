@@ -291,12 +291,13 @@ type EducationSectionProps = {
   setEducationInfo: React.Dispatch<React.SetStateAction<EducationInformation>>;
   months: string[];
   years: string[];
+  otherFieldOfStudy: string;
+  setOtherFieldOfStudy: React.Dispatch<React.SetStateAction<string>>;
+  otherEducationLevel: string;
+  setOtherEducationLevel: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const EducationSection = ({ educationInfo, setEducationInfo, months, years }: EducationSectionProps) => {
-  const [otherDegree, setOtherDegree] = useState<string>('');
-  const [otherMajor, setOtherMajor] = useState<string>('');
-  const [otherSchool, setOtherSchool] = useState<string>('');
+const EducationSection = ({ educationInfo, setEducationInfo, months, years, otherFieldOfStudy, setOtherFieldOfStudy, otherEducationLevel, setOtherEducationLevel }: EducationSectionProps) => {
   const [universitySearch, setUniversitySearch] = useState<string>('');
   const [universities, setUniversities] = useState<Array<{ name: string; country: string }>>([]);
   const [isSearching, setIsSearching] = useState<boolean>(false);
@@ -624,12 +625,12 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
               <select
                 id="educationLevel"
                 className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none w-full"
-                value={educationInfo.educationLevel === otherDegree ? 'Other' : educationInfo.educationLevel}
+                value={educationInfo.educationLevel}
                 onChange={e => {
                   if (e.target.value === 'Other') {
-                    setEducationInfo({ ...educationInfo, educationLevel: otherDegree || '' });
+                    setEducationInfo({ ...educationInfo, educationLevel: 'Other' });
                   } else {
-                    setOtherDegree('');
+                    setOtherEducationLevel('');
                     setEducationInfo({ ...educationInfo, educationLevel: e.target.value });
                   }
                 }}
@@ -640,14 +641,14 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
                 ))}
               </select>
           </SelectWrapper>
-          {educationInfo.educationLevel === otherDegree && (
+          {educationInfo.educationLevel === 'Other' && (
             <input
               type="text"
               className="input bg-gray-200 rounded-full px-6 py-3 mt-2"
               placeholder="Please specify your education level"
-              value={otherDegree}
+              value={otherEducationLevel}
               onChange={e => {
-                setOtherDegree(e.target.value);
+                setOtherEducationLevel(e.target.value);
                 setEducationInfo({ ...educationInfo, educationLevel: e.target.value });
               }}
             />
@@ -659,12 +660,12 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
               <select
                 id="fieldOfStudy"
                 className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none w-full"
-                value={educationInfo.fieldOfStudy === otherMajor ? 'Other' : educationInfo.fieldOfStudy}
+                value={educationInfo.fieldOfStudy}
                 onChange={e => {
                   if (e.target.value === 'Other') {
-                    setEducationInfo({ ...educationInfo, fieldOfStudy: otherMajor || '' });
+                    setEducationInfo({ ...educationInfo, fieldOfStudy: 'Other' });
                   } else {
-                    setOtherMajor('');
+                    setOtherFieldOfStudy('');
                     setEducationInfo({ ...educationInfo, fieldOfStudy: e.target.value });
                   }
                 }}
@@ -679,14 +680,14 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
                 ))}
               </select>
           </SelectWrapper>
-          {educationInfo.fieldOfStudy === otherMajor && (
+          {educationInfo.fieldOfStudy === 'Other' && (
             <input
               type="text"
               className="input bg-gray-200 rounded-full px-6 py-3 mt-2"
-              placeholder="Please specify your major"
-              value={otherMajor}
+              placeholder="Please specify your field of study"
+              value={otherFieldOfStudy}
               onChange={e => {
-                setOtherMajor(e.target.value);
+                setOtherFieldOfStudy(e.target.value);
                 setEducationInfo({ ...educationInfo, fieldOfStudy: e.target.value });
               }}
             />
@@ -830,6 +831,10 @@ const ApplicationForm = () => {
     const [phoneError, setPhoneError] = useState<string>('');
     const [phoneTouched, setPhoneTouched] = useState<boolean>(false);
     const [whyJoin, setWhyJoin] = useState<string>('');
+    const [otherDegree, setOtherDegree] = useState<string>('');
+    const [otherMajor, setOtherMajor] = useState<string>('');
+    const [otherFieldOfStudy, setOtherFieldOfStudy] = useState<string>('');
+    const [otherEducationLevel, setOtherEducationLevel] = useState<string>('');
 
     // Area codes for dropdown
     const areaCodes = [
@@ -926,7 +931,13 @@ const ApplicationForm = () => {
         const formData: ApplicationFormData = {
             personalInfo,
             locationInfo,
-            educationInfo,
+            educationInfo: {
+                ...educationInfo,
+                otherDegree: otherDegree || undefined,
+                otherMajor: otherMajor || undefined,
+                otherFieldOfStudy: otherFieldOfStudy || undefined,
+                otherEducationLevel: otherEducationLevel || undefined,
+            },
             whyJoin,
         };
     
@@ -1029,6 +1040,10 @@ const ApplicationForm = () => {
                 setEducationInfo={setEducationInfo}
                 months={months}
                 years={years}
+                otherFieldOfStudy={otherFieldOfStudy}
+                setOtherFieldOfStudy={setOtherFieldOfStudy}
+                otherEducationLevel={otherEducationLevel}
+                setOtherEducationLevel={setOtherEducationLevel}
             />
             <MotivationStatement whyJoin={whyJoin} setWhyJoin={setWhyJoin} />
             <ResumeUploadModule />

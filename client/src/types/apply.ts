@@ -20,6 +20,10 @@ export interface EducationInformation {
     fieldOfStudy: string;
     graduationMonth: string;
     graduationYear: string;
+    otherDegree?: string;
+    otherMajor?: string;
+    otherFieldOfStudy?: string;
+    otherEducationLevel?: string;
 }
 
 export interface ApplicationFormData {
