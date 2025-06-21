@@ -28,3 +28,11 @@ export interface ApplicationFormData {
     educationInfo: EducationInformation;
     whyJoin: String;
 } 
+
+// Type for the response from the universities API
+export type UniversityAPIResponse = {
+    web_page: string;
+    country: string;
+    domain: string;
+    name: string;
+};

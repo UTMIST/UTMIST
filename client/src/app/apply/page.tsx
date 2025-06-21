@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { PersonalInformation, ContactInformation, EducationInformation, ApplicationFormData } from "../../types/apply"
+import { PersonalInformation, ContactInformation, EducationInformation, ApplicationFormData, UniversityAPIResponse } from "../../types/apply"
 import { DocumentArrowUpIcon } from "@heroicons/react/24/outline";
 
 // A robust, reusable wrapper for dropdowns to ensure cross-browser compatibility
@@ -535,7 +535,7 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
       if (response.ok) {
         const data = await response.json();
         // Limit results to first 20 to avoid overwhelming the dropdown
-        const limitedResults = data.slice(0, 20).map((uni: any) => ({
+        const limitedResults = data.slice(0, 20).map((uni: UniversityAPIResponse) => ({
           name: uni.name,
           country: uni.country || 'Unknown'
         }));
