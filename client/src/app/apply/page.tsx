@@ -114,6 +114,9 @@ const ContactInformationSection = ({
   postalCodePatterns,
   formatPostalCode,
 }: ContactInformationSectionProps) => {
+    const [otherCountry, setOtherCountry] = useState('');
+    const [isOtherCountry, setIsOtherCountry] = useState(false);
+
     return (
         <section className="mb-10">
             <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
@@ -123,14 +126,35 @@ const ContactInformationSection = ({
                     <select
                         id="country"
                         className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
-                        value={locationInfo.country}
-                        onChange={e => setLocationInfo({ ...locationInfo, country: e.target.value, provinceOrState: '', postalCode: '' })}
+                        value={isOtherCountry ? 'Other' : locationInfo.country}
+                        onChange={e => {
+                            if (e.target.value === 'Other') {
+                                setIsOtherCountry(true);
+                                setLocationInfo({ ...locationInfo, country: otherCountry, provinceOrState: '', postalCode: '' });
+                            } else {
+                                setIsOtherCountry(false);
+                                setOtherCountry('');
+                                setLocationInfo({ ...locationInfo, country: e.target.value, provinceOrState: '', postalCode: '' });
+                            }
+                        }}
                     >
                         <option value="">Select a Country</option>
                         {['Canada','United States','United Kingdom','Australia','India','China','Other'].map(country => (
                             <option key={country} value={country}>{country}</option>
                         ))}
                     </select>
+                    {isOtherCountry && (
+                        <input
+                            type="text"
+                            className="input bg-gray-200 rounded-full px-6 py-3 mt-2"
+                            placeholder="Please specify your country"
+                            value={otherCountry}
+                            onChange={e => {
+                                setOtherCountry(e.target.value);
+                                setLocationInfo({ ...locationInfo, country: e.target.value });
+                            }}
+                        />
+                    )}
                 </div>
                 <div className="flex flex-col gap-1">
                     <label htmlFor="address" className="text-sm font-medium mb-1 ml-2">Address</label>
@@ -142,7 +166,7 @@ const ContactInformationSection = ({
                 </div>
                 <div className="flex flex-col gap-1">
                     <label htmlFor="postalCode" className="text-sm font-medium mb-1 ml-2">Postal Code</label>
-                    {!locationInfo.country && (
+                    {!locationInfo.country && !isOtherCountry &&(
                         <input
                             id="postalCode"
                             className="input bg-gray-200 rounded-full px-6 py-3"
@@ -177,7 +201,7 @@ const ContactInformationSection = ({
                             maxLength={10}
                         />
                     )}
-                    {locationInfo.country && locationInfo.country !== 'Canada' && locationInfo.country !== 'United States' && (
+                    {(locationInfo.country && locationInfo.country !== 'Canada' && locationInfo.country !== 'United States') || isOtherCountry && (
                         <input
                             id="postalCode"
                             className="input bg-gray-200 rounded-full px-6 py-3"
@@ -190,7 +214,7 @@ const ContactInformationSection = ({
                 </div>
                 <div className="flex flex-col gap-1 md:col-span-2">
                     <label htmlFor="provinceOrState" className="text-sm font-medium mb-1 ml-2">Province / State</label>
-                    {!locationInfo.country && (
+                    {!locationInfo.country && !isOtherCountry && (
                         <input
                             id="provinceOrState"
                             className="input bg-gray-200 rounded-full px-6 py-3"
@@ -225,7 +249,7 @@ const ContactInformationSection = ({
                             ))}
                         </select>
                     )}
-                    {locationInfo.country && locationInfo.country !== 'Canada' && locationInfo.country !== 'United States' && (
+                    {((locationInfo.country && locationInfo.country !== 'Canada' && locationInfo.country !== 'United States') || isOtherCountry) && (
                         <input
                             id="provinceOrState"
                             className="input bg-gray-200 rounded-full px-6 py-3"
