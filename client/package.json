@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@tailwindcss/cli": "^4.1.6",
     "keen-slider": "^6.8.6",
     "next": "15.3.2",

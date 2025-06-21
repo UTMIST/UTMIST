@@ -30,7 +30,7 @@ h3 {
 @media (prefers-color-scheme: light) {
   :root {
     --background: #ffffff;
-    --foreground: #ededed;
+    --foreground: #0000000;
   }
 }
 
