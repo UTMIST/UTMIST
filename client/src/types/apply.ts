@@ -22,23 +22,9 @@ export interface EducationInformation {
     graduationYear: string;
 }
 
-export interface WorkExperienceInformation {
-    workExperience: {
-        companyName: string;
-        jobTitle: string;
-        startMonth: string;
-        startYear: string;
-        endMonth: string;
-        endYear: string;
-        description: string;
-        currentlyWorking?: boolean;
-    }[];
-}
-
 export interface ApplicationFormData {
     personalInfo: PersonalInformation;
     locationInfo: ContactInformation;
-    experienceInfo: WorkExperienceInformation;
     educationInfo: EducationInformation;
     whyJoin: String;
 } 

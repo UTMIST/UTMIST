@@ -285,27 +285,6 @@ const ContactInformationSection = ({
         </section>
     )
 }
-
-// WorkExperienceSection props
-type WorkExperienceItem = {
-  id: string;
-  companyName: string;
-  jobTitle: string;
-  startMonth: string;
-  startYear: string;
-  endMonth: string;
-  endYear: string;
-  description: string;
-  currentlyWorking?: boolean;
-};
-
-type WorkExperienceSectionProps = {
-  workExperience: WorkExperienceItem[];
-  setWorkExperience: React.Dispatch<React.SetStateAction<WorkExperienceItem[]>>;
-  months: string[];
-  years: string[];
-};
-
 // EducationSection props
 type EducationSectionProps = {
   educationInfo: EducationInformation;
@@ -846,10 +825,6 @@ const ApplicationForm = () => {
         graduationYear: '',
     });
     
-    const [workExperience, setWorkExperience] = useState<WorkExperienceItem[]>([
-        { id: crypto.randomUUID(), companyName: '', jobTitle: '', startMonth: '', startYear: '', endMonth: '', endYear: '', description: '', currentlyWorking: false },
-    ]);
-    
     const [emailError, setEmailError] = useState<string>('');
     const [emailTouched, setEmailTouched] = useState<boolean>(false);
     const [phoneError, setPhoneError] = useState<string>('');
@@ -951,7 +926,6 @@ const ApplicationForm = () => {
         const formData: ApplicationFormData = {
             personalInfo,
             locationInfo,
-            experienceInfo: { workExperience },
             educationInfo,
             whyJoin,
         };
