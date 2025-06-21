@@ -273,6 +273,10 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
   const [otherDegree, setOtherDegree] = useState<string>('');
   const [otherMajor, setOtherMajor] = useState<string>('');
   const [otherSchool, setOtherSchool] = useState<string>('');
+  const [universitySearch, setUniversitySearch] = useState<string>('');
+  const [universities, setUniversities] = useState<Array<{ name: string; country: string }>>([]);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [isActiveSearch, setIsActiveSearch] = useState<boolean>(false);
 
   // Education Level options
   const educationLevels = [
@@ -328,42 +332,49 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
     ]
   };
 
-  // University options
-  const universities = {
-    'Ontario': [
-      'University of Toronto',
-      'University of Waterloo',
-      'University of Ottawa',
-      'Queen\'s University',
-      'Western University',
-      'McMaster University',
-      'University of Guelph',
-      'York University',
-      'Carleton University',
-      'Ryerson University',
-      'University of Windsor',
-      'Brock University',
-      'Trent University',
-      'Lakehead University',
-      'Laurentian University',
-      'Ontario Tech University',
-      'Wilfrid Laurier University'
-    ],
-    'Other Canadian Provinces': [
-      'University of British Columbia',
-      'McGill University',
-      'University of Alberta',
-      'University of Calgary',
-      'University of Montreal',
-      'Simon Fraser University',
-      'University of Victoria',
-      'Dalhousie University',
-      'University of Saskatchewan',
-      'University of Manitoba'
-    ],
-    'Other': [
-      'Other'
-    ]
+  // Search universities API
+  const searchUniversities = async (searchTerm: string) => {
+    if (!searchTerm || searchTerm.length < 2) {
+      setUniversities([]);
+      setIsActiveSearch(false);
+      return;
+    }
+
+    setIsSearching(true);
+    setIsActiveSearch(true);
+    try {
+      const response = await fetch(`http://universities.hipolabs.com/search?name=${encodeURIComponent(searchTerm)}`);
+      if (response.ok) {
+        const data = await response.json();
+        // Limit results to first 20 to avoid overwhelming the dropdown
+        const limitedResults = data.slice(0, 20).map((uni: any) => ({
+          name: uni.name,
+          country: uni.country || 'Unknown'
+        }));
+        console.log(data)
+        setUniversities(limitedResults);
+      } else {
+        setUniversities([]);
+      }
+    } catch (error) {
+      console.error('Error searching universities:', error);
+      setUniversities([]);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleUniversityInputChange = (value: string) => {
+    setUniversitySearch(value);
+    setEducationInfo({ ...educationInfo, school: value });
+    searchUniversities(value);
+  };
+
+  const handleUniversitySelect = (universityName: string) => {
+    setEducationInfo({ ...educationInfo, school: universityName });
+    setUniversitySearch(universityName);
+    setIsActiveSearch(false);
+    setUniversities([]);
   };
 
   return (
@@ -372,39 +383,51 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
         <div className="flex flex-col gap-1">
           <label htmlFor="school" className="text-sm font-medium mb-1 ml-2">School</label>
-          <select
-            id="school"
-            className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
-            value={educationInfo.school === otherSchool ? 'Other' : educationInfo.school}
-            onChange={e => {
-              if (e.target.value === 'Other') {
-                setEducationInfo({ ...educationInfo, school: otherSchool || '' });
-              } else {
-                setOtherSchool('');
-                setEducationInfo({ ...educationInfo, school: e.target.value });
-              }
-            }}
-          >
-            <option value="Select a University">Select a University</option>
-            {Object.entries(universities).map(([province, schools]) => (
-              <optgroup key={province} label={province}>
-                {schools.map(school => (
-                  <option key={school} value={school}>{school}</option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-          {educationInfo.school === otherSchool && (
+          <div className="relative">
             <input
+              id="school"
               type="text"
-              className="input bg-gray-200 rounded-full px-6 py-3 mt-2"
-              placeholder="Please specify your university"
-              value={otherSchool}
-              onChange={e => {
-                setOtherSchool(e.target.value);
-                setEducationInfo({ ...educationInfo, school: e.target.value });
+              className="input bg-gray-200 rounded-full px-6 py-3 w-full"
+              placeholder="Search for your university..."
+              value={universitySearch}
+              onChange={e => handleUniversityInputChange(e.target.value)}
+              onFocus={() => {
+                if (universitySearch.length >= 2) {
+                  setIsActiveSearch(true);
+                }
+              }}
+              onBlur={() => {
+                // Delay hiding to allow for clicks on suggestions
+                setTimeout(() => {
+                  setIsActiveSearch(false);
+                }, 200);
               }}
             />
+            {isSearching && (
+              <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600"></div>
+              </div>
+            )}
+          </div>
+          {/* University suggestions displayed below */}
+          {isActiveSearch && universities.length > 0 && (
+            <div className="mt-2 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+              {universities.map((university, index) => (
+                <div
+                  key={index}
+                  className="px-4 py-3 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-b-0 transition-colors"
+                  onClick={() => handleUniversitySelect(university.name)}
+                >
+                  <div className="font-medium text-gray-900">{university.name}</div>
+                  <div className="text-sm text-gray-500">{university.country}</div>
+                </div>
+              ))}
+            </div>
+          )}
+          {isActiveSearch && universitySearch && !isSearching && universities.length === 0 && (
+            <div className="mt-2 text-sm text-gray-500 px-4 py-2 bg-gray-50 rounded-lg">
+              No universities found. Try a different search term.
+            </div>
           )}
         </div>
         <div className="flex flex-col gap-1">
