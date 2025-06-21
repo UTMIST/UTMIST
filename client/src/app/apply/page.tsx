@@ -831,8 +831,6 @@ const ApplicationForm = () => {
     const [phoneError, setPhoneError] = useState<string>('');
     const [phoneTouched, setPhoneTouched] = useState<boolean>(false);
     const [whyJoin, setWhyJoin] = useState<string>('');
-    const [otherDegree, setOtherDegree] = useState<string>('');
-    const [otherMajor, setOtherMajor] = useState<string>('');
     const [otherFieldOfStudy, setOtherFieldOfStudy] = useState<string>('');
     const [otherEducationLevel, setOtherEducationLevel] = useState<string>('');
 
@@ -933,8 +931,6 @@ const ApplicationForm = () => {
             locationInfo,
             educationInfo: {
                 ...educationInfo,
-                otherDegree: otherDegree || undefined,
-                otherMajor: otherMajor || undefined,
                 otherFieldOfStudy: otherFieldOfStudy || undefined,
                 otherEducationLevel: otherEducationLevel || undefined,
             },
