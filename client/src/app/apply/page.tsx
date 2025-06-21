@@ -3,6 +3,18 @@ import React, { useState } from 'react';
 import { PersonalInformation, ContactInformation, EducationInformation, ApplicationFormData } from "../../types/apply"
 import { DocumentArrowUpIcon } from "@heroicons/react/24/outline";
 
+// A robust, reusable wrapper for dropdowns to ensure cross-browser compatibility
+const SelectWrapper = ({ children, className }: { children: React.ReactNode, className?: string }) => (
+    <div className={`relative ${className}`}>
+        {children}
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-6">
+            <svg className="h-5 w-5 text-gray-500" width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 2L8 8L14 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+        </div>
+    </div>
+);
+
 // Month and year options
 const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -73,18 +85,20 @@ const PersonalInformationSection = ({
                 <div className="flex flex-col gap-1 md:col-span-2">
                     <label htmlFor="areaCode" className="text-sm font-medium mb-1 ml-2">Area Code & Phone Number</label>
                     <div className="flex flex-col sm:flex-row gap-2">
-                        <select
-                            id="areaCode"
-                            className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
-                            value={personalInfo.areaCode}
-                            onChange={e => setPersonalInfo({ ...personalInfo, areaCode: e.target.value })}
-                        >
-                            {areaCodes.map(({ code, country }) => (
-                                <option key={code} value={code}>
-                                    {code} ({country})
-                                </option>
-                            ))}
-                        </select>
+                        <SelectWrapper>
+                            <select
+                                id="areaCode"
+                                className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none w-full"
+                                value={personalInfo.areaCode}
+                                onChange={e => setPersonalInfo({ ...personalInfo, areaCode: e.target.value })}
+                            >
+                                {areaCodes.map(({ code, country }) => (
+                                    <option key={code} value={code}>
+                                        {code} ({country})
+                                    </option>
+                                ))}
+                            </select>
+                        </SelectWrapper>
                         <input
                             id="phoneNumber"
                             className="input bg-gray-200 rounded-full px-6 py-3 flex-1"
@@ -124,26 +138,28 @@ const ContactInformationSection = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div className="flex flex-col gap-1">
                     <label htmlFor="country" className="text-sm font-medium mb-1 ml-2">Country</label>
-                    <select
-                        id="country"
-                        className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
-                        value={isOtherCountry ? 'Other' : locationInfo.country}
-                        onChange={e => {
-                            if (e.target.value === 'Other') {
-                                setIsOtherCountry(true);
-                                setLocationInfo({ ...locationInfo, country: otherCountry, provinceOrState: '', postalCode: '' });
-                            } else {
-                                setIsOtherCountry(false);
-                                setOtherCountry('');
-                                setLocationInfo({ ...locationInfo, country: e.target.value, provinceOrState: '', postalCode: '' });
-                            }
-                        }}
-                    >
-                        <option value="">Select a Country</option>
-                        {['Canada','United States','United Kingdom','Australia','India','China','Other'].map(country => (
-                            <option key={country} value={country}>{country}</option>
-                        ))}
-                    </select>
+                    <SelectWrapper>
+                        <select
+                            id="country"
+                            className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none w-full"
+                            value={isOtherCountry ? 'Other' : locationInfo.country}
+                            onChange={e => {
+                                if (e.target.value === 'Other') {
+                                    setIsOtherCountry(true);
+                                    setLocationInfo({ ...locationInfo, country: otherCountry, provinceOrState: '', postalCode: '' });
+                                } else {
+                                    setIsOtherCountry(false);
+                                    setOtherCountry('');
+                                    setLocationInfo({ ...locationInfo, country: e.target.value, provinceOrState: '', postalCode: '' });
+                                }
+                            }}
+                        >
+                            <option value="">Select a Country</option>
+                            {['Canada','United States','United Kingdom','Australia','India','China','Other'].map(country => (
+                                <option key={country} value={country}>{country}</option>
+                            ))}
+                        </select>
+                    </SelectWrapper>
                     {isOtherCountry && (
                         <input
                             type="text"
@@ -225,30 +241,34 @@ const ContactInformationSection = ({
                         />
                     )}
                     {locationInfo.country === 'Canada' && (
-                        <select
-                            id="provinceOrState"
-                            className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
-                            value={locationInfo.provinceOrState}
-                            onChange={e => setLocationInfo({ ...locationInfo, provinceOrState: e.target.value })}
-                        >
-                            <option value="">Select a Province/Territory</option>
-                            {['Alberta','British Columbia','Manitoba','New Brunswick','Newfoundland and Labrador','Northwest Territories','Nova Scotia','Nunavut','Ontario','Prince Edward Island','Quebec','Saskatchewan','Yukon'].map(province => (
-                                <option key={province} value={province}>{province}</option>
-                            ))}
-                        </select>
+                        <SelectWrapper>
+                            <select
+                                id="provinceOrState"
+                                className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none w-full"
+                                value={locationInfo.provinceOrState}
+                                onChange={e => setLocationInfo({ ...locationInfo, provinceOrState: e.target.value })}
+                            >
+                                <option value="">Select a Province/Territory</option>
+                                {['Alberta','British Columbia','Manitoba','New Brunswick','Newfoundland and Labrador','Northwest Territories','Nova Scotia','Nunavut','Ontario','Prince Edward Island','Quebec','Saskatchewan','Yukon'].map(province => (
+                                    <option key={province} value={province}>{province}</option>
+                                ))}
+                            </select>
+                        </SelectWrapper>
                     )}
                     {locationInfo.country === 'United States' && (
-                        <select
-                            id="provinceOrState"
-                            className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
-                            value={locationInfo.provinceOrState}
-                            onChange={e => setLocationInfo({ ...locationInfo, provinceOrState: e.target.value })}
-                        >
-                            <option value="">Select a State</option>
-                            {['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'].map(state => (
-                                <option key={state} value={state}>{state}</option>
-                            ))}
-                        </select>
+                        <SelectWrapper>
+                            <select
+                                id="provinceOrState"
+                                className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none w-full"
+                                value={locationInfo.provinceOrState}
+                                onChange={e => setLocationInfo({ ...locationInfo, provinceOrState: e.target.value })}
+                            >
+                                <option value="">Select a State</option>
+                                {['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'].map(state => (
+                                    <option key={state} value={state}>{state}</option>
+                                ))}
+                            </select>
+                        </SelectWrapper>
                     )}
                     {((locationInfo.country && locationInfo.country !== 'Canada' && locationInfo.country !== 'United States') || isOtherCountry) && (
                         <input
@@ -621,24 +641,26 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
         </div>
         <div className="flex flex-col gap-1">
           <label htmlFor="educationLevel" className="text-sm font-medium mb-1 ml-2">Education Level</label>
-          <select
-            id="educationLevel"
-            className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
-            value={educationInfo.educationLevel === otherDegree ? 'Other' : educationInfo.educationLevel}
-            onChange={e => {
-              if (e.target.value === 'Other') {
-                setEducationInfo({ ...educationInfo, educationLevel: otherDegree || '' });
-              } else {
-                setOtherDegree('');
-                setEducationInfo({ ...educationInfo, educationLevel: e.target.value });
-              }
-            }}
-          >
-            <option value="Select Education Level">Select Education Level</option>
-            {educationLevels.map(level => (
-              <option key={level} value={level}>{level}</option>
-            ))}
-          </select>
+          <SelectWrapper>
+              <select
+                id="educationLevel"
+                className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none w-full"
+                value={educationInfo.educationLevel === otherDegree ? 'Other' : educationInfo.educationLevel}
+                onChange={e => {
+                  if (e.target.value === 'Other') {
+                    setEducationInfo({ ...educationInfo, educationLevel: otherDegree || '' });
+                  } else {
+                    setOtherDegree('');
+                    setEducationInfo({ ...educationInfo, educationLevel: e.target.value });
+                  }
+                }}
+              >
+                <option value="Select Education Level">Select Education Level</option>
+                {educationLevels.map(level => (
+                  <option key={level} value={level}>{level}</option>
+                ))}
+              </select>
+          </SelectWrapper>
           {educationInfo.educationLevel === otherDegree && (
             <input
               type="text"
@@ -654,28 +676,30 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
         </div>
         <div className="flex flex-col gap-1">
           <label htmlFor="fieldOfStudy" className="text-sm font-medium mb-1 ml-2">Field of Study</label>
-          <select
-            id="fieldOfStudy"
-            className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
-            value={educationInfo.fieldOfStudy === otherMajor ? 'Other' : educationInfo.fieldOfStudy}
-            onChange={e => {
-              if (e.target.value === 'Other') {
-                setEducationInfo({ ...educationInfo, fieldOfStudy: otherMajor || '' });
-              } else {
-                setOtherMajor('');
-                setEducationInfo({ ...educationInfo, fieldOfStudy: e.target.value });
-              }
-            }}
-          >
-            <option value="Select a Major">Select a Major</option>
-            {Object.entries(stemMajors).map(([category, majors]) => (
-              <optgroup key={category} label={category}>
-                {majors.map(major => (
-                  <option key={major} value={major}>{major}</option>
+          <SelectWrapper>
+              <select
+                id="fieldOfStudy"
+                className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none w-full"
+                value={educationInfo.fieldOfStudy === otherMajor ? 'Other' : educationInfo.fieldOfStudy}
+                onChange={e => {
+                  if (e.target.value === 'Other') {
+                    setEducationInfo({ ...educationInfo, fieldOfStudy: otherMajor || '' });
+                  } else {
+                    setOtherMajor('');
+                    setEducationInfo({ ...educationInfo, fieldOfStudy: e.target.value });
+                  }
+                }}
+              >
+                <option value="Select a Major">Select a Major</option>
+                {Object.entries(stemMajors).map(([category, majors]) => (
+                  <optgroup key={category} label={category}>
+                    {majors.map(major => (
+                      <option key={major} value={major}>{major}</option>
+                    ))}
+                  </optgroup>
                 ))}
-              </optgroup>
-            ))}
-          </select>
+              </select>
+          </SelectWrapper>
           {educationInfo.fieldOfStudy === otherMajor && (
             <input
               type="text"
@@ -692,28 +716,32 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years }: Ed
         <div className="flex flex-col gap-1">
           <label htmlFor="graduationMonth" className="text-sm font-medium mb-1 ml-2">Graduation Date</label>
           <div className="flex gap-2 min-w-0">
-            <select
-              id="graduationMonth"
-              className="input bg-gray-200 rounded-full px-6 py-3 flex-1 min-w-0 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
-              value={educationInfo.graduationMonth}
-              onChange={e => setEducationInfo({ ...educationInfo, graduationMonth: e.target.value })}
-            >
-              <option value="">Month</option>
-              {months.map(month => (
-                <option key={month} value={month}>{month}</option>
-              ))}
-            </select>
-            <select
-              id="graduationYear"
-              className="input bg-gray-200 rounded-full px-6 py-3 flex-1 min-w-0 pr-12 appearance-none bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2210%22%20viewBox%3D%220%200%2016%2010%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%27M2%202L8%208L14%202%27%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem_1rem]"
-              value={educationInfo.graduationYear}
-              onChange={e => setEducationInfo({ ...educationInfo, graduationYear: e.target.value })}
-            >
-              <option value="">Year</option>
-              {years.map(year => (
-                <option key={year} value={year}>{year}</option>
-              ))}
-            </select>
+            <SelectWrapper className="flex-1 min-w-0">
+                <select
+                  id="graduationMonth"
+                  className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none w-full"
+                  value={educationInfo.graduationMonth}
+                  onChange={e => setEducationInfo({ ...educationInfo, graduationMonth: e.target.value })}
+                >
+                  <option value="">Month</option>
+                  {months.map(month => (
+                    <option key={month} value={month}>{month}</option>
+                  ))}
+                </select>
+            </SelectWrapper>
+            <SelectWrapper className="flex-1 min-w-0">
+                <select
+                  id="graduationYear"
+                  className="input bg-gray-200 rounded-full px-6 py-3 pr-12 appearance-none w-full"
+                  value={educationInfo.graduationYear}
+                  onChange={e => setEducationInfo({ ...educationInfo, graduationYear: e.target.value })}
+                >
+                  <option value="">Year</option>
+                  {years.map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+            </SelectWrapper>
           </div>
         </div>
       </div>
