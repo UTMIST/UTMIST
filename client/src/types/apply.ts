@@ -28,7 +28,7 @@ export interface ApplicationFormData {
     personalInfo: PersonalInformation;
     locationInfo: ContactInformation;
     educationInfo: EducationInformation;
-    whyJoin: String;
+    whyJoin: string;
 } 
 
 // Type for the response from the universities API
