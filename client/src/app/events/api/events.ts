@@ -30,7 +30,7 @@ export interface FeaturedEvent {
 }
 
 // Mock data
-const mockUpcomingEvents: UpcomingEvent[] = [
+const upcomingEvents: UpcomingEvent[] = [
 
 ];
 
@@ -480,7 +480,7 @@ export async function getUpcomingEvents(): Promise<UpcomingEvent[]> {
   // Simulate API delay
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(mockUpcomingEvents);
+      resolve(upcomingEvents);
     }, 500);
   });
 }
