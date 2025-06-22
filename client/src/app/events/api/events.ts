@@ -34,7 +34,7 @@ const mockUpcomingEvents: UpcomingEvent[] = [
 
 ];
 
-const mockPastEvents: PastEvent[] = [
+const pastEvents: PastEvent[] = [
   {
     id: 4,
     title: "Intro to RNNs & CNNs – Paper Reading Session",
@@ -442,7 +442,7 @@ const mockPastEvents: PastEvent[] = [
   
 ];
 
-const mockFeaturedEvents: FeaturedEvent[] = [
+const featuredEvents: FeaturedEvent[] = [
   {
     title: "EigenAI",
     url: "/eigenai",
@@ -489,7 +489,7 @@ export async function getPastEvents(): Promise<PastEvent[]> {
   // Simulate API delay
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(mockPastEvents);
+      resolve(pastEvents);
     }, 500);
   });
 }
@@ -498,7 +498,7 @@ export async function getFeaturedEvents(): Promise<FeaturedEvent[]> {
   // Simulate API delay
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(mockFeaturedEvents);
+      resolve(featuredEvents);
     }, 500);
   });
 }
