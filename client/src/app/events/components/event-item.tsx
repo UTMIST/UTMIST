@@ -78,7 +78,7 @@ export function EventItem({ event, isPassed }: { event: Event, isPassed: boolean
           </div>
           {/* Event info */}
           <div className="flex items-center text-xs text-gray-700 gap-1 flex-wrap">
-            {event.instructor && <span>{event.instructor}</span>}
+            {event.instructor && event.instructor !== 'N/A' && <span>{event.instructor}</span>}
             {event.date && (
               <>
                 {event.instructor && <span>•</span>}
@@ -127,10 +127,10 @@ export function EventItem({ event, isPassed }: { event: Event, isPassed: boolean
         {/* Event details */}
         <div className="hidden sm:flex items-center justify-end w-auto gap-4">
           <div className="flex items-center text-sm gap-2">
-            {event.instructor && <span className="text-gray-700">{event.instructor}</span>}
+            {event.instructor && event.instructor !== 'N/A' && <span className="text-gray-700">{event.instructor}</span>}
             {event.date && (
               <>
-                {event.instructor && <span className="text-gray-700">•</span>}
+                {event.instructor && event.instructor !== 'N/A' && <span className="text-gray-700">•</span>}
                 <span className="text-gray-700">{event.date}</span>
               </>
             )}
