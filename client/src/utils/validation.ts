@@ -140,7 +140,7 @@ export const validateConfirmPassword = (password: string, confirmPassword: strin
  * @returns string | undefined - Error message or undefined if valid
  */
 export const validateName = (name: string): string | undefined => {
-  if (!name) {
+  if (!name || name.trim().length === 0) {
     return 'Full name is required';
   }
   
@@ -211,5 +211,5 @@ export const validateAuthForm = (
  * @returns boolean - True if form is valid (no errors)
  */
 export const isFormValid = (errors: FormErrors): boolean => {
-  return Object.keys(errors).length === 0;
+  return Object.values(errors).every(error => error === undefined);
 }; 
