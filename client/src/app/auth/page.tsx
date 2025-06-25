@@ -290,7 +290,7 @@ export default function AuthPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 bg-[var(--background)]">
       <div className="w-full max-w-md">
-        <div className="bg-white p-8 rounded-2xl border border-[var(--gray3)] shadow-sm space-y-8">
+        <div className={`bg-white p-8 rounded-2xl border border-[var(--gray3)] shadow-sm ${isLogin ? 'space-y-6' : 'space-y-8'}`}>
           <div className="flex flex-col items-center">
             <Image src={logo} alt="UTMIST Logo" width={48} height={48} className="mb-4" />
             <h2 className="text-center text-3xl font-bold tracking-tight text-black font-[var(--font-space-grotesk)]">
@@ -356,7 +356,7 @@ export default function AuthPage() {
             </div>
           )}
           
-          <form className="space-y-6" onSubmit={handleSubmit} noValidate>
+          <form className={isLogin ? 'space-y-4' : 'space-y-6'} onSubmit={handleSubmit} noValidate>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-[var(--gray4)] font-[var(--system-font)]">
                 Email

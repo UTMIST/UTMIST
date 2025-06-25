@@ -4,7 +4,7 @@ A modern React/Next.js application with secure authentication using Supabase Aut
 
 ## 🚀 Features
 
-- **Secure Authentication**: Email/password and Google OAuth with Supabase
+- **Secure Authentication**: Email/password authentication with Supabase
 - **Protected Routes**: Middleware-based route protection
 - **Session Management**: Server-side session handling with cookies
 - **Email Confirmation**: Support for email verification flows
@@ -15,7 +15,6 @@ A modern React/Next.js application with secure authentication using Supabase Aut
 
 - Node.js 18+ and npm
 - A Supabase account and project
-- Google OAuth credentials (for Google sign-in)
 
 ## 🛠️ Setup Instructions
 
@@ -41,16 +40,6 @@ npm install
    - **Site URL**: Set to `http://localhost:3000` for development
    - **Redirect URLs**: Add `http://localhost:3000/auth/callback`
 
-#### Enable Google OAuth (Optional)
-1. In Authentication > Providers, enable Google
-2. Get Google OAuth credentials:
-   - Go to [Google Cloud Console](https://console.cloud.google.com/)
-   - Create a new project or select existing one
-   - Enable Google+ API
-   - Go to Credentials > Create Credentials > OAuth 2.0 Client IDs
-   - Set authorized redirect URIs to: `https://<your-project-ref>.supabase.co/auth/v1/callback`
-3. Copy Client ID and Client Secret to Supabase Google provider settings
-
 #### Get Supabase Keys
 1. Go to **Settings > API** in your Supabase dashboard
 2. Copy the following values:
@@ -73,7 +62,7 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 **⚠️ Important Notes:**
 - Replace `your_supabase_project_url` with your actual Supabase project URL
 - Replace `your_supabase_anon_key` with your actual Supabase anon key
-- Never commit the `.env` file to version control
+- Never commit the `.env.local` file to version control
 - For production, set these environment variables in your deployment platform
 
 ### 4. Database Schema (Automatic)
@@ -99,7 +88,6 @@ npm start
 
 ### Sign Up/Login Page (`/auth`)
 - Email and password authentication
-- Google OAuth integration
 - Client-side form validation
 - Password strength requirements
 - Email confirmation support
@@ -208,11 +196,6 @@ touch src/app/auth/__tests__/page.test.tsx
 **"Missing Supabase environment variables"**
 - Ensure `.env.local` file exists and contains correct values
 - Restart development server after adding environment variables
-
-**Google OAuth not working**
-- Verify Google OAuth is enabled in Supabase
-- Check that redirect URLs match exactly
-- Ensure Google Cloud Console credentials are correct
 
 **Email confirmation not working**
 - Check if email confirmation is enabled in Supabase
