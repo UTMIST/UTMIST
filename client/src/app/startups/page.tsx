@@ -68,7 +68,7 @@ const HeroSection = () => {
 const HeroIntroductionSection = () => {
   return (
     <div className="flex flex-col gap-2 text-center">
-      <h1 className="font-bold text-2xl md:text-3xl">Innovation @ UTMIST</h1>
+      <h1 className="font-bold text-2xl md:text-3xl">MISTic R&D</h1>
       <p className="text-base md:text-lg m-0 leading-snug text-center">
         <span className="block">
           Help build AI startups with Canada&#39;s largest student-led
