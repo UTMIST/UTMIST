@@ -71,12 +71,17 @@ const HeroIntroductionSection = () => {
       <h1 className="font-bold text-2xl md:text-3xl">MISTic R&D</h1>
       <p className="text-base md:text-lg m-0 leading-snug text-center">
         <span className="block">
-          Help build AI startups with Canada&#39;s largest student-led
+          Building an AI startup? Join MISTic R&D, 
         </span>
         <span className="block">
-          organization for Artificial Intelligence and Machine
+          the incubator where ambitious founders find funding, users,
         </span>
-        <span className="block">Learning</span>
+        <span className="block">
+          cofounders, and an unstoppable community of builders. 
+        </span>
+        <span className="block">
+          Let’s turn your idea into impact.
+        </span>
       </p>
       <div>
         <Link
