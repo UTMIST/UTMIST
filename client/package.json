@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.50.0",
     "@tailwindcss/cli": "^4.1.6",
     "keen-slider": "^6.8.6",
     "lucide-react": "^0.510.0",
@@ -16,7 +18,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-intersection-observer": "^9.16.0",
-    "swiper": "^11.2.6"
+    "swiper": "^11.2.6",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

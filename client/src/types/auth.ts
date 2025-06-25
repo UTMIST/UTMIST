@@ -1,4 +1,5 @@
 export interface UserProfile {
+  id: string;
   email: string;
   name: string;
   organization?: string;
@@ -6,6 +7,16 @@ export interface UserProfile {
   linkedin_url?: string;
   github_url?: string;
   discord_username?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface AuthUser {
+  id: string;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  name?: string;
 }
 
 export interface AuthResponse {
@@ -16,4 +27,18 @@ export interface AuthResponse {
 
 export interface AuthError {
   error: string;
+}
+
+export type AuthErrorCode = 
+  | 'EMAIL_ALREADY_TAKEN'
+  | 'EMAIL_NEEDS_CONFIRMATION'
+  | 'INVALID_CREDENTIALS'
+  | 'WEAK_PASSWORD'
+  | 'NETWORK_ERROR'
+  | 'UNKNOWN_ERROR';
+
+export interface RegistrationResult {
+  requiresEmailConfirmation: boolean;
+  message?: string;
+  errorCode?: AuthErrorCode;
 } 
