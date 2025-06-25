@@ -313,7 +313,7 @@ const HeroStartupSection = () => {
 
 const StartupsPage = () => {
   return (
-    <main className="pt-10 px-4 md:px-16">
+    <main className="pt-16 md:pt-10 px-4 md:px-16">
       <HeroSection />
       {/* <div>
         <div className="mt-8 md:mt-12">
