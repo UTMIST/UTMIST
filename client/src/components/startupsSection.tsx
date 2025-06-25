@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 const StartupsSection = () => {
     return (
@@ -11,7 +10,7 @@ const StartupsSection = () => {
                         MISTic R&D
                     </h2>
                     <p className="text-lg md:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
-                        Building an AI startup? Join MISTic R&D, the incubator where ambitious founders find funding, users, cofounders, and an unstoppable community of builders. Let's turn your idea into impact.
+                        Building an AI startup? Join MISTic R&D, the incubator where ambitious founders find funding, users, cofounders, and an unstoppable community of builders. Let&apos;s turn your idea into impact.
                     </p>
                 </div>
 
