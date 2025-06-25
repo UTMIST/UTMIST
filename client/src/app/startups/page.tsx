@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
 import Image, { type StaticImageData } from "next/image";
-import { useState, useEffect, useRef } from "react";
-import {Person} from "@/types/startups";
+// import { useState, useEffect, useRef } from "react";
+// import {Person} from "@/types/startups";
 
 import Myhal from "../../../public/myhal.webp";
 import genai from "../../../public/genai.webp";
@@ -10,24 +10,24 @@ import genaiTwo from "../../../public/genai-two.webp";
 import MyhalTwo from "../../../public/myhal-two.webp";
 
 
-// Placeholder avatar image (public domain SVG)
-const placeholderAvatar =
-  "https://www.svgrepo.com/show/484043/person-button.svg";
+// // Placeholder avatar image (public domain SVG)
+// const placeholderAvatar =
+//   "https://www.svgrepo.com/show/484043/person-button.svg";
 
-const guessSpeakers: Person[] = [
-  { name: "Name", image: placeholderAvatar },
-  { name: "Name", image: placeholderAvatar },
-  { name: "Name", image: placeholderAvatar },
-  { name: "Name", image: placeholderAvatar },
-  { name: "Name", image: placeholderAvatar },
-];
+// const guessSpeakers: Person[] = [
+//   { name: "Name", image: placeholderAvatar },
+//   { name: "Name", image: placeholderAvatar },
+//   { name: "Name", image: placeholderAvatar },
+//   { name: "Name", image: placeholderAvatar },
+//   { name: "Name", image: placeholderAvatar },
+// ];
 
-const investors: Person[] = [
-  { name: "Name", image: placeholderAvatar },
-  { name: "Name", image: placeholderAvatar },
-  { name: "Name", image: placeholderAvatar },
-  { name: "Name", image: placeholderAvatar },
-];
+// const investors: Person[] = [
+//   { name: "Name", image: placeholderAvatar },
+//   { name: "Name", image: placeholderAvatar },
+//   { name: "Name", image: placeholderAvatar },
+//   { name: "Name", image: placeholderAvatar },
+// ];
 
 const images: StaticImageData[] = [Myhal, genai, genaiTwo, MyhalTwo];
 
