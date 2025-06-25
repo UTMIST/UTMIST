@@ -315,7 +315,7 @@ const StartupsPage = () => {
   return (
     <main className="pt-10 px-4 md:px-16">
       <HeroSection />
-      <div>
+      {/* <div>
         <div className="mt-8 md:mt-12">
           <SliderSection
             title="Guess Speakers"
@@ -324,15 +324,13 @@ const StartupsPage = () => {
           />
         </div>
         <div>
-          {/* Guess Speakers slider with article cards */}
           <SliderSection
             title="Investors"
             people={investors}
             direction="right"
           />
         </div>
-      </div>
-      {/* Add a final quote that could be inspirational (Come make an impact at UTMIST) */}
+      </div> */}
     </main>
   );
 };
