@@ -1,22 +1,22 @@
-import type { UserProfile, AuthUser } from '@/types/auth';
-import { supabase } from '@/lib/supabase';
+import type { UserProfile, AuthUser } from "@/types/auth";
+import { supabase } from "@/lib/supabase";
 
 // Constants for error handling
 const AUTH_ERRORS = {
-  EMAIL_ALREADY_TAKEN: 'EMAIL_ALREADY_TAKEN',
-  EMAIL_NEEDS_CONFIRMATION: 'EMAIL_NEEDS_CONFIRMATION',
-  INVALID_CREDENTIALS: 'INVALID_CREDENTIALS',
-  SESSION_FAILED: 'SESSION_FAILED',
-  NETWORK_ERROR: 'NETWORK_ERROR',
+  EMAIL_ALREADY_TAKEN: "EMAIL_ALREADY_TAKEN",
+  EMAIL_NEEDS_CONFIRMATION: "EMAIL_NEEDS_CONFIRMATION",
+  INVALID_CREDENTIALS: "INVALID_CREDENTIALS",
+  SESSION_FAILED: "SESSION_FAILED",
+  NETWORK_ERROR: "NETWORK_ERROR",
 } as const;
 
 // Constants for auth configuration
 const AUTH_CONFIG = {
-  DUMMY_PASSWORD: 'dummy-password-check-123456789',
-  DEFAULT_PROFILE_PICTURE: 'profile_pictures/default.webp',
-  CALLBACK_PATH: '/auth/callback',
-  SET_COOKIE_ENDPOINT: '/api/auth/set-cookie',
-  SIGNOUT_ENDPOINT: '/api/auth/signout',
+  DUMMY_PASSWORD: "dummy-password-check-123456789",
+  DEFAULT_PROFILE_PICTURE: "profile_pictures/default.webp",
+  CALLBACK_PATH: "/auth/callback",
+  SET_COOKIE_ENDPOINT: "/api/auth/set-cookie",
+  SIGNOUT_ENDPOINT: "/api/auth/signout",
 } as const;
 
 /**
@@ -25,8 +25,11 @@ const AUTH_CONFIG = {
  */
 export const getCurrentUser = async (): Promise<AuthUser | null> => {
   try {
-    const { data: { user }, error } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
+
     if (error || !user) {
       return null;
     }
@@ -35,10 +38,14 @@ export const getCurrentUser = async (): Promise<AuthUser | null> => {
     const metadata = user.user_metadata || {};
     return {
       id: user.id,
-      email: user.email || '',
-      firstName: metadata.firstName || '',
-      lastName: metadata.lastName || '',
-      name: metadata.name || `${metadata.firstName || ''} ${metadata.lastName || ''}`.trim() || user.email?.split('@')[0] || '',
+      email: user.email || "",
+      firstName: metadata.firstName || "",
+      lastName: metadata.lastName || "",
+      name:
+        metadata.name ||
+        `${metadata.firstName || ""} ${metadata.lastName || ""}`.trim() ||
+        user.email?.split("@")[0] ||
+        "",
     };
   } catch (error) {
     return null;
@@ -46,7 +53,7 @@ export const getCurrentUser = async (): Promise<AuthUser | null> => {
 };
 
 /**
- * Get the full user profile including metadata
+ * Get the full user profile from the User table
  * @returns Promise<UserProfile | null> - The user profile or null if not authenticated
  */
 export const getUserProfile = async (): Promise<UserProfile | null> => {
@@ -54,30 +61,104 @@ export const getUserProfile = async (): Promise<UserProfile | null> => {
   if (!user) return null;
 
   try {
-    // Get user data from Supabase Auth including metadata
-    const { data: { user: authUser }, error } = await supabase.auth.getUser();
-    
-    if (error || !authUser) {
+    const { data, error } = await supabase
+      .from("User")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+    console.log("data", data);
+    console.log(user.id);
+    if (error) {
+      console.error("Error fetching user profile:", error);
       return null;
     }
 
-    const metadata = authUser.user_metadata || {};
-    
-    // Return profile data from auth metadata
-    return {
-      id: authUser.id,
-      email: authUser.email || '',
-      name: metadata.name || `${metadata.firstName || ''} ${metadata.lastName || ''}`.trim() || authUser.email?.split('@')[0] || '',
-      organization: metadata.organization || '',
-      profile_picture_url: metadata.profile_picture_url || AUTH_CONFIG.DEFAULT_PROFILE_PICTURE,
-      linkedin_url: metadata.linkedin_url || '',
-      github_url: metadata.github_url || '',
-      discord_username: metadata.discord_username || '',
-      created_at: authUser.created_at,
-      updated_at: authUser.updated_at || authUser.created_at,
-    };
+    return data;
   } catch (error) {
+    console.error("Error in getUserProfile:", error);
     return null;
+  }
+};
+
+/**
+ * Update user profile in the User table
+ * @param profileData - Profile data to update
+ * @returns Promise<void>
+ */
+export const updateUserProfile = async (profileData: {
+  avatar?: string;
+  bio?: string;
+  title?: string;
+  linkedin?: string;
+  github?: string;
+  twitter?: string;
+}): Promise<void> => {
+  const user = await getCurrentUser();
+  if (!user) {
+    throw new Error("User not authenticated");
+  }
+
+  try {
+    const { error } = await supabase.from("User").upsert(
+      {
+        id: user.id,
+        ...profileData,
+      },
+      {
+        onConflict: "id",
+      }
+    );
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    throw error;
+  }
+};
+
+/**
+ * Create or update user profile in the User table
+ * @param profileData - Profile data to create/update
+ * @returns Promise<UserProfile>
+ */
+export const createOrUpdateUserProfile = async (profileData: {
+  avatar?: string;
+  bio?: string;
+  title?: string;
+  linkedin?: string;
+  github?: string;
+  twitter?: string;
+}): Promise<UserProfile> => {
+  const user = await getCurrentUser();
+  if (!user) {
+    throw new Error("User not authenticated");
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("User")
+      .upsert(
+        {
+          id: user.id,
+          ...profileData,
+        },
+        {
+          onConflict: "id",
+        }
+      )
+      .select()
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error creating/updating user profile:", error);
+    throw error;
   }
 };
 
@@ -90,14 +171,14 @@ export const isAuthenticated = async (): Promise<boolean> => {
   return user !== null;
 };
 
-
-
 /**
  * Check if email already exists in the system
  * @param email - Email to check
  * @returns Promise<{exists: boolean, confirmed: boolean}>
  */
-const checkEmailExists = async (email: string): Promise<{exists: boolean, confirmed: boolean}> => {
+const checkEmailExists = async (
+  email: string
+): Promise<{ exists: boolean; confirmed: boolean }> => {
   try {
     // Try to sign in with a dummy password to check user existence
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -106,42 +187,45 @@ const checkEmailExists = async (email: string): Promise<{exists: boolean, confir
     });
 
     // DEBUG: Log what Supabase actually returns
-    console.log('=== EMAIL CHECK DEBUG ===');
-    console.log('Email:', email);
-    console.log('Error message:', error?.message);
-    console.log('Error code:', error?.code);
-    console.log('Has user:', !!data.user);
-    console.log('========================');
+    console.log("=== EMAIL CHECK DEBUG ===");
+    console.log("Email:", email);
+    console.log("Error message:", error?.message);
+    console.log("Error code:", error?.code);
+    console.log("Has user:", !!data.user);
+    console.log("========================");
 
     if (error) {
       // "Invalid login credentials" typically means user exists but password is wrong
-      if (error.message?.includes('Invalid login credentials')) {
-        console.log('→ Detected as: user exists (confirmed)');
+      if (error.message?.includes("Invalid login credentials")) {
+        console.log("→ Detected as: user exists (confirmed)");
         return { exists: true, confirmed: true };
       }
-      
+
       // Email not confirmed error - user exists but not confirmed
-      if (error.message?.includes('Email not confirmed') || error.message?.includes('email_not_confirmed')) {
-        console.log('→ Detected as: user exists (unconfirmed)');
+      if (
+        error.message?.includes("Email not confirmed") ||
+        error.message?.includes("email_not_confirmed")
+      ) {
+        console.log("→ Detected as: user exists (unconfirmed)");
         return { exists: true, confirmed: false };
       }
-      
+
       // For other errors, assume user doesn't exist
-      console.log('→ Detected as: user does not exist');
+      console.log("→ Detected as: user does not exist");
       return { exists: false, confirmed: false };
     }
 
     // If login somehow succeeded with dummy password (very unlikely)
     if (data.user) {
       await supabase.auth.signOut(); // Clean up
-      console.log('→ Detected as: user exists (login succeeded)');
+      console.log("→ Detected as: user exists (login succeeded)");
       return { exists: true, confirmed: true };
     }
 
-    console.log('→ Detected as: user does not exist (no error, no user)');
+    console.log("→ Detected as: user does not exist (no error, no user)");
     return { exists: false, confirmed: false };
   } catch (error) {
-    console.log('→ Detected as: user does not exist (catch block)');
+    console.log("→ Detected as: user does not exist (catch block)");
     // On error, assume email doesn't exist to allow registration attempt
     return { exists: false, confirmed: false };
   }
@@ -153,29 +237,35 @@ const checkEmailExists = async (email: string): Promise<{exists: boolean, confir
  * @returns string - Standardized error code or message
  */
 const handleAuthError = (error: any): string => {
-  if (!error?.message) return 'An unknown error occurred';
+  if (!error?.message) return "An unknown error occurred";
 
   // Check for user already exists errors
-  if (error.message?.includes('user_already_exists') || 
-      error.message?.includes('email_exists') ||
-      error.message?.includes('User already registered') ||
-      error.message?.includes('duplicate')) {
+  if (
+    error.message?.includes("user_already_exists") ||
+    error.message?.includes("email_exists") ||
+    error.message?.includes("User already registered") ||
+    error.message?.includes("duplicate")
+  ) {
     return AUTH_ERRORS.EMAIL_ALREADY_TAKEN;
   }
-  
+
   // Check for email confirmation related errors
-  if (error.message?.includes('email_address_not_authorized') ||
-      error.message?.includes('email_not_confirmed') ||
-      error.message?.includes('Email not confirmed')) {
+  if (
+    error.message?.includes("email_address_not_authorized") ||
+    error.message?.includes("email_not_confirmed") ||
+    error.message?.includes("Email not confirmed")
+  ) {
     return AUTH_ERRORS.EMAIL_NEEDS_CONFIRMATION;
   }
-  
+
   // Signup disabled errors (could indicate user exists)
-  if (error.message?.includes('Signups not allowed') ||
-      error.message?.includes('signup_disabled')) {
+  if (
+    error.message?.includes("Signups not allowed") ||
+    error.message?.includes("signup_disabled")
+  ) {
     return AUTH_ERRORS.EMAIL_ALREADY_TAKEN;
   }
-  
+
   // Return the original message for other errors
   return error.message;
 };
@@ -188,12 +278,12 @@ const handleAuthError = (error: any): string => {
 const setSessionCookies = async (session: any): Promise<void> => {
   try {
     await fetch(AUTH_CONFIG.SET_COOKIE_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ event: 'SIGNED_IN', session })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ event: "SIGNED_IN", session }),
     });
   } catch (error) {
-    throw new Error('Failed to establish session');
+    throw new Error("Failed to establish session");
   }
 };
 
@@ -209,27 +299,26 @@ const setSessionCookies = async (session: any): Promise<void> => {
  * @returns Promise<{requiresEmailConfirmation: boolean, message?: string}>
  */
 export const register = async (
-  email: string, 
-  password: string, 
-  name: string, 
+  email: string,
+  password: string,
+  name: string,
   organization?: string,
   linkedin_url?: string,
   github_url?: string,
   discord_username?: string
-  ): Promise<{ requiresEmailConfirmation: boolean; message?: string }> => {
-  
-  const nameParts = name.split(' ');
-  const firstName = nameParts[0] || '';
-  const lastName = nameParts.slice(1).join(' ') || '';
+): Promise<{ requiresEmailConfirmation: boolean; message?: string }> => {
+  const nameParts = name.split(" ");
+  const firstName = nameParts[0] || "";
+  const lastName = nameParts.slice(1).join(" ") || "";
 
   const registrationData = {
     firstName,
     lastName,
     name,
-    organization: organization || '',
-    linkedin_url: linkedin_url || '',
-    github_url: github_url || '',
-    discord_username: discord_username || '',
+    organization: organization || "",
+    linkedin_url: linkedin_url || "",
+    github_url: github_url || "",
+    discord_username: discord_username || "",
     profile_picture_url: AUTH_CONFIG.DEFAULT_PROFILE_PICTURE,
   };
 
@@ -239,22 +328,23 @@ export const register = async (
       password,
       options: {
         emailRedirectTo: `${window.location.origin}${AUTH_CONFIG.CALLBACK_PATH}`,
-        data: registrationData
-      }
+        data: registrationData,
+      },
     });
 
     if (error) {
-      console.error('Supabase registration error:', error);
+      console.error("Supabase registration error:", error);
     }
   } catch (error) {
-    console.error('Registration error:', error);
+    console.error("Registration error:", error);
   }
 
   // Always return the same elegant message regardless of the scenario
   // This covers both new registrations and existing users gracefully
   return {
     requiresEmailConfirmation: true,
-    message: 'Please check your email! If this is your first time, you\'ll receive a confirmation link to activate your account. If you already have an account, please login instead.'
+    message:
+      "Please check your email! If this is your first time, you'll receive a confirmation link to activate your account. If you already have an account, please login instead.",
   };
 };
 
@@ -275,7 +365,7 @@ export const login = async (email: string, password: string): Promise<void> => {
   }
 
   if (!data.session) {
-    throw new Error('Login failed - no session created');
+    throw new Error("Login failed - no session created");
   }
 
   // Set session cookies on server
@@ -288,10 +378,10 @@ export const login = async (email: string, password: string): Promise<void> => {
  */
 export const signInWithGoogle = async (): Promise<void> => {
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'google',
+    provider: "google",
     options: {
       redirectTo: `${window.location.origin}${AUTH_CONFIG.CALLBACK_PATH}`,
-    }
+    },
   });
 
   if (error) {
@@ -307,13 +397,13 @@ export const logout = async (): Promise<void> => {
   try {
     // Clear session on server
     await fetch(AUTH_CONFIG.SIGNOUT_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
     });
-    
+
     // Sign out from Supabase client
     const { error } = await supabase.auth.signOut();
-    
+
     if (error) {
       throw new Error(error.message);
     }
@@ -344,11 +434,11 @@ export const resetPassword = async (email: string): Promise<void> => {
  */
 export const resendConfirmation = async (email: string): Promise<void> => {
   const { error } = await supabase.auth.resend({
-    type: 'signup',
+    type: "signup",
     email: email,
     options: {
-      emailRedirectTo: `${window.location.origin}${AUTH_CONFIG.CALLBACK_PATH}`
-    }
+      emailRedirectTo: `${window.location.origin}${AUTH_CONFIG.CALLBACK_PATH}`,
+    },
   });
 
   if (error) {
@@ -370,7 +460,7 @@ export const updateProfile = async (profileData: {
   profile_picture_url?: string;
 }): Promise<void> => {
   const { error } = await supabase.auth.updateUser({
-    data: profileData
+    data: profileData,
   });
 
   if (error) {
@@ -383,9 +473,10 @@ export const updateProfile = async (profileData: {
  * @param callback - Function to call when auth state changes
  * @returns Function to unsubscribe from auth state changes
  */
-export const onAuthStateChange = (callback: (user: AuthUser | null) => void) => {
+export const onAuthStateChange = (
+  callback: (user: AuthUser | null) => void
+) => {
   return supabase.auth.onAuthStateChange(async (event, session) => {
-    
     if (session?.user) {
       const user = await getCurrentUser();
       callback(user);
@@ -396,4 +487,4 @@ export const onAuthStateChange = (callback: (user: AuthUser | null) => void) => 
 };
 
 // Export auth error constants for use in components
-export { AUTH_ERRORS }; 
+export { AUTH_ERRORS };
