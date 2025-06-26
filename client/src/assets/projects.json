@@ -305,7 +305,7 @@
 
         },
         {
-            "name": "NucleAIse: Protein Function Prediction",
+            "name": "NucleAIse",
             "description": "Predict protein functions and Gene Ontologies using LLMs (Transformers), GNNs, and CNNs. The project aims to identify key model features and improve biological insights for drug discovery.",
             "github": "https://github.com/ambroseling/NucleAIse",
             "image": "/assets/images/nuclease.png",
