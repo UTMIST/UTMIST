@@ -58,6 +58,11 @@ export default function Navbar() {
               Careers
             </Link>
           </li>
+          <li>
+            <Link href="/startups" className="nav-item">
+              MISTic R&D
+            </Link>
+          </li>
         </ul>
       </nav>
 
@@ -106,6 +111,11 @@ export default function Navbar() {
               <li>
                 <Link href="/careers" onClick={() => setIsOpen(false)}>
                   Careers
+                </Link>
+              </li>
+              <li>
+                <Link href="/startups" onClick={() => setIsOpen(false)}>
+                  MISTic R&D
                 </Link>
               </li>
             </ul>
