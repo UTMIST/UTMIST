@@ -69,7 +69,7 @@ const HeroIntroductionSection = () => {
   return (
     <div className="flex flex-col gap-2 text-center">
       <h1 className="font-bold text-2xl md:text-3xl">MISTic R&D</h1>
-      <p className="text-base md:text-lg m-0 leading-snug text-center text-gray-700">
+      <p className="m-0 leading-snug text-center text-sm md:text-base text-gray-700">
         <span className="block">
           Building an AI startup? Join MISTic R&D, 
         </span>
