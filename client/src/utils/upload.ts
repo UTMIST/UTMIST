@@ -39,7 +39,7 @@ export const uploadAvatar = async (
     const filePath = `profile/${userId}/${fileName}`;
 
     // Upload file to Supabase storage
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from("utmist-website")
       .upload(filePath, file, {
         cacheControl: "3600",
