@@ -1,7 +1,7 @@
 
     [
         {
-            "name": "QuDiffuse: Quantum Annealing for Diffusion Models",
+            "name": "QuDiffuse",
             "description": "This project explores the use of D-Wave’s quantum annealing to improve the efficiency of diffusion models, aiming to reduce generation time while maintaining high quality data samples.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/qudiffuse.png",
@@ -17,7 +17,7 @@
             "readMoreLink": ""
         },
         {
-            "name": "Deep Emotion: Contrastive Learning for fMRI Classification",
+            "name": "Deep Emotion",
             "description": "This project uses contrastive learning on fMRI brain scans to identify which movie scenes a person is viewing. The goal is to align brain activity with visual stimuli using deep learning techniques.",
             "github": "https://github.com/lungerjo/DeepEmotion",
             "image": "/assets/images/deepemotion.png",
@@ -25,19 +25,11 @@
             "readMoreLink": ""
         },
         {
-            "name": "Flow to Learn: Flow Matching on Neural Network Parameters",
+            "name": "Flow to Learn",
             "description": "This project applies flow matching techniques to neural network parameters, leveraging mixture learning and model weight merging strategies to predict and transfer weights between models.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/flowtolearn.png",
             "type": "genai",
-            "readMoreLink": ""
-        },
-        {
-            "name": "FashionBot",
-            "description": "FashionBot is a personalized clothing recommendation system that intelligently styles complete outfits from catalog data, aiming to provide tailored and stylish fashion recommendations.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/fashionbot.png",
-            "type": "aiapps",
             "readMoreLink": ""
         },
         {
@@ -49,7 +41,7 @@
             "readMoreLink": ""
         },
         {
-            "name": "AI Warehouse: Evolution Battle Simulation",
+            "name": "AI Warehouse",
             "description": "UTMIST is collaborating with AI Warehouse to build an evolution simulation in Unity using C# and genetic algorithms for educational videos reaching millions of viewers.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/evolutionbattle.png",
@@ -57,7 +49,7 @@
             "readMoreLink": ""
         },
         {
-            "name": "Lovelytics: Task Automation LLM",
+            "name": "Lovelytics",
             "description": "Partnering with Lovelytics, this project extends a LangChain-powered LLM automation tool for business workflows, focusing on task generation via natural language prompts on Azure Databricks.",
             "github": "https://github.com/alvina-yang/Lovelytics",
             "image": "/assets/images/lovelytics.png",
@@ -65,7 +57,7 @@
             "readMoreLink": ""
         },
         {
-            "name": "Aercoustics: Sound Event Classification for Construction Sites",
+            "name": "Aercoustics",
             "description": "This collaboration with Aercoustics focuses on classifying sound events from construction sites using acoustic data, aiding in compliance and environmental monitoring.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/aercoustics.png",
@@ -73,7 +65,7 @@
             "readMoreLink": ""
         },
         {
-            "name": "Aemulus VR: Using Neural Radiance Fields for Luxury E-commerce",
+            "name": "Aemulus VR",
             "description": "Aemulus VR is using neural rendering and Gaussian Splatting to create photorealistic 3D e-commerce displays for luxury products, transforming online shopping experiences.",
             "github": "https://docs.google.com/document/d/1hxuRUOMjrEGVizKCHK3ifhrFGOQ5wrx4kK9OHfJNrdE/edit?tab=t.0",
             "image": "/assets/images/aemulusvr.png",
@@ -81,7 +73,7 @@
             "readMoreLink": ""
         },
         {
-            "name": "KnockRI: AI-Driven Skills Assessment Platform",
+            "name": "KnockRI",
             "description": "Knockri uses AI to evaluate candidates through video, audio, and text, reducing hiring bias by focusing on competencies instead of resumes in order to promote fair recruitment practices.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/knockri.png",
@@ -122,7 +114,7 @@
             "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
         },
         {
-            "name": "Real-Time: Real Estate Price Prediction",
+            "name": "Real Estate Price Prediction",
             "description": "Developing a real-time model to predict real estate prices using machine learning techniques.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/real-estate-prediction.png",
@@ -130,7 +122,7 @@
             "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
         },
         {
-            "name": "SmileDetector: Detecting and Rating Smiles",
+            "name": "SmileDetector",
             "description": "Creating a web application that employs machine learning to detect and rate smiles.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/smile-detector.png",
@@ -138,7 +130,7 @@
             "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
         },
         {
-            "name": "WallStreetBots: Stock Price Prediction",
+            "name": "WallStreetBots",
             "description": "Implementing NLP and reinforcement learning for stock price prediction and market analysis.",
             "github": "https://utorontomist.medium.com/wall-street-bots-building-an-automatic-stock-trading-platform-based-on-artificial-intelligence-4f49df89ac41",
             "image": "/assets/images/wallstreetbots.png",
@@ -170,7 +162,7 @@
             "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
         },
         {
-            "name": "Virtual Creatures",
+            "name": "VirtualCreatures",
             "description": "Reimagining Karl Sims' 1994 'Evolving Virtual Creatures' paper using modern techniques.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/virtual-creatures.png",
@@ -186,7 +178,7 @@
             "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
         },
         {
-            "name": "AltaML - Startup Collaboration",
+            "name": "AltaML",
             "description": "Building an ML pipeline tailored for applications in the construction industry.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/altaml.png",
@@ -202,7 +194,7 @@
             "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
         },
         {
-            "name": "Omni - Startup Collaboration",
+            "name": "Omni",
             "description": "Integrating information retrieval into the creative process through ML techniques.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/omni.png",
@@ -242,7 +234,7 @@
             "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
         },
         {
-            "name": "Wind Turbine Audibility - Aercoustics Collaboration",
+            "name": "Wind Turbine Audibility",
             "description": "Providing an ML solution for the turbine audibility problem in collaboration with Aercoustics Ltd.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/wind-turbine.png",
@@ -250,7 +242,7 @@
             "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
         },
         {
-            "name": "Side Channel Attacks: Cracking AES with Deep Learning",
+            "name": "Side Channel Attacks",
             "description": "Crack the AES cryptosystem via side channel attacks using deep learning (ResNet, LSTM, Transformer). The project involves hardware-level data collection and attack modeling.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/aes-sidechannel.png",
@@ -277,7 +269,7 @@
 
         },
         {
-            "name": "EMILI: Easy MachIne LearnIng",
+            "name": "EMILI",
             "description": "Construct a dynamic pipeline to collect domain-specific datasets and train LLMs. The project involves web crawling, relevance filtering, and dataset-feedback loops.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/emili-llm.png",
@@ -286,7 +278,7 @@
 
         },
         {
-            "name": "Evolving Virtual Creatures... PART II!",
+            "name": "Virtual Creatures II",
             "description": "Use NEAT and multi-agent RL to evolve and train virtual creatures in Unity, building on last year's successful evolution of walkers and swimmers.",
             "github": "https://github.com/UTMIST",
             "image": "/assets/images/virtual-creatures.png",
@@ -304,7 +296,7 @@
 
         },
         {
-            "name": "QuSparse: Quantum Approaches to Sparse Signal Reconstruction",
+            "name": "QuSparse - Quantum Approaches to Sparse Signal Reconstruction",
             "description": "Use quantum algorithms like QFT to improve sparse signal reconstruction, transforming signals into quantum states and reconstructing using QML.",
             "github": "https://drive.google.com/file/d/1t9uDjQ3YaghbyVE_ASK0RJowOQrP5zL9/view",
             "image": "/assets/images/qu-sparse.png",
@@ -313,7 +305,7 @@
 
         },
         {
-            "name": "NucleAIse: Protein Function Prediction",
+            "name": "NucleAIse",
             "description": "Predict protein functions and Gene Ontologies using LLMs (Transformers), GNNs, and CNNs. The project aims to identify key model features and improve biological insights for drug discovery.",
             "github": "https://github.com/ambroseling/NucleAIse",
             "image": "/assets/images/nuclease.png",
