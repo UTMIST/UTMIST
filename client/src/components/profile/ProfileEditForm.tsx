@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { updateUserProfile } from "@/utils/auth";
+import AvatarUpload from "./AvatarUpload";
 import type { UserProfile } from "@/types/auth";
 
 interface ProfileEditFormProps {
@@ -24,6 +25,7 @@ export default function ProfileEditForm({
     github: profile.github || "",
     twitter: profile.twitter || "",
   });
+  const [avatar, setAvatar] = useState(profile.avatar || "");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validateForm = () => {
@@ -45,12 +47,17 @@ export default function ProfileEditForm({
     }
 
     try {
-      await updateUserProfile(formData);
+      // Update profile with avatar included
+      await updateUserProfile({
+        ...formData,
+        avatar: avatar,
+      });
 
       // Create updated profile object
       const updatedProfile: UserProfile = {
         ...profile,
         ...formData,
+        avatar: avatar,
       };
 
       onSave(updatedProfile);
@@ -68,6 +75,10 @@ export default function ProfileEditForm({
     }
   };
 
+  const handleAvatarChange = (avatarUrl: string) => {
+    setAvatar(avatarUrl);
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
       <h2 className="text-2xl font-semibold text-gray-900 mb-6">
@@ -80,6 +91,16 @@ export default function ProfileEditForm({
             {errors.general}
           </div>
         )}
+
+        {/* Avatar Upload Section */}
+        <div className="flex justify-center">
+          <AvatarUpload
+            currentAvatar={avatar}
+            userId={profile.id}
+            onAvatarChange={handleAvatarChange}
+            disabled={isSaving}
+          />
+        </div>
 
         <div>
           <label
