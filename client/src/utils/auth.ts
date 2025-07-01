@@ -27,10 +27,9 @@ export const getCurrentUser = async (): Promise<AuthUser | null> => {
   try {
     const {
       data: { user },
-      error,
     } = await supabase.auth.getUser();
 
-    if (error || !user) {
+    if (!user) {
       return null;
     }
 
@@ -47,7 +46,7 @@ export const getCurrentUser = async (): Promise<AuthUser | null> => {
         user.email?.split("@")[0] ||
         "",
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -61,18 +60,11 @@ export const getUserProfile = async (): Promise<UserProfile | null> => {
   if (!user) return null;
 
   try {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("User")
       .select("*")
       .eq("id", user.id)
       .single();
-    console.log("data", data);
-    console.log(user.id);
-    if (error) {
-      console.error("Error fetching user profile:", error);
-      return null;
-    }
-
     return data;
   } catch (error) {
     console.error("Error in getUserProfile:", error);
@@ -137,7 +129,7 @@ export const createOrUpdateUserProfile = async (profileData: {
   }
 
   try {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("User")
       .upsert(
         {
@@ -151,8 +143,8 @@ export const createOrUpdateUserProfile = async (profileData: {
       .select()
       .single();
 
-    if (error) {
-      throw new Error(error.message);
+    if (!data) {
+      throw new Error("No data returned from Supabase");
     }
 
     return data;
@@ -172,117 +164,18 @@ export const isAuthenticated = async (): Promise<boolean> => {
 };
 
 /**
- * Check if email already exists in the system
- * @param email - Email to check
- * @returns Promise<{exists: boolean, confirmed: boolean}>
- */
-const checkEmailExists = async (
-  email: string
-): Promise<{ exists: boolean; confirmed: boolean }> => {
-  try {
-    // Try to sign in with a dummy password to check user existence
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password: AUTH_CONFIG.DUMMY_PASSWORD,
-    });
-
-    // DEBUG: Log what Supabase actually returns
-    console.log("=== EMAIL CHECK DEBUG ===");
-    console.log("Email:", email);
-    console.log("Error message:", error?.message);
-    console.log("Error code:", error?.code);
-    console.log("Has user:", !!data.user);
-    console.log("========================");
-
-    if (error) {
-      // "Invalid login credentials" typically means user exists but password is wrong
-      if (error.message?.includes("Invalid login credentials")) {
-        console.log("→ Detected as: user exists (confirmed)");
-        return { exists: true, confirmed: true };
-      }
-
-      // Email not confirmed error - user exists but not confirmed
-      if (
-        error.message?.includes("Email not confirmed") ||
-        error.message?.includes("email_not_confirmed")
-      ) {
-        console.log("→ Detected as: user exists (unconfirmed)");
-        return { exists: true, confirmed: false };
-      }
-
-      // For other errors, assume user doesn't exist
-      console.log("→ Detected as: user does not exist");
-      return { exists: false, confirmed: false };
-    }
-
-    // If login somehow succeeded with dummy password (very unlikely)
-    if (data.user) {
-      await supabase.auth.signOut(); // Clean up
-      console.log("→ Detected as: user exists (login succeeded)");
-      return { exists: true, confirmed: true };
-    }
-
-    console.log("→ Detected as: user does not exist (no error, no user)");
-    return { exists: false, confirmed: false };
-  } catch (error) {
-    console.log("→ Detected as: user does not exist (catch block)");
-    // On error, assume email doesn't exist to allow registration attempt
-    return { exists: false, confirmed: false };
-  }
-};
-
-/**
- * Handle different Supabase auth errors
- * @param error - The Supabase error
- * @returns string - Standardized error code or message
- */
-const handleAuthError = (error: any): string => {
-  if (!error?.message) return "An unknown error occurred";
-
-  // Check for user already exists errors
-  if (
-    error.message?.includes("user_already_exists") ||
-    error.message?.includes("email_exists") ||
-    error.message?.includes("User already registered") ||
-    error.message?.includes("duplicate")
-  ) {
-    return AUTH_ERRORS.EMAIL_ALREADY_TAKEN;
-  }
-
-  // Check for email confirmation related errors
-  if (
-    error.message?.includes("email_address_not_authorized") ||
-    error.message?.includes("email_not_confirmed") ||
-    error.message?.includes("Email not confirmed")
-  ) {
-    return AUTH_ERRORS.EMAIL_NEEDS_CONFIRMATION;
-  }
-
-  // Signup disabled errors (could indicate user exists)
-  if (
-    error.message?.includes("Signups not allowed") ||
-    error.message?.includes("signup_disabled")
-  ) {
-    return AUTH_ERRORS.EMAIL_ALREADY_TAKEN;
-  }
-
-  // Return the original message for other errors
-  return error.message;
-};
-
-/**
  * Set session cookies on the server
  * @param session - The Supabase session
  * @returns Promise<void>
  */
-const setSessionCookies = async (session: any): Promise<void> => {
+const setSessionCookies = async (session: unknown): Promise<void> => {
   try {
     await fetch(AUTH_CONFIG.SET_COOKIE_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ event: "SIGNED_IN", session }),
     });
-  } catch (error) {
+  } catch {
     throw new Error("Failed to establish session");
   }
 };
@@ -323,7 +216,7 @@ export const register = async (
   };
 
   try {
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -377,7 +270,7 @@ export const login = async (email: string, password: string): Promise<void> => {
  * @returns Promise<void>
  */
 export const signInWithGoogle = async (): Promise<void> => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  const { error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
       redirectTo: `${window.location.origin}${AUTH_CONFIG.CALLBACK_PATH}`,
