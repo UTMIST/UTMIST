@@ -7,6 +7,7 @@ import Sponsors from "@/components/sponsors";
 import Statistics from "@/components/stats";
 import Events from "@/components/events";
 import ValueProps from "@/components/valueprops";
+import StartupsSection from "@/components/startupsSection";
 import FAQ from "@/components/faq";
 import Link from "next/link"; // Import Link from next/link
 
@@ -75,7 +76,7 @@ export default function Home() {
 
       <Events />
       <ValueProps />
-
+      <StartupsSection />
       <FAQ />
     </main>
   );
