@@ -1,344 +1,322 @@
-
-    [
-        {
-            "name": "QuDiffuse: Quantum Annealing for Diffusion Models",
-            "description": "This project explores the use of D-Wave’s quantum annealing to improve the efficiency of diffusion models, aiming to reduce generation time while maintaining high quality data samples.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/qudiffuse.png",
-            "type": "genai",
-            "readMoreLink": ""
-        },
-        {
-            "name": "Machine Learning in RNA Folding Predictions",
-            "description": "Using machine learning to predict RNA folding, this project aims to develop a generative model that maps a given RNA sequence to its 3D molecular structure while optimizing computational energy efficiency.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/rnafolding.png",
-            "type": "medai",
-            "readMoreLink": ""
-        },
-        {
-            "name": "Deep Emotion: Contrastive Learning for fMRI Classification",
-            "description": "This project uses contrastive learning on fMRI brain scans to identify which movie scenes a person is viewing. The goal is to align brain activity with visual stimuli using deep learning techniques.",
-            "github": "https://github.com/lungerjo/DeepEmotion",
-            "image": "/assets/images/deepemotion.png",
-            "type": "medai",
-            "readMoreLink": ""
-        },
-        {
-            "name": "Flow to Learn: Flow Matching on Neural Network Parameters",
-            "description": "This project applies flow matching techniques to neural network parameters, leveraging mixture learning and model weight merging strategies to predict and transfer weights between models.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/flowtolearn.png",
-            "type": "genai",
-            "readMoreLink": ""
-        },
-        {
-            "name": "FashionBot",
-            "description": "FashionBot is a personalized clothing recommendation system that intelligently styles complete outfits from catalog data, aiming to provide tailored and stylish fashion recommendations.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/fashionbot.png",
-            "type": "aiapps",
-            "readMoreLink": ""
-        },
-        {
-            "name": "AI ChatBot",
-            "description": "This AI chatbot answers student inquiries and promotes UTMIST events across Discord and other platforms. It aims to streamline student-club communication with a smart conversational interface.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/aichatbot.png",
-            "type": "nlp",
-            "readMoreLink": ""
-        },
-        {
-            "name": "AI Warehouse: Evolution Battle Simulation",
-            "description": "UTMIST is collaborating with AI Warehouse to build an evolution simulation in Unity using C# and genetic algorithms for educational videos reaching millions of viewers.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/evolutionbattle.png",
-            "type": "aiapps",
-            "readMoreLink": ""
-        },
-        {
-            "name": "Lovelytics: Task Automation LLM",
-            "description": "Partnering with Lovelytics, this project extends a LangChain-powered LLM automation tool for business workflows, focusing on task generation via natural language prompts on Azure Databricks.",
-            "github": "https://github.com/alvina-yang/Lovelytics",
-            "image": "/assets/images/lovelytics.png",
-            "type": "aiapps",
-            "readMoreLink": ""
-        },
-        {
-            "name": "Aercoustics: Sound Event Classification for Construction Sites",
-            "description": "This collaboration with Aercoustics focuses on classifying sound events from construction sites using acoustic data, aiding in compliance and environmental monitoring.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/aercoustics.png",
-            "type": "supvlr",
-            "readMoreLink": ""
-        },
-        {
-            "name": "Aemulus VR: Using Neural Radiance Fields for Luxury E-commerce",
-            "description": "Aemulus VR is using neural rendering and Gaussian Splatting to create photorealistic 3D e-commerce displays for luxury products, transforming online shopping experiences.",
-            "github": "https://docs.google.com/document/d/1hxuRUOMjrEGVizKCHK3ifhrFGOQ5wrx4kK9OHfJNrdE/edit?tab=t.0",
-            "image": "/assets/images/aemulusvr.png",
-            "type": "genai",
-            "readMoreLink": ""
-        },
-        {
-            "name": "KnockRI: AI-Driven Skills Assessment Platform",
-            "description": "Knockri uses AI to evaluate candidates through video, audio, and text, reducing hiring bias by focusing on competencies instead of resumes in order to promote fair recruitment practices.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/knockri.png",
-            "type": "aiapps",
-            "readMoreLink": ""
-        },
-        {
-            "name": "ML Compute Platform Project",
-            "description": "This system dynamically manages UTMIST’s cloud-based ML workloads. It handles MLOps workflows, allocates compute resources, logs performance, and provides real-time monitoring across cloud providers.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/mlcompute.png",
-            "type": "mlops",
-            "readMoreLink": ""
-        },
-        {
-            "name": "ML Project Platform",
-            "description": "A centralized hub to manage the ML project lifecycle, including task tracking, team collaboration, milestone monitoring, and code/resource sharing for ongoing and past projects.",
-            "github": "https://github.com/UTMIST/Projects-Platform",
-            "image": "/assets/images/mlprojectplatform.png",
-            "type": "mlops",
-            "readMoreLink": ""
-        }
-        ,
-        {
-            "name": "ECG Analysis Using Deep CNNs",
-            "description": "Applying deep convolutional neural networks to analyze ECG data for cardiovascular disease detection.",
-            "github": "https://utorontomist.medium.com/an-application-of-deep-learning-model-to-specify-cardiovascular-diseases-via-analyzing-ecg-diagrams-e5360723cd57",
-            "image": "/assets/images/ecg-analysis.png",
-            "type": "medai",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
-        },
-        {
-            "name": "Employee Attrition Factors Prediction",
-            "description": "Utilizing machine learning to identify and address factors contributing to employee attrition.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/employee-attrition.png",
-            "type": "supvlr",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
-        },
-        {
-            "name": "Real-Time: Real Estate Price Prediction",
-            "description": "Developing a real-time model to predict real estate prices using machine learning techniques.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/real-estate-prediction.png",
-            "type": "finml",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
-        },
-        {
-            "name": "SmileDetector: Detecting and Rating Smiles",
-            "description": "Creating a web application that employs machine learning to detect and rate smiles.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/smile-detector.png",
-            "type": "supvlr",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
-        },
-        {
-            "name": "WallStreetBots: Stock Price Prediction",
-            "description": "Implementing NLP and reinforcement learning for stock price prediction and market analysis.",
-            "github": "https://utorontomist.medium.com/wall-street-bots-building-an-automatic-stock-trading-platform-based-on-artificial-intelligence-4f49df89ac41",
-            "image": "/assets/images/wallstreetbots.png",
-            "type": "finml",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
-        },
-        {
-            "name": "Handwriting Recognition Using Deep Learning",
-            "description": "Applying deep learning techniques to recognize handwritten text in physical documents.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/handwriting-recognition.png",
-            "type": "supvlr",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
-        },
-        {
-            "name": "DiffMuse",
-            "description": "Exploring music synthesis using diffusion models to generate new compositions.",
-            "github": "https://youtu.be/gLKfO3fbxlg",
-            "image": "/assets/images/diffmuse.png",
-            "type": "genai",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-        },
-        {
-            "name": "Numerai Quant Team",
-            "description": "Developing models to compete on Numerai's weekly hedge fund prediction challenges.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/numerai.png",
-            "type": "finml",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-        },
-        {
-            "name": "Virtual Creatures",
-            "description": "Reimagining Karl Sims' 1994 'Evolving Virtual Creatures' paper using modern techniques.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/virtual-creatures.png",
-            "type": "mlresearch",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-        },
-        {
-            "name": "12-Lead ECG Reconstruction",
-            "description": "Reconstructing full 12-lead ECG signals from only 2-3 lead inputs using ML models.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/ecg-reconstruction.png",
-            "type": "mlhealth",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-        },
-        {
-            "name": "AltaML - Startup Collaboration",
-            "description": "Building an ML pipeline tailored for applications in the construction industry.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/altaml.png",
-            "type": "mlops",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-        },
-        {
-            "name": "FashionBot",
-            "description": "Developing a customizable fashion recommendation system using machine learning.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/fashionbot.png",
-            "type": "aiapps",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-        },
-        {
-            "name": "Omni - Startup Collaboration",
-            "description": "Integrating information retrieval into the creative process through ML techniques.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/omni.png",
-            "type": "aiapps",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-        },
-        {
-            "name": "Osu!",
-            "description": "Generating Osu! beatmaps using sequence-to-sequence models for rhythm game enthusiasts.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/osu.png",
-            "type": "aiapps",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-        },
-        {
-            "name": "PhotoML - Startup Collaboration",
-            "description": "Applying machine learning to enhance picture selection processes.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/photoml.png",
-            "type": "aiapps",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-        },
-        {
-            "name": "RealTime2",
-            "description": "Advancing the RealTime project from 2021 with new features and improvements.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/realtime2.png",
-            "type": "finml",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-        },
-        {
-            "name": "WallStreetBots2",
-            "description": "Continuing the WallStreetBots project with a focus on cryptocurrency price prediction.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/wallstreetbots2.png",
-            "type": "finml",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-        },
-        {
-            "name": "Wind Turbine Audibility - Aercoustics Collaboration",
-            "description": "Providing an ML solution for the turbine audibility problem in collaboration with Aercoustics Ltd.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/wind-turbine.png",
-            "type": "supvlr",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-        },
-        {
-            "name": "Side Channel Attacks: Cracking AES with Deep Learning",
-            "description": "Crack the AES cryptosystem via side channel attacks using deep learning (ResNet, LSTM, Transformer). The project involves hardware-level data collection and attack modeling.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/aes-sidechannel.png",
-            "type": "supvlr",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-
-        },
-        {
-            "name": "Auto-Colorization of Historical Black and White Images",
-            "description": "Re-implement and improve CNN-based automatic image colorization using GMMs and a specialized architecture, building on the 'Colorful Image Colorization' paper.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/auto-colorization.png",
-            "type": "cvpr",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-
-        },
-        {
-            "name": "Denoising Renderings using Deep Learning",
-            "description": "Build a Monte Carlo renderer with deep learning denoising and a real-time GUI viewer. The goal is to improve CGI quality and efficiency.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/deep-denoising.png",
-            "type": "cvpr",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-
-        },
-        {
-            "name": "EMILI: Easy MachIne LearnIng",
-            "description": "Construct a dynamic pipeline to collect domain-specific datasets and train LLMs. The project involves web crawling, relevance filtering, and dataset-feedback loops.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/emili-llm.png",
-            "type": "mlops",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-
-        },
-        {
-            "name": "Evolving Virtual Creatures... PART II!",
-            "description": "Use NEAT and multi-agent RL to evolve and train virtual creatures in Unity, building on last year's successful evolution of walkers and swimmers.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/virtual-creatures.png",
-            "type": "mlrl",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-
-        },
-        {
-            "name": "Is Hashing All You Need For Implicit Neural Representations?",
-            "description": "Explore why multi-resolution hash embeddings outperform other methods in INRs. Conduct experiments and possibly submit to ICML/NeurIPS 2024.",
-            "github": "https://drive.google.com/file/d/1FTrMbFmRnFzO5xN8OEJGnEUNuJ1JaL24/view",
-            "image": "/assets/images/inr-hashing.png",
-            "type": "cvpr",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-
-        },
-        {
-            "name": "QuSparse: Quantum Approaches to Sparse Signal Reconstruction",
-            "description": "Use quantum algorithms like QFT to improve sparse signal reconstruction, transforming signals into quantum states and reconstructing using QML.",
-            "github": "https://drive.google.com/file/d/1t9uDjQ3YaghbyVE_ASK0RJowOQrP5zL9/view",
-            "image": "/assets/images/qu-sparse.png",
-            "type": "genai",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-
-        },
-        {
-            "name": "NucleAIse: Protein Function Prediction",
-            "description": "Predict protein functions and Gene Ontologies using LLMs (Transformers), GNNs, and CNNs. The project aims to identify key model features and improve biological insights for drug discovery.",
-            "github": "https://github.com/ambroseling/NucleAIse",
-            "image": "/assets/images/nuclease.png",
-            "type": "medai",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-
-        },
-        {
-            "name": "Real-Time Trading with Sequence Models and RL",
-            "description": "Develop a deep RL-based real-time trading agent for FX and commodities. Design a custom RL environment and agent leveraging sequence models and DRL techniques.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/realtime-trading.png",
-            "type": "finml",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-
-        },
-        {
-            "name": "Spiking Neural Networks with Memristor Hardware",
-            "description": "Build neuromorphic computing systems using Spiking Neural Networks (SNNs) and memristor-based hardware. Split into software and hardware teams for training and circuit fabrication.",
-            "github": "https://github.com/UTMIST",
-            "image": "/assets/images/spiking-neural-networks.png",
-            "type": "genai",
-            "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
-
-        }
-          
-    ]
-    
+[
+  {
+    "name": "QuDiffuse",
+    "description": "This project explores the use of D-Wave’s quantum annealing to improve the efficiency of diffusion models, aiming to reduce generation time while maintaining high quality data samples.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/qudiffuse.webp",
+    "type": "genai",
+    "readMoreLink": ""
+  },
+  {
+    "name": "Machine Learning in RNA Folding Predictions",
+    "description": "Using machine learning to predict RNA folding, this project aims to develop a generative model that maps a given RNA sequence to its 3D molecular structure while optimizing computational energy efficiency.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/rnafolding.webp",
+    "type": "medai",
+    "readMoreLink": ""
+  },
+  {
+    "name": "Deep Emotion",
+    "description": "This project uses contrastive learning on fMRI brain scans to identify which movie scenes a person is viewing. The goal is to align brain activity with visual stimuli using deep learning techniques.",
+    "github": "https://github.com/lungerjo/DeepEmotion",
+    "image": "/assets/images/deepemotion.webp",
+    "type": "medai",
+    "readMoreLink": ""
+  },
+  {
+    "name": "Flow to Learn",
+    "description": "This project applies flow matching techniques to neural network parameters, leveraging mixture learning and model weight merging strategies to predict and transfer weights between models.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/flowtolearn.webp",
+    "type": "genai",
+    "readMoreLink": ""
+  },
+  {
+    "name": "AI ChatBot",
+    "description": "This AI chatbot answers student inquiries and promotes UTMIST events across Discord and other platforms. It aims to streamline student-club communication with a smart conversational interface.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/aichatbot.webp",
+    "type": "nlp",
+    "readMoreLink": ""
+  },
+  {
+    "name": "AI Warehouse",
+    "description": "UTMIST is collaborating with AI Warehouse to build an evolution simulation in Unity using C# and genetic algorithms for educational videos reaching millions of viewers.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/evolutionbattle.webp",
+    "type": "aiapps",
+    "readMoreLink": ""
+  },
+  {
+    "name": "Lovelytics",
+    "description": "Partnering with Lovelytics, this project extends a LangChain-powered LLM automation tool for business workflows, focusing on task generation via natural language prompts on Azure Databricks.",
+    "github": "https://github.com/alvina-yang/Lovelytics",
+    "image": "/assets/images/lovelytics.webp",
+    "type": "aiapps",
+    "readMoreLink": ""
+  },
+  {
+    "name": "Aercoustics",
+    "description": "This collaboration with Aercoustics focuses on classifying sound events from construction sites using acoustic data, aiding in compliance and environmental monitoring.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/aercoustics.webp",
+    "type": "supvlr",
+    "readMoreLink": ""
+  },
+  {
+    "name": "Aemulus VR",
+    "description": "Aemulus VR is using neural rendering and Gaussian Splatting to create photorealistic 3D e-commerce displays for luxury products, transforming online shopping experiences.",
+    "github": "https://docs.google.com/document/d/1hxuRUOMjrEGVizKCHK3ifhrFGOQ5wrx4kK9OHfJNrdE/edit?tab=t.0",
+    "image": "/assets/images/aemulusvr.webp",
+    "type": "genai",
+    "readMoreLink": ""
+  },
+  {
+    "name": "KnockRI",
+    "description": "Knockri uses AI to evaluate candidates through video, audio, and text, reducing hiring bias by focusing on competencies instead of resumes in order to promote fair recruitment practices.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/knockri.webp",
+    "type": "aiapps",
+    "readMoreLink": ""
+  },
+  {
+    "name": "ML Compute Platform Project",
+    "description": "This system dynamically manages UTMIST’s cloud-based ML workloads. It handles MLOps workflows, allocates compute resources, logs performance, and provides real-time monitoring across cloud providers.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/mlcompute.webp",
+    "type": "mlops",
+    "readMoreLink": ""
+  },
+  {
+    "name": "ML Project Platform",
+    "description": "A centralized hub to manage the ML project lifecycle, including task tracking, team collaboration, milestone monitoring, and code/resource sharing for ongoing and past projects.",
+    "github": "https://github.com/UTMIST/Projects-Platform",
+    "image": "/assets/images/mlprojectplatform.webp",
+    "type": "mlops",
+    "readMoreLink": ""
+  },
+  {
+    "name": "ECG Analysis Using Deep CNNs",
+    "description": "Applying deep convolutional neural networks to analyze ECG data for cardiovascular disease detection.",
+    "github": "https://utorontomist.medium.com/an-application-of-deep-learning-model-to-specify-cardiovascular-diseases-via-analyzing-ecg-diagrams-e5360723cd57",
+    "image": "/assets/images/ecg-analysis.webp",
+    "type": "medai",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
+  },
+  {
+    "name": "Employee Attrition Factors Prediction",
+    "description": "Utilizing machine learning to identify and address factors contributing to employee attrition.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/employee-attrition.webp",
+    "type": "supvlr",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
+  },
+  {
+    "name": "Real Estate Price Prediction",
+    "description": "Developing a real-time model to predict real estate prices using machine learning techniques.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/real-estate-prediction.webp",
+    "type": "finml",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
+  },
+  {
+    "name": "SmileDetector",
+    "description": "Creating a web application that employs machine learning to detect and rate smiles.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/smile-detector.webp",
+    "type": "supvlr",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
+  },
+  {
+    "name": "WallStreetBots",
+    "description": "Implementing NLP and reinforcement learning for stock price prediction and market analysis.",
+    "github": "https://utorontomist.medium.com/wall-street-bots-building-an-automatic-stock-trading-platform-based-on-artificial-intelligence-4f49df89ac41",
+    "image": "/assets/images/wallstreetbots.webp",
+    "type": "finml",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
+  },
+  {
+    "name": "Handwriting Recognition Using Deep Learning",
+    "description": "Applying deep learning techniques to recognize handwritten text in physical documents.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/handwriting-recognition.webp",
+    "type": "supvlr",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
+  },
+  {
+    "name": "DiffMuse",
+    "description": "Exploring music synthesis using diffusion models to generate new compositions.",
+    "github": "https://youtu.be/gLKfO3fbxlg",
+    "image": "/assets/images/diffmuse.webp",
+    "type": "genai",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "Numerai Quant Team",
+    "description": "Developing models to compete on Numerai's weekly hedge fund prediction challenges.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/numerai.webp",
+    "type": "finml",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "VirtualCreatures",
+    "description": "Reimagining Karl Sims' 1994 'Evolving Virtual Creatures' paper using modern techniques.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/virtual-creatures.webp",
+    "type": "mlresearch",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "12-Lead ECG Reconstruction",
+    "description": "Reconstructing full 12-lead ECG signals from only 2-3 lead inputs using ML models.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/ecg-reconstruction.webp",
+    "type": "mlhealth",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "AltaML",
+    "description": "Building an ML pipeline tailored for applications in the construction industry.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/altaml.webp",
+    "type": "mlops",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "FashionBot",
+    "description": "Developing a customizable fashion recommendation system using machine learning.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/fashionbot.webp",
+    "type": "aiapps",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "Omni",
+    "description": "Integrating information retrieval into the creative process through ML techniques.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/omni.webp",
+    "type": "aiapps",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "Osu!",
+    "description": "Generating Osu! beatmaps using sequence-to-sequence models for rhythm game enthusiasts.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/osu.webp",
+    "type": "aiapps",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "PhotoML - Startup Collaboration",
+    "description": "Applying machine learning to enhance picture selection processes.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/photoml.webp",
+    "type": "aiapps",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "RealTime2",
+    "description": "Advancing the RealTime project from 2021 with new features and improvements.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/realtime2.webp",
+    "type": "finml",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "WallStreetBots2",
+    "description": "Continuing the WallStreetBots project with a focus on cryptocurrency price prediction.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/wallstreetbots2.webp",
+    "type": "finml",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "Wind Turbine Audibility",
+    "description": "Providing an ML solution for the turbine audibility problem in collaboration with Aercoustics Ltd.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/wind-turbine.webp",
+    "type": "supvlr",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "Side Channel Attacks",
+    "description": "Crack the AES cryptosystem via side channel attacks using deep learning (ResNet, LSTM, Transformer). The project involves hardware-level data collection and attack modeling.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/aes-sidechannel.webp",
+    "type": "supvlr",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "Auto-Colorization of Historical Black and White Images",
+    "description": "Re-implement and improve CNN-based automatic image colorization using GMMs and a specialized architecture, building on the 'Colorful Image Colorization' paper.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/auto-colorization.webp",
+    "type": "cvpr",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "Denoising Renderings using Deep Learning",
+    "description": "Build a Monte Carlo renderer with deep learning denoising and a real-time GUI viewer. The goal is to improve CGI quality and efficiency.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/deep-denoising.webp",
+    "type": "cvpr",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "EMILI",
+    "description": "Construct a dynamic pipeline to collect domain-specific datasets and train LLMs. The project involves web crawling, relevance filtering, and dataset-feedback loops.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/emili-llm.webp",
+    "type": "mlops",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "Virtual Creatures II",
+    "description": "Use NEAT and multi-agent RL to evolve and train virtual creatures in Unity, building on last year's successful evolution of walkers and swimmers.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/virtual-creatures.webp",
+    "type": "mlrl",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "Is Hashing All You Need For Implicit Neural Representations",
+    "description": "Explore why multi-resolution hash embeddings outperform other methods in INRs. Conduct experiments and possibly submit to ICML/NeurIPS 2024.",
+    "github": "https://drive.google.com/file/d/1FTrMbFmRnFzO5xN8OEJGnEUNuJ1JaL24/view",
+    "image": "/assets/images/inr-hashing.webp",
+    "type": "cvpr",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "QuSparse - Quantum Approaches to Sparse Signal Reconstruction",
+    "description": "Use quantum algorithms like QFT to improve sparse signal reconstruction, transforming signals into quantum states and reconstructing using QML.",
+    "github": "https://drive.google.com/file/d/1t9uDjQ3YaghbyVE_ASK0RJowOQrP5zL9/view",
+    "image": "/assets/images/qu-sparse.webp",
+    "type": "genai",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "NucleAIse",
+    "description": "Predict protein functions and Gene Ontologies using LLMs (Transformers), GNNs, and CNNs. The project aims to identify key model features and improve biological insights for drug discovery.",
+    "github": "https://github.com/ambroseling/NucleAIse",
+    "image": "/assets/images/nuclease.webp",
+    "type": "medai",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "Real-Time Trading with Sequence Models and RL",
+    "description": "Develop a deep RL-based real-time trading agent for FX and commodities. Design a custom RL environment and agent leveraging sequence models and DRL techniques.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/realtime-trading.webp",
+    "type": "finml",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  },
+  {
+    "name": "Spiking Neural Networks with Memristor Hardware",
+    "description": "Build neuromorphic computing systems using Spiking Neural Networks (SNNs) and memristor-based hardware. Split into software and hardware teams for training and circuit fabrication.",
+    "github": "https://github.com/UTMIST",
+    "image": "/assets/images/spiking-neural-networks.webp",
+    "type": "genai",
+    "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
+  }
+]
