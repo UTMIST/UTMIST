@@ -8,7 +8,7 @@ interface HeroSectionProps {
 const HeroSection: React.FC<HeroSectionProps> = ({ title, subtitle }) => (
   <div className="flex flex-col justify-center items-center py-24 md:py-16 px-8 max-w-[1050px] mx-auto text-center">
     <h2
-      className="text-5xl font-bold bg-clip-text text-transparent leading-[1.5]"
+      className="text-5xl font-bold mb-2 bg-clip-text text-transparent leading-[1.5]"
       style={{
         background: "var(--gradient-bl1)",
         WebkitBackgroundClip: "text",
