@@ -8,6 +8,7 @@ import githubIcon from "@/assets/logos/github.svg";
 import dummy from "@/assets/photos/fibseq.webp";
 import { ProjectCarousel } from "@/components/carousel";
 import { ProjectType, Project } from "@/types/projects";
+import HeroSection from "@/components/heroSection";
 
 export default function ProjectsPage() {
   const displayNames: Record<ProjectType, string> = {
@@ -59,14 +60,7 @@ export default function ProjectsPage() {
 
   return (
     <main>
-      <div className="flex flex-col justify-center items-center py-16 px-8 max-w-[1000px] mx-auto text-center">
-        <h2 className="text-5xl font-bold text-gray-900 font-sans">Projects</h2>
-        <p className="text-base font-extralight text-gray-900 font-sans px-4 sm:px-8 md:px-16">
-          See the work of the engineers, researchers and pioneers of ML
-          advancements
-        </p>
-      </div>
-
+      <HeroSection title="Projects" subtitle="See the work of the engineers, researchers and pioneers of ML advancements" />
       {/* Project Sections with Carousels */}
       {Object.entries(ProjectType).map(([key, type]) => {
         const typeProjects = projects.filter(
