@@ -46,35 +46,30 @@ export const getCurrentUser = async (): Promise<AuthUser | null> => {
 };
 
 /**
- * Get the full user profile including metadata
+ * Get the full user profile from auth metadata
  * @returns Promise<UserProfile | null> - The user profile or null if not authenticated
  */
 export const getUserProfile = async (): Promise<UserProfile | null> => {
-  const user = await getCurrentUser();
-  if (!user) return null;
-
   try {
-    // Get user data from Supabase Auth including metadata
-    const { data: { user: authUser }, error } = await supabase.auth.getUser();
+    const { data: { user }, error } = await supabase.auth.getUser();
     
-    if (error || !authUser) {
+    if (error || !user) {
       return null;
     }
 
-    const metadata = authUser.user_metadata || {};
-    
-    // Return profile data from auth metadata
+    // Get all profile data from auth metadata - no database queries needed!
+    const metadata = user.user_metadata || {};
     return {
-      id: authUser.id,
-      email: authUser.email || '',
-      name: metadata.name || `${metadata.firstName || ''} ${metadata.lastName || ''}`.trim() || authUser.email?.split('@')[0] || '',
+      id: user.id,
+      email: user.email || '',
+      name: metadata.name || `${metadata.firstName || ''} ${metadata.lastName || ''}`.trim() || user.email?.split('@')[0] || '',
       organization: metadata.organization || '',
       profile_picture_url: metadata.profile_picture_url || AUTH_CONFIG.DEFAULT_PROFILE_PICTURE,
       linkedin_url: metadata.linkedin_url || '',
       github_url: metadata.github_url || '',
       discord_username: metadata.discord_username || '',
-      created_at: authUser.created_at,
-      updated_at: authUser.updated_at || authUser.created_at,
+      created_at: user.created_at,
+      updated_at: user.updated_at || user.created_at,
     };
   } catch (error) {
     return null;
@@ -89,8 +84,6 @@ export const isAuthenticated = async (): Promise<boolean> => {
   const user = await getCurrentUser();
   return user !== null;
 };
-
-
 
 /**
  * Check if email already exists in the system
@@ -245,17 +238,24 @@ export const register = async (
 
     if (error) {
       console.error('Supabase registration error:', error);
+      // Use the existing error handler to provide user-friendly error messages
+      const handledError = handleAuthError(error);
+      throw new Error(handledError);
     }
+
+    // Registration successful - data stored in auth.users.raw_user_meta_data
+    return {
+      requiresEmailConfirmation: true,
+      message: 'Please check your email! If this is your first time, you\'ll receive a confirmation link to activate your account. If you already have an account, please login instead.'
+    };
   } catch (error) {
     console.error('Registration error:', error);
+    // Re-throw the error so it can be handled by the calling code
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('An unexpected error occurred during registration. Please try again.');
   }
-
-  // Always return the same elegant message regardless of the scenario
-  // This covers both new registrations and existing users gracefully
-  return {
-    requiresEmailConfirmation: true,
-    message: 'Please check your email! If this is your first time, you\'ll receive a confirmation link to activate your account. If you already have an account, please login instead.'
-  };
 };
 
 /**
