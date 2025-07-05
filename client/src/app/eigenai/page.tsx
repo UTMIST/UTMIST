@@ -10,7 +10,7 @@ import BasisVectors from "@/components/basisvectors";
 
 export default function EigenAIPage() {
   return (
-    <main className="sm: items-start sm: justify-center">
+    <main className="pt-24 sm:items-start sm:justify-center">
       <div className="hero-section px-4 md:px-8">
         <h2 className="hero-title text-4xl md:text-5xl lg:text-6xl">EigenAI</h2>
         <p className="hero-subtitle text-sm md:text-base px-4 md:px-8 lg:px-16">
