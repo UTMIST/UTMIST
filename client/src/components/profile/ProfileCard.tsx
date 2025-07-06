@@ -44,7 +44,7 @@ export default function ProfileCard({
   }, [userProfile.id]);
 
   // Default bio if none provided
-  const defaultBio = "";
+  const defaultBio = "please update your bio";
   const displayBio = userProfile.bio || defaultBio;
 
   // Display name from profile title or fallback to auth user name
