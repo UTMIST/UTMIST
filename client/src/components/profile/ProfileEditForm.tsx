@@ -31,8 +31,13 @@ export default function ProfileEditForm({
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.title.trim()) {
-      newErrors.title = "Title is required";
+    // Check if at least one field has content
+    const hasContent = Object.values(formData).some(
+      (value) => value.trim() !== ""
+    );
+
+    if (!hasContent) {
+      newErrors.general = "Please fill in at least one field";
     }
 
     setErrors(newErrors);
@@ -47,17 +52,15 @@ export default function ProfileEditForm({
     }
 
     try {
-      // Update profile with avatar included
+      // Update profile (only form fields, avatar is handled separately in storage)
       await updateUserProfile({
         ...formData,
-        avatar: avatar,
       });
 
-      // Create updated profile object
+      // Create updated profile object (avatar stays as it was in profile)
       const updatedProfile: UserProfile = {
         ...profile,
         ...formData,
-        avatar: avatar,
       };
 
       onSave(updatedProfile);
@@ -101,8 +104,6 @@ export default function ProfileEditForm({
             disabled={isSaving}
           />
         </div>
-
-
 
         <div>
           <label

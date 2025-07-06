@@ -160,7 +160,10 @@ export default function AvatarUpload({
 
         {/* Upload Overlay */}
         {!disabled && (
-          <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
+          <div
+            className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer"
+            onClick={() => fileInputRef.current?.click()}
+          >
             <span className="text-white text-sm font-medium">
               {isUploading ? "Uploading..." : "Change Photo"}
             </span>
@@ -168,39 +171,31 @@ export default function AvatarUpload({
         )}
       </div>
 
-      {/* Upload Controls */}
+      {/* Hidden file input */}
       {!disabled && (
-        <div className="flex flex-col space-y-2">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleFileSelect}
-            className="hidden"
-            disabled={isUploading}
-          />
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileSelect}
+          className="hidden"
+          disabled={isUploading}
+        />
+      )}
 
+      {/* Remove button (only show if avatar exists and not default) */}
+      {!disabled &&
+        currentAvatar &&
+        !currentAvatar.includes("default.webp") && (
           <button
             type="button"
-            onClick={() => fileInputRef.current?.click()}
+            onClick={handleRemoveAvatar}
             disabled={isUploading}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+            className="px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xs"
           >
-            {isUploading ? "Uploading..." : "Upload Photo"}
+            {isUploading ? "Removing..." : "Remove Photo"}
           </button>
-
-          {currentAvatar && !currentAvatar.includes("default.webp") && (
-            <button
-              type="button"
-              onClick={handleRemoveAvatar}
-              disabled={isUploading}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-            >
-              {isUploading ? "Removing..." : "Remove Photo"}
-            </button>
-          )}
-        </div>
-      )}
+        )}
 
       {/* Error Message */}
       {error && (
