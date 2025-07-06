@@ -22,12 +22,9 @@ export default function SpeakersGrid({ speakers }: Props) {
 
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {speakers.map((s, i) => (
-          <a
+          <div
             key={i}
-            href={s.profileURL}
             className="border rounded-lg p-4 bg-white shadow hover:shadow-md transition"
-            target="_blank"
-            rel="noopener noreferrer"
           >
             <div className="flex flex-col items-center text-center">
               <Image
@@ -35,13 +32,14 @@ export default function SpeakersGrid({ speakers }: Props) {
                 alt={`${s.name}'s profile picture`}
                 width={100}
                 height={100}
+                draggable={false}
                 className="w-24 h-24 rounded-full object-cover mb-2"
               />
 
               <p className="font-medium">{s.name}</p>
               <p className="text-sm text-gray-600">{s.role}</p>
             </div>
-          </a>
+          </div>
         ))}
       </div>
     </div>
