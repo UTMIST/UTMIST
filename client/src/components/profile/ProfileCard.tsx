@@ -66,7 +66,6 @@ export default function ProfileCard({
               className="rounded-full object-cover border-4 border-gray-200"
               priority
               onError={() => {
-                console.error("Failed to load avatar image");
                 setAvatarSrc("");
               }}
             />

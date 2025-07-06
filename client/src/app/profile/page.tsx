@@ -33,7 +33,7 @@ export default function ProfilePage() {
         }
 
         setUser(currentUser);
-
+        console.log("currentUser", currentUser);
         // Get full user profile with metadata
         const userProfile = await getUserProfile();
         setProfile(userProfile);
