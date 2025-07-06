@@ -44,7 +44,7 @@ export default function ProfileCard({
   }, [userProfile.id]);
 
   // Default bio if none provided
-  const defaultBio = "AI/ML enthusiast | UTMIST Member";
+  const defaultBio = "";
   const displayBio = userProfile.bio || defaultBio;
 
   // Display name from profile title or fallback to auth user name

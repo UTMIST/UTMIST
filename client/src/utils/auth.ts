@@ -91,7 +91,7 @@ export const updateUserProfile = async (profileData: {
   }
 
   try {
-    const { error } = await supabase.from("User").upsert(
+    const { error } = await supabase.from("user").upsert(
       {
         id: user.id,
         ...profileData,
@@ -130,7 +130,7 @@ export const createOrUpdateUserProfile = async (profileData: {
 
   try {
     const { data } = await supabase
-      .from("User")
+      .from("user")
       .upsert(
         {
           id: user.id,
@@ -340,11 +340,13 @@ export const resendConfirmation = async (email: string): Promise<void> => {
 };
 
 /**
- * Update user profile information
- * @param profileData - Profile data to update
+ * Update user auth metadata (for basic profile info stored in Supabase auth)
+ * @param profileData - Profile data to update in auth metadata
  * @returns Promise<void>
  */
-export const updateProfile = async (profileData: {
+export const updateAuthMetadata = async (profileData: {
+  firstName?: string;
+  lastName?: string;
   name?: string;
   organization?: string;
   linkedin_url?: string;
