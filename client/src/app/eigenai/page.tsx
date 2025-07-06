@@ -16,7 +16,7 @@ export default function EigenAIPage() {
         <p className="hero-subtitle text-sm md:text-base px-4 md:px-8 lg:px-16">
           Help shape the future of AI and ML at UTMIST
         </p>
-        <button className="ticket-button mt-4">Get Your Tickets Now</button>
+        <button className="ticket-button mt-4">Coming Soon</button>
       </div>
       <section className="flex flex-col lg:flex-row w-full gap-6 md:gap-8 items-start justify-center px-4 md:px-6 lg:px-8 py-6 md:py-8">
         <div className="w-full lg:w-1/2 max-w-md lg:max-w-lg">
