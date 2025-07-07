@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
+  const type = requestUrl.searchParams.get('type')
   const next = requestUrl.searchParams.get('next') ?? '/dashboard'
 
   if (code) {
@@ -42,6 +43,12 @@ export async function GET(request: NextRequest) {
       }
       
       if (data.session) {
+        // Check if this is a password reset flow
+        if (type === 'recovery' || requestUrl.searchParams.has('recovery')) {
+          console.log('Password reset flow detected, redirecting to reset form')
+          return NextResponse.redirect(new URL('/auth/reset-password', requestUrl.origin))
+        }
+        
         console.log('Email confirmation successful, session established')
         
         // Session is automatically set via cookies - no need for database profile creation

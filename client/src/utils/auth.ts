@@ -329,7 +329,7 @@ export const logout = async (): Promise<void> => {
  */
 export const resetPassword = async (email: string): Promise<void> => {
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${window.location.origin}${AUTH_CONFIG.CALLBACK_PATH}`,
+    redirectTo: `${window.location.origin}${AUTH_CONFIG.CALLBACK_PATH}?type=recovery`,
   });
 
   if (error) {

@@ -56,6 +56,9 @@ export default function AuthPage() {
           case 'no_code':
             setError('Invalid confirmation link. Please try registering again.');
             break;
+          case 'reset_expired':
+            setError('Password reset link has expired or is invalid. Please request a new password reset.');
+            break;
           default:
             setError('An error occurred during authentication.');
         }
