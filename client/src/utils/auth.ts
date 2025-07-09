@@ -25,9 +25,9 @@ const AUTH_CONFIG = {
  */
 export const getCurrentUser = async (): Promise<AuthUser | null> => {
   try {
-    const { data: { user }, error } = await supabase.auth.getUser();
+    const { data: { user } } = await supabase.auth.getUser();
     
-    if (error || !user) {
+    if (!user) {
       return null;
     }
 
@@ -40,7 +40,7 @@ export const getCurrentUser = async (): Promise<AuthUser | null> => {
       lastName: metadata.lastName || '',
       name: metadata.name || `${metadata.firstName || ''} ${metadata.lastName || ''}`.trim() || user.email?.split('@')[0] || '',
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -51,9 +51,9 @@ export const getCurrentUser = async (): Promise<AuthUser | null> => {
  */
 export const getUserProfile = async (): Promise<UserProfile | null> => {
   try {
-    const { data: { user }, error } = await supabase.auth.getUser();
+    const { data: { user } } = await supabase.auth.getUser();
     
-    if (error || !user) {
+    if (!user) {
       return null;
     }
 
@@ -71,7 +71,7 @@ export const getUserProfile = async (): Promise<UserProfile | null> => {
       created_at: user.created_at,
       updated_at: user.updated_at || user.created_at,
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -90,6 +90,7 @@ export const isAuthenticated = async (): Promise<boolean> => {
  * @param email - Email to check
  * @returns Promise<{exists: boolean, confirmed: boolean}>
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const checkEmailExists = async (email: string): Promise<{exists: boolean, confirmed: boolean}> => {
   try {
     // Try to sign in with a dummy password to check user existence
@@ -133,7 +134,7 @@ const checkEmailExists = async (email: string): Promise<{exists: boolean, confir
 
     console.log('→ Detected as: user does not exist (no error, no user)');
     return { exists: false, confirmed: false };
-  } catch (error) {
+  } catch {
     console.log('→ Detected as: user does not exist (catch block)');
     // On error, assume email doesn't exist to allow registration attempt
     return { exists: false, confirmed: false };
@@ -145,7 +146,7 @@ const checkEmailExists = async (email: string): Promise<{exists: boolean, confir
  * @param error - The Supabase error
  * @returns string - Standardized error code or message
  */
-const handleAuthError = (error: any): string => {
+const handleAuthError = (error: {message?: string}): string => {
   if (!error?.message) return 'An unknown error occurred';
 
   // Check for user already exists errors
@@ -178,14 +179,14 @@ const handleAuthError = (error: any): string => {
  * @param session - The Supabase session
  * @returns Promise<void>
  */
-const setSessionCookies = async (session: any): Promise<void> => {
+const setSessionCookies = async (session: {access_token: string; refresh_token: string}): Promise<void> => {
   try {
     await fetch(AUTH_CONFIG.SET_COOKIE_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ event: 'SIGNED_IN', session })
     });
-  } catch (error) {
+  } catch {
     throw new Error('Failed to establish session');
   }
 };
@@ -227,7 +228,7 @@ export const register = async (
   };
 
   try {
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -287,7 +288,7 @@ export const login = async (email: string, password: string): Promise<void> => {
  * @returns Promise<void>
  */
 export const signInWithGoogle = async (): Promise<void> => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
       redirectTo: `${window.location.origin}${AUTH_CONFIG.CALLBACK_PATH}`,
@@ -384,7 +385,7 @@ export const updateProfile = async (profileData: {
  * @returns Function to unsubscribe from auth state changes
  */
 export const onAuthStateChange = (callback: (user: AuthUser | null) => void) => {
-  return supabase.auth.onAuthStateChange(async (event, session) => {
+  return supabase.auth.onAuthStateChange(async (_event, session) => {
     
     if (session?.user) {
       const user = await getCurrentUser();

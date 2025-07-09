@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import logo from '@/assets/logos/utmist-logo-small.svg';
 import { useRouter } from 'next/navigation';
-import { login, register, onAuthStateChange, getCurrentUser, resendConfirmation, resetPassword, AUTH_ERRORS } from '@/utils/auth';
+import { login, register, getCurrentUser, resendConfirmation, resetPassword, AUTH_ERRORS } from '@/utils/auth';
 
 interface PasswordStrength {
   score: number;
@@ -25,7 +25,7 @@ export default function AuthPage() {
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
-  const [initialLoading, setInitialLoading] = useState(true);
+
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [showResendConfirmation, setShowResendConfirmation] = useState(false);
   const [resendingConfirmation, setResendingConfirmation] = useState(false);
@@ -418,7 +418,7 @@ export default function AuthPage() {
               {showForgotPassword && (
                 <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
                   <p className="text-sm text-blue-700 mb-2">
-                    Enter your email address and we'll send you a password reset link.
+                    Enter your email address and we&apos;ll send you a password reset link.
                   </p>
                   <button
                     type="button"

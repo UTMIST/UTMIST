@@ -93,7 +93,7 @@ export default function ResetPasswordPage() {
               </p>
             </div>
             <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
-              ✅ Password reset complete! You'll be redirected shortly.
+              ✅ Password reset complete! You&apos;ll be redirected shortly.
             </div>
           </div>
         </div>
