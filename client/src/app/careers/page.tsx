@@ -1,5 +1,5 @@
-
 import "@/styles/careers.css"  
+import positionsData from "@/assets/careers.json"
 import Image from "next/image"
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
 import darkBlueTick from "@/assets/icons/dark-blue-tick-icon.svg";
@@ -7,33 +7,7 @@ import {Positions} from "@/types/careers";
 
 export default function CareersPage() {
 
-    const positions: Positions[] = [
-        {
-            title: "Team Lead (External Collab ML Projects)",
-            department: "Engineering",
-            division: "Internship"
-        },
-        {
-            title: "Developer (External Collab ML Projects)",
-            department: "Engineering",
-            division: "Internship"
-        },
-        {
-            title: "Internal ML Projects - Team Lead",
-            department: "Engineering",
-            division: "Internship"
-        },
-        {
-            title: "Software Developer (Compute Platform)",
-            department: "Infrastructure",
-            division: "Internship"
-        },
-        {
-            title: "Software Developer (Full Stack)",
-            department: "Infrastructure",
-            division: "Internship"
-        }
-    ];
+    const positions: Positions[] = positionsData;
 
     return <main>
               <div className="hero-section">
@@ -121,22 +95,37 @@ export default function CareersPage() {
         </div>
         <div className="open-positions-container">
         <h1 className="open-positions-title">Open Positions</h1>
+        <h2
+          className="open-positions-subtitle"
+          style={{
+            textAlign: 'center',
+            marginBottom: '2rem',
+            fontWeight: 400,
+            fontStyle: 'italic',
+            color: '#555',
+            fontSize: '1.1rem',
+            letterSpacing: '0.01em',
+            lineHeight: 1.5
+          }}
+        >
+          All Director Position Applications are due June 30, 2025
+        </h2>
         
-            {positions.map((position, index) => (
-    <div key={index}>
-        <div className="position-card">
-        <div className="position-info">
-            <h2 className="position-title">{position.title}</h2>
-            <div className="position-details">
-            <span>{position.department}</span>
-            <span className="dot">•</span>
-            <span>{position.division}</span>
+        {positions.map((position, index) => (
+            <div key={index}>
+                <div className="position-card">
+                <div className="position-info">
+                    <h2 className="position-title">{position.title}</h2>
+                    <div className="position-details">
+                    <span>{position.department}</span>
+                    <span className="dot">•</span>
+                    <span>{position.division}</span>
+                    </div>
+                </div>
+                <a href="https://docs.google.com/presentation/d/1nypaPTCco9uWziAAmBzIHgOKeXG-NgjV4J8RdwiK5XY/edit?slide=id.g35fe6a0187b_0_931#slide=id.g35fe6a0187b_0_931" className="apply-button" >Apply Now</a>
+                </div>
             </div>
-        </div>
-        <a href="https://docs.google.com/presentation/d/1ylgg5QJmUHto21qrKtv4MsO7T63JWUrp_gxQTNIstY0/edit?slide=id.g2ee8a5c0378_0_0#slide=id.g2ee8a5c0378_0_0" className="apply-button" >Apply Now</a>
-        </div>
-    </div>
-    ))}
+        ))}
 
     </div>
     </main>
