@@ -23,8 +23,9 @@ export default function AdminPage() {
       .catch((e) => setError(e.message));
   }, []);
 
-  if (error) return <p className="text-red-500">Error: {error}</p>;
-  if (!ov) return <p>Loading metrics…</p>;
+  if (error) return <p className="text-red-500 text-center">Error: {error}</p>;
+
+  if (!ov) return <p className="text-center">Loading metrics…</p>;
 
   return (
     <div className="bg-white text-black py-6">
