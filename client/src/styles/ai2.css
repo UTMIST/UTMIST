@@ -275,3 +275,28 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+@media (max-width: 768px) {
+  .special-section-title {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+  .special-section-header {
+    font-size: 1rem;
+  }
+  .special-section-grid,
+  .grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    padding: 0 1rem;
+  }
+  .w-32, .h-32 {
+    width: 96px !important;
+    height: 96px !important;
+  }
+  .mb-40 {
+    margin-bottom: 2rem !important;
+  }
+}
