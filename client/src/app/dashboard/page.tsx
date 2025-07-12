@@ -101,7 +101,10 @@ export default function DashboardPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* User Info Card */}
-          <div className="bg-white p-6 rounded-2xl border border-[var(--gray3)] shadow-sm">
+          <div 
+            className="bg-white p-6 rounded-2xl border border-[var(--gray3)] shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+            onClick={() => router.push('/profile')}
+          >
             <h2 className="text-lg font-semibold text-black font-[var(--font-space-grotesk)] mb-4">
               Your Profile
             </h2>

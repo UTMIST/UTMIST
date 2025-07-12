@@ -191,7 +191,12 @@ export default function AvatarUpload({
             type="button"
             onClick={handleRemoveAvatar}
             disabled={isUploading}
-            className="px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xs"
+            style={isUploading ? {} : { background: 'var(--gradient-b2)' }}
+            className={`px-3 py-1 rounded-lg font-[var(--system-font)] text-xs transition-all duration-200 ${
+              isUploading
+                ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
+                : "text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
+            }`}
           >
             {isUploading ? "Removing..." : "Remove Photo"}
           </button>

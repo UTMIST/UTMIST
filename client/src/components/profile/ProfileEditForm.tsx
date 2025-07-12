@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { updateUserProfile } from "@/utils/auth";
+import { updateProfile } from "@/utils/auth";
 import AvatarUpload from "./AvatarUpload";
 import type { UserProfile } from "@/types/auth";
 
@@ -52,15 +52,24 @@ export default function ProfileEditForm({
     }
 
     try {
-      // Update profile (only form fields, avatar is handled separately in storage)
-      await updateUserProfile({
-        ...formData,
+      // Update profile using the new field names
+      await updateProfile({
+        name: formData.title || profile.name,
+        title: formData.title,
+        bio: formData.bio,
+        linkedin: formData.linkedin,
+        github: formData.github,
+        twitter: formData.twitter,
       });
 
-      // Create updated profile object (avatar stays as it was in profile)
+      // Create updated profile object
       const updatedProfile: UserProfile = {
         ...profile,
-        ...formData,
+        title: formData.title,
+        bio: formData.bio,
+        linkedin: formData.linkedin,
+        github: formData.github,
+        twitter: formData.twitter,
       };
 
       onSave(updatedProfile);
@@ -173,14 +182,16 @@ export default function ProfileEditForm({
           />
         </div>
 
+
         <div className="flex space-x-4 pt-4">
           <button
             type="submit"
             disabled={isSaving}
-            className={`flex-1 px-6 py-3 rounded-lg font-medium transition-colors ${
+            style={isSaving ? {} : { background: 'var(--gradient-b2)' }}
+            className={`flex-1 px-6 py-3 rounded-lg font-[var(--system-font)] transition-all duration-200 ${
               isSaving
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-blue-600 text-white hover:bg-blue-700"
+                ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
+                : "text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
             }`}
           >
             {isSaving ? "Saving..." : "Save Changes"}
@@ -189,7 +200,12 @@ export default function ProfileEditForm({
             type="button"
             onClick={onCancel}
             disabled={isSaving}
-            className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors disabled:opacity-50"
+            style={isSaving ? {} : { background: 'var(--gradient-b2)' }}
+            className={`flex-1 px-6 py-3 rounded-lg font-[var(--system-font)] transition-all duration-200 ${
+              isSaving
+                ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
+                : "text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
+            }`}
           >
             Cancel
           </button>

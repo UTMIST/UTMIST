@@ -93,10 +93,11 @@ export default function ProfileCard({
           <button
             onClick={onEdit}
             disabled={isEditing}
-            className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+            style={isEditing ? {} : { background: 'var(--gradient-b2)' }}
+            className={`px-6 py-2 rounded-lg font-[var(--system-font)] transition-all duration-200 ${
               isEditing
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-blue-600 text-white hover:bg-blue-700"
+                ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
+                : "text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
             }`}
           >
             {isEditing ? "Editing..." : "Edit Profile"}

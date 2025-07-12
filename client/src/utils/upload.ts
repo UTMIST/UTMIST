@@ -67,6 +67,52 @@ export const uploadAvatar = async (
       };
     }
 
+    // Update both auth metadata and public.user table
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    
+    if (user && !userError) {
+      // Update public.user table
+      const { error: dbUpdateError } = await supabase
+        .from('user')
+        .update({
+          avatar: urlData.signedUrl,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', user.id);
+
+      if (dbUpdateError) {
+        // If user doesn't exist in public.user table, create it
+        if (dbUpdateError.code === 'PGRST116') {
+          const { error: insertError } = await supabase
+            .from('user')
+            .insert({
+              id: user.id,
+              email: user.email,
+              avatar: urlData.signedUrl,
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+            });
+
+          if (insertError) {
+            console.error("Failed to create user profile with avatar:", insertError);
+          }
+        } else {
+          console.error("Failed to update user profile with avatar:", dbUpdateError);
+        }
+      }
+
+      // Also update auth metadata for consistency
+      const { error: authUpdateError } = await supabase.auth.updateUser({
+        data: {
+          profile_picture_url: urlData.signedUrl,
+        }
+      });
+
+      if (authUpdateError) {
+        console.warn("Failed to update auth metadata with avatar:", authUpdateError);
+      }
+    }
+
     return {
       success: true,
       url: urlData.signedUrl,
@@ -97,6 +143,35 @@ export const deleteAvatar = async (userId: string): Promise<boolean> => {
     if (deleteError) {
       console.error("Delete error:", deleteError);
       return false;
+    }
+
+    // Update both auth metadata and public.user table to remove avatar
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    
+    if (user && !userError) {
+      // Update public.user table
+      const { error: dbUpdateError } = await supabase
+        .from('user')
+        .update({
+          avatar: null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', user.id);
+
+      if (dbUpdateError) {
+        console.error("Failed to remove avatar from user profile:", dbUpdateError);
+      }
+
+      // Also update auth metadata for consistency
+      const { error: authUpdateError } = await supabase.auth.updateUser({
+        data: {
+          profile_picture_url: null,
+        }
+      });
+
+      if (authUpdateError) {
+        console.warn("Failed to remove avatar from auth metadata:", authUpdateError);
+      }
     }
 
     return true;
