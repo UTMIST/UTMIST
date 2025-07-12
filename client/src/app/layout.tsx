@@ -3,8 +3,20 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { Roboto, Space_Grotesk } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+// Importing fonts from Google Fonts
+const roboto = Roboto({
+  weight: ["300", "400", "500", "700"], // Added specific weights
+  variable: "--font-roboto",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+});
 
 //Metadata for the page
 export const metadata: Metadata = {
@@ -21,10 +33,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Navbar/>
+      <body
+        className={`${roboto.variable} ${spaceGrotesk.variable} antialiased`}
+      >
+        <Navbar />
         {children}
-        <Footer/>
+        <Footer />
       </body>
     </html>
   );

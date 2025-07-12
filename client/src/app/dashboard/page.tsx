@@ -82,7 +82,7 @@ export default function DashboardPage() {
                 Dashboard
               </h1>
               <p className="text-[var(--gray4)] font-[var(--system-font)]">
-                Welcome back, {profile?.title || user.email}!
+                Welcome back, {profile?.name || user.name || user.email}!
               </p>
             </div>
             <div className="flex items-center space-x-4">
@@ -110,16 +110,16 @@ export default function DashboardPage() {
                 <label className="text-sm font-medium text-[var(--gray4)] font-[var(--system-font)]">Email</label>
                 <p className="text-black font-[var(--system-font)]">{user.email}</p>
               </div>
-              {profile?.title && (
+              {profile?.name && (
                 <div>
                   <label className="text-sm font-medium text-[var(--gray4)] font-[var(--system-font)]">Name</label>
-                  <p className="text-black font-[var(--system-font)]">{profile.title}</p>
+                  <p className="text-black font-[var(--system-font)]">{profile.name}</p>
                 </div>
               )}
-              {profile?.bio && (
+              {profile?.organization && (
                 <div>
-                  <label className="text-sm font-medium text-[var(--gray4)] font-[var(--system-font)]">Bio</label>
-                  <p className="text-black font-[var(--system-font)]">{profile.bio}</p>
+                  <label className="text-sm font-medium text-[var(--gray4)] font-[var(--system-font)]">Organization</label>
+                  <p className="text-black font-[var(--system-font)]">{profile.organization}</p>
                 </div>
               )}
             </div>
