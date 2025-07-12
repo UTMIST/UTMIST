@@ -35,6 +35,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="b8823fc7-2a15-4942-af06-bf179b7fac1a"
+        ></script>
+      </head>
       <body
         className={`${roboto.variable} ${spaceGrotesk.variable} antialiased`}
       >
