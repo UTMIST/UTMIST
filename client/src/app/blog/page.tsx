@@ -4,6 +4,7 @@ import "@/styles/blog.css";
 import BlogCardLarge from "@/components/cards/blog-card-large";
 import BlogCardSmall from "@/components/cards/blog-card-small";
 import BlogListItem from "@/components/cards/blog-list-item";
+import HeroSection from "@/components/heroSection";
 import { Search, ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { BlogPost, getFeaturedPosts, getRecentPosts, getArchivePosts } from "./api/blog";
@@ -60,11 +61,12 @@ export default function BlogPage() {
 
   return (
     <main>
+      <HeroSection title="DeMISTify" subtitle="UTMIST&apos;s technical content newsletter" />
       {/* Hero Section */}
-      <div className="hero-section">
+      {/* <div className="hero-section">
         <h2 className="hero-title">DeMISTify</h2>
         <p className="hero-subtitle">UTMIST&apos;s technical content newsletter</p>
-      </div>
+      </div> */}
       <div className="max-w-[1050px] mx-auto px-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 self-start">
