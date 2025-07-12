@@ -7,6 +7,7 @@ import { TagFilter } from "./components/tag-filter";
 import { EventCard } from './components/event-card';
 import { getUpcomingEvents, getPastEvents, getFeaturedEvents } from './api/events';
 import type { UpcomingEvent, PastEvent, FeaturedEvent } from './api/events';
+import HeroSection from "@/components/heroSection";
 
 /**
  * Main Events Page Component
@@ -122,23 +123,18 @@ export default function EventsPage() {
       );
     }
 
-    return <main className="px-4 sm:px-0">
+    return <main>
       {/* Hero section - Main title and subtitle */}
-      <div className="hero-section">
-        <h2 className="hero-title text-3xl sm:text-4xl">Events</h2>
-        <p className="hero-subtitle text-sm sm:text-base px-2 sm:px-15">
-          See what is happening in our UTMIST community
-        </p>
-        <div className="w-full max-w-4xl mx-auto my-6 rounded-lg overflow-hidden shadow-lg aspect-[3/4] sm:aspect-[3/2]">
+      <div className="w-full max-w-4xl mx-auto my-6 rounded-lg overflow-hidden min-h-[400px] sm:min-h-[700px] p-8 sm:p-0">
+      <HeroSection title="Events" subtitle="See what is happening in our UTMIST community" />
           <iframe 
             src="https://calendar.google.com/calendar/embed?src=51eeb2795ecb293d64557f280d8114d38b73dffda4c188d63aa65d41f2a7286f%40group.calendar.google.com&ctz=America%2FToronto" 
             style={{ border: 0 }} 
-            className="w-full h-full"
+            className="w-full h-full min-h-[400px] sm:min-h-[700px]"
             frameBorder="0" 
             scrolling="no"
           />
         </div>
-      </div>
 
       {/* Upcoming events section with search and filtering */}
       <div className="upcoming-events-container p-4 sm:p-6 rounded-lg">
