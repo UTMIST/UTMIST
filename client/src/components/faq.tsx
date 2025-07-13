@@ -11,7 +11,7 @@ const faqData = [
       "You can join UTMIST by signing up through our website and attending our general meetings. We welcome students from all faculties and programs. Watch for membership registration announcements at the beginning of each semester!",
   },
   {
-    question: "I don&apos;t know ML, can I still join UTMIST?",
+    question: "I don't know ML, can I still join UTMIST?",
     answer:
       "Of course you can! UTMIST welcomes people of all backgrounds. We offer beginner-friendly workshops and resources to help you get started with machine learning concepts. Many of our members started with zero ML knowledge and have grown their skills through our community.",
   },
