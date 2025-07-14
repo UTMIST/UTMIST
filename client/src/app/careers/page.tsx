@@ -3,6 +3,7 @@ import positionsData from "@/assets/careers.json"
 import Image from "next/image"
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
 import darkBlueTick from "@/assets/icons/dark-blue-tick-icon.svg";
+import HeroSection from "@/components/heroSection";
 import {Positions} from "@/types/careers";
 
 export default function CareersPage() {
@@ -10,12 +11,7 @@ export default function CareersPage() {
     const positions: Positions[] = positionsData;
 
     return <main>
-              <div className="hero-section">
-          <h2 className="hero-title">Careers</h2>
-          <p className="hero-subtitle">
-            Help shape the future of AI and ML at UTMIST
-          </p>
-        </div>  
+      <HeroSection title="Careers" subtitle="Help shape the future of AI and ML at UTMIST" />
         <div className="career-section">
             <div className="career-card">
                 <h2 className="career-card-title">Hands on ML Experience</h2>
