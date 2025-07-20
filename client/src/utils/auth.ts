@@ -329,9 +329,8 @@ export const logout = async (): Promise<void> => {
  * @returns Promise<void>
  */
 export const resetPassword = async (email: string): Promise<void> => {
-    const redirectUrl = `${window.location.origin}${AUTH_CONFIG.CALLBACK_PATH}?type=recovery`;
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: redirectUrl,
+      redirectTo: `${window.location.origin}/auth/callback?type=recovery`,
     });
 
   if (error) {
