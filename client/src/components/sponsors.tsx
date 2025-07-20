@@ -10,6 +10,11 @@ import rotmanLogo from "../assets/logos/rotman.webp";
 import tenstorrentLogo from "../assets/logos/tenstorrent.webp";
 import aerocousticsLogo from "../assets/logos/aerocoustics.webp";
 import womboLogo from "../assets/logos/wombo.svg";
+import googleLogo from "../assets/logos/google.webp";
+import pwcLogo from "../assets/logos/pwc.webp";
+import rbcLogo from "../assets/logos/rbc.webp";
+import edgeAILogo from "../assets/logos/edgeai.webp";
+import cgiLogo from "../assets/logos/cgi.webp";
 
 const logos = [
   { src: amdLogo, alt: "AMD Logo", link: "https://www.amd.com/en" },
@@ -28,8 +33,16 @@ const logos = [
     alt: "Google Cloud Logo",
     link: "https://cloud.google.com/",
   },
-  { src: cohereLogo, alt: "Cohere Logo", link: "https://cohere.ai/" },
-  { src: jarvisLogo, alt: "Jarvis Logo", link: "https://www.jrvs.ca/" },
+  {
+    src: cohereLogo,
+    alt: "Cohere Logo",
+    link: "https://cohere.ai/",
+  },
+  {
+    src: jarvisLogo,
+    alt: "Jarvis Logo",
+    link: "https://www.jrvs.ca/",
+  },
   {
     src: rotmanLogo,
     alt: "Rotman School of Management Logo",
@@ -45,7 +58,36 @@ const logos = [
     alt: "Aerocoustics Logo",
     link: "https://aercoustics.com/",
   },
-  { src: womboLogo, alt: "Wombo Logo", link: "https://www.wombo.ai/" },
+  {
+    src: womboLogo,
+    alt: "Wombo Logo",
+    link: "https://www.wombo.ai/"
+  },
+  {
+    src: googleLogo,
+    alt: "Google Logo",
+    link: "https://www.google.com/"
+  },
+  {
+    src: pwcLogo,
+    alt: "PwC Logo",
+    link: "https://www.pwc.com/"
+  },
+  {
+    src: rbcLogo,
+    alt: "RBC Logo",
+    link: "https://www.rbc.com/"
+  },
+  {    
+    src: edgeAILogo,
+    alt: "Edge AI Logo",
+    link: "https://www.edgeaiinnovations.com/"
+  },
+  {
+    src: cgiLogo,
+    alt: "CGI Logo",
+    link: "https://www.cgi.com/"
+  }
 ];
 
 export default function Sponsors() {
