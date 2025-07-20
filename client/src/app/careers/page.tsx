@@ -104,25 +104,9 @@ export default function CareersPage() {
             lineHeight: 1.5
           }}
         >
-          All Director Position Applications are due June 30, 2025
+          There are no open positions at the moment. Please check back later!
         </h2>
         
-        {positions.map((position, index) => (
-            <div key={index}>
-                <div className="position-card">
-                <div className="position-info">
-                    <h2 className="position-title">{position.title}</h2>
-                    <div className="position-details">
-                    <span>{position.department}</span>
-                    <span className="dot">•</span>
-                    <span>{position.division}</span>
-                    </div>
-                </div>
-                <a href="https://docs.google.com/presentation/d/1nypaPTCco9uWziAAmBzIHgOKeXG-NgjV4J8RdwiK5XY/edit?slide=id.g35fe6a0187b_0_931#slide=id.g35fe6a0187b_0_931" className="apply-button" >Apply Now</a>
-                </div>
-            </div>
-        ))}
-
     </div>
     </main>
   }
