@@ -20,6 +20,9 @@ const spaceGrotesk = Space_Grotesk({
 //Metadata for the page
 export const metadata: Metadata = {
   title: "UTMIST",
+    icons: {
+    icon: "/UTMIST.ico",
+  },
   description: "University of Toronto Machine Intelligence Student Team",
 };
 
