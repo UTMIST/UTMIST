@@ -51,7 +51,7 @@ export default function Home() {
       {/*Statistics Section */}
       <div className="flex flex-col gap-8 justify-center items-center my-16">
         <p className="text-4xl font-bold text-center max-w-3xl text-black px-8 md:px-0">
-          UTMIST is Canada&apos;s largest student-lead organization for
+          UTMIST is North America&apos;s largest student-lead organization for
           Artificial Intelligence and Machine Learning
         </p>
         <Statistics />

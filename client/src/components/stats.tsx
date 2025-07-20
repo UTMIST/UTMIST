@@ -48,15 +48,15 @@ export default function Statistics() {
         <main>
             <div className="stats-grid">
                 <StatItem 
-                    number="500+" 
+                    number="2700+" 
                     description="developers across all teams and departments"
                 />
                 <StatItem 
-                    number="50+" 
+                    number="60+" 
                     description="AI/ML projects completed"
                 />
                 <StatItem 
-                    number="20+" 
+                    number="50+" 
                     description="industry partners and collaborations"
                 />
                 <StatItem 
@@ -68,7 +68,7 @@ export default function Statistics() {
                     description="articles and notebooks published"
                 />
                 <StatItem 
-                    number="10+" 
+                    number="15+" 
                     description="papers published in top-tier conferences"
                 />
             </div>
