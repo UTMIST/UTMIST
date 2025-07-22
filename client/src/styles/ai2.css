@@ -14,7 +14,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 4rem 2rem; 
+    padding: 4rem 2.5rem; 
     max-width: 1000px; 
     margin: 0rem auto;
     text-align: center;
@@ -75,7 +75,7 @@
 
 
 .intro-section-title{
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 700;
     background: var(--gradient-bl1);
     background-clip: text;
@@ -107,13 +107,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 4rem 2rem; 
+    padding: 4rem 2.5rem; 
     max-width: 1000px; 
     margin: 0 auto;
 }
 
 .how-it-works-title {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 700;
     background: var(--gradient-bl1);
     background-clip: text;
@@ -174,7 +174,7 @@
 }
 
 .whats-new-title {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 700;
     background: -webkit-linear-gradient(#FFFFFF, #C4C4C4);
     -webkit-background-clip: text;
@@ -197,7 +197,7 @@
 /* Timeline Section */
 
 .timeline-section-title{
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 700;
     background: var(--gradient-bl1);
     background-clip: text;
@@ -210,7 +210,7 @@
 /* Highlight Battles Section */
 
 .highlight-battles-title {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 700;
     background: var(--gradient-bl1);
     background-clip: text;
@@ -223,7 +223,7 @@
   /* Youtube Section */
 
   .youtube-section-title{
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 700;
     background: var(--gradient-bl1);
     background-clip: text;
@@ -247,7 +247,7 @@
 /* Special Thanks Section */
 
 .special-section-title {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 700;
     background: var(--gradient-bl1);
     background-clip: text;
@@ -276,27 +276,3 @@
     -webkit-text-fill-color: transparent;
 }
 
-@media (max-width: 768px) {
-  .special-section-title {
-    font-size: 1.25rem;
-    margin-bottom: 1.5rem;
-    margin-top: 1.5rem;
-    text-align: center;
-  }
-  .special-section-header {
-    font-size: 1rem;
-  }
-  .special-section-grid,
-  .grid {
-    grid-template-columns: 1fr !important;
-    gap: 1.5rem !important;
-    padding: 0 1rem;
-  }
-  .w-32, .h-32 {
-    width: 96px !important;
-    height: 96px !important;
-  }
-  .mb-40 {
-    margin-bottom: 2rem !important;
-  }
-}
