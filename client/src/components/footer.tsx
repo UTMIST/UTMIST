@@ -69,6 +69,19 @@ export default function Footer() {
                 </li>
                 
             </ul>
+            
+            <div className="bug-report-container">
+                <a 
+                    href="https://github.com/UTMIST/UTMIST/issues" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="bug-report-link"
+                    title="Report a Bug"
+                >
+                    🐛 Report Bug
+                </a>
+            </div>
+            
             <div className="footer-line"></div>
         </footer>
     );  
