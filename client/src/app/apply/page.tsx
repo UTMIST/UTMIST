@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { PersonalInformation, ContactInformation, EducationInformation, ApplicationFormData, UniversityAPIResponse } from "../../types/apply"
 import { DocumentArrowUpIcon } from "@heroicons/react/24/outline";
+import { validatePhoneNumber, validatePostalCode } from '../../utils/validation';
 
 // A robust, reusable wrapper for dropdowns to ensure cross-browser compatibility
 const SelectWrapper = ({ children, className }: { children: React.ReactNode, className?: string }) => (
@@ -843,29 +844,6 @@ const ApplicationForm = () => {
         { code: '+81', country: 'Japan' },
         { code: '+86', country: 'China' }
     ];
-
-    // Phone number validation based on country
-    const validatePhoneNumber = (number: string, country: string) => {
-        const digits = number.replace(/\D/g, '');
-        switch (country) {
-            case 'Canada':
-            case 'United States':
-            case 'Canada/USA':
-                return /^\d{10}$/.test(digits);
-            case 'United Kingdom':
-                return /^\d{10,11}$/.test(digits);
-            case 'India':
-                return /^\d{10}$/.test(digits);
-            case 'Australia':
-                return /^\d{9}$/.test(digits);
-            case 'Japan':
-                return /^\d{10,11}$/.test(digits);
-            case 'China':
-                return /^\d{11}$/.test(digits);
-            default:
-                return /^\d{6,}$/.test(digits);
-        }
-    };
 
     // Phone number formatting (North American style)
     const formatPhoneNumber = (value: string) => {

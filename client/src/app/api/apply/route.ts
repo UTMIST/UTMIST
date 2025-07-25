@@ -1,41 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { ApplicationFormData, PersonalInformation, ContactInformation, EducationInformation } from '../../../types/apply';
-
-function validateEmail(email: string) {
-  return /^\S+@\S+\.\S+$/.test(email);
-}
-
-function validatePhoneNumber(number: string, country: string) {
-  const digits = number.replace(/\D/g, '');
-  switch (country) {
-    case 'Canada':
-    case 'United States':
-    case 'Canada/USA':
-      return /^\d{10}$/.test(digits);
-    case 'United Kingdom':
-      return /^\d{10,11}$/.test(digits);
-    case 'India':
-      return /^\d{10}$/.test(digits);
-    case 'Australia':
-      return /^\d{9}$/.test(digits);
-    case 'Japan':
-      return /^\d{10,11}$/.test(digits);
-    case 'China':
-      return /^\d{11}$/.test(digits);
-    default:
-      return /^\d{6,}$/.test(digits);
-  }
-}
-
-function validatePostalCode(postalCode: string, country: string) {
-  if (country === 'Canada') {
-    return /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/.test(postalCode);
-  } else if (country === 'United States') {
-    return /^\d{5}(-\d{4})?$/.test(postalCode);
-  } else {
-    return postalCode.length > 0;
-  }
-}
+import { validateEmail, validatePhoneNumber, validatePostalCode } from '../../../utils/validation';
 
 export async function POST(req: NextRequest) {
   try {
@@ -46,8 +11,9 @@ export async function POST(req: NextRequest) {
     if (!personalInfo || !personalInfo.firstName || !personalInfo.lastName || !personalInfo.email || !personalInfo.areaCode || !personalInfo.phoneNumber) {
       return NextResponse.json({ error: 'Missing required personal information.' }, { status: 400 });
     }
-    if (!validateEmail(personalInfo.email)) {
-      return NextResponse.json({ error: 'Invalid email address.' }, { status: 400 });
+    const emailError = validateEmail(personalInfo.email);
+    if (emailError) {
+      return NextResponse.json({ error: emailError }, { status: 400 });
     }
     let country = locationInfo?.country || (personalInfo.areaCode === '+1' ? 'Canada/USA' : '');
     if (!validatePhoneNumber(personalInfo.phoneNumber, country)) {
