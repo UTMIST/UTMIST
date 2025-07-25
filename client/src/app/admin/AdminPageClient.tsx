@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type Overview = {
   totalVisits: number;
@@ -13,8 +12,6 @@ type Overview = {
 export default function AdminPageClient() {
   const [ov, setOv] = useState<Overview | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  const supabase = createClientComponentClient();
 
   useEffect(() => {
     fetch("/api/umami/overview")
