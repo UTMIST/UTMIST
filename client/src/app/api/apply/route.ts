@@ -38,6 +38,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing or invalid response for "Why do you want to join?"' }, { status: 400 });
     }
 
+    console.log(personalInfo, locationInfo, educationInfo, whyJoin);
+
     // If all validations pass, proceed (e.g., save to DB)
     return NextResponse.json({ message: 'Application submitted successfully' }, { status: 201 });
   } catch (error) {
