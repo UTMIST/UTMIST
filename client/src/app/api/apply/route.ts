@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import type { ApplicationFormData, PersonalInformation, ContactInformation, EducationInformation } from '../../../types/apply';
+import type { ApplicationFormData } from '../../../types/apply';
 import { validateEmail, validatePhoneNumber, validatePostalCode } from '../../../utils/validation';
 
 export async function POST(req: NextRequest) {
   try {
     const body: ApplicationFormData = await req.json();
     const { personalInfo, locationInfo, educationInfo, whyJoin } = body;
+
+    console.log(educationInfo, whyJoin);
 
     // Validate personalInfo
     if (!personalInfo || !personalInfo.firstName || !personalInfo.lastName || !personalInfo.email || !personalInfo.areaCode || !personalInfo.phoneNumber) {
@@ -15,7 +17,7 @@ export async function POST(req: NextRequest) {
     if (emailError) {
       return NextResponse.json({ error: emailError }, { status: 400 });
     }
-    let country = locationInfo?.country || (personalInfo.areaCode === '+1' ? 'Canada/USA' : '');
+    const country = locationInfo?.country || (personalInfo.areaCode === '+1' ? 'Canada/USA' : '');
     if (!validatePhoneNumber(personalInfo.phoneNumber, country)) {
       return NextResponse.json({ error: 'Invalid phone number.' }, { status: 400 });
     }
@@ -37,8 +39,6 @@ export async function POST(req: NextRequest) {
     if (!whyJoin || typeof whyJoin !== 'string' || whyJoin.trim().length === 0) {
       return NextResponse.json({ error: 'Missing or invalid response for "Why do you want to join?"' }, { status: 400 });
     }
-
-    console.log(personalInfo, locationInfo, educationInfo, whyJoin);
 
     // If all validations pass, proceed (e.g., save to DB)
     return NextResponse.json({ message: 'Application submitted successfully' }, { status: 201 });
