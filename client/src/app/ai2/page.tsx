@@ -74,22 +74,22 @@ export default function AI2Page() {
         </p>
         <p className="hero-subtitle-gradient">(Brought to you by the Academics Dept.)</p>
       </div>
-      <section className="intro-section">
-        <div className="intro-section-left">
-          <h2 className="intro-section-title">What is AI Squared?</h2>
-          <p className="intro-section-description">
-            AI Squared is the inaugural reinforcement learning tournament run by UTMIST. The tournament centers around groups of students competing to design the best machine learning agent in a smash-bros style platform fighting game. 
-            The tournament will be held in an elimination bracket format which will have consecutive rounds of agents facing off 1v1 until a final winner is determined.
-          </p>
-        </div>
-        <div className="intro-section-right">
+      <section className="intro-section flex flex-col md:flex-row items-center md:items-start max-w-4xl mx-auto px-4">
+      <div className="intro-section-left w-full md:w-1/2">
+        <h2 className="intro-section-title">What is AI Squared?</h2>
+        <p className="intro-section-description">
+          AI Squared is the inaugural reinforcement learning tournament run by UTMIST. The tournament centers around groups of students competing to design the best machine learning agent in a smash-bros style platform fighting game. 
+          The tournament will be held in an elimination bracket format which will have consecutive rounds of agents facing off 1v1 until a final winner is determined.
+        </p>
+      </div>
+      <div className="intro-section-right w-full md:w-1/2 flex justify-center md:justify-start mt-8 md:mt-0">
         <img
           src={ai2_demo.src}
           alt="AI2 Demo"
-          className="max-w-xs md:max-w-md mx-auto md:ml-20"
+          className="w-full max-w-xs md:max-w-md mx-auto md:ml-20 rounded-2xl"
         />
       </div>
-      </section>
+    </section>
       <section className="how-it-works-section">
         <h2 className="how-it-works-title">AI Squared</h2>
       <div className="flex items-center mb-8">
@@ -150,26 +150,26 @@ export default function AI2Page() {
       </div>
     </section>
     <section className="">
-      <div className="flex flex-col md:flex-row items-center justify-center gap-12 px-8 py-16">
-            <div className="flex-1 text-center md:text-left">
-                <h2 className="youtube-section-title">
-                    Check Out Our YouTube!
-                </h2>
-            </div>
-            <div className="flex-1 max-w-[500px] w-full mr-50">
-                <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-xl p-6 rounded-2xl shadow transition-shadow duration-300 hover:shadow-xl shadow-[#1E19B1]/50">
-                    <iframe
-                        className="absolute top-0 left-0 w-full h-full rounded-xl"
-                        src="https://www.youtube.com/embed/zOmkgw6jru4"
-                        title="YouTube video player"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                    ></iframe>
-                </div>
-            </div>
+    <div className="flex flex-col md:flex-row items-center justify-center gap-12 px-8 py-16">
+      <div className="text-center md:text-left">
+        <h2 className="youtube-section-title">
+          Check Out Our YouTube!
+        </h2>
+      </div>
+      <div className="flex-1 max-w-[500px] w-full">
+        <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-xl p-6 rounded-2xl shadow transition-shadow duration-300 hover:shadow-xl shadow-[#1E19B1]/50">
+          <iframe
+            className="absolute top-0 left-0 w-full h-full rounded-xl"
+            src="https://www.youtube.com/embed/zOmkgw6jru4"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
     <section>
     <h2 className="special-section-title">Special Thanks</h2>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-12 max-w-5xl mx-auto mb-40">

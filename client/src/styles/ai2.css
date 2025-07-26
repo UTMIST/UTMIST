@@ -223,7 +223,16 @@
   
   /* Youtube Section */
 
-  .youtube-section-title{
+/* .youtube-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 2.5rem; 
+    max-width: 1000px; 
+    margin: 0 auto;
+} */
+
+.youtube-section-title{
     font-size: 2.5rem;
     font-weight: 700;
     background: var(--gradient-bl1);
@@ -278,28 +287,43 @@
 }
 
 @media (max-width: 768px) {
-  .bg {
+    .bg {
     background-size: cover;
     background-position: center top;
     /* Optionally, add a semi-transparent overlay for readability: */
-  }
+    }
 
-  .hero-section {
+    .hero-section {
     display: block;
     max-width: 1000px;
     margin: 0 auto;
     text-align: center;
     padding: 2rem 1rem;
-  }
+    }
 
-  .hero-title {
+    .hero-title {
     font-size: 2rem;         /* Smaller heading on mobile */
-  }
+    }
   
-  .hero-subtitle,
-  .hero-subtitle-gradient {
+    .hero-subtitle,
+    .hero-subtitle-gradient {
     padding: 0 1rem;         /* Less horizontal padding */
     font-size: 1rem;
-  }
+    }
+
+  .youtube-section-title{
+    /* font-size: 1.5rem; */
+    margin-left: 0;         /* Remove large left margin */
+    text-align: center;
+    /* font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font); */
+    /* margin-left: 250px; */
+}   
+
+
 
 }
