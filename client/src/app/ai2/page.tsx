@@ -85,11 +85,10 @@ export default function AI2Page() {
         <div className="intro-section-right">
         <img
           src={ai2_demo.src}
-          alt={"AI2 Demo"}
-          // className="rounded-2xl"
-          className="w-120 ml-20"
+          alt="AI2 Demo"
+          className="max-w-xs md:max-w-md mx-auto md:ml-20"
         />
-        </div>
+      </div>
       </section>
       <section className="how-it-works-section">
         <h2 className="how-it-works-title">AI Squared</h2>

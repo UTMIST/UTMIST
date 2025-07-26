@@ -9,17 +9,17 @@
 }
 
 
+
+
 .hero-section {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: center; */
     align-items: center;
     padding: 4rem 2.5rem; 
-    max-width: 1000px; 
+    /* max-width: 1000px;  */
     margin: 0rem auto;
     text-align: center;
-    
-
 }
 
 
@@ -30,6 +30,7 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     font-family: var(--system-font);
+    
 }
 
 .hero-subtitle{
@@ -276,3 +277,29 @@
     -webkit-text-fill-color: transparent;
 }
 
+@media (max-width: 768px) {
+  .bg {
+    background-size: cover;
+    background-position: center top;
+    /* Optionally, add a semi-transparent overlay for readability: */
+  }
+
+  .hero-section {
+    display: block;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;         /* Smaller heading on mobile */
+  }
+  
+  .hero-subtitle,
+  .hero-subtitle-gradient {
+    padding: 0 1rem;         /* Less horizontal padding */
+    font-size: 1rem;
+  }
+
+}
