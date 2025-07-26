@@ -152,6 +152,44 @@ export const validateName = (name: string): string | undefined => {
 };
 
 /**
+ * Validate phone number based on country
+ */
+export const validatePhoneNumber = (number: string, country: string): boolean => {
+  const digits = number.replace(/\D/g, '');
+  switch (country) {
+    case 'Canada':
+    case 'United States':
+    case 'Canada/USA':
+      return /^\d{10}$/.test(digits);
+    case 'United Kingdom':
+      return /^\d{10,11}$/.test(digits);
+    case 'India':
+      return /^\d{10}$/.test(digits);
+    case 'Australia':
+      return /^\d{9}$/.test(digits);
+    case 'Japan':
+      return /^\d{10,11}$/.test(digits);
+    case 'China':
+      return /^\d{11}$/.test(digits);
+    default:
+      return /^\d{6,}$/.test(digits);
+  }
+};
+
+/**
+ * Validate postal code based on country
+ */
+export const validatePostalCode = (postalCode: string, country: string): boolean => {
+  if (country === 'Canada') {
+    return /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/.test(postalCode);
+  } else if (country === 'United States') {
+    return /^\d{5}(-\d{4})?$/.test(postalCode);
+  } else {
+    return postalCode.length > 0;
+  }
+};
+
+/**
  * Validate entire form for authentication
  * @param formData - Form data to validate
  * @param isLogin - Whether this is login (true) or registration (false)
