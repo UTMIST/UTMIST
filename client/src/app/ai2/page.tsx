@@ -140,15 +140,20 @@ export default function AI2Page() {
     </div>
   </section>
     <section>
-      <h2 className="highlight-battles-title">Highlight Battles</h2>
-      <div className="flex flex-col items-center justify-center px-8 mb-20">
-          <Slider>
-          {slides.map((i, s) => (
-            <img src={i} key={s} />
-          ))}
-        </Slider>
-      </div>
-    </section>
+    <h2 className="highlight-battles-title text-xl md:text-2xl text-center mb-6">Highlight Battles</h2>
+    <div className="flex flex-col items-center justify-center px-4 md:px-8 mb-10 md:mb-20 w-full">
+      <Slider>
+        {slides.map((i, s) => (
+          <img
+            src={i}
+            key={s}
+            className="w-full max-w-xs sm:max-w-sm md:max-w-lg rounded-xl object-cover mx-auto"
+            alt={`Highlight battle ${s + 1}`}
+          />
+        ))}
+      </Slider>
+    </div>
+</section>
     <section className="">
     <div className="flex flex-col md:flex-row items-center justify-center gap-12 px-8 py-16">
       <div className="text-center md:text-left">
