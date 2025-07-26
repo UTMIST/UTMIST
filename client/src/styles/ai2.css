@@ -301,10 +301,6 @@
     padding: 2rem 1rem;
     }
 
-    .hero-title {
-    font-size: 2rem;         /* Smaller heading on mobile */
-    }
-  
     .hero-subtitle,
     .hero-subtitle-gradient {
     padding: 0 1rem;         /* Less horizontal padding */
@@ -324,6 +320,27 @@
     /* margin-left: 250px; */
 }   
 
+.whats-new-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: -webkit-linear-gradient(#FFFFFF, #C4C4C4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+    text-align: center;
+    margin-left: 0;
+}
+
+.timeline-section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--system-font);
+    text-align: center;
+    margin-right: 0;         
+}
 
 
 }

@@ -122,23 +122,23 @@ export default function AI2Page() {
       <AI2Card title="Better Customization" description="Personalize your agent like never before!" image={faces.src} />
     </div>
     </section>
-    <section className="py-20">
-      <h2 className="timeline-section-title">Timeline</h2>
-      <div className="flex flex-col gap-12 items-end justify-end px-8 py-16 mr-50">
-        <div className="w-[100%] rounded-xl bg-gradient-to-r from-blue-200 via-purple-400 to-blue-800 p-8">
-          <div className="text-3xl font-bold text-white text-right mb-2">Day 1: Kickoff</div>
-          <div className="text-lg text-white text-right">Start building your RL agent!</div>
-        </div>
-        <div className="w-[70%] rounded-xl bg-gradient-to-r from-blue-200 via-purple-400 to-blue-800 p-8">
-          <div className="text-3xl font-bold text-white text-right mb-2">Day 2-4: Code Submissions Open</div>
-          <div className="text-lg text-white text-right">Start building your RL agent!</div>
-        </div>
-        <div className="w-[50%] rounded-xl bg-gradient-to-r from-blue-200 via-purple-400 to-blue-800 p-8">
-          <div className="text-3xl font-bold text-white text-right mb-2">Day 3: Final Showdown</div>
-          <div className="text-lg text-white text-right">Agents go 1v1 in an elimination bracket until the ultimate champion is crowned!</div>
-        </div>
+    <section className="py-10 md:py-20">
+    <h2 className="timeline-section-title text-xl md:text-2xl text-center md:text-right mb-6">Timeline</h2>
+    <div className="flex flex-col gap-6 md:gap-12 items-center md:items-end justify-end px-4 md:px-8">
+      <div className="w-full md:w-[100%] rounded-xl bg-gradient-to-r from-blue-200 via-purple-400 to-blue-800 p-4 md:p-8">
+        <div className="text-lg md:text-3xl font-bold text-white text-right mb-2">Day 1: Kickoff</div>
+        <div className="text-base md:text-lg text-white text-right">Start building your RL agent!</div>
       </div>
-    </section>
+      <div className="w-full md:w-[70%] rounded-xl bg-gradient-to-r from-blue-200 via-purple-400 to-blue-800 p-4 md:p-8">
+        <div className="text-lg md:text-3xl font-bold text-white text-right mb-2">Day 2-4: Code Submissions Open</div>
+        <div className="text-base md:text-lg text-white text-right">Start building your RL agent!</div>
+      </div>
+      <div className="w-full md:w-[50%] rounded-xl bg-gradient-to-r from-blue-200 via-purple-400 to-blue-800 p-4 md:p-8">
+        <div className="text-lg md:text-3xl font-bold text-white text-right mb-2">Day 3: Final Showdown</div>
+        <div className="text-base md:text-lg text-white text-right">Agents go 1v1 in an elimination bracket until the ultimate champion is crowned!</div>
+      </div>
+    </div>
+  </section>
     <section>
       <h2 className="highlight-battles-title">Highlight Battles</h2>
       <div className="flex flex-col items-center justify-center px-8 mb-20">
