@@ -2,11 +2,14 @@ export interface UserProfile {
   id: string;
   email: string;
   name: string;
+  title?: string;
+  bio?: string;
   organization?: string;
-  profile_picture_url?: string;
-  linkedin_url?: string;
-  github_url?: string;
-  discord_username?: string;
+  avatar?: string;
+  linkedin?: string;
+  github?: string;
+  twitter?: string;
+  discord?: string;
   created_at?: string;
   updated_at?: string;
 }
