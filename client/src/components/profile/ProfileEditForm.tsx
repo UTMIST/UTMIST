@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { updateProfile } from "@/utils/auth";
+import { updateUserProfile } from "@/utils/user";
 import AvatarUpload from "./AvatarUpload";
+import ResumeUpload from "./ResumeUpload";
 import type { UserProfile } from "@/types/auth";
 
 interface ProfileEditFormProps {
@@ -25,7 +26,6 @@ export default function ProfileEditForm({
     github: profile.github || "",
     twitter: profile.twitter || "",
   });
-  const [avatar, setAvatar] = useState(profile.avatar || "");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validateForm = () => {
@@ -52,15 +52,18 @@ export default function ProfileEditForm({
     }
 
     try {
-      // Update profile using the new field names
-      await updateProfile({
-        name: formData.title || profile.name,
+      // Update profile using the new user utilities
+      const success = await updateUserProfile(profile.id, {
         title: formData.title,
         bio: formData.bio,
         linkedin: formData.linkedin,
         github: formData.github,
         twitter: formData.twitter,
       });
+
+      if (!success) {
+        throw new Error("Failed to update profile");
+      }
 
       // Create updated profile object
       const updatedProfile: UserProfile = {
@@ -87,10 +90,6 @@ export default function ProfileEditForm({
     }
   };
 
-  const handleAvatarChange = (avatarUrl: string) => {
-    setAvatar(avatarUrl);
-  };
-
   return (
     <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
       <h2 className="text-2xl font-semibold text-gray-900 mb-6">
@@ -104,12 +103,18 @@ export default function ProfileEditForm({
           </div>
         )}
 
-        {/* Avatar Upload Section */}
         <div className="flex justify-center">
           <AvatarUpload
-            currentAvatar={avatar}
+            currentAvatar={profile.avatar}
             userId={profile.id}
-            onAvatarChange={handleAvatarChange}
+            disabled={isSaving}
+          />
+        </div>
+
+        <div>
+          <ResumeUpload
+            userId={profile.id}
+            onResumeChange={() => {}}
             disabled={isSaving}
           />
         </div>
@@ -182,12 +187,11 @@ export default function ProfileEditForm({
           />
         </div>
 
-
         <div className="flex space-x-4 pt-4">
           <button
             type="submit"
             disabled={isSaving}
-            style={isSaving ? {} : { background: 'var(--gradient-b2)' }}
+            style={isSaving ? {} : { background: "var(--gradient-b2)" }}
             className={`flex-1 px-6 py-3 rounded-lg font-[var(--system-font)] transition-all duration-200 ${
               isSaving
                 ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
@@ -200,7 +204,7 @@ export default function ProfileEditForm({
             type="button"
             onClick={onCancel}
             disabled={isSaving}
-            style={isSaving ? {} : { background: 'var(--gradient-b2)' }}
+            style={isSaving ? {} : { background: "var(--gradient-b2)" }}
             className={`flex-1 px-6 py-3 rounded-lg font-[var(--system-font)] transition-all duration-200 ${
               isSaving
                 ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"

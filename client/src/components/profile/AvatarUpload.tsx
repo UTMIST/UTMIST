@@ -1,58 +1,32 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { uploadAvatar, deleteAvatar } from "@/utils/upload";
-import { getDisplayAvatarUrl } from "@/utils/avatar";
+import { uploadFile, deleteFile } from "@/utils/upload";
+import { updateUserProfile } from "@/utils/user";
 
 interface AvatarUploadProps {
   currentAvatar?: string;
   userId: string;
-  onAvatarChange: (avatarUrl: string) => void;
   disabled?: boolean;
 }
 
 export default function AvatarUpload({
   currentAvatar,
   userId,
-  onAvatarChange,
   disabled = false,
 }: AvatarUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string | undefined>(currentAvatar);
   const [error, setError] = useState<string | null>(null);
-  const [displayAvatar, setDisplayAvatar] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Load the current avatar
-  useEffect(() => {
-    const loadCurrentAvatar = async () => {
-      try {
-        const avatarUrl = await getDisplayAvatarUrl(userId);
-        setDisplayAvatar(avatarUrl);
-      } catch (error) {
-        console.error("Error loading current avatar:", error);
-        setDisplayAvatar("");
-      }
-    };
-
-    if (userId) {
-      loadCurrentAvatar();
-    }
-  }, [userId]);
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Clear previous errors
     setError(null);
 
-    // Create preview URL
-    const preview = URL.createObjectURL(file);
-    setPreviewUrl(preview);
-
-    // Upload file
     handleUpload(file);
   };
 
@@ -61,41 +35,22 @@ export default function AvatarUpload({
     setError(null);
 
     try {
-      const result = await uploadAvatar(file, userId);
+      const filePath = `profile/${userId}/avatar`;
+      const result = await uploadFile(file, filePath, {
+        allowedTypes: ["image/"],
+        maxSize: 5 * 1024 * 1024, // 5MB
+        updateUserProfile: true,
+      });
 
       if (result.success && result.url) {
-        // Delete old avatar if it exists
-        if (currentAvatar && !currentAvatar.includes("default.webp")) {
-          await deleteAvatar(userId);
-        }
-
-        // Update parent component
-        onAvatarChange(result.url);
-
-        // Update local display
-        setDisplayAvatar(result.url);
-
-        // Clear preview
-        if (previewUrl) {
-          URL.revokeObjectURL(previewUrl);
-          setPreviewUrl(null);
-        }
+        setAvatarUrl(result.url);
+        await updateUserProfile(userId, { avatar: result.url });
       } else {
         setError(result.error || "Upload failed");
-        // Clear preview on error
-        if (previewUrl) {
-          URL.revokeObjectURL(previewUrl);
-          setPreviewUrl(null);
-        }
       }
     } catch (error) {
       console.error("Upload error:", error);
       setError("An unexpected error occurred");
-      // Clear preview on error
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-        setPreviewUrl(null);
-      }
     } finally {
       setIsUploading(false);
     }
@@ -108,11 +63,11 @@ export default function AvatarUpload({
     setError(null);
 
     try {
-      const success = await deleteAvatar(userId);
+      const success = await deleteFile("profile/" + userId + "/avatar");
       if (success) {
         const emptyUrl = "";
-        onAvatarChange(emptyUrl);
-        setDisplayAvatar(emptyUrl);
+        setAvatarUrl(emptyUrl);
+        await updateUserProfile(userId, { avatar: emptyUrl });
       } else {
         setError("Failed to remove avatar");
       }
@@ -124,23 +79,17 @@ export default function AvatarUpload({
     }
   };
 
-  const showAvatar = previewUrl || displayAvatar;
-
   return (
     <div className="flex flex-col items-center space-y-4">
       {/* Avatar Display */}
       <div className="relative w-32 h-32">
-        {showAvatar ? (
+        {avatarUrl ? (
           <Image
-            src={showAvatar}
+            src={avatarUrl}
             alt="Profile avatar"
             fill
             className="rounded-full object-cover border-4 border-gray-200"
             priority
-            onError={() => {
-              console.error("Failed to load avatar image");
-              setDisplayAvatar("");
-            }}
           />
         ) : (
           <div className="w-full h-full rounded-full bg-gray-200 border-4 border-gray-200 flex items-center justify-center">
@@ -184,23 +133,21 @@ export default function AvatarUpload({
       )}
 
       {/* Remove button (only show if avatar exists and not default) */}
-      {!disabled &&
-        currentAvatar &&
-        !currentAvatar.includes("default.webp") && (
-          <button
-            type="button"
-            onClick={handleRemoveAvatar}
-            disabled={isUploading}
-            style={isUploading ? {} : { background: 'var(--gradient-b2)' }}
-            className={`px-3 py-1 rounded-lg font-[var(--system-font)] text-xs transition-all duration-200 ${
-              isUploading
-                ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
-                : "text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
-            }`}
-          >
-            {isUploading ? "Removing..." : "Remove Photo"}
-          </button>
-        )}
+      {!disabled && avatarUrl && (
+        <button
+          type="button"
+          onClick={handleRemoveAvatar}
+          disabled={isUploading}
+          style={isUploading ? {} : { background: "var(--gradient-b2)" }}
+          className={`px-3 py-1 rounded-lg font-[var(--system-font)] text-xs transition-all duration-200 ${
+            isUploading
+              ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
+              : "text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
+          }`}
+        >
+          {isUploading ? "Removing..." : "Remove Photo"}
+        </button>
+      )}
 
       {/* Error Message */}
       {error && (

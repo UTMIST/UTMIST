@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getCurrentUser, getUserProfile, logout } from '@/utils/auth';
+import { getCurrentUser, logout } from '@/utils/auth';
+import { getCurrentUserProfile } from '@/utils/user';
 import type { UserProfile, AuthUser } from '@/types/auth';
 
 export default function DashboardPage() {
@@ -32,7 +33,7 @@ export default function DashboardPage() {
         
         // Try to get user profile
         console.log('Dashboard: Fetching user profile...');
-        const userProfile = await getUserProfile();
+        const userProfile = await getCurrentUserProfile();
         console.log('Dashboard: User profile result:', userProfile);
         setProfile(userProfile);
       } catch (error) {
