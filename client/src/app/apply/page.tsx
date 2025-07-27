@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { PersonalInformation, ContactInformation, EducationInformation, ApplicationFormData, UniversityAPIResponse } from "../../types/apply"
 import { DocumentArrowUpIcon } from "@heroicons/react/24/outline";
+import { validatePhoneNumber } from '../../utils/validation';
+import { validatePostalCode } from '../../utils/validation';
 
 // A robust, reusable wrapper for dropdowns to ensure cross-browser compatibility
 const SelectWrapper = ({ children, className }: { children: React.ReactNode, className?: string }) => (
@@ -121,6 +123,7 @@ type ContactInformationSectionProps = {
   setLocationInfo: React.Dispatch<React.SetStateAction<ContactInformation>>;
   postalCodePatterns: Record<string, { placeholder: string; pattern: string; title: string }>;
   formatPostalCode: (value: string, country: string) => string;
+  postalCodeError?: string;
 };
 
 const ContactInformationSection = ({
@@ -128,6 +131,7 @@ const ContactInformationSection = ({
   setLocationInfo,
   postalCodePatterns,
   formatPostalCode,
+  postalCodeError,
 }: ContactInformationSectionProps) => {
     const [otherCountry, setOtherCountry] = useState('');
     const [isOtherCountry, setIsOtherCountry] = useState(false);
@@ -193,40 +197,55 @@ const ContactInformationSection = ({
                         />
                     )}
                     {locationInfo.country === 'Canada' && (
-                        <input
-                            id="postalCode"
-                            className="input bg-gray-200 rounded-full px-6 py-3"
-                            type="text"
-                            placeholder={postalCodePatterns['Canada'].placeholder}
-                            pattern={postalCodePatterns['Canada'].pattern}
-                            title={postalCodePatterns['Canada'].title}
-                            value={locationInfo.postalCode}
-                            onChange={e => setLocationInfo({ ...locationInfo, postalCode: formatPostalCode(e.target.value, 'Canada') })}
-                            maxLength={7}
-                        />
+                        <>
+                            <input
+                                id="postalCode"
+                                className="input bg-gray-200 rounded-full px-6 py-3"
+                                type="text"
+                                placeholder={postalCodePatterns['Canada'].placeholder}
+                                pattern={postalCodePatterns['Canada'].pattern}
+                                title={postalCodePatterns['Canada'].title}
+                                value={locationInfo.postalCode}
+                                onChange={e => setLocationInfo({ ...locationInfo, postalCode: formatPostalCode(e.target.value, 'Canada') })}
+                                maxLength={7}
+                            />
+                            {postalCodeError && (
+                                <span className="text-xs text-red-600 mt-1 ml-2">{postalCodeError}</span>
+                            )}
+                        </>
                     )}
                     {locationInfo.country === 'United States' && (
-                        <input
-                            id="postalCode"
-                            className="input bg-gray-200 rounded-full px-6 py-3"
-                            type="text"
-                            placeholder={postalCodePatterns['United States'].placeholder}
-                            pattern={postalCodePatterns['United States'].pattern}
-                            title={postalCodePatterns['United States'].title}
-                            value={locationInfo.postalCode}
-                            onChange={e => setLocationInfo({ ...locationInfo, postalCode: formatPostalCode(e.target.value, 'United States') })}
-                            maxLength={10}
-                        />
+                        <>
+                            <input
+                                id="postalCode"
+                                className="input bg-gray-200 rounded-full px-6 py-3"
+                                type="text"
+                                placeholder={postalCodePatterns['United States'].placeholder}
+                                pattern={postalCodePatterns['United States'].pattern}
+                                title={postalCodePatterns['United States'].title}
+                                value={locationInfo.postalCode}
+                                onChange={e => setLocationInfo({ ...locationInfo, postalCode: formatPostalCode(e.target.value, 'United States') })}
+                                maxLength={10}
+                            />
+                            {postalCodeError && (
+                                <span className="text-xs text-red-600 mt-1 ml-2">{postalCodeError}</span>
+                            )}
+                        </>
                     )}
                     {(locationInfo.country && locationInfo.country !== 'Canada' && locationInfo.country !== 'United States') || isOtherCountry && (
-                        <input
-                            id="postalCode"
-                            className="input bg-gray-200 rounded-full px-6 py-3"
-                            type="text"
-                            placeholder={postalCodePatterns['Other'].placeholder}
-                            value={locationInfo.postalCode}
-                            onChange={e => setLocationInfo({ ...locationInfo, postalCode: e.target.value })}
-                        />
+                        <>
+                            <input
+                                id="postalCode"
+                                className="input bg-gray-200 rounded-full px-6 py-3"
+                                type="text"
+                                placeholder={postalCodePatterns['Other'].placeholder}
+                                value={locationInfo.postalCode}
+                                onChange={e => setLocationInfo({ ...locationInfo, postalCode: e.target.value })}
+                            />
+                            {postalCodeError && (
+                                <span className="text-xs text-red-600 mt-1 ml-2">{postalCodeError}</span>
+                            )}
+                        </>
                     )}
                 </div>
                 <div className="flex flex-col gap-1 md:col-span-2">
@@ -833,6 +852,7 @@ const ApplicationForm = () => {
     const [whyJoin, setWhyJoin] = useState<string>('');
     const [otherFieldOfStudy, setOtherFieldOfStudy] = useState<string>('');
     const [otherEducationLevel, setOtherEducationLevel] = useState<string>('');
+    const [postalCodeError, setPostalCodeError] = useState<string>('');
 
     // Area codes for dropdown
     const areaCodes = [
@@ -843,29 +863,6 @@ const ApplicationForm = () => {
         { code: '+81', country: 'Japan' },
         { code: '+86', country: 'China' }
     ];
-
-    // Phone number validation based on country
-    const validatePhoneNumber = (number: string, country: string) => {
-        const digits = number.replace(/\D/g, '');
-        switch (country) {
-            case 'Canada':
-            case 'United States':
-            case 'Canada/USA':
-                return /^\d{10}$/.test(digits);
-            case 'United Kingdom':
-                return /^\d{10,11}$/.test(digits);
-            case 'India':
-                return /^\d{10}$/.test(digits);
-            case 'Australia':
-                return /^\d{9}$/.test(digits);
-            case 'Japan':
-                return /^\d{10,11}$/.test(digits);
-            case 'China':
-                return /^\d{11}$/.test(digits);
-            default:
-                return /^\d{6,}$/.test(digits);
-        }
-    };
 
     // Phone number formatting (North American style)
     const formatPhoneNumber = (value: string) => {
@@ -923,6 +920,14 @@ const ApplicationForm = () => {
             return;
         } else {
             setPhoneError('');
+        }
+
+        // Validate postal code
+        if (locationInfo.postalCode && !validatePostalCode(locationInfo.postalCode, country)) {
+            setPostalCodeError('Please enter a valid postal code.');
+            return;
+        } else {
+            setPostalCodeError('');
         }
     
         // Gather form data
@@ -1030,6 +1035,7 @@ const ApplicationForm = () => {
                 setLocationInfo={setLocationInfo}
                 postalCodePatterns={postalCodePatterns}
                 formatPostalCode={formatPostalCode}
+                postalCodeError={postalCodeError}
             />
             <EducationSection
                 educationInfo={educationInfo}
