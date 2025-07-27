@@ -13,7 +13,7 @@ import womboLogo from "../assets/logos/wombo.svg";
 import googleLogo from "../assets/logos/google.webp";
 import pwcLogo from "../assets/logos/pwc.webp";
 import rbcLogo from "../assets/logos/rbc.webp";
-import edgeAILogo from "../assets/logos/edgeai.webp";
+import edgeAILogo from "../assets/logos/EdgeAI.webp";
 import cgiLogo from "../assets/logos/cgi.webp";
 
 const logos = [

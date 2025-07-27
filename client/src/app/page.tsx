@@ -69,7 +69,7 @@ export default function Home() {
           <HeroCard
             image={copresPhoto}
             title="Our Mission"
-            description="Our mission is to empower students of all skill levels and experiences to foster their passion and accelerate their career in Artificial Intelligence and Machine Learning. Through workshops, conference, hackthons and many other initiatives, we hope to provide the best oppurtunities to UofT students in this field."
+            description="Our mission is to empower students of all skill levels and experiences to foster their passion and accelerate their careers in Artificial Intelligence and Machine Learning. Through workshops, conferences, hackathons, and numerous other initiatives, we aim to provide the best opportunities for UofT students in this field."
           />
         </div>
       </section>
