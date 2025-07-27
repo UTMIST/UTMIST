@@ -8,8 +8,6 @@ import {Positions} from "@/types/careers";
 
 export default function CareersPage() {
 
-    const positions: Positions[] = positionsData;
-
     return <main>
       <HeroSection title="Careers" subtitle="Help shape the future of AI and ML at UTMIST" />
         <div className="career-section">
