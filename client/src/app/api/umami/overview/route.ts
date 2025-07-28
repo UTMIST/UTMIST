@@ -29,7 +29,7 @@ export async function GET() {
 
   // Fetch stats for the last 30 days using millisecond timestamps
   const now = new Date();
-  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000); // 30 days ago in ms
 
   const startAt = thirtyDaysAgo.getTime(); // e.g., 1750000000000
   const endAt = now.getTime(); // current time in ms
