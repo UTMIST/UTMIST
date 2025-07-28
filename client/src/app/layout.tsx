@@ -20,10 +20,10 @@ const spaceGrotesk = Space_Grotesk({
 //Metadata for the page
 export const metadata: Metadata = {
   title: "UTMIST",
-  description: "UTMIST - Largest AI and ML student org in Canada",
-  icons: {
+    icons: {
     icon: "/UTMIST.ico",
   },
+  description: "University of Toronto Machine Intelligence Student Team",
 };
 
 // Root layout for the application
