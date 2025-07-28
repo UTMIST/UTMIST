@@ -12,12 +12,11 @@ export async function GET() {
     },
   });
   if (!sitesRes.ok) {
-    return NextResponse.error();
+    return new NextResponse("Failed to fetch Umami data", { status: 500 });
   }
   const sites = await sitesRes.json();
-
   // If no sites, return zeros
-  if (!sites.length) {
+  if (!sites) {
     console.log("No sites found in Umami");
     return NextResponse.json({
       totalVisits: 0,
@@ -26,19 +25,17 @@ export async function GET() {
       avgTime: 0,
     });
   }
+  const siteId = sites.data[0].id;
 
-  const siteId = sites[0].id;
-
-  // 2) Fetch stats for the last 30 days
+  // Fetch stats for the last 30 days using millisecond timestamps
   const now = new Date();
-  // Create a Date object representing 30 days ago from the current time
-  // [number of days] * [hours in day] * [minutes in hour] * [seconds in minute] * [milliseconds in second]
-  const thirtyDays = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-  const startAt = thirtyDays.toISOString();
-  const endAt = now.toISOString();
+  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+  const startAt = thirtyDaysAgo.getTime(); // e.g., 1750000000000
+  const endAt = now.getTime(); // current time in ms
 
   const statsRes = await fetch(
-    `${UMAMI_API_ENDPOINT}/websites/${siteId}/stats?startAt=${startAt}&endAt=${endAt}`,
+    `${UMAMI_API_ENDPOINT}/websites/${siteId}/stats?startAt=${startAt}&endAt=${endAt}&unit=day&timezone=UTC`,
     {
       headers: {
         Accept: "application/json",
@@ -46,16 +43,21 @@ export async function GET() {
       },
     }
   );
+
   if (!statsRes.ok) {
-    return NextResponse.error();
+    return new NextResponse("Failed to fetch Umami data", { status: 500 });
   }
   const stats = await statsRes.json();
 
   // 3) Return only the fields your dashboard needs
   return NextResponse.json({
-    totalVisits: stats.pageviews,
-    uniques: stats.uniques,
-    bounceRate: stats.bounces / stats.sessions,
-    avgTime: stats.sessions ? stats.totaltime / stats.sessions : 0,
+    totalVisits: stats.pageviews.value,
+    uniques: stats.visitors.value,
+    bounceRate: stats.visits.value
+      ? stats.bounces.value / stats.visits.value
+      : 0,
+    avgTime: stats.visits.value
+      ? stats.totaltime.value / stats.visits.value
+      : 0,
   });
 }
