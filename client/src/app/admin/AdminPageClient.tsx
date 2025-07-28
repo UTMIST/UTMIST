@@ -16,15 +16,30 @@ export default function AdminPageClient() {
   useEffect(() => {
     fetch("/api/umami/overview")
       .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok) {
+          throw new Error(`Server error: ${res.status} ${res.statusText}`);
+        }
         return res.json();
       })
       .then(setOv)
-      .catch((e) => setError(e.message));
+      .catch((e) => {
+        console.error("Failed to load metrics:", e);
+        setError("Failed to fetch analytics data. Please try again later.");
+      });
   }, []);
 
-  if (error) return <p className="text-red-500 text-center">Error: {error}</p>;
-  if (!ov) return <p className="text-center">Loading metrics…</p>;
+  if (error) {
+    return (
+      <div className="text-red-500 text-center p-4">
+        <h2 className="text-lg font-semibold">Analytics Unavailable</h2>
+        <p className="text-sm">{error}</p>
+        <p className="text-xs mt-1 text-gray-400">
+          Check your network connection or try refreshing the page.
+        </p>
+      </div>
+    );
+  }
+  if (!ov) return <p className="text-center">Loading analytics data…</p>;
 
   return (
     <div className="bg-white text-black py-6">
