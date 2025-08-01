@@ -51,7 +51,7 @@ export default function BlogPage() {
 
   if (loading) {
     return (
-      <main className="flex flex-col items-center justify-center py-20 text-gray-600">
+      <main className="flex flex-col items-center justify-center py-20" style={{color: 'var(--muted-foreground)'}}>
         <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full mb-4" />
         <p>Loading blog content...</p>
       </main>
@@ -82,7 +82,7 @@ export default function BlogPage() {
 
       {/* More from DeMISTify Section */}
       <div className="blog-grid-section mt-12 max-w-[1050px] mx-auto px-8">
-        <h3 className="text-black text-2xl font-semibold mb-6 tracking-[-3%]">
+        <h3 className="text-2xl font-semibold mb-6 tracking-[-3%]" style={{color: 'var(--foreground)'}}>
           More from DeMISTify
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -96,11 +96,11 @@ export default function BlogPage() {
       <div className="blog-archive-section mt-16 max-w-[1050px] mx-auto px-8 mb-16">
         <div className="flex flex-col items-center mb-8">
           {/* Archive Title */}
-          <h3 className="text-black text-2xl font-semibold mb-2 tracking-[-3%]">
+          <h3 className="text-2xl font-semibold mb-2 tracking-[-3%]" style={{color: 'var(--foreground)'}}>
             Search Our Archive
           </h3>
           {/* Archive Description */}
-          <p className="text-gray-600 text-base sm:text-lg mb-4">Find more articles from our technical content series</p>
+          <p className="text-base sm:text-lg mb-4" style={{color: 'var(--muted-foreground)'}}>Find more articles from our technical content series</p>
           {/* Search Bar */}
           <div className="search-bar-container">
             <input
@@ -114,7 +114,7 @@ export default function BlogPage() {
           </div>
         </div>
         {/* Archive List */}
-        <div className="bg-white rounded-xl p-4 sm:p-5 border border-gray-200 shadow-sm relative">
+        <div className="rounded-xl p-4 sm:p-5 border shadow-sm relative" style={{backgroundColor: 'var(--card)', borderColor: 'var(--border)'}}>
           <div
             ref={scrollContainerRef}
             onScroll={handleScroll}
@@ -130,15 +130,15 @@ export default function BlogPage() {
               />
             ))}
             {filteredArchive.length === 0 && (
-              <p className="text-center text-gray-500 py-4">
+              <p className="text-center py-4" style={{color: 'var(--muted-foreground)'}}>
                 No articles found matching your search.
               </p>
             )}
           </div>
           {/* Show more button */}
           {filteredArchive.length > 4 && !isAtBottom && (
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 sm:hidden bg-white/80 backdrop-blur rounded-full p-1 shadow-sm animate-bounce flex items-center justify-center w-7 h-7">
-              <ChevronDown className="w-5 h-5 text-gray-500" />
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 sm:hidden backdrop-blur rounded-full p-1 shadow-sm animate-bounce flex items-center justify-center w-7 h-7" style={{backgroundColor: 'var(--background)/80'}}>
+              <ChevronDown className="w-5 h-5" style={{color: 'var(--muted-foreground)'}} />
             </div>
           )}
         </div>

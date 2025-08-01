@@ -39,7 +39,7 @@ const PhotosGrid = () => {
         return (
           <div
             key={idx}
-            className={`flex items-center justify-center overflow-hidden bg-white p-2 border border-gray-200 shadow-md rounded-xl`}
+            className={`flex items-center justify-center overflow-hidden bg-white dark:bg-gray-800 p-2 border border-gray-200 dark:border-blue-800 shadow-md rounded-xl`}
           >
             <Image
               src={img}
@@ -68,8 +68,8 @@ const HeroSection = () => {
 const HeroIntroductionSection = () => {
   return (
     <div className="flex flex-col gap-2 text-center">
-      <h1 className="font-bold text-2xl md:text-3xl">MISTic R&D</h1>
-      <p className="m-0 leading-snug text-center text-sm md:text-base text-gray-700">
+      <h1 className="font-bold text-2xl md:text-3xl text-foreground">MISTic R&D</h1>
+      <p className="m-0 leading-snug text-center text-sm md:text-base text-foreground" style={{fontFamily: 'var(--system-font)'}}>
         <span className="block">
           Building an AI startup? Join MISTic R&D, 
         </span>
@@ -90,7 +90,7 @@ const HeroIntroductionSection = () => {
         >
           Apply
         </Link>
-        <p className="text-xs text-gray-500 text-center mt-1">
+        <p className="text-xs text-gray-600 dark:text-gray-400 text-center mt-1" style={{fontFamily: 'var(--system-font)'}}>
           <span className="block">Applications close</span>
           <span className="block">Sept 31st</span>
         </p>
@@ -104,10 +104,10 @@ const HeroStartupSection = () => {
     <div className="flex flex-col md:flex-row text-center items-center w-full max-w-6xl mx-auto">
       {/* Left: Title & Description, fully centered vertically, left-aligned text */}
       <div className="w-full md:w-1/2 flex flex-col justify-center text-center mb-3 md:mb-0">
-        <h2 className="font-bold text-xl md:text-2xl mb-2">
+        <h2 className="font-bold text-xl md:text-2xl mb-2 text-foreground">
           Startups @ UTMIST
         </h2>
-        <p className="text-sm md:text-base text-gray-700">
+        <p className="text-sm md:text-base text-foreground" style={{fontFamily: 'var(--system-font)'}}>
           Build your AI startup without putting school on hold. Join the Startup
           Department @ UTMIST to turn your AI ideas into reality with
           mentorship, workshops, and a flexible, student-friendly structure.

@@ -36,11 +36,11 @@ export const ProjectCarousel = ({ projects }: { projects: Project[] }) => {
   
     return (
       <div className="relative w-[80%] max-w-[1000px] mx-auto px-2 sm:px-8 py-8 overflow-visible">
-        {/* Left fade gradient */}
-        {showLeftArrow && (
+        {/* Left fade gradient (doesn't work well in dark mode)*/}
+        {/* {showLeftArrow && (
           <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 sm:w-16 z-10 bg-gradient-to-r from-white/90 dark:from-gray-900/90 to-transparent"></div>
-        )}
-  
+        )} */}
+
         {/* Left Navigation Button */}
         {showLeftArrow && (
           <button
@@ -73,11 +73,11 @@ export const ProjectCarousel = ({ projects }: { projects: Project[] }) => {
           ))}
         </div>
   
-        {/* Right fade gradient */}
-        {showRightArrow && (
+        {/* Right fade gradient (doesn't work well in dark mode)*/}
+        {/* {showRightArrow && (
           <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 sm:w-16 z-10 bg-gradient-to-l from-white/90 dark:from-gray-900/90 to-transparent"></div>
-        )}
-  
+        )} */}
+
         {/* Right Navigation Button */}
         {showRightArrow && (
           <button
