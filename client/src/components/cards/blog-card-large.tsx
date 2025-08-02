@@ -5,7 +5,7 @@ import dummy from "@/assets/photos/fibseq.webp";
 export default function BlogCardLarge({ title, date, author, image, url }: EventCardProps) {
   return (
     <a href={url} target="_blank" rel="noopener noreferrer">
-      <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden h-[360px] sm:h-[484px] lg:h-[544px] flex flex-col">
+      <div className="rounded-lg border shadow-sm overflow-hidden h-[360px] sm:h-[484px] lg:h-[544px] flex flex-col" style={{backgroundColor: 'var(--card)', borderColor: 'var(--border)'}}>
         <div className="relative w-full flex-1">
         {
           image ? (
@@ -30,10 +30,10 @@ export default function BlogCardLarge({ title, date, author, image, url }: Event
             {title}
           </h3>
           <div className="mt-auto">
-            <p className="text-gray-600 text-sm sm:text-base">
+            <p className="text-sm sm:text-base" style={{color: 'var(--muted-foreground)'}}>
               {date}
             </p>
-            <p className="text-gray-600 text-sm sm:text-base">
+            <p className="text-sm sm:text-base" style={{color: 'var(--muted-foreground)'}}>
               {author}
             </p>
           </div>

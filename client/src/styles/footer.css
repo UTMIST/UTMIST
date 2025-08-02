@@ -24,13 +24,21 @@
     width: 35px; 
     height: 35px; 
     padding: 0.5rem;
-    background-color: var(--gray3); 
+    background-color: var(--border); 
     border-radius: 50%;
     transition: background-color 0.3s ease;
 }
 
+.dark .footer-logo-container {
+    background-color: white;
+}
+
 .footer-logo-container:hover {
-    background-color: var(--gray2, #8a8a8a);
+    background-color: var(--card);
+}
+
+.dark .footer-logo-container:hover {
+    background-color: rgba(255, 255, 255, 0.666);
 }
 
 .bug-report-container {
@@ -40,13 +48,13 @@
 
 .bug-report-link {
     font-size: 0.75rem;
-    color: #5C5C5C;
+    color: var(--muted-foreground);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .bug-report-link:hover {
-    color: #8a8a8a;
+    color: var(--foreground);
 }
 
 .footer-line {

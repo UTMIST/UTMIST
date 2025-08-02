@@ -18,7 +18,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ title, subtitle }) => (
     >
       {title}
     </h2>
-    <p className="text-base font-extralight text-[#111827] font-sans max-w-[768px] mx-auto mb-4 px-8">
+    <p className="text-base font-extralight font-sans max-w-[768px] mx-auto mb-4 px-8" style={{color: 'var(--foreground)'}}>
       {subtitle}
     </p>
   </div>

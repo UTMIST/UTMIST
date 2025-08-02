@@ -48,7 +48,7 @@
   font-weight: 200;
   transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
   background: var(--gradient-b2);
-  color: white;
+  color: var(--primary);
   border-radius: 10px;
   padding: 0.2rem 1.4rem;
   cursor: pointer;
@@ -85,14 +85,14 @@
     left: 0;
     right: 0;
     z-index: 999;
-    background: white;
+    background: var(--background);
     padding: 1rem 2rem;
     max-width: 1000px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    border-top: 1px solid var(--gray3);
+    border-top: 1px solid var(--border);
     animation: fadeIn 0.2s ease-in-out;
   }
 }
@@ -116,8 +116,8 @@
   max-width: 1000px;
   margin: 2.5rem auto;
   border-radius: 9999px;
-  border: 1px solid var(--gray3);
-  background-color: white;
+  border: 1px solid var(--border);
+  background-color: var(--background);
   position: relative;
   z-index: 10;
 }
@@ -140,12 +140,12 @@
 }
 
 .mobile-dropdown {
-  color: #000000;
+  color: var(--foreground);
   position: fixed;
   top: 60px;
   left: 0;
   right: 0;
-  background: white;
+  background: var(--background);
   padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
