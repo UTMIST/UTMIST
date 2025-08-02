@@ -4,19 +4,19 @@ import "../styles/home.css";
 const StartupsSection = () => {
     return (
         <section className="py-16 md:py-24" style={{ fontFamily: 'var(--system-font)' }}>
-            <div className="max-w-7xl mx-auto px-4 md:px-16">
+            <div className="max-w-6xl mx-auto px-4 md:px-16">
                 {/* Header */}
-                <div className="text-center mb-12 md:mb-16">
-                    <h2 className="hero-card-title mb-6" style={{ fontFamily: 'var(--system-font)' }}>
-                        MISTic R&D
-                    </h2>
-                    <p className="text-lg leading-7 text-gray-600 font-sans mb-8 text-center w-full" style={{ fontFamily: 'var(--system-font)' }}>
+                <div className="text-center mb-10 md:mb-12">
+                                            <h2 className="hero-card-title mb-4" style={{ fontFamily: 'var(--system-font)' }}>
+                            MISTic R&D
+                        </h2>
+                        <p className="text-lg leading-7 text-gray-600 font-sans mb-6 text-center w-full" style={{ fontFamily: 'var(--system-font)' }}>
                         Building an AI startup? Join MISTic R&D, the incubator where ambitious founders find funding, users, cofounders, and an unstoppable community of builders. Let&apos;s turn your idea into impact.
                     </p>
                 </div>
 
                 {/* Features Grid */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12" >
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10" >
                     <div className="bg-white rounded-xl p-6 shadow-lg border border-blue-100" >
                         <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
                             <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -60,7 +60,7 @@ const StartupsSection = () => {
 
                 {/* Call to Action Section */}
                 <div className="text-center shadow-lg">
-                    <div className="bg-white shadow-lg border border-blue-100 rounded-2xl p-6 md:p-12">
+                    <div className="bg-white shadow-lg border border-blue-100 rounded-2xl p-6 md:p-8">
                         <h3 className="hero-card-title font-bold mb-4" style={{ fontFamily: 'var(--system-font)' }}>
                             Ready to Build the Future?
                         </h3>
