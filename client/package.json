@@ -14,8 +14,6 @@
     "test:integration": "jest tests/integration"
   },
   "dependencies": {
-    "@supabase/ssr": "^0.6.1",
-    "@supabase/supabase-js": "^2.50.0",
     "@heroicons/react": "^2.2.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.50.0",
@@ -26,6 +24,7 @@
     "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.5.2",
     "react-intersection-observer": "^9.16.0",
     "sharp": "^0.34.2",
     "swiper": "^11.2.6",

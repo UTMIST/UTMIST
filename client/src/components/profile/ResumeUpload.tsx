@@ -16,15 +16,18 @@ export default function ResumeUpload({
 }: ResumeUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [resumeExists, setResumeExists] = useState(false);
+  const [resumeUrl, setResumeUrl] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const checkResumeExists = async () => {
-      const exists = await getFile(`profile/${userId}/resume`);
-      setResumeExists(exists !== null);
-      onResumeChange?.(exists !== null);
+      const url = await getFile(`${userId}/resume`, {
+        bucketName: "private-website",
+        isPublic: false,
+      });
+      setResumeUrl(url);
+      onResumeChange?.(url !== null);
     };
 
     if (userId) {
@@ -50,7 +53,7 @@ export default function ResumeUpload({
     setSuccess(null);
 
     try {
-      const filePath = `profile/${userId}/resume`;
+      const filePath = `${userId}/resume`;
       const result = await uploadFile(file, filePath, {
         allowedTypes: [
           "application/pdf",
@@ -59,11 +62,13 @@ export default function ResumeUpload({
         ],
         maxSize: 10 * 1024 * 1024, // 10MB
         updateUserProfile: false,
+        bucketName: "private-website",
+        isPublic: false,
       });
 
       if (result.success) {
         setSuccess("Resume uploaded successfully!");
-        setResumeExists(true);
+        setResumeUrl(result.url || null);
         onResumeChange?.(true);
       } else {
         setError(result.error || "Upload failed");
@@ -76,18 +81,11 @@ export default function ResumeUpload({
     }
   };
 
-  const handleViewResume = async () => {
-    try {
-      const filePath = `profile/${userId}/resume`;
-      const url = await getFile(filePath);
-      if (url) {
-        window.open(url, "_blank");
-      } else {
-        setError("Resume not found");
-      }
-    } catch (error) {
-      console.error("Error getting resume URL:", error);
-      setError("Failed to view resume");
+  const handleViewResume = () => {
+    if (resumeUrl) {
+      window.open(resumeUrl, "_blank");
+    } else {
+      setError("Resume not found");
     }
   };
 
@@ -113,7 +111,7 @@ export default function ResumeUpload({
               />
             </svg>
             <div className="mt-4">
-              {resumeExists ? (
+              {resumeUrl ? (
                 <div className="space-y-2">
                   <p className="text-sm text-green-600 font-medium">
                     ✓ Resume uploaded

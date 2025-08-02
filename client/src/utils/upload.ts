@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import toast from "react-hot-toast";
 
 export interface UploadResult {
   success: boolean;
@@ -13,6 +14,8 @@ export const uploadFile = async (
     allowedTypes?: string[];
     maxSize?: number;
     updateUserProfile?: boolean;
+    bucketName?: string;
+    isPublic?: boolean;
   }
 ): Promise<UploadResult> => {
   try {
@@ -20,6 +23,8 @@ export const uploadFile = async (
       allowedTypes,
       maxSize = 5 * 1024 * 1024,
       updateUserProfile = false,
+      bucketName = "utmist-website",
+      isPublic = true,
     } = options || {};
 
     // Validate file type if specified
@@ -46,7 +51,7 @@ export const uploadFile = async (
     // Upload file to Supabase storage
     console.log("Uploading file to:", filePath);
     const { error, data } = await supabase.storage
-      .from("utmist-website")
+      .from(bucketName)
       .upload(filePath, file, {
         cacheControl: "3600",
         upsert: true,
@@ -60,8 +65,9 @@ export const uploadFile = async (
       };
     }
     const { data: publicURL } = supabase.storage
-      .from("utmist-website")
+      .from(bucketName)
       .getPublicUrl(filePath);
+    toast("Success! It might take a while before your changes are reflected.");
     return {
       success: true,
       url: publicURL.publicUrl,
@@ -75,10 +81,18 @@ export const uploadFile = async (
   }
 };
 
-export const deleteFile = async (filePath: string): Promise<boolean> => {
+export const deleteFile = async (
+  filePath: string,
+  options?: {
+    bucketName?: string;
+    isPublic?: boolean;
+  }
+): Promise<boolean> => {
   try {
+    console.log("Deleting file:", filePath);
+    const { bucketName = "utmist-website" } = options || {};
     const { error: deleteError } = await supabase.storage
-      .from("utmist-website")
+      .from(bucketName)
       .remove([filePath]);
 
     if (deleteError) {
@@ -93,10 +107,26 @@ export const deleteFile = async (filePath: string): Promise<boolean> => {
   }
 };
 
-export const getFile = async (filePath: string): Promise<string | null> => {
+export const getFile = async (
+  filePath: string,
+  options?: {
+    bucketName?: string;
+    isPublic?: boolean;
+  }
+): Promise<string | null> => {
   try {
+    const { bucketName = "utmist-website", isPublic = true } = options || {};
+    console.log("Getting file from:", filePath);
+
+    if (isPublic) {
+      const { data: publicURL } = supabase.storage
+        .from(bucketName)
+        .getPublicUrl(filePath);
+      return publicURL.publicUrl;
+    }
+
     const { data: urlData, error: urlError } = await supabase.storage
-      .from("utmist-website")
+      .from(bucketName)
       .createSignedUrl(filePath, 3600);
 
     if (urlError) {
@@ -109,9 +139,4 @@ export const getFile = async (filePath: string): Promise<string | null> => {
     console.error("Get file URL error:", error);
     return null;
   }
-};
-
-export const getFileUrl = async (filePath: string): Promise<string | null> => {
-  const url = await getFile(filePath);
-  return url;
 };
