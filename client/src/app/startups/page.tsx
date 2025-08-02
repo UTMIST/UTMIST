@@ -110,7 +110,7 @@ const HeroStartupSection = () => {
   return (
     <div className="flex flex-col md:flex-row text-center items-center w-full max-w-6xl mx-auto" >
       {/* Left: Title & Description, fully centered vertically, left-aligned text */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center text-center mb-3 md:mb-0 p-4 md:p-8">
+      <div className="w-full md:w-1/2 flex flex-col justify-center text-center mb-3 md:mb-0 p-6 md:p-12">
         <h2 
           className="font-bold text-xl md:text-2xl mb-2"
           style={{
@@ -325,7 +325,7 @@ const HeroStartupSection = () => {
 
 const StartupsPage = () => {
   return (
-    <main className="pt-16 md:pt-10 px-4 md:px-16">
+    <main className="pt-16 md:pt-10 px-6 md:px-20">
       <HeroSection />
       {/* <div>
         <div className="mt-8 md:mt-12">
