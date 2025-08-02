@@ -38,19 +38,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <head>
         <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                  document.documentElement.classList.add('dark')
-                } else {
-                  document.documentElement.classList.remove('dark')
-                }
-              } catch (_) {}
-            `,
-          }}
-        />
-        <script
           defer
           src="https://cloud.umami.is/script.js"
           data-website-id="b8823fc7-2a15-4942-af06-bf179b7fac1a"
@@ -63,11 +50,7 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="system"
           enableSystem
-          disableTransitionOnChange={false}
-          storageKey="theme"
-          themes={['light', 'dark']}
-          nonce={undefined}
-          enableColorScheme={false}
+          disableTransitionOnChange
         >
           <Navbar />
           {children}
