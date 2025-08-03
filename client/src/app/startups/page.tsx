@@ -68,9 +68,12 @@ const HeroSection = () => {
 const HeroIntroductionSection = () => {
   return (
     <div className="flex flex-col gap-2 text-center">
-      <h1 
-        className="font-bold text-2xl md:text-3xl"
+      <h1
+        className="text-5xl font-bold mb-2 bg-clip-text text-transparent leading-[1.5]"
         style={{
+          background: "var(--gradient-bl1)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
           fontFamily: "var(--system-font)",
         }}
       >
