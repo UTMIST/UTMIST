@@ -115,9 +115,12 @@ const HeroStartupSection = () => {
       {/* Left: Title & Description, fully centered vertically, left-aligned text */}
       <div className="w-full md:w-1/2 flex flex-col justify-center text-center mb-3 md:mb-0 p-6 md:p-12">
         <h2 
-          className="font-bold text-xl md:text-2xl mb-2"
+          className="text-2xl text-center mb-2 font-bold bg-clip-text text-transparent"
           style={{
-            fontFamily: "var(--system-font)",
+            background: "var(--gradient-bl1)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            fontFamily: "var(--system-font)", 
           }}
         >
           Startups @ UTMIST
