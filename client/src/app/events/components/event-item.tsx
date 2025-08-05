@@ -49,7 +49,6 @@ export function EventItem({ event, isPassed }: { event: Event, isPassed: boolean
       {/* Header section - always visible */}
       <div 
         className="p-4 flex flex-col sm:flex-row sm:items-center justify-between transition-colors sm:gap-4"
-        style={{'&:hover': {backgroundColor: 'var(--accent)'}}}
         onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--accent)'}
         onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
       >
