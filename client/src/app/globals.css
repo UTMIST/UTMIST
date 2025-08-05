@@ -10,8 +10,35 @@
   --gray2: #a6a6a6;
   --gray3: #d9d9d9;
   --gray4: #5c5c5c;
+  --background: #ffffff;
+  --foreground: #000000;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --border: #d9d9d9;
+  --muted: #f8f9fa;
+  --muted-foreground: #6c757d;
+  --accent: #f8f9fa;
+  --accent-foreground: #000000;
   --system-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.dark {
+  --primary: #000000;
+  --secondary: #4f46e5;
+  --gray1: #a1a1a1;
+  --gray2: #6b7280;
+  --gray3: #374151;
+  --gray4: #9ca3af;
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --card: #1a1a1a;
+  --card-foreground: #ffffff;
+  --border: #374151;
+  --muted: #1f2937;
+  --muted-foreground: #9ca3af;
+  --accent: #1f2937;
+  --accent-foreground: #ffffff;
 }
 
 h1,
@@ -27,17 +54,11 @@ h3 {
   --color-secondary: var(--secondary);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --background: #ffffff;
-    --foreground: #0000000;
-  }
-}
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--muted-foreground);
+  font-family: var(--system-font)
 }
 
 html {

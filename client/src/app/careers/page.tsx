@@ -96,7 +96,7 @@ export default function CareersPage() {
             marginBottom: '2rem',
             fontWeight: 400,
             fontStyle: 'italic',
-            color: '#555',
+            color: 'var(--muted-foreground)',
             fontSize: '1.1rem',
             letterSpacing: '0.01em',
             lineHeight: 1.5

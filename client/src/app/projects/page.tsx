@@ -82,15 +82,16 @@ export default function ProjectsPage() {
       })}
 
       <section className="flex flex-col items-center py-16 px-4">
-        <h2 className="text-3xl font-bold relative text-center text-gray-900">See All Projects</h2>
-        <p className="mt-2 text-base text-[#333] text-center">
+        <h2 className="text-3xl font-bold relative text-center" style={{color: 'var(--foreground)'}}>See All Projects</h2>
+        <p className="mt-2 text-base text-center" style={{color: 'var(--muted-foreground)'}}>
           Browse all of our AI and ML projects developed by our students
         </p>
 
-        <div className="mt-8 flex items-center rounded-full px-4 py-2 w-80 max-w-full bg-white border border-gray-200 relative">
+        <div className="mt-8 flex items-center rounded-full px-4 py-2 w-80 max-w-full border relative" style={{backgroundColor: 'var(--background)', borderColor: 'var(--border)'}}>
           <input
             type="text"
-            className="flex-1 border-none outline-none text-base bg-transparent text-black"
+            className="flex-1 border-none outline-none text-base bg-transparent"
+            style={{color: 'var(--foreground)'}}
             placeholder="Search projects..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -108,12 +109,13 @@ export default function ProjectsPage() {
               className="
                 relative
                 w-[130px] h-[200px] sm:w-[220px] sm:h-[320px] md:w-[280px] md:h-[380px]
-                rounded-[13px] p-2 sm:p-6 md:p-8 bg-white border border-gray-200 overflow-hidden
+                rounded-[13px] p-2 sm:p-6 md:p-8 border overflow-hidden
                 flex flex-col justify-between
                 transition-transform duration-300 ease-in-out
                 hover:-translate-y-1 hover:shadow-lg cursor-pointer mx-0
                 no-underline
               "
+              style={{backgroundColor: 'var(--card)', borderColor: 'var(--border)'}}
             >
               <div className="mb-2 sm:mb-4 rounded-lg overflow-hidden">
                 <Image
@@ -126,15 +128,15 @@ export default function ProjectsPage() {
                 />
               </div>
               <div className="mt-0">
-                <h2 className="font-bold font-sans leading-5 text-gray-900 text-xs sm:text-sm md:text-base">
+                <h2 className="font-bold font-sans leading-5 text-xs sm:text-sm md:text-base" style={{color: 'var(--foreground)'}}>
                   {card.title}
                 </h2>
-                <p className="text-gray-500 font-sans font-normal text-[8px] sm:text-xs md:text-sm leading-4 line-clamp-3 sm:line-clamp-3 md:line-clamp-4">
+                <p className="font-sans font-normal text-[8px] sm:text-xs md:text-sm leading-4 line-clamp-3 sm:line-clamp-3 md:line-clamp-4" style={{color: 'var(--muted-foreground)'}}>
                   {card.description}
                 </p>
               </div>
               {card.github && (
-                <div className="mt-2 hidden sm:inline-flex items-center gap-4 text-gray-900 no-underline font-sans font-medium text-xs sm:text-sm">
+                <div className="mt-2 hidden sm:inline-flex items-center gap-4 no-underline font-sans font-medium text-xs sm:text-sm" style={{color: 'var(--foreground)'}}>
                   <Image
                     src={githubIcon}
                     alt="GitHub Icon"
