@@ -79,7 +79,7 @@ const HeroIntroductionSection = () => {
       >
         MISTic R&D
       </h1>
-      <p className="m-0 leading-snug text-center text-sm md:text-base text-gray-700 font-sans">
+      <p className="m-0 leading-snug text-center text-sm md:text-base font-sans">
         <span className="block">
           Building an AI startup? Join MISTic R&D, 
         </span>
@@ -125,7 +125,7 @@ const HeroStartupSection = () => {
         >
           Startups @ UTMIST
         </h2>
-        <p className="text-sm md:text-base text-gray-700 font-sans">
+        <p className="text-sm md:text-base font-sans">
           Build your AI startup without putting school on hold. Join the Startup
           Department @ UTMIST to turn your AI ideas into reality with
           mentorship, workshops, and a flexible, student-friendly structure.

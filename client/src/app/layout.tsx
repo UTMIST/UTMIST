@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
+import { FloatingThemeToggle } from "@/components/floating-theme-toggle";
 import { Roboto, Space_Grotesk } from "next/font/google";
 
 // Importing fonts from Google Fonts
@@ -55,6 +56,7 @@ export default function RootLayout({
           <Navbar />
           {children}
           <Footer />
+          <FloatingThemeToggle />
         </ThemeProvider>
       </body>
     </html>
