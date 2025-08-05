@@ -130,6 +130,11 @@
   right: 0;
 }
 
+.mobile-navbar-container {
+  background: var(--background);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .mobile-overlay {
   position: fixed;
   top: 0;

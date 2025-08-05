@@ -71,7 +71,7 @@ export default function Navbar() {
       </nav>
 
       <nav className="mobile-navbar">
-        <div className="flex justify-between items-center px-4 py-3 bg-white dark:bg-gray-900 shadow-md fixed top-0 left-0 right-0 z-50">
+        <div className="flex justify-between items-center px-4 py-3 mobile-navbar-container fixed top-0 left-0 right-0 z-50">
           <Link href="/" passHref>
             <div className="flex items-center space-x-2 cursor-pointer">
               <Image src={logo} alt="UTMIST Logo" width={32} height={32} />
