@@ -127,20 +127,20 @@ export default function AI2Page() {
     </section>
     <section className="py-10 md:py-20">
     <h2 className="timeline-section-title text-xl md:text-2xl text-center md:text-right mb-6">Timeline</h2>
-    <div className="flex flex-col gap-6 md:gap-12 items-center md:items-end justify-end px-4 md:px-8">
-      <div className="w-full md:w-[100%] rounded-xl bg-gradient-to-r from-blue-200 via-purple-400 to-blue-800 p-4 md:p-8">
-        <div className="text-lg md:text-3xl font-bold text-white text-right mb-2">October 25: Kickoff</div>
-        <div className="text-base md:text-lg text-white text-right">A day of workshops and guest speakers</div>
-      </div>
-      <div className="w-full md:w-[70%] rounded-xl bg-gradient-to-r from-blue-200 via-purple-400 to-blue-800 p-4 md:p-8">
-        <div className="text-lg md:text-3xl font-bold text-white text-right mb-2">October 25 -- November 1</div>
-        <div className="text-base md:text-lg text-white text-right">Build and train your agent, fight other opponents</div>
-      </div>
-      <div className="w-full md:w-[50%] rounded-xl bg-gradient-to-r from-blue-200 via-purple-400 to-blue-800 p-4 md:p-8">
-        <div className="text-lg md:text-3xl font-bold text-white text-right mb-2">November 2</div>
-        <div className="text-base md:text-lg text-white text-right">Watch the top teams battle it out in the bracket</div>
-      </div>
+    <div className="max-w-4xl mx-auto flex flex-col gap-6 md:gap-12 items-center md:items-end justify-end px-4 md:px-8">
+    <div className="timeline-card delay-1 w-full md:w-[100%] rounded-xl bg-gradient-to-r from-blue-200 via-purple-400 to-blue-800 p-4 md:p-8">
+      <div className="text-lg md:text-3xl font-bold text-white text-right mb-2">October 25: Kickoff</div>
+      <div className="text-base md:text-lg text-white text-right">A day of workshops and guest speakers</div>
     </div>
+    <div className="timeline-card delay-2 w-full md:w-[80%] rounded-xl bg-gradient-to-r from-blue-200 via-purple-400 to-blue-800 p-4 md:p-8">
+      <div className="text-lg md:text-3xl font-bold text-white text-right mb-2">October 25 -- November 1</div>
+      <div className="text-base md:text-lg text-white text-right">Build and train your agent, fight other opponents</div>
+    </div>
+    <div className="timeline-card delay-3 w-full md:w-[60%] rounded-xl bg-gradient-to-r from-blue-200 via-purple-400 to-blue-800 p-4 md:p-8">
+      <div className="text-lg md:text-3xl font-bold text-white text-right mb-2">November 2</div>
+      <div className="text-base md:text-lg text-white text-right">Watch the top teams battle it out in the bracket</div>
+    </div>
+  </div>
   </section>
     <section>
     <h2 className="highlight-battles-title text-xl md:text-2xl text-center mb-6">Highlight Battles</h2>

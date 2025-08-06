@@ -204,8 +204,7 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     font-family: var(--system-font);
-    text-align: right;
-    margin-right: 250px;
+    text-align: center;
 }    
 
 /* Highlight Battles Section */
@@ -344,3 +343,23 @@
 
 
 }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.timeline-card {
+  opacity: 0;
+  animation: fadeInUp 0.7s forwards;
+}
+
+.timeline-card.delay-1 { animation-delay: 0.2s; }
+.timeline-card.delay-2 { animation-delay: 0.5s; }
+.timeline-card.delay-3 { animation-delay: 0.8s; }
