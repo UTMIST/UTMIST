@@ -7,6 +7,9 @@ import ai2_demo from "@/assets/photos/ai2_demo.png";
 import cube from "@/assets/photos/cube.gif";
 import faces from "@/assets/photos/faces.png";
 import weapon from "@/assets/photos/weapon.gif";
+import new_weapons from "@/assets/photos/new_weapons.png";
+import interactive_environment from "@/assets/photos/interactive_environment.png";
+import better_customization from "@/assets/photos/more_customization.png";
 // import slider from "@/components/slider/slider";
 import Slider from "@/components/slider/slider";
 import img1 from "@/assets/photos/slider/img1.png";
@@ -117,9 +120,9 @@ export default function AI2Page() {
     <section className="mt-30">
       <h2 className="whats-new-title">What's New</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-40 p-8 bg-gradient-to-b min-h-screen max-w-5xl mx-auto justify-items-center">
-      <AI2Card title="New Weapons" description="Exciting new weapons to try!" image={weapon.src} />
-      <AI2Card title="Interactive Environment" description="Engage with dynamic environments!" image={faces.src} />
-      <AI2Card title="Better Customization" description="Personalize your agent like never before!" image={faces.src} />
+      <AI2Card title="New Weapons" description="Exciting new weapons to try!" image={new_weapons.src} />
+      <AI2Card title="Interactive Environment" description="Engage with dynamic environments!" image={interactive_environment.src} />
+      <AI2Card title="Better Customization" description="Personalize your agent like never before!" image={better_customization.src} />
     </div>
     </section>
     <section className="py-10 md:py-20">
