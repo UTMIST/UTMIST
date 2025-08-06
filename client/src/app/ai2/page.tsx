@@ -129,16 +129,16 @@ export default function AI2Page() {
     <h2 className="timeline-section-title text-xl md:text-2xl text-center md:text-right mb-6">Timeline</h2>
     <div className="flex flex-col gap-6 md:gap-12 items-center md:items-end justify-end px-4 md:px-8">
       <div className="w-full md:w-[100%] rounded-xl bg-gradient-to-r from-blue-200 via-purple-400 to-blue-800 p-4 md:p-8">
-        <div className="text-lg md:text-3xl font-bold text-white text-right mb-2">Day 1: Kickoff</div>
-        <div className="text-base md:text-lg text-white text-right">Start building your RL agent!</div>
+        <div className="text-lg md:text-3xl font-bold text-white text-right mb-2">October 25: Kickoff</div>
+        <div className="text-base md:text-lg text-white text-right">A day of workshops and guest speakers</div>
       </div>
       <div className="w-full md:w-[70%] rounded-xl bg-gradient-to-r from-blue-200 via-purple-400 to-blue-800 p-4 md:p-8">
-        <div className="text-lg md:text-3xl font-bold text-white text-right mb-2">Day 2-4: Code Submissions Open</div>
-        <div className="text-base md:text-lg text-white text-right">Start building your RL agent!</div>
+        <div className="text-lg md:text-3xl font-bold text-white text-right mb-2">October 25 -- November 1</div>
+        <div className="text-base md:text-lg text-white text-right">Build and train your agent, fight other opponents</div>
       </div>
       <div className="w-full md:w-[50%] rounded-xl bg-gradient-to-r from-blue-200 via-purple-400 to-blue-800 p-4 md:p-8">
-        <div className="text-lg md:text-3xl font-bold text-white text-right mb-2">Day 3: Final Showdown</div>
-        <div className="text-base md:text-lg text-white text-right">Agents go 1v1 in an elimination bracket until the ultimate champion is crowned!</div>
+        <div className="text-lg md:text-3xl font-bold text-white text-right mb-2">November 2</div>
+        <div className="text-base md:text-lg text-white text-right">Watch the top teams battle it out in the bracket</div>
       </div>
     </div>
   </section>
