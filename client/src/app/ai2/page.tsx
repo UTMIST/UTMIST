@@ -4,23 +4,23 @@ import { AI2Card } from "@/components/ai2-cards";
 import SpeakersGrid from "@/components/speakers";
 
 import * as ai2Assets from "@/assets/photos/ai2";
-import * as specialThanksPhotos from "@/assets/photos/headshots";
+import * as headshots from "@/assets/photos/ai2/headshots";
 
 const specialThanks = [
-  { name: "Andrew", role: "Engineer @ UofT", profileURL: "", profileImage: specialThanksPhotos.andrew },
-  { name: "Doge Baskan", role: "Organizer", profileURL: "", profileImage: specialThanksPhotos.doga },
-  { name: "Kaden Seto", role: "Organizer", profileURL: "", profileImage: specialThanksPhotos.kaden },
-  { name: "Martin Tin", role: "Organizer", profileURL: "", profileImage: specialThanksPhotos.martin },
-  { name: "Matthew Tamura", role: "Organizer", profileURL: "", profileImage: specialThanksPhotos.matthew },
+  { name: "Andrew", role: "Engineer @ UofT", profileURL: "", profileImage: headshots.andrew },
+  { name: "Doga Baskan", role: "Organizer", profileURL: "", profileImage: headshots.doga },
+  { name: "Kaden Seto", role: "Organizer", profileURL: "", profileImage: headshots.kaden },
+  { name: "Martin Tin", role: "Organizer", profileURL: "", profileImage: headshots.martin },
+  { name: "Matthew Tamura", role: "Organizer", profileURL: "", profileImage: headshots.matthew },
 ];
 
-const howItWorksSteps = [
+const aiSquaredDetails = [
   { title: "Explore the realm of RL", text: "Help shape the future of AI and ML at UTMIST" },
   { title: "Train your own agent", text: "Help shape the future of AI and ML at UTMIST" },
   { title: "Battle with other opponents", text: "Help shape the future of AI and ML at UTMIST" },
 ];
 
-const whatsNewCards = [
+const newFeatures = [
   { title: "New Weapons", desc: "Exciting new weapons to try!", img: ai2Assets.new_weapons.src },
   { title: "Interactive Environment", desc: "Engage with dynamic environments!", img: ai2Assets.interactive_environment.src },
   { title: "Better Customization", desc: "Personalize your agent like never before!", img: ai2Assets.better_customization.src },
@@ -68,7 +68,7 @@ export default function AI2Page() {
 
         {/* How It Works Section */}
         <section className="how-it-works-section">
-          {howItWorksSteps.map((step, i) => (
+          {aiSquaredDetails.map((step, i) => (
             <div className="flex items-center mb-8 last:mb-0" key={i}>
               <img src={ai2Assets.cube.src} alt="Cube" className="w-24 h-24 mr-8" />
               <div>
@@ -83,7 +83,7 @@ export default function AI2Page() {
         <section className="mt-30">
           <h2 className="whats-new-title">What's New</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-40 p-8 bg-gradient-to-b min-h-screen max-w-5xl mx-auto justify-items-center">
-            {whatsNewCards.map((card, i) => (
+            {newFeatures.map((card, i) => (
               <AI2Card key={i} title={card.title} description={card.desc} image={card.img} />
             ))}
           </div>
