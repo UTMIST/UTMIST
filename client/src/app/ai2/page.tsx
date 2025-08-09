@@ -82,7 +82,7 @@ export default function AI2Page() {
 
         {/* What's New Section */}
         <section className="mt-30">
-          <h2 className="whats-new-title">What's New</h2>
+          <h2 className="whats-new-title">What&apos;s New</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-40 p-8 bg-gradient-to-b min-h-screen max-w-5xl mx-auto justify-items-center">
             {newFeatures.map((card, i) => (
               <AI2Card key={i} title={card.title} description={card.desc} image={card.img} />
