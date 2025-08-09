@@ -17,9 +17,9 @@ const specialThanks = [
 ];
 
 const aiSquaredDetails = [
-  { title: "Explore the realm of RL", text: "Explore RL policies and algorithms to see how each behaves in-game." },
-  { title: "Train your own agent", text: "Train your agent by tuning rewards and hyperparameters to optimize your strategy." },
-  { title: "Battle with other opponents", text: "Battle other agents, observe diverse play styles, and iterate on your approach." },
+  { image: ai2Assets.cube_1.src, title: "Explore the realm of RL", text: "Explore RL policies and algorithms to see how each behaves in-game." },
+  { image: ai2Assets.cube_2.src, title: "Train your own agent", text: "Train your agent by tuning rewards and hyperparameters to optimize your strategy." },
+  { image: ai2Assets.cube_3.src, title: "Battle with other opponents", text: "Battle other agents, observe diverse play styles, and iterate on your approach." },
 ];
 
 const newFeatures = [
@@ -84,8 +84,14 @@ export default function AI2Page() {
         <section className="how-it-works-section">
           {aiSquaredDetails.map((step, i) => (
             <div className="flex items-center mb-8 last:mb-0" key={i}>
-              <Image src={ai2Assets.cube.src} alt="Cube" className="w-24 h-24 mr-8" width={96} height={96} />
-              <div>
+                <Image
+                  src={step.image}
+                  alt="Cube"
+                  className="w-24 h-24 mr-8 object-contain"
+                  width={96}
+                  height={96}
+                /> 
+                <div>
                 <h3 className="how-it-works-h1">{step.title}</h3>
                 <p className="how-it-works-p">{step.text}</p>
               </div>
