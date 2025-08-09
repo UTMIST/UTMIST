@@ -2,6 +2,7 @@
 import "@/styles/ai2.css";
 import { AI2Card } from "@/components/ai2-cards";
 import SpeakersGrid from "@/components/speakers";
+import Image from "next/image";
 
 import * as ai2Assets from "@/assets/photos/ai2";
 import * as headshots from "@/assets/photos/ai2/headshots";
@@ -51,7 +52,7 @@ export default function AI2Page() {
         {/* Hero Section */}
         <div className="hero-section">
           <h2 className="hero-title">AI Squared</h2>
-          <p className="hero-subtitle">Canada’s largest Reinforcement Learning Hackathon</p>
+          <p className="hero-subtitle">Canada&apos;s largest Reinforcement Learning Hackathon</p>
           <p className="hero-subtitle-gradient">(Brought to you by the Academics Dept.)</p>
         </div>
 
@@ -70,7 +71,7 @@ export default function AI2Page() {
         <section className="how-it-works-section">
           {aiSquaredDetails.map((step, i) => (
             <div className="flex items-center mb-8 last:mb-0" key={i}>
-              <img src={ai2Assets.cube.src} alt="Cube" className="w-24 h-24 mr-8" />
+              <Image src={ai2Assets.cube.src} alt="Cube" className="w-24 h-24 mr-8" width={96} height={96} />
               <div>
                 <h3 className="how-it-works-h1">{step.title}</h3>
                 <p className="how-it-works-p">{step.text}</p>

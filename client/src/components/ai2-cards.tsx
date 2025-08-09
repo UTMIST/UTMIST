@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface CardProps {
   title: string;
@@ -20,9 +21,19 @@ export function AI2Card({ title, description, image }: CardProps) {
       }}
     >
       {image && (
-        <img src={image} alt={title} className="mx-auto mb-4 w-60 h-40 object-cover rounded-full mt-20" />
+        <div className="relative mx-auto mb-4 w-60 h-40 mt-20 rounded-full overflow-hidden">
+          <Image
+            src={image}
+            alt={title}
+            fill
+            style={{ objectFit: "cover" }}
+            className="rounded-full"
+            priority={true}
+          />
+        </div>
       )}
       <h3 className="whats-new-h1">{title}</h3>
+      <p className="mt-2 text-gray-700">{description}</p>
     </motion.div>
   );
 }
