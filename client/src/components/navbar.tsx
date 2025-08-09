@@ -59,6 +59,11 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
+            <Link href="/ai2" className="nav-item">
+              AI2
+            </Link>
+          </li>
+          <li>
             <Link href="/startups" className="nav-item">
               MISTic R&D
             </Link>

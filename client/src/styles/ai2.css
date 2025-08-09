@@ -13,16 +13,23 @@
 }
 
 .hero-section {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 4rem 2.5rem;
+  justify-content: center;
+  padding: calc(5.5rem + env(safe-area-inset-top)) 2.5rem 4rem 2.5rem;
+  padding-top: calc(5.5rem + constant(safe-area-inset-top)); /* iOS fallback */
   margin: 0 auto;
   text-align: center;
+  min-height: 45vh;
+  position: relative;
 }
 
 .hero-title {
   font-size: 3rem;
   font-weight: 700;
   composes: gradient-text;
+  margin: 0;
 }
 
 .hero-subtitle {
@@ -95,12 +102,11 @@
 .whats-new-title {
   font-size: 2.5rem;
   font-weight: 700;
-  background: -webkit-linear-gradient(#FFFFFF, #C4C4C4);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #000000;
   font-family: var(--system-font);
   margin-bottom: 10px;
-  margin-left: 200px;
+  margin-left: 0;
+  text-align: center;
 }
 
 .whats-new-card {
@@ -155,6 +161,17 @@
   .hero-subtitle-gradient {
     padding: 0 1rem;
     font-size: 1rem;
+  }
+
+  .hero-section {
+    padding: calc(7rem + env(safe-area-inset-top)) 1rem 3rem 1rem;
+    padding-top: calc(7rem + constant(safe-area-inset-top)); /* iOS fallback */
+    min-height: 55vh;
+  }
+
+  .hero-title {
+    font-size: 2.25rem; /* prevent clipping on very small screens */
+    line-height: 1.15;
   }
 
   .whats-new-title,
