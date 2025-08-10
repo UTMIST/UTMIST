@@ -10,7 +10,7 @@ interface CardProps {
 export function AI2Card({ title, description, image }: CardProps) {
   return (
     <motion.div
-      className="rounded-2xl p-6 shadow-lg h-110 w-80 flex items-center flex-col md:w-60"
+      className="rounded-2xl p-6 shadow-lg h-110 w-80 flex items-center flex-col"
       style={{ background: 'radial-gradient(circle, rgba(103,128,253,0.3) 0%, rgba(103,128,253,0) 100%)' }}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -22,7 +22,7 @@ export function AI2Card({ title, description, image }: CardProps) {
       }}
     >
       {image && (
-        <div className="relative items-center mb-4 w-60 h-80 mt-10 md:h-40">
+        <div className="relative items-center mb-4 w-60 h-80 mt-10">
           <Image
             src={image}
             alt={title}

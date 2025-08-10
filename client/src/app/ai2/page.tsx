@@ -89,7 +89,7 @@ export default function AI2Page() {
             <div 
               className="flex items-center mb-8 last:mb-0 " 
               key={i} 
-              style={{background: 'radial-gradient(circle, rgba(103,128,253,0.3) 0%, rgba(103,128,253,0) 100%)'}}
+              style={{background: 'radial-gradient(circle, rgba(103,128,253,0.2) 0%, rgba(103,128,253,0) 100%)'}}
             >
                 <Image
                   src={step.image}
