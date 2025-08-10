@@ -3,6 +3,8 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: scroll;
+  background-color: rgba(255, 255, 255, 0.5);
+  background-blend-mode: lighten;
 }
 
 .gradient-text {
@@ -21,7 +23,7 @@
   padding-top: calc(5.5rem + constant(safe-area-inset-top)); /* iOS fallback */
   margin: 0 auto;
   text-align: center;
-  min-height: 45vh;
+  min-height: 30vh;
   position: relative;
 }
 
@@ -47,7 +49,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-family: var(--system-font);
-  padding: 0 15rem;
+  padding: 0 12rem;
   margin-top: 5px;
 }
 
@@ -59,19 +61,21 @@
 }
 
 .intro-section-title {
-  font-size: 2.5rem;
+  font-size: 4rem;
   font-weight: 700;
   composes: gradient-text;
   margin-bottom: 10px;
   align-items: center;
   margin: 0 auto; /* Center horizontally */
   text-align: center; /* Center the text itself */
+  text-shadow: 0px 0px 20px rgba(106, 102, 245, 0.6); 
 }
 
 .intro-section-description {
   font-size: 1rem;
   composes: gradient-text;
   margin-top: 10px;
+  padding: 0 8rem;
 }
 
 /* ===== How It Works ===== */
@@ -80,7 +84,7 @@
   flex-direction: column;
   align-items: center;
   padding: 4rem 2.5rem;
-  max-width: 1000px;
+  max-width: 500px;
   margin: 0 auto;
 }
 
@@ -133,6 +137,7 @@
   font-weight: 700;
   composes: gradient-text;
   text-align: center;
+  text-shadow: 0 0 30px #6a66f5; 
 }
 
 @keyframes fadeInUp {
@@ -157,6 +162,9 @@
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
+  .bg {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
   .hero-subtitle,
   .hero-subtitle-gradient {
     padding: 0 1rem;
@@ -166,7 +174,6 @@
   .hero-section {
     padding: calc(7rem + env(safe-area-inset-top)) 1rem 3rem 1rem;
     padding-top: calc(7rem + constant(safe-area-inset-top)); /* iOS fallback */
-    min-height: 55vh;
   }
 
   .hero-title {
@@ -174,9 +181,17 @@
     line-height: 1.15;
   }
 
+  .intro-section-description {
+    padding: 0 3rem;
+  }
+
   .whats-new-title,
   .timeline-section-title {
     margin-left: 0;
     text-align: center;
+  }
+
+  .timeline-section {
+    background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
   }
 }
