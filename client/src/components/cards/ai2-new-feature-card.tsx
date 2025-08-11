@@ -10,7 +10,7 @@ interface CardProps {
 export function AI2Card({ title, description, image }: CardProps) {
   return (
     <motion.div
-      className="rounded-2xl p-6 shadow-lg h-110 w-80 flex items-center flex-col"
+      className="rounded-2xl p-6 shadow-lg h-110 w-80 sm:w-full flex items-center flex-col"
       style={{ background: 'radial-gradient(circle, rgba(103,128,253,0.3) 0%, rgba(103,128,253,0) 100%)' }}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -32,8 +32,8 @@ export function AI2Card({ title, description, image }: CardProps) {
           />
         </div>
       )}
-      <h3 className="whats-new-h1">{title}</h3>
-      <p className="mt-2 text-gray-700">{description}</p>
+      <h3 className="whats-new-h1 text-center">{title}</h3>
+      <p className="mt-2 text-gray-700 text-center">{description}</p>
     </motion.div>
   );
 }

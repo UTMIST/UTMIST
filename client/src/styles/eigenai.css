@@ -85,15 +85,18 @@
   overflow: hidden;
 }
 
+.people-section {
+  padding: 5rem 1rem;
+}
+
 /* Speakers */
-.speakers-container {
+.people-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 5rem 1rem;
   text-align: center;
 }
 
-.speakers-title {
+.people-title {
   font-size: 1.75rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
@@ -102,7 +105,7 @@
   -webkit-text-fill-color: transparent;
 }
 
-.speakers-row {
+.people-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1.5rem;

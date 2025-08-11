@@ -10,18 +10,14 @@ interface Speaker {
 }
 
 interface Props {
-  speakers: Speaker[];
+  people: Speaker[];
 }
 
-export default function SpeakersGrid({ speakers }: Props) {
+export default function PeopleGrid({ people }: Props) {
   return (
-    <div className="speakers-container px-4">
-      <h2 className="speakers-title mb-4 text-2xl md:text-3xl font-semibold">
-        Our Past Organizers
-      </h2>
-
+    <div className="people-container">
       <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 justify-center">
-      {speakers.map((s, i) => (
+      {people.map((s, i) => (
           <div
             key={i}
             className="border rounded-lg p-4 bg-white shadow hover:shadow-md transition"
