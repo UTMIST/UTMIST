@@ -192,9 +192,8 @@
 
 }
 
-
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   .ai2-h1 {
       text-shadow: 0 0 30px #6a66f5; 
   }
-}
+} */
