@@ -14,6 +14,19 @@
   font-family: var(--system-font);
 }
 
+.ai2-h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  composes: gradient-text;
+  text-align: center;
+  text-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.ai2-h2 {
+  font-size: 1.6rem;
+}
+
+
 .hero-section {
   display: flex;
   flex-direction: column;
@@ -60,17 +73,6 @@
   margin: 0 auto;
 }
 
-.intro h2{
-  font-size: 2rem;
-  font-weight: 700;
-  composes: gradient-text;
-  margin-bottom: 2rem;
-  align-items: center;
-  margin: 0 auto; /* Center horizontally */
-  text-align: center; /* Center the text itself */
-  text-shadow: 0px 0px 20px rgba(106, 102, 245, 0.6); 
-}
-
 .intro p {
   font-size: 1rem;
   composes: gradient-text;
@@ -88,24 +90,13 @@
   margin: 0 auto;
 }
 
-.how-it-works h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  composes: gradient-text;
-  margin-bottom: 2rem;
-  align-items: center;
-  margin: 0 auto; /* Center horizontally */
-  text-align: center; /* Center the text itself */
-  text-shadow: 0px 0px 20px rgba(106, 102, 245, 0.6); 
-}
-
-.how-it-works-h1,
+.how-it-works-h3,
 .how-it-works-p {
   composes: gradient-text;
   font-weight: 700;
 }
 
-.how-it-works-h1 {
+.how-it-works-h3 {
   font-size: 20px;
 }
 
@@ -143,14 +134,6 @@
 }
 
 /* ===== Timeline ===== */
-.timeline h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  composes: gradient-text;
-  text-align: center;
-  text-shadow: 0 0 30px #6a66f5; 
-}
-
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -162,23 +145,6 @@
   }
 }
 
-.youtube h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  composes: gradient-text;
-  text-align: center;
-  text-shadow: 0 0 30px #6a66f5; 
-}
-
-.new-features h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  composes: gradient-text;
-  text-align: center;
-  text-shadow: 0 0 30px #6a66f5; 
-}
-
-
 .timeline-card {
   opacity: 0;
   animation: fadeInUp 0.7s forwards;
@@ -188,15 +154,6 @@
 .timeline-card.delay-2 { animation-delay: 0.5s; }
 .timeline-card.delay-3 { animation-delay: 0.8s; }
 
-/* ===== Past Organizers ===== */
-.organizers h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  composes: gradient-text;
-  text-align: center;
-  text-shadow: 0 0 30px #6a66f5; 
-}
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
@@ -219,8 +176,8 @@
     line-height: 1.15;
   }
 
-  .intro-section-description {
-    padding: 0 3rem;
+  .intro p {
+    padding: 0 2rem;
   }
 
   .whats-new-title,
@@ -231,5 +188,13 @@
 
   .timeline-section {
     background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+  }
+
+}
+
+
+@media (prefers-color-scheme: dark) {
+  .ai2-h1 {
+      text-shadow: 0 0 30px #6a66f5; 
   }
 }

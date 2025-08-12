@@ -2,7 +2,7 @@ import * as ai2Assets from "@/assets/photos/ai2";
 import * as headshots from "@/assets/photos/ai2/headshots";
 
 export const specialThanks = [
-  { name: "Andrew", role: "Eng Sci @ UofT", profileURL: "", profileImage: headshots.andrew },
+  { name: "Andrew Magnuson", role: "Eng Sci @ UofT", profileURL: "", profileImage: headshots.andrew },
   { name: "Doga Baskan", role: "Eng Sci @ UofT", profileURL: "", profileImage: headshots.doga },
   { name: "Kaden Seto", role: "Eng Sci @ UofT", profileURL: "", profileImage: headshots.kaden },
   { name: "Martin Tin", role: "Eng Sci @ UofT", profileURL: "", profileImage: headshots.martin },
