@@ -5,7 +5,7 @@ declare module 'react-chrono' {
 
   export interface ChronoProps {
     items: Array<{
-      title: string;
+      title?: string;
       cardTitle?: string;
       cardSubtitle?: string;
       cardDetailedText?: string | string[];
