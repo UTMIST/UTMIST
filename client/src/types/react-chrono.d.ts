@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 declare module 'react-chrono' {
   import * as React from 'react';
 
