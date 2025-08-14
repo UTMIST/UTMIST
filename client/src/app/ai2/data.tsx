@@ -11,7 +11,7 @@ export const specialThanks = [
 ];
 
 export const aiSquaredDetails = [
-  { image: ai2Assets.cube_1.src, title: "Explore the realm of RL", text: "Are you a beginner? Don't worry, we will show you the ropes!" },
+  { image: ai2Assets.cube_1.src, title: "Explore AI in Games", text: "Are you a beginner? Don't worry, we will show you the ropes!" },
   { image: ai2Assets.cube_2.src, title: "Train your own agent", text: "Brainstorm, experiment, and show us your best strategy" },
   { image: ai2Assets.cube_3.src, title: "Battle other opponents", text: "Jump onto the platforms and take down the competition!" },
 ];

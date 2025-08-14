@@ -19,8 +19,8 @@ export default function AI2Page() {
         {/* Hero Section */}
         <div className="hero-section">
           <h1 className="hero-title">AI Squared</h1>
-          <p className="hero-subtitle">(Brought to you by the Academics Dept.)</p>
-          <p className="hero-subtitle-gradient">October 25 - Novemember 2, 2025</p>
+          <p className="hero-subtitle">(Brought to you by the Academics Department)</p>
+          <p className="hero-subtitle-gradient">October 25 - November 2, 2025</p>
           <p className="hero-subtitle-gradient">In-person + Online</p>
         </div>
 
@@ -38,11 +38,11 @@ export default function AI2Page() {
             <h1 className="ai2-h1">Join us for an incredible experience</h1>
             <p className="px-6 sm:px-8 md:px-0">
               Welcome back for UTMIST AI Squared 2025 Fall Split! Centered around groups of participants competing 
-              to design the best agent in a custom platform fighting game, AI Squared brings together individuals of all skill 
+              to design the best AI agent in a custom platform fighting game, AI Squared brings together individuals of all skill 
               levels in a encouraging learning environment filled with fun and excitement! 
             </p>
             <p className="px-6 sm:px-8 md:px-0">
-              There will be workshops, speakers, as well as the grand finals. The tournament will be held in an double elimination bracket format which will have consecutive rounds of 
+              There will be workshops, speakers, as well as the grand finals. The tournament will be held in an double elimination bracket format of consecutive rounds of 
               agents facing off 1v1 until the winner is crowned. Who will stand tall? Will it be you?
             </p>
           </div>
