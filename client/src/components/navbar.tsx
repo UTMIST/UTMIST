@@ -119,6 +119,11 @@ export default function Navbar() {
                 </Link>
               </li>
               <li>
+            <Link href="/ai2" onClick={() => setIsOpen(false)} >
+              AI2
+            </Link>
+          </li>
+              <li>
                 <Link href="/startups" onClick={() => setIsOpen(false)}>
                   MISTic R&D
                 </Link>

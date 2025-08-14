@@ -36,7 +36,7 @@
   padding-top: calc(5.5rem + constant(safe-area-inset-top)); /* iOS fallback */
   margin: 0 auto;
   text-align: center;
-  min-height: 30vh;
+  min-height: 45vh;
   position: relative;
 }
 
