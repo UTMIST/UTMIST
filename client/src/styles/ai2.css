@@ -23,7 +23,7 @@
 }
 
 .ai2-h2 {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
 }
 
 
@@ -163,7 +163,7 @@
   .hero-subtitle,
   .hero-subtitle-gradient {
     padding: 0 1rem;
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .hero-section {
@@ -174,6 +174,10 @@
   .hero-title {
     font-size: 2.25rem; /* prevent clipping on very small screens */
     line-height: 1.15;
+  }
+
+  .ai2-h1 {
+    font-size: 2rem;
   }
 
   .intro p {
