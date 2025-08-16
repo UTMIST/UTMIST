@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { updateUserProfile } from "@/utils/user";
 import AvatarUpload from "./AvatarUpload";
-import ResumeUpload from "./ResumeUpload";
 import type { UserProfile } from "@/types/auth";
 
 interface ProfileEditFormProps {
@@ -111,13 +110,6 @@ export default function ProfileEditForm({
           />
         </div>
 
-        <div>
-          <ResumeUpload
-            userId={profile.id}
-            onResumeChange={() => {}}
-            disabled={isSaving}
-          />
-        </div>
 
         <div>
           <label

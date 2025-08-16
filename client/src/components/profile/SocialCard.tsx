@@ -14,21 +14,6 @@ export default function SocialCard({
   github,
   twitter,
 }: SocialCardProps) {
-  // Only show the card if at least one social link exists
-  if (!linkedin && !github && !twitter) {
-    return (
-      <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-          Social Profiles
-        </h2>
-        <p className="text-gray-500 text-center">
-          No social profiles added yet. Update your profile to add your social
-          links!
-        </p>
-      </div>
-    );
-  }
-
   return (
     <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
       <h2 className="text-2xl font-semibold text-gray-900 mb-6">
@@ -95,6 +80,13 @@ export default function SocialCard({
           </Link>
         )}
       </div>
+
+      {!linkedin && !github && !twitter && (
+        <p className="text-gray-500 text-center">
+          No social profiles added yet. Update your profile to add your social
+          links!
+        </p>
+      )}
     </div>
   );
 }

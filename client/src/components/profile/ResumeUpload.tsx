@@ -55,11 +55,7 @@ export default function ResumeUpload({
     try {
       const filePath = `${userId}/resume`;
       const result = await uploadFile(file, filePath, {
-        allowedTypes: [
-          "application/pdf",
-          "application/msword",
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        ],
+        allowedTypes: ["application/pdf"],
         maxSize: 10 * 1024 * 1024, // 10MB
         updateUserProfile: false,
         bucketName: "private-website",
@@ -178,7 +174,7 @@ export default function ResumeUpload({
         <input
           ref={fileInputRef}
           type="file"
-          accept=".pdf,.doc,.docx"
+          accept=".pdf"
           onChange={handleFileSelect}
           className="hidden"
           disabled={isUploading}
@@ -195,7 +191,7 @@ export default function ResumeUpload({
 
       {/* Upload Info */}
       <div className="text-gray-500 text-xs text-center">
-        Supported formats: PDF, DOC, DOCX
+        Supported formats: PDF ONLY
         <br />
         Maximum size: 10MB
       </div>

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import type { UserProfile } from "@/types/auth";
 
 interface ProfileCardProps {
@@ -68,6 +69,14 @@ export default function ProfileCard({
               {isEditing ? "Editing..." : "Edit Profile"}
             </button>
           )}
+          
+          <Link
+            href="/profile/resume"
+            style={{ background: "var(--gradient-b2)" }}
+            className="px-6 py-2 rounded-lg font-[var(--system-font)] text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)] transition-all duration-200"
+          >
+            Upload Resume
+          </Link>
         </div>
       </div>
     </div>
