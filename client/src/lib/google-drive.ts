@@ -1,7 +1,7 @@
 import { google } from "googleapis";
 import { Readable } from "stream";
 
-const SCOPE = ["https://www.googleapis.com/auth/drive.file"];
+const SCOPE = ["https://www.googleapis.com/auth/drive"];
 
 function isPDF(buffer: ArrayBuffer): boolean {
   const uint8Array = new Uint8Array(buffer);
@@ -56,9 +56,11 @@ export async function uploadToGoogleDrive(
   const response = await drive.files.create({
     requestBody: metadata,
     media: media,
+    supportsAllDrives: true,
   });
 
   const file = response.data;
+  console.log(file);
 
   if (!file.id) {
     throw new Error("Failed to get file ID from Google Drive response");
@@ -70,6 +72,7 @@ export async function uploadToGoogleDrive(
       role: "reader",
       type: "anyone",
     },
+    supportsAllDrives: true,
   });
 
   return {

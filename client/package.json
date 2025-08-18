@@ -23,6 +23,7 @@
     "aos": "^2.3.4",
     "flowbite-react": "^0.12.6",
     "framer-motion": "^12.23.12",
+    "googleapis": "^156.0.0",
     "keen-slider": "^6.8.6",
     "lucide-react": "^0.510.0",
     "next": "15.3.2",
