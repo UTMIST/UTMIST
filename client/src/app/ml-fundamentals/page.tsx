@@ -575,7 +575,7 @@ export default function MachineLearningFundamentals() {
               <span className="font-bold text-black text-lg">Week 6</span>
               <h3 className="text-gray-900 font-semibold mt-1">Naive Bayes</h3>
               <p className="text-sm text-gray-600 mt-2">
-                Probability basics, Bayes' theorem, generative vs discriminative models, text classification
+                Probability basics, Bayes&apos; theorem, generative vs discriminative models, text classification
               </p>
             </div>
             <div className="flex gap-2">
