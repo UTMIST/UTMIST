@@ -685,10 +685,10 @@ export default function MachineLearningFundamentals() {
             
             <div className="space-y-4">
               <h3 className="text-xl font-semibold text-gray-800">
-                {modalType && modalContent[modalType as keyof WorkshopContent]?.title}
+                {modalType && modalContent && (modalContent as any)[modalType]?.title}
               </h3>
               <div className="space-y-2">
-                {modalType && modalContent[modalType as keyof WorkshopContent]?.content.map((item: string, index: number) => (
+                {modalType && modalContent && (modalContent as any)[modalType]?.content?.map((item: string, index: number) => (
                   <p key={index} className="text-gray-700 leading-relaxed">
                     {item}
                   </p>
