@@ -7,7 +7,7 @@ import darkBlueTick from "@/assets/icons/dark-blue-tick-icon.svg";
 import mlfBackground from "@/assets/photos/ml-fundamentals/mlf-background.svg";
 
 // Type definitions
-type ModalType = 'theory' | 'pytorch' | 'exercise' | '';
+type ModalType = 'theory' | 'pytorch' | 'exercise';
 
 type WorkshopSection = {
   title: string;
@@ -300,7 +300,7 @@ const workshopContent: Record<number, WorkshopContent> = {
 export default function MachineLearningFundamentals() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<WorkshopContent | null>(null);
-  const [modalType, setModalType] = useState<ModalType>("");
+  const [modalType, setModalType] = useState<ModalType | null>(null);
 
   const openModal = (week: number, type: ModalType) => {
     const content = workshopContent[week];
@@ -312,7 +312,7 @@ export default function MachineLearningFundamentals() {
   const closeModal = () => {
     setIsModalOpen(false);
     setModalContent(null);
-    setModalType("");
+    setModalType(null);
   };
 
   return <main>
@@ -685,10 +685,10 @@ export default function MachineLearningFundamentals() {
             
             <div className="space-y-4">
               <h3 className="text-xl font-semibold text-gray-800">
-                {modalType && modalContent && (modalContent as any)[modalType]?.title}
+                {modalType && modalContent && modalContent[modalType]?.title}
               </h3>
               <div className="space-y-2">
-                {modalType && modalContent && (modalContent as any)[modalType]?.content?.map((item: string, index: number) => (
+                {modalType && modalContent && modalContent[modalType]?.content?.map((item: string, index: number) => (
                   <p key={index} className="text-gray-700 leading-relaxed">
                     {item}
                   </p>
