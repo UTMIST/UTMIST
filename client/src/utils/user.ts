@@ -38,6 +38,7 @@ export const getUserById = async (
       github: profileData.github || "",
       twitter: profileData.twitter || "",
       discord: profileData.discord || "",
+      resume_upload: profileData.resume_upload || null,
       created_at: profileData.created_at,
       updated_at: profileData.updated_at,
     };

@@ -30,55 +30,123 @@ function createGoogleAuth() {
   return auth;
 }
 
+async function findExistingFile(
+  drive: any,
+  fileName: string,
+  folderId: string
+): Promise<string | null> {
+  try {
+    const response = await drive.files.list({
+      q: `name='${fileName}' and '${folderId}' in parents and trashed=false`,
+      fields: "files(id, name)",
+      supportsAllDrives: true,
+    });
+
+    if (response.data.files && response.data.files.length > 0) {
+      return response.data.files[0].id;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error searching for existing file:", error);
+    return null;
+  }
+}
+
 export async function uploadToGoogleDrive(
   fileBuffer: ArrayBuffer,
-  fileName: string
+  fileName: string,
+  replace: boolean = false
 ): Promise<{ id: string; webViewLink: string }> {
   const auth = createGoogleAuth();
   const drive = google.drive({ version: "v3", auth });
 
   const buffer = Buffer.from(fileBuffer);
+  const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID!;
 
   const readable = new Readable();
   readable.push(buffer);
   readable.push(null);
 
-  const metadata = {
-    name: fileName,
-    parents: [process.env.GOOGLE_DRIVE_FOLDER_ID!],
-  };
-  console.log(metadata);
   const media = {
     mimeType: "application/pdf",
     body: readable,
   };
 
-  const response = await drive.files.create({
-    requestBody: metadata,
-    media: media,
-    supportsAllDrives: true,
-  });
+  let response;
+  let fileId;
 
-  const file = response.data;
-  console.log(file);
+  if (replace) {
+    // Check if file already exists and update it
+    const existingFileId = await findExistingFile(drive, fileName, folderId);
+    
+    if (existingFileId) {
+      console.log(`Updating existing file: ${fileName}`);
+      response = await drive.files.update({
+        fileId: existingFileId,
+        media: media,
+        supportsAllDrives: true,
+      });
+      fileId = existingFileId;
+    } else {
+      // File doesn't exist but replace=true, create new file
+      const metadata = {
+        name: fileName,
+        parents: [folderId],
+      };
+      
+      response = await drive.files.create({
+        requestBody: metadata,
+        media: media,
+        supportsAllDrives: true,
+      });
+      fileId = response.data.id;
 
-  if (!file.id) {
-    throw new Error("Failed to get file ID from Google Drive response");
+      if (!fileId) {
+        throw new Error("Failed to get file ID from Google Drive response");
+      }
+
+      // Set permissions for new files
+      await drive.permissions.create({
+        fileId: fileId,
+        requestBody: {
+          role: "reader",
+          type: "anyone",
+        },
+        supportsAllDrives: true,
+      });
+    }
+  } else {
+    // Create new file (first upload)
+    const metadata = {
+      name: fileName,
+      parents: [folderId],
+    };
+    
+    response = await drive.files.create({
+      requestBody: metadata,
+      media: media,
+      supportsAllDrives: true,
+    });
+    fileId = response.data.id;
+
+    if (!fileId) {
+      throw new Error("Failed to get file ID from Google Drive response");
+    }
+
+    // Set permissions for new files
+    await drive.permissions.create({
+      fileId: fileId,
+      requestBody: {
+        role: "reader",
+        type: "anyone",
+      },
+      supportsAllDrives: true,
+    });
   }
 
-  await drive.permissions.create({
-    fileId: file.id,
-    requestBody: {
-      role: "reader",
-      type: "anyone",
-    },
-    supportsAllDrives: true,
-  });
-
   return {
-    id: file.id,
-    webViewLink:
-      file.webViewLink || `https://drive.google.com/file/d/${file.id}/view`,
+    id: fileId,
+    webViewLink: `https://drive.google.com/file/d/${fileId}/view`,
   };
 }
 

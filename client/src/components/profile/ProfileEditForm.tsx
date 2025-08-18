@@ -19,6 +19,7 @@ export default function ProfileEditForm({
   isSaving,
 }: ProfileEditFormProps) {
   const [formData, setFormData] = useState({
+    name: profile.name || "",
     title: profile.title || "",
     bio: profile.bio || "",
     linkedin: profile.linkedin || "",
@@ -30,13 +31,9 @@ export default function ProfileEditForm({
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    // Check if at least one field has content
-    const hasContent = Object.values(formData).some(
-      (value) => value.trim() !== ""
-    );
-
-    if (!hasContent) {
-      newErrors.general = "Please fill in at least one field";
+    // Name is required
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
     }
 
     setErrors(newErrors);
@@ -53,6 +50,7 @@ export default function ProfileEditForm({
     try {
       // Update profile using the new user utilities
       const success = await updateUserProfile(profile.id, {
+        name: formData.name,
         title: formData.title,
         bio: formData.bio,
         linkedin: formData.linkedin,
@@ -67,6 +65,7 @@ export default function ProfileEditForm({
       // Create updated profile object
       const updatedProfile: UserProfile = {
         ...profile,
+        name: formData.name,
         title: formData.title,
         bio: formData.bio,
         linkedin: formData.linkedin,
@@ -110,6 +109,45 @@ export default function ProfileEditForm({
           />
         </div>
 
+        <div>
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Name *
+          </label>
+          <input
+            type="text"
+            id="name"
+            value={formData.name}
+            onChange={(e) => handleInputChange("name", e.target.value)}
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.name ? "border-red-300" : "border-gray-300"
+            }`}
+            placeholder="Your full name"
+            required
+          />
+          {errors.name && (
+            <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+          )}
+        </div>
+
+        <div>
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Title
+          </label>
+          <input
+            type="text"
+            id="title"
+            value={formData.title}
+            onChange={(e) => handleInputChange("title", e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Your professional title"
+          />
+        </div>
 
         <div>
           <label
