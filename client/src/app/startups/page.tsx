@@ -68,8 +68,18 @@ const HeroSection = () => {
 const HeroIntroductionSection = () => {
   return (
     <div className="flex flex-col gap-2 text-center">
-      <h1 className="font-bold text-2xl md:text-3xl">MISTic R&D</h1>
-      <p className="m-0 leading-snug text-center text-sm md:text-base text-gray-700">
+      <h1
+        className="text-5xl font-bold mb-2 bg-clip-text text-transparent leading-[1.5]"
+        style={{
+          background: "var(--gradient-bl1)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          fontFamily: "var(--system-font)",
+        }}
+      >
+        MISTic R&D
+      </h1>
+      <p className="m-0 leading-snug text-center text-sm md:text-base text-gray-700 font-sans">
         <span className="block">
           Building an AI startup? Join MISTic R&D, 
         </span>
@@ -90,7 +100,7 @@ const HeroIntroductionSection = () => {
         >
           Apply
         </Link>
-        <p className="text-xs text-gray-500 text-center mt-1">
+        <p className="text-xs text-gray-500 text-center mt-1 font-sans">
           <span className="block">Applications close</span>
           <span className="block">Sept 31st</span>
         </p>
@@ -101,13 +111,21 @@ const HeroIntroductionSection = () => {
 
 const HeroStartupSection = () => {
   return (
-    <div className="flex flex-col md:flex-row text-center items-center w-full max-w-6xl mx-auto">
+    <div className="flex flex-col md:flex-row text-center items-center w-full max-w-6xl mx-auto" >
       {/* Left: Title & Description, fully centered vertically, left-aligned text */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center text-center mb-3 md:mb-0">
-        <h2 className="font-bold text-xl md:text-2xl mb-2">
+      <div className="w-full md:w-1/2 flex flex-col justify-center text-center mb-3 md:mb-0 p-6 md:p-12">
+        <h2 
+          className="text-2xl text-center mb-2 font-bold bg-clip-text text-transparent"
+          style={{
+            background: "var(--gradient-bl1)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            fontFamily: "var(--system-font)", 
+          }}
+        >
           Startups @ UTMIST
         </h2>
-        <p className="text-sm md:text-base text-gray-700">
+        <p className="text-sm md:text-base text-gray-700 font-sans">
           Build your AI startup without putting school on hold. Join the Startup
           Department @ UTMIST to turn your AI ideas into reality with
           mentorship, workshops, and a flexible, student-friendly structure.
@@ -313,7 +331,7 @@ const HeroStartupSection = () => {
 
 const StartupsPage = () => {
   return (
-    <main className="pt-16 md:pt-10 px-4 md:px-16">
+    <main className="pt-16 md:pt-10 px-6 md:px-20">
       <HeroSection />
       {/* <div>
         <div className="mt-8 md:mt-12">

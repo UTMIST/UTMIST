@@ -59,6 +59,11 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
+            <Link href="/ai2" className="nav-item">
+              AI2
+            </Link>
+          </li>
+          <li>
             <Link href="/startups" className="nav-item">
               MISTic R&D
             </Link>
@@ -113,6 +118,11 @@ export default function Navbar() {
                   Careers
                 </Link>
               </li>
+              <li>
+            <Link href="/ai2" onClick={() => setIsOpen(false)} >
+              AI2
+            </Link>
+          </li>
               <li>
                 <Link href="/startups" onClick={() => setIsOpen(false)}>
                   MISTic R&D

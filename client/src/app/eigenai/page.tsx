@@ -3,7 +3,7 @@ import Image from "next/image";
 import verticalEigenai from "@/assets/photos/eigenai-vertical.webp";
 import workshopEigenai from "@/assets/photos/eigenai-workshop.webp";
 import confEigenai from "@/assets/photos/eigenai-conference.webp";
-import SpeakersGrid from "@/components/speakers";
+import PeopleGrid from "@/components/peopleGrid";
 import LamdaSection from "@/components/lambda";
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
 import BasisVectors from "@/components/basisvectors";
@@ -60,8 +60,8 @@ export default function EigenAIPage() {
         </div>
       </section>
 
-      <section className="speakers-section">
-        <SpeakersGrid speakers={speakers} />
+      <section className="people-section px-4 md:px-8">
+        <PeopleGrid people={speakers} />
       </section>
       <section className="eigen-section">
         <LamdaSection />
