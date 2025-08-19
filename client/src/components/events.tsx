@@ -25,10 +25,10 @@ export default function Events() {
       url: "https://cucai.ca",
     },
     {
-      title: "AI^2",
+      title: "AI Squared",
       description:
-        "AI² is a reinforcement learning tournament hosted by UTMIST where students build AI agents to compete in game-based challenges while gaining hands-on experience and mentorship.",
-      url: "https://www.eventbrite.ca/e/ai2-reinforcement-learning-tournament-tickets-1141689918279",
+        "AI Squared is a machine learning tournament hosted by UTMIST where students build AI agents to compete in a 2D platform fighting game while gaining hands-on experience and mentorship.",
+      url: "https://www.utmist.ca/ai2",
     },
     {
       title: "GenAI",

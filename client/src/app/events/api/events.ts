@@ -143,7 +143,7 @@ const pastEvents: PastEvent[] = [
     id: 9,
     title: "UTMIST x CSSU LaTeX Workshop",
     instructor: "N/A",
-    date: "November 18th, 2023",
+    date: "November 18th, 2024",
     overview: "This session introduces students to LaTeX, the standard tool for academic and scientific writing. Aimed at students preparing submissions for the TRUNK undergraduate journal, the workshop covers LaTeX basics, document structuring, and integration of figures and citations. The content is adapted from resources developed by PhysU and is suitable for students with little to no prior experience in technical writing.",
     learningGoals: [
       "Understand the structure and syntax of LaTeX documents",
@@ -163,7 +163,7 @@ const pastEvents: PastEvent[] = [
     id: 10,
     title: "How to Read a Paper Workshop",
     instructor: "N/A",
-    date: "November 25th, 2023",
+    date: "November 25th, 2024",
     overview: "This workshop provides a structured approach to reading academic papers, with an emphasis on critical engagement and information extraction. Designed for undergraduates preparing submissions to the TRUNK journal, the session outlines practical strategies for identifying key contributions, evaluating methodology, and contextualizing findings within existing literature.",
     learningGoals: [
       "Develop techniques for efficiently reading and annotating research papers",
@@ -321,9 +321,9 @@ const pastEvents: PastEvent[] = [
   },
   {
     id: 18,
-    title: "RL Tourney Workshop Series – Session 1",
+    title: "RL Workshop Series – Session 1",
     instructor: "N/A",
-    date: "November 6th, 2023",
+    date: "November 6th, 2024",
     overview: "The first session of the Reinforcement Learning (RL) workshop introduces core RL concepts through the multi-armed bandit problem and Markov Decision Processes (MDPs). Targeted at beginners, the session explains fundamental ideas such as exploration vs. exploitation, policies, and value functions. The session is primarily lecture-based with minimal coding, intended to establish the theoretical foundation for more hands-on components in later sessions.",
     learningGoals: [
       "Understand the exploration vs. exploitation tradeoff using k-armed bandits",
@@ -333,7 +333,7 @@ const pastEvents: PastEvent[] = [
     ],
     resources: [
       {
-        title: "GitHub - AI2 RL Workshop 2024",
+        title: "GitHub - RL Workshop 2024",
         url: "https://github.com/UTMIST/AI2-RL-2024-Workshop"
       },
       {
@@ -345,9 +345,9 @@ const pastEvents: PastEvent[] = [
   },
   {
     id: 19,
-    title: "RL Tourney Workshop Series – Session 2",
+    title: "RL Workshop Series – Session 2",
     instructor: "N/A",
-    date: "November 13th, 2023",
+    date: "November 13th, 2024",
     overview: "This session extends the RL framework by covering dynamic programming methods, including policy iteration and Monte Carlo techniques. Students begin applying value-based methods for policy evaluation and improvement. The structure includes recap of week one, followed by more detailed coding segments aligned with theoretical content.",
     learningGoals: [
       "Review core RL definitions and mechanisms (MDPs, policies, returns)",
@@ -357,7 +357,7 @@ const pastEvents: PastEvent[] = [
     ],
     resources: [
       {
-        title: "GitHub - AI2 RL Workshop 2024",
+        title: "GitHub - RL Workshop 2024",
         url: "https://github.com/UTMIST/AI2-RL-2024-Workshop"
       },
       {
@@ -369,9 +369,9 @@ const pastEvents: PastEvent[] = [
   },
   {
     id: 20,
-    title: "RL Tourney Workshop Series – Session 3",
+    title: "RL Workshop Series – Session 3",
     instructor: "N/A",
-    date: "November 20th, 2023",
+    date: "November 20th, 2024",
     overview: "The third session focuses on temporal-difference learning methods, with an emphasis on SARSA and Q-Learning. As the most hands-on session in the series, participants will implement and compare TD-based algorithms. The focus is on bridging theoretical understanding and functional implementation.",
     learningGoals: [
       "Learn the differences between Monte Carlo and TD learning approaches",
@@ -381,7 +381,7 @@ const pastEvents: PastEvent[] = [
     ],
     resources: [
       {
-        title: "GitHub - AI2 RL Workshop 2024",
+        title: "GitHub - RL Workshop 2024",
         url: "https://github.com/UTMIST/AI2-RL-2024-Workshop"
       },
       {
@@ -393,9 +393,9 @@ const pastEvents: PastEvent[] = [
   },
   {
     id: 21,
-    title: "RL Tourney Workshop Series – Session 4",
+    title: "RL Workshop Series – Session 4",
     instructor: "N/A",
-    date: "November 27th, 2023",
+    date: "November 27th, 2024",
     overview: "The final session features a guest lecture and research presentation on Deep Reinforcement Learning. It moves beyond tabular methods to discuss modern approaches using function approximation, with insights into ongoing academic research. This session is lecture-oriented and designed to contextualize RL in real-world and high-complexity domains.",
     learningGoals: [
       "Understand how deep neural networks integrate into reinforcement learning frameworks",
@@ -405,7 +405,7 @@ const pastEvents: PastEvent[] = [
     ],
     resources: [
       {
-        title: "GitHub - AI2 RL Workshop 2024",
+        title: "GitHub - RL Workshop 2024",
         url: "https://github.com/UTMIST/AI2-RL-2024-Workshop"
       },
       {
@@ -419,7 +419,7 @@ const pastEvents: PastEvent[] = [
     id: 22,
     title: "EigenAI ML Workshop",
     instructor: "N/A",
-    date: "September 28th, 2023",
+    date: "September 28th, 2024",
     overview: "This workshop introduces machine learning enthusiasts to the foundational principles of diffusion models, with a focus on high-level understanding and hands-on implementation. The session balances conceptual instruction with a practical coding segment in which participants interact with both forward and reverse diffusion processes using pre-trained models. The workshop is accessible to beginners with some prior exposure to neural networks and generative modeling.",
     learningGoals: [
       "Understand the basic principles of generative modeling and its historical context",
@@ -459,7 +459,7 @@ const featuredEvents: FeaturedEvent[] = [
     titleAlignment: 'right'
   },
   {
-    title: "AI^2",
+    title: "AI Squared",
     url: "/ai2",
     background: 'linear-gradient(135deg, #e57fe5 0%, #6655e6 100%)',
     titleClassName: 'title-large',
