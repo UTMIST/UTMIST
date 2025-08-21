@@ -579,15 +579,15 @@ export default function MachineLearningFundamentals() {
         {/* Week Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
           {weekData.map((week) => (
-            <div key={week.weekNumber} className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="mb-4">
+            <div key={week.weekNumber} className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow flex flex-col h-full">
+              <div className="flex-1">
                 <span className="font-bold text-black text-lg">Week {week.weekNumber}</span>
                 <h3 className="text-gray-900 font-semibold mt-1">{week.title}</h3>
                 <p className="text-sm text-gray-600 mt-2">
                   {week.description}
                 </p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 mt-4">
                 <button 
                   onClick={() => openModal(week.weekNumber, 'theory')}
                   className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
