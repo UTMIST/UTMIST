@@ -14,12 +14,62 @@ type WorkshopSection = {
   content: string[];
 };
 
+type WeekData = {
+  weekNumber: number;
+  title: string;
+  description: string;
+};
+
 type WorkshopContent = {
   title: string;
   theory: WorkshopSection;
   pytorch: WorkshopSection;
   exercise: WorkshopSection;
 };
+
+// Week data for the schedule
+const weekData = [
+  {
+    weekNumber: 1,
+    title: "Introduction to Machine Learning",
+    description: "What is ML, types of ML, applications, linear regression basics, PyTorch introduction"
+  },
+  {
+    weekNumber: 2,
+    title: "Logistic Regression",
+    description: "Classification with sigmoid, decision boundaries, model evaluation, train-validation-test split"
+  },
+  {
+    weekNumber: 3,
+    title: "Neural Networks Part 1",
+    description: "Perceptrons, activation functions, forward propagation, limitations of linear models"
+  },
+  {
+    weekNumber: 4,
+    title: "Neural Networks Part 2",
+    description: "Backpropagation intuition, optimization algorithms, training loops, practical tips"
+  },
+  {
+    weekNumber: 5,
+    title: "Decision Trees & Ensembles",
+    description: "Split criteria, tree depth, random forests, bagging, entropy & information gain"
+  },
+  {
+    weekNumber: 6,
+    title: "Naive Bayes",
+    description: "Probability basics, Bayes' theorem, generative vs discriminative models, text classification"
+  },
+  {
+    weekNumber: 7,
+    title: "Best Practices & Evaluation",
+    description: "Baseline models, bias-variance tradeoff, evaluation metrics, iterative ML process"
+  },
+  {
+    weekNumber: 8,
+    title: "Deep Learning & Modern Architectures",
+    description: "Why deep learning, CNNs, RNNs, transformers, practical implementation with PyTorch"
+  }
+];
 
 // Workshop content data
 const workshopContent: Record<number, WorkshopContent> = {
@@ -414,253 +464,37 @@ export default function MachineLearningFundamentals() {
         
         {/* Week Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {/* Week 1 */}
-          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-            <div className="mb-4">
-              <span className="font-bold text-black text-lg">Week 1</span>
-              <h3 className="text-gray-900 font-semibold mt-1">Introduction to Machine Learning</h3>
-              <p className="text-sm text-gray-600 mt-2">
-                What is ML, types of ML, applications, linear regression basics, PyTorch introduction
-              </p>
+          {weekData.map((week) => (
+            <div key={week.weekNumber} className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="mb-4">
+                <span className="font-bold text-black text-lg">Week {week.weekNumber}</span>
+                <h3 className="text-gray-900 font-semibold mt-1">{week.title}</h3>
+                <p className="text-sm text-gray-600 mt-2">
+                  {week.description}
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <button 
+                  onClick={() => openModal(week.weekNumber, 'theory')}
+                  className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
+                >
+                  Content
+                </button>
+                <button 
+                  onClick={() => openModal(week.weekNumber, 'pytorch')}
+                  className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
+                >
+                  Code
+                </button>
+                <button 
+                  onClick={() => openModal(week.weekNumber, 'exercise')}
+                  className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
+                >
+                  Exercises
+                </button>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <button 
-                onClick={() => openModal(1, 'theory')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Content
-              </button>
-              <button 
-                onClick={() => openModal(1, 'pytorch')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Code
-              </button>
-              <button 
-                onClick={() => openModal(1, 'exercise')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Exercises
-              </button>
-            </div>
-          </div>
-
-          {/* Week 2 */}
-          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-            <div className="mb-4">
-              <span className="font-bold text-black text-lg">Week 2</span>
-              <h3 className="text-gray-900 font-semibold mt-1">Logistic Regression</h3>
-              <p className="text-sm text-gray-600 mt-2">
-                Classification with sigmoid, decision boundaries, model evaluation, train-validation-test split
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <button 
-                onClick={() => openModal(2, 'theory')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Content
-              </button>
-              <button 
-                onClick={() => openModal(2, 'pytorch')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Code
-              </button>
-              <button 
-                onClick={() => openModal(2, 'exercise')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Exercises
-              </button>
-            </div>
-          </div>
-
-          {/* Week 3 */}
-          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-            <div className="mb-4">
-              <span className="font-bold text-black text-lg">Week 3</span>
-              <h3 className="text-gray-900 font-semibold mt-1">Neural Networks Part 1</h3>
-              <p className="text-sm text-gray-600 mt-2">
-                Perceptrons, activation functions, forward propagation, limitations of linear models
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <button 
-                onClick={() => openModal(3, 'theory')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Content
-              </button>
-              <button 
-                onClick={() => openModal(3, 'pytorch')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Code
-              </button>
-              <button 
-                onClick={() => openModal(3, 'exercise')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Exercises
-              </button>
-            </div>
-          </div>
-
-          {/* Week 4 */}
-          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-            <div className="mb-4">
-              <span className="font-bold text-black text-lg">Week 4</span>
-              <h3 className="text-gray-900 font-semibold mt-1">Neural Networks Part 2</h3>
-              <p className="text-sm text-gray-600 mt-2">
-                Backpropagation intuition, optimization algorithms, training loops, practical tips
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <button 
-                onClick={() => openModal(4, 'theory')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Content
-              </button>
-              <button 
-                onClick={() => openModal(4, 'pytorch')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Code
-              </button>
-              <button 
-                onClick={() => openModal(4, 'exercise')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Exercises
-              </button>
-            </div>
-          </div>
-
-          {/* Week 5 */}
-          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-            <div className="mb-4">
-              <span className="font-bold text-black text-lg">Week 5</span>
-              <h3 className="text-gray-900 font-semibold mt-1">Decision Trees & Ensembles</h3>
-              <p className="text-sm text-gray-600 mt-2">
-                Split criteria, tree depth, random forests, bagging, entropy & information gain
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <button 
-                onClick={() => openModal(5, 'theory')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Content
-              </button>
-              <button 
-                onClick={() => openModal(5, 'pytorch')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Code
-              </button>
-              <button 
-                onClick={() => openModal(5, 'exercise')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Exercises
-              </button>
-            </div>
-          </div>
-
-          {/* Week 6 */}
-          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-            <div className="mb-4">
-              <span className="font-bold text-black text-lg">Week 6</span>
-              <h3 className="text-gray-900 font-semibold mt-1">Naive Bayes</h3>
-              <p className="text-sm text-gray-600 mt-2">
-                Probability basics, Bayes&apos; theorem, generative vs discriminative models, text classification
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <button 
-                onClick={() => openModal(6, 'theory')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Content
-              </button>
-              <button 
-                onClick={() => openModal(6, 'pytorch')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Code
-              </button>
-              <button 
-                onClick={() => openModal(6, 'exercise')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Exercises
-              </button>
-            </div>
-          </div>
-
-          {/* Week 7 */}
-          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-            <div className="mb-4">
-              <span className="font-bold text-black text-lg">Week 7</span>
-              <h3 className="text-gray-900 font-semibold mt-1">Best Practices & Evaluation</h3>
-              <p className="text-sm text-gray-600 mt-2">
-                Baseline models, bias-variance tradeoff, evaluation metrics, iterative ML process
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <button 
-                onClick={() => openModal(7, 'theory')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Content
-              </button>
-              <button 
-                onClick={() => openModal(7, 'pytorch')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Code
-              </button>
-              <button 
-                onClick={() => openModal(7, 'exercise')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Exercises
-              </button>
-            </div>
-          </div>
-
-          {/* Week 8 */}
-          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-            <div className="mb-4">
-              <span className="font-bold text-black text-lg">Week 8</span>
-              <h3 className="text-gray-900 font-semibold mt-1">Deep Learning & Modern Architectures</h3>
-              <p className="text-sm text-gray-600 mt-2">
-                Why deep learning, CNNs, RNNs, transformers, practical implementation with PyTorch
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <button 
-                onClick={() => openModal(8, 'theory')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Content
-              </button>
-              <button 
-                onClick={() => openModal(8, 'pytorch')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Code
-              </button>
-              <button 
-                onClick={() => openModal(8, 'exercise')}
-                className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
-              >
-                Exercises
-              </button>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
