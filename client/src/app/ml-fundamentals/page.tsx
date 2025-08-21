@@ -17,6 +17,7 @@ type WorkshopSection = {
 type FAQItem = {
   id: number;
   question: string;
+  answer?: string;
 };
 
 type WorkshopContent = {
@@ -74,35 +75,43 @@ const weekData = [
 const faqData: FAQItem[] = [
   {
     id: 1,
-    question: "What prerequisites do I need for this workshop?"
+    question: "What prerequisites do I need for this workshop?",
+    answer: "Basic knowledge of Python programming and high school mathematics (algebra, calculus) is recommended. No prior machine learning experience is required."
   },
   {
     id: 2,
-    question: "Do I need to bring my own laptop?"
+    question: "Do I need to bring my own laptop?",
+    answer: "Yes, please bring your own laptop. We'll be using PyTorch and other tools that need to be installed on your device."
   },
   {
     id: 3,
-    question: "What if I miss a session?"
+    question: "What if I miss a session?",
+    answer: "All materials, slides, and recordings will be available online. You can catch up on missed content and reach out to the team for any questions."
   },
   {
     id: 4,
-    question: "Is there any cost to attend?"
+    question: "Is there any cost to attend?",
+    answer: "No, this workshop is completely free for UTMIST members. It's part of our commitment to making AI and ML education accessible."
   },
   {
     id: 5,
-    question: "Will I receive a certificate?"
+    question: "Will I receive a certificate?",
+    answer: "Yes, participants who complete all 8 workshops will receive a certificate of completion from UTMIST."
   },
   {
     id: 6,
-    question: "Can I join if I'm not a UTMIST member?"
+    question: "Can I join if I'm not a UTMIST member?",
+    answer: "Yes, non-members are welcome to attend. We encourage you to join UTMIST to access additional resources and events."
   },
   {
     id: 7,
-    question: "What software will we be using?"
+    question: "What software will we be using?",
+    answer: "We'll primarily use PyTorch for deep learning, along with Python, Jupyter notebooks, and various visualization libraries."
   },
   {
     id: 8,
-    question: "How long are the sessions?"
+    question: "How long are the sessions?",
+    answer: "Each workshop session is approximately 2 hours long, including theory, practical coding, and hands-on exercises."
   }
 ];
 
@@ -406,6 +415,7 @@ export default function MachineLearningFundamentals() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<WorkshopContent | null>(null);
   const [modalType, setModalType] = useState<ModalType | null>(null);
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
   const openModal = (week: number, type: ModalType) => {
     const content = workshopContent[week];
@@ -418,6 +428,10 @@ export default function MachineLearningFundamentals() {
     setIsModalOpen(false);
     setModalContent(null);
     setModalType(null);
+  };
+
+  const toggleFAQ = (id: number) => {
+    setOpenFAQ(openFAQ === id ? null : id);
   };
 
   return <main>
@@ -604,12 +618,31 @@ export default function MachineLearningFundamentals() {
         {/* FAQ Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {faqData.map((faq) => (
-            <div key={faq.id} className="bg-gray-100 rounded-lg p-4 cursor-pointer hover:bg-gray-200 transition-colors">
-              <div className="flex items-center justify-between">
+            <div key={faq.id} className="bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors overflow-hidden">
+              <div 
+                className="flex items-center justify-between p-4"
+                onClick={() => toggleFAQ(faq.id)}
+              >
                 <span className="font-bold text-black">{faq.question}</span>
-                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg 
+                  className={`w-4 h-4 text-gray-600 transition-transform duration-300 ease-in-out ${openFAQ === faq.id ? 'rotate-180' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
+              </div>
+              <div 
+                className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                  openFAQ === faq.id 
+                    ? 'max-h-32 opacity-100' 
+                    : 'max-h-0 opacity-0'
+                }`}
+              >
+                <div className="px-4 pb-4 border-t border-gray-200">
+                  <p className="text-gray-700 mt-3 leading-relaxed">{faq.answer}</p>
+                </div>
               </div>
             </div>
           ))}
