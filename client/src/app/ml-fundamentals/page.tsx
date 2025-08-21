@@ -14,12 +14,6 @@ type WorkshopSection = {
   content: string[];
 };
 
-type WeekData = {
-  weekNumber: number;
-  title: string;
-  description: string;
-};
-
 type FAQItem = {
   id: number;
   question: string;
@@ -109,6 +103,26 @@ const faqData: FAQItem[] = [
   {
     id: 8,
     question: "How long are the sessions?"
+  }
+];
+
+// Team data
+const teamData = [
+  {
+    id: 1,
+    name: "Name",
+  },
+  {
+    id: 2,
+    name: "Name",
+  },
+  {
+    id: 3,
+    name: "Name",
+  },
+  {
+    id: 4,
+    name: "Name",
   }
 ];
 
@@ -562,6 +576,30 @@ export default function MachineLearningFundamentals() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+    </div>
+
+    {/* Meet the Team Section */}
+    <div className="w-full bg-white py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-left mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">Meet the Team</h2>
+          <p className="text-lg text-gray-600">
+            New lectures, slides, and labs will be open-sourced every week starting March 3 at 11AM ET!
+          </p>
+        </div>
+        
+        {/* Team Members Grid */}
+        <div className="bg-gray-100 rounded-2xl p-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+            {teamData.map((member) => (
+              <div key={member.id} className="text-center">
+                <div className="w-36 h-36 bg-gray-300 rounded-full mx-auto mb-4"></div>
+                <h3 className="font-bold text-black">{member.name}</h3>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
