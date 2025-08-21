@@ -664,7 +664,7 @@ export default function MachineLearningFundamentals() {
         <div className="text-left mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">Meet the Team</h2>
           <p className="text-lg text-gray-600">
-            New lectures, slides, and labs will be open-sourced every week starting March 3 at 11AM ET!
+            Our dedicated team of ML educators bring years of experience in machine learning, deep learning, and AI education to create an engaging learning experience.
           </p>
         </div>
         
