@@ -5,6 +5,10 @@ import blueTick from "@/assets/icons/blue-tick-icon.svg";
 import darkBlueTick from "@/assets/icons/dark-blue-tick-icon.svg";
 // import HeroSection from "@/components/heroSection";
 import mlfBackground from "@/assets/photos/ml-fundamentals/mlf-background.svg";
+import catOne from "@/assets/photos/ml-fundamentals/cat_one.avif";
+import catTwo from "@/assets/photos/ml-fundamentals/cat_two.avif";
+import catThree from "@/assets/photos/ml-fundamentals/cat_three.webp";
+import catFour from "@/assets/photos/ml-fundamentals/cat_four.jpg";
 
 // Type definitions
 type ModalType = 'theory' | 'pytorch' | 'exercise';
@@ -120,18 +124,22 @@ const teamData = [
   {
     id: 1,
     name: "Name",
+    image: catOne,
   },
   {
     id: 2,
     name: "Name",
+    image: catTwo,
   },
   {
     id: 3,
     name: "Name",
+    image: catThree,
   },
   {
     id: 4,
     name: "Name",
+    image: catFour,
   }
 ];
 
@@ -665,7 +673,15 @@ export default function MachineLearningFundamentals() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
             {teamData.map((member) => (
               <div key={member.id} className="text-center">
-                <div className="w-36 h-36 bg-gray-300 rounded-full mx-auto mb-4"></div>
+                <div className="w-36 h-36 mx-auto mb-4">
+                  <Image
+                    src={member.image}
+                    alt={`${member.name} profile picture`}
+                    width={144}
+                    height={144}
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                </div>
                 <h3 className="font-bold text-black">{member.name}</h3>
               </div>
             ))}
