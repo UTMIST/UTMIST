@@ -20,6 +20,11 @@ type WeekData = {
   description: string;
 };
 
+type FAQItem = {
+  id: number;
+  question: string;
+};
+
 type WorkshopContent = {
   title: string;
   theory: WorkshopSection;
@@ -68,6 +73,42 @@ const weekData = [
     weekNumber: 8,
     title: "Deep Learning & Modern Architectures",
     description: "Why deep learning, CNNs, RNNs, transformers, practical implementation with PyTorch"
+  }
+];
+
+// FAQ data
+const faqData: FAQItem[] = [
+  {
+    id: 1,
+    question: "What prerequisites do I need for this workshop?"
+  },
+  {
+    id: 2,
+    question: "Do I need to bring my own laptop?"
+  },
+  {
+    id: 3,
+    question: "What if I miss a session?"
+  },
+  {
+    id: 4,
+    question: "Is there any cost to attend?"
+  },
+  {
+    id: 5,
+    question: "Will I receive a certificate?"
+  },
+  {
+    id: 6,
+    question: "Can I join if I'm not a UTMIST member?"
+  },
+  {
+    id: 7,
+    question: "What software will we be using?"
+  },
+  {
+    id: 8,
+    question: "How long are the sessions?"
   }
 ];
 
@@ -511,85 +552,16 @@ export default function MachineLearningFundamentals() {
         
         {/* FAQ Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* FAQ Item 1 */}
-          <div className="bg-gray-100 rounded-lg p-4 cursor-pointer hover:bg-gray-200 transition-colors">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-black">QUESTION</span>
-              <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
+          {faqData.map((faq) => (
+            <div key={faq.id} className="bg-gray-100 rounded-lg p-4 cursor-pointer hover:bg-gray-200 transition-colors">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-black">{faq.question}</span>
+                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
             </div>
-          </div>
-
-          {/* FAQ Item 2 */}
-          <div className="bg-gray-100 rounded-lg p-4 cursor-pointer hover:bg-gray-200 transition-colors">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-black">QUESTION</span>
-              <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
-
-          {/* FAQ Item 3 */}
-          <div className="bg-gray-100 rounded-lg p-4 cursor-pointer hover:bg-gray-200 transition-colors">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-black">QUESTION</span>
-              <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
-
-          {/* FAQ Item 4 */}
-          <div className="bg-gray-100 rounded-lg p-4 cursor-pointer hover:bg-gray-200 transition-colors">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-black">QUESTION</span>
-              <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
-
-          {/* FAQ Item 5 */}
-          <div className="bg-gray-100 rounded-lg p-4 cursor-pointer hover:bg-gray-200 transition-colors">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-black">QUESTION</span>
-              <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
-
-          {/* FAQ Item 6 */}
-          <div className="bg-gray-100 rounded-lg p-4 cursor-pointer hover:bg-gray-200 transition-colors">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-black">QUESTION</span>
-              <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
-
-          {/* FAQ Item 7 */}
-          <div className="bg-gray-100 rounded-lg p-4 cursor-pointer hover:bg-gray-200 transition-colors">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-black">QUESTION</span>
-              <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
-
-          {/* FAQ Item 8 */}
-          <div className="bg-gray-100 rounded-lg p-4 cursor-pointer hover:bg-gray-200 transition-colors">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-black">QUESTION</span>
-              <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
