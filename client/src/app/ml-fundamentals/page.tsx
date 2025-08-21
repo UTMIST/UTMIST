@@ -455,7 +455,7 @@ export default function MachineLearningFundamentals() {
           backgroundRepeat: 'no-repeat',
           width: '100vw',
           height: '100vh',
-          top: '-143px', // Adjust this value based on your navbar height
+          top: '-142px', // Adjust this value based on your navbar height
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 1,
