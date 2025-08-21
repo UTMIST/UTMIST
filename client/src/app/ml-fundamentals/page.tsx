@@ -422,7 +422,7 @@ export default function MachineLearningFundamentals() {
 
   return <main>
     {/* Hero Section */}
-    <div className="w-full h-screen flex flex-col items-center text-left relative pt-20">
+    <div className="w-full min-h-screen flex flex-col items-center text-left relative" style={{ paddingTop: 'max(1rem, 4vh)' }}>
       {/* Background SVG Image - Extended to cover navbar */}
       <div 
         className="absolute opacity-100"
@@ -451,60 +451,97 @@ export default function MachineLearningFundamentals() {
       }}></div>
       
       {/* Hero Content */}
-      <div className="relative z-20 w-4/5 max-w-6xl p-8">
+      <div className="relative z-20 w-11/12 sm:w-4/5 max-w-6xl" style={{ 
+        padding: `max(0.5rem, 2vh) max(0.75rem, 2vw)`
+      }}>
         {/* Title and Description */}
-                  <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold text-white mb-6">
-              <span>Machine Learning</span> Fundamentals
-            </h1>
-            <p className="text-xl text-white max-w-4xl mx-auto leading-relaxed">
-              This is your go-to page for everything related to the Machine Learning Fundamentals (MLF) Program by UTMIST. 
-              Find all the essential links in one place—from the IBM platform for notebooks and tools, to lecture recordings 
-              and key resources to help you stay on track and succeed throughout the program.
-            </p>
+        <div className="text-center" style={{ marginBottom: 'max(0.75rem, 2.5vh)' }}>
+          <h1 className="font-bold text-white" style={{ 
+            fontSize: 'max(2rem, 2vw)',
+            marginBottom: 'max(0.5rem, 4vh)'
+          }}>
+            <span>Machine Learning Fundamentals</span>
+          </h1>
+          <p className="text-white mx-auto leading-tight px-2" style={{ 
+            fontSize: 'max(1rem, 1.2vw)',
+            marginBottom: 'max(0.5rem, 6vh)',
+            maxWidth: 'max(24rem, 30vw)',
+            lineHeight: '1.3'
+          }}>
+            This is your go-to page for everything related to the Machine Learning Fundamentals (MLF) Program by UTMIST. 
+            Find all the essential links in one place—from the IBM platform for notebooks and tools, to lecture recordings 
+            and key resources to help you stay on track and succeed throughout the program.
+          </p>
+        </div>
+        
+        {/* Content Cards */}
+        <div className="flex flex-col md:flex-row" style={{ gap: 'max(0.8rem, 1.2vw)' }}>
+          <div className="border border-gray-300 text-center rounded-2xl w-full bg-white bg-opacity-95 backdrop-blur-sm shadow-lg" style={{ 
+            padding: 'max(0.5rem, 1.5vw)'
+          }}>
+            <h2 className="font-bold text-black" style={{ 
+              fontSize: 'max(0.625rem, 1.4vw)',
+              marginBottom: 'max(0.25rem, 1vh)'
+            }}>
+              Gain Technical Skills
+            </h2>
+            <div style={{ gap: 'max(0.125rem, 0.8vh)' }}>
+              <div className="flex flex-row justify-start items-center" style={{ marginBottom: 'max(0.125rem, 0.8vh)' }}>
+                <Image src={blueTick} alt="Blue tick" className="mr-1" style={{ 
+                  width: 'max(0.5rem, 1.2vw)',
+                  height: 'max(0.5rem, 1.2vw)'
+                }} />
+                <span className="text-gray-800" style={{ fontSize: 'max(0.5rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
+              </div>
+              <div className="flex flex-row justify-start items-center" style={{ marginBottom: 'max(0.125rem, 0.8vh)' }}>
+                <Image src={blueTick} alt="Blue tick" className="mr-1" style={{ 
+                  width: 'max(0.5rem, 1.2vw)',
+                  height: 'max(0.5rem, 1.2vw)'
+                }} />
+                <span className="text-gray-800" style={{ fontSize: 'max(0.5rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
+              </div>
+              <div className="flex flex-row justify-start items-center">
+                <Image src={blueTick} alt="Blue tick" className="mr-1" style={{ 
+                  width: 'max(0.5rem, 1.2vw)',
+                  height: 'max(0.5rem, 1.2vw)'
+                }} />
+                <span className="text-gray-800" style={{ fontSize: 'max(0.5rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
+              </div>
+            </div>
           </div>
           
-          {/* Content Cards */}
-          <div className="flex flex-col md:flex-row gap-6">
-            <div className="border border-gray-300 p-6 text-center rounded-2xl w-full bg-white bg-opacity-95 backdrop-blur-sm shadow-lg">
-              <h2 className="text-2xl font-bold text-black mb-4">
-                Gain Technical Skills
-              </h2>
-              <div className="space-y-3">
-                <div className="flex flex-row justify-start items-center">
-                  <Image src={blueTick} alt="Blue tick" className="w-5 h-5 mr-3" />
-                  <span className="text-sm text-gray-800">Help shape the future of AI and ML at UTMIST</span>
-                </div>
-                <div className="flex flex-row justify-start items-center">
-                  <Image src={blueTick} alt="Blue tick" className="w-5 h-5 mr-3" />
-                  <span className="text-sm text-gray-800">Help shape the future of AI and ML at UTMIST</span>
-                </div>
-                <div className="flex flex-row justify-start items-center">
-                  <Image src={blueTick} alt="Blue tick" className="w-5 h-5 mr-3" />
-                  <span className="text-sm text-gray-800">Help shape the future of AI and ML at UTMIST</span>
-                </div>
+          <div className="border border-gray-300 text-center rounded-2xl w-full bg-white bg-opacity-95 backdrop-blur-sm shadow-lg" style={{ 
+            padding: 'max(0.5rem, 1.5vw)'
+          }}>
+            <h2 className="font-bold text-black" style={{ 
+              fontSize: 'max(0.625rem, 1.4vw)',
+              marginBottom: 'max(0.25rem, 1vh)'
+            }}>
+              Time and Location
+            </h2>
+            <p className="text-gray-800 font-semibold" style={{ 
+              fontSize: 'max(0.5625rem, 1.3vw)',
+              marginBottom: 'max(0.25rem, 1vh)'
+            }}>BA2100 3pm</p>
+            <div style={{ gap: 'max(0.125rem, 0.8vh)' }}>
+              <div className="flex flex-row justify-start items-center" style={{ marginBottom: 'max(0.125rem, 0.8vh)' }}>
+                <Image src={darkBlueTick} alt="Dark blue tick" className="mr-1" style={{ 
+                  width: 'max(0.5rem, 1.2vw)',
+                  height: 'max(0.5rem, 1.2vw)'
+                }} />
+                <span className="text-gray-800" style={{ fontSize: 'max(0.5rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
               </div>
-            </div>
-            
-            <div className="border border-gray-300 p-6 text-center rounded-2xl w-full bg-white bg-opacity-95 backdrop-blur-sm shadow-lg">
-              <h2 className="text-2xl font-bold text-black mb-4">
-                Time and Location
-              </h2>
-              <p className="text-lg text-gray-800 mb-4 font-semibold">BA2100 3pm</p>
-              <div className="space-y-3">
-                <div className="flex flex-row justify-start items-center">
-                  <Image src={darkBlueTick} alt="Dark blue tick" className="w-5 h-5 mr-3" />
-                  <span className="text-sm text-gray-800">Help shape the future of AI and ML at UTMIST</span>
-                </div>
-                <div className="flex flex-row justify-start items-center">
-                  <Image src={darkBlueTick} alt="Dark blue tick" className="w-5 h-5 mr-3" />
-                  <span className="text-sm text-gray-800">Help shape the future of AI and ML at UTMIST</span>
-                </div>
+              <div className="flex flex-row justify-start items-center">
+                <Image src={darkBlueTick} alt="Dark blue tick" className="mr-1" style={{ 
+                  width: 'max(0.5rem, 1.2vw)',
+                  height: 'max(0.5rem, 1.2vw)'
+                }} />
+                <span className="text-gray-800" style={{ fontSize: 'max(0.5rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
               </div>
             </div>
           </div>
+        </div>
       </div>
-        
     </div>
 
     {/* Schedule Section */}
