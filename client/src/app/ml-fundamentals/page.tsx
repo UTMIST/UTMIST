@@ -659,7 +659,7 @@ export default function MachineLearningFundamentals() {
     </div>
 
     {/* Meet the Team Section */}
-    <div className="w-full bg-white py-16 px-4 sm:px-6 lg:px-8">
+    <div className="w-full bg-white px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-left mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">Meet the Team</h2>
