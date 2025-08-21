@@ -624,9 +624,9 @@ export default function MachineLearningFundamentals() {
         </div>
         
         {/* FAQ Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-auto">
           {faqData.map((faq) => (
-            <div key={faq.id} className="bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors overflow-hidden">
+            <div key={faq.id} className="bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors overflow-hidden h-fit">
               <div 
                 className="flex items-center justify-between p-4"
                 onClick={() => toggleFAQ(faq.id)}
