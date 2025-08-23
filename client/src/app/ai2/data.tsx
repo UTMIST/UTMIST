@@ -27,11 +27,11 @@ export const newFeatures = [
     desc: "Battle in arenas that fight back — use moving platforms, learn the new terrain to outsmart your opponent", 
     img: ai2Assets.interactive_environment.src 
   },
-  { 
-    title: "Better Customization", 
-    desc: "Tailor your agent’s skills, style, and personality to dominate the competition in your own unique way", 
-    img: ai2Assets.better_customization.src 
-  },
+  // { 
+  //   title: "Better Customization", 
+  //   desc: "Tailor your agent’s skills, style, and personality to dominate the competition in your own unique way", 
+  //   img: ai2Assets.better_customization.src 
+  // },
 ];
 
 export const timelineEvents = [
