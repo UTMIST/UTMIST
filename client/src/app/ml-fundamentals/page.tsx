@@ -598,7 +598,7 @@ export default function MachineLearningFundamentals() {
     {/* Schedule Section */}
     <div className="w-full bg-white px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <div className="text-left mb-12">
+        <div className="text-left mb-12 mt-8 sm:mt-0">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">MLF Workshop Schedule</h2>
           <p className="text-lg text-gray-600">
             Timeline: Late Sep - Mid/Late Nov • 8 workshops covering fundamental ML concepts and practical implementation
