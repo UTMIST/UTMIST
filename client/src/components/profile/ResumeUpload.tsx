@@ -64,7 +64,8 @@ export default function ResumeUpload({
         } else {
           onResumeChange?.(false);
         }
-      } catch (error) {
+      } catch {
+        // Error handling is intentionally empty - we just want to continue loading
       } finally {
         setIsLoading(false);
       }

@@ -22,9 +22,7 @@ export const uploadFile = async (
     const {
       allowedTypes,
       maxSize = 5 * 1024 * 1024,
-      updateUserProfile = false,
       bucketName = "utmist-website",
-      isPublic = true,
     } = options || {};
 
     // Validate file type if specified
@@ -50,7 +48,7 @@ export const uploadFile = async (
 
     // Upload file to Supabase storage
     console.log("Uploading file to:", filePath);
-    const { error, data } = await supabase.storage
+    const { error } = await supabase.storage
       .from(bucketName)
       .upload(filePath, file, {
         cacheControl: "3600",
@@ -72,11 +70,11 @@ export const uploadFile = async (
       success: true,
       url: publicURL.publicUrl,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("File upload error:", error);
     return {
       success: false,
-      error: error.message || "Failed to upload file",
+      error: error instanceof Error ? error.message : "Failed to upload file",
     };
   }
 };

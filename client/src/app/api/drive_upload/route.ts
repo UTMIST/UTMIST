@@ -6,8 +6,66 @@ import {
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
+/**
+ * API Route: Resume Upload to Google Drive
+ *
+ * Handles the upload of user resumes to Google Drive with authentication,
+ * rate limiting, and file validation. NOTE: this route has nothing to do with
+ * uploading the actual resume. This route assumes that the resume is already
+ * uploaded to supabase storage.
+ *
+ *
+ * @route POST /api/drive_upload
+ *
+ * @security
+ * - Requires user authentication via Supabase cookies
+ * - Validates user profile exists and has required fields
+ * - Enforces 10-minute rate limiting between uploads
+ *
+ * @validation
+ * - File must be a valid PDF (validated by file signature)
+ * - Google Drive configuration must be properly set up through .env vars
+ * - User must have a complete profile with name field
+ *
+ * @rateLimit
+ * - Users can only upload once every 10 minutes
+ * - Returns 429 status with remaining wait time if limit exceeded
+ *
+ * @fileNaming
+ * - Files are renamed to: `{sanitized_user_name}_{user_id}.pdf`
+ * - Special characters in names are replaced with underscores
+ * - Ensures unique filenames and prevents conflicts
+ *
+ * @behavior
+ * - If user has uploaded before, replaces the existing file
+ * - Updates user's `resume_upload` timestamp on success
+ * - Returns Google Drive file ID and web view link
+ *
+ *
+ * @param {Request} request - Next.js request object containing FormData with a key "file" in the request body
+ * @example
+ * ```typescript
+ *
+ * // Success response:
+ * {
+ *   success: true,
+ *   fileId: "1ABC123...",
+ *   webViewLink: "https://drive.google.com/file/d/...",
+ *   message: "File uploaded to Google Drive successfully",
+ *   fileName: "John_Doe_user123.pdf"
+ * }
+ *
+ * // Error responses:
+ * // 401: Authentication failed
+ * // 404: User profile not found
+ * // 429: Rate limit exceeded
+ * // 400: Invalid file (not PDF) or no file provided
+ * // 500: Server/configuration error
+ * ```
+ */
 export async function POST(request: Request) {
   try {
+    // Validate Google Drive configuration before proceeding
     const configError = validateGoogleDriveConfig();
     if (configError) {
       return new Response(JSON.stringify({ error: configError }), {
@@ -16,7 +74,10 @@ export async function POST(request: Request) {
       });
     }
 
-    // Create Supabase client and get authenticated user
+    /**
+     * Authentication: Create Supabase client and verify user authentication
+     * Uses server-side cookies to maintain session state
+     */
     const cookieStore = await cookies();
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -46,7 +107,10 @@ export async function POST(request: Request) {
       });
     }
 
-    // Get user profile to get the name and last upload time
+    /**
+     * User Profile Validation: Fetch user profile to get name and last upload timestamp
+     * Name is required for file naming, resume_upload is used for rate limiting
+     */
     const { data: userProfile, error: profileError } = await supabase
       .from("user")
       .select("name, resume_upload")
@@ -60,7 +124,10 @@ export async function POST(request: Request) {
       });
     }
 
-    // Check if user can upload (10-minute limit)
+    /**
+     * Rate Limiting: Check if user can upload based on 10-minute cooldown
+     * Compares current time with last upload timestamp
+     */
     if (userProfile.resume_upload) {
       const lastUpload = new Date(userProfile.resume_upload);
       const now = new Date();
@@ -79,6 +146,7 @@ export async function POST(request: Request) {
       }
     }
 
+    // Extract file from FormData request
     const formData = await request.formData();
     const file = formData.get("file") as File;
 
@@ -89,6 +157,7 @@ export async function POST(request: Request) {
       });
     }
 
+    // Convert file to buffer and validate PDF format by checking file signature
     const fileBuffer = await file.arrayBuffer();
 
     if (!validatePDF(fileBuffer)) {
@@ -98,11 +167,18 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create the new filename: user.name_user.id.pdf
+    /**
+     * File Naming: Generate unique filename based on user data
+     * Format: {sanitized_name}_{user_id}.pdf
+     * Sanitization removes special characters to prevent file system issues
+     */
     const sanitizedName = userProfile.name.replace(/[^a-zA-Z0-9]/g, "_");
     const newFileName = `${sanitizedName}_${user.id}.pdf`;
 
-    // If user has uploaded before (resume_upload is not null), replace the file
+    /**
+     * Google Drive Upload: Upload file to shared drive
+     * If user has uploaded before, replace existing file to avoid duplicates
+     */
     const shouldReplace = userProfile.resume_upload !== null;
     const result = await uploadToGoogleDrive(
       fileBuffer,
@@ -110,7 +186,10 @@ export async function POST(request: Request) {
       shouldReplace
     );
 
-    // Update the user's resume_upload timestamp
+    /**
+     * Database Update: Record successful upload timestamp
+     * Used for rate limiting and tracking upload history
+     */
     const { error: updateError } = await supabase
       .from("user")
       .update({

@@ -31,7 +31,7 @@ function createGoogleAuth() {
 }
 
 async function findExistingFile(
-  drive: any,
+  drive: ReturnType<typeof google.drive>,
   fileName: string,
   folderId: string
 ): Promise<string | null> {
@@ -43,7 +43,7 @@ async function findExistingFile(
     });
 
     if (response.data.files && response.data.files.length > 0) {
-      return response.data.files[0].id;
+      return response.data.files[0].id || null;
     }
     return null;
   } catch (error) {
