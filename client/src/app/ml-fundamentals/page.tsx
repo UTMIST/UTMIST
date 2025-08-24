@@ -531,7 +531,7 @@ export default function MachineLearningFundamentals() {
             padding: 'max(0.5rem, 1.5vw)'
           }}>
             <h2 className="font-bold text-black" style={{ 
-              fontSize: 'max(0.625rem, 1.4vw)',
+              fontSize: 'max(1rem, 1.4vw)',
               marginBottom: 'max(0.25rem, 1vh)'
             }}>
               Gain Technical Skills
@@ -542,21 +542,21 @@ export default function MachineLearningFundamentals() {
                   width: 'max(0.5rem, 1.2vw)',
                   height: 'max(0.5rem, 1.2vw)'
                 }} />
-                <span className="text-gray-800" style={{ fontSize: 'max(0.5rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
+                <span className="text-gray-800" style={{ fontSize: 'max(0.7rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
               </div>
               <div className="flex flex-row justify-start items-center" style={{ marginBottom: 'max(0.125rem, 0.8vh)' }}>
                 <Image src={blueTick} alt="Blue tick" className="mr-1" style={{ 
                   width: 'max(0.5rem, 1.2vw)',
                   height: 'max(0.5rem, 1.2vw)'
                 }} />
-                <span className="text-gray-800" style={{ fontSize: 'max(0.5rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
+                <span className="text-gray-800" style={{ fontSize: 'max(0.7rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
               </div>
               <div className="flex flex-row justify-start items-center">
                 <Image src={blueTick} alt="Blue tick" className="mr-1" style={{ 
                   width: 'max(0.5rem, 1.2vw)',
                   height: 'max(0.5rem, 1.2vw)'
                 }} />
-                <span className="text-gray-800" style={{ fontSize: 'max(0.5rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
+                <span className="text-gray-800" style={{ fontSize: 'max(0.7rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
               </div>
             </div>
           </div>
@@ -565,13 +565,13 @@ export default function MachineLearningFundamentals() {
             padding: 'max(0.5rem, 1.5vw)'
           }}>
             <h2 className="font-bold text-black" style={{ 
-              fontSize: 'max(0.625rem, 1.4vw)',
+              fontSize: 'max(1rem, 1.4vw)',
               marginBottom: 'max(0.25rem, 1vh)'
             }}>
               Time and Location
             </h2>
             <p className="text-gray-800 font-semibold" style={{ 
-              fontSize: 'max(0.5625rem, 1.3vw)',
+              fontSize: 'max(1rem, 1.3vw)',
               marginBottom: 'max(0.25rem, 1vh)'
             }}>BA2100 3pm</p>
             <div style={{ gap: 'max(0.125rem, 0.8vh)' }}>
@@ -580,14 +580,14 @@ export default function MachineLearningFundamentals() {
                   width: 'max(0.5rem, 1.2vw)',
                   height: 'max(0.5rem, 1.2vw)'
                 }} />
-                <span className="text-gray-800" style={{ fontSize: 'max(0.5rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
+                <span className="text-gray-800" style={{ fontSize: 'max(0.7rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
               </div>
               <div className="flex flex-row justify-start items-center">
                 <Image src={darkBlueTick} alt="Dark blue tick" className="mr-1" style={{ 
                   width: 'max(0.5rem, 1.2vw)',
                   height: 'max(0.5rem, 1.2vw)'
                 }} />
-                <span className="text-gray-800" style={{ fontSize: 'max(0.5rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
+                <span className="text-gray-800" style={{ fontSize: 'max(0.7rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
               </div>
             </div>
           </div>
