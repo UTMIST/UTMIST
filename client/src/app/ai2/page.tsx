@@ -71,7 +71,7 @@ export default function AI2Page() {
             </div>
           ))}
           <h2 className="ai2-h2 text-center">
-            Find our open-source environment and server code <a href="https://github.com/kseto06/UTMIST-AI2-2025" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">here</a>
+            Find our open-source environment and server code <a href="https://github.com/UTMIST/UTMIST-AI2" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">here</a>
           </h2>
         </section>
 
@@ -96,7 +96,7 @@ export default function AI2Page() {
         {/* What's New Section */}
         <section className="new-features">
           <h1 className="ai2-h1">What&apos;s New</h1>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 p-6 max-w-5xl mx-auto justify-items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 p-6 max-w-5xl mx-auto justify-items-center">
             {newFeatures.map((card, i) => (
               <AI2Card key={i} title={card.title} description={card.desc} image={card.img} />
             ))}
