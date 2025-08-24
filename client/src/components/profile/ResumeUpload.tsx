@@ -135,6 +135,11 @@ export default function ResumeUpload({
         setCanUpload(false);
         setRemainingMinutes(10);
         onResumeChange?.(true);
+        // Clear the selected file and file input after successful upload
+        setSelectedFile(null);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
       } else if (response.status === 429) {
         setError(result.error || "Upload rate limited");
         if (result.remainingMinutes) {
@@ -230,7 +235,13 @@ export default function ResumeUpload({
                 </span>
               </div>
               <button
-                onClick={() => setSelectedFile(null)}
+                onClick={() => {
+                  setSelectedFile(null);
+                  // Clear the file input value so the same file can be selected again
+                  if (fileInputRef.current) {
+                    fileInputRef.current.value = '';
+                  }
+                }}
                 className="text-gray-400 hover:text-gray-600"
               >
                 <svg
