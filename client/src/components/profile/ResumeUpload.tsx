@@ -162,8 +162,11 @@ export default function ResumeUpload({
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Upload your resume to directly share with recruiters and employers
-          from events. NOTE: Please make sure to update your name in the profile
-          section above before submitting your resume.
+          from events.
+          <br />
+          <br />
+          NOTE: Please make sure to update your name in the profile section
+          above before submitting your resume.
         </label>
 
         {/* Dropbox */}
