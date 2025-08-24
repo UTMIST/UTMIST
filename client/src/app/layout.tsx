@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Roboto, Space_Grotesk } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 // Importing fonts from Google Fonts
 const roboto = Roboto({
@@ -48,6 +49,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
+        <Toaster />
       </body>
     </html>
   );

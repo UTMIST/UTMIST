@@ -1,0 +1,167 @@
+import { google } from "googleapis";
+import { Readable } from "stream";
+
+const SCOPE = ["https://www.googleapis.com/auth/drive"];
+
+function isPDF(buffer: ArrayBuffer): boolean {
+  const uint8Array = new Uint8Array(buffer);
+  const pdfSignature = [0x25, 0x50, 0x44, 0x46]; // %PDF
+
+  if (uint8Array.length < 4) return false;
+
+  for (let i = 0; i < 4; i++) {
+    if (uint8Array[i] !== pdfSignature[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function createGoogleAuth() {
+  const auth = new google.auth.GoogleAuth({
+    credentials: {
+      client_email: process.env.GOOGLE_CLIENT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+      project_id: process.env.GOOGLE_PROJECT_ID,
+    },
+    scopes: SCOPE,
+  });
+  return auth;
+}
+
+async function findExistingFile(
+  drive: ReturnType<typeof google.drive>,
+  fileName: string,
+  folderId: string
+): Promise<string | null> {
+  try {
+    const response = await drive.files.list({
+      q: `name='${fileName}' and '${folderId}' in parents and trashed=false`,
+      fields: "files(id, name)",
+      supportsAllDrives: true,
+    });
+
+    if (response.data.files && response.data.files.length > 0) {
+      return response.data.files[0].id || null;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error searching for existing file:", error);
+    return null;
+  }
+}
+
+export async function uploadToGoogleDrive(
+  fileBuffer: ArrayBuffer,
+  fileName: string,
+  replace: boolean = false
+): Promise<{ id: string; webViewLink: string }> {
+  const auth = createGoogleAuth();
+  const drive = google.drive({ version: "v3", auth });
+
+  const buffer = Buffer.from(fileBuffer);
+  const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID!;
+
+  const readable = new Readable();
+  readable.push(buffer);
+  readable.push(null);
+
+  const media = {
+    mimeType: "application/pdf",
+    body: readable,
+  };
+
+  let response;
+  let fileId;
+
+  if (replace) {
+    // Check if file already exists and update it
+    const existingFileId = await findExistingFile(drive, fileName, folderId);
+    
+    if (existingFileId) {
+      console.log(`Updating existing file: ${fileName}`);
+      response = await drive.files.update({
+        fileId: existingFileId,
+        media: media,
+        supportsAllDrives: true,
+      });
+      fileId = existingFileId;
+    } else {
+      // File doesn't exist but replace=true, create new file
+      const metadata = {
+        name: fileName,
+        parents: [folderId],
+      };
+      
+      response = await drive.files.create({
+        requestBody: metadata,
+        media: media,
+        supportsAllDrives: true,
+      });
+      fileId = response.data.id;
+
+      if (!fileId) {
+        throw new Error("Failed to get file ID from Google Drive response");
+      }
+
+      // Set permissions for new files
+      await drive.permissions.create({
+        fileId: fileId,
+        requestBody: {
+          role: "reader",
+          type: "anyone",
+        },
+        supportsAllDrives: true,
+      });
+    }
+  } else {
+    // Create new file (first upload)
+    const metadata = {
+      name: fileName,
+      parents: [folderId],
+    };
+    
+    response = await drive.files.create({
+      requestBody: metadata,
+      media: media,
+      supportsAllDrives: true,
+    });
+    fileId = response.data.id;
+
+    if (!fileId) {
+      throw new Error("Failed to get file ID from Google Drive response");
+    }
+
+    // Set permissions for new files
+    await drive.permissions.create({
+      fileId: fileId,
+      requestBody: {
+        role: "reader",
+        type: "anyone",
+      },
+      supportsAllDrives: true,
+    });
+  }
+
+  return {
+    id: fileId,
+    webViewLink: `https://drive.google.com/file/d/${fileId}/view`,
+  };
+}
+
+export function validatePDF(buffer: ArrayBuffer): boolean {
+  return isPDF(buffer);
+}
+
+export function validateGoogleDriveConfig(): string | null {
+  const requiredEnvVars = ["GOOGLE_PRIVATE_KEY", "GOOGLE_CLIENT_EMAIL"];
+
+  for (const envVar of requiredEnvVars) {
+    if (!process.env[envVar]) {
+      return `Missing environment variable: ${envVar}`;
+    }
+  }
+
+  return null;
+}

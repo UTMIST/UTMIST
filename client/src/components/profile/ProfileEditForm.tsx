@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { updateProfile } from "@/utils/auth";
+import { updateUserProfile } from "@/utils/user";
 import AvatarUpload from "./AvatarUpload";
 import type { UserProfile } from "@/types/auth";
 
@@ -19,25 +19,22 @@ export default function ProfileEditForm({
   isSaving,
 }: ProfileEditFormProps) {
   const [formData, setFormData] = useState({
+    name: profile.name || "",
     title: profile.title || "",
     bio: profile.bio || "",
     linkedin: profile.linkedin || "",
     github: profile.github || "",
     twitter: profile.twitter || "",
+    avatar: profile.avatar || "",
   });
-  const [avatar, setAvatar] = useState(profile.avatar || "");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    // Check if at least one field has content
-    const hasContent = Object.values(formData).some(
-      (value) => value.trim() !== ""
-    );
-
-    if (!hasContent) {
-      newErrors.general = "Please fill in at least one field";
+    // Name is required
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
     }
 
     setErrors(newErrors);
@@ -52,24 +49,31 @@ export default function ProfileEditForm({
     }
 
     try {
-      // Update profile using the new field names
-      await updateProfile({
-        name: formData.title || profile.name,
+      // Update profile using the new user utilities
+      const success = await updateUserProfile(profile.id, {
+        name: formData.name,
         title: formData.title,
         bio: formData.bio,
         linkedin: formData.linkedin,
         github: formData.github,
         twitter: formData.twitter,
+        avatar: formData.avatar,
       });
+
+      if (!success) {
+        throw new Error("Failed to update profile");
+      }
 
       // Create updated profile object
       const updatedProfile: UserProfile = {
         ...profile,
+        name: formData.name,
         title: formData.title,
         bio: formData.bio,
         linkedin: formData.linkedin,
         github: formData.github,
         twitter: formData.twitter,
+        avatar: formData.avatar,
       };
 
       onSave(updatedProfile);
@@ -87,8 +91,8 @@ export default function ProfileEditForm({
     }
   };
 
-  const handleAvatarChange = (avatarUrl: string) => {
-    setAvatar(avatarUrl);
+  const handleAvatarChange = (newAvatarUrl: string) => {
+    setFormData((prev) => ({ ...prev, avatar: newAvatarUrl }));
   };
 
   return (
@@ -104,13 +108,52 @@ export default function ProfileEditForm({
           </div>
         )}
 
-        {/* Avatar Upload Section */}
         <div className="flex justify-center">
           <AvatarUpload
-            currentAvatar={avatar}
+            currentAvatar={formData.avatar}
             userId={profile.id}
-            onAvatarChange={handleAvatarChange}
             disabled={isSaving}
+            onAvatarChange={handleAvatarChange}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Name *
+          </label>
+          <input
+            type="text"
+            id="name"
+            value={formData.name}
+            onChange={(e) => handleInputChange("name", e.target.value)}
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.name ? "border-red-300" : "border-gray-300"
+            }`}
+            placeholder="Your full name"
+            required
+          />
+          {errors.name && (
+            <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+          )}
+        </div>
+
+        <div>
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Title
+          </label>
+          <input
+            type="text"
+            id="title"
+            value={formData.title}
+            onChange={(e) => handleInputChange("title", e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Your professional title"
           />
         </div>
 
@@ -182,12 +225,11 @@ export default function ProfileEditForm({
           />
         </div>
 
-
         <div className="flex space-x-4 pt-4">
           <button
             type="submit"
             disabled={isSaving}
-            style={isSaving ? {} : { background: 'var(--gradient-b2)' }}
+            style={isSaving ? {} : { background: "var(--gradient-b2)" }}
             className={`flex-1 px-6 py-3 rounded-lg font-[var(--system-font)] transition-all duration-200 ${
               isSaving
                 ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
@@ -200,7 +242,7 @@ export default function ProfileEditForm({
             type="button"
             onClick={onCancel}
             disabled={isSaving}
-            style={isSaving ? {} : { background: 'var(--gradient-b2)' }}
+            style={isSaving ? {} : { background: "var(--gradient-b2)" }}
             className={`flex-1 px-6 py-3 rounded-lg font-[var(--system-font)] transition-all duration-200 ${
               isSaving
                 ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"

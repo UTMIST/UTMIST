@@ -2,12 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getCurrentUser, getUserProfile } from "@/utils/auth";
+import { getCurrentUser } from "@/utils/auth";
+import { getCurrentUserProfile } from "@/utils/user";
 import type { UserProfile, AuthUser } from "@/types/auth";
 import ProfileCard from "@/components/profile/ProfileCard";
 import ProfileEditForm from "@/components/profile/ProfileEditForm";
 import SocialCard from "@/components/profile/SocialCard";
 import QRCodeCard from "@/components/profile/QRCodeCard";
+import ResumeCard from "@/components/profile/ResumeCard";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -34,8 +36,8 @@ export default function ProfilePage() {
 
         setUser(currentUser);
         console.log("currentUser", currentUser);
-        // Get full user profile with metadata
-        const userProfile = await getUserProfile();
+        // Get full user profile from public.user table
+        const userProfile = await getCurrentUserProfile();
         setProfile(userProfile);
       } catch (err) {
         console.error("Error loading user data:", err);
@@ -112,7 +114,7 @@ export default function ProfilePage() {
           <p className="text-gray-600 mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            style={{ background: 'var(--gradient-b2)' }}
+            style={{ background: "var(--gradient-b2)" }}
             className="px-4 py-2 rounded-lg font-[var(--system-font)] text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
           >
             Try Again
@@ -137,8 +139,6 @@ export default function ProfilePage() {
           ) : (
             <ProfileCard
               userProfile={profile}
-              userEmail={user.email}
-              userName={profile.title || user.name || ""}
               onEdit={handleEditProfile}
               isEditing={isEditing}
             />
@@ -149,6 +149,8 @@ export default function ProfilePage() {
             github={profile.github}
             twitter={profile.twitter}
           />
+
+          <ResumeCard userId={profile.id} />
 
           <QRCodeCard linkedin={profile.linkedin} />
         </div>
@@ -168,7 +170,7 @@ export default function ProfilePage() {
         </p>
         <button
           onClick={() => router.push("/auth")}
-          style={{ background: 'var(--gradient-b2)' }}
+          style={{ background: "var(--gradient-b2)" }}
           className="px-4 py-2 rounded-lg font-[var(--system-font)] text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
         >
           Go to Login
