@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
 import darkBlueTick from "@/assets/icons/dark-blue-tick-icon.svg";
 // import HeroSection from "@/components/heroSection";
