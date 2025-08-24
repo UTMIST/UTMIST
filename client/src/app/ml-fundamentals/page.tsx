@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
 import darkBlueTick from "@/assets/icons/dark-blue-tick-icon.svg";
 // import HeroSection from "@/components/heroSection";
@@ -445,9 +445,9 @@ export default function MachineLearningFundamentals() {
   return <main>
     {/* Hero Section */}
     <div className="w-full min-h-screen flex flex-col items-center text-left relative" style={{ paddingTop: 'max(1rem, 4vh)' }}>
-      {/* Background SVG Image - Extended to cover navbar */}
+      {/* Desktop Background - Hidden on mobile, shown on sm and above */}
       <div 
-        className="absolute opacity-100"
+        className="absolute opacity-100 block"
         style={{
           backgroundImage: `url(${mlfBackground.src})`,
           backgroundSize: 'cover',
@@ -455,25 +455,54 @@ export default function MachineLearningFundamentals() {
           backgroundRepeat: 'no-repeat',
           width: '100vw',
           height: '100vh',
-          top: '-142px', // Adjust this value based on your navbar height
+          top: '-142px',
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 1,
         }}
       />
       
-      {/* Dark overlay - Extended to cover navbar */}
-      <div className="absolute bg-opacity-40 z-10" style={{
+      {/* Mobile Background - Shown on mobile, hidden on sm and above */}
+      <div 
+        className="absolute opacity-100 block sm:hidden"
+        style={{
+          backgroundImage: `url(${mlfBackground.src})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          width: '100vw',
+          height: '100vh',
+          top: '0',
+          left: '0',
+          right: '0',
+          bottom: '0',
+          zIndex: 1,
+        }}
+      />
+      
+      {/* Desktop Dark overlay - Hidden on mobile, shown on sm and above */}
+      <div className="absolute bg-opacity-40 z-10 block" style={{
         width: '100vw',
         height: '100vh',
-        top: '-145px', // Same value as background
+        top: '-145px',
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 2,
       }}></div>
       
+      {/* Mobile Dark overlay - Shown on mobile, hidden on sm and above */}
+      <div className="absolute bg-opacity-40 z-10 block sm:hidden" style={{
+        width: '100vw',
+        height: '100vh',
+        top: '0',
+        left: '0',
+        right: '0',
+        bottom: '0',
+        zIndex: 2,
+      }}></div>
+      
       {/* Hero Content */}
-      <div className="relative z-20 w-11/12 sm:w-4/5 max-w-6xl" style={{ 
+      <div className="relative z-20 w-11/12 sm:w-4/5 max-w-6xl mt-12 sm:mt-0" style={{ 
         padding: `max(0.5rem, 2vh) max(0.75rem, 2vw)`
       }}>
         {/* Title and Description */}
