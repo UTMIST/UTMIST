@@ -35,12 +35,15 @@ export async function POST(request: Request) {
       }
     );
 
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
     if (userError || !user) {
-      return new Response(
-        JSON.stringify({ error: "Authentication failed" }),
-        { status: 401, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Authentication failed" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // Get user profile to get the name and last upload time
@@ -51,25 +54,25 @@ export async function POST(request: Request) {
       .single();
 
     if (profileError || !userProfile?.name) {
-      return new Response(
-        JSON.stringify({ error: "User profile not found" }),
-        { status: 404, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "User profile not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
-    // Check if user can upload (30-minute limit)
+    // Check if user can upload (10-minute limit)
     if (userProfile.resume_upload) {
       const lastUpload = new Date(userProfile.resume_upload);
       const now = new Date();
       const timeDiff = now.getTime() - lastUpload.getTime();
       const minutesDiff = Math.floor(timeDiff / (1000 * 60));
-      
-      if (minutesDiff < 30) {
-        const remainingMinutes = 30 - minutesDiff;
+
+      if (minutesDiff < 10) {
+        const remainingMinutes = 10 - minutesDiff;
         return new Response(
-          JSON.stringify({ 
+          JSON.stringify({
             error: `Please wait ${remainingMinutes} more minutes before uploading again.`,
-            remainingMinutes 
+            remainingMinutes,
           }),
           { status: 429, headers: { "Content-Type": "application/json" } }
         );
@@ -101,7 +104,11 @@ export async function POST(request: Request) {
 
     // If user has uploaded before (resume_upload is not null), replace the file
     const shouldReplace = userProfile.resume_upload !== null;
-    const result = await uploadToGoogleDrive(fileBuffer, newFileName, shouldReplace);
+    const result = await uploadToGoogleDrive(
+      fileBuffer,
+      newFileName,
+      shouldReplace
+    );
 
     // Update the user's resume_upload timestamp
     const { error: updateError } = await supabase

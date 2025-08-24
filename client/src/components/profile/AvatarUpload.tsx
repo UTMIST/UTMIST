@@ -9,12 +9,14 @@ interface AvatarUploadProps {
   currentAvatar?: string;
   userId: string;
   disabled?: boolean;
+  onAvatarChange?: (newAvatarUrl: string) => void;
 }
 
 export default function AvatarUpload({
   currentAvatar,
   userId,
   disabled = false,
+  onAvatarChange,
 }: AvatarUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | undefined>(currentAvatar);
@@ -45,6 +47,7 @@ export default function AvatarUpload({
       if (result.success && result.url) {
         setAvatarUrl(result.url);
         await updateUserProfile(userId, { avatar: result.url });
+        onAvatarChange?.(result.url);
       } else {
         setError(result.error || "Upload failed");
       }
@@ -68,6 +71,7 @@ export default function AvatarUpload({
         const emptyUrl = "";
         setAvatarUrl(emptyUrl);
         await updateUserProfile(userId, { avatar: emptyUrl });
+        onAvatarChange?.(emptyUrl);
       } else {
         setError("Failed to remove avatar");
       }
@@ -156,7 +160,7 @@ export default function AvatarUpload({
 
       {/* Upload Info */}
       <div className="text-gray-500 text-xs text-center max-w-xs">
-        Supported formats: JPG, PNG, GIF
+        Supported formats: JPG, PNG, GIF, WEBP, SVG
         <br />
         Maximum size: 5MB
       </div>

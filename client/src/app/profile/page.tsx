@@ -9,6 +9,7 @@ import ProfileCard from "@/components/profile/ProfileCard";
 import ProfileEditForm from "@/components/profile/ProfileEditForm";
 import SocialCard from "@/components/profile/SocialCard";
 import QRCodeCard from "@/components/profile/QRCodeCard";
+import ResumeCard from "@/components/profile/ResumeCard";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -148,6 +149,8 @@ export default function ProfilePage() {
             github={profile.github}
             twitter={profile.twitter}
           />
+
+          <ResumeCard userId={profile.id} />
 
           <QRCodeCard linkedin={profile.linkedin} />
         </div>

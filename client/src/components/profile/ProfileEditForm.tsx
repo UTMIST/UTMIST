@@ -25,6 +25,7 @@ export default function ProfileEditForm({
     linkedin: profile.linkedin || "",
     github: profile.github || "",
     twitter: profile.twitter || "",
+    avatar: profile.avatar || "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -56,6 +57,7 @@ export default function ProfileEditForm({
         linkedin: formData.linkedin,
         github: formData.github,
         twitter: formData.twitter,
+        avatar: formData.avatar,
       });
 
       if (!success) {
@@ -71,6 +73,7 @@ export default function ProfileEditForm({
         linkedin: formData.linkedin,
         github: formData.github,
         twitter: formData.twitter,
+        avatar: formData.avatar,
       };
 
       onSave(updatedProfile);
@@ -88,6 +91,10 @@ export default function ProfileEditForm({
     }
   };
 
+  const handleAvatarChange = (newAvatarUrl: string) => {
+    setFormData((prev) => ({ ...prev, avatar: newAvatarUrl }));
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
       <h2 className="text-2xl font-semibold text-gray-900 mb-6">
@@ -103,9 +110,10 @@ export default function ProfileEditForm({
 
         <div className="flex justify-center">
           <AvatarUpload
-            currentAvatar={profile.avatar}
+            currentAvatar={formData.avatar}
             userId={profile.id}
             disabled={isSaving}
+            onAvatarChange={handleAvatarChange}
           />
         </div>
 

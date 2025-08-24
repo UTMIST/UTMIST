@@ -43,15 +43,15 @@ export default function ResumeUpload({
           if (uploadDate && !isNaN(uploadDate.getTime())) {
             setLastUploadDate(uploadDate);
             onResumeChange?.(true);
-            
-            // Check if user can upload (30-minute limit)
+
+            // Check if user can upload (10-minute limit)
             const now = new Date();
             const timeDiff = now.getTime() - uploadDate.getTime();
             const minutesDiff = Math.floor(timeDiff / (1000 * 60));
-            
-            if (minutesDiff < 30) {
+
+            if (minutesDiff < 10) {
               setCanUpload(false);
-              setRemainingMinutes(30 - minutesDiff);
+              setRemainingMinutes(10 - minutesDiff);
             } else {
               setCanUpload(true);
               setRemainingMinutes(0);
@@ -133,7 +133,7 @@ export default function ResumeUpload({
         setSuccess("Resume uploaded to Google Drive successfully!");
         setLastUploadDate(new Date());
         setCanUpload(false);
-        setRemainingMinutes(30);
+        setRemainingMinutes(10);
         onResumeChange?.(true);
       } else if (response.status === 429) {
         setError(result.error || "Upload rate limited");
@@ -156,7 +156,8 @@ export default function ResumeUpload({
     <div className="space-y-4">
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          Resume
+          Upload your resume to directly share with recruiters and employers
+          from events
         </label>
 
         {/* Dropbox */}
@@ -171,7 +172,9 @@ export default function ResumeUpload({
           onDrop={!canUpload ? undefined : handleDrop}
           onDragOver={!canUpload ? undefined : handleDragOver}
           onDragLeave={!canUpload ? undefined : handleDragLeave}
-          onClick={() => !disabled && canUpload && fileInputRef.current?.click()}
+          onClick={() =>
+            !disabled && canUpload && fileInputRef.current?.click()
+          }
         >
           <div className="text-center">
             <svg
@@ -188,7 +191,11 @@ export default function ResumeUpload({
               />
             </svg>
             <div className="mt-4">
-              <p className={`text-sm ${!canUpload ? "text-gray-400" : "text-gray-600"}`}>
+              <p
+                className={`text-sm ${
+                  !canUpload ? "text-gray-400" : "text-gray-600"
+                }`}
+              >
                 {!canUpload
                   ? `Upload limited. Try again in ${remainingMinutes} minutes.`
                   : isDragOver
@@ -251,16 +258,20 @@ export default function ResumeUpload({
               type="button"
               onClick={handleSubmit}
               disabled={isUploading || !canUpload}
-              style={isUploading || !canUpload ? {} : { background: "var(--gradient-b2)" }}
+              style={
+                isUploading || !canUpload
+                  ? {}
+                  : { background: "var(--gradient-b2)" }
+              }
               className={`w-full px-4 py-2 rounded-lg font-[var(--system-font)] text-sm transition-all duration-200 ${
                 isUploading || !canUpload
                   ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
                   : "text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
               }`}
             >
-              {isUploading 
-                ? "Uploading..." 
-                : !canUpload 
+              {isUploading
+                ? "Uploading..."
+                : !canUpload
                 ? `Wait ${remainingMinutes} minutes`
                 : "Submit Resume"}
             </button>
