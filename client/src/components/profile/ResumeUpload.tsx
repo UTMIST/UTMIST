@@ -138,7 +138,7 @@ export default function ResumeUpload({
         // Clear the selected file and file input after successful upload
         setSelectedFile(null);
         if (fileInputRef.current) {
-          fileInputRef.current.value = '';
+          fileInputRef.current.value = "";
         }
       } else if (response.status === 429) {
         setError(result.error || "Upload rate limited");
@@ -162,7 +162,8 @@ export default function ResumeUpload({
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Upload your resume to directly share with recruiters and employers
-          from events
+          from events. NOTE: Please make sure to update your name in the profile
+          section above before submitting your resume.
         </label>
 
         {/* Dropbox */}
@@ -239,7 +240,7 @@ export default function ResumeUpload({
                   setSelectedFile(null);
                   // Clear the file input value so the same file can be selected again
                   if (fileInputRef.current) {
-                    fileInputRef.current.value = '';
+                    fileInputRef.current.value = "";
                   }
                 }}
                 className="text-gray-400 hover:text-gray-600"
