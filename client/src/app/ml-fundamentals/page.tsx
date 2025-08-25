@@ -9,6 +9,7 @@ import catOne from "@/assets/photos/ml-fundamentals/cat_one.avif";
 import catTwo from "@/assets/photos/ml-fundamentals/cat_two.avif";
 import catThree from "@/assets/photos/ml-fundamentals/cat_three.webp";
 import catFour from "@/assets/photos/ml-fundamentals/cat_four.jpg";
+import ibmLogo from "@/assets/photos/ml-fundamentals/ibm.png";
 
 // Type definitions
 type ModalType = 'theory' | 'pytorch' | 'exercise';
@@ -714,6 +715,26 @@ export default function MachineLearningFundamentals() {
                 <h3 className="font-bold text-black">{member.name}</h3>
               </div>
             ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    { /* IBM Partnership Section */ }
+    <div className="w-full bg-white py-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        {/* IBM Sponsorship Section */}
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-black mb-12">Thank you to IBM for sponsoring us!</h2>
+          
+          <div className="flex justify-center">
+            <Image
+              src={ibmLogo}
+              alt="IBM Logo"
+              width={100}
+              height={50}
+              className="h-24 w-auto"
+            />
           </div>
         </div>
       </div>
