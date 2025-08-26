@@ -12,6 +12,7 @@ export interface UserProfile {
   discord?: string;
   created_at?: string;
   updated_at?: string;
+  resume_upload?: Date;
 }
 
 export interface AuthUser {
