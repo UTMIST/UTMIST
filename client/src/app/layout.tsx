@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { ThemeProvider } from "@/components/theme-provider";
+import { FloatingThemeToggle } from "@/components/floating-theme-toggle";
 import { Roboto, Space_Grotesk } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 
@@ -35,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <head>
         <script
           defer
@@ -46,10 +48,17 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${spaceGrotesk.variable} antialiased`}
       >
-        <Navbar />
-        {children}
-        <Footer />
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          {children}
+          <Footer />
+          <FloatingThemeToggle />
+        </ThemeProvider>
       </body>
     </html>
   );

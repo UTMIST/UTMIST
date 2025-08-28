@@ -13,5 +13,20 @@
     --gradient-proj3: linear-gradient(165deg, #F5CDEB 0%, #FF8DE6 100%);
     --gradient-proj4: linear-gradient(122deg, #98CDF9 0%, #799FE6 22%, #1E19B1 100%);
     --gradient-search: linear-gradient(103deg, #D0D4DD 0%, #3E76CC 54%, #1E19B1 100%);
+}
 
+.dark {
+    --gradient-logo: linear-gradient(0deg, rgba(79, 70, 229, 1) 2%, rgba(147, 197, 253, 1) 100%);
+    --gradient-spot: radial-gradient(circle, #9333EA 20%, #4F46E5 10%, #374151 0%);
+    --gradient-bl1: linear-gradient(180deg, #ffffff 0%, #d1d5db 100%);
+    --gradient-b1: linear-gradient(180deg, #7C3AED 0%, #6366F1 47%, #3B82F6 100%);
+    --gradient-b2: linear-gradient(-99deg, #8B5CF6 0%, #4F46E5 100%);
+    --gradient-b3: linear-gradient(180deg, #4F46E5 0%, #9CA3AF 100%);
+    --gradient-line-1: linear-gradient(90deg, #60A5FA 0%, #A855F7 100%);
+    --gradient-line-2: linear-gradient(90deg, #93C5FD 0%, #4F46E5 100%);
+    --gradient-proj1: linear-gradient(30deg, #60A5FA 0%, #A855F7 100%);
+    --gradient-proj2: linear-gradient(100deg, #93C5FD 0%, #4F46E5 100%);
+    --gradient-proj3: linear-gradient(165deg, #F3E8FF 0%, #E879F9 100%);
+    --gradient-proj4: linear-gradient(122deg, #93C5FD 0%, #7C3AED 22%, #4F46E5 100%);
+    --gradient-search: linear-gradient(103deg, #6B7280 0%, #60A5FA 54%, #4F46E5 100%);
 }   

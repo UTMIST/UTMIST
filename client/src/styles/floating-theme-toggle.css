@@ -1,0 +1,39 @@
+.floating-theme-toggle {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid;
+  background: transparent;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.floating-theme-toggle:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+.floating-theme-toggle-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: color 0.2s ease-in-out;
+}
+
+.floating-theme-toggle:hover .floating-theme-toggle-icon {
+  color: #facc15;
+}
+
+/* Hide on mobile/tablet screens (768px and below) */
+@media (max-width: 768px) {
+  .floating-theme-toggle {
+    display: none;
+  }
+}

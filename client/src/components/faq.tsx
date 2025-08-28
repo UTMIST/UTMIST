@@ -81,7 +81,7 @@ export default function FAQ() {
         ))}
       </div>
       <div className="faq-tail-section">
-        <strong>More questions? Reach out to us on any platform!</strong>
+        <strong style={{color: 'var(--muted-foreground)'}}>More questions? Reach out to us on any platform!</strong>
       </div>
     </>
   );

@@ -39,7 +39,7 @@ const PhotosGrid = () => {
         return (
           <div
             key={idx}
-            className={`flex items-center justify-center overflow-hidden bg-white p-2 border border-gray-200 shadow-md rounded-xl`}
+            className={`flex items-center justify-center overflow-hidden bg-white dark:bg-gray-800 p-2 border border-gray-200 dark:border-blue-800 shadow-md rounded-xl`}
           >
             <Image
               src={img}
@@ -79,7 +79,7 @@ const HeroIntroductionSection = () => {
       >
         MISTic R&D
       </h1>
-      <p className="m-0 leading-snug text-center text-sm md:text-base text-gray-700 font-sans">
+      <p className="m-0 leading-snug text-center text-sm md:text-base font-sans">
         <span className="block">
           Building an AI startup? Join MISTic R&D, 
         </span>
@@ -100,7 +100,7 @@ const HeroIntroductionSection = () => {
         >
           Apply
         </Link>
-        <p className="text-xs text-gray-500 text-center mt-1 font-sans">
+        <p className="text-xs text-gray-600 dark:text-gray-400 text-center mt-1" style={{fontFamily: 'var(--system-font)'}}>
           <span className="block">Applications close</span>
           <span className="block">Sept 31st</span>
         </p>
@@ -125,7 +125,7 @@ const HeroStartupSection = () => {
         >
           Startups @ UTMIST
         </h2>
-        <p className="text-sm md:text-base text-gray-700 font-sans">
+        <p className="text-sm md:text-base font-sans">
           Build your AI startup without putting school on hold. Join the Startup
           Department @ UTMIST to turn your AI ideas into reality with
           mentorship, workshops, and a flexible, student-friendly structure.
