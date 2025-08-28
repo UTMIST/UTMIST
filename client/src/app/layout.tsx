@@ -5,7 +5,6 @@ import Footer from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { FloatingThemeToggle } from "@/components/floating-theme-toggle";
 import { Roboto, Space_Grotesk } from "next/font/google";
-import { Toaster } from "react-hot-toast";
 
 // Importing fonts from Google Fonts
 const roboto = Roboto({
