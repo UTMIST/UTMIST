@@ -35,8 +35,8 @@ export default function ContactUsCard() {
       {/* Left column with gradient background */}
       <div className="contact-left">
         <div>
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">Get in touch with us right here</h2>
-          <p className="text-gray-700">
+          <h2 className="text-3xl font-bold mb-4" style={{color: 'var(--foreground)'}}>Get in touch with us right here</h2>
+          <p style={{color: 'var(--foreground)'}}>
             If you have any questions, feel free to reach us here and we will 
             schedule a call with you as soon as possible.
           </p>

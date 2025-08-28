@@ -12,7 +12,7 @@ interface TagProps {
  */
 export function Tag({ text }: TagProps) {
   return (
-    <span className="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">
+    <span className="inline-block text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300">
       {text}
     </span>
   );

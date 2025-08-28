@@ -21,7 +21,7 @@
 .hero-subtitle{
     font-size: 1rem;
     font-weight: 200;
-    color: #111827;
+    color: var(--foreground);
     font-family: var(--system-font);
     padding: 0 2rem;
 }
@@ -62,7 +62,7 @@
 }
 
 .blog-archive-section {
-    background-color: #f8f9fa;
+    background-color: var(--background);
     padding-top: 3rem;
     padding-bottom: 3rem;
     margin-top: 4rem;
@@ -78,7 +78,7 @@
     width: 400px;
     max-width: 90%;
     transition: all 0.3s;
-    background-color: white;
+    background-color: var(--background);
     position: relative;
     border: none;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -111,11 +111,11 @@
     flex: 1;
     font-size: 1rem;
     background: transparent;
-    color: black;
+    color: var(--foreground);
 }
 
 .search-icon {
-    color: #1E19B1;
+    color: var(--secondary);
     width: 1.2rem;
     height: 1.2rem;
 }
@@ -125,23 +125,23 @@
 }
 
 .scrollbar::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
+  background: var(--muted);
   border-radius: 3px;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
+  background: var(--border);
   border-radius: 3px;
 }
 
 .scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #64748B;
+  background: var(--muted-foreground);
 }
 
 /* For Firefox */
 .scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  scrollbar-color: var(--border) var(--muted);
 }
 
 /* Target custom scrollbar */

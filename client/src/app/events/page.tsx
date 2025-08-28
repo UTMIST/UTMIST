@@ -116,8 +116,8 @@ export default function EventsPage() {
       return (
         <main className="px-4 sm:px-0 min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading events...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 mx-auto" style={{borderColor: 'var(--foreground)'}}></div>
+            <p className="mt-4" style={{color: 'var(--muted-foreground)'}}>Loading events...</p>
           </div>
         </main>
       );
@@ -138,8 +138,8 @@ export default function EventsPage() {
 
       {/* Upcoming events section with search and filtering */}
       <div className="upcoming-events-container p-4 sm:p-6 rounded-lg">
-        <h2 className="text-2xl sm:text-3xl mb-2 text-black tracking-[-3%]">Upcoming Events</h2>
-        <p className="text-gray-600 mb-6 text-sm sm:text-base">Explore what is happening on campus right now</p>
+        <h2 className="text-2xl sm:text-3xl mb-2 tracking-[-3%]" style={{color: 'var(--foreground)'}}>Upcoming Events</h2>
+        <p className="mb-6 text-sm sm:text-base" style={{color: 'var(--muted-foreground)'}}>Explore what is happening on campus right now</p>
         
         {/* Search and filter controls */}
         <div className="space-y-4 mb-6">
@@ -156,7 +156,7 @@ export default function EventsPage() {
         </div>
         
         {/* Event list section */}
-        <div className="text-black">
+        <div style={{color: 'var(--foreground)'}}>
           {filteredUpcomingEvents.length === 0 && (
             <p className="text-gray-600 mb-6 text-sm sm:text-base">
               {upcomingEvents.length === 0 ? "More events are in the works, stay tuned! 👀" : "No events found matching your search."}
@@ -198,8 +198,8 @@ export default function EventsPage() {
 
       {/* Past events section */}
       <div className="upcoming-events-container p-4 sm:p-6 rounded-lg">
-        <h2 className="text-2xl sm:text-3xl mb-2 text-black tracking-[-3%]">Past Events</h2>
-        <p className="text-gray-600 mb-6 text-sm sm:text-base">Browse our previous events and workshops</p>
+        <h2 className="text-2xl sm:text-3xl mb-2 tracking-[-3%]" style={{color: 'var(--foreground)'}}>Past Events</h2>
+        <p className="mb-6 text-sm sm:text-base" style={{color: 'var(--muted-foreground)'}}>Browse our previous events and workshops</p>
         
         {/* Search and filter section */}
         <div className="space-y-4 mb-6">
@@ -216,7 +216,7 @@ export default function EventsPage() {
         </div>
         
         {/* Event list section */}
-        <div className="text-black">
+        <div style={{color: 'var(--foreground)'}}>
           {filteredPastEvents.length === 0 && (
             <p className="text-gray-600 mb-6 text-sm sm:text-base">
               No past events found matching your search.
