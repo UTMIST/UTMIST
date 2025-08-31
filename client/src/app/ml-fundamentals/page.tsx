@@ -572,7 +572,7 @@ export default function MachineLearningFundamentals() {
         <div className="text-left mb-12 mt-8 sm:mt-0">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">MLF Workshop Schedule</h2>
           <p className="text-lg text-gray-600">
-            Timeline: Late Sep - Mid/Late Nov • 8 workshops covering fundamental ML concepts and practical implementation
+            New lectures, slides, and labs will be uploaded weekly! Join us for synchronous lectures weekly starting (i will get u the date/time)!
           </p>
         </div>
         
@@ -590,21 +590,21 @@ export default function MachineLearningFundamentals() {
               <div className="flex gap-2 mt-4">
                 <button 
                   onClick={() => openModal(week.weekNumber, 'theory')}
-                  className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
+                  className="flex-1 bg-pink-300 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-pink-400 transition-colors"
                 >
-                  Content
+                  Slides
                 </button>
                 <button 
                   onClick={() => openModal(week.weekNumber, 'pytorch')}
-                  className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
+                  className="flex-1 bg-purple-400 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-purple-500 transition-colors"
                 >
-                  Code
+                  Recording
                 </button>
                 <button 
                   onClick={() => openModal(week.weekNumber, 'exercise')}
-                  className="flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white text-xs py-2 px-3 rounded-lg font-medium hover:from-purple-500 hover:to-blue-700 transition-colors"
+                  className="flex-1 bg-blue-400 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-blue-500 transition-colors"
                 >
-                  Exercises
+                  Code
                 </button>
               </div>
             </div>
