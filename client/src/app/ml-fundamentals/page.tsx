@@ -156,7 +156,7 @@ const workshopContent: Record<number, WorkshopContent> = {
   1: {
     title: "Introduction to Machine Learning",
     theory: {
-      title: "What is Machine Learning?",
+      title: "Slides",
       content: [
         "Definition of ML as pattern recognition from data",
         "Difference between ML and traditional programming",
@@ -166,17 +166,21 @@ const workshopContent: Record<number, WorkshopContent> = {
       ]
     },
     pytorch: {
-      title: "Linear Regression",
+      title: "Recording",
       content: [
-        "Linear Regression: Model equation: y = wx + b",
-        "Loss: Mean Squared Error (MSE)",
-        "Gradient Descent: Intuition using visuals",
-        "Visualization of Regression Line & Data",
-        "Optional: Vectorization, Polynomial Regression (mention only)"
+        "📹 Watch the full lecture recording:",
+        "https://youtu.be/example123",
+        "",
+        "Key Topics Covered:",
+        "• Linear Regression: Model equation: y = wx + b",
+        "• Loss: Mean Squared Error (MSE)",
+        "• Gradient Descent: Intuition using visuals",
+        "• Visualization of Regression Line & Data",
+        "• Optional: Vectorization, Polynomial Regression (mention only)"
       ]
     },
     exercise: {
-      title: "Programming & Exercise",
+      title: "Code",
       content: [
         "Introduction to PyTorch:",
         "• Tensors: creation, basic math, reshaping",
@@ -191,7 +195,7 @@ const workshopContent: Record<number, WorkshopContent> = {
   2: {
     title: "Logistic Regression",
     theory: {
-      title: "Logistic Regression for Classification",
+      title: "Slides",
       content: [
         "Sigmoid function and decision boundaries",
         "Loss: Binary Cross-Entropy",
@@ -203,17 +207,21 @@ const workshopContent: Record<number, WorkshopContent> = {
       ]
     },
     pytorch: {
-      title: "PyTorch Autograd",
+      title: "Recording",
       content: [
-        "Using torch.nn and torch.optim for simple models",
-        "Automatic differentiation with autograd",
-        "Building neural network layers",
-        "Loss function implementation",
-        "Optimizer configuration"
+        "📹 Watch the full lecture recording:",
+        "https://youtu.be/example456",
+        "",
+        "Key Topics Covered:",
+        "• Using torch.nn and torch.optim for simple models",
+        "• Automatic differentiation with autograd",
+        "• Building neural network layers",
+        "• Loss function implementation",
+        "• Optimizer configuration"
       ]
     },
     exercise: {
-      title: "Exercise",
+      title: "Code",
       content: [
         "Build a logistic regression classifier in PyTorch for binary classification",
         "Plot decision boundaries",
@@ -226,7 +234,7 @@ const workshopContent: Record<number, WorkshopContent> = {
   3: {
     title: "Neural Networks Part 1: Foundations",
     theory: {
-      title: "Neural Network Foundations",
+      title: "Slides",
       content: [
         "Limitations of Linear Models",
         "Perceptron & Single-Layer Networks: Weighted sum + bias → activation",
@@ -236,17 +244,21 @@ const workshopContent: Record<number, WorkshopContent> = {
       ]
     },
     pytorch: {
-      title: "PyTorch Model Definition",
+      title: "Recording",
       content: [
-        "Define simple PyTorch models using torch.nn.Linear",
-        "Activation functions (torch.nn.ReLU, torch.nn.Sigmoid, torch.nn.Tanh)",
-        "Model architecture design",
-        "Parameter initialization",
-        "Manual forward pass computation"
+        "📹 Watch the full lecture recording:",
+        "https://youtu.be/example789",
+        "",
+        "Key Topics Covered:",
+        "• Define simple PyTorch models using torch.nn.Linear",
+        "• Activation functions (torch.nn.ReLU, torch.nn.Sigmoid, torch.nn.Tanh)",
+        "• Model architecture design",
+        "• Parameter initialization",
+        "• Manual forward pass computation"
       ]
     },
     exercise: {
-      title: "Exercise",
+      title: "Code",
       content: [
         "Implement a simple 1-hidden-layer network to solve a basic classification task",
         "2D point classification example",
@@ -259,7 +271,7 @@ const workshopContent: Record<number, WorkshopContent> = {
   4: {
     title: "Neural Networks Part 2: Training",
     theory: {
-      title: "Training Neural Networks",
+      title: "Slides",
       content: [
         "Backpropagation (Intuition not Math-heavy): Chain rule concept, how errors flow backward",
         "Optimization Algorithms: Gradient Descent recap → SGD → brief mention of Adam",
@@ -268,17 +280,21 @@ const workshopContent: Record<number, WorkshopContent> = {
       ]
     },
     pytorch: {
-      title: "PyTorch Training",
+      title: "Recording",
       content: [
-        "Use PyTorch's autograd to compute gradients automatically",
-        "Training loop implementation:",
+        "📹 Watch the full lecture recording:",
+        "https://youtu.be/example101",
+        "",
+        "Key Topics Covered:",
+        "• Use PyTorch's autograd to compute gradients automatically",
+        "• Training loop implementation:",
         "• Forward pass → Loss → Backward pass → Optimizer step",
-        "Loss curve visualization",
-        "Model checkpointing and saving"
+        "• Loss curve visualization",
+        "• Model checkpointing and saving"
       ]
     },
     exercise: {
-      title: "Exercise",
+      title: "Code",
       content: [
         "Build and train an MLP for multiclass classification",
         "Experiment: Try different learning rates, number of epochs",
@@ -291,7 +307,7 @@ const workshopContent: Record<number, WorkshopContent> = {
   5: {
     title: "Decision Trees & Ensemble Learning",
     theory: {
-      title: "Decision Trees & Ensembles",
+      title: "Slides",
       content: [
         "Decision Trees: Split criteria (Gini, Entropy)",
         "Tree depth and overfitting",
@@ -300,17 +316,21 @@ const workshopContent: Record<number, WorkshopContent> = {
       ]
     },
     pytorch: {
-      title: "Scikit-learn Implementation",
+      title: "Recording",
       content: [
-        "Using scikit-learn for tree-based models",
-        "Train DecisionTreeClassifier & RandomForestClassifier",
-        "Visualize trees (plot_tree)",
-        "Hyperparameter tuning",
-        "Feature importance analysis"
+        "📹 Watch the full lecture recording:",
+        "https://youtu.be/example202",
+        "",
+        "Key Topics Covered:",
+        "• Using scikit-learn for tree-based models",
+        "• Train DecisionTreeClassifier & RandomForestClassifier",
+        "• Visualize trees (plot_tree)",
+        "• Hyperparameter tuning",
+        "• Feature importance analysis"
       ]
     },
     exercise: {
-      title: "Exercise",
+      title: "Code",
       content: [
         "Compare decision trees vs random forests on toy datasets",
         "Observe the effects of hyperparameters (max_depth)",
@@ -323,7 +343,7 @@ const workshopContent: Record<number, WorkshopContent> = {
   6: {
     title: "Naive Bayes",
     theory: {
-      title: "Naive Bayes & Probability",
+      title: "Slides",
       content: [
         "Basic Probability: Joint, Conditional, Independence",
         "Bayes' Theorem",
@@ -338,17 +358,21 @@ const workshopContent: Record<number, WorkshopContent> = {
       ]
     },
     pytorch: {
-      title: "Implementation",
+      title: "Recording",
       content: [
-        "Implement Naive Bayes for text classification",
-        "Text preprocessing and feature extraction",
-        "Probability calculations",
-        "Model training and prediction",
-        "Performance evaluation"
+        "📹 Watch the full lecture recording:",
+        "https://youtu.be/example303",
+        "",
+        "Key Topics Covered:",
+        "• Implement Naive Bayes for text classification",
+        "• Text preprocessing and feature extraction",
+        "• Probability calculations",
+        "• Model training and prediction",
+        "• Performance evaluation"
       ]
     },
     exercise: {
-      title: "Exercise",
+      title: "Code",
       content: [
         "Train Naive Bayes on a spam detection or movie review sentiment dataset",
         "Text preprocessing pipeline",
@@ -361,7 +385,7 @@ const workshopContent: Record<number, WorkshopContent> = {
   7: {
     title: "Best Practices & Evaluation in ML",
     theory: {
-      title: "ML Best Practices",
+      title: "Slides",
       content: [
         "Concept of Baseline Models: Why simplest models matter (e.g., majority class)",
         "Bias-Variance Tradeoff: Visual and intuitive explanation",
@@ -372,17 +396,21 @@ const workshopContent: Record<number, WorkshopContent> = {
       ]
     },
     pytorch: {
-      title: "Evaluation Metrics",
+      title: "Recording",
       content: [
-        "Compute evaluation metrics in PyTorch/sklearn",
-        "Confusion matrix analysis",
-        "ROC curve plotting",
-        "Precision-Recall curves",
-        "Statistical significance testing"
+        "📹 Watch the full lecture recording:",
+        "https://youtu.be/example404",
+        "",
+        "Key Topics Covered:",
+        "• Compute evaluation metrics in PyTorch/sklearn",
+        "• Confusion matrix analysis",
+        "• ROC curve plotting",
+        "• Precision-Recall curves",
+        "• Statistical significance testing"
       ]
     },
     exercise: {
-      title: "Exercise",
+      title: "Code",
       content: [
         "Given a small dataset and task, build a baseline, improve it, and report metrics",
         "Implement multiple evaluation metrics",
@@ -395,7 +423,7 @@ const workshopContent: Record<number, WorkshopContent> = {
   8: {
     title: "Deep Learning & Modern Architectures",
     theory: {
-      title: "Modern Deep Learning",
+      title: "Slides",
       content: [
         "Why deep learning? Non-linearity & expressiveness",
         "CNNs: Convolutions, kernels, feature maps, pooling",
@@ -405,17 +433,21 @@ const workshopContent: Record<number, WorkshopContent> = {
       ]
     },
     pytorch: {
-      title: "PyTorch Implementation",
+      title: "Recording",
       content: [
-        "PyTorch CNN for MNIST (small model)",
-        "Convolutional layer implementation",
-        "Pooling and flattening operations",
-        "(Optional) Try text classification with RNN using torchtext",
-        "Model architecture design"
+        "📹 Watch the full lecture recording:",
+        "https://youtu.be/example505",
+        "",
+        "Key Topics Covered:",
+        "• PyTorch CNN for MNIST (small model)",
+        "• Convolutional layer implementation",
+        "• Pooling and flattening operations",
+        "• (Optional) Try text classification with RNN using torchtext",
+        "• Model architecture design"
       ]
     },
     exercise: {
-      title: "Exercise",
+      title: "Code",
       content: [
         "Train a small CNN on MNIST or CIFAR-10 subset",
         "Visualize sample predictions",
@@ -726,7 +758,6 @@ export default function MachineLearningFundamentals() {
             <div className="flex justify-between items-start mb-4">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900">{modalContent.title}</h2>
-                <p className="text-lg font-semibold text-purple-600 capitalize">{modalType}</p>
               </div>
               <button
                 onClick={closeModal}
