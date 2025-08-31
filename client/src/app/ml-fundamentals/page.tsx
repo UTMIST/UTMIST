@@ -467,7 +467,7 @@ export default function MachineLearningFundamentals() {
               Phase 1
             </h2>
             
-            <div className="space-y-4 pl-4">
+            <div className="space-y-4 pl-16">
               <div className="flex items-start space-x-3">
                 <div className="flex-shrink-0 w-5 h-5 bg-blue-400 rounded-full flex items-center justify-center">
                   <Image
@@ -522,7 +522,7 @@ export default function MachineLearningFundamentals() {
               Phase 2
             </h2>
             
-            <div className="space-y-4 pl-4">
+            <div className="space-y-4 pl-16">
               <div className="flex items-start space-x-3">
                 <div className="flex-shrink-0 w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center">
                   <Image
