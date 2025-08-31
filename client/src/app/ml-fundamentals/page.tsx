@@ -3,8 +3,7 @@ import Image from "next/image"
 import { useState } from "react"
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
 import darkBlueTick from "@/assets/icons/dark-blue-tick-icon.svg";
-// import HeroSection from "@/components/heroSection";
-import mlfBackground from "@/assets/photos/ml-fundamentals/mlf-background.svg";
+import HeroSection from "@/components/heroSection";
 import catOne from "@/assets/photos/ml-fundamentals/cat_one.avif";
 import catTwo from "@/assets/photos/ml-fundamentals/cat_two.avif";
 import catThree from "@/assets/photos/ml-fundamentals/cat_three.webp";
@@ -445,88 +444,14 @@ export default function MachineLearningFundamentals() {
 
   return <main>
     {/* Hero Section */}
-    <div className="w-full min-h-screen flex flex-col items-center text-left relative" style={{ paddingTop: 'max(1rem, 4vh)' }}>
-      {/* Desktop Background - Hidden on mobile, shown on sm and above */}
-      <div 
-        className="absolute opacity-100 block"
-        style={{
-          backgroundImage: `url(${mlfBackground.src})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          width: '100vw',
-          height: '100vh',
-          top: '-142px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 1,
-        }}
-      />
-      
-      {/* Mobile Background - Shown on mobile, hidden on sm and above */}
-      <div 
-        className="absolute opacity-100 block sm:hidden"
-        style={{
-          backgroundImage: `url(${mlfBackground.src})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          width: '100vw',
-          height: '100vh',
-          top: '0',
-          left: '0',
-          right: '0',
-          bottom: '0',
-          zIndex: 1,
-        }}
-      />
-      
-      {/* Desktop Dark overlay - Hidden on mobile, shown on sm and above */}
-      <div className="absolute bg-opacity-40 z-10 block" style={{
-        width: '100vw',
-        height: '100vh',
-        top: '-145px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: 2,
-      }}></div>
-      
-      {/* Mobile Dark overlay - Shown on mobile, hidden on sm and above */}
-      <div className="absolute bg-opacity-40 z-10 block sm:hidden" style={{
-        width: '100vw',
-        height: '100vh',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        zIndex: 2,
-      }}></div>
-      
-      {/* Hero Content */}
-      <div className="relative z-20 w-11/12 sm:w-4/5 max-w-6xl mt-12 sm:mt-0" style={{ 
-        padding: `max(0.5rem, 2vh) max(0.75rem, 2vw)`
-      }}>
-        {/* Title and Description */}
-        <div className="text-center" style={{ marginBottom: 'max(0.75rem, 2.5vh)' }}>
-          <h1 className="font-bold text-white" style={{ 
-            fontSize: 'max(2rem, 2vw)',
-            marginBottom: 'max(0.5rem, 4vh)'
-          }}>
-            <span>Machine Learning Fundamentals</span>
-          </h1>
-          <p className="text-white mx-auto leading-tight px-2" style={{ 
-            fontSize: 'max(1rem, 1.2vw)',
-            marginBottom: 'max(0.5rem, 6vh)',
-            maxWidth: 'max(24rem, 30vw)',
-            lineHeight: '1.3'
-          }}>
-            This is your go-to page for everything related to the Machine Learning Fundamentals (MLF) Program by UTMIST. 
-            Find all the essential links in one place—from the IBM platform for notebooks and tools, to lecture recordings 
-            and key resources to help you stay on track and succeed throughout the program.
-          </p>
-        </div>
-        
-        {/* Content Cards */}
+    <HeroSection 
+      title="Machine Learning Fundamentals"
+      subtitle="This is your go-to page for everything related to the Machine Learning Fundamentals (MLF) Program by UTMIST. Find all the essential links in one place—from the IBM platform for notebooks and tools, to lecture recordings and key resources to help you stay on track and succeed throughout the program."
+    />
+
+    {/* Content Cards Section */}
+    <div className="w-full bg-white px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row" style={{ gap: 'max(0.8rem, 1.2vw)' }}>
           <div className="border border-gray-300 text-center rounded-2xl w-full bg-white bg-opacity-95 backdrop-blur-sm shadow-lg" style={{ 
             padding: 'max(0.5rem, 1.5vw)'
@@ -597,7 +522,7 @@ export default function MachineLearningFundamentals() {
     </div>
 
     {/* Schedule Section */}
-    <div className="w-full bg-white px-4 sm:px-6 lg:px-8">
+    <div className="w-full bg-white px-4 sm:px-6 lg:px-8 pt-30">
       <div className="max-w-6xl mx-auto">
         <div className="text-left mb-12 mt-8 sm:mt-0">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">MLF Workshop Schedule</h2>
