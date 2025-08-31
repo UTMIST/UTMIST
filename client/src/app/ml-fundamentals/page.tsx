@@ -36,42 +36,50 @@ const weekData = [
   {
     weekNumber: 1,
     title: "Introduction to Machine Learning",
-    description: "What is ML, types of ML, applications, linear regression basics, PyTorch introduction"
+    description: "What is ML, types of ML, applications, linear regression basics, PyTorch introduction",
+    date: "TBD"
   },
   {
     weekNumber: 2,
     title: "Logistic Regression",
-    description: "Classification with sigmoid, decision boundaries, model evaluation, train-validation-test split"
+    description: "Classification with sigmoid, decision boundaries, model evaluation, train-validation-test split",
+    date: "TBD"
   },
   {
     weekNumber: 3,
     title: "Neural Networks Part 1",
-    description: "Perceptrons, activation functions, forward propagation, limitations of linear models"
+    description: "Perceptrons, activation functions, forward propagation, limitations of linear models",
+    date: "TBD"
   },
   {
     weekNumber: 4,
     title: "Neural Networks Part 2",
-    description: "Backpropagation intuition, optimization algorithms, training loops, practical tips"
+    description: "Backpropagation intuition, optimization algorithms, training loops, practical tips",
+    date: "TBD"
   },
   {
     weekNumber: 5,
     title: "Decision Trees & Ensembles",
-    description: "Split criteria, tree depth, random forests, bagging, entropy & information gain"
+    description: "Split criteria, tree depth, random forests, bagging, entropy & information gain",
+    date: "TBD"
   },
   {
     weekNumber: 6,
     title: "Naive Bayes",
-    description: "Probability basics, Bayes' theorem, generative vs discriminative models, text classification"
+    description: "Probability basics, Bayes' theorem, generative vs discriminative models, text classification",
+    date: "TBD"
   },
   {
     weekNumber: 7,
     title: "Best Practices & Evaluation",
-    description: "Baseline models, bias-variance tradeoff, evaluation metrics, iterative ML process"
+    description: "Baseline models, bias-variance tradeoff, evaluation metrics, iterative ML process",
+    date: "TBD"
   },
   {
     weekNumber: 8,
     title: "Deep Learning & Modern Architectures",
-    description: "Why deep learning, CNNs, RNNs, transformers, practical implementation with PyTorch"
+    description: "Why deep learning, CNNs, RNNs, transformers, practical implementation with PyTorch",
+    date: "TBD"
   }
 ];
 
@@ -581,7 +589,7 @@ export default function MachineLearningFundamentals() {
           {weekData.map((week) => (
             <div key={week.weekNumber} className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow flex flex-col h-full">
               <div className="flex-1">
-                <span className="font-bold text-black text-lg">Week {week.weekNumber}</span>
+                <span className="font-bold text-black text-lg">Week {week.weekNumber} - {week.date}</span>
                 <h3 className="text-gray-900 font-semibold mt-1">{week.title}</h3>
                 <p className="text-sm text-gray-600 mt-2">
                   {week.description}
