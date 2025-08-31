@@ -654,19 +654,19 @@ export default function MachineLearningFundamentals() {
               <div className="flex gap-2 mt-4">
                 <button 
                   onClick={() => openModal(week.weekNumber, 'theory')}
-                  className="flex-1 bg-pink-300 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-pink-400 transition-colors"
+                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Slides
                 </button>
                 <button 
                   onClick={() => openModal(week.weekNumber, 'pytorch')}
-                  className="flex-1 bg-purple-400 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-purple-500 transition-colors"
+                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Recording
                 </button>
                 <button 
                   onClick={() => openModal(week.weekNumber, 'exercise')}
-                  className="flex-1 bg-blue-400 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-blue-500 transition-colors"
+                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Code
                 </button>
