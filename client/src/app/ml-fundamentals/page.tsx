@@ -461,13 +461,13 @@ export default function MachineLearningFundamentals() {
     <div className="w-full bg-white px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-8 justify-center items-center">
-          {/* Left Card */}
+          {/* Left Card - Phase 1 */}
           <div className="border border-gray-200 rounded-2xl bg-white shadow-lg p-8 w-full max-w-md lg:max-w-lg">
             <h2 className="text-2xl font-bold text-center mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              Hands on ML Experience
+              Phase 1
             </h2>
             
-            <div className="space-y-4">
+            <div className="space-y-4 pl-4">
               <div className="flex items-start space-x-3">
                 <div className="flex-shrink-0 w-5 h-5 bg-blue-400 rounded-full flex items-center justify-center">
                   <Image
@@ -478,7 +478,7 @@ export default function MachineLearningFundamentals() {
                     objectFit="cover"/>
                 </div>
                 <p className="text-gray-900 text-base leading-relaxed">
-                  Build impactful projects using AI and ML
+                  Learn basics of ML through workshops
                 </p>
               </div>
               
@@ -494,7 +494,7 @@ export default function MachineLearningFundamentals() {
                     objectFit="cover"/>
                 </div>
                 <p className="text-gray-900 text-base leading-relaxed">
-                  Join study groups, workshops for cutting-edge research
+                  Hands on learning with peers
                 </p>
               </div>
               
@@ -510,19 +510,19 @@ export default function MachineLearningFundamentals() {
                     objectFit="cover"/>
                 </div>
                 <p className="text-gray-900 text-base leading-relaxed">
-                  Learn to write robust software in building ML systems
+                  Build foundational knowledge for ML
                 </p>
               </div>
             </div>
           </div>
           
-          {/* Right Card */}
+          {/* Right Card - Phase 2 */}
           <div className="border border-gray-200 rounded-2xl bg-white shadow-lg p-8 w-full max-w-md lg:max-w-lg">
             <h2 className="text-2xl font-bold text-center mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              Robust Professional Network
+              Phase 2
             </h2>
             
-            <div className="space-y-4">
+            <div className="space-y-4 pl-4">
               <div className="flex items-start space-x-3">
                 <div className="flex-shrink-0 w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center">
                   <Image
@@ -533,7 +533,7 @@ export default function MachineLearningFundamentals() {
                     objectFit="cover"/>
                 </div>
                 <p className="text-gray-900 text-base leading-relaxed">
-                  Collaborate with peers and mentors on diverse ML teams
+                  Apply knowledge through building a project
                 </p>
               </div>
               
@@ -549,7 +549,7 @@ export default function MachineLearningFundamentals() {
                     objectFit="cover"/>
                 </div>
                 <p className="text-gray-900 text-base leading-relaxed">
-                  Network with professors, students in academic events
+                  Access mentoring and office hours
                 </p>
               </div>
               
@@ -565,7 +565,7 @@ export default function MachineLearningFundamentals() {
                     objectFit="cover"/>
                 </div>
                 <p className="text-gray-900 text-base leading-relaxed">
-                  Engage with industry professionals in talks and workshops
+                  Gain hands on experience and skills in ML
                 </p>
               </div>
             </div>
