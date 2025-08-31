@@ -495,7 +495,13 @@ export default function MachineLearningFundamentals() {
         <div className="flex flex-col lg:flex-row gap-8 justify-center items-center">
           {/* Left Card - Phase 1 */}
           <div className="border border-gray-200 rounded-2xl bg-white shadow-lg p-4 w-full max-w-md lg:max-w-lg">
-            <h2 className="text-2xl font-bold text-center mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            <h2 className="text-2xl font-bold text-center mb-6" style={{
+              background: "var(--gradient-bl1)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              fontFamily: "var(--system-font)"
+            }}>
               Phase 1
             </h2>
             
@@ -509,7 +515,9 @@ export default function MachineLearningFundamentals() {
                     height={20}
                     objectFit="cover"/>
                 </div>
-                <p className="text-gray-900 text-base leading-relaxed">
+                <p className="text-gray-900 text-md font-extralight leading-relaxed" style={{
+                  fontFamily: "var(--system-font)"
+                }}>
                   Learn basics of ML through workshops
                 </p>
               </div>
@@ -525,7 +533,9 @@ export default function MachineLearningFundamentals() {
                     height={20}
                     objectFit="cover"/>
                 </div>
-                <p className="text-gray-900 text-base leading-relaxed">
+                <p className="text-gray-900 text-md font-extralight leading-relaxed" style={{
+                  fontFamily: "var(--system-font)"
+                }}>
                   Hands on learning with peers
                 </p>
               </div>
@@ -541,7 +551,9 @@ export default function MachineLearningFundamentals() {
                     height={20}
                     objectFit="cover"/>
                 </div>
-                <p className="text-gray-900 text-base leading-relaxed">
+                <p className="text-gray-900 text-md font-extralight leading-relaxed" style={{
+                  fontFamily: "var(--system-font)"
+                }}>
                   Build foundational knowledge for ML
                 </p>
               </div>
@@ -550,7 +562,13 @@ export default function MachineLearningFundamentals() {
           
           {/* Right Card - Phase 2 */}
           <div className="border border-gray-200 rounded-2xl bg-white shadow-lg p-4 w-full max-w-md lg:max-w-lg">
-            <h2 className="text-2xl font-bold text-center mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            <h2 className="text-2xl font-bold text-center mb-6" style={{
+              background: "var(--gradient-bl1)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              fontFamily: "var(--system-font)"
+            }}>
               Phase 2
             </h2>
             
@@ -564,7 +582,9 @@ export default function MachineLearningFundamentals() {
                     height={20}
                     objectFit="cover"/>
                 </div>
-                <p className="text-gray-900 text-base leading-relaxed">
+                <p className="text-gray-900 text-md font-extralight leading-relaxed" style={{
+                  fontFamily: "var(--system-font)"
+                }}>
                   Apply knowledge through building a project
                 </p>
               </div>
@@ -580,7 +600,9 @@ export default function MachineLearningFundamentals() {
                     height={20}
                     objectFit="cover"/>
                 </div>
-                <p className="text-gray-900 text-base leading-relaxed">
+                <p className="text-gray-900 text-md font-extralight leading-relaxed" style={{
+                  fontFamily: "var(--system-font)"
+                }}>
                   Access mentoring and office hours
                 </p>
               </div>
@@ -596,7 +618,9 @@ export default function MachineLearningFundamentals() {
                     height={20}
                     objectFit="cover"/>
                 </div>
-                <p className="text-gray-900 text-base leading-relaxed">
+                <p className="text-gray-900 text-md font-extralight leading-relaxed" style={{
+                  fontFamily: "var(--system-font)"
+                }}>
                   Gain hands on experience and skills in ML
                 </p>
               </div>
