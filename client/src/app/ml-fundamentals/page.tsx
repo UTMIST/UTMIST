@@ -645,9 +645,9 @@ export default function MachineLearningFundamentals() {
           {weekData.map((week) => (
             <div key={week.weekNumber} className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow flex flex-col h-full">
               <div className="flex-1">
-                <span className="font-bold text-black text-lg">Week {week.weekNumber} - {week.date}</span>
-                <h3 className="text-gray-900 font-semibold mt-1">{week.title}</h3>
-                <p className="text-sm text-gray-600 mt-2">
+                <h3 className="text-gray-900 font-semibold text-lg mb-2">{week.title}</h3>
+                <span className="font-bold text-black text-base mb-3">Week {week.weekNumber} - {week.date}</span>
+                <p className="text-sm text-gray-600">
                   {week.description}
                 </p>
               </div>
