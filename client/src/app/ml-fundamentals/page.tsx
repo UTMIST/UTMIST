@@ -452,68 +452,113 @@ export default function MachineLearningFundamentals() {
     {/* Content Cards Section */}
     <div className="w-full bg-white px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row" style={{ gap: 'max(0.8rem, 1.2vw)' }}>
-          <div className="border border-gray-300 text-center rounded-2xl w-full bg-white bg-opacity-95 backdrop-blur-sm shadow-lg" style={{ 
-            padding: 'max(0.5rem, 1.5vw)'
-          }}>
-            <h2 className="font-bold text-black" style={{ 
-              fontSize: 'max(1rem, 1.4vw)',
-              marginBottom: 'max(0.25rem, 1vh)'
-            }}>
-              Gain Technical Skills
+        <div className="flex flex-col lg:flex-row gap-8 justify-center items-center">
+          {/* Left Card */}
+          <div className="border border-gray-200 rounded-2xl bg-white shadow-lg p-8 w-full max-w-md lg:max-w-lg">
+            <h2 className="text-2xl font-bold text-center mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              Hands on ML Experience
             </h2>
-            <div style={{ gap: 'max(0.125rem, 0.8vh)' }}>
-              <div className="flex flex-row justify-start items-center" style={{ marginBottom: 'max(0.125rem, 0.8vh)' }}>
-                <Image src={blueTick} alt="Blue tick" className="mr-1" style={{ 
-                  width: 'max(0.5rem, 1.2vw)',
-                  height: 'max(0.5rem, 1.2vw)'
-                }} />
-                <span className="text-gray-800" style={{ fontSize: 'max(0.7rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
+            
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <div className="flex-shrink-0 w-5 h-5 bg-blue-400 rounded-full flex items-center justify-center">
+                  <Image
+                    src={blueTick}                          
+                    alt={"Blue Tick Icon"}
+                    width={20}
+                    height={20}
+                    objectFit="cover"/>
+                </div>
+                <p className="text-gray-900 text-base leading-relaxed">
+                  Build impactful projects using AI and ML
+                </p>
               </div>
-              <div className="flex flex-row justify-start items-center" style={{ marginBottom: 'max(0.125rem, 0.8vh)' }}>
-                <Image src={blueTick} alt="Blue tick" className="mr-1" style={{ 
-                  width: 'max(0.5rem, 1.2vw)',
-                  height: 'max(0.5rem, 1.2vw)'
-                }} />
-                <span className="text-gray-800" style={{ fontSize: 'max(0.7rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
+              
+              <div className="w-full h-px bg-gray-200 rounded-full"></div>
+              
+              <div className="flex items-start space-x-3">
+                <div className="flex-shrink-0 w-5 h-5 bg-blue-400 rounded-full flex items-center justify-center">
+                  <Image
+                    src={blueTick}                          
+                    alt={"Blue Tick Icon"}
+                    width={20}
+                    height={20}
+                    objectFit="cover"/>
+                </div>
+                <p className="text-gray-900 text-base leading-relaxed">
+                  Join study groups, workshops for cutting-edge research
+                </p>
               </div>
-              <div className="flex flex-row justify-start items-center">
-                <Image src={blueTick} alt="Blue tick" className="mr-1" style={{ 
-                  width: 'max(0.5rem, 1.2vw)',
-                  height: 'max(0.5rem, 1.2vw)'
-                }} />
-                <span className="text-gray-800" style={{ fontSize: 'max(0.7rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
+              
+              <div className="w-full h-px bg-gray-200 rounded-full"></div>
+              
+              <div className="flex items-start space-x-3">
+                <div className="flex-shrink-0 w-5 h-5 bg-blue-400 rounded-full flex items-center justify-center">
+                  <Image
+                    src={blueTick}                          
+                    alt={"Blue Tick Icon"}
+                    width={20}
+                    height={20}
+                    objectFit="cover"/>
+                </div>
+                <p className="text-gray-900 text-base leading-relaxed">
+                  Learn to write robust software in building ML systems
+                </p>
               </div>
             </div>
           </div>
           
-          <div className="border border-gray-300 text-center rounded-2xl w-full bg-white bg-opacity-95 backdrop-blur-sm shadow-lg" style={{ 
-            padding: 'max(0.5rem, 1.5vw)'
-          }}>
-            <h2 className="font-bold text-black" style={{ 
-              fontSize: 'max(1rem, 1.4vw)',
-              marginBottom: 'max(0.25rem, 1vh)'
-            }}>
-              Time and Location
+          {/* Right Card */}
+          <div className="border border-gray-200 rounded-2xl bg-white shadow-lg p-8 w-full max-w-md lg:max-w-lg">
+            <h2 className="text-2xl font-bold text-center mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              Robust Professional Network
             </h2>
-            <p className="text-gray-800 font-semibold" style={{ 
-              fontSize: 'max(1rem, 1.3vw)',
-              marginBottom: 'max(0.25rem, 1vh)'
-            }}>BA2100 3pm</p>
-            <div style={{ gap: 'max(0.125rem, 0.8vh)' }}>
-              <div className="flex flex-row justify-start items-center" style={{ marginBottom: 'max(0.125rem, 0.8vh)' }}>
-                <Image src={darkBlueTick} alt="Dark blue tick" className="mr-1" style={{ 
-                  width: 'max(0.5rem, 1.2vw)',
-                  height: 'max(0.5rem, 1.2vw)'
-                }} />
-                <span className="text-gray-800" style={{ fontSize: 'max(0.7rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
+            
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <div className="flex-shrink-0 w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center">
+                  <Image
+                    src={darkBlueTick}                          
+                    alt={"Dark Blue Tick Icon"}
+                    width={20}
+                    height={20}
+                    objectFit="cover"/>
+                </div>
+                <p className="text-gray-900 text-base leading-relaxed">
+                  Collaborate with peers and mentors on diverse ML teams
+                </p>
               </div>
-              <div className="flex flex-row justify-start items-center">
-                <Image src={darkBlueTick} alt="Dark blue tick" className="mr-1" style={{ 
-                  width: 'max(0.5rem, 1.2vw)',
-                  height: 'max(0.5rem, 1.2vw)'
-                }} />
-                <span className="text-gray-800" style={{ fontSize: 'max(0.7rem, 1.1vw)' }}>Help shape the future of AI and ML at UTMIST</span>
+              
+              <div className="w-full h-px bg-gray-200 rounded-full"></div>
+              
+              <div className="flex items-start space-x-3">
+                <div className="flex-shrink-0 w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center">
+                  <Image
+                    src={darkBlueTick}                          
+                    alt={"Dark Blue Tick Icon"}
+                    width={20}
+                    height={20}
+                    objectFit="cover"/>
+                </div>
+                <p className="text-gray-900 text-base leading-relaxed">
+                  Network with professors, students in academic events
+                </p>
+              </div>
+              
+              <div className="w-full h-px bg-gray-200 rounded-full"></div>
+              
+              <div className="flex items-start space-x-3">
+                <div className="flex-shrink-0 w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center">
+                  <Image
+                    src={darkBlueTick}                          
+                    alt={"Dark Blue Tick Icon"}
+                    width={20}
+                    height={20}
+                    objectFit="cover"/>
+                </div>
+                <p className="text-gray-900 text-base leading-relaxed">
+                  Engage with industry professionals in talks and workshops
+                </p>
               </div>
             </div>
           </div>
