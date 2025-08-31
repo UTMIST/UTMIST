@@ -494,7 +494,7 @@ export default function MachineLearningFundamentals() {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-8 justify-center items-center">
           {/* Left Card - Phase 1 */}
-          <div className="border border-gray-200 rounded-2xl bg-white shadow-lg p-4 w-full max-w-md lg:max-w-lg">
+          <div className="border border-gray-200 rounded-2xl bg-white shadow-lg p-4 w-full max-w-md lg:max-w-md">
             <h2 className="text-2xl font-bold text-center mb-6" style={{
               background: "var(--gradient-bl1)",
               backgroundClip: "text",
@@ -505,7 +505,7 @@ export default function MachineLearningFundamentals() {
               Phase 1
             </h2>
             
-            <div className="space-y-4 pl-8 lg:pl-20">
+            <div className="space-y-4 pl-8 lg:pl-16">
               <div className="flex items-start space-x-3">
                 <div className="flex-shrink-0 w-5 h-5 bg-blue-400 rounded-full flex items-center justify-center">
                   <Image
@@ -561,7 +561,7 @@ export default function MachineLearningFundamentals() {
           </div>
           
           {/* Right Card - Phase 2 */}
-          <div className="border border-gray-200 rounded-2xl bg-white shadow-lg p-4 w-full max-w-md lg:max-w-lg">
+          <div className="border border-gray-200 rounded-2xl bg-white shadow-lg p-4 w-full max-w-md lg:max-w-md">
             <h2 className="text-2xl font-bold text-center mb-6" style={{
               background: "var(--gradient-bl1)",
               backgroundClip: "text",
@@ -572,7 +572,7 @@ export default function MachineLearningFundamentals() {
               Phase 2
             </h2>
             
-            <div className="space-y-4 pl-8 lg:pl-20">
+            <div className="space-y-4 pl-8 lg:pl-12">
               <div className="flex items-start space-x-3">
                 <div className="flex-shrink-0 w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center">
                   <Image
