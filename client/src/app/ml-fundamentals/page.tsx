@@ -4,6 +4,7 @@ import { useState } from "react"
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
 import darkBlueTick from "@/assets/icons/dark-blue-tick-icon.svg";
 import HeroSection from "@/components/heroSection";
+import PhaseCard from "@/components/PhaseCard";
 import catOne from "@/assets/photos/ml-fundamentals/cat_one.avif";
 import catTwo from "@/assets/photos/ml-fundamentals/cat_two.avif";
 import catThree from "@/assets/photos/ml-fundamentals/cat_three.webp";
@@ -493,139 +494,29 @@ export default function MachineLearningFundamentals() {
     <div className="w-full bg-white px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-8 justify-center items-center">
-          {/* Left Card - Phase 1 */}
-          <div className="border border-gray-200 rounded-2xl bg-white shadow-lg p-4 w-full max-w-md lg:max-w-md">
-            <h2 className="text-2xl font-bold text-center mb-6" style={{
-              background: "var(--gradient-bl1)",
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              fontFamily: "var(--system-font)"
-            }}>
-              Phase 1
-            </h2>
-            
-            <div className="space-y-4 pl-8 lg:pl-16">
-              <div className="flex items-start space-x-3">
-                <div className="flex-shrink-0 w-5 h-5 bg-blue-400 rounded-full flex items-center justify-center">
-                  <Image
-                    src={blueTick}                          
-                    alt={"Blue Tick Icon"}
-                    width={20}
-                    height={20}
-                    objectFit="cover"/>
-                </div>
-                <p className="text-gray-900 text-md font-extralight leading-relaxed" style={{
-                  fontFamily: "var(--system-font)"
-                }}>
-                  Learn basics of ML through workshops
-                </p>
-              </div>
-              
-              <div className="w-full h-px bg-gray-200 rounded-full"></div>
-              
-              <div className="flex items-start space-x-3">
-                <div className="flex-shrink-0 w-5 h-5 bg-blue-400 rounded-full flex items-center justify-center">
-                  <Image
-                    src={blueTick}                          
-                    alt={"Blue Tick Icon"}
-                    width={20}
-                    height={20}
-                    objectFit="cover"/>
-                </div>
-                <p className="text-gray-900 text-md font-extralight leading-relaxed" style={{
-                  fontFamily: "var(--system-font)"
-                }}>
-                  Hands on learning with peers
-                </p>
-              </div>
-              
-              <div className="w-full h-px bg-gray-200 rounded-full"></div>
-              
-              <div className="flex items-start space-x-3">
-                <div className="flex-shrink-0 w-5 h-5 bg-blue-400 rounded-full flex items-center justify-center">
-                  <Image
-                    src={blueTick}                          
-                    alt={"Blue Tick Icon"}
-                    width={20}
-                    height={20}
-                    objectFit="cover"/>
-                </div>
-                <p className="text-gray-900 text-md font-extralight leading-relaxed" style={{
-                  fontFamily: "var(--system-font)"
-                }}>
-                  Build foundational knowledge for ML
-                </p>
-              </div>
-            </div>
-          </div>
+          <PhaseCard
+            title="Phase 1"
+            items={[
+              "Learn basics of ML through workshops",
+              "Hands on learning with peers",
+              "Build foundational knowledge for ML"
+            ]}
+            icon={blueTick}
+            iconBgColor="bg-blue-400"
+            paddingLeft="pl-8 lg:pl-16"
+          />
           
-          {/* Right Card - Phase 2 */}
-          <div className="border border-gray-200 rounded-2xl bg-white shadow-lg p-4 w-full max-w-md lg:max-w-md">
-            <h2 className="text-2xl font-bold text-center mb-6" style={{
-              background: "var(--gradient-bl1)",
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              fontFamily: "var(--system-font)"
-            }}>
-              Phase 2
-            </h2>
-            
-            <div className="space-y-4 pl-8 lg:pl-12">
-              <div className="flex items-start space-x-3">
-                <div className="flex-shrink-0 w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center">
-                  <Image
-                    src={darkBlueTick}                          
-                    alt={"Dark Blue Tick Icon"}
-                    width={20}
-                    height={20}
-                    objectFit="cover"/>
-                </div>
-                <p className="text-gray-900 text-md font-extralight leading-relaxed" style={{
-                  fontFamily: "var(--system-font)"
-                }}>
-                  Apply knowledge through building a project
-                </p>
-              </div>
-              
-              <div className="w-full h-px bg-gray-200 rounded-full"></div>
-              
-              <div className="flex items-start space-x-3">
-                <div className="flex-shrink-0 w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center">
-                  <Image
-                    src={darkBlueTick}                          
-                    alt={"Dark Blue Tick Icon"}
-                    width={20}
-                    height={20}
-                    objectFit="cover"/>
-                </div>
-                <p className="text-gray-900 text-md font-extralight leading-relaxed" style={{
-                  fontFamily: "var(--system-font)"
-                }}>
-                  Access mentoring and office hours
-                </p>
-              </div>
-              
-              <div className="w-full h-px bg-gray-200 rounded-full"></div>
-              
-              <div className="flex items-start space-x-3">
-                <div className="flex-shrink-0 w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center">
-                  <Image
-                    src={darkBlueTick}                          
-                    alt={"Dark Blue Tick Icon"}
-                    width={20}
-                    height={20}
-                    objectFit="cover"/>
-                </div>
-                <p className="text-gray-900 text-md font-extralight leading-relaxed" style={{
-                  fontFamily: "var(--system-font)"
-                }}>
-                  Gain hands on experience and skills in ML
-                </p>
-              </div>
-            </div>
-          </div>
+          <PhaseCard
+            title="Phase 2"
+            items={[
+              "Apply knowledge through building a project",
+              "Access mentoring and office hours",
+              "Gain hands on experience and skills in ML"
+            ]}
+            icon={darkBlueTick}
+            iconBgColor="bg-purple-500"
+            paddingLeft="pl-8 lg:pl-12"
+          />
         </div>
       </div>
     </div>
