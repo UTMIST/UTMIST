@@ -734,17 +734,20 @@ function SponsorSection({ sponsorLogo, sponsorName, message }: SponsorSectionPro
 
 interface WorkshopModalProps {
   isOpen: boolean;
+  isAnimating: boolean;
   modalContent: WorkshopContent | null;
   modalType: ModalType | null;
   onClose: () => void;
 }
 
-function WorkshopModal({ isOpen, modalContent, modalType, onClose }: WorkshopModalProps) {
+function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, onClose }: WorkshopModalProps) {
   if (!isOpen || !modalContent) return null;
 
   return (
     <div className="fixed inset-0 bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className={`bg-gray-50 border-3 border-black shadow-2xl rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto transition-all duration-300 ease-out transform ${
+        isAnimating ? 'scale-110' : 'scale-100'
+      }`}>
         <div className="p-6">
           <div className="flex justify-between items-start mb-4">
             <div>
@@ -778,6 +781,7 @@ function WorkshopModal({ isOpen, modalContent, modalType, onClose }: WorkshopMod
 
 export default function MachineLearningFundamentals() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalAnimating, setIsModalAnimating] = useState(false);
   const [modalContent, setModalContent] = useState<WorkshopContent | null>(null);
   const [modalType, setModalType] = useState<ModalType | null>(null);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
@@ -787,12 +791,19 @@ export default function MachineLearningFundamentals() {
     setModalContent(content);
     setModalType(type);
     setIsModalOpen(true);
+    // Small delay to allow the modal to render first, then animate
+    setTimeout(() => {
+      setIsModalAnimating(true);
+    }, 10);
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
-    setModalContent(null);
-    setModalType(null);
+    setIsModalAnimating(false);
+    setTimeout(() => {
+      setIsModalOpen(false);
+      setModalContent(null);
+      setModalType(null);
+    }, 300); 
   };
 
   const toggleFAQ = (id: number) => {
@@ -854,6 +865,7 @@ export default function MachineLearningFundamentals() {
 
     <WorkshopModal 
       isOpen={isModalOpen}
+      isAnimating={isModalAnimating}
       modalContent={modalContent}
       modalType={modalType}
       onClose={closeModal}
