@@ -1,10 +1,9 @@
 "use client"
-import Image from "next/image"
+import Image, { StaticImageData } from "next/image"
 import { useState } from "react"
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
 import darkBlueTick from "@/assets/icons/dark-blue-tick-icon.svg";
 import HeroSection from "@/components/heroSection";
-import PhaseCard from "@/components/PhaseCard";
 import catOne from "@/assets/photos/ml-fundamentals/cat_one.avif";
 import catTwo from "@/assets/photos/ml-fundamentals/cat_two.avif";
 import catThree from "@/assets/photos/ml-fundamentals/cat_three.webp";
@@ -460,6 +459,290 @@ const workshopContent: Record<number, WorkshopContent> = {
   }
 };
 
+// Component definitions
+interface PhaseCardProps {
+  title: string;
+  items: string[];
+  icon: StaticImageData;
+  iconBgColor: string;
+  paddingLeft?: string;
+}
+
+function PhaseCard({ 
+  title, 
+  items, 
+  icon, 
+  iconBgColor, 
+  paddingLeft = "pl-8 lg:pl-16" 
+}: PhaseCardProps) {
+  return (
+    <div className="border border-gray-200 rounded-2xl bg-white shadow-lg p-4 w-full max-w-md lg:max-w-md">
+      <h2 className="text-2xl font-bold text-center mb-6" style={{
+        background: "var(--gradient-bl1)",
+        backgroundClip: "text",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        fontFamily: "var(--system-font)"
+      }}>
+        {title}
+      </h2>
+      
+      <div className={`space-y-4 ${paddingLeft}`}>
+        {items.map((item, index) => (
+          <div key={index}>
+            <div className="flex items-start space-x-3">
+              <div className={`flex-shrink-0 w-5 h-5 ${iconBgColor} rounded-full flex items-center justify-center`}>
+                <Image
+                  src={icon}
+                  alt={`${title} Tick Icon`}
+                  width={20}
+                  height={20}
+                  objectFit="cover"
+                />
+              </div>
+              <p className="text-gray-900 text-md font-extralight leading-relaxed" style={{
+                fontFamily: "var(--system-font)"
+              }}>
+                {item}
+              </p>
+            </div>
+            
+            {index < items.length - 1 && (
+              <div className="w-full h-px bg-gray-200 rounded-full"></div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+interface ScheduleSectionProps {
+  weekData: typeof weekData;
+  onOpenModal: (week: number, type: 'theory' | 'pytorch' | 'exercise') => void;
+}
+
+function ScheduleSection({ weekData, onOpenModal }: ScheduleSectionProps) {
+  return (
+    <div className="w-full bg-white px-4 sm:px-6 lg:px-8 pt-30">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-left mb-12 mt-8 sm:mt-0">
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">MLF Workshop Schedule</h2>
+          <p className="text-lg text-gray-600">
+            New lectures, slides, and labs will be uploaded weekly! Join us for synchronous lectures weekly starting (i will get u the date/time)!
+          </p>
+        </div>
+        
+        {/* Week Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+          {weekData.map((week) => (
+            <div key={week.weekNumber} className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow flex flex-col h-full">
+              <div className="flex-1">
+                <h3 className="text-gray-900 font-semibold text-lg mb-2">{week.title}</h3>
+                <span className="font-bold text-black text-base mb-3">Week {week.weekNumber} - {week.date}</span>
+                <p className="text-sm text-gray-600">
+                  {week.description}
+                </p>
+              </div>
+              <div className="flex gap-2 mt-4">
+                <button 
+                  onClick={() => onOpenModal(week.weekNumber, 'theory')}
+                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                >
+                  Slides
+                </button>
+                <button 
+                  onClick={() => onOpenModal(week.weekNumber, 'pytorch')}
+                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                >
+                  Recording
+                </button>
+                <button 
+                  onClick={() => onOpenModal(week.weekNumber, 'exercise')}
+                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                >
+                  Code
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+interface FAQSectionProps {
+  faqData: FAQItem[];
+  openFAQ: number | null;
+  onToggleFAQ: (id: number) => void;
+}
+
+function FAQSection({ faqData, openFAQ, onToggleFAQ }: FAQSectionProps) {
+  return (
+    <div className="w-full bg-white py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">Frequently Asked Questions</h2>
+          <p className="text-lg text-gray-600">
+            For any other questions please reach out to the team at UTMIST!
+          </p>
+        </div>
+        
+        {/* FAQ Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-auto">
+          {faqData.map((faq) => (
+            <div key={faq.id} className="bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors overflow-hidden h-fit">
+              <div 
+                className="flex items-center justify-between p-4"
+                onClick={() => onToggleFAQ(faq.id)}
+              >
+                <span className="font-bold text-black">{faq.question}</span>
+                <svg 
+                  className={`w-4 h-4 text-gray-600 transition-transform duration-300 ease-in-out ${openFAQ === faq.id ? 'rotate-180' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+              <div 
+                className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                  openFAQ === faq.id 
+                    ? 'max-h-32 opacity-100' 
+                    : 'max-h-0 opacity-0'
+                }`}
+              >
+                <div className="px-4 pb-4 border-t border-gray-200">
+                  <p className="text-gray-700 mt-3 leading-relaxed">{faq.answer}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+interface TeamMember {
+  id: number;
+  name: string;
+  image: any;
+}
+
+interface TeamSectionProps {
+  teamData: TeamMember[];
+}
+
+function TeamSection({ teamData }: TeamSectionProps) {
+  return (
+    <div className="w-full bg-white px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-left mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">Meet the Team</h2>
+          <p className="text-lg text-gray-600">
+            Our dedicated team of ML educators bring years of experience in machine learning, deep learning, and AI education to create an engaging learning experience.
+          </p>
+        </div>
+        
+        {/* Team Members Grid */}
+        <div className="bg-gray-100 rounded-2xl p-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+            {teamData.map((member) => (
+              <div key={member.id} className="text-center">
+                <div className="w-36 h-36 mx-auto mb-4">
+                  <Image
+                    src={member.image}
+                    alt={`${member.name} profile picture`}
+                    width={144}
+                    height={144}
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                </div>
+                <h3 className="font-bold text-black">{member.name}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+interface SponsorSectionProps {
+  sponsorLogo: StaticImageData;
+  sponsorName: string;
+  message: string;
+}
+
+function SponsorSection({ sponsorLogo, sponsorName, message }: SponsorSectionProps) {
+  return (
+    <div className="w-full bg-white py-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-black mb-12">{message}</h2>
+          
+          <div className="flex justify-center">
+            <Image
+              src={sponsorLogo}
+              alt={`${sponsorName} Logo`}
+              width={100}
+              height={50}
+              className="h-24 w-auto"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+interface WorkshopModalProps {
+  isOpen: boolean;
+  modalContent: WorkshopContent | null;
+  modalType: ModalType | null;
+  onClose: () => void;
+}
+
+function WorkshopModal({ isOpen, modalContent, modalType, onClose }: WorkshopModalProps) {
+  if (!isOpen || !modalContent) return null;
+
+  return (
+    <div className="fixed inset-0 bg-opacity-50 z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <div className="flex justify-between items-start mb-4">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">{modalContent.title}</h2>
+            </div>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 text-2xl font-bold leading-none"
+            >
+              ×
+            </button>
+          </div>
+          
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-gray-800">
+              {modalType && modalContent && modalContent[modalType]?.title}
+            </h3>
+            <div className="space-y-2">
+              {modalType && modalContent && modalContent[modalType]?.content?.map((item: string, index: number) => (
+                <p key={index} className="text-gray-700 leading-relaxed">
+                  {item}
+                </p>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function MachineLearningFundamentals() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<WorkshopContent | null>(null);
@@ -521,182 +804,30 @@ export default function MachineLearningFundamentals() {
       </div>
     </div>
 
-    {/* Schedule Section */}
-    <div className="w-full bg-white px-4 sm:px-6 lg:px-8 pt-30">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-left mb-12 mt-8 sm:mt-0">
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">MLF Workshop Schedule</h2>
-          <p className="text-lg text-gray-600">
-            New lectures, slides, and labs will be uploaded weekly! Join us for synchronous lectures weekly starting (i will get u the date/time)!
-          </p>
-        </div>
-        
-        {/* Week Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {weekData.map((week) => (
-            <div key={week.weekNumber} className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow flex flex-col h-full">
-              <div className="flex-1">
-                <h3 className="text-gray-900 font-semibold text-lg mb-2">{week.title}</h3>
-                <span className="font-bold text-black text-base mb-3">Week {week.weekNumber} - {week.date}</span>
-                <p className="text-sm text-gray-600">
-                  {week.description}
-                </p>
-              </div>
-              <div className="flex gap-2 mt-4">
-                <button 
-                  onClick={() => openModal(week.weekNumber, 'theory')}
-                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
-                >
-                  Slides
-                </button>
-                <button 
-                  onClick={() => openModal(week.weekNumber, 'pytorch')}
-                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
-                >
-                  Recording
-                </button>
-                <button 
-                  onClick={() => openModal(week.weekNumber, 'exercise')}
-                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
-                >
-                  Code
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    <ScheduleSection 
+      weekData={weekData} 
+      onOpenModal={openModal} 
+    />
 
-    {/* FAQ Section */}
-    <div className="w-full bg-white py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">Frequently Asked Questions</h2>
-          <p className="text-lg text-gray-600">
-            For any other questions please reach out to the team at UTMIST!
-          </p>
-        </div>
-        
-        {/* FAQ Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-auto">
-          {faqData.map((faq) => (
-            <div key={faq.id} className="bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors overflow-hidden h-fit">
-              <div 
-                className="flex items-center justify-between p-4"
-                onClick={() => toggleFAQ(faq.id)}
-              >
-                <span className="font-bold text-black">{faq.question}</span>
-                <svg 
-                  className={`w-4 h-4 text-gray-600 transition-transform duration-300 ease-in-out ${openFAQ === faq.id ? 'rotate-180' : ''}`} 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-              <div 
-                className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                  openFAQ === faq.id 
-                    ? 'max-h-32 opacity-100' 
-                    : 'max-h-0 opacity-0'
-                }`}
-              >
-                <div className="px-4 pb-4 border-t border-gray-200">
-                  <p className="text-gray-700 mt-3 leading-relaxed">{faq.answer}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    <FAQSection 
+      faqData={faqData} 
+      openFAQ={openFAQ} 
+      onToggleFAQ={toggleFAQ} 
+    />
 
-    {/* Meet the Team Section */}
-    <div className="w-full bg-white px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-left mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">Meet the Team</h2>
-          <p className="text-lg text-gray-600">
-            Our dedicated team of ML educators bring years of experience in machine learning, deep learning, and AI education to create an engaging learning experience.
-          </p>
-        </div>
-        
-        {/* Team Members Grid */}
-        <div className="bg-gray-100 rounded-2xl p-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-            {teamData.map((member) => (
-              <div key={member.id} className="text-center">
-                <div className="w-36 h-36 mx-auto mb-4">
-                  <Image
-                    src={member.image}
-                    alt={`${member.name} profile picture`}
-                    width={144}
-                    height={144}
-                    className="w-full h-full object-cover rounded-full"
-                  />
-                </div>
-                <h3 className="font-bold text-black">{member.name}</h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+    <TeamSection teamData={teamData} />
 
-    { /* IBM Partnership Section */ }
-    <div className="w-full bg-white py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        {/* IBM Sponsorship Section */}
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-black mb-12">Thank you to IBM for sponsoring us!</h2>
-          
-          <div className="flex justify-center">
-            <Image
-              src={ibmLogo}
-              alt="IBM Logo"
-              width={100}
-              height={50}
-              className="h-24 w-auto"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+    <SponsorSection 
+      sponsorLogo={ibmLogo}
+      sponsorName="IBM"
+      message="Thank you to IBM for sponsoring us!"
+    />
 
-    {/* Modal */}
-    {isModalOpen && modalContent && (
-      <div className="fixed inset-0 bg-opacity-50 z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-          <div className="p-6">
-            <div className="flex justify-between items-start mb-4">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900">{modalContent.title}</h2>
-              </div>
-              <button
-                onClick={closeModal}
-                className="text-gray-400 hover:text-gray-600 text-2xl font-bold leading-none"
-              >
-                ×
-              </button>
-            </div>
-            
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-gray-800">
-                {modalType && modalContent && modalContent[modalType]?.title}
-              </h3>
-              <div className="space-y-2">
-                {modalType && modalContent && modalContent[modalType]?.content?.map((item: string, index: number) => (
-                  <p key={index} className="text-gray-700 leading-relaxed">
-                    {item}
-                  </p>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )}
+    <WorkshopModal 
+      isOpen={isModalOpen}
+      modalContent={modalContent}
+      modalType={modalType}
+      onClose={closeModal}
+    />
   </main>
 }
