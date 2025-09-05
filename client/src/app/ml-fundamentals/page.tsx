@@ -460,6 +460,39 @@ const workshopContent: Record<number, WorkshopContent> = {
 };
 
 // Component definitions
+interface PhaseData {
+  title: string;
+  items: string[];
+  icon: StaticImageData;
+  iconBgColor: string;
+  paddingLeft: string;
+}
+
+interface ContentCardsSectionProps {
+  phases: PhaseData[];
+}
+
+function ContentCardsSection({ phases }: ContentCardsSectionProps) {
+  return (
+    <div className="w-full bg-white px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-8 justify-center items-center">
+          {phases.map((phase, index) => (
+            <PhaseCard
+              key={index}
+              title={phase.title}
+              items={phase.items}
+              icon={phase.icon}
+              iconBgColor={phase.iconBgColor}
+              paddingLeft={phase.paddingLeft}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface PhaseCardProps {
   title: string;
   items: string[];
@@ -629,7 +662,7 @@ function FAQSection({ faqData, openFAQ, onToggleFAQ }: FAQSectionProps) {
 interface TeamMember {
   id: number;
   name: string;
-  image: any;
+  image: StaticImageData;
 }
 
 interface TeamSectionProps {
@@ -773,36 +806,32 @@ export default function MachineLearningFundamentals() {
       subtitle="This is your go-to page for everything related to the Machine Learning Fundamentals (MLF) Program by UTMIST. Find all the essential links in one place—from the IBM platform for notebooks and tools, to lecture recordings and key resources to help you stay on track and succeed throughout the program."
     />
 
-    {/* Content Cards Section */}
-    <div className="w-full bg-white px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col lg:flex-row gap-8 justify-center items-center">
-          <PhaseCard
-            title="Phase 1"
-            items={[
-              "Learn basics of ML through workshops",
-              "Hands on learning with peers",
-              "Build foundational knowledge for ML"
-            ]}
-            icon={blueTick}
-            iconBgColor="bg-blue-400"
-            paddingLeft="pl-8 lg:pl-16"
-          />
-          
-          <PhaseCard
-            title="Phase 2"
-            items={[
-              "Apply knowledge through building a project",
-              "Access mentoring and office hours",
-              "Gain hands on experience and skills in ML"
-            ]}
-            icon={darkBlueTick}
-            iconBgColor="bg-purple-500"
-            paddingLeft="pl-8 lg:pl-12"
-          />
-        </div>
-      </div>
-    </div>
+    <ContentCardsSection 
+      phases={[
+        {
+          title: "Phase 1",
+          items: [
+            "Learn basics of ML through workshops",
+            "Hands on learning with peers",
+            "Build foundational knowledge for ML"
+          ],
+          icon: blueTick,
+          iconBgColor: "bg-blue-400",
+          paddingLeft: "pl-8 lg:pl-16"
+        },
+        {
+          title: "Phase 2",
+          items: [
+            "Apply knowledge through building a project",
+            "Access mentoring and office hours",
+            "Gain hands on experience and skills in ML"
+          ],
+          icon: darkBlueTick,
+          iconBgColor: "bg-purple-500",
+          paddingLeft: "pl-8 lg:pl-12"
+        }
+      ]}
+    />
 
     <ScheduleSection 
       weekData={weekData} 
