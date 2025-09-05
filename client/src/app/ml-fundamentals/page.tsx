@@ -523,7 +523,7 @@ function PhaseCard({
       <div className={`space-y-4 ${paddingLeft}`}>
         {items.map((item, index) => (
           <div key={index}>
-            <div className="flex items-start space-x-3">
+            <div className="flex items-start space-x-4">
               <div className={`flex-shrink-0 w-5 h-5 ${iconBgColor} rounded-full flex items-center justify-center`}>
                 <Image
                   src={icon}
@@ -541,7 +541,7 @@ function PhaseCard({
             </div>
             
             {index < items.length - 1 && (
-              <div className="w-full h-px bg-gray-200 rounded-full"></div>
+              <div className="h-px bg-gray-200 rounded-full mt-2 -ml-14"></div>
             )}
           </div>
         ))}
