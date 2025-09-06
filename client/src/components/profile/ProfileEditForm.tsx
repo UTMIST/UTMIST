@@ -187,7 +187,7 @@ export default function ProfileEditForm({
             value={formData.linkedin}
             onChange={(e) => handleInputChange("linkedin", e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="linkedin.com/in/yourusername or just your username"
+            placeholder="linkedin.com/in/yourusername"
           />
         </div>
 
@@ -204,7 +204,7 @@ export default function ProfileEditForm({
             value={formData.github}
             onChange={(e) => handleInputChange("github", e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="github.com/yourusername or just your username"
+            placeholder="github.com/yourusername"
           />
         </div>
 
@@ -221,7 +221,7 @@ export default function ProfileEditForm({
             value={formData.twitter}
             onChange={(e) => handleInputChange("twitter", e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="twitter.com/yourusername or just your username"
+            placeholder="x.com/yourusername"
           />
         </div>
 

@@ -117,11 +117,27 @@ export async function POST(request: Request) {
       .eq("id", user.id)
       .single();
 
-    if (profileError || !userProfile?.name) {
-      return new Response(JSON.stringify({ error: "User profile not found" }), {
-        status: 404,
-        headers: { "Content-Type": "application/json" },
-      });
+    if (!userProfile?.name) {
+      return new Response(
+        JSON.stringify({
+          error:
+            "Please add your full name to your profile before uploading your resume",
+        }),
+        {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    if (profileError) {
+      return new Response(
+        JSON.stringify({ error: "Error fetching user profile" }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
     }
 
     /**
