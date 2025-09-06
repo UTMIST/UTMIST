@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import ScrollToTop from "@/components/scrollToTop";
 import { Roboto, Space_Grotesk } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 // Importing fonts from Google Fonts
 const roboto = Roboto({
@@ -34,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <head>
         <script
           defer
@@ -48,6 +50,8 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
+        <ScrollToTop />
+        <Toaster />
       </body>
     </html>
   );

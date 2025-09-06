@@ -1,44 +1,14 @@
-.hero-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 4rem 2rem;
-  max-width: 1000px;
-  margin: 0rem auto;
-  text-align: center;
-}
-
-.hero-title {
-  font-size: 3rem;
-  font-weight: 700;
-  background: var(--gradient-bl1);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-family: var(--system-font);
-}
-
-.hero-subtitle {
-  font-size: 1rem;
-  font-weight: 300;
-  color: #111827;
-  text-align: center;
-  max-width: 768px;
-  margin: 1rem auto;
-  padding: 0 2rem;
-  line-height: 1.6;
-}
-
+/* --- Career Cards --- */
 .career-section {
-  width: 80%;
-  max-width: 1100px;
-  padding: 2rem 2rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  text-align: left;
-  margin: 0 auto;
+    width: 80%;
+    max-width: 1100px;
+    padding: 2rem 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    margin: 0 auto;
 }
 
 .career-card {
@@ -83,6 +53,7 @@
   font-family: var(--system-font);
 }
 
+/* --- Open Positions --- */
 .open-positions-container {
   margin: 0 auto;
   max-width: 1000px;
@@ -97,6 +68,7 @@
   color: #000;
 }
 
+/* --- Position Card --- */
 .position-card {
   display: flex;
   justify-content: space-between;
@@ -134,18 +106,103 @@
   font-weight: bold;
 }
 
+/* --- Apply Button --- */
 .apply-button {
   background: var(--gradient-b2);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
   color: white;
-  border: none;
-  border-radius: 15px;
-  padding: 10px 35px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  min-height: 40px;
+  padding: 0 20px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 4px 10px rgba(79, 70, 229, 0.14);
+  transition: transform 0.15s ease, box-shadow 0.25s ease, filter 0.25s ease, background-position 0.35s ease;
 }
 
 .apply-button:hover {
-  background-color: #4f46e5;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08), 0 8px 18px rgba(79, 70, 229, 0.18);
+  filter: brightness(1.02);
+  background-position: 100% 50%;
+}
+
+/* --- Responsiveness --- */
+@media (max-width: 900px) {
+  .career-section {
+    flex-direction: column;
+    width: 100%;
+    padding: 1rem 0.5rem;
+  }
+  .career-card {
+    width: 100%;
+    margin: 0 0 1rem 0;
+    padding: 1rem 1rem;
+  }
+  .open-positions-container {
+    max-width: 100%;
+    padding: 10px 0.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-section {
+    padding: 2rem 0.5rem;
+  }
+  .hero-title {
+    font-size: 2rem;
+  }
+  .career-card-title {
+    font-size: 1.1rem;
+  }
+  .career-card-description {
+    font-size: 0.95rem;
+  }
+  .position-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 12px;
+  }
+  .position-info {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-right: 0;
+    width: 100%;
+  }
+  .position-title {
+    font-size: 1rem;
+  }
+  .position-details {
+    font-size: 0.95rem;
+    margin-top: 0.25rem;
+    flex-wrap: wrap;
+  }
+  .apply-button {
+    display: flex;
+    width: 100%;
+    margin-top: 12px;
+    min-height: 44px;
+    padding: 0 16px;
+    font-size: 1rem;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .hero-title {
+    font-size: 1.3rem;
+  }
+  .career-card-title {
+    font-size: 1rem;
+  }
+  .open-positions-title {
+    font-size: 1.1rem;
+  }
 }

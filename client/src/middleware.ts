@@ -32,6 +32,10 @@ export async function middleware(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
 
+  if (pathname.startsWith("/api/") && !user) {
+    return NextResponse.redirect(new URL("/auth", request.url));
+  }
+
   // Allow access to auth callback route
   if (pathname === "/auth/callback") {
     return response;
