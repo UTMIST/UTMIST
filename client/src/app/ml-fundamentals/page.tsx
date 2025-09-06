@@ -560,7 +560,7 @@ function ScheduleSection({ weekData, onOpenModal }: ScheduleSectionProps) {
     <div className="w-full bg-white px-4 sm:px-6 lg:px-8 pt-30">
       <div className="max-w-6xl mx-auto">
         <div className="text-left mb-12 mt-8 sm:mt-0">
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">MLF Workshop Schedule</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">Phase 1: Workshop Schedule</h2>
           <p className="text-lg text-gray-600">
             New lectures, slides, and labs will be uploaded weekly! Join us for synchronous lectures weekly starting <b>September 27 from 1-3pm in BA1180!</b>
           </p>
@@ -599,6 +599,21 @@ function ScheduleSection({ weekData, onOpenModal }: ScheduleSectionProps) {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProjectsSection({ }) {
+  return (
+    <div className="w-full bg-white px-4 sm:px-6 lg:px-8 pt-30">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-left mb-12 mt-8 sm:mt-0">
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">Phase 2: Project</h2>
+          <p className="text-lg text-gray-600">
+            Check back for more information!
+          </p>
         </div>
       </div>
     </div>
@@ -847,6 +862,9 @@ export default function MachineLearningFundamentals() {
     <ScheduleSection 
       weekData={weekData} 
       onOpenModal={openModal} 
+    />
+  
+    <ProjectsSection
     />
 
     <FAQSection 
