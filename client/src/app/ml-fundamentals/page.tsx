@@ -37,49 +37,49 @@ const weekData = [
     weekNumber: 1,
     title: "Introduction to Machine Learning",
     description: "What is ML, types of ML, applications, linear regression basics, PyTorch introduction",
-    date: "TBD"
+    date: "Sept 27, 2025"
   },
   {
     weekNumber: 2,
     title: "Logistic Regression",
     description: "Classification with sigmoid, decision boundaries, model evaluation, train-validation-test split",
-    date: "TBD"
+    date: "Oct 4, 2025"
   },
   {
     weekNumber: 3,
     title: "Neural Networks Part 1",
     description: "Perceptrons, activation functions, forward propagation, limitations of linear models",
-    date: "TBD"
+    date: "Oct 11, 2025"
   },
   {
     weekNumber: 4,
     title: "Neural Networks Part 2",
     description: "Backpropagation intuition, optimization algorithms, training loops, practical tips",
-    date: "TBD"
+    date: "Oct 18, 2025"
   },
   {
     weekNumber: 5,
     title: "Decision Trees & Ensembles",
     description: "Split criteria, tree depth, random forests, bagging, entropy & information gain",
-    date: "TBD"
+    date: "Nov 8, 2025"
   },
   {
     weekNumber: 6,
     title: "Naive Bayes",
     description: "Probability basics, Bayes' theorem, generative vs discriminative models, text classification",
-    date: "TBD"
+    date: "Nov 15, 2025"
   },
   {
     weekNumber: 7,
     title: "Best Practices & Evaluation",
     description: "Baseline models, bias-variance tradeoff, evaluation metrics, iterative ML process",
-    date: "TBD"
+    date: "Nov 22, 2025"
   },
   {
     weekNumber: 8,
     title: "Deep Learning & Modern Architectures",
     description: "Why deep learning, CNNs, RNNs, transformers, practical implementation with PyTorch",
-    date: "TBD"
+    date: "Nov 29, 2025"
   }
 ];
 
@@ -562,7 +562,7 @@ function ScheduleSection({ weekData, onOpenModal }: ScheduleSectionProps) {
         <div className="text-left mb-12 mt-8 sm:mt-0">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">MLF Workshop Schedule</h2>
           <p className="text-lg text-gray-600">
-            New lectures, slides, and labs will be uploaded weekly! Join us for synchronous lectures weekly starting (i will get u the date/time)!
+            New lectures, slides, and labs will be uploaded weekly! Join us for synchronous lectures weekly starting <b>September 27 from 1-3pm in BA1180!</b>
           </p>
         </div>
         
@@ -823,7 +823,7 @@ export default function MachineLearningFundamentals() {
           title: "Phase 1",
           items: [
             "Learn basics of ML through workshops",
-            "Hands on learning with peers",
+            "Collaborative learning with peers",
             "Build foundational knowledge for ML"
           ],
           icon: blueTick,
