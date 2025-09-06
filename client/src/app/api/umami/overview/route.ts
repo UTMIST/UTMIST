@@ -1,6 +1,24 @@
 import { NextResponse } from "next/server";
-
+import { createClient } from "@/lib/supabase/server";
 export async function GET() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.redirect(new URL("/auth"));
+  }
+
+  const { data: userRow, error } = await supabase
+    .from("user")
+    .select("admin")
+    .eq("id", user.id)
+    .single();
+
+  if (error || !userRow?.admin) {
+    return NextResponse.redirect(new URL("/auth"));
+  }
   const UMAMI_API_ENDPOINT = process.env.UMAMI_API_ENDPOINT!; // e.g. "https://api.umami.is/v1"
   const UMAMI_API_KEY = process.env.UMAMI_API_KEY!;
 
