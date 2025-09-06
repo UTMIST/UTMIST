@@ -280,6 +280,23 @@ export const signInWithGoogle = async (): Promise<void> => {
 };
 
 /**
+ * Sign in with GitHub OAuth
+ * @returns Promise<void>
+ */
+export const signInWithGitHub = async (): Promise<void> => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+    options: {
+      redirectTo: `${window.location.origin}${AUTH_CONFIG.CALLBACK_PATH}`,
+    }
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+};
+
+/**
  * Sign out the current user
  * @returns Promise<void>
  */
