@@ -15,10 +15,11 @@ export default function ProfileCard({
   onEdit,
   isEditing = false,
 }: ProfileCardProps) {
+  const noNameWarning = "please update your name";
   const defaultBio = "please update your bio";
   const displayBio = userProfile.bio || defaultBio;
 
-  const displayName = userProfile.title || userProfile.name;
+  const displayName = userProfile.title || userProfile.name || noNameWarning;
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
@@ -49,7 +50,13 @@ export default function ProfileCard({
             </div>
           )}
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">{displayName}</h1>
+        {displayName === noNameWarning ? (
+          <p className="text-red-500 text-3xl mb-3">Please update your name</p>
+        ) : (
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            {displayName}
+          </h1>
+        )}
         <p className="text-gray-500 text-sm mb-3">{userProfile.email}</p>
         <p className="text-gray-600 text-center mb-4">{displayBio}</p>
 
