@@ -1,57 +1,55 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { supabase } from "@/lib/supabase/client";
-import logo from "@/assets/logos/utmist-logo-small.svg";
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase/client';
+import Image from 'next/image';
+import logo from '@/assets/logos/utmist-logo-small.svg';
 
 export default function ResetPasswordPage() {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const router = useRouter();
 
   // Check if user is authenticated (they should be after clicking reset link)
   useEffect(() => {
     const checkAuth = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+      const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        router.push("/auth?error=reset_expired");
+        router.push('/auth?error=reset_expired');
       }
     };
     checkAuth();
   }, [router]);
 
   const validateForm = (): boolean => {
-    setError("");
-
+    setError('');
+    
     if (!password) {
-      setError("Password is required");
+      setError('Password is required');
       return false;
     }
-
+    
     if (password.length < 8) {
-      setError("Password must be at least 8 characters");
+      setError('Password must be at least 8 characters');
       return false;
     }
-
+    
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError('Passwords do not match');
       return false;
     }
-
+    
     return true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
+    setError('');
 
     if (!validateForm()) {
       setLoading(false);
@@ -60,7 +58,7 @@ export default function ResetPasswordPage() {
 
     try {
       const { error } = await supabase.auth.updateUser({
-        password: password,
+        password: password
       });
 
       if (error) {
@@ -69,11 +67,12 @@ export default function ResetPasswordPage() {
 
       setSuccess(true);
       setTimeout(() => {
-        router.push("/dashboard");
+        router.push('/dashboard');
       }, 2000);
+
     } catch (err) {
-      console.error("Password reset error:", err);
-      setError(err instanceof Error ? err.message : "Failed to reset password");
+      console.error('Password reset error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to reset password');
     } finally {
       setLoading(false);
     }
@@ -85,19 +84,12 @@ export default function ResetPasswordPage() {
         <div className="w-full max-w-md">
           <div className="bg-white p-8 rounded-2xl border border-[var(--gray3)] shadow-sm space-y-6">
             <div className="flex flex-col items-center">
-              <Image
-                src={logo}
-                alt="UTMIST Logo"
-                width={48}
-                height={48}
-                className="mb-4"
-              />
+              <Image src={logo} alt="UTMIST Logo" width={48} height={48} className="mb-4" />
               <h2 className="text-center text-3xl font-bold tracking-tight text-black font-[var(--font-space-grotesk)]">
                 Password Reset Successful
               </h2>
               <p className="mt-2 text-center text-sm text-[var(--gray4)] font-[var(--system-font)]">
-                Your password has been updated successfully. Redirecting to
-                dashboard...
+                Your password has been updated successfully. Redirecting to dashboard...
               </p>
             </div>
             <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
@@ -114,13 +106,7 @@ export default function ResetPasswordPage() {
       <div className="w-full max-w-md">
         <div className="bg-white p-8 rounded-2xl border border-[var(--gray3)] shadow-sm space-y-6">
           <div className="flex flex-col items-center">
-            <Image
-              src={logo}
-              alt="UTMIST Logo"
-              width={48}
-              height={48}
-              className="mb-4"
-            />
+            <Image src={logo} alt="UTMIST Logo" width={48} height={48} className="mb-4" />
             <h2 className="text-center text-3xl font-bold tracking-tight text-black font-[var(--font-space-grotesk)]">
               Reset Your Password
             </h2>
@@ -130,20 +116,14 @@ export default function ResetPasswordPage() {
           </div>
 
           {error && (
-            <div
-              className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm"
-              role="alert"
-            >
+            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm" role="alert">
               {error}
             </div>
           )}
 
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-[var(--gray4)] font-[var(--system-font)]"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-[var(--gray4)] font-[var(--system-font)]">
                 New Password
               </label>
               <div className="mt-1">
@@ -161,10 +141,7 @@ export default function ResetPasswordPage() {
             </div>
 
             <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-[var(--gray4)] font-[var(--system-font)]"
-              >
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-[var(--gray4)] font-[var(--system-font)]">
                 Confirm New Password
               </label>
               <div className="mt-1">
@@ -186,13 +163,13 @@ export default function ResetPasswordPage() {
               disabled={loading}
               className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[var(--secondary)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)] disabled:opacity-50 disabled:cursor-not-allowed font-[var(--system-font)]"
             >
-              {loading ? "Updating Password..." : "Update Password"}
+              {loading ? 'Updating Password...' : 'Update Password'}
             </button>
 
             <div className="text-center">
               <button
                 type="button"
-                onClick={() => router.push("/auth")}
+                onClick={() => router.push('/auth')}
                 className="text-sm text-[var(--gray4)] hover:text-[var(--secondary)] font-[var(--system-font)]"
               >
                 Back to Login
@@ -203,4 +180,4 @@ export default function ResetPasswordPage() {
       </div>
     </div>
   );
-}
+} 
