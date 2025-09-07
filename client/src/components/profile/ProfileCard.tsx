@@ -7,12 +7,14 @@ import type { UserProfile } from "@/types/auth";
 interface ProfileCardProps {
   userProfile: UserProfile;
   onEdit?: () => void;
+  onLogout?: () => void;
   isEditing?: boolean;
 }
 
 export default function ProfileCard({
   userProfile,
   onEdit,
+  onLogout,
   isEditing = false,
 }: ProfileCardProps) {
   const defaultBio = "please update your bio";
@@ -66,6 +68,15 @@ export default function ProfileCard({
               }`}
             >
               {isEditing ? "Editing..." : "Edit Profile"}
+            </button>
+          )}
+          {onLogout && (
+            <button
+              onClick={onLogout}
+              style={{ background: "var(--gradient-b2)" }}
+              className="px-6 py-2 rounded-lg font-[var(--system-font)] text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)] transition-all duration-200"
+            >
+              Sign Out
             </button>
           )}
         </div>

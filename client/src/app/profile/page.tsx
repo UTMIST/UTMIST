@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getCurrentUser } from "@/utils/auth";
+import { getCurrentUser, logout } from "@/utils/auth";
 import { getCurrentUserProfile } from "@/utils/user";
 import type { UserProfile, AuthUser } from "@/types/auth";
 import ProfileCard from "@/components/profile/ProfileCard";
@@ -76,6 +76,15 @@ export default function ProfilePage() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push('/auth');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
   // Show loading state
   if (loading) {
     return (
@@ -140,6 +149,7 @@ export default function ProfilePage() {
             <ProfileCard
               userProfile={profile}
               onEdit={handleEditProfile}
+              onLogout={handleLogout}
               isEditing={isEditing}
             />
           )}
