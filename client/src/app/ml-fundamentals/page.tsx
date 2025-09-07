@@ -769,6 +769,18 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, onClose }
     8: "/pdfs/test.pdf",
   };
 
+  // YouTube video URLs for each week's recordings (you'll need to replace these with actual video URLs)
+  const youtubeVideoUrls: Record<number, string> = {
+    1: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
+    2: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
+    3: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
+    4: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
+    5: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
+    6: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld",
+    7: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
+    8: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
+  };
+
   const getWeekNumber = (title: string): number => {
       // Map titles to week numbers
     const titleToWeek: Record<string, number> = {
@@ -786,6 +798,23 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, onClose }
 
   const weekNumber = getWeekNumber(modalContent.title);
   const pdfUrl = pdfUrls[weekNumber];
+  const youtubeVideoUrl = youtubeVideoUrls[weekNumber];
+  
+  // Convert YouTube watch URL to embed URL
+  const getEmbedUrl = (url: string): string => {
+    if (url.includes('youtube.com/watch?v=')) {
+      const videoId = url.split('v=')[1].split('&')[0];
+      return `https://www.youtube.com/embed/${videoId}`;
+    } else if (url.includes('youtu.be/')) {
+      const videoId = url.split('youtu.be/')[1].split('?')[0];
+      return `https://www.youtube.com/embed/${videoId}`;
+    } else if (url.includes('youtube.com/embed/')) {
+      return url;
+    }
+    return url;
+  };
+  
+  const embedUrl = youtubeVideoUrl ? getEmbedUrl(youtubeVideoUrl) : null;
 
   return (
     <div className="fixed inset-0 bg-opacity-50 z-50 flex items-center justify-center p-4">
@@ -819,6 +848,18 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, onClose }
                   title={`${modalContent.title} - Slides`}
                   style={{ minHeight: '0' }}
                 />
+              </div>
+            ) : modalType === 'recording' && embedUrl ? (
+              <div className="h-full w-full min-h-0 p-4">
+                <div className="relative w-full h-full">
+                  <iframe
+                    src={embedUrl}
+                    className="absolute top-0 left-0 w-full h-full border-0 rounded-lg"
+                    title={`${modalContent.title} - Recording`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
               </div>
             ) : (
               <div className="p-6 overflow-y-auto h-full">
