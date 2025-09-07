@@ -11,7 +11,7 @@ import catFour from "@/assets/photos/ml-fundamentals/cat_four.jpg";
 import ibmLogo from "@/assets/photos/ml-fundamentals/ibm.png";
 
 // Type definitions
-type ModalType = 'theory' | 'pytorch' | 'exercise';
+type ModalType = 'slides' | 'recording' | 'code';
 
 type WorkshopSection = {
   title: string;
@@ -26,9 +26,9 @@ type FAQItem = {
 
 type WorkshopContent = {
   title: string;
-  theory: WorkshopSection;
-  pytorch: WorkshopSection;
-  exercise: WorkshopSection;
+  slides: WorkshopSection;
+  recording: WorkshopSection;
+  code: WorkshopSection;
 };
 
 // Week data for the schedule
@@ -155,7 +155,7 @@ const teamData = [
 const workshopContent: Record<number, WorkshopContent> = {
   1: {
     title: "Introduction to Machine Learning",
-    theory: {
+    slides: {
       title: "Slides",
       content: [
         "Definition of ML as pattern recognition from data",
@@ -165,7 +165,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "Types of Problems: Classification vs Regression vs Generation"
       ]
     },
-    pytorch: {
+    recording: {
       title: "Recording",
       content: [
         "📹 Watch the full lecture recording:",
@@ -179,7 +179,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "• Optional: Vectorization, Polynomial Regression (mention only)"
       ]
     },
-    exercise: {
+    code: {
       title: "Code",
       content: [
         "Introduction to PyTorch:",
@@ -194,7 +194,7 @@ const workshopContent: Record<number, WorkshopContent> = {
   },
   2: {
     title: "Logistic Regression",
-    theory: {
+    slides: {
       title: "Slides",
       content: [
         "Sigmoid function and decision boundaries",
@@ -206,7 +206,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "• Solutions: Regularization (mention L2), data stuff, simpler models, feature eng?"
       ]
     },
-    pytorch: {
+    recording: {
       title: "Recording",
       content: [
         "📹 Watch the full lecture recording:",
@@ -220,7 +220,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "• Optimizer configuration"
       ]
     },
-    exercise: {
+    code: {
       title: "Code",
       content: [
         "Build a logistic regression classifier in PyTorch for binary classification",
@@ -233,7 +233,7 @@ const workshopContent: Record<number, WorkshopContent> = {
   },
   3: {
     title: "Neural Networks Part 1: Foundations",
-    theory: {
+    slides: {
       title: "Slides",
       content: [
         "Limitations of Linear Models",
@@ -243,7 +243,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "Loss Functions Recap: MSE for regression, Cross-Entropy for classification"
       ]
     },
-    pytorch: {
+    recording: {
       title: "Recording",
       content: [
         "📹 Watch the full lecture recording:",
@@ -257,7 +257,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "• Manual forward pass computation"
       ]
     },
-    exercise: {
+    code: {
       title: "Code",
       content: [
         "Implement a simple 1-hidden-layer network to solve a basic classification task",
@@ -270,7 +270,7 @@ const workshopContent: Record<number, WorkshopContent> = {
   },
   4: {
     title: "Neural Networks Part 2: Training",
-    theory: {
+    slides: {
       title: "Slides",
       content: [
         "Backpropagation (Intuition not Math-heavy): Chain rule concept, how errors flow backward",
@@ -279,7 +279,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "Practical tips: initialization, batch size, etc."
       ]
     },
-    pytorch: {
+    recording: {
       title: "Recording",
       content: [
         "📹 Watch the full lecture recording:",
@@ -293,7 +293,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "• Model checkpointing and saving"
       ]
     },
-    exercise: {
+    code: {
       title: "Code",
       content: [
         "Build and train an MLP for multiclass classification",
@@ -306,7 +306,7 @@ const workshopContent: Record<number, WorkshopContent> = {
   },
   5: {
     title: "Decision Trees & Ensemble Learning",
-    theory: {
+    slides: {
       title: "Slides",
       content: [
         "Decision Trees: Split criteria (Gini, Entropy)",
@@ -315,7 +315,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "Entropy & information gain"
       ]
     },
-    pytorch: {
+    recording: {
       title: "Recording",
       content: [
         "📹 Watch the full lecture recording:",
@@ -329,7 +329,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "• Feature importance analysis"
       ]
     },
-    exercise: {
+    code: {
       title: "Code",
       content: [
         "Compare decision trees vs random forests on toy datasets",
@@ -342,7 +342,7 @@ const workshopContent: Record<number, WorkshopContent> = {
   },
   6: {
     title: "Naive Bayes",
-    theory: {
+    slides: {
       title: "Slides",
       content: [
         "Basic Probability: Joint, Conditional, Independence",
@@ -357,7 +357,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "Connections to modern Generative AI (GPT models for text)"
       ]
     },
-    pytorch: {
+    recording: {
       title: "Recording",
       content: [
         "📹 Watch the full lecture recording:",
@@ -371,7 +371,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "• Performance evaluation"
       ]
     },
-    exercise: {
+    code: {
       title: "Code",
       content: [
         "Train Naive Bayes on a spam detection or movie review sentiment dataset",
@@ -384,7 +384,7 @@ const workshopContent: Record<number, WorkshopContent> = {
   },
   7: {
     title: "Best Practices & Evaluation in ML",
-    theory: {
+    slides: {
       title: "Slides",
       content: [
         "Concept of Baseline Models: Why simplest models matter (e.g., majority class)",
@@ -395,7 +395,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "Iterative Process: Hypothesize, test, refine"
       ]
     },
-    pytorch: {
+    recording: {
       title: "Recording",
       content: [
         "📹 Watch the full lecture recording:",
@@ -409,7 +409,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "• Statistical significance testing"
       ]
     },
-    exercise: {
+    code: {
       title: "Code",
       content: [
         "Given a small dataset and task, build a baseline, improve it, and report metrics",
@@ -422,7 +422,7 @@ const workshopContent: Record<number, WorkshopContent> = {
   },
   8: {
     title: "Deep Learning & Modern Architectures",
-    theory: {
+    slides: {
       title: "Slides",
       content: [
         "Why deep learning? Non-linearity & expressiveness",
@@ -432,7 +432,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "Modern applications and use cases"
       ]
     },
-    pytorch: {
+    recording: {
       title: "Recording",
       content: [
         "📹 Watch the full lecture recording:",
@@ -446,7 +446,7 @@ const workshopContent: Record<number, WorkshopContent> = {
         "• Model architecture design"
       ]
     },
-    exercise: {
+    code: {
       title: "Code",
       content: [
         "Train a small CNN on MNIST or CIFAR-10 subset",
@@ -552,7 +552,7 @@ function PhaseCard({
 
 interface ScheduleSectionProps {
   weekData: typeof weekData;
-  onOpenModal: (week: number, type: 'theory' | 'pytorch' | 'exercise') => void;
+  onOpenModal: (week: number, type: 'slides' | 'recording' | 'code') => void;
 }
 
 function ScheduleSection({ weekData, onOpenModal }: ScheduleSectionProps) {
@@ -579,19 +579,19 @@ function ScheduleSection({ weekData, onOpenModal }: ScheduleSectionProps) {
               </div>
               <div className="flex gap-2 mt-4">
                 <button 
-                  onClick={() => onOpenModal(week.weekNumber, 'theory')}
+                  onClick={() => onOpenModal(week.weekNumber, 'slides')}
                   className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Slides
                 </button>
                 <button 
-                  onClick={() => onOpenModal(week.weekNumber, 'pytorch')}
+                  onClick={() => onOpenModal(week.weekNumber, 'recording')}
                   className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Recording
                 </button>
                 <button 
-                  onClick={() => onOpenModal(week.weekNumber, 'exercise')}
+                  onClick={() => onOpenModal(week.weekNumber, 'code')}
                   className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Code
