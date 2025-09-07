@@ -79,7 +79,7 @@ export default function ProfilePage() {
   const handleLogout = async () => {
     try {
       await logout();
-      router.push('/auth');
+      router.push('/');
     } catch (error) {
       console.error('Error logging out:', error);
     }
