@@ -523,13 +523,13 @@ function PhaseCard({
       <div className={`space-y-4 ${paddingLeft}`}>
         {items.map((item, index) => (
           <div key={index}>
-            <div className="flex items-start space-x-4">
-              <div className={`flex-shrink-0 w-5 h-5 ${iconBgColor} rounded-full flex items-center justify-center`}>
+            <div className="flex items-center space-x-4">
+              <div className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center`}>
                 <Image
                   src={icon}
                   alt={`${title} Tick Icon`}
-                  width={20}
-                  height={20}
+                  width={16}
+                  height={16}
                   objectFit="cover"
                 />
               </div>
