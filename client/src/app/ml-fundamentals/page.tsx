@@ -758,35 +758,79 @@ interface WorkshopModalProps {
 function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, onClose }: WorkshopModalProps) {
   if (!isOpen || !modalContent) return null;
 
+  const pdfUrls: Record<number, string> = {
+    1: "/pdfs/test.pdf",
+    2: "/pdfs/test.pdf",
+    3: "/pdfs/test.pdf",
+    4: "/pdfs/test.pdf",
+    5: "/pdfs/test.pdf",
+    6: "/pdfs/test.pdf",
+    7: "/pdfs/test.pdf",
+    8: "/pdfs/test.pdf",
+  };
+
+  const getWeekNumber = (title: string): number => {
+      // Map titles to week numbers
+    const titleToWeek: Record<string, number> = {
+      "Introduction to Machine Learning": 1,
+      "Logistic Regression": 2,
+      "Neural Networks Part 1": 3,
+      "Neural Networks Part 2": 4,
+      "Decision Trees & Ensemble Learning": 5,
+      "Naive Bayes": 6,
+      "Best Practices & Evaluation in ML": 7,
+      "Deep Learning & Modern Architectures": 8,
+    };
+    return titleToWeek[title] || 1;
+  };
+
+  const weekNumber = getWeekNumber(modalContent.title);
+  const pdfUrl = pdfUrls[weekNumber];
+
   return (
     <div className="fixed inset-0 bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className={`bg-gray-50 border-3 border-black shadow-2xl rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto transition-all duration-300 ease-out transform ${
-        isAnimating ? 'scale-110' : 'scale-100'
+      <div className={`bg-white border-2 border-gray-300 shadow-2xl rounded-xl max-w-7xl w-full h-[90vh] overflow-hidden transition-all duration-300 ease-out transform ${
+        isAnimating ? 'scale-105' : 'scale-100'
       }`}>
-        <div className="p-6">
-          <div className="flex justify-between items-start mb-4">
+        <div className="flex flex-col h-full">
+          {/* Header */}
+          <div className="flex justify-between items-center p-4 border-b border-gray-200 bg-gray-50">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">{modalContent.title}</h2>
+              <h2 className="text-xl font-bold text-gray-900">{modalContent.title}</h2>
+              <h3 className="text-lg font-semibold text-gray-700">
+                {modalType && modalContent && modalContent[modalType]?.title}
+              </h3>
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-2xl font-bold leading-none"
+              className="text-gray-400 hover:text-gray-600 text-3xl font-bold leading-none p-2 hover:bg-gray-200 rounded-full transition-colors"
             >
               ×
             </button>
           </div>
           
-          <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-gray-800">
-              {modalType && modalContent && modalContent[modalType]?.title}
-            </h3>
-            <div className="space-y-2">
-              {modalType && modalContent && modalContent[modalType]?.content?.map((item: string, index: number) => (
-                <p key={index} className="text-gray-700 leading-relaxed">
-                  {item}
-                </p>
-              ))}
-            </div>
+          {/* Content */}
+          <div className="flex-1 overflow-hidden">
+            {modalType === 'slides' && pdfUrl ? (
+              <div className="h-full w-full min-h-0">
+                <iframe
+                  src={`${pdfUrl}#toolbar=1&navpanes=1&scrollbar=1`}
+                  className="w-full h-full border-0 min-h-0"
+                  title={`${modalContent.title} - Slides`}
+                  style={{ minHeight: '0' }}
+                />
+              </div>
+            ) : (
+              <div className="p-6 overflow-y-auto h-full">
+                <div className="space-y-2">
+                  {modalType && modalContent && modalContent[modalType]?.content?.map((item: string, index: number) => (
+                    <p key={index} className="text-gray-700 leading-relaxed">
+                      {item}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
