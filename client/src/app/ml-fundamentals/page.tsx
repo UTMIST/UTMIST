@@ -26,6 +26,7 @@ type FAQItem = {
 
 type WorkshopContent = {
   title: string;
+  weekNumber: number;
   slides: WorkshopSection;
   recording: WorkshopSection;
   code: WorkshopSection;
@@ -755,7 +756,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, onClose }
   if (!isOpen || !modalContent) return null;
 
   const pdfUrls: Record<number, string> = {
-    1: "/pdfs/test.pdf",
+    1: "https://raw.githubusercontent.com/UTMIST/AI2-RL-2024-Workshop/main/Week%201/UTMIST_RL_Workshop_F24_W1.pdf",
     2: "/pdfs/test.pdf",
     3: "/pdfs/test.pdf",
     4: "/pdfs/test.pdf",
@@ -777,22 +778,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, onClose }
     8: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
   };
 
-  const getWeekNumber = (title: string): number => {
-      // Map titles to week numbers
-    const titleToWeek: Record<string, number> = {
-      "Introduction to Machine Learning": 1,
-      "Logistic Regression": 2,
-      "Neural Networks Part 1": 3,
-      "Neural Networks Part 2": 4,
-      "Decision Trees & Ensemble Learning": 5,
-      "Naive Bayes": 6,
-      "Best Practices & Evaluation in ML": 7,
-      "Deep Learning & Modern Architectures": 8,
-    };
-    return titleToWeek[title] || 1;
-  };
-
-  const weekNumber = getWeekNumber(modalContent.title);
+  const weekNumber = modalContent.weekNumber;
   const pdfUrl = pdfUrls[weekNumber];
   const youtubeVideoUrl = youtubeVideoUrls[weekNumber];
   
@@ -839,7 +825,10 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, onClose }
             {modalType === 'slides' && pdfUrl ? (
               <div className="h-full w-full min-h-0">
                 <iframe
-                  src={`${pdfUrl}#toolbar=1&navpanes=1&scrollbar=1`}
+                  src={pdfUrl.includes('raw.githubusercontent.com') 
+                    ? `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`
+                    : pdfUrl
+                  }
                   className="w-full h-full border-0 min-h-0"
                   title={`${modalContent.title} - Slides`}
                   style={{ minHeight: '0' }}
@@ -883,7 +872,7 @@ export default function MachineLearningFundamentals() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
   const openModal = (week: number, type: ModalType) => {
-    const content = workshopContent[week];
+    const content = { ...workshopContent[week], weekNumber: week };
     setModalContent(content);
     setModalType(type);
     setIsModalOpen(true);
