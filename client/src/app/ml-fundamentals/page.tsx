@@ -464,7 +464,6 @@ interface PhaseData {
   title: string;
   items: string[];
   icon: StaticImageData;
-  iconBgColor: string;
   paddingLeft: string;
 }
 
@@ -483,7 +482,6 @@ function ContentCardsSection({ phases }: ContentCardsSectionProps) {
               title={phase.title}
               items={phase.items}
               icon={phase.icon}
-              iconBgColor={phase.iconBgColor}
               paddingLeft={phase.paddingLeft}
             />
           ))}
@@ -497,7 +495,6 @@ interface PhaseCardProps {
   title: string;
   items: string[];
   icon: StaticImageData;
-  iconBgColor: string;
   paddingLeft?: string;
 }
 
@@ -505,7 +502,6 @@ function PhaseCard({
   title, 
   items, 
   icon, 
-  iconBgColor, 
   paddingLeft = "pl-8 lg:pl-16" 
 }: PhaseCardProps) {
   return (
@@ -927,7 +923,6 @@ export default function MachineLearningFundamentals() {
             "Build foundational knowledge for ML"
           ],
           icon: blueTick,
-          iconBgColor: "bg-blue-400",
           paddingLeft: "pl-8 lg:pl-16"
         },
         {
@@ -938,7 +933,6 @@ export default function MachineLearningFundamentals() {
             "Gain hands on experience and skills in ML"
           ],
           icon: darkBlueTick,
-          iconBgColor: "bg-purple-500",
           paddingLeft: "pl-8 lg:pl-12"
         }
       ]}
