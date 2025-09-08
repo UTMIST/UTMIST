@@ -614,10 +614,11 @@ interface WorkshopModalProps {
   isAnimating: boolean;
   modalContent: WorkshopContent | null;
   modalType: ModalType | null;
+  weekNumber: number;
   onClose: () => void;
 }
 
-function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, onClose }: WorkshopModalProps) {
+function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumber, onClose }: WorkshopModalProps) {
   if (!isOpen || !modalContent) return null;
 
   const pdfUrls: Record<number, string> = {
@@ -643,7 +644,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, onClose }
     8: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
   };
 
-  const weekNumber = modalContent.weekNumber || 1;
+  // weekNumber is now passed as a prop
   const pdfUrl = pdfUrls[weekNumber];
   const youtubeVideoUrl = youtubeVideoUrls[weekNumber];
   
@@ -736,10 +737,13 @@ export default function MachineLearningFundamentals() {
   const [modalType, setModalType] = useState<ModalType | null>(null);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
+  const [currentWeekNumber, setCurrentWeekNumber] = useState<number>(1);
+
   const openModal = (week: number, type: ModalType) => {
-    const content = { ...workshopContent[week], weekNumber: week };
+    const content = workshopContent[week];
     setModalContent(content);
     setModalType(type);
+    setCurrentWeekNumber(week);
     setIsModalOpen(true);
     // Small delay to allow the modal to render first, then animate
     setTimeout(() => {
@@ -819,6 +823,7 @@ export default function MachineLearningFundamentals() {
       isAnimating={isModalAnimating}
       modalContent={modalContent}
       modalType={modalType}
+      weekNumber={currentWeekNumber}
       onClose={closeModal}
     />
   </main>
