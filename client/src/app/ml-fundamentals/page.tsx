@@ -588,7 +588,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
   const embedUrl = youtubeVideoUrl ? getEmbedUrl(youtubeVideoUrl) : null;
 
   return (
-    <div className="fixed inset-0 bg-opacity-50 z-50 flex items-center justify-center p-4 pt-24 pb-8 sm:pt-28 sm:pb-8 md:pt-20 md:px-8 md:py-8 lg:pt-4 lg:px-4 lg:py-4">
+    <div className="fixed inset-0 bg-opacity-50 z-50 flex items-center justify-center p-8 pt-24 pb-8 sm:pt-28 sm:pb-8 sm:px-12 md:pt-20 md:px-16 md:py-8 lg:pt-4 lg:px-12 lg:py-4 xl:px-16 2xl:px-20">
       <div className={`bg-white border-2 border-gray-300 shadow-2xl rounded-xl max-w-7xl w-full h-[90vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-8rem)] md:max-h-[calc(100vh-8rem)] lg:max-h-[90vh] overflow-hidden transition-all duration-300 ease-out transform ${
         isAnimating ? 'scale-105' : 'scale-40'
       }`}>
