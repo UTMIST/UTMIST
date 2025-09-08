@@ -26,7 +26,6 @@ type FAQItem = {
 
 type WorkshopContent = {
   title: string;
-  weekNumber: number;
   slides: WorkshopSection;
   recording: WorkshopSection;
   code: WorkshopSection;
@@ -153,32 +152,16 @@ const teamData = [
 ];
 
 // Workshop content data
-const workshopContent: Record<number, WorkshopContent> = {
+  const workshopContent: Record<number, WorkshopContent> = {
   1: {
     title: "Introduction to Machine Learning",
     slides: {
       title: "Slides",
-      content: [
-        "Definition of ML as pattern recognition from data",
-        "Difference between ML and traditional programming",
-        "Applications of ML: NLP (chatbots), CV (object detection), Recommendation systems, RL (game AI), Generative AI",
-        "Types of ML: Supervised, Unsupervised (Not taught here), Reinforcement Learning (brief overview)",
-        "Types of Problems: Classification vs Regression vs Generation"
-      ]
+      content: ["View the complete lecture slides in the PDF viewer above."]
     },
     recording: {
       title: "Recording",
-      content: [
-        "📹 Watch the full lecture recording:",
-        "https://youtu.be/example123",
-        "",
-        "Key Topics Covered:",
-        "• Linear Regression: Model equation: y = wx + b",
-        "• Loss: Mean Squared Error (MSE)",
-        "• Gradient Descent: Intuition using visuals",
-        "• Visualization of Regression Line & Data",
-        "• Optional: Vectorization, Polynomial Regression (mention only)"
-      ]
+      content: ["Watch the full lecture recording in the video player above."]
     },
     code: {
       title: "Code",
@@ -197,29 +180,11 @@ const workshopContent: Record<number, WorkshopContent> = {
     title: "Logistic Regression",
     slides: {
       title: "Slides",
-      content: [
-        "Sigmoid function and decision boundaries",
-        "Loss: Binary Cross-Entropy",
-        "",
-        "Model Evaluation:",
-        "• Train-Validation-Test Split: Why splitting is essential",
-        "• Overfitting & Underfitting: Visual examples",
-        "• Solutions: Regularization (mention L2), data stuff, simpler models, feature eng?"
-      ]
+      content: ["View the complete lecture slides in the PDF viewer above."]
     },
     recording: {
       title: "Recording",
-      content: [
-        "📹 Watch the full lecture recording:",
-        "https://youtu.be/example456",
-        "",
-        "Key Topics Covered:",
-        "• Using torch.nn and torch.optim for simple models",
-        "• Automatic differentiation with autograd",
-        "• Building neural network layers",
-        "• Loss function implementation",
-        "• Optimizer configuration"
-      ]
+      content: ["Watch the full lecture recording in the video player above."]
     },
     code: {
       title: "Code",
@@ -236,27 +201,11 @@ const workshopContent: Record<number, WorkshopContent> = {
     title: "Neural Networks Part 1: Foundations",
     slides: {
       title: "Slides",
-      content: [
-        "Limitations of Linear Models",
-        "Perceptron & Single-Layer Networks: Weighted sum + bias → activation",
-        "Activation Functions: Sigmoid, Tanh, ReLU (with visuals & intuitive explanation)",
-        "Forward Propagation: How inputs are transformed into outputs layer by layer",
-        "Loss Functions Recap: MSE for regression, Cross-Entropy for classification"
-      ]
+      content: ["View the complete lecture slides in the PDF viewer above."]
     },
     recording: {
       title: "Recording",
-      content: [
-        "📹 Watch the full lecture recording:",
-        "https://youtu.be/example789",
-        "",
-        "Key Topics Covered:",
-        "• Define simple PyTorch models using torch.nn.Linear",
-        "• Activation functions (torch.nn.ReLU, torch.nn.Sigmoid, torch.nn.Tanh)",
-        "• Model architecture design",
-        "• Parameter initialization",
-        "• Manual forward pass computation"
-      ]
+      content: ["Watch the full lecture recording in the video player above."]
     },
     code: {
       title: "Code",
@@ -273,26 +222,11 @@ const workshopContent: Record<number, WorkshopContent> = {
     title: "Neural Networks Part 2: Training",
     slides: {
       title: "Slides",
-      content: [
-        "Backpropagation (Intuition not Math-heavy): Chain rule concept, how errors flow backward",
-        "Optimization Algorithms: Gradient Descent recap → SGD → brief mention of Adam",
-        "Deep neural network concepts",
-        "Practical tips: initialization, batch size, etc."
-      ]
+      content: ["View the complete lecture slides in the PDF viewer above."]
     },
     recording: {
       title: "Recording",
-      content: [
-        "📹 Watch the full lecture recording:",
-        "https://youtu.be/example101",
-        "",
-        "Key Topics Covered:",
-        "• Use PyTorch's autograd to compute gradients automatically",
-        "• Training loop implementation:",
-        "• Forward pass → Loss → Backward pass → Optimizer step",
-        "• Loss curve visualization",
-        "• Model checkpointing and saving"
-      ]
+      content: ["Watch the full lecture recording in the video player above."]
     },
     code: {
       title: "Code",
@@ -309,26 +243,11 @@ const workshopContent: Record<number, WorkshopContent> = {
     title: "Decision Trees & Ensemble Learning",
     slides: {
       title: "Slides",
-      content: [
-        "Decision Trees: Split criteria (Gini, Entropy)",
-        "Tree depth and overfitting",
-        "Random Forests & Intro to Ensembles: Bagging idea, XGBoost (high-level only)",
-        "Entropy & information gain"
-      ]
+      content: ["View the complete lecture slides in the PDF viewer above."]
     },
     recording: {
       title: "Recording",
-      content: [
-        "📹 Watch the full lecture recording:",
-        "https://youtu.be/example202",
-        "",
-        "Key Topics Covered:",
-        "• Using scikit-learn for tree-based models",
-        "• Train DecisionTreeClassifier & RandomForestClassifier",
-        "• Visualize trees (plot_tree)",
-        "• Hyperparameter tuning",
-        "• Feature importance analysis"
-      ]
+      content: ["Watch the full lecture recording in the video player above."]
     },
     code: {
       title: "Code",
@@ -345,32 +264,11 @@ const workshopContent: Record<number, WorkshopContent> = {
     title: "Naive Bayes",
     slides: {
       title: "Slides",
-      content: [
-        "Basic Probability: Joint, Conditional, Independence",
-        "Bayes' Theorem",
-        "Model Assumption: All features are conditionally independent given the class",
-        "Generative approach: Models P(X | Y) and P(Y) directly",
-        "Common use cases: Text classification, spam detection, sentiment analysis",
-        "",
-        "Generative vs Discriminative Models:",
-        "• Generative Models: Learn how new data is generated",
-        "• Discriminative Models: Learn decision boundaries directly",
-        "Connections to modern Generative AI (GPT models for text)"
-      ]
+      content: ["View the complete lecture slides in the PDF viewer above."]
     },
     recording: {
       title: "Recording",
-      content: [
-        "📹 Watch the full lecture recording:",
-        "https://youtu.be/example303",
-        "",
-        "Key Topics Covered:",
-        "• Implement Naive Bayes for text classification",
-        "• Text preprocessing and feature extraction",
-        "• Probability calculations",
-        "• Model training and prediction",
-        "• Performance evaluation"
-      ]
+      content: ["Watch the full lecture recording in the video player above."]
     },
     code: {
       title: "Code",
@@ -387,28 +285,11 @@ const workshopContent: Record<number, WorkshopContent> = {
     title: "Best Practices & Evaluation in ML",
     slides: {
       title: "Slides",
-      content: [
-        "Concept of Baseline Models: Why simplest models matter (e.g., majority class)",
-        "Bias-Variance Tradeoff: Visual and intuitive explanation",
-        "Data Augmentation (mention examples in vision, text)",
-        "Transfer learning concepts",
-        "Evaluation Metrics Expanded: Precision, Recall, F1, ROC curves",
-        "Iterative Process: Hypothesize, test, refine"
-      ]
+      content: ["View the complete lecture slides in the PDF viewer above."]
     },
     recording: {
       title: "Recording",
-      content: [
-        "📹 Watch the full lecture recording:",
-        "https://youtu.be/example404",
-        "",
-        "Key Topics Covered:",
-        "• Compute evaluation metrics in PyTorch/sklearn",
-        "• Confusion matrix analysis",
-        "• ROC curve plotting",
-        "• Precision-Recall curves",
-        "• Statistical significance testing"
-      ]
+      content: ["Watch the full lecture recording in the video player above."]
     },
     code: {
       title: "Code",
@@ -425,27 +306,11 @@ const workshopContent: Record<number, WorkshopContent> = {
     title: "Deep Learning & Modern Architectures",
     slides: {
       title: "Slides",
-      content: [
-        "Why deep learning? Non-linearity & expressiveness",
-        "CNNs: Convolutions, kernels, feature maps, pooling",
-        "RNNs (brief): Sequences & time series",
-        "Transformers (Optional High-Level): Attention mechanism",
-        "Modern applications and use cases"
-      ]
+      content: ["View the complete lecture slides in the PDF viewer above."]
     },
     recording: {
       title: "Recording",
-      content: [
-        "📹 Watch the full lecture recording:",
-        "https://youtu.be/example505",
-        "",
-        "Key Topics Covered:",
-        "• PyTorch CNN for MNIST (small model)",
-        "• Convolutional layer implementation",
-        "• Pooling and flattening operations",
-        "• (Optional) Try text classification with RNN using torchtext",
-        "• Model architecture design"
-      ]
+      content: ["Watch the full lecture recording in the video player above."]
     },
     code: {
       title: "Code",
@@ -778,7 +643,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, onClose }
     8: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
   };
 
-  const weekNumber = modalContent.weekNumber;
+  const weekNumber = modalContent.weekNumber || 1;
   const pdfUrl = pdfUrls[weekNumber];
   const youtubeVideoUrl = youtubeVideoUrls[weekNumber];
   
