@@ -315,7 +315,7 @@ function PhaseCard({
                   alt={`${title} Tick Icon`}
                   width={16}
                   height={16}
-                  objectFit="cover"
+                  style={{ objectFit: "cover" }}
                 />
               </div>
               <p className="text-gray-900 text-md font-extralight leading-relaxed" style={{
