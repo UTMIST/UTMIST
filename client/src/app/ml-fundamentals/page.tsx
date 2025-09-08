@@ -819,7 +819,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, onClose }
   return (
     <div className="fixed inset-0 bg-opacity-50 z-50 flex items-center justify-center p-4">
       <div className={`bg-white border-2 border-gray-300 shadow-2xl rounded-xl max-w-7xl w-full h-[90vh] overflow-hidden transition-all duration-300 ease-out transform ${
-        isAnimating ? 'scale-105' : 'scale-100'
+        isAnimating ? 'scale-105' : 'scale-40'
       }`}>
         <div className="flex flex-col h-full">
           {/* Header */}
