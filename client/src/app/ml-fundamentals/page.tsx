@@ -589,7 +589,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
 
   return (
     <div className="fixed inset-0 bg-opacity-50 z-50 flex items-center justify-center p-8 pt-32 pb-16 sm:pt-28 sm:pb-16 sm:px-12 md:pt-20 md:px-16 md:pb-16 lg:px-12 lg:pb-12 lg:pt-8 xl:px-16 xl:pb-16 xl:pt-12 2xl:px-20 2xl:pb-20 2xl:pt-16">
-      <div className={`bg-white border-2 border-gray-300 shadow-2xl rounded-xl max-w-7xl w-full h-[85vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-8rem)] md:max-h-[calc(100vh-8rem)] lg:max-h-[80vh] overflow-hidden transition-all duration-300 ease-out transform ${
+      <div className={`bg-white border-2 border-gray-300 shadow-2xl rounded-xl max-w-7xl w-full h-[85vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-8rem)] md:max-h-[calc(100vh-8rem)] lg:h-[95vh] lg:max-h-[90vh] overflow-hidden transition-all duration-300 ease-out transform ${
         isAnimating ? 'scale-105' : 'scale-40'
       }`}>
         <div className="flex flex-col h-full">
