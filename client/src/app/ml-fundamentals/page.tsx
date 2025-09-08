@@ -13,11 +13,6 @@ import ibmLogo from "@/assets/photos/ml-fundamentals/ibm.png";
 // Type definitions
 type ModalType = 'slides' | 'recording' | 'code';
 
-type WorkshopSection = {
-  title: string;
-  content: string[];
-};
-
 type FAQItem = {
   id: number;
   question: string;
@@ -26,9 +21,9 @@ type FAQItem = {
 
 type WorkshopContent = {
   title: string;
-  slides: WorkshopSection;
-  recording: WorkshopSection;
-  code: WorkshopSection;
+  code: {
+    content: string[];
+  };
 };
 
 // Week data for the schedule
@@ -152,19 +147,10 @@ const teamData = [
 ];
 
 // Workshop content data
-  const workshopContent: Record<number, WorkshopContent> = {
+const workshopContent: Record<number, WorkshopContent> = {
   1: {
     title: "Introduction to Machine Learning",
-    slides: {
-      title: "Slides",
-      content: ["View the complete lecture slides in the PDF viewer above."]
-    },
-    recording: {
-      title: "Recording",
-      content: ["Watch the full lecture recording in the video player above."]
-    },
     code: {
-      title: "Code",
       content: [
         "Introduction to PyTorch:",
         "• Tensors: creation, basic math, reshaping",
@@ -178,16 +164,7 @@ const teamData = [
   },
   2: {
     title: "Logistic Regression",
-    slides: {
-      title: "Slides",
-      content: ["View the complete lecture slides in the PDF viewer above."]
-    },
-    recording: {
-      title: "Recording",
-      content: ["Watch the full lecture recording in the video player above."]
-    },
     code: {
-      title: "Code",
       content: [
         "Build a logistic regression classifier in PyTorch for binary classification",
         "Plot decision boundaries",
@@ -199,16 +176,7 @@ const teamData = [
   },
   3: {
     title: "Neural Networks Part 1: Foundations",
-    slides: {
-      title: "Slides",
-      content: ["View the complete lecture slides in the PDF viewer above."]
-    },
-    recording: {
-      title: "Recording",
-      content: ["Watch the full lecture recording in the video player above."]
-    },
     code: {
-      title: "Code",
       content: [
         "Implement a simple 1-hidden-layer network to solve a basic classification task",
         "2D point classification example",
@@ -220,16 +188,7 @@ const teamData = [
   },
   4: {
     title: "Neural Networks Part 2: Training",
-    slides: {
-      title: "Slides",
-      content: ["View the complete lecture slides in the PDF viewer above."]
-    },
-    recording: {
-      title: "Recording",
-      content: ["Watch the full lecture recording in the video player above."]
-    },
     code: {
-      title: "Code",
       content: [
         "Build and train an MLP for multiclass classification",
         "Experiment: Try different learning rates, number of epochs",
@@ -241,16 +200,7 @@ const teamData = [
   },
   5: {
     title: "Decision Trees & Ensemble Learning",
-    slides: {
-      title: "Slides",
-      content: ["View the complete lecture slides in the PDF viewer above."]
-    },
-    recording: {
-      title: "Recording",
-      content: ["Watch the full lecture recording in the video player above."]
-    },
     code: {
-      title: "Code",
       content: [
         "Compare decision trees vs random forests on toy datasets",
         "Observe the effects of hyperparameters (max_depth)",
@@ -262,16 +212,7 @@ const teamData = [
   },
   6: {
     title: "Naive Bayes",
-    slides: {
-      title: "Slides",
-      content: ["View the complete lecture slides in the PDF viewer above."]
-    },
-    recording: {
-      title: "Recording",
-      content: ["Watch the full lecture recording in the video player above."]
-    },
     code: {
-      title: "Code",
       content: [
         "Train Naive Bayes on a spam detection or movie review sentiment dataset",
         "Text preprocessing pipeline",
@@ -283,16 +224,7 @@ const teamData = [
   },
   7: {
     title: "Best Practices & Evaluation in ML",
-    slides: {
-      title: "Slides",
-      content: ["View the complete lecture slides in the PDF viewer above."]
-    },
-    recording: {
-      title: "Recording",
-      content: ["Watch the full lecture recording in the video player above."]
-    },
     code: {
-      title: "Code",
       content: [
         "Given a small dataset and task, build a baseline, improve it, and report metrics",
         "Implement multiple evaluation metrics",
@@ -304,16 +236,7 @@ const teamData = [
   },
   8: {
     title: "Deep Learning & Modern Architectures",
-    slides: {
-      title: "Slides",
-      content: ["View the complete lecture slides in the PDF viewer above."]
-    },
-    recording: {
-      title: "Recording",
-      content: ["Watch the full lecture recording in the video player above."]
-    },
     code: {
-      title: "Code",
       content: [
         "Train a small CNN on MNIST or CIFAR-10 subset",
         "Visualize sample predictions",
@@ -675,7 +598,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
             <div>
               <h2 className="text-xl font-bold text-gray-900">{modalContent.title}</h2>
               <h3 className="text-lg font-semibold text-gray-700">
-                {modalType && modalContent && modalContent[modalType]?.title}
+                {modalType === 'slides' ? 'Slides' : modalType === 'recording' ? 'Recording' : 'Code'}
               </h3>
             </div>
             <button
@@ -715,7 +638,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
             ) : (
               <div className="p-6 overflow-y-auto h-full">
                 <div className="space-y-2">
-                  {modalType && modalContent && modalContent[modalType]?.content?.map((item: string, index: number) => (
+                  {modalContent.code.content.map((item: string, index: number) => (
                     <p key={index} className="text-gray-700 leading-relaxed">
                       {item}
                     </p>
