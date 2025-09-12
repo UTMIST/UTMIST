@@ -73,8 +73,7 @@ export default function ProfileCard({
           {onLogout && (
             <button
               onClick={onLogout}
-              style={{ background: "var(--gradient-b2)" }}
-              className="px-6 py-2 rounded-lg font-[var(--system-font)] text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)] transition-all duration-200"
+              className="bg-gradient-to-r from-red-600 to-red-400 px-6 py-2 rounded-lg font-[var(--system-font)] text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)] transition-all duration-200"
             >
               Sign Out
             </button>
