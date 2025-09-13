@@ -10,7 +10,7 @@ import blueTick from "@/assets/icons/blue-tick-icon.svg";
 import BasisVectors from "@/components/basisvectors";
 
 export default function EigenAIPage() {
-    const GoogleMapsAPIKey = process.env.GOOGLE_MAPS_API_KEY;
+    const GoogleMapsAPIKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
     if (!GoogleMapsAPIKey) {
         throw new Error("Google Maps API key is not defined");
