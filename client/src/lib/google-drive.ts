@@ -36,18 +36,43 @@ async function findExistingFile(
   folderId: string
 ): Promise<string | null> {
   try {
-    const response = await drive.files.list({
+    const sharedDriveId = process.env.GOOGLE_SHARED_DRIVE_ID;
+
+    // Query for the specific file efficiently without loading all files
+    const queryParams: any = {
       q: `name='${fileName}' and '${folderId}' in parents and trashed=false`,
       fields: "files(id, name)",
+      includeItemsFromAllDrives: true,
       supportsAllDrives: true,
-    });
+      pageSize: 1, // Only need one result
+    };
+
+    if (sharedDriveId) {
+      queryParams.corpora = "drive";
+      queryParams.driveId = sharedDriveId;
+    }
+
+    const response = await drive.files.list(queryParams);
 
     if (response.data.files && response.data.files.length > 0) {
-      return response.data.files[0].id || null;
+      const fileId = response.data.files[0].id!;
+
+      // Verify the file exists and get its details
+      try {
+        const fileDetails = await drive.files.get({
+          fileId: fileId,
+          fields: "id, name",
+          supportsAllDrives: true,
+        });
+
+        return fileId;
+      } catch (getError) {
+        return null;
+      }
     }
+
     return null;
   } catch (error) {
-    console.error("Error searching for existing file:", error);
     return null;
   }
 }
