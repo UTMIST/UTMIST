@@ -16,6 +16,7 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   font-family: var(--system-font);
+  margin-bottom: 1rem;
 }
 
 .hero-subtitle {
@@ -124,6 +125,16 @@
 
 .speakers-row:nth-of-type(2) .speaker-card {
   width: calc((100% - 3 * 1rem) / 4); /* for 4 items in second row */
+}
+
+.people-section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
 }
 
 .speaker-photo {
