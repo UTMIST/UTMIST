@@ -36,9 +36,8 @@ async function findExistingFile(
   folderId: string
 ): Promise<string | null> {
   try {
-    const sharedDriveId = process.env.GOOGLE_SHARED_DRIVE_ID;
+    const sharedDriveId = process.env.GOOGLE_DRIVE_FOLDER_ID;
 
-    // Query for the specific file efficiently without loading all files
     const queryParams: any = {
       q: `name='${fileName}' and '${folderId}' in parents and trashed=false`,
       fields: "files(id, name)",
