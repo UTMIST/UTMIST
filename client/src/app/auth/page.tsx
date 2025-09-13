@@ -69,12 +69,12 @@ export default function AuthPage() {
       
       const user = await getCurrentUser();
       if (user) {
-        console.log('Auth page: User already authenticated, redirecting to dashboard');
+        console.log('Auth page: User already authenticated, redirecting to profile');
         setRedirecting(true);
         
         // Use router.push for consistency
         console.log('Auth page: Using router.push to redirect');
-        router.push('/dashboard');
+        router.push('/profile');
       } else {
         console.log('Auth page: No authenticated user found');
       }
@@ -188,9 +188,9 @@ export default function AuthPage() {
     try {
       if (isLogin) {
         await login(formData.email, formData.password);
-        console.log('Login successful, redirecting to dashboard...');
+        console.log('Login successful, redirecting to profile...');
         setRedirecting(true);
-        router.push('/dashboard');
+        router.push('/profile');
       } else {
         const result = await register(formData.email, formData.password, formData.name, formData.organization);
         if (result.requiresEmailConfirmation) {
@@ -199,9 +199,9 @@ export default function AuthPage() {
           setLoading(false);
           return;
         } else {
-          console.log('Registration successful, redirecting to dashboard...');
+          console.log('Registration successful, redirecting to profile...');
           setRedirecting(true);
-          router.push('/dashboard');
+          router.push('/profile');
         }
       }
     } catch (err) {
