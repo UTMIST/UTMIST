@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import type { drive_v3 } from "googleapis";
 import { Readable } from "stream";
 
 const SCOPE = ["https://www.googleapis.com/auth/drive"];
@@ -38,7 +39,7 @@ async function findExistingFile(
   try {
     const sharedDriveId = process.env.GOOGLE_DRIVE_FOLDER_ID;
 
-    const queryParams: any = {
+    const queryParams: drive_v3.Params$Resource$Files$List = {
       q: `name='${fileName}' and '${folderId}' in parents and trashed=false`,
       fields: "files(id, name)",
       includeItemsFromAllDrives: true,
@@ -58,7 +59,7 @@ async function findExistingFile(
 
       // Verify the file exists and get its details
       try {
-        const fileDetails = await drive.files.get({
+        await drive.files.get({
           fileId: fileId,
           fields: "id, name",
           supportsAllDrives: true,
