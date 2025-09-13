@@ -67,13 +67,13 @@ async function findExistingFile(
 
         return fileId;
       } catch (getError) {
-        return null;
+        return getError as string | null;
       }
     }
 
     return null;
   } catch (error) {
-    return null;
+    return error as string | null;
   }
 }
 
