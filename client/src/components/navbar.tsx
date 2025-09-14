@@ -5,9 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "../assets/logos/utmist-logo-small.svg";
 import { useState, useEffect } from "react";
+import { useUser } from "@/hooks/useUser";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useUser();
 
   useEffect(() => {
     if (isOpen) {
@@ -61,6 +63,11 @@ export default function Navbar() {
           <li>
             <Link href="/eigenai" className="nav-item">
               EigenAI
+            </Link>
+          </li>
+          <li>
+            <Link href={user ? "/dashboard" : "/auth"} className="nav-item">
+              {user ? "Dashboard" : "Login"}
             </Link>
           </li>
         </ul>
@@ -117,7 +124,12 @@ export default function Navbar() {
                 <Link href="/eigenai" onClick={() => setIsOpen(false)}>
                   EigenAI
                 </Link>
-              </li> 
+              </li>
+              <li>
+                <Link href={user ? "/dashboard" : "/auth"} onClick={() => setIsOpen(false)}>
+                  {user ? "Dashboard" : "Login"}
+                </Link>
+              </li>
             </ul>
           </div>
         )}
