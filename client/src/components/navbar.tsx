@@ -66,8 +66,8 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link href={user ? "/dashboard" : "/auth"} className="nav-item">
-              {user ? "Dashboard" : "Login"}
+            <Link href={user ? "/profile" : "/auth"} className="nav-button">
+              {user ? "Profile" : "Login"}
             </Link>
           </li>
         </ul>
@@ -126,8 +126,12 @@ export default function Navbar() {
                 </Link>
               </li>
               <li>
-                <Link href={user ? "/dashboard" : "/auth"} onClick={() => setIsOpen(false)}>
-                  {user ? "Dashboard" : "Login"}
+                <Link
+                  href={user ? "/profile" : "/auth"}
+                  onClick={() => setIsOpen(false)}
+                  className="nav-button"
+                >
+                  {user ? "Profile" : "Login"}
                 </Link>
               </li>
             </ul>
