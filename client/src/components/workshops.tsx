@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import "@/styles/eigenai.css";
 import Image, { StaticImageData } from "next/image";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import copresPhoto from "@/assets/photos/eigenai-copres-speech.webp";
-import execPhoto from "@/assets/photos/eigenai-exec-photo.webp";
 import { Allen_Lee } from "@/assets/photos/speakers";
 import AnthropicLogo from "@/assets/photos/Anthropic.webp";
 
@@ -75,7 +73,7 @@ export default function Workshops() {
 
   return (
     <div className="basis-vectors-container">
-      <h1 className="basis-vectors-title">This Year's Workshops</h1>
+      <h1 className="basis-vectors-title">This Year&apos;s Workshops</h1>
 
       <div className="basis-vectors-content">
         <div className="accordion-container">
