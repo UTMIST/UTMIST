@@ -1,47 +1,55 @@
 import * as speakerPhotos from "@/assets/photos/speakers";
 
-export const speakers = [
+export const founderPanelSpeakers = [
     {
-        name: "Amrit Krishnan",
-        role: "Technical Team Lead at Vector Institute",
+        name: "Hassan Syed",
+        role: "Founder & CEO @ ASPIRE Pakistan",
         profileURL: "",
-        profileImage: speakerPhotos.Amrit,
+        profileImage: speakerPhotos.Hassan_Syed,
     },
     {
-        name: "Devang Sharma",
-        role: "Engineer at Amazon",
+        name: "Maxim Miller",
+        role: "Partner & CPO @ QKFT",
         profileURL: "",
-        profileImage: speakerPhotos.Devang,
+        profileImage: speakerPhotos.Maxim_Miller,
     },
     {
-        name: "Tyler Smith",
-        role: "Software Engineer at AI Warehouse",
+        name: "Jeremy Wang",
+        role: "Co-Founder & COO @ Ribbit",
         profileURL: "",
-        profileImage: speakerPhotos.Tyler,
-    },
-    {
-        name: "Priyanka Velagala",
-        role: "Data Scientist at Wealthsimple",
-        profileURL: "",
-        profileImage: speakerPhotos.Priyanka,
-    },
-    {
-        name: "Marcelo Ponce",
-        role: "Professor at University of Toronto",
-        profileURL: "",
-        profileImage: speakerPhotos.Marcelo,
-    },
-    {
-        name: "Mustafa Khan",
-        role: "Technical Director at aUToronto",
-        profileURL: "",
-        profileImage: speakerPhotos.Mustafa,
-    },
+        profileImage: speakerPhotos.Jeremy_Wang,
+    }
+];
 
+export const researchPanelSpeakers = [
     {
-        name: "Ryan Koh",
-        role: "Postdoctoral Fellow at UofT/KITE-UHN",
+        name: "Matthew Tamura",
+        role: "Ex-UTMIST President",
         profileURL: "",
-        profileImage: speakerPhotos.Ryan,
+        profileImage: speakerPhotos.Matthew_Tamura,
     },
+    {
+        name: "Jason Wang",
+        role: "AI Engineer Intern @ RBC Capital Markets",
+        profileURL: "",
+        profileImage: speakerPhotos.Jason_Wang,
+    },
+    {
+        name: "Sarah Walker",
+        role: "JD Candidate @ UofT Faculty of Law",
+        profileURL: "",
+        profileImage: speakerPhotos.Sarah_Walker,
+    },
+    {
+        name: "Alden Arciaga",
+        role: "Marketing Director @ UTMIST",
+        profileURL: "",
+        profileImage: speakerPhotos.Alden_Arciaga,
+    },
+    {
+        name: "Isaac Picov",
+        role: "AI Researcher @ Algoverse",
+        profileURL: "",
+        profileImage: speakerPhotos.Isaac_Picov,
+    }
 ];
