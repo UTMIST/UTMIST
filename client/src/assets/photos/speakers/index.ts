@@ -6,7 +6,6 @@ import Matthew_Tamura from "./Matthew_Tamura.webp";
 import Jason_Wang from "./Jason_Wang.webp";
 import Sarah_Walker from "./Sarah_Walker.webp";
 import Isaac_Picov from "./Isaac_Picov.webp";
-import Allen_Lee from "./Allen_Lee.webp";
 
 export {
     Jeremy_Wang,
@@ -17,6 +16,5 @@ export {
     Jason_Wang,
     Sarah_Walker,
     Isaac_Picov,
-    Allen_Lee,
 };
 

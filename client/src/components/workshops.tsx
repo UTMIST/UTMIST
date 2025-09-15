@@ -4,15 +4,8 @@ import React, { useState } from "react";
 import "@/styles/eigenai.css";
 import Image, { StaticImageData } from "next/image";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { Allen_Lee } from "@/assets/photos/speakers";
 import AnthropicLogo from "@/assets/photos/Anthropic.webp";
-
-interface AccordionItemProps {
-  title: string;
-  subtitle?: string;
-  content?: string;
-  image?: string | StaticImageData;
-}
+import GoogleLogo from "@/assets/photos/Google.webp";
 
 export default function Workshops() {
   const [openItemIndex, setOpenItemIndex] = useState<number | null>(3);
@@ -21,11 +14,7 @@ export default function Workshops() {
       title: string;
       subtitle: string;
       content: string;
-      image: {}
-  } | { title: string; subtitle: string; content: string } | { title: string; subtitle: string; content: string } | {
-      title: string;
-      subtitle: string;
-      content: string
+      image?: StaticImageData;
   })[] = [
     {
         title: "Mastering the Technical Interview: Strategies with Google",
@@ -34,7 +23,7 @@ export default function Workshops() {
             "participants will learn how to approach coding challenges, communicate their thought process" +
             "effectively, and handle common pitfalls to ace their technical interviews. We’ll cover practical tips" +
             "and frameworks for tackling problems that can be immediately applied to interview prep!",
-        image: Allen_Lee
+        image: GoogleLogo
     },
     {
         title: "Building Applications with the Claude API",
