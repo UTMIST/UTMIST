@@ -21,34 +21,46 @@ export default function Workshops() {
         {
             title: "Mastering the Technical Interview: Strategies with Google",
             subtitle: "Allen Lee, Software Engineer @ Google",
-            content:
-                "Preparing for technical interviews can feel overwhelming. In this workshop, participants will learn...",
+            content: "Preparing for technical interviews can feel overwhelming. In this workshop, " +
+                "participants will learn how to approach coding challenges, communicate their thought " +
+                "process effectively, and handle common pitfalls to ace their technical interviews. " +
+                "We’ll cover practical tips and frameworks for tackling problems that can be immediately " +
+                "applied to interview prep!",
             image: GoogleLogo,
         },
         {
             title: "Building Applications with the Claude API",
             subtitle: "UTMIST Academic Department in Partnership with Anthropic",
             content:
-                "An introduction on how to integrate the Claude API into any application...",
+                "An introduction on how to integrate the Claude API into any application, " +
+                "using a chat app as a demonstration. The goal is to introduce fundamental " +
+                "API integration skills including API key access, HTTP request authentication, " +
+                "and JSON response handling. The workshop also covers Claude-specific parameters " +
+                "such as temperature settings, system prompts and multi-turn conversation management.",
             image: AnthropicLogo,
         },
         {
             title: "Accelerating Object Detection: Model Quantization & Deployment with NVIDIA Triton Server",
             subtitle: "UTMIST Academic Department",
             content:
-                "This workshop covers (1) model quantization of pre-trained object detection model, and (2) deployment...",
+                "This workshop covers (1) model quantization of pre-trained object detection model, " +
+                "and (2) deployment on NVIDIA Triton Inference Server for scalable, high-performance inference.",
         },
         {
             title: "AUTORULE: Reasoning Chain-of-thought Extracted Rule-based Rewards Improve Preference Learning",
             subtitle: "UTMIST Academic Department",
             content:
-                "An automated rule based reinforcement method for large language models that reduces reward hacking...",
+                "An automated rule based reinforcement method for large language models that " +
+                " reward hacking and yields interpretable, dataset adaptive rules.",
         },
         {
             title: "Recommendation Systems: How Netflix Knows What You’ll Watch Next",
             subtitle: "UTMIST Academic Department",
             content:
-                "An introduction on how to integrate the Claude API into any application...",
+                "In this introductory workshop, you’ll learn how recommendation systems power " +
+                "platforms like Netflix, Spotify, and Amazon by personalizing user experiences. " +
+                "Through a hands-on demo, we’ll build a simple recommender from scratch and explore " +
+                "the key concepts, challenges, and applications behind these powerful AI tools.",
         },
     ];
 
