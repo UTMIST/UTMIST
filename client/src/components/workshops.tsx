@@ -7,56 +7,52 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import AnthropicLogo from "@/assets/photos/Anthropic.webp";
 import GoogleLogo from "@/assets/photos/Google.webp";
 
+interface AccordionItemProps {
+    title: string;
+    subtitle: string;
+    content: string;
+    image?: string | StaticImageData;
+}
+
 export default function Workshops() {
-  const [openItemIndex, setOpenItemIndex] = useState<number | null>(3);
+    const [openItemIndex, setOpenItemIndex] = useState<number | null>(3);
 
-  const accordionItems: ({ title: string; subtitle: string; content: string; image: {} } | {
-      title: string;
-      subtitle: string;
-      content: string;
-      image?: StaticImageData;
-  })[] = [
-    {
-        title: "Mastering the Technical Interview: Strategies with Google",
-        subtitle: "Allen Lee, Software Engineer @ Google",
-        content: "Preparing for technical interviews can feel overwhelming. In this workshop, " +
-            "participants will learn how to approach coding challenges, communicate their thought process" +
-            "effectively, and handle common pitfalls to ace their technical interviews. We’ll cover practical tips" +
-            "and frameworks for tackling problems that can be immediately applied to interview prep!",
-        image: GoogleLogo
-    },
-    {
-        title: "Building Applications with the Claude API",
-        subtitle: "UTMIST Academic Department in Partnership with Anthropic",
-        content: "An introduction on how to integrate the Claude API into any application, using a chat app as " +
-            "a demonstration. The goal is to introduce fundamental API integration skills including API key access, " +
-            "HTTP request authentication, and JSON response handling. The workshop also covers Claude-specific parameters" +
-            "such as temperature settings, system prompts and multi-turn conversation management.",
-        image: AnthropicLogo
-    },
-    {
-        title: "Accelerating Object Detection: Model Quantization & Deployment with NVIDIA Triton Server",
-        subtitle: "UTMIST Academic Department",
-        content: "This workshop covers (1) model quantization of pre-trained object detection model," +
-            "and (2) deployment on NVIDIA Triton Inference Server for scalable, high-performance inference."
-    },
-    {
-        title: "AUTORULE: Reasoning Chain-of-thought Extracted Rule-based Rewards Improve Preference Learning",
-        subtitle: "UTMIST Academic Department",
-        content: "An automated rule based reinforcement method for large language models that reduces reward " +
-            "hacking and yields interpretable, dataset adaptive rules."
-    },
-    {
-        title: "Recommendation Systems: How Netflix Knows What You’ll Watch Next",
-        subtitle: "UTMIST Academic Department",
-        content: "An introduction on how to integrate the Claude API into any application, using a chat app as " +
-            "a demonstration. The goal is to introduce fundamental API integration skills including API key access, " +
-            "HTTP request authentication, and JSON response handling. The workshop also covers Claude-specific parameters" +
-            "such as temperature settings, system prompts and multi-turn conversation management."
-    },
-  ];
+    const accordionItems: AccordionItemProps[] = [
+        {
+            title: "Mastering the Technical Interview: Strategies with Google",
+            subtitle: "Allen Lee, Software Engineer @ Google",
+            content:
+                "Preparing for technical interviews can feel overwhelming. In this workshop, participants will learn...",
+            image: GoogleLogo,
+        },
+        {
+            title: "Building Applications with the Claude API",
+            subtitle: "UTMIST Academic Department in Partnership with Anthropic",
+            content:
+                "An introduction on how to integrate the Claude API into any application...",
+            image: AnthropicLogo,
+        },
+        {
+            title: "Accelerating Object Detection: Model Quantization & Deployment with NVIDIA Triton Server",
+            subtitle: "UTMIST Academic Department",
+            content:
+                "This workshop covers (1) model quantization of pre-trained object detection model, and (2) deployment...",
+        },
+        {
+            title: "AUTORULE: Reasoning Chain-of-thought Extracted Rule-based Rewards Improve Preference Learning",
+            subtitle: "UTMIST Academic Department",
+            content:
+                "An automated rule based reinforcement method for large language models that reduces reward hacking...",
+        },
+        {
+            title: "Recommendation Systems: How Netflix Knows What You’ll Watch Next",
+            subtitle: "UTMIST Academic Department",
+            content:
+                "An introduction on how to integrate the Claude API into any application...",
+        },
+    ];
 
-  const toggleAccordion = (index: number) => {
+    const toggleAccordion = (index: number) => {
     setOpenItemIndex(openItemIndex === index ? null : index);
   };
 
@@ -107,7 +103,7 @@ export default function Workshops() {
                               {item.image ? (
                                   <div className="content-with-image">
                                       <Image
-                                          src={item.image}
+                                          src={item.image!}
                                           alt={item.title}
                                           className="content-image"
                                           width={180}
