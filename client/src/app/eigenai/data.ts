@@ -1,49 +1,6 @@
 import * as speakerPhotos from "@/assets/photos/speakers";
 
-export const speakers = [
-    // {
-    //     name: "Amrit Krishnan",
-    //     role: "Technical Team Lead at Vector Institute",
-    //     profileURL: "",
-    //     profileImage: speakerPhotos.Amrit,
-    // },
-    // {
-    //     name: "Devang Sharma",
-    //     role: "Engineer at Amazon",
-    //     profileURL: "",
-    //     profileImage: speakerPhotos.Devang,
-    // },
-    // {
-    //     name: "Tyler Smith",
-    //     role: "Software Engineer at AI Warehouse",
-    //     profileURL: "",
-    //     profileImage: speakerPhotos.Tyler,
-    // },
-    // {
-    //     name: "Priyanka Velagala",
-    //     role: "Data Scientist at Wealthsimple",
-    //     profileURL: "",
-    //     profileImage: speakerPhotos.Priyanka,
-    // },
-    // {
-    //     name: "Marcelo Ponce",
-    //     role: "Professor at University of Toronto",
-    //     profileURL: "",
-    //     profileImage: speakerPhotos.Marcelo,
-    // },
-    // {
-    //     name: "Mustafa Khan",
-    //     role: "Technical Director at aUToronto",
-    //     profileURL: "",
-    //     profileImage: speakerPhotos.Mustafa,
-    // },
-
-    // {
-    //     name: "Ryan Koh",
-    //     role: "Postdoctoral Fellow at UofT/KITE-UHN",
-    //     profileURL: "",
-    //     profileImage: speakerPhotos.Ryan,
-    // },
+export const founderPanelSpeakers = [
     {
         name: "Hassan Syed",
         role: "Founder & CEO @ ASPIRE Pakistan",
@@ -61,13 +18,10 @@ export const speakers = [
         role: "Co-Founder & COO @ Ribbit",
         profileURL: "",
         profileImage: speakerPhotos.Jeremy_Wang,
-    },
-    {
-        name: "Aariz Hussain",
-        role: "AI Researcher @ Borealis AI",
-        profileURL: "",
-        profileImage: speakerPhotos.Aariz_Hussain,
-    },
+    }
+];
+
+export const researchPanelSpeakers = [
     {
         name: "Matthew Tamura",
         role: "Ex-UTMIST President",
@@ -90,7 +44,7 @@ export const speakers = [
         name: "Alden Arciaga",
         role: "Marketing Director @ UTMIST",
         profileURL: "",
-        profileImage: speakerPhotos.Al  den_Arciaga,
+        profileImage: speakerPhotos.Alden_Arciaga,
     },
     {
         name: "Isaac Picov",

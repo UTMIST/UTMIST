@@ -1,13 +1,13 @@
 import "@/styles/eigenai.css";
 import Image from "next/image";
-import { speakers } from "./data";
+import { founderPanelSpeakers, researchPanelSpeakers } from "./data";
 import verticalEigenai from "@/assets/photos/eigenai-vertical.webp";
 import workshopEigenai from "@/assets/photos/eigenai-workshop.webp";
 import confEigenai from "@/assets/photos/eigenai-conference.webp";
 import PeopleGrid from "@/components/peopleGrid";
 import LamdaSection from "@/components/lambda";
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
-import BasisVectors from "@/components/basisvectors";
+import Workshops from "@/components/workshops";
 
 export default function EigenAIPage() {
     const GoogleMapsAPIKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
@@ -96,7 +96,11 @@ export default function EigenAIPage() {
         <h2 className="people-section-title text-2xl md:text-3xl lg:text-4xl">
             Panel Speakers
         </h2>
-        <PeopleGrid people={speakers} />
+
+        <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Founders, Funders, and Future AI</i></h3>
+          <PeopleGrid people={founderPanelSpeakers} />
+        <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>From Classroom to Lab: Undergraduate Research Journeys</i></h3>
+        <PeopleGrid people={researchPanelSpeakers} />
       </section>
 
       {/* Lambda Section */}
@@ -158,7 +162,7 @@ export default function EigenAIPage() {
       </section>
 
       <section className="basis-section">
-        <BasisVectors />
+        <Workshops />
       </section>
     </main>
     );
