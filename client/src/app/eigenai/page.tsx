@@ -94,7 +94,7 @@ export default function EigenAIPage() {
       {/* Speakers Section */}
       <section className="people-section px-4 md:px-8">
         <h2 className="people-section-title text-2xl md:text-3xl lg:text-4xl">
-            Past Speakers
+            Panel Speakers
         </h2>
         <PeopleGrid people={speakers} />
       </section>
