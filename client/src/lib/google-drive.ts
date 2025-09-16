@@ -31,6 +31,11 @@ function createGoogleAuth() {
   return auth;
 }
 
+function extractUUID(fileName: string): string | null {
+    const match = fileName.match(/_([a-f0-9\-]+)\.pdf$/i);
+    return match ? match[1] : null;
+}
+
 async function findExistingFile(
   drive: ReturnType<typeof google.drive>,
   fileName: string,
@@ -39,12 +44,15 @@ async function findExistingFile(
   try {
     const sharedDriveId = process.env.GOOGLE_DRIVE_FOLDER_ID;
 
+    const uuid = extractUUID(fileName);
+    if (!uuid) return null;
+
     const queryParams: drive_v3.Params$Resource$Files$List = {
-      q: `name='${fileName}' and '${folderId}' in parents and trashed=false`,
+      q: `name contains '${uuid}.pdf' and '${folderId}' in parents and trashed=false`,
       fields: "files(id, name)",
       includeItemsFromAllDrives: true,
       supportsAllDrives: true,
-      pageSize: 1, // Only need one result
+      pageSize: 1,
     };
 
     if (sharedDriveId) {
