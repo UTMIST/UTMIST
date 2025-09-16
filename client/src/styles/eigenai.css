@@ -223,10 +223,11 @@
 }
 
 .lambda-inner-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin: 0.5rem 0rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .lambda-inner-badge {
@@ -440,6 +441,21 @@
 
   .hero-title {
     font-size: 2.5rem;
+  }
+
+  .content-with-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content-image {
+    margin-bottom: 16px;
+  }
+
+  .content-text {
+    width: 100%;
+    text-align: left;
   }
 
   .hero-subtitle {
