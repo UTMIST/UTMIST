@@ -24,7 +24,7 @@ export const founderPanelSpeakers = [
 export const researchPanelSpeakers = [
     {
         name: "Matthew Tamura",
-        role: "Ex-UTMIST President",
+        role: "Research Assistant @ HCDS | APA",
         profileURL: "",
         profileImage: speakerPhotos.Matthew_Tamura,
     },
@@ -42,13 +42,13 @@ export const researchPanelSpeakers = [
     },
     {
         name: "Alden Arciaga",
-        role: "Marketing Director @ UTMIST",
+        role: "Laidlaw & Researcher @ UofT",
         profileURL: "",
         profileImage: speakerPhotos.Alden_Arciaga,
     },
     {
         name: "Isaac Picov",
-        role: "AI Researcher @ Algoverse",
+        role: "AI Research Intern @ DevRev | prev Algoverse",
         profileURL: "",
         profileImage: speakerPhotos.Isaac_Picov,
     }
