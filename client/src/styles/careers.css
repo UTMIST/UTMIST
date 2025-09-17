@@ -68,6 +68,13 @@
   color: #000;
 }
 
+.open-positions-subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  color: #6e6e6e;
+}
+
 /* --- Position Card --- */
 .position-card {
   display: flex;

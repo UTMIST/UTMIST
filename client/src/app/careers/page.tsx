@@ -93,6 +93,10 @@ export default function CareersPage() {
         <div className="open-positions-container">
             <h1 className="open-positions-title">Open Positions</h1>
 
+            <h2 className="open-positions-subtitle">
+                No Positions are open at this time, come back later!
+            </h2>
+
             {positions.map((position, index) => (
                 <div key={index}>
                     <div className="position-card">
