@@ -1,71 +1,114 @@
 import "@/styles/eigenai.css";
 import Image from "next/image";
+import { founderPanelSpeakers, researchPanelSpeakers } from "./data";
 import verticalEigenai from "@/assets/photos/eigenai-vertical.webp";
 import workshopEigenai from "@/assets/photos/eigenai-workshop.webp";
 import confEigenai from "@/assets/photos/eigenai-conference.webp";
 import PeopleGrid from "@/components/peopleGrid";
 import LamdaSection from "@/components/lambda";
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
-import BasisVectors from "@/components/basisvectors";
+import Workshops from "@/components/workshops";
 
 export default function EigenAIPage() {
-  return (
-    <main className="pt-24 sm:items-start sm:justify-center">
-      <div className="hero-section px-4 md:px-8">
-        <h2 className="hero-title text-4xl md:text-5xl lg:text-6xl">EigenAI</h2>
-        <p className="hero-subtitle text-sm md:text-base px-4 md:px-8 lg:px-16">
-          Help shape the future of AI and ML at UTMIST
-        </p>
-        <button className="ticket-button mt-4">Coming Soon</button>
-      </div>
-      <section className="flex flex-col lg:flex-row w-full gap-6 md:gap-8 items-start justify-center px-4 md:px-6 lg:px-8 py-6 md:py-8">
-        <div className="w-full lg:w-1/2 max-w-md lg:max-w-lg">
-          <h2 className="intro-section-title">What is EigenAI?</h2>
-          <p className="intro-section-description">
-            EigenAI is a UTMIST and CSSU conference exploring AI through diverse
-            perspectives. Named after eigenvectors, it builds industry-academia
-            connections, showcases various AI applications, offers hands-on
-            workshops, and meets participants where they are.
-          </p>
+    const GoogleMapsAPIKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+
+    if (!GoogleMapsAPIKey) {
+        throw new Error("Google Maps API key is not defined");
+    }
+
+    return (
+    <main className="sm:items-start sm:justify-center">
+        {/* Hero Section */}
+        <div className="hero-section">
+            <h2 className="hero-title">EigenAI</h2>
+            <p className="hero-subtitle">Help shape the future of AI and ML @ UTMIST</p>
+            <button className="ticket-button">
+                <a href="https://www.zeffy.com/en-CA/ticketing/eigenai--2025">Get Tickets!</a>
+            </button>
         </div>
 
-        <div className="w-full lg:w-1/2 flex flex-col sm:flex-row gap-3 md:gap-4">
-          <div className="w-full sm:w-1/2 aspect-[4/3] relative">
-            <Image
-              src={verticalEigenai}
-              alt="Executive photo from EigenAI event"
-              fill
-              className="rounded-xl md:rounded-2xl object-cover"
-            />
-          </div>
+        {/* Intro Section */}
+        <section className="flex flex-col lg:flex-row items-center
+            lg:items-start justify-center gap-6 md:gap-8 px-4 md:px-6 lg:px-8 py-6 md:py-8 mx-auto w-full">
+            <div className="w-full lg:w-1/2 max-w-md lg:max-w-lg">
+              <h2 className="intro-section-title">What is EigenAI?</h2>
+              <h3 className="intro-section-subtitle">September 20-21, 2025 | In-Person @ OISE, UofT</h3>
+              <p className="intro-section-description">
+                  EigenAI is a UTMIST flagship conference introducing students
+                  to the world of AI, ML, software, and emerging technologies.
+                  Through panels and workshops covering both fundamental and
+                  advanced topics, participants gain hands-on experience and
+                  practical insights. This year’s theme is Mapping AI through
+                  the Multiverse, which invites students to journey through the
+                  many dimensions of AI, allowing them to explore the field from
+                  multiple perspectives and hear from professionals across diverse
+                  industries. Beyond technical talks and workshops, students
+                  have the opportunity to build their professional network and
+                  connect with industry leaders, academic professionals, and like-minded peers.
+              </p>
+            </div>
 
-          <div className="w-full sm:w-1/2 flex flex-col gap-3 md:gap-4">
-            <div className="aspect-[4/3] relative w-full">
-              <Image
-                src={workshopEigenai}
-                alt="Co-president speech at EigenAI"
-                fill
-                className="rounded-xl md:rounded-2xl object-cover"
-              />
+            <iframe
+                className="rounded-xl md:rounded-2xl shadow-lg w-full lg:w-1/2 max-w-lg aspect-[4/3]"
+                title="Google Maps Location"
+                width="600"
+                height="350"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                src={`https://www.google.com/maps/embed/v1/place?key=${GoogleMapsAPIKey}&q=OISE,252+Bloor+St+W,Toronto+ON`}>
+            </iframe>
+        </section>
+
+        {/* Image Gallery */}
+        <div className="w-full lg:w-1/2 flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center mx-auto px-4 md:px-8">
+            <div className="w-full sm:w-1/2 aspect-[4/3] relative">
+                <Image
+                    src={verticalEigenai}
+                    alt="Executive photo from EigenAI event"
+                    fill
+                    className="rounded-xl md:rounded-2xl object-cover"
+                />
             </div>
-            <div className="aspect-[4/3] relative w-full">
-              <Image
-                src={confEigenai}
-                alt="Fibonacci sequence visualization"
-                fill
-                className="rounded-xl md:rounded-2xl object-cover"
-              />
+
+            <div className="w-full sm:w-1/2 flex flex-col gap-3 md:gap-4">
+                <div className="aspect-[4/3] relative w-full">
+                    <Image
+                        src={workshopEigenai}
+                        alt="Co-president speech at EigenAI"
+                        fill
+                        className="rounded-xl md:rounded-2xl object-cover"
+                    />
+                </div>
+                <div className="aspect-[4/3] relative w-full">
+                    <Image
+                        src={confEigenai}
+                        alt="Fibonacci sequence visualization"
+                        fill
+                        className="rounded-xl md:rounded-2xl object-cover"
+                    />
+                </div>
             </div>
-          </div>
         </div>
-      </section>
 
+      {/* Speakers Section */}
       <section className="people-section px-4 md:px-8">
-        <PeopleGrid people={speakers} />
+        <h2 className="people-section-title text-2xl md:text-3xl lg:text-4xl">
+            Panel Speakers
+        </h2>
+
+        <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Founders, Funders, and Future AI</i></h3>
+          <PeopleGrid people={founderPanelSpeakers} />
+        <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>From Classroom to Lab: Undergraduate Research Journeys</i></h3>
+        <PeopleGrid people={researchPanelSpeakers} />
       </section>
-      <section className="eigen-section">
+
+      {/* Lambda Section */}
+      <section className="eigen-section px-4 md:px-8">
         <LamdaSection />
       </section>
+
+      {/* Skill Levels Section */}
       <section className="lambda-statement-section px-4 md:px-8">
         <h2 className="lambda-statement-title text-2xl md:text-3xl lg:text-4xl">
           With over 500+ participants, EigenAI is built for AI practitioners of
@@ -119,56 +162,8 @@ export default function EigenAIPage() {
       </section>
 
       <section className="basis-section">
-        <BasisVectors />
+        <Workshops />
       </section>
     </main>
-  );
+    );
 }
-
-import * as speakerPhotos from "@/assets/photos/speakers";
-
-const speakers = [
-  {
-    name: "Amrit Krishnan",
-    role: "Technical Team Lead at Vector Institute",
-    profileURL: "",
-    profileImage: speakerPhotos.Amrit,
-  },
-  {
-    name: "Devang Sharma",
-    role: "Engineer at Amazon",
-    profileURL: "",
-    profileImage: speakerPhotos.Devang,
-  },
-  {
-    name: "Tyler Smith",
-    role: "Software Engineer at AI Warehouse",
-    profileURL: "",
-    profileImage: speakerPhotos.Tyler,
-  },
-  {
-    name: "Priyanka Velagala",
-    role: "Speaker",
-    profileURL: "",
-    profileImage: speakerPhotos.Priyanka,
-  },
-  {
-    name: "Marcelo Ponce",
-    role: "Professor at University of Toronto",
-    profileURL: "",
-    profileImage: speakerPhotos.Marcelo,
-  },
-  {
-    name: "Mustafa Khan",
-    role: "Technical Director at aUToronto",
-    profileURL: "",
-    profileImage: speakerPhotos.Mustafa,
-  },
-
-  {
-    name: "Ryan Koh",
-    role: "Postdoctoral Fellow at UofT/KITE-UHN",
-    profileURL: "",
-    profileImage: speakerPhotos.Ryan,
-  },
-];
