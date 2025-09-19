@@ -4,5 +4,8 @@ import jessica_chen from "@/assets/photos/ml-fundamentals/headshots/jessica-chen
 import kaden_seto from "@/assets/photos/ml-fundamentals/headshots/kaden-seto.jpg";
 import oscar_yasunaga from "@/assets/photos/ml-fundamentals/headshots/oscar-yasunaga.png";
 import warrick_tsui from "@/assets/photos/ml-fundamentals/headshots/warrick-tsui.jpg";
+import riyad_valiyev from "@/assets/photos/ml-fundamentals/headshots/riyad-valiyev.jpg";
+import chloe_nguyen from "@/assets/photos/ml-fundamentals/headshots/chloe_headshot.webp";
 
-export { aaron_gu, andrew_magnuson, jessica_chen, kaden_seto, oscar_yasunaga, warrick_tsui };
+
+export { aaron_gu, andrew_magnuson, jessica_chen, kaden_seto, oscar_yasunaga, warrick_tsui, riyad_valiyev, chloe_nguyen };
