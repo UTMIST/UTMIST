@@ -1,5 +1,12 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# IDE folders
+.idea
+
+# API Keys
+*.env.json
+
+
 # dependencies
 /node_modules
 /.pnp
