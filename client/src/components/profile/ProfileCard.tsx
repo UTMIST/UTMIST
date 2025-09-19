@@ -7,18 +7,21 @@ import type { UserProfile } from "@/types/auth";
 interface ProfileCardProps {
   userProfile: UserProfile;
   onEdit?: () => void;
+  onLogout?: () => void;
   isEditing?: boolean;
 }
 
 export default function ProfileCard({
   userProfile,
   onEdit,
+  onLogout,
   isEditing = false,
 }: ProfileCardProps) {
+  const noNameWarning = "please update your name";
   const defaultBio = "please update your bio";
   const displayBio = userProfile.bio || defaultBio;
 
-  const displayName = userProfile.title || userProfile.name;
+  const displayName = userProfile.title || userProfile.name || noNameWarning;
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
@@ -49,7 +52,13 @@ export default function ProfileCard({
             </div>
           )}
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">{displayName}</h1>
+        {displayName === noNameWarning ? (
+          <p className="text-red-500 text-3xl mb-3">Please update your name</p>
+        ) : (
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            {displayName}
+          </h1>
+        )}
         <p className="text-gray-500 text-sm mb-3">{userProfile.email}</p>
         <p className="text-gray-600 text-center mb-4">{displayBio}</p>
 
@@ -66,6 +75,14 @@ export default function ProfileCard({
               }`}
             >
               {isEditing ? "Editing..." : "Edit Profile"}
+            </button>
+          )}
+          {onLogout && (
+            <button
+              onClick={onLogout}
+              className="bg-gradient-to-r from-red-600 to-red-400 px-6 py-2 rounded-lg font-[var(--system-font)] text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)] transition-all duration-200"
+            >
+              Sign Out
             </button>
           )}
         </div>

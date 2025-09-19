@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import type { drive_v3 } from "googleapis";
 import { Readable } from "stream";
 
 const SCOPE = ["https://www.googleapis.com/auth/drive"];
@@ -30,25 +31,57 @@ function createGoogleAuth() {
   return auth;
 }
 
+function extractUUID(fileName: string): string | null {
+    const match = fileName.match(/_([a-f0-9\-]+)\.pdf$/i);
+    return match ? match[1] : null;
+}
+
 async function findExistingFile(
   drive: ReturnType<typeof google.drive>,
   fileName: string,
   folderId: string
 ): Promise<string | null> {
   try {
-    const response = await drive.files.list({
-      q: `name='${fileName}' and '${folderId}' in parents and trashed=false`,
+    const sharedDriveId = process.env.GOOGLE_DRIVE_FOLDER_ID;
+
+    const uuid = extractUUID(fileName);
+    if (!uuid) return null;
+
+    const queryParams: drive_v3.Params$Resource$Files$List = {
+      q: `name contains '${uuid}.pdf' and '${folderId}' in parents and trashed=false`,
       fields: "files(id, name)",
+      includeItemsFromAllDrives: true,
       supportsAllDrives: true,
-    });
+      pageSize: 1,
+    };
+
+    if (sharedDriveId) {
+      queryParams.corpora = "drive";
+      queryParams.driveId = sharedDriveId;
+    }
+
+    const response = await drive.files.list(queryParams);
 
     if (response.data.files && response.data.files.length > 0) {
-      return response.data.files[0].id || null;
+      const fileId = response.data.files[0].id!;
+
+      // Verify the file exists and get its details
+      try {
+        await drive.files.get({
+          fileId: fileId,
+          fields: "id, name",
+          supportsAllDrives: true,
+        });
+
+        return fileId;
+      } catch (getError) {
+        return getError as string | null;
+      }
     }
+
     return null;
   } catch (error) {
-    console.error("Error searching for existing file:", error);
-    return null;
+    return error as string | null;
   }
 }
 

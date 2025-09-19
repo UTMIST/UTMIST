@@ -1,9 +1,20 @@
-import Amrit from "@/assets/photos/speakers/Amrit.jpg";
-import Devang from "@/assets/photos/speakers/Devang.jpeg";
-import Tyler from "@/assets/photos/speakers/Tyler.png";
-import Marcelo from "@/assets/photos/speakers/Marcelo.png";
-import Mustafa from "@/assets/photos/speakers/Mustafa.png";
-import Priyanka from "@/assets/photos/speakers/Priyanka.png";
-import Ryan from "@/assets/photos/speakers/Ryan.jpeg";
+import Jeremy_Wang from "./Jeremy_Wang.webp";
+import Hassan_Syed from "./Hassan_Syed.webp";
+import Maxim_Miller from "./Maxim_Miller.webp";
+import Alden_Arciaga from "./Alden_Arciaga.webp";
+import Matthew_Tamura from "./Matthew_Tamura.webp";
+import Jason_Wang from "./Jason_Wang.webp";
+import Sarah_Walker from "./Sarah_Walker.webp";
+import Isaac_Picov from "./Isaac_Picov.webp";
 
-export { Amrit, Devang, Tyler, Marcelo, Mustafa, Priyanka, Ryan };
+export {
+    Jeremy_Wang,
+    Hassan_Syed,
+    Maxim_Miller,
+    Alden_Arciaga,
+    Matthew_Tamura,
+    Jason_Wang,
+    Sarah_Walker,
+    Isaac_Picov,
+};
+
