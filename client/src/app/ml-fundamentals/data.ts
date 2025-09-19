@@ -9,7 +9,7 @@ export const programDirectors = [
     },
     {
         name: "Warrick Tsui",
-        role: "Academics Team",
+        role: "Program Director",
         profileURL: "",
         profileImage: teamPhotos.warrick_tsui,
     }
@@ -30,13 +30,13 @@ export const academicsTeam = [
     },
     {
         name: "Andrew Magnuson",
-        role: "Program Director", 
+        role: "Academics Team", 
         profileURL: "",
         profileImage: teamPhotos.andrew_magnuson,
     },
     {
         name: "Jessica Chen",
-        role: "Program Director",
+        role: "Academics Team",
         profileURL: "",
         profileImage: teamPhotos.jessica_chen,
     }
