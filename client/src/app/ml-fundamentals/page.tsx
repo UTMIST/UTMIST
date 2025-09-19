@@ -1,14 +1,13 @@
 "use client"
+import "@/styles/ml-fundamentals.css";
+
 import Image, { StaticImageData } from "next/image"
 import { useState } from "react"
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
 import darkBlueTick from "@/assets/icons/dark-blue-tick-icon.svg";
 import HeroSection from "@/components/heroSection";
-import catOne from "@/assets/photos/ml-fundamentals/cat_one.avif";
-import catTwo from "@/assets/photos/ml-fundamentals/cat_two.avif";
-import catThree from "@/assets/photos/ml-fundamentals/cat_three.webp";
-import catFour from "@/assets/photos/ml-fundamentals/cat_four.jpg";
 import ibmLogo from "@/assets/photos/ml-fundamentals/ibm.png";
+import PeopleGrid from "@/components/peopleGrid";
 
 // Type definitions
 type ModalType = 'slides' | 'recording' | 'code';
@@ -25,6 +24,57 @@ type WorkshopContent = {
     content: string[];
   };
 };
+
+import { programDirectors, academicsTeam } from "./data";
+
+import * as speakerPhotos from "@/assets/photos/speakers";
+
+const speakers = [
+  {
+    name: "Amrit Krishnan",
+    role: "Technical Team Lead at Vector Institute",
+    profileURL: "",
+    profileImage: speakerPhotos.Amrit,
+  },
+  {
+    name: "Devang Sharma",
+    role: "Engineer at Amazon",
+    profileURL: "",
+    profileImage: speakerPhotos.Devang,
+  },
+  {
+    name: "Tyler Smith",
+    role: "Software Engineer at AI Warehouse",
+    profileURL: "",
+    profileImage: speakerPhotos.Tyler,
+  },
+  {
+    name: "Priyanka Velagala",
+    role: "Speaker",
+    profileURL: "",
+    profileImage: speakerPhotos.Priyanka,
+  },
+  {
+    name: "Marcelo Ponce",
+    role: "Professor at University of Toronto",
+    profileURL: "",
+    profileImage: speakerPhotos.Marcelo,
+  },
+  {
+    name: "Mustafa Khan",
+    role: "Technical Director at aUToronto",
+    profileURL: "",
+    profileImage: speakerPhotos.Mustafa,
+  },
+
+  {
+    name: "Ryan Koh",
+    role: "Postdoctoral Fellow at UofT/KITE-UHN",
+    profileURL: "",
+    profileImage: speakerPhotos.Ryan,
+  },
+];
+
 
 // Week data for the schedule
 const weekData = [
@@ -119,30 +169,6 @@ const faqData: FAQItem[] = [
     id: 8,
     question: "How long are the sessions?",
     answer: "Each workshop session is approximately 2 hours long, including theory, practical coding, and hands-on exercises."
-  }
-];
-
-// Team data
-const teamData = [
-  {
-    id: 1,
-    name: "Name",
-    image: catOne,
-  },
-  {
-    id: 2,
-    name: "Name",
-    image: catTwo,
-  },
-  {
-    id: 3,
-    name: "Name",
-    image: catThree,
-  },
-  {
-    id: 4,
-    name: "Name",
-    image: catFour,
   }
 ];
 
@@ -459,51 +485,6 @@ function FAQSection({ faqData, openFAQ, onToggleFAQ }: FAQSectionProps) {
   );
 }
 
-interface TeamMember {
-  id: number;
-  name: string;
-  image: StaticImageData;
-}
-
-interface TeamSectionProps {
-  teamData: TeamMember[];
-}
-
-function TeamSection({ teamData }: TeamSectionProps) {
-  return (
-    <div className="w-full bg-white px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-left mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">Meet the Team</h2>
-          <p className="text-lg text-gray-600">
-            Our dedicated team of ML educators bring years of experience in machine learning, deep learning, and AI education to create an engaging learning experience.
-          </p>
-        </div>
-        
-        {/* Team Members Grid */}
-        <div className="bg-gray-100 rounded-2xl p-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-            {teamData.map((member) => (
-              <div key={member.id} className="text-center">
-                <div className="w-36 h-36 mx-auto mb-4">
-                  <Image
-                    src={member.image}
-                    alt={`${member.name} profile picture`}
-                    width={144}
-                    height={144}
-                    className="w-full h-full object-cover rounded-full"
-                  />
-                </div>
-                <h3 className="font-bold text-black">{member.name}</h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 interface SponsorSectionProps {
   sponsorLogo: StaticImageData;
   sponsorName: string;
@@ -733,7 +714,17 @@ export default function MachineLearningFundamentals() {
       onToggleFAQ={toggleFAQ} 
     />
 
-    <TeamSection teamData={teamData} />
+     {/* People Section */}
+     <section className="people-section px-4 md:px-8">
+          <h2 className="people-section-title text-2xl md:text-3xl lg:text-4xl">
+            ML Fundamentals Team
+          </h2>
+
+          <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Program Directors</i></h3>
+          <PeopleGrid people={programDirectors}/>
+          <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Academics Team</i></h3>
+          <PeopleGrid people={academicsTeam}/>
+      </section>
 
     <SponsorSection 
       sponsorLogo={ibmLogo}
