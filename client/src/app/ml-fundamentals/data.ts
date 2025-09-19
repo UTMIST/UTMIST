@@ -51,5 +51,17 @@ export const academicsTeam = [
         role: "Academics Team",
         profileURL: "",
         profileImage: teamPhotos.chloe_nguyen,
+    },
+    {
+        name: "Matthew Tamura",
+        role: "Academics Team",
+        profileURL: "",
+        profileImage: teamPhotos.matthew_tamura,
+    },
+    {
+        name: "Jingmin Wang",
+        role: "Academics Team",
+        profileURL: "",
+        profileImage: teamPhotos.jingmin_wang,
     }
 ];
