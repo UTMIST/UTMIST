@@ -5,6 +5,7 @@ import Image from 'next/image';
 import logo from '@/assets/logos/utmist-logo-small.svg';
 import { useRouter } from 'next/navigation';
 import { login, register, getCurrentUser, resendConfirmation, resetPassword, AUTH_ERRORS } from '@/utils/auth';
+import GitHubSignInButton from '@/components/auth/GitHubSignInButton';
 
 interface PasswordStrength {
   score: number;
@@ -544,6 +545,23 @@ export default function AuthPage() {
               </button>
             </div>
           </form>
+
+          {/* OAuth Section */}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-[var(--gray3)]" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-[var(--gray4)] font-[var(--system-font)]">
+                Or continue with
+              </span>
+            </div>
+          </div>
+
+          <GitHubSignInButton 
+            disabled={loading || redirecting}
+            className="font-[var(--system-font)]"
+          />
         </div>
       </div>
     </div>
