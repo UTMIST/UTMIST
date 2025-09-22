@@ -3,7 +3,12 @@
 import "@/styles/eigenai.css";
 import Image from "next/image";
 import { useEffect } from "react";
-import { founderPanelSpeakers, researchPanelSpeakers } from "./data";
+import { 
+    founderPanelSpeakers,
+    researchPanelSpeakers,
+    keynoteSpeakers,
+    speakerSession
+} from "./data";
 import verticalEigenai from "@/assets/photos/eigenai-vertical.webp";
 import workshopEigenai from "@/assets/photos/eigenai-workshop.webp";
 import confEigenai from "@/assets/photos/eigenai-conference.webp";
@@ -134,6 +139,29 @@ export default function EigenAIPage() {
                     </blockquote>
                 </div>
             </section>
+            
+            {/* Keynote Speakers Section */}
+            <section className="people-section px-4 md:px-8">
+                <h2 className="people-section-title text-2xl md:text-3xl lg:text-4xl">
+                    Keynote Speaker
+                </h2>
+
+                <PeopleGrid people={keynoteSpeakers}/>
+            </section>
+
+            {/* Speakers Section */}
+            <section className="people-section px-4 md:px-8">
+                <h2 className="people-section-title text-2xl md:text-3xl lg:text-4xl">
+                    Speakers Session
+                </h2>
+
+                <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Agentic AI and The Future of Everything</i></h3>
+                <PeopleGrid people={[speakerSession[0]]}/>
+                <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Responsible AI 101: Building Trust in Tomorrow&apos;s Technology</i></h3>
+                <PeopleGrid people={[speakerSession[1]]}/>
+                <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>The Silent Layer: Privacy and Security at the Core of AI</i></h3>
+                <PeopleGrid people={[speakerSession[2]]}/>
+            </section>
 
             {/* Speakers Section */}
             <section className="people-section px-4 md:px-8">
@@ -147,6 +175,10 @@ export default function EigenAIPage() {
                 <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>From Classroom to Lab:
                     Undergraduate Research Journeys</i></h3>
                 <PeopleGrid people={researchPanelSpeakers}/>
+            </section>
+
+            <section className="py-24 px-8">
+                <Workshops/>
             </section>
 
             {/* Lambda Section */}
@@ -205,10 +237,6 @@ export default function EigenAIPage() {
                         ML applications in production and research
                     </p>
                 </div>
-            </section>
-
-            <section className="basis-section">
-                <Workshops/>
             </section>
         </main>
     );
