@@ -489,14 +489,14 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
 
   // YouTube video URLs for each week's recordings (you'll need to replace these with actual video URLs)
   const youtubeVideoUrls: Record<number, string> = {
-    1: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
-    2: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
-    3: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
-    4: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
-    5: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
-    6: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld",
-    7: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
-    8: "https://www.youtube.com/watch?v=u0JMxPvMhJg&ab_channel=VolleyballWorld", 
+    1: "", 
+    2: "", 
+    3: "", 
+    4: "", 
+    5: "", 
+    6: "",
+    7: "", 
+    8: "", 
   };
 
   // weekNumber is now passed as a prop
@@ -555,18 +555,28 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
                   style={{ minHeight: '0' }}
                 />
               </div>
-            ) : modalType === 'recording' && embedUrl ? (
-              <div className="h-full w-full min-h-0 p-4">
-                <div className="relative w-full h-full">
-                  <iframe
-                    src={embedUrl}
-                    className="absolute top-0 left-0 w-full h-full border-0 rounded-lg"
-                    title={`${modalContent.title} - Recording`}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+            ) : modalType === 'recording' ? (
+              embedUrl ? (
+                <div className="h-full w-full min-h-0 p-4">
+                  <div className="relative w-full h-full">
+                    <iframe
+                      src={embedUrl}
+                      className="absolute top-0 left-0 w-full h-full border-0 rounded-lg"
+                      title={`${modalContent.title} - Recording`}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="h-full w-full min-h-0 p-8 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">🎥</div>
+                    <h3 className="text-2xl font-bold text-gray-700 mb-2">Coming Soon</h3>
+                    <p className="text-gray-500">Recording will be available soon!</p>
+                  </div>
+                </div>
+              )
             ) : (
               <div className="p-6 overflow-y-auto h-full">
                 <div className="space-y-2">
