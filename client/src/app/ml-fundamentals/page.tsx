@@ -128,99 +128,49 @@ const workshopContent: Record<number, WorkshopContent> = {
   1: {
     title: "Introduction to Machine Learning",
     code: {
-      content: [
-        "Introduction to PyTorch:",
-        "• Tensors: creation, basic math, reshaping",
-        "• Visualizing data with matplotlib",
-        "",
-        "Exercise:",
-        "• Implement linear regression from scratch using PyTorch tensors (no autograd yet)",
-        "• Plot predictions vs actual data points"
-      ]
+      content: []
     }
   },
   2: {
     title: "Logistic Regression",
     code: {
-      content: [
-        "Build a logistic regression classifier in PyTorch for binary classification",
-        "Plot decision boundaries",
-        "Evaluate using loss and accuracy",
-        "Implement proper train-validation split",
-        "Visualize training progress"
-      ]
+      content: []
     }
   },
   3: {
     title: "Neural Networks Part 1: Foundations",
     code: {
-      content: [
-        "Implement a simple 1-hidden-layer network to solve a basic classification task",
-        "2D point classification example",
-        "Plot decision boundaries and predictions",
-        "Experiment with different activation functions",
-        "Visualize network architecture"
-      ]
+      content: []
     }
   },
   4: {
     title: "Neural Networks Part 2: Training",
     code: {
-      content: [
-        "Build and train an MLP for multiclass classification",
-        "Experiment: Try different learning rates, number of epochs",
-        "Visualize their impact on training",
-        "Plot loss curves during training",
-        "Compare different optimization strategies"
-      ]
+      content: []
     }
   },
   5: {
     title: "Decision Trees & Ensemble Learning",
     code: {
-      content: [
-        "Compare decision trees vs random forests on toy datasets",
-        "Observe the effects of hyperparameters (max_depth)",
-        "Visualize decision boundaries",
-        "Analyze feature importance",
-        "Cross-validation for model selection"
-      ]
+      content: []
     }
   },
   6: {
     title: "Naive Bayes",
     code: {
-      content: [
-        "Train Naive Bayes on a spam detection or movie review sentiment dataset",
-        "Text preprocessing pipeline",
-        "Feature engineering for text",
-        "Cross-validation and evaluation",
-        "Compare with other text classification methods"
-      ]
+      content: []
     }
   },
   7: {
     title: "Best Practices & Evaluation in ML",
     code: {
-      content: [
-        "Given a small dataset and task, build a baseline, improve it, and report metrics",
-        "Implement multiple evaluation metrics",
-        "Discuss results and next steps",
-        "Iterative model improvement",
-        "Final model selection and deployment"
-      ]
+      content: []
     }
   },
   8: {
     title: "Deep Learning & Modern Architectures",
     code: {
-      content: [
-        "Train a small CNN on MNIST or CIFAR-10 subset",
-        "Visualize sample predictions",
-        "Analyze feature maps",
-        "Experiment with different architectures",
-        "Performance comparison with traditional ML"
-      ]
+      content: []
     }
   }
 };
@@ -478,13 +428,13 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
 
   const pdfUrls: Record<number, string> = {
     1: "https://raw.githubusercontent.com/UTMIST/AI2-RL-2024-Workshop/main/Week%201/UTMIST_RL_Workshop_F24_W1.pdf",
-    2: "/pdfs/test.pdf",
-    3: "/pdfs/test.pdf",
-    4: "/pdfs/test.pdf",
-    5: "/pdfs/test.pdf",
-    6: "/pdfs/test.pdf",
-    7: "/pdfs/test.pdf",
-    8: "/pdfs/test.pdf",
+    2: "",
+    3: "",
+    4: "",
+    5: "",
+    6: "",
+    7: "",
+    8: "",
   };
 
   // YouTube video URLs for each week's recordings (you'll need to replace these with actual video URLs)
@@ -543,18 +493,28 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
           
           {/* Content */}
           <div className="flex-1 overflow-hidden">
-            {modalType === 'slides' && pdfUrl ? (
-              <div className="h-full w-full min-h-0">
-                <iframe
-                  src={pdfUrl.includes('raw.githubusercontent.com') 
-                    ? `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`
-                    : pdfUrl
-                  }
-                  className="w-full h-full border-0 min-h-0"
-                  title={`${modalContent.title} - Slides`}
-                  style={{ minHeight: '0' }}
-                />
-              </div>
+            {modalType === 'slides' ? (
+              pdfUrl ? (
+                <div className="h-full w-full min-h-0">
+                  <iframe
+                    src={pdfUrl.includes('raw.githubusercontent.com') 
+                      ? `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(pdfUrl)}`
+                      : pdfUrl
+                    }
+                    className="w-full h-full border-0 min-h-0"
+                    title={`${modalContent.title} - Slides`}
+                    style={{ minHeight: '0' }}
+                  />
+                </div>
+              ) : (
+                <div className="h-full w-full min-h-0 p-8 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">📄</div>
+                    <h3 className="text-2xl font-bold text-gray-700 mb-2">Coming Soon</h3>
+                    <p className="text-gray-500">Slides will be available soon!</p>
+                  </div>
+                </div>
+              )
             ) : modalType === 'recording' ? (
               embedUrl ? (
                 <div className="h-full w-full min-h-0 p-4">
@@ -578,15 +538,25 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
                 </div>
               )
             ) : (
-              <div className="p-6 overflow-y-auto h-full">
-                <div className="space-y-2">
-                  {modalContent.code.content.map((item: string, index: number) => (
-                    <p key={index} className="text-gray-700 leading-relaxed">
-                      {item}
-                    </p>
-                  ))}
+              modalContent.code.content.length > 0 ? (
+                <div className="p-6 overflow-y-auto h-full">
+                  <div className="space-y-2">
+                    {modalContent.code.content.map((item: string, index: number) => (
+                      <p key={index} className="text-gray-700 leading-relaxed">
+                        {item}
+                      </p>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="h-full w-full min-h-0 p-8 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">💻</div>
+                    <h3 className="text-2xl font-bold text-gray-700 mb-2">Coming Soon</h3>
+                    <p className="text-gray-500">Code content will be available soon!</p>
+                  </div>
+                </div>
+              )
             )}
           </div>
         </div>
