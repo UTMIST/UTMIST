@@ -1,12 +1,13 @@
-import { ProjectCarousel } from "@/components/carousel";
-import ScrollToTop from "@/components/scrollToTop";
-
+// import Home from "client/src/app/layout.tsx";
+import {PersonCard} from "@/components/memberList"
 
 export default function Template() {
     return (
         <>
-            <ScrollToTop />
-        <h1>Hello</h1>
+            <PersonCard
+                name = "Ambrose Ling"
+                text = "Awesome flavour text"
+            />
         </>
     )
 }
