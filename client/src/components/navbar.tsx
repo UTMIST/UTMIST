@@ -61,8 +61,13 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link href="/eigenai" className="nav-item">
-              EigenAI
+            <Link href="/ai2" className="nav-item">
+              AI^2
+            </Link>
+          </li>
+          <li>
+            <Link href="/ml-fundamentals" className="nav-item">
+                MLF
             </Link>
           </li>
           <li>
@@ -121,8 +126,13 @@ export default function Navbar() {
                 </Link>
               </li>
               <li>
-                <Link href="/eigenai" onClick={() => setIsOpen(false)}>
-                  EigenAI
+                <Link href="/ai2" onClick={() => setIsOpen(false)}>
+                  AI^2
+                </Link>
+              </li>
+              <li>
+                <Link href="/ml-fundamentals" onClick={() => setIsOpen(false)}>
+                    MLF
                 </Link>
               </li>
               <li>

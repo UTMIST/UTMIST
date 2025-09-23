@@ -274,7 +274,7 @@ function ScheduleSection({ weekData, onOpenModal }: ScheduleSectionProps) {
         <div className="text-left mb-12 mt-8 sm:mt-0">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">Phase 1: Workshop Schedule</h2>
           <p className="text-lg text-gray-600">
-            New lectures, slides, and labs will be uploaded weekly! Join us for synchronous lectures weekly starting <b>September 27 from 1-3pm in BA1180!</b>
+            New lectures, slides, and labs will be uploaded weekly! Join us for synchronous lectures weekly starting <b>September 27 from 1-3pm in BA1160!</b>
           </p>
         </div>
         
