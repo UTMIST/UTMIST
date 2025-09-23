@@ -6,7 +6,7 @@ export default function Template() {
         <>
             <PersonCard
                 name = "Ambrose Ling"
-                text = "Awesome flavour text"
+                text = "Awesome flavour text lorme ipismdifa ajdn askjdnaklsjdnb lhjkab jhkl bndka bdak jn"
             />
         </>
     )
