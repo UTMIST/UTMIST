@@ -427,7 +427,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
   if (!isOpen || !modalContent) return null;
 
   const pdfUrls: Record<number, string> = {
-    1: "https://raw.githubusercontent.com/UTMIST/AI2-RL-2024-Workshop/main/Week%201/UTMIST_RL_Workshop_F24_W1.pdf",
+    1: "",
     2: "",
     3: "",
     4: "",
@@ -613,7 +613,7 @@ export default function MachineLearningFundamentals() {
           items: [
             "Learn basics of ML through workshops",
             "Collaborative learning with peers",
-            "Build foundational knowledge for ML"
+            "Build foundational knowledge and theory"
           ],
           icon: blueTick,
           paddingLeft: "pl-8 lg:pl-16"
