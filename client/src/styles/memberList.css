@@ -7,9 +7,7 @@
     background-color: #e8e8e8;
     display: flex;
     width: 494px;
-    /*height: 59px;*/
     height: fit-content;
-    /*height: 109px;*/
     padding: 10px 25px;
     justify-content: space-between;
     border-radius: 15px;
@@ -25,7 +23,6 @@
     font-size: 25px;
     text-overflow: ellipsis;
     height: fit-content;
-    /*max-width: 212px;*/
     flex-shrink: 0.5;
     overflow: hidden;
     white-space: nowrap;
@@ -39,7 +36,6 @@
     text-overflow: ellipsis;
     overflow: hidden;
     text-align: left;
-    /*white-space: nowrap;*/
     cursor: pointer;
     font-weight: lighter;
 }
@@ -76,10 +72,10 @@
 .copy-me::after {
     content: '';
     position: absolute;
-    bottom: 0;                 /* position below the box */
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%) translateY(100%);
-    border-width: 12px;             /* size of the arrow */
+    border-width: 12px;      /* size of the arrow */
     border-style: solid;
     border-color: #a1a1a1 transparent transparent transparent; /* top border colored, others transparent */
 }
