@@ -65,11 +65,11 @@ export default function Navbar() {
               EigenAI
             </Link>
           </li>
-            <li>
-                <Link href="/departments" className="nav-item">
-                    Departments
-                </Link>
-            </li>
+            {/*<li>*/}
+            {/*    <Link href="/departments" className="nav-item">*/}
+            {/*        Departments*/}
+            {/*    </Link>*/}
+            {/*</li>*/}
           <li>
             <Link href={user ? "/profile" : "/auth"} className="nav-button">
               {user ? "Profile" : "Login"}
