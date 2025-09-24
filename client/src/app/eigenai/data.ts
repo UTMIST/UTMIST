@@ -53,3 +53,33 @@ export const researchPanelSpeakers = [
         profileImage: speakerPhotos.Isaac_Picov,
     }
 ];
+
+export const keynoteSpeakers = [
+    {
+        name: "Sicong (Sheldon) Huang",
+        role: "PhD Student @ UofT | Co-Founder of UTMIST & for.ai",
+        profileURL: "",
+        profileImage: speakerPhotos.Sheldon_Huang,
+    },
+];
+
+export const speakerSession = [
+    {
+        name: "Karla Congson",
+        role: "CEO & CTO @ agentiiv",
+        profileURL: "",
+        profileImage: speakerPhotos.Karla_Congson,
+    },
+    {
+        name: "Rue Sriharsha",
+        role: "Senior Consultant @ KPMG",
+        profileURL: "",
+        profileImage: speakerPhotos.Rue_Sriharsha,
+    },
+    {
+        name: "Achin (Ace) Kulshrestha",
+        role: " Staff Software Engineer and Manager @ Google",
+        profileURL: "",
+        profileImage: speakerPhotos.Achin_Ace,
+    },
+];
