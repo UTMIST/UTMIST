@@ -1,16 +1,22 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "next/navigation";
-import { Applicant } from "@/types/admin";
 import applicantData from "@/assets/applicants.json";
+import Link from "next/link";
 
 
 export default function ApplicantDashboard() {
 	const params = useParams();
 	const applicantId = params.id as string;
-	const [applicant, setApplicant] = useState<any>(applicantData.find((applicant) => applicant.id === applicantId));
+	const applicant = (applicantData.find((applicant) => applicant.id === applicantId));
 	const [notes, setNotes] = useState("");
+
+	if(!applicant) {
+		return <div className="w-full min-h-screen flex items-center justify-center">
+			<h1 className="text-3xl font-bold">Applicant Not Found</h1>
+		</div>;
+	}
 
 	const hideScheduleButton = ["Scheduled", "Finished"].includes(applicant.interviewStatus);
 
@@ -19,12 +25,12 @@ export default function ApplicantDashboard() {
 				<div className="max-w-4xl mx-auto pt-12 pb-8 px-8">
 					<div className="justify-between flex mb-6">
 					<h1 className="text-4xl font-extrabold tracking-tight">Applicant Dashboard</h1>
-					<a
+					<Link
 						className="bg-white hover:bg-indigo-100 text-black font-semibold px-5 py-2 rounded-lg shadow border"
 						href="/applicants"
 					>
 					&larr; Back
-					</a>
+					</Link>
 					</div>
 					
 					<div className="text-2xl font-bold text-gray-900 mb-2">{applicant.name}</div>
