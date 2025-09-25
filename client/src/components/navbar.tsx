@@ -70,6 +70,11 @@ export default function Navbar() {
                 MLF
             </Link>
           </li>
+            {/*<li>*/}
+            {/*    <Link href="/departments" className="nav-item">*/}
+            {/*        Departments*/}
+            {/*    </Link>*/}
+            {/*</li>*/}
           <li>
             <Link href={user ? "/profile" : "/auth"} className="nav-button">
               {user ? "Profile" : "Login"}
