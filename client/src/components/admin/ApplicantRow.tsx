@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Applicant } from "@/app/applicants/page";
+import { Applicant } from "@/types/admin";
 
 
 export default function ApplicantRow({applicant}: {applicant: Applicant}) {
