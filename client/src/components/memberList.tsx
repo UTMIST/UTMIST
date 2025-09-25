@@ -2,17 +2,17 @@
 
 import "@/styles/memberList.css"
 import Image from "next/image"
-import Mail from "@/assets/icons/email.svg"
+import Mail from "../../public/email.svg"
 import {useState} from "react";
 
 interface Props {
     name: string;
-    text: string;
+    bio: string;
     email: string;
 }
 
 
-export function PersonCard({ name, text, email }: Props) {
+export function PersonCard({ name, bio, email }: Props) {
 
     const [isExpanded, setIsExpanded] = useState(false);
     const [isCopied, setIsCopied] = useState(false);
@@ -33,7 +33,7 @@ export function PersonCard({ name, text, email }: Props) {
                         transition: "max-height 0.4s ease",
                         maxHeight: isExpanded ? "150px" : "40px",
                 }}
-                >{text}</p>
+                >{bio}</p>
             </button>
 
             <button className={'mail-icon'} onClick={() => handleCopy()}>

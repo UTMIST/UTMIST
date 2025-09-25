@@ -3,9 +3,6 @@
 # IDE folders
 .idea/
 
-# API Keys
-*.env.json
-
 
 # dependencies
 /node_modules

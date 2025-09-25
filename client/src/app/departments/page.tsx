@@ -1,11 +1,11 @@
 import {PersonCard} from "@/components/memberList"
 
-export default function Template() {
+export default function Test() {
     return (
         <>
             <PersonCard
                 name = "Ambrose Ling"
-                text = "Awesome flavour text lorme ipismdifa ajdn askjdnaklsjdnb lhjkab jhkl bndka bdak jn"
+                bio = "Awesome flavour text lorme ipismdifa ajdn askjdnaklsjdnb lhjkab jhkl bndka bdak jn"
                 email = "test@mail.com"
             />
         </>
