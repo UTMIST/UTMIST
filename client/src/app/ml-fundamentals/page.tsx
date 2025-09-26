@@ -427,7 +427,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
   if (!isOpen || !modalContent) return null;
 
   const pdfUrls: Record<number, string> = {
-    1: "",
+    1: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w01.pdf",
     2: "",
     3: "",
     4: "",
