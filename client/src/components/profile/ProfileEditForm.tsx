@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { updateUserProfile } from "@/utils/user";
 import AvatarUpload from "./AvatarUpload";
 import type { UserProfile } from "@/types/auth";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 interface ProfileEditFormProps {
   profile: UserProfile;
@@ -124,14 +127,12 @@ export default function ProfileEditForm({
           >
             Name *
           </label>
-          <input
+          <Input
             type="text"
             id="name"
             value={formData.name}
             onChange={(e) => handleInputChange("name", e.target.value)}
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.name ? "border-red-300" : "border-gray-300"
-            }`}
+            className={errors.name ? "border-red-300" : ""}
             placeholder="Your full name"
             required
           />
@@ -164,12 +165,11 @@ export default function ProfileEditForm({
           >
             Bio
           </label>
-          <textarea
+          <Textarea
             id="bio"
             value={formData.bio}
             onChange={(e) => handleInputChange("bio", e.target.value)}
             rows={3}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Tell us about yourself..."
           />
         </div>
@@ -181,12 +181,11 @@ export default function ProfileEditForm({
           >
             LinkedIn
           </label>
-          <input
+          <Input
             type="text"
             id="linkedin"
             value={formData.linkedin}
             onChange={(e) => handleInputChange("linkedin", e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="linkedin.com/in/yourusername"
           />
         </div>
@@ -198,12 +197,11 @@ export default function ProfileEditForm({
           >
             GitHub
           </label>
-          <input
+          <Input
             type="text"
             id="github"
             value={formData.github}
             onChange={(e) => handleInputChange("github", e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="github.com/yourusername"
           />
         </div>
@@ -215,42 +213,31 @@ export default function ProfileEditForm({
           >
             Twitter/X
           </label>
-          <input
+          <Input
             type="text"
             id="twitter"
             value={formData.twitter}
             onChange={(e) => handleInputChange("twitter", e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="x.com/yourusername"
           />
         </div>
 
         <div className="flex space-x-4 pt-4">
-          <button
+          <Button
             type="submit"
             disabled={isSaving}
-            style={isSaving ? {} : { background: "var(--gradient-b2)" }}
-            className={`flex-1 px-6 py-3 rounded-lg font-[var(--system-font)] transition-all duration-200 ${
-              isSaving
-                ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
-                : "text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
-            }`}
+            className="flex-1"
           >
             {isSaving ? "Saving..." : "Save Changes"}
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
             onClick={onCancel}
             disabled={isSaving}
-            style={isSaving ? {} : { background: "var(--gradient-b2)" }}
-            className={`flex-1 px-6 py-3 rounded-lg font-[var(--system-font)] transition-all duration-200 ${
-              isSaving
-                ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
-                : "text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
-            }`}
+            className="flex-1"
           >
             Cancel
-          </button>
+          </Button>
         </div>
       </form>
     </div>
