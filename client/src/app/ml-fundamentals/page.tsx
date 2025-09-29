@@ -457,7 +457,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
 
   // YouTube video URLs for each week's recordings (you'll need to replace these with actual video URLs)
   const youtubeVideoUrls: Record<number, string> = {
-    1: "", 
+    1: "https://youtu.be/h1DxLpXvPbo", 
     2: "", 
     3: "", 
     4: "", 
@@ -559,53 +559,37 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
               modalContent.code.content.length > 0 ? (
                 <div className="p-6 overflow-y-auto h-full">
                   <div className="space-y-2">
-                    {modalType === 'code' ? (
-                      modalContent.code.content.length > 0 || modalContent.code.codeLink ? (
-                        <div className="p-6 overflow-y-auto h-full space-y-4">
-                          {/* Text content */}
-                          {modalContent.code.content.length > 0 && (
-                            <div className="space-y-2">
-                              {modalContent.code.content.map((item: string, index: number) => (
-                                <p key={index} className="text-gray-700 leading-relaxed">
-                                  {item}
-                                </p>
-                              ))}
-                            </div>
-                          )}
-
-                          {/* Code link */}
-                          {modalContent.code.codeLink && (
-                            <div className="mt-4">
-                              <a
-                                href={modalContent.code.codeLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-block bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
-                              >
-                                Open Full Code
-                              </a>
-                            </div>
-                          )}
-                        </div>
-                      ) : (
-                        <div className="h-full w-full min-h-0 p-8 flex items-center justify-center">
-                          <div className="text-center">
-                            <div className="text-6xl mb-4">💻</div>
-                            <h3 className="text-2xl font-bold text-gray-700 mb-2">Coming Soon</h3>
-                            <p className="text-gray-500">Code content will be available soon!</p>
+                      <div className="p-6 overflow-y-auto h-full space-y-4">
+                        {modalContent.code.content.length > 0 && (
+                          <div className="space-y-2">
+                            {modalContent.code.content.map((item: string, index: number) => (
+                              <p key={index} className="text-gray-700 leading-relaxed">
+                                {item}
+                              </p>
+                            ))}
                           </div>
-                        </div>
-                      )
-                    ) : null}
-                  </div>
+                        )}
+                        {modalContent.code.codeLink && (
+                          <div className="mt-4">
+                            <a
+                              href={modalContent.code.codeLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-block bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                            >
+                              Open Full Code
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                 </div>
               ) : (
                 <div className="h-full w-full min-h-0 p-8 flex items-center justify-center">
                   <div className="text-center">
-                    
-                    {/* <div className="text-6xl mb-4">💻</div>
+                    <div className="text-6xl mb-4">💻</div>
                     <h3 className="text-2xl font-bold text-gray-700 mb-2">Coming Soon</h3>
-                    <p className="text-gray-500">Code content will be available soon!</p> */}
+                    <p className="text-gray-500">Code content will be available soon!</p>
                   </div>
                 </div>
               )
