@@ -22,6 +22,7 @@ type WorkshopContent = {
   title: string;
   code: {
     content: string[];
+    codeLink: string;
   };
 };
 
@@ -128,49 +129,66 @@ const workshopContent: Record<number, WorkshopContent> = {
   1: {
     title: "Introduction to Machine Learning",
     code: {
-      content: []
+      content: [
+        "Introduction to PyTorch:",
+        "• Tensors: creation, basic math, reshaping",
+        "• Visualizing data with matplotlib",
+        "",
+        "Exercise:",
+        "• Implement linear regression from scratch using PyTorch tensors (no autograd yet)",
+        "• Plot predictions vs actual data points"
+      ],
+      codeLink: "https://apps.cognitiveclass.ai/learning/course/course-v1:IBMSkillsNetwork+GPXX0S25EN+v1/home"
     }
   },
   2: {
     title: "Logistic Regression",
     code: {
-      content: []
+      content: [],
+      codeLink: ""
     }
   },
   3: {
     title: "Neural Networks Part 1: Foundations",
     code: {
-      content: []
+      content: [],
+      codeLink: ""
     }
   },
   4: {
     title: "Neural Networks Part 2: Training",
     code: {
-      content: []
+      content: [],
+      codeLink: ""
+
     }
   },
   5: {
     title: "Decision Trees & Ensemble Learning",
     code: {
-      content: []
+      content: [],
+      codeLink: ""
     }
   },
   6: {
     title: "Naive Bayes",
     code: {
-      content: []
+      content: [],
+      codeLink: ""
     }
   },
   7: {
     title: "Best Practices & Evaluation in ML",
     code: {
-      content: []
+      content: [],
+      codeLink: ""
     }
   },
   8: {
     title: "Deep Learning & Modern Architectures",
     code: {
-      content: []
+      content: [],
+      codeLink: ""
     }
   }
 };
@@ -541,19 +559,53 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
               modalContent.code.content.length > 0 ? (
                 <div className="p-6 overflow-y-auto h-full">
                   <div className="space-y-2">
-                    {modalContent.code.content.map((item: string, index: number) => (
-                      <p key={index} className="text-gray-700 leading-relaxed">
-                        {item}
-                      </p>
-                    ))}
+                    {modalType === 'code' ? (
+                      modalContent.code.content.length > 0 || modalContent.code.codeLink ? (
+                        <div className="p-6 overflow-y-auto h-full space-y-4">
+                          {/* Text content */}
+                          {modalContent.code.content.length > 0 && (
+                            <div className="space-y-2">
+                              {modalContent.code.content.map((item: string, index: number) => (
+                                <p key={index} className="text-gray-700 leading-relaxed">
+                                  {item}
+                                </p>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Code link */}
+                          {modalContent.code.codeLink && (
+                            <div className="mt-4">
+                              <a
+                                href={modalContent.code.codeLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-block bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                              >
+                                Open Full Code
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="h-full w-full min-h-0 p-8 flex items-center justify-center">
+                          <div className="text-center">
+                            <div className="text-6xl mb-4">💻</div>
+                            <h3 className="text-2xl font-bold text-gray-700 mb-2">Coming Soon</h3>
+                            <p className="text-gray-500">Code content will be available soon!</p>
+                          </div>
+                        </div>
+                      )
+                    ) : null}
                   </div>
                 </div>
               ) : (
                 <div className="h-full w-full min-h-0 p-8 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="text-6xl mb-4">💻</div>
+                    
+                    {/* <div className="text-6xl mb-4">💻</div>
                     <h3 className="text-2xl font-bold text-gray-700 mb-2">Coming Soon</h3>
-                    <p className="text-gray-500">Code content will be available soon!</p>
+                    <p className="text-gray-500">Code content will be available soon!</p> */}
                   </div>
                 </div>
               )
