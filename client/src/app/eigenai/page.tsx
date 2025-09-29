@@ -37,9 +37,6 @@ export default function EigenAIPage() {
             <div className="hero-section">
                 <h2 className="hero-title">EigenAI</h2>
                 <p className="hero-subtitle">Help shape the future of AI and ML @ UTMIST</p>
-                <button className="ticket-button">
-                    <a href="https://www.zeffy.com/en-CA/ticketing/eigenai--2025">Get Tickets!</a>
-                </button>
             </div>
 
             {/* Intro Section */}
