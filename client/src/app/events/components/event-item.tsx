@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
 import { Tag } from './tag';
+import { Button } from "@/components/ui/button";
 
 interface Resource {
   title: string;
@@ -148,12 +149,12 @@ export function EventItem({ event, isPassed }: { event: Event, isPassed: boolean
             )}
           </div>
           {!isPassed && (
-            <button 
-              className="rsvp-button flex-shrink-0" 
+            <Button
+              className="rsvp-button flex-shrink-0"
               onClick={handleRSVPClick}
             >
               RSVP
-            </button>
+            </Button>
           )}
         </div>
       </div>
@@ -326,12 +327,12 @@ export function EventItem({ event, isPassed }: { event: Event, isPassed: boolean
                 <p className="text-gray-700">
                   {event.description || 'More details coming soon...'}
                 </p>
-                <button 
+                <Button
                   className="rsvp-button"
                   onClick={handleRSVPClick}
                 >
                   RSVP
-                </button>
+                </Button>
               </div>
             </div>
           )}

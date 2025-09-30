@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import "@/styles/faq.css";
 import Image from "next/image";
 import plusIcon from "@/assets/icons/plus-icon.svg";
 
@@ -45,18 +44,18 @@ export default function FAQ() {
 
   return (
     <>
-      <div className="faq-section">
-        <h2 className="faq-title">Have Questions?</h2>
-        <h2 className="faq-title">UTMIST Has Answers</h2>
+      <div className="flex flex-col justify-center items-center py-16 px-8 max-w-[1000px] mx-auto text-center">
+        <h2 className="text-5xl font-bold bg-[image:var(--gradient-bl1)] bg-clip-text [-webkit-text-fill-color:transparent] [font-family:var(--system-font)]">Have Questions?</h2>
+        <h2 className="text-5xl font-bold bg-[image:var(--gradient-bl1)] bg-clip-text [-webkit-text-fill-color:transparent] [font-family:var(--system-font)]">UTMIST Has Answers</h2>
       </div>
-      <div className="faq-container">
+      <div className="w-full max-w-[1200px] mx-auto px-4 justify-center">
         {faqData.map((item, index) => (
-          <div key={index}>
+          <div key={index} className="w-full mb-4 rounded-lg overflow-hidden">
             <div
-              className="faq-row cursor-pointer"
+              className="flex justify-between items-start flex-wrap w-full py-4 cursor-pointer"
               onClick={() => toggleQuestion(index)}
             >
-              <h2 className="faq-row-title">{item.question}</h2>
+              <h2 className="flex-1 pr-2 text-base">{item.question}</h2>
               <div className="flex items-center justify-center">
                 <Image
                   src={plusIcon}
@@ -71,16 +70,16 @@ export default function FAQ() {
             </div>
 
             {expandedIndex === index && (
-              <div className="faq-answer">
-                <p>{item.answer}</p>
+              <div className="w-full py-4 px-4 pb-6 bg-gray-50 rounded-b-lg">
+                <p className="m-0 p-0 break-words whitespace-normal leading-6 text-gray-600 max-w-full">{item.answer}</p>
               </div>
             )}
 
-            <hr className="faq-line" />
+            <hr className="mx-auto border-0 h-px bg-gray-200 w-full max-w-[1000px]" />
           </div>
         ))}
       </div>
-      <div className="faq-tail-section">
+      <div className="w-full py-8 px-4 flex justify-center items-center text-center text-black">
         <strong>More questions? Reach out to us on any platform!</strong>
       </div>
     </>

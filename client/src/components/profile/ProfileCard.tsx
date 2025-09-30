@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import type { UserProfile } from "@/types/auth";
+import { Button } from "@/components/ui/button";
 
 interface ProfileCardProps {
   userProfile: UserProfile;
@@ -64,26 +65,27 @@ export default function ProfileCard({
 
         <div className="flex flex-col sm:flex-row gap-3 items-center">
           {onEdit && (
-            <button
+            <Button
               onClick={onEdit}
               disabled={isEditing}
-              style={isEditing ? {} : { background: "var(--gradient-b2)" }}
-              className={`px-6 py-2 rounded-lg font-[var(--system-font)] transition-all duration-200 ${
+              variant={isEditing ? "ghost" : "default"}
+              className={`px-6 py-2 font-[var(--system-font)] ${
                 isEditing
                   ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
-                  : "text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
+                  : ""
               }`}
             >
               {isEditing ? "Editing..." : "Edit Profile"}
-            </button>
+            </Button>
           )}
           {onLogout && (
-            <button
+            <Button
               onClick={onLogout}
-              className="bg-gradient-to-r from-red-600 to-red-400 px-6 py-2 rounded-lg font-[var(--system-font)] text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)] transition-all duration-200"
+              variant="destructive"
+              className="px-6 py-2 font-[var(--system-font)] bg-gradient-to-r from-red-600 to-red-400 border-0"
             >
               Sign Out
-            </button>
+            </Button>
           )}
         </div>
       </div>

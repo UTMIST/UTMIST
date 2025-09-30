@@ -10,6 +10,7 @@ import ProfileEditForm from "@/components/profile/ProfileEditForm";
 import SocialCard from "@/components/profile/SocialCard";
 import QRCodeCard from "@/components/profile/QRCodeCard";
 import ResumeCard from "@/components/profile/ResumeCard";
+import { Button } from "@/components/ui/button";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -121,13 +122,12 @@ export default function ProfilePage() {
             Error Loading Profile
           </h2>
           <p className="text-gray-600 mb-4">{error}</p>
-          <button
+          <Button
             onClick={() => window.location.reload()}
-            style={{ background: "var(--gradient-b2)" }}
-            className="px-4 py-2 rounded-lg font-[var(--system-font)] text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
+            className="px-4 py-2"
           >
             Try Again
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -178,13 +178,12 @@ export default function ProfilePage() {
         <p className="text-gray-600 mb-4">
           Unable to load your profile information.
         </p>
-        <button
+        <Button
           onClick={() => router.push("/auth")}
-          style={{ background: "var(--gradient-b2)" }}
-          className="px-4 py-2 rounded-lg font-[var(--system-font)] text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
+          className="px-4 py-2"
         >
           Go to Login
-        </button>
+        </Button>
       </div>
     </div>
   );

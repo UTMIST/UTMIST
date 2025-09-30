@@ -2,6 +2,8 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { getUserById } from "@/utils/user";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface ResumeUploadProps {
   userId: string;
@@ -239,7 +241,9 @@ export default function ResumeUpload({
                   ({(selectedFile.size / 1024 / 1024).toFixed(2)} MB)
                 </span>
               </div>
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={() => {
                   setSelectedFile(null);
                   // Clear the file input value so the same file can be selected again
@@ -247,7 +251,7 @@ export default function ResumeUpload({
                     fileInputRef.current.value = "";
                   }
                 }}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-600 h-5 w-5"
               >
                 <svg
                   className="h-5 w-5"
@@ -262,7 +266,7 @@ export default function ResumeUpload({
                     d="M6 18L18 6M6 6l12 12"
                   />
                 </svg>
-              </button>
+              </Button>
             </div>
           </div>
         )}
@@ -270,19 +274,15 @@ export default function ResumeUpload({
         {/* Submit Button */}
         {selectedFile && !disabled && (
           <div className="mt-4">
-            <button
+            <Button
               type="button"
               onClick={handleSubmit}
               disabled={isUploading || !canUpload}
-              style={
-                isUploading || !canUpload
-                  ? {}
-                  : { background: "var(--gradient-b2)" }
-              }
-              className={`w-full px-4 py-2 rounded-lg font-[var(--system-font)] text-sm transition-all duration-200 ${
+              variant={isUploading || !canUpload ? "ghost" : "default"}
+              className={`w-full px-4 py-2 font-[var(--system-font)] text-sm ${
                 isUploading || !canUpload
                   ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
-                  : "text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
+                  : ""
               }`}
             >
               {isUploading
@@ -290,14 +290,14 @@ export default function ResumeUpload({
                 : !canUpload
                 ? `Wait ${remainingMinutes} minutes`
                 : "Submit Resume"}
-            </button>
+            </Button>
           </div>
         )}
       </div>
 
       {/* Hidden file input */}
       {!disabled && (
-        <input
+        <Input
           ref={fileInputRef}
           type="file"
           accept=".pdf"

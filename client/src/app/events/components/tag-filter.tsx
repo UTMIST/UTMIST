@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+
 /**
  * Props for the TagFilter component
  * @property {string[]} tags - Array of all available tags
@@ -19,17 +21,18 @@ export function TagFilter({ tags, selectedTags, onToggleTag }: TagFilterProps) {
   return (
     <div className="flex flex-wrap gap-2 px-1">
       {tags.map(tag => (
-        <button
+        <Button
           key={tag}
           onClick={() => onToggleTag(tag)}
+          variant="ghost"
           className={`px-3 py-1 rounded-full text-sm transition-colors whitespace-nowrap ${
             selectedTags.includes(tag)
-              ? 'bg-[#372a5b] text-white'
+              ? 'bg-[#372a5b] text-white hover:bg-[#4a3a7d]'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}
         >
           {tag}
-        </button>
+        </Button>
       ))}
     </div>
   );

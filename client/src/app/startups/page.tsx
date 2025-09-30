@@ -57,11 +57,11 @@ const PhotosGrid = () => {
 
 const HeroSection = () => {
   return (
-    <section className="flex flex-col gap-4 md:gap-6">
+    <div className="flex flex-col gap-4 md:gap-6">
       {/* Hero Component */}
       <HeroIntroductionSection />
       <HeroStartupSection />
-    </section>
+    </div>
   );
 };
 

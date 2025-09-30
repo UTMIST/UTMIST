@@ -4,6 +4,8 @@ import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { uploadFile, deleteFile } from "@/utils/upload";
 import { updateUserProfile } from "@/utils/user";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface AvatarUploadProps {
   currentAvatar?: string;
@@ -126,7 +128,7 @@ export default function AvatarUpload({
 
       {/* Hidden file input */}
       {!disabled && (
-        <input
+        <Input
           ref={fileInputRef}
           type="file"
           accept="image/*"
@@ -138,19 +140,20 @@ export default function AvatarUpload({
 
       {/* Remove button (only show if avatar exists and not default) */}
       {!disabled && avatarUrl && (
-        <button
+        <Button
           type="button"
           onClick={handleRemoveAvatar}
           disabled={isUploading}
-          style={isUploading ? {} : { background: "var(--gradient-b2)" }}
-          className={`px-3 py-1 rounded-lg font-[var(--system-font)] text-xs transition-all duration-200 ${
+          variant={isUploading ? "ghost" : "default"}
+          size="sm"
+          className={`px-3 py-1 font-[var(--system-font)] text-xs ${
             isUploading
               ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
-              : "text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
+              : ""
           }`}
         >
           {isUploading ? "Removing..." : "Remove Photo"}
-        </button>
+        </Button>
       )}
 
       {/* Error Message */}

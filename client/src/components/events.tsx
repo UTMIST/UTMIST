@@ -62,8 +62,8 @@ export default function Events() {
   // });
 
   return (
-    <section className="events-section">
-      <h1 className="events-title">
+    <div className="py-8">
+      <h1 className="text-2xl text-center mb-8 font-bold" style={{background: 'var(--gradient-bl1)', backgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: 'var(--system-font)'}}>
         Workshops, hackathons, and conferences to level up your AI journey.
       </h1>
 
@@ -77,6 +77,6 @@ export default function Events() {
           />
         ))}
       </div>
-    </section>
+    </div>
   );
 }

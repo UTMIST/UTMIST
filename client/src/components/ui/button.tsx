@@ -5,19 +5,19 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all duration-200 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all duration-200 ease-in-out focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default:
-          "text-white px-6 py-3 rounded-lg font-[var(--system-font)] hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]",
+          "py-2 px-4 text-white rounded-[25px] font-medium hover:opacity-90",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+          "py-2 px-4 bg-transparent text-red-600 border-2 border-red-600 rounded-full font-medium hover:bg-red-600 hover:text-white",
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+          "py-2 px-4 bg-transparent text-[var(--gray4)] border-2 border-[var(--gray3)] rounded-full font-medium hover:bg-[var(--gray3)] hover:text-[var(--gray1)]",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+          "py-2 px-6 bg-transparent text-[#6b66e3] border-2 border-[#6b66e3] rounded-full font-medium hover:bg-[#6b66e3] hover:text-white",
+        ghost: "py-2 px-4 bg-transparent text-[var(--gray1)] rounded-[25px] font-medium hover:bg-[var(--gray3)] hover:text-[var(--gray4)]",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {

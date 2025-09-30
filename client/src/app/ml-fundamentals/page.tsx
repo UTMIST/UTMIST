@@ -1,5 +1,4 @@
 "use client"
-import "@/styles/ml-fundamentals.css";
 
 import Image, { StaticImageData } from "next/image"
 import { useState } from "react"
@@ -8,6 +7,7 @@ import darkBlueTick from "@/assets/icons/dark-blue-tick-icon.svg";
 import HeroSection from "@/components/heroSection";
 import ibmLogo from "@/assets/photos/ml-fundamentals/ibm.png";
 import PeopleGrid from "@/components/peopleGrid";
+import { Button } from "@/components/ui/button";
 
 // Type definitions
 type ModalType = 'slides' | 'recording' | 'code';
@@ -290,24 +290,24 @@ function ScheduleSection({ weekData, onOpenModal }: ScheduleSectionProps) {
                 </p>
               </div>
               <div className="flex gap-2 mt-4">
-                <button 
+                <Button
                   onClick={() => onOpenModal(week.weekNumber, 'slides')}
                   className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Slides
-                </button>
-                <button 
+                </Button>
+                <Button
                   onClick={() => onOpenModal(week.weekNumber, 'recording')}
                   className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Recording
-                </button>
-                <button 
+                </Button>
+                <Button
                   onClick={() => onOpenModal(week.weekNumber, 'code')}
                   className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Code
-                </button>
+                </Button>
               </div>
             </div>
           ))}
@@ -353,24 +353,25 @@ function FAQSection({ faqData, openFAQ, onToggleFAQ }: FAQSectionProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-auto">
           {faqData.map((faq) => (
             <div key={faq.id} className="bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors overflow-hidden h-fit">
-              <div 
-                className="flex items-center justify-between p-4"
+              <Button
+                variant="ghost"
                 onClick={() => onToggleFAQ(faq.id)}
+                className="w-full justify-between p-4 h-auto hover:bg-transparent"
               >
                 <span className="font-bold text-black">{faq.question}</span>
-                <svg 
-                  className={`w-4 h-4 text-gray-600 transition-transform duration-300 ease-in-out ${openFAQ === faq.id ? 'rotate-180' : ''}`} 
-                  fill="none" 
-                  stroke="currentColor" 
+                <svg
+                  className={`w-4 h-4 text-gray-600 transition-transform duration-300 ease-in-out ${openFAQ === faq.id ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
-              </div>
-              <div 
+              </Button>
+              <div
                 className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                  openFAQ === faq.id 
-                    ? 'max-h-32 opacity-100' 
+                  openFAQ === faq.id
+                    ? 'max-h-32 opacity-100'
                     : 'max-h-0 opacity-0'
                 }`}
               >
@@ -483,12 +484,13 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
                 {modalType === 'slides' ? 'Slides' : modalType === 'recording' ? 'Recording' : 'Code'}
               </h3>
             </div>
-            <button
+            <Button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-3xl font-bold leading-none p-2 hover:bg-gray-200 rounded-full transition-colors"
+              variant="ghost"
+              className="text-gray-400 hover:text-gray-600 text-3xl font-bold leading-none p-2 hover:bg-gray-200 rounded-full transition-colors h-auto"
             >
               ×
-            </button>
+            </Button>
           </div>
           
           {/* Content */}
@@ -646,7 +648,7 @@ export default function MachineLearningFundamentals() {
     />
 
      {/* People Section */}
-     <section className="people-section px-4 md:px-8">
+     <div className="py-16 px-4 md:px-8 max-w-6xl mx-auto">
           <h2 className="people-section-title text-2xl md:text-3xl lg:text-4xl">
             ML Fundamentals Team
           </h2>
@@ -655,7 +657,7 @@ export default function MachineLearningFundamentals() {
           <PeopleGrid people={programDirectors}/>
           <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Academics Team</i></h3>
           <PeopleGrid people={academicsTeam}/>
-      </section>
+      </div>
 
     <SponsorSection 
       sponsorLogo={ibmLogo}

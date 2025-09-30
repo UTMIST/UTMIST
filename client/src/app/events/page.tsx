@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from 'react';
-import "@/styles/events.css"  
 import { EventItem } from "./components/event-item";
 import { SearchBar } from "./components/search-bar";
 import { TagFilter } from "./components/tag-filter";
@@ -137,13 +136,13 @@ export default function EventsPage() {
         </div>
 
       {/* Upcoming events section with search and filtering */}
-      <div className="upcoming-events-container p-4 sm:p-6 rounded-lg">
+      <div className="max-w-[1050px] mx-auto p-4 sm:p-6 rounded-lg">
         <h2 className="text-2xl sm:text-3xl mb-2 text-black tracking-[-3%]">Upcoming Events</h2>
         <p className="text-gray-600 mb-6 text-sm sm:text-base">Explore what is happening on campus right now</p>
-        
+
         {/* Search and filter controls */}
         <div className="space-y-4 mb-6">
-          <SearchBar 
+          <SearchBar
             value={upcomingSearchQuery}
             onChange={setUpcomingSearchQuery}
           />
@@ -154,7 +153,7 @@ export default function EventsPage() {
             onToggleTag={toggleUpcomingTag}
           />
         </div>
-        
+
         {/* Event list section */}
         <div className="text-black">
           {filteredUpcomingEvents.length === 0 && (
@@ -163,8 +162,8 @@ export default function EventsPage() {
             </p>
           )}
 
-          {filteredUpcomingEvents.length > 0 && 
-            <div className="events-list-container">
+          {filteredUpcomingEvents.length > 0 &&
+            <div className="max-h-[600px] overflow-y-auto border-2 border-[#e5e7eb] rounded-lg p-4 mb-4 [scrollbar-width:thin] [scrollbar-color:#9ca3af_#e5e7eb] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#e5e7eb] [&::-webkit-scrollbar-track]:rounded [&::-webkit-scrollbar-thumb]:bg-[#9ca3af] [&::-webkit-scrollbar-thumb]:rounded [&>div:not(:last-child)]:mb-3">
               {filteredUpcomingEvents.map(event => (
                 <EventItem key={event.id} event={event} isPassed={false} />
               ))}

@@ -58,7 +58,7 @@ export default function Home() {
       </div>
 
       {/*Who We Are / Mission Section */}
-      <section id="about-us">
+      <div id="about-us">
         <div className="hero-container">
           <HeroCard
             image={execPhoto}
@@ -72,7 +72,7 @@ export default function Home() {
             description="Our mission is to empower students of all skill levels and experiences to foster their passion and accelerate their careers in Artificial Intelligence and Machine Learning. Through workshops, conferences, hackathons, and numerous other initiatives, we aim to provide the best opportunities for UofT students in this field."
           />
         </div>
-      </section>
+      </div>
 
       <Events />
       <ValueProps />

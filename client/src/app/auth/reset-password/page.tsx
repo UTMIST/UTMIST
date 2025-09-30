@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase/client';
 import Image from 'next/image';
 import logo from '@/assets/logos/utmist-logo-small.svg';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState('');
@@ -127,7 +129,7 @@ export default function ResetPasswordPage() {
                 New Password
               </label>
               <div className="mt-1">
-                <input
+                <Input
                   id="password"
                   name="password"
                   type="password"
@@ -135,7 +137,7 @@ export default function ResetPasswordPage() {
                   placeholder="Enter your new password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full px-4 py-3 rounded-lg border border-[var(--gray3)] shadow-sm focus:ring-2 focus:ring-[var(--secondary)] focus:border-transparent font-[var(--system-font)] text-black placeholder-[var(--gray2)]"
+                  className="w-full px-4 py-3 rounded-lg border border-[var(--gray3)] shadow-sm focus-visible:ring-2 focus-visible:ring-[var(--secondary)] focus-visible:border-transparent font-[var(--system-font)] text-black placeholder-[var(--gray2)]"
                 />
               </div>
             </div>
@@ -145,7 +147,7 @@ export default function ResetPasswordPage() {
                 Confirm New Password
               </label>
               <div className="mt-1">
-                <input
+                <Input
                   id="confirmPassword"
                   name="confirmPassword"
                   type="password"
@@ -153,27 +155,29 @@ export default function ResetPasswordPage() {
                   placeholder="Confirm your new password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="block w-full px-4 py-3 rounded-lg border border-[var(--gray3)] shadow-sm focus:ring-2 focus:ring-[var(--secondary)] focus:border-transparent font-[var(--system-font)] text-black placeholder-[var(--gray2)]"
+                  className="w-full px-4 py-3 rounded-lg border border-[var(--gray3)] shadow-sm focus-visible:ring-2 focus-visible:ring-[var(--secondary)] focus-visible:border-transparent font-[var(--system-font)] text-black placeholder-[var(--gray2)]"
                 />
               </div>
             </div>
 
-            <button
+            <Button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[var(--secondary)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)] disabled:opacity-50 disabled:cursor-not-allowed font-[var(--system-font)]"
+              variant="secondary"
+              className="w-full py-3 px-4"
             >
               {loading ? 'Updating Password...' : 'Update Password'}
-            </button>
+            </Button>
 
             <div className="text-center">
-              <button
+              <Button
                 type="button"
+                variant="link"
                 onClick={() => router.push('/auth')}
-                className="text-sm text-[var(--gray4)] hover:text-[var(--secondary)] font-[var(--system-font)]"
+                className="text-sm text-[var(--gray4)] hover:text-[var(--secondary)] p-0 h-auto"
               >
                 Back to Login
-              </button>
+              </Button>
             </div>
           </form>
         </div>
