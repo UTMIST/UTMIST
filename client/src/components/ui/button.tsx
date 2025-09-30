@@ -14,10 +14,10 @@ const buttonVariants = cva(
         destructive:
           "py-2 px-4 bg-transparent text-red-600 border-2 border-red-600 rounded-full font-medium hover:bg-red-600 hover:text-white",
         outline:
-          "py-2 px-4 bg-transparent text-[var(--gray4)] border-2 border-[var(--gray3)] rounded-full font-medium hover:bg-[var(--gray3)] hover:text-[var(--gray1)]",
+          "py-2 px-4 bg-transparent text-gray4 border-2 border-gray3 rounded-full font-medium hover:bg-gray3 hover:text-gray1",
         secondary:
           "py-2 px-6 bg-transparent text-[#6b66e3] border-2 border-[#6b66e3] rounded-full font-medium hover:bg-[#6b66e3] hover:text-white",
-        ghost: "py-2 px-4 bg-transparent text-[var(--gray1)] rounded-[25px] font-medium hover:bg-[var(--gray3)] hover:text-[var(--gray4)]",
+        ghost: "py-2 px-4 bg-transparent text-gray1 rounded-[25px] font-medium hover:bg-gray3 hover:text-gray4",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {

@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import amdLogo from "../assets/logos/amd.svg";
 import qualcommLogo from "../assets/logos/qualcomm.svg";
