@@ -1,6 +1,4 @@
 "use client"
-
-import "@/styles/memberList.css"
 import Image from "next/image"
 import Mail from "../../public/email.svg"
 import {useState} from "react";
@@ -15,20 +13,12 @@ interface Props {
 export function PersonCard({ name, bio, email }: Props) {
 
     const [isExpanded, setIsExpanded] = useState(false);
-    const [isCopied, setIsCopied] = useState(false);
-
-    const handleCopy = async () => {
-        await navigator.clipboard.writeText(email)
-        setIsCopied(true)
-        // console.log("Copied :" + isCopied)
-        setTimeout(() => setIsCopied(false), 2000)
-    }
 
     return (
-        <div className={"person-card"}>
-            <p className={'person-name'}>{name}</p>
-            <button onClick={() => setIsExpanded(!isExpanded)}>
-                <p className={'person-text'}
+        <div className={"bg-[#e8e8e8] flex w-[494px] h-fit px-[25px] py-[10px] justify-between rounded-[15px] my-[5px] mx-[8px]"}>
+            <p className={"text-[25px] truncate h-fit shrink-0"}>{name}</p>
+            <button className={"w-fit h-fit"} onClick={() => setIsExpanded(!isExpanded)}>
+                <p className={"px-[7px] py-[8px] max-w-[211px] text-[17px] overflow-hidden text-ellipsis text-left cursor-pointer font-light"}
                     style={{
                         transition: "max-height 0.4s ease",
                         maxHeight: isExpanded ? "150px" : "40px",
@@ -36,14 +26,14 @@ export function PersonCard({ name, bio, email }: Props) {
                 >{bio}</p>
             </button>
 
-            <button className={'mail-icon'} onClick={() => handleCopy()}>
+            <button className={"relative h-fit mt-[9px] cursor-pointer group"}>
                 <Image
                     src={Mail}
-                    alt={'Mail icon'}
+                    alt={"relative h-fit mt-[9px] cursor-pointer"}
                     width={30}
                 />
-                <div className={'copy-me'}>
-                    {!isCopied ? "Click to copy!" : "Copied"}
+                <div className={"absolute bottom-[200%] left-1/2 -translate-x-1/2 w-[120px] px-[3px] py-[3px] bg-[#a1a1a1] text-center rounded-[9px] opacity-0 transition-opacity duration-100 group-hover:opacity-100"}>
+                    {email}
                 </div>
             </button>
 
