@@ -6,9 +6,9 @@ import applicantData from "@/assets/applicants.json";
 import Link from "next/link";
 
 
-export default function ApplicantDashboard() {
+export default function ApplicantProfile() {
 	const params = useParams();
-	const applicantId = params.id as string;
+	const applicantId = params.profile as string;
 	const applicant = (applicantData.find((applicant) => applicant.id === applicantId));
 	const [notes, setNotes] = useState("");
 
@@ -26,7 +26,7 @@ export default function ApplicantDashboard() {
 					<div className="justify-between flex mb-6">
 					<h1 className="text-4xl font-extrabold tracking-tight">Applicant Dashboard</h1>
 					<Link
-						className="bg-white hover:bg-indigo-100 text-black font-semibold px-5 py-2 rounded-lg shadow border"
+						className="bg-white hover:bg-[#6b66e3] text-[#6b66e3] hover:text-white font-semibold px-5 py-2 rounded-3xl shadow border-2 border-[#6b66e3] transition-colors duration-200 flex items-center"
 						href="/applicants"
 					>
 					&larr; Back
