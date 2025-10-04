@@ -1,0 +1,30 @@
+[
+	{
+		"id": "1",
+		"name": "Jane Doe",
+		"role": "Data Scientist",
+		"notes": "Lorem ipsum dolor sdsfjfkadsljfljsd fkjdslfkj sd est quidem doloremque. Quaerat consequuntur quod aspernatur.",
+		"questions": [{ "question": "Why do you want to work here?", "answer": "Just cuz" }],
+		"interviewStatus": "Finished",
+		"applicationStatus": "Pending",
+		"phone": "123-456-7890",
+		"school": "University of Toronto",
+		"major": "Computer Science",
+		"year": "3rd Year",
+		"email": "jane.doe@example.com"
+	},
+	{
+		"id": "2",
+		"name": "John Smith",
+		"role": "Backend Developer",
+		"notes": "Experienced in Node.js and databases.",
+		"interviewStatus": "Not Scheduled",
+		"applicationStatus": "Waitlisted",
+		"phone": "987-654-3210",
+		"school": "University of Waterloo",
+		"major": "Software Engineering",
+		"year": "4th Year",
+		"email": "john.smith@example.com",
+		"questions": [{ "question": "What are your strengths?", "answer": "Problem-solving and teamwork." }]
+	}
+]
