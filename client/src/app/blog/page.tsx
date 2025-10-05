@@ -93,7 +93,7 @@ export default function BlogPage() {
       </div>
 
       {/* Archive Section */}
-      <div className="blog-archive-section mt-16 max-w-[1050px] mx-auto px-8 mb-16">
+      <div className="blog-archive-section mt-16 max-w-[1050px] mx-auto px-8 mb-16 bg-gray-50 py-8 rounded-xl">
         <div className="flex flex-col items-center mb-8">
           {/* Archive Title */}
           <h3 className="text-black text-2xl font-semibold mb-2 tracking-[-3%]">
@@ -102,10 +102,10 @@ export default function BlogPage() {
           {/* Archive Description */}
           <p className="text-gray-600 text-base sm:text-lg mb-4">Find more articles from our technical content series</p>
           {/* Search Bar */}
-          <div className="mt-4 flex items-center rounded-2xl px-5 py-3 w-[400px] max-w-[90%] transition-all duration-300 bg-white relative border-0 shadow-sm hover:shadow-md before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:bottom-0 before:rounded-2xl before:p-[2px] before:[background:var(--gradient-bl1)] before:[-webkit-mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] before:[-webkit-mask-composite:xor] before:[mask-composite:exclude] before:pointer-events-none before:z-[1]">
+          <div className="mt-4 flex items-center rounded-full px-6 py-3 w-[400px] max-w-[90%] bg-white border-2 border-black">
             <Input
               type="text"
-              className="border-0 outline-none flex-1 text-base bg-transparent text-black focus-visible:ring-0 focus-visible:ring-offset-0"
+              className="border-0 outline-none flex-1 text-base bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none p-0"
               placeholder="Search articles..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -118,8 +118,7 @@ export default function BlogPage() {
           <div
             ref={scrollContainerRef}
             onScroll={handleScroll}
-            className={`space-y-[0.25rem] overflow-y-auto px-0.5 max-h-[320px] sm:max-h-[480px] [scrollbar-width:thin] [scrollbar-color:var(--scrollbar-thumb)_var(--scrollbar-track)] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-[var(--scrollbar-track)] [&::-webkit-scrollbar-track]:rounded [&::-webkit-scrollbar-thumb]:bg-[var(--scrollbar-thumb)] [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb:hover]:bg-[#64748B]`}
-            style={{ overscrollBehavior: 'contain' }}
+            className="space-y-1 overflow-y-auto px-1 max-h-[320px] sm:max-h-[480px]"
           >
             {filteredArchive.map((blog, index) => (
               <BlogListItem

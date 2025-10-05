@@ -70,7 +70,7 @@ export default function FAQ() {
             </div>
 
             {expandedIndex === index && (
-              <div className="w-full py-4 px-4 pb-6 bg-gray-50 rounded-b-lg">
+              <div className="w-full py-4 px-4 pb-6  rounded-b-lg">
                 <p className="m-0 p-0 break-words whitespace-normal leading-6 text-gray-600 max-w-full">{item.answer}</p>
               </div>
             )}
