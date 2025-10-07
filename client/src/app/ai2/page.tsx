@@ -22,6 +22,9 @@ export default function AI2Page() {
           <p className="hero-subtitle">(Brought to you by the Academics Department)</p>
           <p className="hero-subtitle-gradient">October 25 - November 2, 2025</p>
           <p className="hero-subtitle-gradient">In-person + Online</p>
+          <button className="ticket-button">
+            <a href="https://luma.com/jjw2v8rp">Apply!</a>
+          </button>
         </div>
 
         {/* Intro Section */}
