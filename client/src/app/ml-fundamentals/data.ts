@@ -65,3 +65,12 @@ export const academicsTeam = [
         profileImage: teamPhotos.jingmin_wang,
     }
 ];
+
+export const techWritersTeam = [
+    {
+        name: "Isabella",
+        role: "Technical Writer",
+        profileURL: "",
+        profileImage: teamPhotos.isabella_zhong,
+    }
+]

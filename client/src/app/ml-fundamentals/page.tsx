@@ -26,7 +26,7 @@ type WorkshopContent = {
   };
 };
 
-import { programDirectors, academicsTeam } from "./data";
+import { programDirectors, academicsTeam, techWritersTeam } from "./data";
 
 // Week data for the schedule
 const weekData = [
@@ -705,6 +705,8 @@ export default function MachineLearningFundamentals() {
           <PeopleGrid people={programDirectors}/>
           <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Academics Team</i></h3>
           <PeopleGrid people={academicsTeam}/>
+            <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Technical Writing Team</i></h3>
+          <PeopleGrid people={techWritersTeam}/>
       </section>
 
     <SponsorSection 
