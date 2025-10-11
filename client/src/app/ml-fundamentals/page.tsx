@@ -138,14 +138,22 @@ const workshopContent: Record<number, WorkshopContent> = {
         "• Implement linear regression from scratch using PyTorch tensors (no autograd yet)",
         "• Plot predictions vs actual data points"
       ],
-      codeLink: "https://apps.cognitiveclass.ai/learning/course/course-v1:IBMSkillsNetwork+GPXX0S25EN+v1/home"
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
     }
   },
   2: {
     title: "Logistic Regression",
     code: {
-      content: [],
-      codeLink: ""
+      content: [
+        "Introduction to Logistic Regression:",
+        "• Build a logistic regression classifier in PyTorch for binary classification",
+        "• Plot decision boundaries",
+        "Model Evaluation:",
+        "• Evaluate using loss and accuracy",
+        "• Implement proper train-validation split",
+        "• Visualize training progress"
+      ],
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
     }
   },
   3: {
@@ -446,8 +454,8 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
 
   const pdfUrls: Record<number, string> = {
     1: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w01.pdf",
-    2: "",
-    3: "",
+    2: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w02.pdf",
+    3: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w03.pdf",
     4: "",
     5: "",
     6: "",
@@ -458,7 +466,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
   // YouTube video URLs for each week's recordings (you'll need to replace these with actual video URLs)
   const youtubeVideoUrls: Record<number, string> = {
     1: "https://youtu.be/h1DxLpXvPbo", 
-    2: "", 
+    2: "https://youtu.be/ccwnTixGaCI", 
     3: "", 
     4: "", 
     5: "", 
