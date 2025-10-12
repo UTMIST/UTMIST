@@ -202,27 +202,32 @@ export function validateGoogleDriveConfig(): string | null {
 
 /**
  * Maps user year to corresponding Google Drive folder ID
- * Falls back to default folder if year is not set or not recognized
+ * Throws an error if the year-specific folder is not configured
  *
  * @param year - User's year ('1', '2', '3', '4', '5+', 'masters', 'phd')
- * @returns Folder ID for the specified year, or default folder ID
+ * @returns Folder ID for the specified year
+ * @throws Error if folder ID is not configured for the specified year
  */
-export function getYearFolderId(year?: string): string {
-  const defaultFolderId = process.env.GOOGLE_DRIVE_FOLDER_ID!;
-
+export function getYearFolderId(year?: string): string | null {
   if (!year) {
-    return defaultFolderId;
+    return null;
   }
 
-  const folderMap: Record<string, string> = {
-    '1': process.env.GOOGLE_DRIVE_YEAR_1_FOLDER_ID || defaultFolderId,
-    '2': process.env.GOOGLE_DRIVE_YEAR_2_FOLDER_ID || defaultFolderId,
-    '3': process.env.GOOGLE_DRIVE_YEAR_3_FOLDER_ID || defaultFolderId,
-    '4': process.env.GOOGLE_DRIVE_YEAR_4_FOLDER_ID || defaultFolderId,
-    '5+': process.env.GOOGLE_DRIVE_YEAR_5_PLUS_FOLDER_ID || defaultFolderId,
-    'masters': process.env.GOOGLE_DRIVE_MASTERS_FOLDER_ID || defaultFolderId,
-    'phd': process.env.GOOGLE_DRIVE_PHD_FOLDER_ID || defaultFolderId,
+  const folderMap: Record<string, string | undefined> = {
+    '1': '1UjvM5jQuG98o5WVTeFT2Jyk8R2-DnoCc',
+    '2': '1yfx8VmjGGZT-g1GPCwe0xIlY8WYs-SFc',
+    '3': '1NBiKUpbJiwxFMaspx6M6OiS86vyJf--J',
+    '4': '148T0C6ft8Ktv-KvHPDSNraDY8w3nGyM0',
+    '5+': '148T0C6ft8Ktv-KvHPDSNraDY8w3nGyM0',
+    'masters': '1rCPNw-OO6N3ohohsSFd0Ol6Erm2lZLR-',
+    'phd': "1_8GnYlpUjE2ClkiqqnIIWiEOdd0hgETI",
   };
 
-  return folderMap[year] || defaultFolderId;
+  const folderId = folderMap[year];
+
+  if (!folderId) {
+    throw new Error(`Google Drive folder not configured for year: ${year}. Please set the environment variable for this year.`);
+  }
+
+  return folderId;
 }

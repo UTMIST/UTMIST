@@ -198,7 +198,29 @@ export async function POST(request: Request) {
      * Files are organized into folders based on user's year
      */
     const shouldReplace = userProfile.resume_upload !== null;
-    const yearFolderId = getYearFolderId(userProfile.year);
+    let yearFolderId: string | null = null;
+
+    try {
+      yearFolderId = getYearFolderId(userProfile.year);
+    } catch (folderError) {
+      return new Response(
+        JSON.stringify({
+          error: folderError instanceof Error ? folderError.message : "Failed to get year folder ID",
+          details: "Please contact an administrator to configure the folder for your year",
+        }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    if (!yearFolderId) {
+      return new Response(
+        JSON.stringify({
+          error: "Please set your year in the profile section before uploading your resume",
+        }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
     const result = await uploadToGoogleDrive(
       fileBuffer,
       newFileName,
