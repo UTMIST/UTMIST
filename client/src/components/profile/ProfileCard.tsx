@@ -19,9 +19,10 @@ export default function ProfileCard({
 }: ProfileCardProps) {
   const noNameWarning = "please update your name";
   const defaultBio = "please update your bio";
-  const displayBio = userProfile.bio || defaultBio;
 
-  const displayName = userProfile.title || userProfile.name || noNameWarning;
+  const displayName = userProfile.name || noNameWarning;
+  const displayTitle = userProfile.title;
+  const displayBio = userProfile.bio || defaultBio;
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
@@ -59,8 +60,10 @@ export default function ProfileCard({
             {displayName}
           </h1>
         )}
-        <p className="text-gray-500 text-sm mb-3">{userProfile.email}</p>
-        <p className="text-gray-600 text-center mb-4">{displayBio}</p>
+        {displayTitle && (
+          <p className="text-gray-700 text-lg font-medium mb-2">{displayTitle}</p>
+        )}
+        <p className="text-gray-600 text-center max-w-md mb-4 line-clamp-3">{displayBio}</p>
 
         <div className="flex flex-col sm:flex-row gap-3 items-center">
           {onEdit && (
