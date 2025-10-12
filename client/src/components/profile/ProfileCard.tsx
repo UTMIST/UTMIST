@@ -60,6 +60,17 @@ export default function ProfileCard({
           </h1>
         )}
         <p className="text-gray-500 text-sm mb-3">{userProfile.email}</p>
+        {userProfile.year && (
+          <p className="text-gray-600 text-sm mb-3">
+            {userProfile.year === "1" && "1st Year"}
+            {userProfile.year === "2" && "2nd Year"}
+            {userProfile.year === "3" && "3rd Year"}
+            {userProfile.year === "4" && "4th Year"}
+            {userProfile.year === "5+" && "5th Year+"}
+            {userProfile.year === "masters" && "Masters"}
+            {userProfile.year === "phd" && "PhD"}
+          </p>
+        )}
         <p className="text-gray-600 text-center mb-4">{displayBio}</p>
 
         <div className="flex flex-col sm:flex-row gap-3 items-center">

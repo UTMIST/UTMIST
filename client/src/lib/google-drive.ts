@@ -88,13 +88,14 @@ async function findExistingFile(
 export async function uploadToGoogleDrive(
   fileBuffer: ArrayBuffer,
   fileName: string,
-  replace: boolean = false
+  replace: boolean = false,
+  folderId?: string
 ): Promise<{ id: string; webViewLink: string }> {
   const auth = createGoogleAuth();
   const drive = google.drive({ version: "v3", auth });
 
   const buffer = Buffer.from(fileBuffer);
-  const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID!;
+  const targetFolderId = folderId || process.env.GOOGLE_DRIVE_FOLDER_ID!;
 
   const readable = new Readable();
   readable.push(buffer);
@@ -110,8 +111,8 @@ export async function uploadToGoogleDrive(
 
   if (replace) {
     // Check if file already exists and update it
-    const existingFileId = await findExistingFile(drive, fileName, folderId);
-    
+    const existingFileId = await findExistingFile(drive, fileName, targetFolderId);
+
     if (existingFileId) {
       console.log(`Updating existing file: ${fileName}`);
       response = await drive.files.update({
@@ -124,7 +125,7 @@ export async function uploadToGoogleDrive(
       // File doesn't exist but replace=true, create new file
       const metadata = {
         name: fileName,
-        parents: [folderId],
+        parents: [targetFolderId],
       };
       
       response = await drive.files.create({
@@ -152,7 +153,7 @@ export async function uploadToGoogleDrive(
     // Create new file (first upload)
     const metadata = {
       name: fileName,
-      parents: [folderId],
+      parents: [targetFolderId],
     };
     
     response = await drive.files.create({
@@ -197,4 +198,31 @@ export function validateGoogleDriveConfig(): string | null {
   }
 
   return null;
+}
+
+/**
+ * Maps user year to corresponding Google Drive folder ID
+ * Falls back to default folder if year is not set or not recognized
+ *
+ * @param year - User's year ('1', '2', '3', '4', '5+', 'masters', 'phd')
+ * @returns Folder ID for the specified year, or default folder ID
+ */
+export function getYearFolderId(year?: string): string {
+  const defaultFolderId = process.env.GOOGLE_DRIVE_FOLDER_ID!;
+
+  if (!year) {
+    return defaultFolderId;
+  }
+
+  const folderMap: Record<string, string> = {
+    '1': process.env.GOOGLE_DRIVE_YEAR_1_FOLDER_ID || defaultFolderId,
+    '2': process.env.GOOGLE_DRIVE_YEAR_2_FOLDER_ID || defaultFolderId,
+    '3': process.env.GOOGLE_DRIVE_YEAR_3_FOLDER_ID || defaultFolderId,
+    '4': process.env.GOOGLE_DRIVE_YEAR_4_FOLDER_ID || defaultFolderId,
+    '5+': process.env.GOOGLE_DRIVE_YEAR_5_PLUS_FOLDER_ID || defaultFolderId,
+    'masters': process.env.GOOGLE_DRIVE_MASTERS_FOLDER_ID || defaultFolderId,
+    'phd': process.env.GOOGLE_DRIVE_PHD_FOLDER_ID || defaultFolderId,
+  };
+
+  return folderMap[year] || defaultFolderId;
 }

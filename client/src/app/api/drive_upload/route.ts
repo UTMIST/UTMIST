@@ -2,6 +2,7 @@ import {
   uploadToGoogleDrive,
   validatePDF,
   validateGoogleDriveConfig,
+  getYearFolderId,
 } from "@/lib/google-drive";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
@@ -108,12 +109,12 @@ export async function POST(request: Request) {
     }
 
     /**
-     * User Profile Validation: Fetch user profile to get name and last upload timestamp
-     * Name is required for file naming, resume_upload is used for rate limiting
+     * User Profile Validation: Fetch user profile to get name, year, and last upload timestamp
+     * Name is required for file naming, year is used for folder organization, resume_upload is used for rate limiting
      */
     const { data: userProfile, error: profileError } = await supabase
       .from("user")
-      .select("name, resume_upload")
+      .select("name, year, resume_upload")
       .eq("id", user.id)
       .single();
 
@@ -194,12 +195,15 @@ export async function POST(request: Request) {
     /**
      * Google Drive Upload: Upload file to shared drive
      * If user has uploaded before, replace existing file to avoid duplicates
+     * Files are organized into folders based on user's year
      */
     const shouldReplace = userProfile.resume_upload !== null;
+    const yearFolderId = getYearFolderId(userProfile.year);
     const result = await uploadToGoogleDrive(
       fileBuffer,
       newFileName,
-      shouldReplace
+      shouldReplace,
+      yearFolderId
     );
 
     /**
