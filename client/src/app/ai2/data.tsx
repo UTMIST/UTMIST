@@ -56,96 +56,101 @@ export const timelineEvents = [
 
 export const kickOff = [
   {
+    title: "9:30AM",
     cardTitle: 'Registration',
-    cardSubtitle: '9:30AM - 10:00AM',
   },
   {
+    title: "10:00AM",
     cardTitle: 'Opening Ceremony',
-    cardSubtitle: '10:00AM - 10:30AM',
+    // cardSubtitle: 'Keynote Speaker: Tyler Smith - Lead Software Engineer @ AI Warehouse',
   },
   {
+    title: "10:30AM",
     cardTitle: 'Networking & Team-Building',
-    cardSubtitle: '10:30AM - 11:00AM',
-    cardDetailedText: 'In-Person or Discord',
+    cardDetailedText: 'In-Person and Discord',
   },
   {
-    cardTitle: 'Introduction to the RL Paradigm',
-    cardSubtitle: '11:00AM - 12:00PM',
-    cardDetailedText: 'UTMIST Academics Department Workshop',
+    title: "11:00AM",
+    cardTitle: 'Introduction to the Reinforcement Learning Paradigm',
+    cardSubtitle: 'Jingmin Wang - RL Researcher @ LEAF Lab',
+    cardDetailedText: 'Reinforcement learning is a growing field in machine learning that focuses on training agents to make sequential decisions. This talk will cover the basics of RL, including key concepts such as rewards, policies, and Markov Decision Processes (MDPs).',
   },
   {
+    title: "12:00PM",
     cardTitle: 'AI Squared Codebase Walkthrough',
-    cardSubtitle: '12:00PM - 12:30PM',
+    cardDetailedText: 'Get familiar with the AI Squared codebase, tools, and resources to kickstart your agent development!',
   },
   {
+    title: "12:30PM",
     cardTitle: 'Lunch',
-    cardSubtitle: '12:30PM - 1:30PM',
   },
   {
-    cardTitle: 'TBD',
-    cardSubtitle: '1:30PM - 1:30PM',
-    cardDetailedText: 'Workshop 2',
+    title: "1:30PM",
+    cardTitle: 'Coming soon...',
+    // cardDetailedText: 'Artifical Agency',
   },
   {
-    cardTitle: 'TBD',
-    cardSubtitle: '2:45PM - 3:45PM',
-    cardDetailedText: 'Workshop 3',
+    title: "2:45PM",
+    cardTitle: 'Coming soon...',
+    // cardDetailedText: 'Tenstorrent',
   },
   {
-    cardTitle: 'Worksession/Mentoring/Networking',
-    cardSubtitle: '3:45PM - 4:30PM',
+    title: "3:45PM",
+    cardTitle: 'Networking and Work Session',
   },
   {
+    title: "4:30PM",
     cardTitle: 'Closing Ceremony',
-    cardSubtitle: '4:30PM - 5:00PM',
   },
 ];
 
 export const finalsBracket = [
   {
+    title: "9:30AM",
     cardTitle: 'Registration',
-    cardSubtitle: '9:30AM - 10:00AM',
   },
   {
+    title: "10:00AM",
     cardTitle: 'Opening Ceremony',
-    cardSubtitle: '10:00AM - 10:30AM',
   },
   {
-    cardTitle: 'Round 1',
-    cardSubtitle: '10:30AM - 11:00AM',
-    cardDetailedText: 'M1 - M6, 6 matches',
+    title: "10:30AM",
+    cardTitle: 'Tournament Bracket Round 1',
+    // cardDetailedText: 'M1 - M6, 6 matches',
   },
   {
-    cardTitle: 'Speaker',
-    cardSubtitle: '11:00AM - 12:00PM',
-    cardDetailedText: 'Gaming Industry (TBA)',
+    title: "11:00AM",
+    cardTitle: 'Designing AI for Fun in Games',
+    cardSubtitle: 'Chunlok Lo - Software Engineer @ Riot Games',
+    cardDetailedText: 'Having an AI that\'s good at a video game doesn\'t necessarily make the game more fun, but that\'s only because we aren\'t designing them for fun! In fact, AI is essential in creating the fun in many modern video games and they wouldn\'t be the same with it. Come learn about the many ways AI is used to make games more fun and what goes into designing and creating them.',
   },
   {
+    title: "12:00PM",
     cardTitle: 'Lunch',
-    cardSubtitle: '12:00PM - 1:00PM',
   },
   {
-    cardTitle: 'Round 2',
-    cardSubtitle: '10:30AM - 11:00AM',
-    cardDetailedText: 'M7 – M11: 5 matches',
+    title: "1:00PM",
+    cardTitle: 'Tournament Bracket Round 2',
+    // cardDetailedText: 'M7 – M11: 5 matches',
   },
   {
-    cardTitle: 'Panel',
-    cardSubtitle: '2:00PM - 3:00PM',
-    cardDetailedText: 'Character Behaviour in Games',
+    title: "2:00PM",
+    cardTitle: 'Playing with AI: Applications of Machine Learning in Games',
+    cardSubtitle: 'Dr. Julian Togelius - Associate Professor @ NYU',
+    cardDetailedText: 'This panel examines the technical and theoretical frontiers of integrating machine learning into game development and interactive simulations. Explore current advances in machine learning applications in video games and see how research insights blend practical implementations in modern game AI systems.',
   },
   {
-    cardTitle: 'Round 3',
-    cardSubtitle: '3:00PM - 3:15PM',
-    cardDetailedText: 'M12 – M13: 2 matches',
+    title: "3:00PM",
+    cardTitle: 'Tournament Bracket Round 3',
+    // cardDetailedText: 'M12 – M13: 2 matches',
   },
   {
+    title: "3:15PM",
     cardTitle: 'Networking',
-    cardSubtitle: '3:15PM - 4:00PM',
   },
   {
-    cardTitle: 'Closing Ceremony',
-    cardSubtitle: '4:00PM - 5:00PM',
+    title: "4:00PM",
+    cardTitle: 'Grand Finals and Closing Ceremony',
   },
 ];
 

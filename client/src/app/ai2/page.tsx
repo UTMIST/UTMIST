@@ -116,7 +116,7 @@ export default function AI2Page() {
               <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-xl p-6 shadow transition-shadow duration-300 hover:shadow-xl shadow-[#1E19B1]/50">
                 <iframe
                   className="absolute top-0 left-0 w-full h-full rounded-xl"
-                  src="https://www.youtube.com/embed/srbaeBi_xmM?si=p9RwH4hTJqsA9RwG"
+                  src="https://www.youtube.com/embed/oaU9cUHoIdg?si=CJwTBo02mpRYcEoC"
                   title="YouTube video player"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -198,6 +198,8 @@ export default function AI2Page() {
                   theme={{
                     primary: "rgba(106, 102, 245, 0.6)",
                     secondary: "ffffff",
+                    titleColor: "#000000",
+                    titleColorActive: "#000000", 
                     cardBgColor: "#ffffff",
                     cardTitleColor: "#000000",
                     cardSubtitleColor: "#000000",
@@ -228,7 +230,17 @@ export default function AI2Page() {
                   <p className="text-sm text-gray-500"><i>{sponsor.tier}</i></p>
                 </div>
               ))}
-            </div>
+              </div>
+              <div className="mt-10 items-center max-w-4xl mx-auto px-4 flex flex-col justify-center gap-4 pl-2 pr-2 text-center">
+                <h1 className="ai2-h1">Become a sponsor!</h1>
+                <p>None of our work would be possible without our sponsors. They unite developers,
+                  designers, and ML enthusiasts globally with connections that go beyond the tournament.
+                  Keep checking back for our sponsors for AI Squared Fall 2025!
+                </p>
+                <h2 className="ai2-h2">Want to help bring AI Squared to life?</h2>
+                <p>Shoot us an email at <a href="mailto:partnerships@utmist.skule.ca" target="_blank" rel="noopener noreferrer" className="underline">partnerships@utmist.skule.ca</a>!</p>
+
+              </div>
         </section>
 
         {/* Speakers */}
