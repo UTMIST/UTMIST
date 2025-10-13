@@ -204,7 +204,7 @@ export function validateGoogleDriveConfig(): string | null {
  * Maps user year to corresponding Google Drive folder ID
  * Throws an error if the year-specific folder is not configured
  *
- * @param year - User's year ('1', '2', '3', '4', '5+', 'masters', 'phd')
+ * @param year - User's year ('1', '2', '3', '4', 'PEY', 'masters', 'phd')
  * @returns Folder ID for the specified year
  * @throws Error if folder ID is not configured for the specified year
  */
@@ -218,7 +218,7 @@ export function getYearFolderId(year?: string): string | null {
     '2': '1yfx8VmjGGZT-g1GPCwe0xIlY8WYs-SFc',
     '3': '1NBiKUpbJiwxFMaspx6M6OiS86vyJf--J',
     '4': '148T0C6ft8Ktv-KvHPDSNraDY8w3nGyM0',
-    '5+': '148T0C6ft8Ktv-KvHPDSNraDY8w3nGyM0',
+    'PEY': '148T0C6ft8Ktv-KvHPDSNraDY8w3nGyM0',
     'masters': '1rCPNw-OO6N3ohohsSFd0Ol6Erm2lZLR-',
     'phd': "1_8GnYlpUjE2ClkiqqnIIWiEOdd0hgETI",
   };

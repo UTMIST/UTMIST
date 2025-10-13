@@ -66,7 +66,7 @@ export default function ProfileCard({
             {userProfile.year === "2" && "2nd Year"}
             {userProfile.year === "3" && "3rd Year"}
             {userProfile.year === "4" && "4th Year"}
-            {userProfile.year === "5+" && "5th Year+"}
+            {userProfile.year === "PEY" && "PEY"}
             {userProfile.year === "masters" && "Masters"}
             {userProfile.year === "phd" && "PhD"}
           </p>
