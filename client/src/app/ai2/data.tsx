@@ -136,10 +136,6 @@ export const finalsBracket = [
   {
     title: "2:00PM",
     cardTitle: 'Playing with AI: Applications of Machine Learning in Games',
-<<<<<<< HEAD
-=======
-    cardSubtitle: 'Dr. Julian Togelius - Associate Professor @ NYU',
->>>>>>> main
     cardDetailedText: 'This panel examines the technical and theoretical frontiers of integrating machine learning into game development and interactive simulations. Explore current advances in machine learning applications in video games and see how research insights blend practical implementations in modern game AI systems.',
   },
   {
