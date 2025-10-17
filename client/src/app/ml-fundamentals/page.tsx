@@ -22,6 +22,7 @@ type WorkshopContent = {
   title: string;
   code: {
     content: string[];
+    codeLink: string;
   };
 };
 
@@ -128,49 +129,80 @@ const workshopContent: Record<number, WorkshopContent> = {
   1: {
     title: "Introduction to Machine Learning",
     code: {
-      content: []
+      content: [
+        "Introduction to PyTorch:",
+        "• Tensors: creation, basic math, reshaping",
+        "• Visualizing data with matplotlib",
+        "",
+        "Exercise:",
+        "• Implement linear regression from scratch using PyTorch tensors (no autograd yet)",
+        "• Plot predictions vs actual data points"
+      ],
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
     }
   },
   2: {
     title: "Logistic Regression",
     code: {
-      content: []
+      content: [
+        "Introduction to Logistic Regression:",
+        "• Build a logistic regression classifier in PyTorch for binary classification",
+        "• Plot decision boundaries",
+        "Model Evaluation:",
+        "• Evaluate using loss and accuracy",
+        "• Implement proper train-validation split",
+        "• Visualize training progress"
+      ],
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
     }
   },
   3: {
     title: "Neural Networks Part 1: Foundations",
     code: {
-      content: []
+      content: [
+        "Implement a simple 1-hidden-layer network to solve a basic classification task",
+        "• 2D point classification example",
+        "• Plot decision boundaries and predictions",
+        "• Experiment with different activation functions",
+        "• Visualize network architecture"
+      ],
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
     }
   },
   4: {
     title: "Neural Networks Part 2: Training",
     code: {
-      content: []
+      content: [],
+      codeLink: ""
+
     }
   },
   5: {
     title: "Decision Trees & Ensemble Learning",
     code: {
-      content: []
+      content: [],
+      codeLink: ""
     }
   },
   6: {
     title: "Naive Bayes",
     code: {
-      content: []
+      content: [],
+      codeLink: ""
     }
   },
   7: {
     title: "Best Practices & Evaluation in ML",
     code: {
-      content: []
+      content: [],
+      codeLink: ""
     }
   },
   8: {
     title: "Deep Learning & Modern Architectures",
     code: {
-      content: []
+      content: [],
+      codeLink: ""
     }
   }
 };
@@ -428,8 +460,8 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
 
   const pdfUrls: Record<number, string> = {
     1: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w01.pdf",
-    2: "",
-    3: "",
+    2: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w02.pdf",
+    3: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w03.pdf",
     4: "",
     5: "",
     6: "",
@@ -439,9 +471,9 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
 
   // YouTube video URLs for each week's recordings (you'll need to replace these with actual video URLs)
   const youtubeVideoUrls: Record<number, string> = {
-    1: "", 
-    2: "", 
-    3: "", 
+    1: "https://youtu.be/h1DxLpXvPbo", 
+    2: "https://youtu.be/ccwnTixGaCI", 
+    3: "https://youtu.be/kAa7G4NPJfw", 
     4: "", 
     5: "", 
     6: "",
@@ -541,12 +573,30 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
               modalContent.code.content.length > 0 ? (
                 <div className="p-6 overflow-y-auto h-full">
                   <div className="space-y-2">
-                    {modalContent.code.content.map((item: string, index: number) => (
-                      <p key={index} className="text-gray-700 leading-relaxed">
-                        {item}
-                      </p>
-                    ))}
-                  </div>
+                      <div className="p-6 overflow-y-auto h-full space-y-4">
+                        {modalContent.code.content.length > 0 && (
+                          <div className="space-y-2">
+                            {modalContent.code.content.map((item: string, index: number) => (
+                              <p key={index} className="text-gray-700 leading-relaxed">
+                                {item}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+                        {modalContent.code.codeLink && (
+                          <div className="mt-4">
+                            <a
+                              href={modalContent.code.codeLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-block bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                            >
+                              Open Full Code
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                 </div>
               ) : (
                 <div className="h-full w-full min-h-0 p-8 flex items-center justify-center">
