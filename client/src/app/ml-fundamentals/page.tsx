@@ -159,8 +159,14 @@ const workshopContent: Record<number, WorkshopContent> = {
   3: {
     title: "Neural Networks Part 1: Foundations",
     code: {
-      content: [],
-      codeLink: ""
+      content: [
+        "Implement a simple 1-hidden-layer network to solve a basic classification task",
+        "• 2D point classification example",
+        "• Plot decision boundaries and predictions",
+        "• Experiment with different activation functions",
+        "• Visualize network architecture"
+      ],
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
     }
   },
   4: {
@@ -467,7 +473,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
   const youtubeVideoUrls: Record<number, string> = {
     1: "https://youtu.be/h1DxLpXvPbo", 
     2: "https://youtu.be/ccwnTixGaCI", 
-    3: "", 
+    3: "https://youtu.be/kAa7G4NPJfw", 
     4: "", 
     5: "", 
     6: "",
