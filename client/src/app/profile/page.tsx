@@ -160,7 +160,7 @@ export default function ProfilePage() {
             twitter={profile.twitter}
           />
 
-          <ResumeCard userId={profile.id} />
+          <ResumeCard userId={profile.id} year={profile.year} name={profile.name} />
 
           <QRCodeCard linkedin={profile.linkedin} />
         </div>
