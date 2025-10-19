@@ -1,6 +1,6 @@
 import {PersonCard} from "@/components/memberList"
 
-export default function Test() {
+export default function DepartmentsPage() {
     return (
         <>
             <PersonCard
