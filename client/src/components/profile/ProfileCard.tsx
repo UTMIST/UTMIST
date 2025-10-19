@@ -72,11 +72,14 @@ export default function ProfileCard({
             {userProfile.year === "phd" && "PhD"}
           </p>
         )}
-        <p className="text-gray-600 text-center mb-4">{displayBio}</p>
         {displayTitle && (
-          <p className="text-gray-700 text-lg font-medium mb-2">{displayTitle}</p>
+          <p className="text-gray-700 text-lg font-medium mb-2">
+            {displayTitle}
+          </p>
         )}
-        <p className="text-gray-600 text-center max-w-md mb-4 line-clamp-3">{displayBio}</p>
+        <p className="text-gray-600 text-center max-w-md mb-4 line-clamp-3">
+          {displayBio}
+        </p>
 
         <div className="flex flex-col sm:flex-row gap-3 items-center">
           {onEdit && (
