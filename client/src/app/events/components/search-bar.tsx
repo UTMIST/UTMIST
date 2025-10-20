@@ -1,5 +1,3 @@
-import { Input } from "@/components/ui/input";
-
 interface SearchBarProps {
   value: string;
   onChange: (value: string) => void;
@@ -10,12 +8,12 @@ export function SearchBar({ value, onChange, placeholder = "Search for events" }
   return (
     <div className="relative">
       {/* Search input */}
-      <Input
+      <input
         type="text"
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full px-4 py-2 pr-10 rounded-lg border-2 border-gray-300 focus-visible:border-blue-500 focus-visible:outline-none placeholder-gray-500 text-gray-700"
+        className="w-full px-4 py-2 pr-10 rounded-lg border-2 border-gray-300 focus:border-blue-500 focus:outline-none placeholder-gray-500 text-gray-700"
       />
       {/* Search icon */}
       <svg

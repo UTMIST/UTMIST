@@ -5,8 +5,6 @@ import Image from 'next/image';
 import logo from '@/assets/logos/utmist-logo-small.svg';
 import { useRouter } from 'next/navigation';
 import { login, register, getCurrentUser, resendConfirmation, resetPassword, AUTH_ERRORS } from '@/utils/auth';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 interface PasswordStrength {
   score: number;
@@ -305,8 +303,7 @@ export default function AuthPage() {
               {isLogin ? (
                 <>
                   New to UTMIST?{' '}
-                  <Button
-                    variant="link"
+                  <button
                     onClick={() => {
                       setIsLogin(false);
                       setFormErrors({});
@@ -314,16 +311,15 @@ export default function AuthPage() {
                       setShowResendConfirmation(false);
                       setShowForgotPassword(false);
                     }}
-                    className="font-medium text-[var(--secondary)] hover:opacity-80 transition-opacity p-0 h-auto"
+                    className="font-medium text-[var(--secondary)] hover:opacity-80 transition-opacity"
                   >
                     Create an account
-                  </Button>
+                  </button>
                 </>
               ) : (
                 <>
                   Already have an account?{' '}
-                  <Button
-                    variant="link"
+                  <button
                     onClick={() => {
                       setIsLogin(true);
                       setFormErrors({});
@@ -331,10 +327,10 @@ export default function AuthPage() {
                       setShowResendConfirmation(false);
                       setShowForgotPassword(false);
                     }}
-                    className="font-medium text-[var(--secondary)] hover:opacity-80 transition-opacity p-0 h-auto"
+                    className="font-medium text-[var(--secondary)] hover:opacity-80 transition-opacity"
                   >
                     Log in
-                  </Button>
+                  </button>
                 </>
               )}
             </p>
@@ -345,14 +341,13 @@ export default function AuthPage() {
               {error}
               {showResendConfirmation && (
                 <div className="mt-3">
-                  <Button
+                  <button
                     onClick={handleResendConfirmation}
                     disabled={resendingConfirmation || !formData.email}
-                    variant="outline"
-                    className="border-red-300 text-red-700 hover:bg-red-50 focus:ring-red-500"
+                    className="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {resendingConfirmation ? 'Sending...' : 'Resend Confirmation Email'}
-                  </Button>
+                  </button>
                 </div>
               )}
             </div>
@@ -370,7 +365,7 @@ export default function AuthPage() {
                 Email
               </label>
               <div className="mt-1">
-                <Input
+                <input
                   id="email"
                   name="email"
                   type="email"
@@ -378,9 +373,9 @@ export default function AuthPage() {
                   placeholder="your.email@mail.utoronto.ca"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 rounded-lg ${
+                  className={`block w-full px-4 py-3 rounded-lg border ${
                     formErrors.email ? 'border-red-500' : 'border-[var(--gray3)]'
-                  } shadow-sm focus-visible:ring-2 focus-visible:ring-[var(--secondary)] focus-visible:border-transparent font-[var(--system-font)] text-black placeholder-[var(--gray2)]`}
+                  } shadow-sm focus:ring-2 focus:ring-[var(--secondary)] focus:border-transparent font-[var(--system-font)] text-black placeholder-[var(--gray2)]`}
                 />
               </div>
               {formErrors.email && (
@@ -393,7 +388,7 @@ export default function AuthPage() {
                 Password
               </label>
               <div className="mt-1">
-                <Input
+                <input
                   id="password"
                   name="password"
                   type="password"
@@ -401,9 +396,9 @@ export default function AuthPage() {
                   placeholder={isLogin ? "Enter your password" : "Create a strong password"}
                   value={formData.password}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 rounded-lg ${
+                  className={`block w-full px-4 py-3 rounded-lg border ${
                     formErrors.password ? 'border-red-500' : 'border-[var(--gray3)]'
-                  } shadow-sm focus-visible:ring-2 focus-visible:ring-[var(--secondary)] focus-visible:border-transparent font-[var(--system-font)] text-black placeholder-[var(--gray2)]`}
+                  } shadow-sm focus:ring-2 focus:ring-[var(--secondary)] focus:border-transparent font-[var(--system-font)] text-black placeholder-[var(--gray2)]`}
                 />
               </div>
               {formErrors.password && (
@@ -411,14 +406,13 @@ export default function AuthPage() {
               )}
               {isLogin && (
                 <div className="mt-2 text-right">
-                  <Button
+                  <button
                     type="button"
-                    variant="link"
                     onClick={() => setShowForgotPassword(true)}
-                    className="text-sm text-[var(--secondary)] hover:opacity-80 transition-opacity p-0 h-auto"
+                    className="text-sm text-[var(--secondary)] hover:opacity-80 transition-opacity"
                   >
                     Forgot your password?
-                  </Button>
+                  </button>
                 </div>
               )}
               {showForgotPassword && (
@@ -426,23 +420,21 @@ export default function AuthPage() {
                   <p className="text-sm text-blue-700 mb-2">
                     Enter your email address and we&apos;ll send you a password reset link.
                   </p>
-                  <Button
+                  <button
                     type="button"
-                    variant="outline"
                     onClick={handleForgotPassword}
                     disabled={sendingPasswordReset || !formData.email}
-                    className="border-blue-300 text-blue-700 hover:bg-blue-50 focus:ring-blue-500 mr-2"
+                    className="inline-flex items-center px-3 py-2 border border-blue-300 shadow-sm text-sm leading-4 font-medium rounded-md text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed mr-2"
                   >
                     {sendingPasswordReset ? 'Sending...' : 'Send Reset Link'}
-                  </Button>
-                  <Button
+                  </button>
+                  <button
                     type="button"
-                    variant="link"
                     onClick={() => setShowForgotPassword(false)}
-                    className="text-sm text-gray-600 hover:text-gray-800 p-0 h-auto"
+                    className="text-sm text-gray-600 hover:text-gray-800"
                   >
                     Cancel
-                  </Button>
+                  </button>
                 </div>
               )}
               {!isLogin && formData.password && (
@@ -468,7 +460,7 @@ export default function AuthPage() {
                     Confirm Password
                   </label>
                   <div className="mt-1">
-                    <Input
+                    <input
                       id="confirmPassword"
                       name="confirmPassword"
                       type="password"
@@ -476,9 +468,9 @@ export default function AuthPage() {
                       placeholder="Confirm your password"
                       value={formData.confirmPassword}
                       onChange={handleInputChange}
-                      className={`w-full px-4 py-3 rounded-lg ${
+                      className={`block w-full px-4 py-3 rounded-lg border ${
                         formErrors.confirmPassword ? 'border-red-500' : 'border-[var(--gray3)]'
-                      } shadow-sm focus-visible:ring-2 focus-visible:ring-[var(--secondary)] focus-visible:border-transparent font-[var(--system-font)] text-black placeholder-[var(--gray2)]`}
+                      } shadow-sm focus:ring-2 focus:ring-[var(--secondary)] focus:border-transparent font-[var(--system-font)] text-black placeholder-[var(--gray2)]`}
                     />
                   </div>
                   {formErrors.confirmPassword && (
@@ -491,7 +483,7 @@ export default function AuthPage() {
                     Full Name
                   </label>
                   <div className="mt-1">
-                    <Input
+                    <input
                       id="name"
                       name="name"
                       type="text"
@@ -499,9 +491,9 @@ export default function AuthPage() {
                       placeholder="Your full name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className={`w-full px-4 py-3 rounded-lg ${
+                      className={`block w-full px-4 py-3 rounded-lg border ${
                         formErrors.name ? 'border-red-500' : 'border-[var(--gray3)]'
-                      } shadow-sm focus-visible:ring-2 focus-visible:ring-[var(--secondary)] focus-visible:border-transparent font-[var(--system-font)] text-black placeholder-[var(--gray2)]`}
+                      } shadow-sm focus:ring-2 focus:ring-[var(--secondary)] focus:border-transparent font-[var(--system-font)] text-black placeholder-[var(--gray2)]`}
                     />
                   </div>
                   {formErrors.name && (
@@ -514,7 +506,7 @@ export default function AuthPage() {
                     Organization (Optional)
                   </label>
                   <div className="mt-1">
-                    <Input
+                    <input
                       id="organization"
                       name="organization"
                       type="text"
@@ -522,7 +514,7 @@ export default function AuthPage() {
                       placeholder="University of Toronto"
                       value={formData.organization}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-[var(--gray3)] shadow-sm focus-visible:ring-2 focus-visible:ring-[var(--secondary)] focus-visible:border-transparent font-[var(--system-font)] text-black placeholder-[var(--gray2)]"
+                      className="block w-full px-4 py-3 rounded-lg border border-[var(--gray3)] shadow-sm focus:ring-2 focus:ring-[var(--secondary)] focus:border-transparent font-[var(--system-font)] text-black placeholder-[var(--gray2)]"
                     />
                   </div>
                 </div>
@@ -530,10 +522,11 @@ export default function AuthPage() {
             )}
 
             <div>
-              <Button
+              <button
                 type="submit"
                 disabled={loading || redirecting}
-                className="w-full py-3 px-4"
+                style={{ background: 'var(--gradient-b2)' }}
+                className="w-full flex justify-center py-3 px-4 rounded-lg font-[var(--system-font)] text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 {redirecting ? (
                   <div className="flex items-center">
@@ -548,7 +541,7 @@ export default function AuthPage() {
                 ) : (
                   isLogin ? 'Log In' : 'Create Account'
                 )}
-              </Button>
+              </button>
             </div>
           </form>
         </div>

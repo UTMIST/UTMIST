@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { getCurrentUser, logout } from '@/utils/auth';
 import { getCurrentUserProfile } from '@/utils/user';
 import type { UserProfile, AuthUser } from '@/types/auth';
-import { Button } from "@/components/ui/button";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -88,13 +87,12 @@ export default function DashboardPage() {
               </p>
             </div>
             <div className="flex items-center space-x-4">
-              <Button
+              <button
                 onClick={handleLogout}
-                variant="ghost"
-                className="text-[var(--gray4)] hover:text-red-600 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-[var(--gray4)] hover:text-red-600 transition-colors font-[var(--system-font)]"
               >
                 Sign Out
-              </Button>
+              </button>
             </div>
           </div>
         </div>
@@ -137,27 +135,24 @@ export default function DashboardPage() {
               Quick Actions
             </h2>
             <div className="space-y-3">
-              <Button
+              <button 
                 onClick={() => router.push('/events')}
-                variant="outline"
-                className="w-full justify-start p-3"
+                className="w-full text-left p-3 rounded-lg border border-[var(--gray3)] hover:bg-gray-50 transition-colors"
               >
                 <span className="text-black font-[var(--system-font)]">View Events</span>
-              </Button>
-              <Button
+              </button>
+              <button 
                 onClick={() => router.push('/blog')}
-                variant="outline"
-                className="w-full justify-start p-3"
+                className="w-full text-left p-3 rounded-lg border border-[var(--gray3)] hover:bg-gray-50 transition-colors"
               >
                 <span className="text-black font-[var(--system-font)]">Read Blog Posts</span>
-              </Button>
-              <Button
+              </button>
+              <button 
                 onClick={() => router.push('/projects')}
-                variant="outline"
-                className="w-full justify-start p-3"
+                className="w-full text-left p-3 rounded-lg border border-[var(--gray3)] hover:bg-gray-50 transition-colors"
               >
                 <span className="text-black font-[var(--system-font)]">View Projects</span>
-              </Button>
+              </button>
             </div>
           </div>
 

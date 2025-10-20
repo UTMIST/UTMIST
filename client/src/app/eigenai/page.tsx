@@ -1,8 +1,9 @@
 "use client";
 
+import "@/styles/eigenai.css";
 import Image from "next/image";
 import { useEffect } from "react";
-import {
+import { 
     founderPanelSpeakers,
     researchPanelSpeakers,
     keynoteSpeakers,
@@ -15,7 +16,6 @@ import PeopleGrid from "@/components/peopleGrid";
 import LamdaSection from "@/components/lambda";
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
 import Workshops from "@/components/workshops";
-import { Button } from "@/components/ui/button";
 
 export default function EigenAIPage() {
     const GoogleMapsAPIKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
@@ -37,13 +37,10 @@ export default function EigenAIPage() {
             <div className="hero-section">
                 <h2 className="hero-title">EigenAI</h2>
                 <p className="hero-subtitle">Help shape the future of AI and ML @ UTMIST</p>
-                <Button asChild className="ticket-button">
-                    <a href="https://www.zeffy.com/en-CA/ticketing/eigenai--2025">Get Tickets!</a>
-                </Button>
             </div>
 
             {/* Intro Section */}
-            <div className="flex flex-col lg:flex-row items-center
+            <section className="flex flex-col lg:flex-row items-center
             lg:items-start justify-center gap-6 md:gap-8 px-4 md:px-6 lg:px-8 py-6 md:py-8 mx-auto w-full">
                 <div className="w-full lg:w-1/2 max-w-md lg:max-w-lg">
                     <h2 className="intro-section-title">What is EigenAI?</h2>
@@ -73,7 +70,7 @@ export default function EigenAIPage() {
                     referrerPolicy="no-referrer-when-downgrade"
                     src={`https://www.google.com/maps/embed/v1/place?key=${GoogleMapsAPIKey}&q=OISE,252+Bloor+St+W,Toronto+ON`}>
                 </iframe>
-            </div>
+            </section>
 
             {/* Image Gallery */}
             <div
@@ -108,7 +105,7 @@ export default function EigenAIPage() {
             </div>
 
             {/* Schedule Section */}
-            <div className="py-16 px-4 md:px-8 max-w-6xl mx-auto flex flex-col items-center text-center">
+            <section className="schedule-section px-4 md:px-8 flex flex-col items-center text-center">
                 <h2 className="schedule-section-title text-2xl md:text-3xl lg:text-4xl mb-4">
                     Schedule
                 </h2>
@@ -138,19 +135,19 @@ export default function EigenAIPage() {
                         </a>
                     </blockquote>
                 </div>
-            </div>
-
+            </section>
+            
             {/* Keynote Speakers Section */}
-            <div className="py-16 px-4 md:px-8 max-w-6xl mx-auto">
+            <section className="people-section px-4 md:px-8">
                 <h2 className="people-section-title text-2xl md:text-3xl lg:text-4xl">
                     Keynote Speaker
                 </h2>
 
                 <PeopleGrid people={keynoteSpeakers}/>
-            </div>
+            </section>
 
             {/* Speakers Section */}
-            <div className="py-16 px-4 md:px-8 max-w-6xl mx-auto">
+            <section className="people-section px-4 md:px-8">
                 <h2 className="people-section-title text-2xl md:text-3xl lg:text-4xl">
                     Speakers Session
                 </h2>
@@ -161,10 +158,10 @@ export default function EigenAIPage() {
                 <PeopleGrid people={[speakerSession[1]]}/>
                 <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>The Silent Layer: Privacy and Security at the Core of AI</i></h3>
                 <PeopleGrid people={[speakerSession[2]]}/>
-            </div>
+            </section>
 
             {/* Speakers Section */}
-            <div className="py-16 px-4 md:px-8 max-w-6xl mx-auto">
+            <section className="people-section px-4 md:px-8">
                 <h2 className="people-section-title text-2xl md:text-3xl lg:text-4xl">
                     Panel Speakers
                 </h2>
@@ -175,19 +172,19 @@ export default function EigenAIPage() {
                 <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>From Classroom to Lab:
                     Undergraduate Research Journeys</i></h3>
                 <PeopleGrid people={researchPanelSpeakers}/>
-            </div>
+            </section>
 
-            <div className="py-24 px-8">
+            <section className="py-24 px-8">
                 <Workshops/>
-            </div>
+            </section>
 
             {/* Lambda Section */}
-            <div className="px-4 md:px-8">
+            <section className="px-4 md:px-8">
                 <LamdaSection/>
-            </div>
+            </section>
 
             {/* Skill Levels Section */}
-            <div className="flex flex-col justify-center items-center py-24 px-8 max-w-[1000px] mx-auto text-center">
+            <section className="lambda-statement-section px-4 md:px-8">
                 <h2 className="lambda-statement-title text-2xl md:text-3xl lg:text-4xl">
                     With over 500+ participants, EigenAI is built for AI practitioners of
                     all skill levels
@@ -237,7 +234,7 @@ export default function EigenAIPage() {
                         ML applications in production and research
                     </p>
                 </div>
-            </div>
+            </section>
         </main>
     );
 }

@@ -1,3 +1,4 @@
+import "@/styles/sponsors.css";
 import sponsorData from "@/assets/sponsors.json";
 import SponsorCard from "@/components/cards/sponsor-card";
 import ContactUsCard from "@/components/cards/contact-us-card";
@@ -8,9 +9,9 @@ export default function SponsorsPage() {
     <main>
       <HeroSection title="Let&rsquo;s Work Together" subtitle="Support UTMIST and gain exclusive access to Canada&rsquo;s top student
           talent, networking opportunities, and nationwide visibility through
-          events, hackathons, and workshops."
+          events, hackathons, and workshops." 
       />
-      <div className="mx-auto max-w-[1100px] flex flex-col justify-center text-left">
+      <div className="sponsor-us-section">
         <h2 className="sponsor-us-title">Sponsor Us</h2>
         <div className="sponsor-us-container">
           {sponsorData.map((tier) => (
@@ -23,9 +24,9 @@ export default function SponsorsPage() {
           ))}
         </div>
       </div>
-      <div id="contact-us">
+      <section id="contact-us">
         <ContactUsCard />
-      </div>
+      </section>
     </main>
   );
 }

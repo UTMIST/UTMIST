@@ -9,7 +9,6 @@ import dummy from "@/assets/photos/fibseq.webp";
 import { ProjectCarousel } from "@/components/carousel";
 import { ProjectType, Project } from "@/types/projects";
 import HeroSection from "@/components/heroSection";
-import { Input } from "@/components/ui/input";
 
 export default function ProjectsPage() {
   const displayNames: Record<ProjectType, string> = {
@@ -89,9 +88,9 @@ export default function ProjectsPage() {
         </p>
 
         <div className="mt-8 flex items-center rounded-full px-4 py-2 w-80 max-w-full border relative" style={{backgroundColor: 'var(--background)', borderColor: 'var(--border)'}}>
-          <Input
+          <input
             type="text"
-            className="flex-1 border-none outline-none text-base bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="flex-1 border-none outline-none text-base bg-transparent"
             style={{color: 'var(--foreground)'}}
             placeholder="Search projects..."
             value={searchTerm}

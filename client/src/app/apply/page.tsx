@@ -4,9 +4,6 @@ import { PersonalInformation, ContactInformation, EducationInformation, Applicat
 import { DocumentArrowUpIcon } from "@heroicons/react/24/outline";
 import { validatePhoneNumber } from '../../utils/validation';
 import { validatePostalCode } from '../../utils/validation';
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
 
 // A robust, reusable wrapper for dropdowns to ensure cross-browser compatibility
 const SelectWrapper = ({ children, className }: { children: React.ReactNode, className?: string }) => (
@@ -59,20 +56,20 @@ const PersonalInformationSection = ({
   handlePhoneNumberChange,
 }: PersonalInformationSectionProps) => {
     return (
-        <div className="mb-10">
+        <section className="mb-10">
             <h3 className="text-2xl font-semibold mb-4">Personal Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div className="flex flex-col gap-1">
                     <label htmlFor="firstName" className="text-sm font-medium mb-1 ml-2">First Name</label>
-                    <Input id="firstName" className="bg-gray-200 rounded-full px-6 py-3 border-0 focus-visible:ring-0 focus-visible:ring-offset-0" type="text" placeholder="" value={personalInfo.firstName} onChange={e => setPersonalInfo({ ...personalInfo, firstName: e.target.value })} />
+                    <input id="firstName" className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="" value={personalInfo.firstName} onChange={e => setPersonalInfo({ ...personalInfo, firstName: e.target.value })} />
                 </div>
                 <div className="flex flex-col gap-1">
                     <label htmlFor="lastName" className="text-sm font-medium mb-1 ml-2">Last Name</label>
-                    <Input id="lastName" className="bg-gray-200 rounded-full px-6 py-3 border-0 focus-visible:ring-0 focus-visible:ring-offset-0" type="text" placeholder="" value={personalInfo.lastName} onChange={e => setPersonalInfo({ ...personalInfo, lastName: e.target.value })} />
+                    <input id="lastName" className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="" value={personalInfo.lastName} onChange={e => setPersonalInfo({ ...personalInfo, lastName: e.target.value })} />
                 </div>
                 <div className="flex flex-col gap-1 md:col-span-2">
                     <label htmlFor="email" className="text-sm font-medium mb-1 ml-2">Email</label>
-                    <Input id="email" className={`bg-gray-200 rounded-full px-6 py-3 border-0 focus-visible:ring-0 focus-visible:ring-offset-0${emailError && emailTouched ? ' !border-2 !border-red-500' : ''}`} type="email" placeholder="" value={personalInfo.email} onChange={e => {
+                    <input id="email" className={`input bg-gray-200 rounded-full px-6 py-3${emailError && emailTouched ? ' border-2 border-red-500' : ''}`} type="email" placeholder="" value={personalInfo.email} onChange={e => {
                         setPersonalInfo({ ...personalInfo, email: e.target.value });
                         if (emailTouched) {
                             setEmailError((e.target.value && !validateEmail(e.target.value)) ? 'Please enter a valid email address.' : '');
@@ -104,9 +101,9 @@ const PersonalInformationSection = ({
                                 ))}
                             </select>
                         </SelectWrapper>
-                        <Input
+                        <input
                             id="phoneNumber"
-                            className="bg-gray-200 rounded-full px-6 py-3 flex-1 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                            className="input bg-gray-200 rounded-full px-6 py-3 flex-1"
                             type="tel"
                             placeholder=""
                             value={personalInfo.phoneNumber}
@@ -116,7 +113,7 @@ const PersonalInformationSection = ({
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     )
 }
 
@@ -140,7 +137,7 @@ const ContactInformationSection = ({
     const [isOtherCountry, setIsOtherCountry] = useState(false);
 
     return (
-        <div className="mb-10">
+        <section className="mb-10">
             <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div className="flex flex-col gap-1">
@@ -168,9 +165,9 @@ const ContactInformationSection = ({
                         </select>
                     </SelectWrapper>
                     {isOtherCountry && (
-                        <Input
+                        <input
                             type="text"
-                            className="bg-gray-200 rounded-full px-6 py-3 mt-2 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                            className="input bg-gray-200 rounded-full px-6 py-3 mt-2"
                             placeholder="Please specify your country"
                             value={otherCountry}
                             onChange={e => {
@@ -182,18 +179,18 @@ const ContactInformationSection = ({
                 </div>
                 <div className="flex flex-col gap-1">
                     <label htmlFor="address" className="text-sm font-medium mb-1 ml-2">Address</label>
-                    <Input id="address" className="bg-gray-200 rounded-full px-6 py-3 border-0 focus-visible:ring-0 focus-visible:ring-offset-0" type="text" placeholder="" value={locationInfo.address} onChange={e => setLocationInfo({ ...locationInfo, address: e.target.value })} />
+                    <input id="address" className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="" value={locationInfo.address} onChange={e => setLocationInfo({ ...locationInfo, address: e.target.value })} />
                 </div>
                 <div className="flex flex-col gap-1">
                     <label htmlFor="city" className="text-sm font-medium mb-1 ml-2">City</label>
-                    <Input id="city" className="bg-gray-200 rounded-full px-6 py-3 border-0 focus-visible:ring-0 focus-visible:ring-offset-0" type="text" placeholder="" value={locationInfo.city} onChange={e => setLocationInfo({ ...locationInfo, city: e.target.value })} />
+                    <input id="city" className="input bg-gray-200 rounded-full px-6 py-3" type="text" placeholder="" value={locationInfo.city} onChange={e => setLocationInfo({ ...locationInfo, city: e.target.value })} />
                 </div>
                 <div className="flex flex-col gap-1">
                     <label htmlFor="postalCode" className="text-sm font-medium mb-1 ml-2">Postal Code</label>
                     {!locationInfo.country && !isOtherCountry &&(
-                        <Input
+                        <input
                             id="postalCode"
-                            className="bg-gray-200 rounded-full px-6 py-3 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                            className="input bg-gray-200 rounded-full px-6 py-3"
                             type="text"
                             placeholder="Please select a country"
                             disabled
@@ -201,9 +198,9 @@ const ContactInformationSection = ({
                     )}
                     {locationInfo.country === 'Canada' && (
                         <>
-                            <Input
+                            <input
                                 id="postalCode"
-                                className="bg-gray-200 rounded-full px-6 py-3 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                                className="input bg-gray-200 rounded-full px-6 py-3"
                                 type="text"
                                 placeholder={postalCodePatterns['Canada'].placeholder}
                                 pattern={postalCodePatterns['Canada'].pattern}
@@ -219,9 +216,9 @@ const ContactInformationSection = ({
                     )}
                     {locationInfo.country === 'United States' && (
                         <>
-                            <Input
+                            <input
                                 id="postalCode"
-                                className="bg-gray-200 rounded-full px-6 py-3 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                                className="input bg-gray-200 rounded-full px-6 py-3"
                                 type="text"
                                 placeholder={postalCodePatterns['United States'].placeholder}
                                 pattern={postalCodePatterns['United States'].pattern}
@@ -237,9 +234,9 @@ const ContactInformationSection = ({
                     )}
                     {(locationInfo.country && locationInfo.country !== 'Canada' && locationInfo.country !== 'United States') || isOtherCountry && (
                         <>
-                            <Input
+                            <input
                                 id="postalCode"
-                                className="bg-gray-200 rounded-full px-6 py-3 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                                className="input bg-gray-200 rounded-full px-6 py-3"
                                 type="text"
                                 placeholder={postalCodePatterns['Other'].placeholder}
                                 value={locationInfo.postalCode}
@@ -254,9 +251,9 @@ const ContactInformationSection = ({
                 <div className="flex flex-col gap-1 md:col-span-2">
                     <label htmlFor="provinceOrState" className="text-sm font-medium mb-1 ml-2">Province / State</label>
                     {!locationInfo.country && !isOtherCountry && (
-                        <Input
+                        <input
                             id="provinceOrState"
-                            className="bg-gray-200 rounded-full px-6 py-3 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                            className="input bg-gray-200 rounded-full px-6 py-3"
                             type="text"
                             placeholder="Please select a country"
                             disabled
@@ -293,9 +290,9 @@ const ContactInformationSection = ({
                         </SelectWrapper>
                     )}
                     {((locationInfo.country && locationInfo.country !== 'Canada' && locationInfo.country !== 'United States') || isOtherCountry) && (
-                        <Input
+                        <input
                             id="provinceOrState"
-                            className="bg-gray-200 rounded-full px-6 py-3 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                            className="input bg-gray-200 rounded-full px-6 py-3"
                             type="text"
                             placeholder="Enter your region/state"
                             value={locationInfo.provinceOrState}
@@ -304,7 +301,7 @@ const ContactInformationSection = ({
                     )}
                 </div>
             </div>
-        </div>
+        </section>
     )
 }
 // EducationSection props
@@ -589,16 +586,16 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years, othe
   };
 
   return (
-    <div className="mb-10">
+    <section className="mb-10">
       <h3 className="text-lg font-semibold mb-4">Education</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
         <div className="flex flex-col gap-1">
           <label htmlFor="school" className="text-sm font-medium mb-1 ml-2">School</label>
           <div className="relative">
-            <Input
+            <input
               id="school"
               type="text"
-              className="bg-gray-200 rounded-full px-6 py-3 w-full border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+              className="input bg-gray-200 rounded-full px-6 py-3 w-full"
               placeholder="Search for your university..."
               value={universitySearch}
               onChange={e => handleUniversityInputChange(e.target.value)}
@@ -664,9 +661,9 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years, othe
               </select>
           </SelectWrapper>
           {educationInfo.educationLevel === 'Other' && (
-            <Input
+            <input
               type="text"
-              className="bg-gray-200 rounded-full px-6 py-3 mt-2 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+              className="input bg-gray-200 rounded-full px-6 py-3 mt-2"
               placeholder="Please specify your education level"
               value={otherEducationLevel}
               onChange={e => {
@@ -703,9 +700,9 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years, othe
               </select>
           </SelectWrapper>
           {educationInfo.fieldOfStudy === 'Other' && (
-            <Input
+            <input
               type="text"
-              className="bg-gray-200 rounded-full px-6 py-3 mt-2 border-0 focus-visible:ring-0 focus-visible:ring-0"
+              className="input bg-gray-200 rounded-full px-6 py-3 mt-2"
               placeholder="Please specify your field of study"
               value={otherFieldOfStudy}
               onChange={e => {
@@ -747,7 +744,7 @@ const EducationSection = ({ educationInfo, setEducationInfo, months, years, othe
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
@@ -783,7 +780,7 @@ const ResumeUploadModule = () => {
     };
 
     return (
-        <div className="mb-10">
+        <section className="mb-10">
             <label className="block w-full border-2 border-blue-200 rounded-2xl p-8 text-center cursor-pointer hover:border-blue-400 transition mb-2 bg-gradient-to-br from-white to-blue-50">
                 <span className="flex flex-col items-center justify-center gap-2">
                   <DocumentArrowUpIcon className="w-10 h-10 text-blue-400 mb-2" />
@@ -799,7 +796,7 @@ const ResumeUploadModule = () => {
                     <embed src={resumePreviewUrl} type="application/pdf" className="w-full max-w-xl h-96 border rounded-lg shadow" />
                 </div>
             )}
-        </div>
+        </section>
     )
 }
 
@@ -810,18 +807,18 @@ type MotivationStatementProps = {
 
 const MotivationStatement = ({ whyJoin, setWhyJoin }: MotivationStatementProps) => {
   return (
-    <div className="mb-10">
+    <section className="mb-10">
       <h3 className="text-lg font-bold mb-4">Why join UTMIST?</h3>
       <div className="flex flex-col gap-1">
-        <Textarea
-          id="whyJoin"
-          className="bg-gray-200 rounded-2xl px-6 py-3 w-full min-h-[200px] resize-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+        <textarea 
+          id="whyJoin" 
+          className="input bg-gray-200 rounded-2xl px-6 py-3 w-full min-h-[200px] resize-none" 
           placeholder="Share your motivation and what you hope to contribute to UTMIST..."
           value={whyJoin}
           onChange={e => setWhyJoin(e.target.value)}
         />
       </div>
-    </div>
+    </section>
   );
 };
 
@@ -1052,7 +1049,7 @@ const ApplicationForm = () => {
             />
             <MotivationStatement whyJoin={whyJoin} setWhyJoin={setWhyJoin} />
             <ResumeUploadModule />
-            <Button type="submit" variant="ghost" className="w-full py-3 text-lg">Submit</Button>
+            <button type="submit" className="w-full py-3 bg-gray-200 rounded-full font-semibold text-lg hover:bg-gray-300 transition">Submit</button>
         </form>
     );
 }
