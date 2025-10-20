@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import "@/styles/eigenai.css";
 import Image, { StaticImageData } from "next/image";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import AnthropicLogo from "@/assets/photos/Anthropic.webp";
@@ -68,20 +69,20 @@ export default function Workshops() {
   };
 
   return (
-    <div className="max-w-[1000px] mx-auto p-5 font-sans border border-[#e2e2e2] rounded-lg bg-white">
-      <h1 className="text-[2.5rem] font-semibold mb-6 text-[#111111]">This Year&apos;s Workshops</h1>
+    <div className="basis-vectors-container">
+      <h1 className="basis-vectors-title">This Year&apos;s Workshops</h1>
 
-      <div className="flex gap-5">
-        <div className="flex-1 flex flex-col gap-3 md:flex md:flex-col">
+      <div className="basis-vectors-content">
+        <div className="accordion-container">
           {accordionItems.map((item, index) => (
             <div
               key={index}
-              className={`border rounded-md overflow-hidden transition-all duration-300 ${
-                openItemIndex === index ? "border-[var(--gray2)] shadow-[0_2px_6px_rgba(0,0,0,0.05)]" : "border-[#e2e2e2]"
+              className={`accordion-item ${
+                openItemIndex === index ? "open" : ""
               }`}
             >
               <div
-                className="p-4 flex justify-between items-center cursor-pointer bg-white text-black text-sm font-medium transition-colors duration-200"
+                className="accordion-header"
                 onClick={() => toggleAccordion(index)}
               >
                 <span>{item.title}</span>
@@ -93,12 +94,12 @@ export default function Workshops() {
               </div>
 
               {openItemIndex === index && (
-                <div className="flex flex-col justify-center mx-auto">
-                  <div className="px-4 py-1 text-[0.8rem] leading-6 text-[var(--gray1)] bg-white">
-                    <p className="text-[0.9rem] font-medium text-[#374151]">{item.subtitle}</p>
+                <div className="accordion-content-container">
+                  <div className="accordion-content">
+                    <p>{item.subtitle}</p>
                   </div>
-                  <div className="mx-4 my-3 h-1.5 w-[calc(100%-2rem)] bg-[#f0f0f0] rounded-[20px]">
-                    <div className="h-full w-[70%] rounded-[20px] bg-[#3b82f6] transition-[width] duration-1000 ease-in-out"></div>
+                  <div className="progress-bar-container">
+                    <div className="progress-bar"></div>
                   </div>
                 </div>
               )}
@@ -106,26 +107,26 @@ export default function Workshops() {
           ))}
         </div>
 
-          <div className="flex-[3] h-[30rem] border border-[#e0e0ff] rounded-md bg-[#f5f8ff] hidden md:block">
+          <div className="visualization-area">
               {accordionItems.map((item, index) => (
                   <div key={index} id={`visualization-${index}`}>
                       {openItemIndex === index && (
-                          <div className="bg-white rounded-[10px] p-6 m-4 shadow-[0_4px_10px_rgba(0,0,0,0.05)] animate-[fadeIn_0.3s_ease-in-out]">
+                          <div className="content">
                               {item.image ? (
-                                  <div className="flex items-start gap-6 bg-white rounded-[10px] p-6 shadow-[0_4px_10px_rgba(0,0,0,0.05)]">
+                                  <div className="content-with-image">
                                       <Image
                                           src={item.image!}
                                           alt={item.title}
-                                          className="w-[180px] h-auto rounded-lg object-cover flex-shrink-0"
+                                          className="content-image"
                                           width={180}
                                           height={180}
                                       />
-                                      <div className="flex-1 text-base leading-6 text-[#1f2937]">
-                                          <p className="text-base leading-6 text-[#000000] mb-2">{item.content}</p>
+                                      <div className="content-text">
+                                          <p>{item.content}</p>
                                       </div>
                                   </div>
                               ) : (
-                                  <p className="text-base leading-6 text-[#000000] mb-2">{item.content}</p>
+                                  <p>{item.content}</p>
                               )}
                           </div>
 
@@ -134,12 +135,6 @@ export default function Workshops() {
               ))}
           </div>
       </div>
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(5px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </div>
   );
 }

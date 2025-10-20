@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/eigenai.css";
 import Image, { StaticImageData } from "next/image";
 
 interface Speaker {
@@ -14,7 +15,7 @@ interface Props {
 
 export default function PeopleGrid({ people }: Props) {
   return (
-    <div className="max-w-[800px] mx-auto text-center">
+    <div className="people-container">
       <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,0.8fr))] gap-4 justify-center">
       {people.map((s, i) => (
           <div

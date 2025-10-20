@@ -4,9 +4,6 @@ import React, { useState } from "react";
 import { updateUserProfile } from "@/utils/user";
 import AvatarUpload from "./AvatarUpload";
 import type { UserProfile } from "@/types/auth";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 
 interface ProfileEditFormProps {
   profile: UserProfile;
@@ -29,6 +26,7 @@ export default function ProfileEditForm({
     github: profile.github || "",
     twitter: profile.twitter || "",
     avatar: profile.avatar || "",
+    year: profile.year || "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -61,6 +59,7 @@ export default function ProfileEditForm({
         github: formData.github,
         twitter: formData.twitter,
         avatar: formData.avatar,
+        year: formData.year,
       });
 
       if (!success) {
@@ -77,6 +76,7 @@ export default function ProfileEditForm({
         github: formData.github,
         twitter: formData.twitter,
         avatar: formData.avatar,
+        year: formData.year,
       };
 
       onSave(updatedProfile);
@@ -127,12 +127,14 @@ export default function ProfileEditForm({
           >
             Name *
           </label>
-          <Input
+          <input
             type="text"
             id="name"
             value={formData.name}
             onChange={(e) => handleInputChange("name", e.target.value)}
-            className={errors.name ? "border-red-300" : ""}
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.name ? "border-red-300" : "border-gray-300"
+            }`}
             placeholder="Your full name"
             required
           />
@@ -141,22 +143,22 @@ export default function ProfileEditForm({
           )}
         </div>
 
-        {/*<div>*/}
-        {/*  <label*/}
-        {/*    htmlFor="title"*/}
-        {/*    className="block text-sm font-medium text-gray-700 mb-2"*/}
-        {/*  >*/}
-        {/*    Title*/}
-        {/*  </label>*/}
-        {/*  <input*/}
-        {/*    type="text"*/}
-        {/*    id="title"*/}
-        {/*    value={formData.title}*/}
-        {/*    onChange={(e) => handleInputChange("title", e.target.value)}*/}
-        {/*    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"*/}
-        {/*    placeholder="Your professional title"*/}
-        {/*  />*/}
-        {/*</div>*/}
+        <div>
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Title
+          </label>
+          <input
+            type="text"
+            id="title"
+            value={formData.title}
+            onChange={(e) => handleInputChange("title", e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Your professional title"
+          />
+        </div>
 
         <div>
           <label
@@ -165,13 +167,38 @@ export default function ProfileEditForm({
           >
             Bio
           </label>
-          <Textarea
+          <textarea
             id="bio"
             value={formData.bio}
             onChange={(e) => handleInputChange("bio", e.target.value)}
             rows={3}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Tell us about yourself..."
           />
+        </div>
+
+        <div>
+          <label
+            htmlFor="year"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Year
+          </label>
+          <select
+            id="year"
+            value={formData.year}
+            onChange={(e) => handleInputChange("year", e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Select your year</option>
+            <option value="1">1st Year</option>
+            <option value="2">2nd Year</option>
+            <option value="3">3rd Year</option>
+            <option value="4">4th Year</option>
+            <option value="PEY">PEY</option>
+            <option value="masters">Masters</option>
+            <option value="phd">PhD</option>
+          </select>
         </div>
 
         <div>
@@ -181,11 +208,12 @@ export default function ProfileEditForm({
           >
             LinkedIn
           </label>
-          <Input
+          <input
             type="text"
             id="linkedin"
             value={formData.linkedin}
             onChange={(e) => handleInputChange("linkedin", e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="linkedin.com/in/yourusername"
           />
         </div>
@@ -197,11 +225,12 @@ export default function ProfileEditForm({
           >
             GitHub
           </label>
-          <Input
+          <input
             type="text"
             id="github"
             value={formData.github}
             onChange={(e) => handleInputChange("github", e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="github.com/yourusername"
           />
         </div>
@@ -213,31 +242,42 @@ export default function ProfileEditForm({
           >
             Twitter/X
           </label>
-          <Input
+          <input
             type="text"
             id="twitter"
             value={formData.twitter}
             onChange={(e) => handleInputChange("twitter", e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="x.com/yourusername"
           />
         </div>
 
         <div className="flex space-x-4 pt-4">
-          <Button
+          <button
             type="submit"
             disabled={isSaving}
-            className="flex-1"
+            style={isSaving ? {} : { background: "var(--gradient-b2)" }}
+            className={`flex-1 px-6 py-3 rounded-lg font-[var(--system-font)] transition-all duration-200 ${
+              isSaving
+                ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
+                : "text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
+            }`}
           >
             {isSaving ? "Saving..." : "Save Changes"}
-          </Button>
-          <Button
+          </button>
+          <button
             type="button"
             onClick={onCancel}
             disabled={isSaving}
-            className="flex-1"
+            style={isSaving ? {} : { background: "var(--gradient-b2)" }}
+            className={`flex-1 px-6 py-3 rounded-lg font-[var(--system-font)] transition-all duration-200 ${
+              isSaving
+                ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
+                : "text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)]"
+            }`}
           >
             Cancel
-          </Button>
+          </button>
         </div>
       </form>
     </div>

@@ -4,7 +4,6 @@ import { useRef, useState, useEffect } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import ProjectCard from "@/components/cards/project-card";
 import { Project } from "@/types/projects";
-import { Button } from "@/components/ui/button";
 
 export const ProjectCarousel = ({ projects }: { projects: Project[] }) => {
     const carouselRef = useRef<HTMLDivElement>(null);
@@ -44,15 +43,13 @@ export const ProjectCarousel = ({ projects }: { projects: Project[] }) => {
   
         {/* Left Navigation Button */}
         {showLeftArrow && (
-          <Button
+          <button
             onClick={() => scroll("left")}
-            variant="ghost"
-            size="icon"
-            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-white rounded-full p-2 shadow-md hover:bg-gray-100"
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-all"
             aria-label="Previous projects"
           >
             <ChevronLeft className="w-6 h-6 text-gray-700" />
-          </Button>
+          </button>
         )}
   
         {/* Carousel Content */}
@@ -80,15 +77,13 @@ export const ProjectCarousel = ({ projects }: { projects: Project[] }) => {
   
         {/* Right Navigation Button */}
         {showRightArrow && (
-          <Button
+          <button
             onClick={() => scroll("right")}
-            variant="ghost"
-            size="icon"
-            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 bg-white rounded-full p-2 shadow-md hover:bg-gray-100"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-all"
             aria-label="Next projects"
           >
             <ChevronRight className="w-6 h-6 text-gray-700" />
-          </Button>
+          </button>
         )}
       </div>
     );

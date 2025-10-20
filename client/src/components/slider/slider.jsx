@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight } from "react-feather"
-import { Button } from "@/components/ui/button"
 
 export default function Slider({
   children: slides,
@@ -32,22 +31,18 @@ export default function Slider({
         ))}
       </div>
       <div className="absolute inset-0 flex items-center justify-between p-4">
-        <Button
-          variant="ghost"
-          size="icon"
+        <button
           onClick={prev}
           className="p-1 rounded-full shadow bg-white/80 text-gray-800 hover:bg-white"
         >
           <ChevronLeft size={40} />
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
+        </button>
+        <button
           onClick={next}
           className="p-1 rounded-full shadow bg-white/80 text-gray-800 hover:bg-white"
         >
         <ChevronRight size={40} />
-        </Button>
+        </button>
       </div>
 
       <div className="absolute bottom-0 right-0 left-0 ">

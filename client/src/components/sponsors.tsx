@@ -1,6 +1,5 @@
-"use client";
-
 import Image from "next/image";
+import "../styles/home.css";
 import amdLogo from "../assets/logos/amd.svg";
 import qualcommLogo from "../assets/logos/qualcomm.svg";
 import vectorLogo from "../assets/logos/vector.svg";
@@ -93,12 +92,12 @@ const logos = [
 
 export default function Sponsors() {
   return (
-    <div className="overflow-hidden w-full py-8 bg-white">
-      <h3 className="text-5xl font-bold text-center text-2xl mb-4" style={{ background: 'var(--gradient-bl1)', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Backed By</h3>
-      <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_45%,black_55%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_45%,black_55%,transparent)]">
-        <div className="flex w-fit animate-[scrollLeft_10s_linear_infinite] hover:[animation-play-state:paused]">
+    <div className="sponsors-container">
+      <h3 className="sponsors-title">Backed By</h3>
+      <div className="sponsors-mask">
+        <div className="sponsors-carousel">
           {[...logos, ...logos].map((logo, index) => (
-            <div className="min-w-[200px] mx-8 flex items-center justify-center" key={index}>
+            <div className="sponsors-logo" key={index}>
               <a href={logo.link} target="_blank" rel="noopener noreferrer">
                 <Image
                   src={logo.src}
@@ -112,16 +111,6 @@ export default function Sponsors() {
           ))}
         </div>
       </div>
-      <style jsx>{`
-        @keyframes scrollLeft {
-          0% {
-            transform: translateX(0%);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-      `}</style>
     </div>
   );
 }

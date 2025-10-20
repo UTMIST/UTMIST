@@ -2,9 +2,6 @@
 
 import "../../styles/sponsors.css";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
 
 export default function ContactUsCard() {
   const [formData, setFormData] = useState({
@@ -53,7 +50,7 @@ export default function ContactUsCard() {
             <label htmlFor="fullName" className="contact-label">
               Full Name
             </label>
-            <Input
+            <input
               type="text"
               id="fullName"
               name="fullName"
@@ -62,12 +59,12 @@ export default function ContactUsCard() {
               className="contact-input"
             />
           </div>
-
+          
           <div className="mb-4">
             <label htmlFor="email" className="contact-label">
               Email
             </label>
-            <Input
+            <input
               type="email"
               id="email"
               name="email"
@@ -76,12 +73,12 @@ export default function ContactUsCard() {
               className="contact-input"
             />
           </div>
-
+          
           <div className="mb-4">
             <label htmlFor="linkedin" className="contact-label">
               LinkedIn Profile (Optional)
             </label>
-            <Input
+            <input
               type="url"
               id="linkedin"
               name="linkedin"
@@ -95,24 +92,24 @@ export default function ContactUsCard() {
             <label htmlFor="message" className="contact-label">
               How Can We Help You?
             </label>
-            <Textarea
+            <textarea
               id="message"
               name="message"
               value={formData.message}
               onChange={handleChange}
               rows={5}
-              className="w-full text-black px-3 py-2 border border-gray-300 rounded-md font-inherit text-base leading-relaxed resize-y focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500"
+              className="contact-textarea"
             />
           </div>
           
           <div className="flex justify-end mt-6">
-            <Button
-              type="button"
+            <button 
+              type="button" 
               onClick={() => handleSubmit({ preventDefault: () => {} } as React.FormEvent<HTMLFormElement>)}
-              className="px-6 py-2 font-[var(--system-font)] font-light hover:opacity-90 hover:scale-105 transition-all duration-200"
+              className="contact-submit"
             >
               Submit
-            </Button>
+            </button>
           </div>
         </div>
       </div>

@@ -1,8 +1,9 @@
 import Link from "next/link";
+import "../styles/home.css";
 
 const StartupsSection = () => {
     return (
-        <div className="py-16 md:py-24" style={{ fontFamily: 'var(--system-font)' }}>
+        <section className="py-16 md:py-24" style={{ fontFamily: 'var(--system-font)' }}>
             <div className="max-w-6xl mx-auto px-4 md:px-16">
                 {/* Header */}
                 <div className="text-center mb-10 md:mb-12">
@@ -85,7 +86,7 @@ const StartupsSection = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 

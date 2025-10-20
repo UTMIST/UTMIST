@@ -7,6 +7,23 @@
   background-blend-mode: lighten;
 }
 
+.ticket-button {
+  font-family: var(--system-font);
+  font-weight: 200;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+  background: var(--gradient-b2);
+  color: white;
+  border-radius: 10px;
+  padding: 1rem 2.2rem;
+  margin: 1rem 0rem;
+  cursor: pointer;
+}
+
+.ticket-button:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
 .gradient-text {
   background: var(--gradient-bl1);
   background-clip: text;
