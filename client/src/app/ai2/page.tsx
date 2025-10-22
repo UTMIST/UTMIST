@@ -15,6 +15,8 @@ import {
   agentDevelopment,
   sponsorsLogos
 } from './data';
+import { ai2speakers } from "./data";
+import { speakerSession } from "../eigenai/data";
 
 // Types
 interface TimelineItem {
@@ -245,9 +247,16 @@ export default function AI2Page() {
 
         {/* Speakers */}
         <section className="speakers items-center max-w-2xl mx-auto px-4 text-center mb-16">
-          <div className="flex flex-col gap-4 pl-2 pr-2">
-            <h1 className="ai2-h1">Speakers</h1>
-            <h2 className="ai2-h2">Coming soon... so stay tuned!</h2>
+          <div className="gap-4">
+            <h1 className="ai2-h1">Speakers Session</h1>
+            <h3 className="speakers-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Intro to the RL Paradigm</i></h3>
+            <PeopleGrid people={[ai2speakers[0]]}/>
+            <h3 className="speakers-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>How the Gaming Inustry Is Shifting to Agents</i></h3>
+            <PeopleGrid people={[ai2speakers[1]]}/>
+            <h3 className="speakers-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Deploying neural networks on Tenstorrent Hardware</i></h3>
+            <PeopleGrid people={[ai2speakers[2]]}/>
+            <h3 className="speakers-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Designing AI for Fun in Games</i></h3>
+            <PeopleGrid people={[ai2speakers[3]]}/>
           </div>
         </section>
 

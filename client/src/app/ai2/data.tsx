@@ -161,6 +161,34 @@ export const agentDevelopment = [
   {
     cardTitle: 'Mentor Sessions',
     cardSubtitle: 'If you need help, we got you! Book a session with one of our mentors.',
+  }
+];
+
+
+export const ai2speakers = [
+  {
+    name: "Jingmin Wang",
+    role: "RL Researcher @ Data-Driven Decision Making Lab & LEAF Lab",
+    profileURL: "",
+    profileImage: headshots.jingmin,
+  },
+  {
+    name: "Russell Sng",
+    role: "Strategic Growth & Developer Relations @ Artificial Agency",
+    profileURL: "",
+    profileImage: headshots.russell,
+  },
+  {
+    name: "Ambrose Ling",
+    role: "Machine Learning Engineer Intern @ Tenstorrent",
+    profileURL: "",
+    profileImage: headshots.ambrose,
+  },
+  {
+    name: "Chunlok Lo",
+    role: "Software Engineer @ Riot Games",
+    profileURL: "",
+    profileImage: headshots.chunlok,
   },
 ];
 

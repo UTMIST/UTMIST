@@ -68,9 +68,39 @@ export const academicsTeam = [
 
 export const techWritersTeam = [
     {
-        name: "Isabella",
-        role: "Technical Writer",
+        name: "Adam Roberge",
+        role: "Technical Writing Team",
         profileURL: "",
-        profileImage: teamPhotos.isabella_zhong,
-    }
+        profileImage: teamPhotos.adam_roberge,
+    },  
+    {
+        name: "Isabella Liu",
+        role: "Technical Writing Team",
+        profileURL: "",
+        profileImage: teamPhotos.isabella_liu,
+    },
+    {
+        name: "Nigel Ma",
+        role: "Technical Writing Team",
+        profileURL: "",
+        profileImage: teamPhotos.nigel_ma,
+    },
+    {
+        name: "Rahul Sahay",
+        role: "Technical Writing Team",
+        profileURL: "",
+        profileImage: teamPhotos.rahul_sahay,
+    },
+    {
+        name: "Samuel Chen",
+        role: "Technical Writing Team",
+        profileURL: "",
+        profileImage: teamPhotos.samuel_chen,
+    },
+    {
+        name: "Veronica Kwon",
+        role: "Technical Writing Team",
+        profileURL: "",
+        profileImage: teamPhotos.veronica_kwon,
+    },
 ]
