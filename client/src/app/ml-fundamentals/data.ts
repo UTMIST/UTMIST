@@ -74,10 +74,10 @@ export const techWritersTeam = [
         profileImage: teamPhotos.adam_roberge,
     },  
     {
-        name: "Isabella Liu",
+        name: "Isabel Liu",
         role: "Technical Writing Team",
         profileURL: "",
-        profileImage: teamPhotos.isabella_liu,
+        profileImage: teamPhotos.isabel_liu,
     },
     {
         name: "Nigel Ma",
