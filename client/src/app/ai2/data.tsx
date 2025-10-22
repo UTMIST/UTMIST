@@ -73,7 +73,7 @@ export const kickOff = [
     title: "11:00AM",
     cardTitle: 'Introduction to the Reinforcement Learning Paradigm',
     cardSubtitle: 'Jingmin Wang - RL Researcher @ LEAF Lab',
-    cardDetailedText: 'Reinforcement learning is a growing field in machine learning that focuses on training agents to make sequential decisions. This talk will cover the basics of RL, including key concepts such as rewards, policies, and Markov Decision Processes (MDPs).',
+    cardDetailedText: 'Explore key concepts of reinforcement learning such as rewards, policies, and Markov Decision Process so you can start building your own AI Squared agent that can even outsmart a human player!',
   },
   {
     title: "12:00PM",
@@ -86,7 +86,7 @@ export const kickOff = [
   },
   {
     title: "1:30PM",
-    cardTitle: 'How the Gaming Industry is Shifting to Agents (wth Artifiical Agency)',
+    cardTitle: 'How the Gaming Industry is Shifting to Agents (with Artificial Agency)',
     cardDetailedText: 'Discover how AI agents are transforming the future of gameplay with insights from Russell Sng, a leader in AI-driven game innovation.',
   },
   {
