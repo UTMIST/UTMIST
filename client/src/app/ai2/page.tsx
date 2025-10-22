@@ -16,7 +16,6 @@ import {
   sponsorsLogos
 } from './data';
 import { ai2speakers } from "./data";
-import { speakerSession } from "../eigenai/data";
 
 // Types
 interface TimelineItem {

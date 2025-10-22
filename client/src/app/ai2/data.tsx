@@ -86,13 +86,13 @@ export const kickOff = [
   },
   {
     title: "1:30PM",
-    cardTitle: 'Coming soon...',
-    // cardDetailedText: 'Artifical Agency',
+    cardTitle: 'How the Gaming Industry is Shifting to Agents (wth Artifiical Agency)',
+    cardDetailedText: 'Discover how AI agents are transforming the future of gameplay with insights from Russell Sng, a leader in AI-driven game innovation.',
   },
   {
     title: "2:45PM",
-    cardTitle: 'Coming soon...',
-    // cardDetailedText: 'Tenstorrent',
+    cardTitle: 'Deploying Neural Networks on Tenstorrent Hardware',
+    cardDetailedText: 'Get a brief overview of the inner workings of Tenstorrent hardware architecture and a dive into the Tenstorrent software stack of ttnn (python operator library) and tt-metal (low-level programming model).',
   },
   {
     title: "3:45PM",
