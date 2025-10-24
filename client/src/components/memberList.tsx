@@ -2,13 +2,72 @@
 import Image from "next/image"
 import Mail from "../../public/email.svg"
 import {useState} from "react";
+import {Member, MemberGroup} from "@/types/departments";
 
-interface Member {
-    name: string;
-    bio: string;
-    email: string;
+export function MemberList({ members }: { members : MemberGroup[]}) {
+    const [query, setQuery] = useState("");
+
+    const groupComponents = members.map((group: MemberGroup) => {
+        const filteredMembers = group.members.filter((member: Member) =>
+            member.name.toLowerCase().includes(query.toLowerCase()) ||
+            member.bio.toLowerCase().includes(query.toLowerCase()) ||
+            member.email.toLowerCase().includes(query.toLowerCase()))
+
+        const memberComponents = filteredMembers.map((member) =>
+            <li
+                className={'my-[5px]'}
+                key = {member.email}>
+                <PersonCard
+                    name = {member.name}
+                    bio = {member.bio}
+                    email = {member.email}
+
+                />
+            </li>
+        )
+
+        return (
+            <div key={group.role}>
+                <p className={'text-3xl font-normal ml-6 mb-2'}>{group.role}</p>
+                <ul>
+                    {memberComponents}
+                </ul>
+            </div>
+            )
+    })
+
+    return (
+        <div className={'w-fit'}>
+            <div className={''}>
+                <h1 className={'text-4xl text-right'}
+                >Member List</h1>
+                <div className={'flex justify-between '}>
+                    <div className={'w-fit'}>
+                        <input className={'border border-2 rounded-4xl p-3'}
+                               type = {'search'}
+                               value={query}
+                               placeholder = {'Search members'}
+                               onChange={(e) => setQuery(e.target.value)}
+                        />
+                    </div>
+                    <span className={'text-right text-xl'}
+                    >See who makes us special!</span>
+                </div>
+
+                <div>
+
+                </div>
+            </div>
+            <div>
+                <div className={'border border-2 rounded-2xl mt-4 pt-1'}>
+                    {groupComponents}
+                </div>
+            </div>
+
+
+        </div>
+    )
 }
-
 
 export function PersonCard({ name, bio, email }: Member) {
 
