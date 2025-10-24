@@ -18,7 +18,7 @@ export const useLeaderboard = ({ tableName = "ai2_leaderboard", limit = 10 }: Us
         setLoading(true);
         setError(null);
 
-        let query = supabase
+        const query = supabase
           .from(tableName)
           .select("*")
           .order("elo", { ascending: false })
