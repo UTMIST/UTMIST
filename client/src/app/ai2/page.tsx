@@ -74,11 +74,6 @@ export default function AI2Page() {
           </div>
         </div>
 
-        {/* Leaderboard */}
-        <section id="leaderboard-section" className="leaderboard-section mb-16">
-          <Leaderboard tableName="ai2_leaderboard" limit={10} />
-        </section>
-
         {/* Intro Section */}
         <section className="intro items-center md:items-start max-w-4xl mx-auto px-4">
           <div className="flex flex-col justify-center gap-">
@@ -128,6 +123,11 @@ export default function AI2Page() {
           <h2 className="ai2-h2 text-center">
             Find our open-source environment and server code <a href="https://github.com/UTMIST/UTMIST-AI2" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">here</a>
           </h2>
+        </section>
+
+        {/* Leaderboard */}
+        <section id="leaderboard-section" className="leaderboard-section mb-16">
+          <Leaderboard tableName="ai2_leaderboard" limit={10} />
         </section>
 
         {/* YouTube Section */}
