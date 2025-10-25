@@ -38,12 +38,12 @@ export function MemberList({ members }: { members : MemberGroup[]}) {
 
     return (
         <div className={'w-fit'}>
-            <div className={''}>
+            <div>
                 <h1 className={'text-4xl text-right'}
                 >Member List</h1>
                 <div className={'flex justify-between '}>
                     <div className={'w-fit'}>
-                        <input className={'border border-2 rounded-4xl p-3'}
+                        <input className={'border-2 rounded-4xl p-3'}
                                type = {'search'}
                                value={query}
                                placeholder = {'Search members'}
@@ -53,18 +53,12 @@ export function MemberList({ members }: { members : MemberGroup[]}) {
                     <span className={'text-right text-xl'}
                     >See who makes us special!</span>
                 </div>
-
-                <div>
-
-                </div>
             </div>
             <div>
                 <div className={'border border-2 rounded-2xl mt-4 pt-1'}>
                     {groupComponents}
                 </div>
             </div>
-
-
         </div>
     )
 }
