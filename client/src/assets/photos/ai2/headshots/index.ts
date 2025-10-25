@@ -4,4 +4,7 @@ import kaden from "@/assets/photos/ai2/headshots/kaden.webp";
 import martin from "@/assets/photos/ai2/headshots/martin.webp";
 import matthew from "@/assets/photos/ai2/headshots/matthew.webp";
 import ambrose from "@/assets/photos/ai2/headshots/ambrose.webp";
-export { andrew, doga, kaden, martin, matthew, ambrose };
+import chunlok from "@/assets/photos/ai2/headshots/chunlok.jpg";
+import jingmin from "@/assets/photos/ai2/headshots/jingmin.jpeg";
+import russell from "@/assets/photos/ai2/headshots/russell.jpeg";
+export { andrew, doga, kaden, martin, matthew, ambrose, chunlok, jingmin, russell };
