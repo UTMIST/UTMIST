@@ -6,7 +6,7 @@
   -webkit-text-fill-color: transparent;
   font-size: 1.5rem;
   font-weight: 500;
-  font-family: var(--font-space-grotesk);
+  font-family: var(--system-font);
 }
 
 .navbar-container {

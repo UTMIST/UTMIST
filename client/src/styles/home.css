@@ -125,7 +125,7 @@
   background: var(--gradient-logo);
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-family: var(--font-space-grotesk);
+  font-family: var(--system-font);
 }
 
 /*Stats Card Styles*/
@@ -188,7 +188,7 @@
   background: var(--gradient-bl1);
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-family: var(--font-space-grotesk);
+  font-family: var(--system-font);
   letter-spacing: -3%;
 }
 
@@ -246,7 +246,7 @@
   font-size: 1.5rem;
   font-weight: 600;
   color: #1a1a1a;
-  font-family: var(--font-space-grotesk);
+  font-family: var(--system-font);
 }
 
 .event-card-description {

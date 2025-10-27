@@ -18,7 +18,7 @@ h1,
 h2,
 h3 {
   font-weight: 700;
-  font-family: var(--font-roboto);
+  font-family: var(--system-font);
 }
 
 @theme inline {
@@ -37,7 +37,7 @@ h3 {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--system-font);
 }
 
 html {
@@ -47,7 +47,7 @@ html {
 .hero {
   font-size: 2.5rem;
   font-weight: 700;
-  font-family: var(--font-spce-grotesk);
+  font-family: var(--system-font);
 }
 
 .hero1 {
