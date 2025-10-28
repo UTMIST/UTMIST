@@ -102,18 +102,6 @@ const HeroIntroductionSection = () => {
           Let’s turn your idea into impact.
         </span>
       </p>
-      <div>
-        <Link
-          href="/careers"
-          className="bg-gradient-to-r from-indigo-400 to-blue-800 hover:from-indigo-600 hover:to-blue-900 text-white px-6 py-1 rounded-full text-base font-medium shadow mx-auto hover:shadow-lg transition-colors duration-400"
-        >
-          Apply
-        </Link>
-        <p className="text-xs text-gray-500 text-center mt-1 font-sans">
-          <span className="block">Applications close</span>
-          <span className="block">Sept 30th</span>
-        </p>
-      </div>
     </div>
   );
 };
