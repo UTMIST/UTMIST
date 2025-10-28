@@ -9,6 +9,15 @@ import genai from "../../../public/genai.webp";
 import genaiTwo from "../../../public/genai-two.webp";
 import MyhalTwo from "../../../public/myhal-two.webp";
 
+// Startup logos
+import CaidLogo from "@/assets/photos/startups/caid-logo.png";
+import BuildSafeLogo from "@/assets/photos/startups/buildsafe-logo.png";
+import ClearSiteLogo from "@/assets/photos/startups/clearsite-logo.png";
+
+// Partner logos
+import FrontRowLogo from "@/assets/photos/ventures/frv-black-logo.png";
+import ForumLogo from "@/assets/photos/ventures/forum-black-purple-logo.png";
+
 
 // // Placeholder avatar image (public domain SVG)
 // const placeholderAvatar =
@@ -334,17 +343,17 @@ const StartupsSection = () => {
     { 
       name: "Caid", 
       description: "AI-powered healthcare solutions",
-      image: "/startups/caid-logo.png"
+      image: CaidLogo
     },
     { 
       name: "BuildSafe", 
       description: "Construction safety technology",
-      image: "/startups/buildsafe-logo.png" 
+      image: BuildSafeLogo
     },
     { 
       name: "ClearSite.ai", 
       description: "AI-driven site analysis platform",
-      image: "/startups/clearsite-logo.png" 
+      image: ClearSiteLogo
     }
   ];
 
@@ -366,7 +375,7 @@ const StartupsSection = () => {
           {startups.map((startup, idx) => (
             <div
               key={idx}
-              className="bg-white p-6 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300"
+              className="bg-white p-6 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300 text-center"
             >
               {/* Startup logo */}
               <div className="w-full h-32 rounded-lg mb-4 flex items-center justify-center border border-gray-300 overflow-hidden bg-white">
@@ -412,12 +421,12 @@ const PartnersSection = () => {
     { 
       name: "Front Row Ventures", 
       description: "Student-run venture capital fund",
-      image: "/partners/front-row-ventures-logo.png"
+      image: FrontRowLogo
     },
     { 
       name: "Forum Ventures", 
       description: "Early-stage venture capital firm",
-      image: "/partners/forum-ventures-logo.png"
+      image: ForumLogo
     }
   ];
 
@@ -442,13 +451,13 @@ const PartnersSection = () => {
               className="bg-white p-8 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300 text-center"
             >
               {/* Partner logo */}
-              <div className="w-32 h-24 rounded-lg mx-auto mb-4 flex items-center justify-center border border-gray-300 overflow-hidden bg-white">
+              <div className="w-48 h-32 rounded-lg mx-auto mb-4 flex items-center justify-center border border-gray-200 overflow-hidden bg-white">
                 <Image
                   src={partner.image}
                   alt={`${partner.name} logo`}
-                  width={128}
-                  height={96}
-                  className="object-contain w-full h-full p-2"
+                  width={180}
+                  height={120}
+                  className="object-contain w-full h-full p-3"
                   onError={(e) => {
                     // Fallback to placeholder if image fails to load
                     const target = e.target as HTMLImageElement;
