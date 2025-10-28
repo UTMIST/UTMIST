@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import Image, { type StaticImageData } from "next/image";
 // import { useState, useEffect, useRef } from "react";
 // import {Person} from "@/types/startups";
