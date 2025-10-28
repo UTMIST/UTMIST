@@ -363,7 +363,7 @@ const StartupsSection = () => {
           {startups.map((startup, idx) => (
             <div
               key={idx}
-              className="bg-white p-6 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300 text-center"
+              className="bg-white p-6 rounded-xl shadow-md border border-gray-200 hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center transform"
             >
               {/* Startup logo */}
               <div className="w-full h-32 rounded-lg mb-4 flex items-center justify-center border border-gray-300 overflow-hidden bg-white">
@@ -419,7 +419,7 @@ const PartnersSection = () => {
   ];
 
   return (
-    <section className="py-12 md:py-16 bg-gray-50">
+    <section className="py-2 md:py-4">
       <div className="max-w-6xl mx-auto">
         <h2 
           className="text-3xl md:text-4xl font-bold text-center mb-8 bg-clip-text text-transparent"
@@ -436,7 +436,7 @@ const PartnersSection = () => {
           {partners.map((partner, idx) => (
             <div
               key={idx}
-              className="bg-white p-8 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300 text-center min-h-[220px] flex flex-col justify-center"
+              className="bg-white p-8 rounded-xl shadow-md border border-gray-200 hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center min-h-[220px] flex flex-col justify-center transform"
             >
               {/* Partner logo */}
               <div className="w-full h-28 rounded-lg mx-auto mb-4 flex items-center justify-center border border-gray-200 overflow-hidden bg-gray-50 p-3">
