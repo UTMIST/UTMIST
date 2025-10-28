@@ -78,6 +78,7 @@ export const kickOff = [
   {
     title: "12:00PM",
     cardTitle: 'AI Squared Codebase Walkthrough',
+    cardSubtitle: 'Martin Tin, Kaden Seto - AI Squared Game Leads',
     cardDetailedText: 'Get familiar with the AI Squared codebase, tools, and resources to kickstart your agent development!',
   },
   {
@@ -87,11 +88,13 @@ export const kickOff = [
   {
     title: "1:30PM",
     cardTitle: 'How the Gaming Industry is Shifting to Agents (with Artificial Agency)',
+    cardSubtitle: 'Russell Sng - Strategic Growth & Developer Relations @ Artificial Agency',
     cardDetailedText: 'Discover how AI agents are transforming the future of gameplay with insights from Russell Sng, a leader in AI-driven game innovation.',
   },
   {
     title: "2:45PM",
     cardTitle: 'Deploying Neural Networks on Tenstorrent Hardware',
+    cardSubtitle: 'Ambrose Ling - Machine Learning Engineer Intern @ Tenstorrent',
     cardDetailedText: 'Get a brief overview of the inner workings of Tenstorrent hardware architecture and a dive into the Tenstorrent software stack of ttnn (python operator library) and tt-metal (low-level programming model).',
   },
   {

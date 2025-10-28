@@ -16,6 +16,7 @@ import {
   sponsorsLogos
 } from './data';
 import { ai2speakers } from "./data";
+import Leaderboard from "@/components/Leaderboard";
 
 // Types
 interface TimelineItem {
@@ -43,6 +44,16 @@ export default function AI2Page() {
   const handleButtonClick = (buttonId: string): void => {
     setActiveButton(buttonId);
   };
+
+  const scrollToLeaderboard = () => {
+    const leaderboardSection = document.getElementById('leaderboard-section');
+    if (leaderboardSection) {
+      leaderboardSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
   
   return (
     <main>
@@ -53,9 +64,14 @@ export default function AI2Page() {
           <p className="hero-subtitle">(Brought to you by the Academics Department)</p>
           <p className="hero-subtitle-gradient">October 25 - November 2, 2025</p>
           <p className="hero-subtitle-gradient">In-person + Online</p>
-          <button className="ticket-button">
-            <a href="https://luma.com/jjw2v8rp">Apply!</a>
-          </button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <button className="ticket-button">
+              <a href="https://luma.com/jjw2v8rp">Apply!</a>
+            </button>
+            <button className="leaderboard-button" onClick={scrollToLeaderboard}>
+              Show Leaderboard
+            </button>
+          </div>
         </div>
 
         {/* Intro Section */}
@@ -107,6 +123,11 @@ export default function AI2Page() {
           <h2 className="ai2-h2 text-center">
             Find our open-source environment and server code <a href="https://github.com/UTMIST/UTMIST-AI2" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">here</a>
           </h2>
+        </section>
+
+        {/* Leaderboard */}
+        <section id="leaderboard-section" className="leaderboard-section mb-16">
+          <Leaderboard tableName="ai2_leaderboard" limit={10} />
         </section>
 
         {/* YouTube Section */}
