@@ -436,16 +436,22 @@ const PartnersSection = () => {
           {partners.map((partner, idx) => (
             <div
               key={idx}
-              className="bg-white p-8 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300 text-center"
+              className="bg-white p-8 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300 text-center min-h-[220px] flex flex-col justify-center"
             >
               {/* Partner logo */}
-              <div className="w-48 h-32 rounded-lg mx-auto mb-4 flex items-center justify-center border border-gray-200 overflow-hidden bg-white">
+              <div className="w-full h-28 rounded-lg mx-auto mb-4 flex items-center justify-center border border-gray-200 overflow-hidden bg-gray-50 p-3">
                 <Image
                   src={partner.image}
                   alt={`${partner.name} logo`}
-                  width={180}
-                  height={120}
-                  className="object-contain w-full h-full p-3"
+                  width={160}
+                  height={100}
+                  className="object-contain max-w-full max-h-full"
+                  style={{ 
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    width: 'auto',
+                    height: 'auto'
+                  }}
                   onError={(e) => {
                     // Fallback to placeholder if image fails to load
                     const target = e.target as HTMLImageElement;
@@ -464,8 +470,10 @@ const PartnersSection = () => {
                   }}
                 />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-800">{partner.name}</h3>
-              <p className="text-gray-600">{partner.description}</p>
+              <div>
+                <h3 className="text-xl font-bold mb-3 text-gray-800">{partner.name}</h3>
+                <p className="text-gray-600">{partner.description}</p>
+              </div>
             </div>
           ))}
         </div>
