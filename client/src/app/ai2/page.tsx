@@ -15,7 +15,7 @@ import {
   agentDevelopment,
   sponsorsLogos
 } from './data';
-import { ai2speakers } from "./data";
+import { ai2speakers, panelSpeakers } from "./data";
 import Leaderboard from "@/components/Leaderboard";
 
 // Types
@@ -39,7 +39,7 @@ interface StepDetail {
 }
 
 export default function AI2Page() {
-  const [activeButton, setActiveButton] = useState<string>("October 25");
+  const [activeButton, setActiveButton] = useState<string>("November 2");
 
   const handleButtonClick = (buttonId: string): void => {
     setActiveButton(buttonId);
@@ -279,6 +279,18 @@ export default function AI2Page() {
             <PeopleGrid people={[ai2speakers[3]]}/>
           </div>
         </section>
+
+        <section className="speakers items-center max-w-2xl mx-auto px-4 text-center mb-16">
+          <div className="gap-4">
+            <h1 className="ai2-h1">Panel Speakers</h1>
+            <h3 className="speakers-section-subtitle text-2xl md:text-3xl lg:text-4xl">
+              <i>AI & Gaming Industry Panel: Applications of Machine Learning in Video Games</i>
+            </h3>
+            <PeopleGrid people={panelSpeakers}/>
+          </div>
+        </section>
+
+        
 
         {/* Special Thanks Section */}
         <section className="organizers mb-16">
