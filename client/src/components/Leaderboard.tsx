@@ -73,7 +73,12 @@ export default function Leaderboard({ tableName = "ai2_leaderboard", limit = 10 
                 </div>
                 <div className="participant-info">
                   <div className="participant-name">{participant.username}</div>
-                  <div className="participant-elo">{participant.elo} ELO</div>
+                  <div className="participant-elo">
+                    {(() => {
+                      const eloNum = Number(participant.elo);
+                      return Number.isFinite(eloNum) ? `${Math.round(eloNum)} ELO` : '—';
+                    })()}
+                  </div>
                 </div>
               </div>
             );
