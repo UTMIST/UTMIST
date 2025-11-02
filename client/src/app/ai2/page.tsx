@@ -16,7 +16,7 @@ import {
   sponsorsLogos
 } from './data';
 import { ai2speakers, panelSpeakers } from "./data";
-import Leaderboard from "@/components/Leaderboard";
+// import Leaderboard from "@/components/Leaderboard";
 
 // Types
 interface TimelineItem {
@@ -45,15 +45,15 @@ export default function AI2Page() {
     setActiveButton(buttonId);
   };
 
-  const scrollToLeaderboard = () => {
-    const leaderboardSection = document.getElementById('leaderboard-section');
-    if (leaderboardSection) {
-      leaderboardSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-  };
+  // const scrollToLeaderboard = () => {
+  //   const leaderboardSection = document.getElementById('leaderboard-section');
+  //   if (leaderboardSection) {
+  //     leaderboardSection.scrollIntoView({
+  //       behavior: 'smooth',
+  //       block: 'start'
+  //     });
+  //   }
+  // };
 
   return (
     <main>
