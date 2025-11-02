@@ -139,7 +139,9 @@ export const finalsBracket = [
   {
     title: "2:00PM",
     cardTitle: 'Playing with AI: Applications of Machine Learning in Games',
-    cardDetailedText: 'This panel examines the technical and theoretical frontiers of integrating machine learning into game development and interactive simulations. Explore current advances in machine learning applications in video games and see how research insights blend practical implementations in modern game AI systems.',
+    cardDetailedText: 'Join the AI & Gaming Industry panel to learn about machine ' +
+    'learning advances in academia its relation to the video game industry. Discover how reinforcement learning, ' +
+    'large language models, and more are shaping character behavior, game design, and the future of interactive experiences.',
   },
   {
     title: "3:00PM",
@@ -194,5 +196,26 @@ export const ai2speakers = [
     profileImage: headshots.chunlok,
   },
 ];
+
+export const panelSpeakers = [
+  {
+    name: "Mehdi Saeedi",
+    role: "Principal Staff @ AMD",
+    profileURL: "",
+    profileImage: headshots.mehdi,
+  },
+  {
+    name: "Vitalii Boiko",
+    role: "Founder, CEO @ PixelaLabs",
+    profileURL: "",
+    profileImage: headshots.vitalii,
+  },
+  {
+    name: "Dante Camarena",
+    role: "Technical Director @ Ravine Studios",
+    profileURL: "",
+    profileImage: headshots.dante,
+  },
+];  
 
 export const ai2Logo = ai2Assets.logo_sketch;
