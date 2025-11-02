@@ -16,7 +16,7 @@ import {
   sponsorsLogos
 } from './data';
 import { ai2speakers, panelSpeakers } from "./data";
-import Leaderboard from "@/components/Leaderboard";
+// import Leaderboard from "@/components/Leaderboard";
 
 // Types
 interface TimelineItem {
@@ -45,16 +45,16 @@ export default function AI2Page() {
     setActiveButton(buttonId);
   };
 
-  const scrollToLeaderboard = () => {
-    const leaderboardSection = document.getElementById('leaderboard-section');
-    if (leaderboardSection) {
-      leaderboardSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-  };
-  
+  // const scrollToLeaderboard = () => {
+  //   const leaderboardSection = document.getElementById('leaderboard-section');
+  //   if (leaderboardSection) {
+  //     leaderboardSection.scrollIntoView({
+  //       behavior: 'smooth',
+  //       block: 'start'
+  //     });
+  //   }
+  // };
+
   return (
     <main>
       <div className="bg">
@@ -68,9 +68,9 @@ export default function AI2Page() {
             <button className="ticket-button">
               <a href="https://luma.com/jjw2v8rp">Apply!</a>
             </button>
-            <button className="leaderboard-button" onClick={scrollToLeaderboard}>
-              Show Leaderboard
-            </button>
+            {/*<button className="leaderboard-button" onClick={scrollToLeaderboard}>*/}
+            {/*  Show Leaderboard*/}
+            {/*</button>*/}
           </div>
         </div>
 
@@ -83,16 +83,16 @@ export default function AI2Page() {
                 className="h-64 w-auto"
                 src={ai2Logo}
                 alt="AI2 Logo"
-              />  
-            </div>          
+              />
+            </div>
             <h1 className="ai2-h1">Join us for an incredible experience</h1>
             <p className="px-6 sm:px-8 md:px-0">
-              Welcome back for UTMIST AI Squared 2025 Fall Split! Centered around groups of participants competing 
-              to design the best AI agent in a custom platform fighting game, AI Squared brings together individuals of all skill 
-              levels in a encouraging learning environment filled with fun and excitement! 
+              Welcome back for UTMIST AI Squared 2025 Fall Split! Centered around groups of participants competing
+              to design the best AI agent in a custom platform fighting game, AI Squared brings together individuals of all skill
+              levels in a encouraging learning environment filled with fun and excitement!
             </p>
             <p className="px-6 sm:px-8 md:px-0">
-              There will be workshops, speakers, as well as the grand finals. The tournament will be held in an double elimination bracket format of consecutive rounds of 
+              There will be workshops, speakers, as well as the grand finals. The tournament will be held in an double elimination bracket format of consecutive rounds of
               agents facing off 1v1 until the winner is crowned. Who will stand tall? Will it be you?
             </p>
           </div>
@@ -113,7 +113,7 @@ export default function AI2Page() {
                   className="w-36 h-36 mr-8 object-contain"
                   width={96}
                   height={96}
-                /> 
+                />
                 <div>
                 <h3 className="how-it-works-h3">{step.title}</h3>
                 <p className="how-it-works-p">{step.text}</p>
@@ -126,9 +126,9 @@ export default function AI2Page() {
         </section>
 
         {/* Leaderboard */}
-        <section id="leaderboard-section" className="leaderboard-section mb-16">
-          <Leaderboard tableName="ai2_leaderboard" limit={10} />
-        </section>
+        {/*<section id="leaderboard-section" className="leaderboard-section mb-16">*/}
+        {/*  <Leaderboard tableName="ai2_leaderboard" limit={10} />*/}
+        {/*</section>*/}
 
         {/* YouTube Section */}
         <section className="youtube mb-12">
@@ -221,7 +221,7 @@ export default function AI2Page() {
                     primary: "rgba(106, 102, 245, 0.6)",
                     secondary: "ffffff",
                     titleColor: "#000000",
-                    titleColorActive: "#000000", 
+                    titleColorActive: "#000000",
                     cardBgColor: "#ffffff",
                     cardTitleColor: "#000000",
                     cardSubtitleColor: "#000000",
@@ -290,7 +290,7 @@ export default function AI2Page() {
           </div>
         </section>
 
-        
+
 
         {/* Special Thanks Section */}
         <section className="organizers mb-16">
