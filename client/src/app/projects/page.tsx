@@ -140,17 +140,13 @@ export default function ProjectsPage() {
                 rel="noopener noreferrer"
                 className={`
                 relative w-full max-w-[360px] mx-auto
-                rounded-[13px] p-3 sm:p-6 md:p-8 border overflow-hidden
+                rounded-[13px] p-3 sm:p-6 md:p-8 bg-white border border-gray-200 overflow-hidden
                 flex flex-col
                 transition-transform duration-300 ease-in-out
                 hover:-translate-y-1 hover:shadow-lg cursor-pointer
                   no-underline justify-self-center md:justify-self-auto
                 ${isLastOddForTwoCols ? "md:col-span-2 lg:col-span-1" : ""}
               `}
-                style={{
-                  backgroundColor: "var(--card)",
-                  borderColor: "var(--border)",
-                }}
               >
                 <div className="mb-2 sm:mb-4 rounded-lg overflow-hidden">
                   <Image

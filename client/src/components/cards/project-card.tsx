@@ -14,7 +14,7 @@ const ProjectCard: React.FC<Project> = ({
       href={github || readMoreLink}
       target="_blank"
       rel="noopener noreferrer"
-      className="relative w-full max-w-[360px] rounded-[13px] p-3 sm:p-6 md:p-8 bg-white border border-gray-200 overflow-hidden flex flex-col transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg cursor-pointer mx-auto no-underline"
+      className="relative w-full max-w-[360px] rounded-[13px] p-3 sm:p-6 md:p-8 bg-white border border-gray-200 overflow-hidden flex flex-col transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg cursor-pointer mx-5 no-underline"
     >
       <div className="mb-2 sm:mb-4 rounded-lg overflow-hidden">
         <Image
