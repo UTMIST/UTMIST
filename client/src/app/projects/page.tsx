@@ -127,67 +127,75 @@ export default function ProjectsPage() {
           <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-indigo-700 w-5 h-5" />
         </div>
 
-        <div className="mt-10 w-full max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-items-stretch px-4 sm:px-8 md:px-16">
-          {filteredProjects.map((card, index) => (
-            <a
-              key={index}
-              href={card.github || card.readMoreLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="
-                relative w-full max-w-[360px]
+        <div className="mt-10 w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 place-items-center md:place-items-stretch justify-center px-4 sm:px-8 md:px-16">
+          {filteredProjects.map((card, index) => {
+            const isLastOddForTwoCols =
+              filteredProjects.length % 2 === 1 &&
+              index === filteredProjects.length - 1;
+            return (
+              <a
+                key={index}
+                href={card.github || card.readMoreLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`
+                relative w-full max-w-[360px] mx-auto
                 rounded-[13px] p-3 sm:p-6 md:p-8 border overflow-hidden
                 flex flex-col
                 transition-transform duration-300 ease-in-out
-                hover:-translate-y-1 hover:shadow-lg cursor-pointer mx-0
-                no-underline
-              "
-              style={{
-                backgroundColor: "var(--card)",
-                borderColor: "var(--border)",
-              }}
-            >
-              <div className="mb-2 sm:mb-4 rounded-lg overflow-hidden">
-                <Image
-                  src={`/project_images/${encodeURIComponent(card.title)}.png`}
-                  alt={card.title}
-                  width={400}
-                  height={200}
-                  style={{ objectFit: "cover" }}
-                  className="w-full aspect-[16/9] object-cover rounded-lg"
-                />
-              </div>
-              <div className="mt-0">
-                <h2
-                  className="font-bold font-sans leading-5 text-sm sm:text-base md:text-lg"
-                  style={{ color: "var(--foreground)" }}
-                >
-                  {card.title}
-                </h2>
-                <p
-                  className="font-sans font-normal text-xs sm:text-sm md:text-base leading-5 line-clamp-3 sm:line-clamp-3 md:line-clamp-4"
-                  style={{ color: "var(--muted-foreground)" }}
-                >
-                  {card.description}
-                </p>
-              </div>
-              {card.github && (
-                <div
-                  className="mt-2 hidden sm:inline-flex items-center gap-4 no-underline font-sans font-medium text-xs sm:text-sm"
-                  style={{ color: "var(--foreground)" }}
-                >
+                hover:-translate-y-1 hover:shadow-lg cursor-pointer
+                  no-underline justify-self-center md:justify-self-auto
+                ${isLastOddForTwoCols ? "md:col-span-2 lg:col-span-1" : ""}
+              `}
+                style={{
+                  backgroundColor: "var(--card)",
+                  borderColor: "var(--border)",
+                }}
+              >
+                <div className="mb-2 sm:mb-4 rounded-lg overflow-hidden">
                   <Image
-                    src={githubIcon}
-                    alt="GitHub Icon"
-                    width={20}
-                    height={20}
-                    className="w-4 h-4 sm:w-5 sm:h-5"
+                    src={`/project_images/${encodeURIComponent(
+                      card.title
+                    )}.png`}
+                    alt={card.title}
+                    width={400}
+                    height={200}
+                    style={{ objectFit: "cover" }}
+                    className="w-full aspect-[16/9] object-cover rounded-lg"
                   />
-                  <span className="hidden sm:inline">Read More</span>
                 </div>
-              )}
-            </a>
-          ))}
+                <div className="mt-0">
+                  <h2
+                    className="font-bold font-sans leading-5 text-sm sm:text-base md:text-lg"
+                    style={{ color: "var(--foreground)" }}
+                  >
+                    {card.title}
+                  </h2>
+                  <p
+                    className="font-sans font-normal text-xs sm:text-sm md:text-base leading-5 line-clamp-3 sm:line-clamp-3 md:line-clamp-4"
+                    style={{ color: "var(--muted-foreground)" }}
+                  >
+                    {card.description}
+                  </p>
+                </div>
+                {card.github && (
+                  <div
+                    className="mt-2 hidden sm:inline-flex items-center gap-4 no-underline font-sans font-medium text-xs sm:text-sm"
+                    style={{ color: "var(--foreground)" }}
+                  >
+                    <Image
+                      src={githubIcon}
+                      alt="GitHub Icon"
+                      width={20}
+                      height={20}
+                      className="w-4 h-4 sm:w-5 sm:h-5"
+                    />
+                    <span className="hidden sm:inline">Read More</span>
+                  </div>
+                )}
+              </a>
+            );
+          })}
         </div>
       </section>
     </main>
