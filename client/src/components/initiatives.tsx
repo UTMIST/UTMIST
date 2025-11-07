@@ -6,6 +6,29 @@ import Link from "next/link";
 import link from "../../public/linkOut.png"
 import {Initiative} from "@/types/departments"
 
+export function InitiativeList({initiatives} : {initiatives: Initiative[]}) {
+
+    const cards = initiatives.map((initiative: Initiative) =>
+        <li
+        key={initiative.projectLink}
+        className={'my-5 w-fit'}
+        >
+            <InitiativeCard
+                title={initiative.title}
+                description={initiative.description}
+                projectLink={initiative.projectLink}
+                image={initiative.image}
+            />
+        </li>
+    )
+
+    return (
+        <ul className={'w-fit'}>
+            {cards}
+        </ul>
+    )
+}
+
 export function InitiativeCard({title, description, projectLink, image}: Initiative) {
     return (
         <div

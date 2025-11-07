@@ -39,7 +39,7 @@ export function MemberList({ members }: { members : MemberGroup[]}) {
     return (
         <div className={'w-fit'}>
             <div>
-                <h1 className={'text-4xl text-right'}
+                <h1 className={'text-3xl text-right'}
                 >Member List</h1>
                 <div className={'flex justify-between '}>
                     <div className={'w-fit'}>
