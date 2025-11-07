@@ -7,4 +7,7 @@ import ambrose from "@/assets/photos/ai2/headshots/ambrose.webp";
 import chunlok from "@/assets/photos/ai2/headshots/chunlok.jpg";
 import jingmin from "@/assets/photos/ai2/headshots/jingmin.jpeg";
 import russell from "@/assets/photos/ai2/headshots/russell.jpeg";
-export { andrew, doga, kaden, martin, matthew, ambrose, chunlok, jingmin, russell };
+import dante from "@/assets/photos/ai2/headshots/dante.webp";
+import mehdi from "@/assets/photos/ai2/headshots/mehdi.webp";
+import vitalii from "@/assets/photos/ai2/headshots/vitalii.webp";
+export { andrew, doga, kaden, martin, matthew, ambrose, chunlok, jingmin, russell, dante, mehdi, vitalii };

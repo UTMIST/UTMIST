@@ -3,21 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ScrollToTop from "@/components/scrollToTop";
-import { Roboto, Space_Grotesk } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-
-// Importing fonts from Google Fonts
-const roboto = Roboto({
-  weight: ["300", "400", "500", "700"], // Added specific weights
-  variable: "--font-roboto",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-});
 
 //Metadata for the page
 export const metadata: Metadata = {
@@ -44,9 +30,7 @@ export default function RootLayout({
           data-website-id="b8823fc7-2a15-4942-af06-bf179b7fac1a"
         ></script>
       </head>
-      <body
-        className={`${roboto.variable} ${spaceGrotesk.variable} antialiased`}
-      >
+      <body className="antialiased">
         <Navbar />
         {children}
         <Footer />
