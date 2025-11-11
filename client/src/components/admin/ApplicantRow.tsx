@@ -5,12 +5,6 @@ import { Applicant } from "@/types/admin";
 
 
 export default function ApplicantRow({applicant}: {applicant: Applicant}) {
-
-    const [expanded, setExpanded] = useState(false);
-
-    const toggleExpand = () => {
-        setExpanded(!expanded);
-    };
     
     return(
         

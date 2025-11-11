@@ -59,9 +59,9 @@ export default function ApplicantProfile() {
 						{!hideScheduleButton && (
 							<button className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-xl text-lg font-bold shadow transition-colors duration-200">Schedule Interview</button>
 						)}
-						<button className="border-2 border-black hover:bg-green-600 hover:text-white px-4 py-2 rounded-xl text-lg font-bold shadow transition-colors duration-200">Accept</button>
-						<button className="border-2 border-black hover:bg-red-600 hover:text-white px-4 py-2 rounded-xl text-lg font-bold shadow transition-colors duration-200">Reject</button>
-						<button className="border-2 border-black hover:bg-yellow-500 hover:text-white px-4 py-2 rounded-xl text-lg font-bold shadow transition-colors duration-200">Waitlist</button>
+						<button className="border-2 border-[#6B66E3] bg-gradient-to-l from-[#6B66E3] to-[#1E19B1] px-4 py-2 hover:bg-white hover:text-[#6B66E3] rounded-2xl cursor-pointer text-lg font-bold shadow hover:[background-image:none] text-white transition-colors duration-200">Accept</button>
+						<button className="border-2 border-[#6B66E3] bg-white text-[#6B66E3] hover:bg-[#6B66E3] cursor-pointer hover:text-white px-4 py-2 rounded-2xl text-lg font-bold shadow transition-colors duration-200">Reject</button>
+						<button className="border-2 border-[#6B66E3] hover:bg-white cursor-pointer hover:text-[#6B66E3] px-4 py-2 rounded-2xl text-lg bg-[#6B66E3] text-white font-bold shadow transition-colors duration-200">Waitlist</button>
 					</div>
 					<div className="pr-8 pt-8 pb-8 mb-6">
 						<div className="mb-2 flex items-center text-lg">
