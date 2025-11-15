@@ -16,7 +16,6 @@ export default function ApplicantsDashboard() {
 	const [applicants, setApplicants] = useState<Applicant[]>([]);
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
-	const [total, setTotal] = useState(0);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
@@ -45,7 +44,6 @@ export default function ApplicantsDashboard() {
 			const data = await res.json();
 
 			setApplicants(data.applications || []);
-			setTotal(data.total || 0);
 			setTotalPages(data.totalPages || 1);
 			setPage(data.page || p);
 		} catch (err: any) {
