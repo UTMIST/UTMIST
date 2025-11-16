@@ -3,11 +3,11 @@ import "../styles/home.css";
 
 const StartupsSection = () => {
     return (
-        <section className="py-16 md:py-24" style={{ fontFamily: 'var(--system-font)' }}>
+        <section className="py-30 md:py-40" style={{ fontFamily: 'var(--system-font)' }}>
             <div className="max-w-6xl mx-auto px-4 md:px-16">
                 {/* Header */}
                 <div className="text-center mb-10 md:mb-12">
-                                            <h2 className="hero-card-title mb-4" style={{ fontFamily: 'var(--system-font)' }}>
+                        <h2 className="hero-card-title mb-4" style={{ fontFamily: 'var(--system-font)' }}>
                             MISTic R&D
                         </h2>
                         <p className="text-lg leading-7 text-gray-600 font-sans mb-6 text-center w-full" style={{ fontFamily: 'var(--system-font)' }}>
