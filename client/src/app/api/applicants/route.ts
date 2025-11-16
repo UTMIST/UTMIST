@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
+// Type definitions for related data
+type JobData = {
+  id: string;
+  job_title: string;
+  description: string;
+};
+
+type UserData = {
+  email: string;
+  name: string;
+};
+
 /**
  * GET /api/applicants
  * 
@@ -153,7 +165,7 @@ export async function GET(req: NextRequest) {
     const uniqueUserIds = [...new Set(applicants.map(app => app.userID).filter(Boolean))];
 
     // Fetch job details for all unique job IDs
-    let jobsMap: Record<string, any> = {};
+    let jobsMap: Record<string, JobData> = {};
     if (uniqueJobIds.length > 0) {
       const { data: jobsData, error: jobsError } = await supabase
         .from('Jobs')
@@ -168,12 +180,12 @@ export async function GET(req: NextRequest) {
         jobsMap = jobsData.reduce((acc, job) => {
           acc[job.id] = job;
           return acc;
-        }, {} as Record<string, any>);
+        }, {} as Record<string, JobData>);
       }
     }
 
     // Fetch user details for all unique user IDs
-    let usersMap: Record<string, any> = {};
+    let usersMap: Record<string, UserData> = {};
     if (uniqueUserIds.length > 0) {
       const { data: usersData, error: usersError } = await supabase
         .from('user')
@@ -187,9 +199,9 @@ export async function GET(req: NextRequest) {
         // Create a map for quick lookup (keep id for mapping, but exclude from final object)
         usersMap = usersData.reduce((acc, user) => {
           const { id, ...userWithoutId } = user;
-          acc[id] = userWithoutId; // Store without id
+          acc[id] = userWithoutId as UserData; // Store without id
           return acc;
-        }, {} as Record<string, any>);
+        }, {} as Record<string, UserData>);
       }
     }
 
