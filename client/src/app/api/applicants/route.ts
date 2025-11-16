@@ -7,7 +7,8 @@ import { createClient } from '@/lib/supabase/server';
  * Fetches applicants with optional filtering by job_title and interview_status, and pagination support.
  * 
  * Query Parameters:
- * - role: Filter by job_title (from Jobs table) - note: parameter name is 'role' but filters by job_title
+ * - jobID: Filter by exact job ID (UUID) - takes precedence over role if both provided
+ * - role: Search by job_title (case-insensitive partial match) from Jobs table
  * - status: Filter by interview_status (from Applicants table)
  * - page: Page number for pagination (default: 1)
  * - limit: Number of results per page (default: 20, max: 100)
@@ -41,19 +42,26 @@ export async function GET(req: NextRequest) {
 
     // Parse query parameters
     const searchParams = req.nextUrl.searchParams;
-    const role = searchParams.get('role'); // This filters by job_title
+    const jobID = searchParams.get('jobID'); // Exact match by job ID (UUID)
+    const role = searchParams.get('role'); // String search by job_title
     const status = searchParams.get('status'); // This filters by interview_status
     const page = parseInt(searchParams.get('page') || '1', 10);
     const limit = Math.min(parseInt(searchParams.get('limit') || '20', 10), 100);
     const offset = (page - 1) * limit;
 
-    // If filtering by role (job_title), first get job IDs that match the job_title
+    // If filtering by jobID (exact match), use it directly
+    // If filtering by role (job_title search), get job IDs that match the search
     let jobIds: string[] | null = null;
-    if (role) {
+    
+    if (jobID) {
+      // Direct jobID filter - use exact match
+      jobIds = [jobID];
+    } else if (role) {
+      // Search by job_title using case-insensitive partial matching
       const { data: jobsData, error: jobsError } = await supabase
         .from('Jobs')
         .select('id')
-        .eq('job_title', role);
+        .ilike('job_title', `%${role}%`); // Case-insensitive partial match
 
       if (jobsError) {
         console.error('Error fetching jobs by job_title:', jobsError);
@@ -85,9 +93,13 @@ export async function GET(req: NextRequest) {
 
     // Apply filters
     if (jobIds) {
-      // Filter by job IDs that match the role
+      // Filter by job IDs (either from jobID parameter or role search)
       // Note: If your foreign key column is named differently (e.g., 'job_id'), update this
-      query = query.in('jobID', jobIds);
+      if (jobIds.length === 1) {
+        query = query.eq('jobID', jobIds[0]);
+      } else {
+        query = query.in('jobID', jobIds);
+      }
     }
 
     if (status) {
