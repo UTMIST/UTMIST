@@ -21,7 +21,7 @@ type UserData = {
  * Query Parameters:
  * - jobID: Filter by exact job ID (UUID) - takes precedence over role if both provided
  * - role: Search by job_title (case-insensitive partial match) from Jobs table
- * - status: Filter by interview_status (from Applicants table)
+ * - interviewStatus: Filter by interview_status (from Applicants table)
  * - acceptanceStatus: Filter by acceptance_status (from Applicants table)
  * - page: Page number for pagination (default: 1)
  * - limit: Number of results per page (default: 20, max: 100)
@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const jobID = searchParams.get('jobID'); // Exact match by job ID (UUID)
     const role = searchParams.get('role'); // String search by job_title
-    const status = searchParams.get('status'); // This filters by interview_status
+    const interviewStatus = searchParams.get('interviewStatus'); // This filters by interview_status
     const acceptanceStatus = searchParams.get('acceptanceStatus'); // This filters by acceptance_status
     const page = parseInt(searchParams.get('page') || '1', 10);
     const limit = Math.min(parseInt(searchParams.get('limit') || '20', 10), 100);
@@ -116,11 +116,11 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    if (status) {
+    if (interviewStatus) {
       // Filter by interview_status in Applicants table
       // Normalize to uppercase to match enum values (PENDING, ACCEPTED, etc.)
-      const normalizedStatus = status.toUpperCase();
-      query = query.eq('interview_status', normalizedStatus);
+      const normalizedInterviewStatus = interviewStatus.toUpperCase();
+      query = query.eq('interview_status', normalizedInterviewStatus);
     }
 
     if (acceptanceStatus) {
