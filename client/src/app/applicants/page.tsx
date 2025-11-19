@@ -46,8 +46,8 @@ export default function ApplicantsDashboard() {
 			setApplicants(data.applications || []);
 			setTotalPages(data.totalPages || 1);
 			setPage(data.page || p);
-		} catch (err: any) {
-			setError(err.message || "Failed to load applications");
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "Failed to load applications");
 		} finally {
 			setLoading(false);
 		}
@@ -55,6 +55,7 @@ export default function ApplicantsDashboard() {
 
 	useEffect(() => {
 		fetchApplications(page);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [page]);
 
 	function handleApplyFilters() {
