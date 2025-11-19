@@ -166,22 +166,22 @@ export default function ResumeUpload({
           from events.
           <br />
           <br />
-          NOTE: Please make sure to update your name in the profile section
+          NOTE: Please make sure to update your name and year in the profile section
           above before submitting your resume.
         </label>
 
         {/* Dropbox */}
         <div
           className={`border-2 border-dashed rounded-lg p-6 transition-colors ${
-            !canUpload
+            disabled || !canUpload
               ? "border-gray-200 bg-gray-50 cursor-not-allowed"
               : isDragOver
               ? "border-blue-400 bg-blue-50 cursor-pointer"
               : "border-gray-300 hover:border-gray-400 hover:bg-gray-50 cursor-pointer"
           }`}
-          onDrop={!canUpload ? undefined : handleDrop}
-          onDragOver={!canUpload ? undefined : handleDragOver}
-          onDragLeave={!canUpload ? undefined : handleDragLeave}
+          onDrop={disabled || !canUpload ? undefined : handleDrop}
+          onDragOver={disabled || !canUpload ? undefined : handleDragOver}
+          onDragLeave={disabled || !canUpload ? undefined : handleDragLeave}
           onClick={() =>
             !disabled && canUpload && fileInputRef.current?.click()
           }
@@ -203,10 +203,12 @@ export default function ResumeUpload({
             <div className="mt-4">
               <p
                 className={`text-sm ${
-                  !canUpload ? "text-gray-400" : "text-gray-600"
+                  disabled || !canUpload ? "text-gray-400" : "text-gray-600"
                 }`}
               >
-                {!canUpload
+                {disabled
+                  ? "Please set your name and year in the profile section to upload your resume"
+                  : !canUpload
                   ? `Upload limited. Try again in ${remainingMinutes} minutes.`
                   : isDragOver
                   ? "Drop your resume here"

@@ -69,13 +69,6 @@ const StartupsSection = () => {
                         </p>
                         <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full">
                             <Link 
-                                href="/careers" 
-                                className="px-6 py-2 bg-gradient-to-r from-indigo-700 via-indigo-700 to-indigo-500 text-white rounded-full font-medium transition-opacity duration-200 hover:opacity-90 w-auto"
-                                style={{ fontFamily: 'var(--system-font)' }}
-                            >
-                                Apply Now
-                            </Link>
-                            <Link 
                                 href="/startups" 
                                 className="px-6 py-2 bg-gradient-to-r from-indigo-700 via-indigo-700 to-indigo-500 text-white rounded-full font-medium transition-opacity duration-200 hover:opacity-90 w-auto"
                                 style={{ fontFamily: 'var(--system-font)' }}

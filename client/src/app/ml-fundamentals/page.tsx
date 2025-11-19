@@ -26,7 +26,7 @@ type WorkshopContent = {
   };
 };
 
-import { programDirectors, academicsTeam } from "./data";
+import { programDirectors, academicsTeam, techWritersTeam } from "./data";
 
 // Week data for the schedule
 const weekData = [
@@ -172,9 +172,14 @@ const workshopContent: Record<number, WorkshopContent> = {
   4: {
     title: "Neural Networks Part 2: Training",
     code: {
-      content: [],
-      codeLink: ""
-
+      content: [
+        "Build and train an MLP for multiclass classification",
+        "• Experiment: Try different learning rates, number of epochs",
+        "• Visualize their impact on training",
+        "• Plot loss curves during training",
+        "• Compare different optimization strategies"
+      ],
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
     }
   },
   5: {
@@ -462,7 +467,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
     1: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w01.pdf",
     2: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w02.pdf",
     3: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w03.pdf",
-    4: "",
+    4: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w04.pdf",
     5: "",
     6: "",
     7: "",
@@ -474,7 +479,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
     1: "https://youtu.be/h1DxLpXvPbo", 
     2: "https://youtu.be/ccwnTixGaCI", 
     3: "https://youtu.be/kAa7G4NPJfw", 
-    4: "", 
+    4: "https://youtu.be/CHXnVtfVdP4", 
     5: "", 
     6: "",
     7: "", 
@@ -705,6 +710,8 @@ export default function MachineLearningFundamentals() {
           <PeopleGrid people={programDirectors}/>
           <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Academics Team</i></h3>
           <PeopleGrid people={academicsTeam}/>
+            <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Technical Writing Team</i></h3>
+          <PeopleGrid people={techWritersTeam}/>
       </section>
 
     <SponsorSection 

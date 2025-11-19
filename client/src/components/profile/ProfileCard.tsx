@@ -19,9 +19,10 @@ export default function ProfileCard({
 }: ProfileCardProps) {
   const noNameWarning = "please update your name";
   const defaultBio = "please update your bio";
-  const displayBio = userProfile.bio || defaultBio;
 
-  const displayName = userProfile.title || userProfile.name || noNameWarning;
+  const displayName = userProfile.name || noNameWarning;
+  const displayTitle = userProfile.title;
+  const displayBio = userProfile.bio || defaultBio;
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
@@ -60,7 +61,25 @@ export default function ProfileCard({
           </h1>
         )}
         <p className="text-gray-500 text-sm mb-3">{userProfile.email}</p>
-        <p className="text-gray-600 text-center mb-4">{displayBio}</p>
+        {userProfile.year && (
+          <p className="text-gray-600 text-sm mb-3">
+            {userProfile.year === "1" && "1st Year"}
+            {userProfile.year === "2" && "2nd Year"}
+            {userProfile.year === "3" && "3rd Year"}
+            {userProfile.year === "4" && "4th Year"}
+            {userProfile.year === "PEY" && "PEY"}
+            {userProfile.year === "masters" && "Masters"}
+            {userProfile.year === "phd" && "PhD"}
+          </p>
+        )}
+        {displayTitle && (
+          <p className="text-gray-700 text-lg font-medium mb-2">
+            {displayTitle}
+          </p>
+        )}
+        <p className="text-gray-600 text-center max-w-md mb-4 line-clamp-3">
+          {displayBio}
+        </p>
 
         <div className="flex flex-col sm:flex-row gap-3 items-center">
           {onEdit && (
