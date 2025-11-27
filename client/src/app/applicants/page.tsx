@@ -19,7 +19,7 @@ export default function ApplicantsDashboard() {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
-	const applicationStatusOptions = ["All", "Accepted", "Rejected", "Pending/Waitlisted"];
+	const applicationStatusOptions = ["All", "Accepted", "Rejected", "Pending", "Waitlisted"];
 
 	// Derive interview status options from current page results (may change across pages)
 	const interviewStatusOptions = [

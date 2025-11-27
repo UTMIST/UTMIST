@@ -21,11 +21,7 @@ export async function GET(req: NextRequest) {
     filteredApplicants = filteredApplicants.filter(a => a.role.toLowerCase().includes(role.toLowerCase()));
   }
   if (applicationStatus && applicationStatus !== 'All') {
-    if (applicationStatus === 'Pending/Waitlisted') {
-      filteredApplicants = filteredApplicants.filter(a => a.applicationStatus === 'Pending' || a.applicationStatus === 'Waitlisted');
-    } else {
       filteredApplicants = filteredApplicants.filter(a => a.applicationStatus === applicationStatus);
-    }
   }
   if (interviewStatus && interviewStatus !== 'All') {
     filteredApplicants = filteredApplicants.filter(a => a.interviewStatus === interviewStatus);
