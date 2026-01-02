@@ -185,15 +185,29 @@ const workshopContent: Record<number, WorkshopContent> = {
   5: {
     title: "Decision Trees & Ensemble Learning",
     code: {
-      content: [],
-      codeLink: ""
+      content: [
+        "Compare decision trees vs random forests on toy datasets",
+        "• Observe the effects of hyperparameters (max_depth)",
+        "• Visualize decision boundaries",
+        "• Analyze feature importance",
+        "• Cross-validation for model selection"
+      ],
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
+
     }
   },
   6: {
     title: "Naive Bayes",
     code: {
-      content: [],
-      codeLink: ""
+      content: [
+        "Train Naive Bayes on a spam detection or movie review sentiment dataset",
+        "• Text preprocessing pipeline",
+        "• Feature engineering for text",
+        "• Cross-validation and evaluation",
+        "• Compare with other text classification methods"
+      ],
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
+
     }
   },
   7: {
@@ -468,8 +482,8 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
     2: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w02.pdf",
     3: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w03.pdf",
     4: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w04.pdf",
-    5: "",
-    6: "",
+    5: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w05.pdf",
+    6: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w06.pdf",
     7: "",
     8: "",
   };
@@ -480,8 +494,8 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
     2: "https://youtu.be/ccwnTixGaCI", 
     3: "https://youtu.be/kAa7G4NPJfw", 
     4: "https://youtu.be/CHXnVtfVdP4", 
-    5: "", 
-    6: "",
+    5: "https://youtu.be/CSz45oZ4L1o", 
+    6: "https://youtu.be/Mmo7fjWvuxo",
     7: "", 
     8: "", 
   };
