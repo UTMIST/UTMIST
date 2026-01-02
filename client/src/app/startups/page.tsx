@@ -483,7 +483,7 @@ const PartnersSection = () => {
 
 const StartupsPage = () => {
   return (
-    <main className="pt-16 md:pt-10 px-6 md:px-20">
+    <main className="pt-20 md:pt-18 px-6 md:px-20">
       <HeroSection />
       <StartupsSection />
       <PartnersSection />
