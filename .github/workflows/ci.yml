@@ -11,14 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: ["20.11.1"]
 
     defaults:
       run:
         working-directory: ./client
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
@@ -47,7 +47,7 @@ jobs:
         working-directory: ./client
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install Vercel CLI
         run: npm install -g vercel
