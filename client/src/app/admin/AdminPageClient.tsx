@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import type { ReactNode } from "react";
 import {
   Chart as ChartJS,
   BarElement,
@@ -94,28 +95,45 @@ export default function AdminPageClient() {
 
   if (error) {
     return (
-      <div className="text-red-500 text-center p-4">
-        <h2 className="text-lg font-semibold">Analytics Unavailable</h2>
-        <p className="text-sm">{error}</p>
-        <p className="text-xs mt-1 text-gray-400">
-          Check your network connection or try refreshing the page.
-        </p>
-      </div>
+      <StateSection>
+        <div className="text-center space-y-2">
+          <h2 className="text-lg font-semibold text-red-500">
+            Analytics Unavailable
+          </h2>
+          <p className="text-sm text-gray-700">{error}</p>
+          <p className="text-xs text-gray-400">
+            Check your network connection or try refreshing the page.
+          </p>
+        </div>
+      </StateSection>
     );
   }
   if (loading) {
-    return <p className="text-center">Loading analytics data...</p>;
+    return (
+      <StateSection>
+        <div className="text-center space-y-2">
+          <p className="text-base font-medium text-gray-700 animate-pulse">
+            Loading analytics data…
+          </p>
+          <p className="text-xs text-gray-400">
+            Hang tight while we fetch the latest metrics.
+          </p>
+        </div>
+      </StateSection>
+    );
   }
   if (!data) {
     return (
-      <p className="text-center text-red-500">
-        Analytics data unavailable. Please try again later.
-      </p>
+      <StateSection>
+        <p className="text-center text-red-500 text-sm">
+          Analytics data unavailable. Please try again later.
+        </p>
+      </StateSection>
     );
   }
 
   return (
-    <div className="bg-white text-black py-6">
+    <div className="bg-white text-black pt-24 pb-8 sm:pt-12 sm:pb-10">
       <div className="max-w-screen-xl mx-auto px-12 lg:px-12">
         <h1 className="text-2xl font-bold mb-2">Analytics Dashboard</h1>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
@@ -124,19 +142,37 @@ export default function AdminPageClient() {
           </p>
           <label className="inline-flex items-center gap-2 text-sm">
             <span className="text-gray-600">Range:</span>
-            <select
-              className="border rounded px-2 py-1 text-sm"
-              value={range}
-              onChange={(e) => setRange(e.target.value)}
-            >
-              <option value="24h">Last 24 hours</option>
-              <option value="7d">Last 7 days</option>
-              <option value="30d">Last 30 days</option>
-              <option value="90d">Last 90 days</option>
-              <option value="180d">Last 6 months</option>
-              <option value="365d">Last 12 months</option>
-              <option value="all">All time</option>
-            </select>
+            <div className="relative">
+              <select
+                className="border rounded pl-2 pr-12 py-1 text-sm appearance-none"
+                value={range}
+                onChange={(e) => setRange(e.target.value)}
+              >
+                <option value="24h">Last 24 hours</option>
+                <option value="7d">Last 7 days</option>
+                <option value="30d">Last 30 days</option>
+                <option value="90d">Last 90 days</option>
+                <option value="180d">Last 6 months</option>
+                <option value="365d">Last 12 months</option>
+                <option value="all">All time</option>
+              </select>
+              <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500">
+                <svg
+                  className="w-4 h-4"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M6 8l4 4 4-4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            </div>
           </label>
         </div>
 
@@ -296,4 +332,10 @@ function TimeSeriesCard({
   );
 }
 
-
+function StateSection({ children }: { children: ReactNode }) {
+  return (
+    <div className="bg-white text-black pt-24 pb-8 sm:pt-12 sm:pb-10 min-h-[70vh] flex items-center justify-center px-6">
+      {children}
+    </div>
+  );
+}
