@@ -496,7 +496,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
     5: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w05.pdf",
     6: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w06.pdf",
     7: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w07.pdf",
-    8: "",
+    8: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w08.pdf",
   };
 
   // YouTube video URLs for each week's recordings (you'll need to replace these with actual video URLs)
