@@ -1,14 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase/server';
 import type { ApplicantStatusUpdate, ApplicantStatusResponse } from '../../../../../types/applicant';
 
+/**
+ * PATCH /api/applicants/:id/status
+ * 
+ * Updates an applicant's acceptance status in the database.
+ * 
+ * @param req - Next.js request object
+ * @param params - Route parameters containing the applicant ID (UUID)
+ * @returns JSON response with update status
+ * 
+ * Request body:
+ * {
+ *   status: 'pending' | 'accepted' | 'rejected' | 'waitlisted'
+ * }
+ */
 export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
 ): Promise<NextResponse<ApplicantStatusResponse>> {
   try {
-    const { id } = params;
+    const { id } = await params;
     const body: ApplicantStatusUpdate = await req.json();
-    const { status, email } = body;
+    const { status } = body;
 
     // Validate the status
     const validStatuses = ['pending', 'accepted', 'rejected', 'waitlisted'];
@@ -19,34 +34,63 @@ export async function PATCH(
       }, { status: 400 });
     }
 
-    // Validate the ID format (should be either email or UID)
-    if (!id || typeof id !== 'string' || (!id.includes('@') && id.length < 3)) {
+    // Validate the ID format (should be a UUID)
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!id || typeof id !== 'string' || !uuidRegex.test(id)) {
       return NextResponse.json({
         success: false,
-        message: 'Invalid applicant ID. Must be a valid UID or email address'
+        message: 'Invalid applicant ID. Must be a valid UUID'
       }, { status: 400 });
     }
 
-    // TODO: Replace with actual database update
+    // Authenticate user
+    const supabase = await createClient();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
 
-    console.log(`Updating applicant ${id} status to ${status}`);
+    if (userError || !user) {
+      return NextResponse.json({
+        success: false,
+        message: 'Authentication required'
+      }, { status: 401 });
+    }
 
-    // Send status update email
-    let emailSent = false;
-    if (email) {
-      try {
-        console.log(`Sending ${status} notification email to ${email}`);
-        // emailSent = await sendStatusUpdateEmail(email, status, undefined, notes);
-        
-        if (emailSent) {
-          console.log(`Status update email sent successfully to ${email}`);
-        } else {
-          console.warn(`Failed to send status update email to ${email}`);
-        }
-      } catch (emailError) {
-        console.error('Failed to send email:', emailError);
-        // Don't fail the entire request if email fails
+    // Normalize status to uppercase to match database enum values
+    const normalizedStatus = status.toUpperCase();
+
+    // Update the applicant's acceptance_status in the database
+    const { data: updatedApplicant, error: updateError } = await supabase
+      .from('Applicants')
+      .update({ acceptance_status: normalizedStatus })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (updateError) {
+      console.error('Error updating applicant status:', updateError);
+      
+      // Check if applicant not found
+      if (updateError.code === 'PGRST116') {
+        return NextResponse.json({
+          success: false,
+          message: 'Applicant not found'
+        }, { status: 404 });
       }
+
+      return NextResponse.json({
+        success: false,
+        message: 'Failed to update applicant status',
+        details: updateError.message
+      }, { status: 500 });
+    }
+
+    if (!updatedApplicant) {
+      return NextResponse.json({
+        success: false,
+        message: 'Applicant not found'
+      }, { status: 404 });
     }
 
     // Return success response
@@ -54,15 +98,14 @@ export async function PATCH(
       success: true,
       message: `Applicant status updated to ${status} successfully`,
       applicantId: id,
-      status: status,
-      emailSent: emailSent
+      status: status
     }, { status: 200 });
 
   } catch (error) {
-    console.error('Error updating applicant status:', error);
+    console.error('Unexpected error updating applicant status:', error);
     return NextResponse.json({
       success: false,
-      message: 'Failed to update applicant status'
+      message: 'Internal server error'
     }, { status: 500 });
   }
 }
