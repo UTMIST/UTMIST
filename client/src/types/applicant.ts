@@ -1,4 +1,4 @@
-export type ApplicantStatus = 'pending' | 'accepted' | 'rejected' | 'waitlisted';
+export type ApplicantStatus = 'ACCEPTED' | 'REJECTED' | 'WAITLISTED';
 
 export interface ApplicantStatusUpdate {
   status: ApplicantStatus;

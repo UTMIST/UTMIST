@@ -81,6 +81,7 @@ describe('PATCH /api/applicants/:id/status', () => {
       expect(response.status).toBe(400);
       expect(data.success).toBe(false);
       expect(data.message).toContain('Invalid status');
+      expect(data.message).toContain('ACCEPTED, REJECTED, WAITLISTED');
       expect(mockSupabaseClient.from).not.toHaveBeenCalled();
     });
 
@@ -103,12 +104,13 @@ describe('PATCH /api/applicants/:id/status', () => {
       expect(response.status).toBe(400);
       expect(data.success).toBe(false);
       expect(data.message).toContain('Invalid status');
+      expect(data.message).toContain('ACCEPTED, REJECTED, WAITLISTED');
     });
 
     it('should return 400 for invalid UUID format', async () => {
       const mockUser = { id: 'user-123' };
       const invalidId = 'not-a-uuid';
-      const validStatus = 'accepted';
+      const validStatus = 'ACCEPTED';
 
       mockSupabaseClient.auth.getUser.mockResolvedValue({
         data: { user: mockUser },
@@ -133,7 +135,7 @@ describe('PATCH /api/applicants/:id/status', () => {
 
     it('should return 400 for empty ID', async () => {
       const mockUser = { id: 'user-123' };
-      const validStatus = 'accepted';
+      const validStatus = 'ACCEPTED';
 
       mockSupabaseClient.auth.getUser.mockResolvedValue({
         data: { user: mockUser },
@@ -157,7 +159,7 @@ describe('PATCH /api/applicants/:id/status', () => {
   describe('Authentication', () => {
     it('should return 401 when user is not authenticated', async () => {
       const validUUID = '123e4567-e89b-12d3-a456-426614174000';
-      const validStatus = 'accepted';
+      const validStatus = 'ACCEPTED';
 
       mockSupabaseClient.auth.getUser.mockResolvedValue({
         data: { user: null },
@@ -181,7 +183,7 @@ describe('PATCH /api/applicants/:id/status', () => {
 
     it('should return 401 when getUser returns an error', async () => {
       const validUUID = '123e4567-e89b-12d3-a456-426614174000';
-      const validStatus = 'accepted';
+      const validStatus = 'ACCEPTED';
 
       mockSupabaseClient.auth.getUser.mockResolvedValue({
         data: { user: null },
@@ -205,7 +207,7 @@ describe('PATCH /api/applicants/:id/status', () => {
     it('should proceed when user is authenticated', async () => {
       const mockUser = { id: 'user-123' };
       const validUUID = '123e4567-e89b-12d3-a456-426614174000';
-      const validStatus = 'accepted';
+      const validStatus = 'ACCEPTED';
 
       mockSupabaseClient.auth.getUser.mockResolvedValue({
         data: { user: mockUser },
@@ -253,7 +255,7 @@ describe('PATCH /api/applicants/:id/status', () => {
     });
 
     it('should successfully update status to accepted', async () => {
-      const status = 'accepted';
+      const status = 'ACCEPTED';
       const mockUpdatedApplicant = {
         id: validUUID,
         acceptance_status: 'ACCEPTED',
@@ -281,7 +283,7 @@ describe('PATCH /api/applicants/:id/status', () => {
     });
 
     it('should successfully update status to rejected', async () => {
-      const status = 'rejected';
+      const status = 'REJECTED';
       const mockUpdatedApplicant = {
         id: validUUID,
         acceptance_status: 'REJECTED',
@@ -306,7 +308,7 @@ describe('PATCH /api/applicants/:id/status', () => {
     });
 
     it('should successfully update status to waitlisted', async () => {
-      const status = 'waitlisted';
+      const status = 'WAITLISTED';
       const mockUpdatedApplicant = {
         id: validUUID,
         acceptance_status: 'WAITLISTED',
@@ -330,33 +332,8 @@ describe('PATCH /api/applicants/:id/status', () => {
       expect(data.status).toBe(status);
     });
 
-    it('should successfully update status to pending', async () => {
-      const status = 'pending';
-      const mockUpdatedApplicant = {
-        id: validUUID,
-        acceptance_status: 'PENDING',
-        userID: 'user-456',
-        jobID: 'job-123',
-      };
-
-      (mockRequest.json as jest.Mock).mockResolvedValue({ status });
-      mockUpdateQuery.single.mockResolvedValue({
-        data: mockUpdatedApplicant,
-        error: null,
-      });
-
-      const response = await PATCH(mockRequest, {
-        params: Promise.resolve({ id: validUUID }),
-      });
-      const data = await response.json();
-
-      expect(response.status).toBe(200);
-      expect(data.success).toBe(true);
-      expect(data.status).toBe(status);
-    });
-
-    it('should normalize status to uppercase in database', async () => {
-      const status = 'accepted';
+    it('should use status directly without normalization', async () => {
+      const status = 'ACCEPTED';
       const mockUpdatedApplicant = {
         id: validUUID,
         acceptance_status: 'ACCEPTED',
@@ -392,7 +369,7 @@ describe('PATCH /api/applicants/:id/status', () => {
     });
 
     it('should return 404 when applicant not found (PGRST116)', async () => {
-      const status = 'accepted';
+      const status = 'ACCEPTED';
 
       (mockRequest.json as jest.Mock).mockResolvedValue({ status });
       mockUpdateQuery.single.mockResolvedValue({
@@ -411,7 +388,7 @@ describe('PATCH /api/applicants/:id/status', () => {
     });
 
     it('should return 404 when updatedApplicant is null', async () => {
-      const status = 'accepted';
+      const status = 'ACCEPTED';
 
       (mockRequest.json as jest.Mock).mockResolvedValue({ status });
       mockUpdateQuery.single.mockResolvedValue({
@@ -430,7 +407,7 @@ describe('PATCH /api/applicants/:id/status', () => {
     });
 
     it('should return 500 for database errors', async () => {
-      const status = 'accepted';
+      const status = 'ACCEPTED';
 
       (mockRequest.json as jest.Mock).mockResolvedValue({ status });
       mockUpdateQuery.single.mockResolvedValue({
@@ -450,7 +427,7 @@ describe('PATCH /api/applicants/:id/status', () => {
     });
 
     it('should handle unexpected errors', async () => {
-      const status = 'accepted';
+      const status = 'ACCEPTED';
 
       (mockRequest.json as jest.Mock).mockRejectedValue(new Error('Unexpected error'));
 
@@ -490,7 +467,7 @@ describe('PATCH /api/applicants/:id/status', () => {
     });
 
     it('should call update with correct parameters', async () => {
-      const status = 'accepted';
+      const status = 'ACCEPTED';
       const mockUpdatedApplicant = {
         id: validUUID,
         acceptance_status: 'ACCEPTED',
@@ -516,7 +493,7 @@ describe('PATCH /api/applicants/:id/status', () => {
     });
 
     it('should return correct response structure on success', async () => {
-      const status = 'accepted';
+      const status = 'ACCEPTED';
       const mockUpdatedApplicant = {
         id: validUUID,
         acceptance_status: 'ACCEPTED',

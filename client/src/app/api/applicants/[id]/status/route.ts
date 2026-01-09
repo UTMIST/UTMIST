@@ -13,7 +13,7 @@ import type { ApplicantStatusUpdate, ApplicantStatusResponse } from '../../../..
  * 
  * Request body:
  * {
- *   status: 'pending' | 'accepted' | 'rejected' | 'waitlisted'
+ *   status: 'ACCEPTED' | 'REJECTED' | 'WAITLISTED'
  * }
  */
 export async function PATCH(
@@ -25,12 +25,12 @@ export async function PATCH(
     const body: ApplicantStatusUpdate = await req.json();
     const { status } = body;
 
-    // Validate the status
-    const validStatuses = ['pending', 'accepted', 'rejected', 'waitlisted'];
+    // Validate the status (must match database enum values)
+    const validStatuses = ['ACCEPTED', 'REJECTED', 'WAITLISTED'];
     if (!status || !validStatuses.includes(status)) {
       return NextResponse.json({
         success: false,
-        message: 'Invalid status. Must be one of: pending, accepted, rejected, waitlisted'
+        message: 'Invalid status. Must be one of: ACCEPTED, REJECTED, WAITLISTED'
       }, { status: 400 });
     }
 
@@ -57,13 +57,11 @@ export async function PATCH(
       }, { status: 401 });
     }
 
-    // Normalize status to uppercase to match database enum values
-    const normalizedStatus = status.toUpperCase();
-
     // Update the applicant's acceptance_status in the database
+    // Status is already in uppercase enum format (ACCEPTED, REJECTED, WAITLISTED)
     const { data: updatedApplicant, error: updateError } = await supabase
       .from('Applicants')
-      .update({ acceptance_status: normalizedStatus })
+      .update({ acceptance_status: status })
       .eq('id', id)
       .select()
       .single();
