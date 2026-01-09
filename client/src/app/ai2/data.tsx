@@ -73,11 +73,12 @@ export const kickOff = [
     title: "11:00AM",
     cardTitle: 'Introduction to the Reinforcement Learning Paradigm',
     cardSubtitle: 'Jingmin Wang - RL Researcher @ LEAF Lab',
-    cardDetailedText: 'Reinforcement learning is a growing field in machine learning that focuses on training agents to make sequential decisions. This talk will cover the basics of RL, including key concepts such as rewards, policies, and Markov Decision Processes (MDPs).',
+    cardDetailedText: 'Explore key concepts of reinforcement learning such as rewards, policies, and Markov Decision Process so you can start building your own AI Squared agent that can even outsmart a human player!',
   },
   {
     title: "12:00PM",
     cardTitle: 'AI Squared Codebase Walkthrough',
+    cardSubtitle: 'Martin Tin, Kaden Seto - AI Squared Game Leads',
     cardDetailedText: 'Get familiar with the AI Squared codebase, tools, and resources to kickstart your agent development!',
   },
   {
@@ -86,13 +87,15 @@ export const kickOff = [
   },
   {
     title: "1:30PM",
-    cardTitle: 'Coming soon...',
-    // cardDetailedText: 'Artifical Agency',
+    cardTitle: 'How the Gaming Industry is Shifting to Agents (with Artificial Agency)',
+    cardSubtitle: 'Russell Sng - Strategic Growth & Developer Relations @ Artificial Agency',
+    cardDetailedText: 'Discover how AI agents are transforming the future of gameplay with insights from Russell Sng, a leader in AI-driven game innovation.',
   },
   {
     title: "2:45PM",
-    cardTitle: 'Coming soon...',
-    // cardDetailedText: 'Tenstorrent',
+    cardTitle: 'Deploying Neural Networks on Tenstorrent Hardware',
+    cardSubtitle: 'Ambrose Ling - Machine Learning Engineer Intern @ Tenstorrent',
+    cardDetailedText: 'Get a brief overview of the inner workings of Tenstorrent hardware architecture and a dive into the Tenstorrent software stack of ttnn (python operator library) and tt-metal (low-level programming model).',
   },
   {
     title: "3:45PM",
@@ -136,7 +139,9 @@ export const finalsBracket = [
   {
     title: "2:00PM",
     cardTitle: 'Playing with AI: Applications of Machine Learning in Games',
-    cardDetailedText: 'This panel examines the technical and theoretical frontiers of integrating machine learning into game development and interactive simulations. Explore current advances in machine learning applications in video games and see how research insights blend practical implementations in modern game AI systems.',
+    cardDetailedText: 'Join the AI & Gaming Industry panel to learn about machine ' +
+    'learning advances in academia its relation to the video game industry. Discover how reinforcement learning, ' +
+    'large language models, and more are shaping character behavior, game design, and the future of interactive experiences.',
   },
   {
     title: "3:00PM",
@@ -161,7 +166,56 @@ export const agentDevelopment = [
   {
     cardTitle: 'Mentor Sessions',
     cardSubtitle: 'If you need help, we got you! Book a session with one of our mentors.',
+  }
+];
+
+
+export const ai2speakers = [
+  {
+    name: "Jingmin Wang",
+    role: "RL Researcher @ Data-Driven Decision Making Lab & LEAF Lab",
+    profileURL: "",
+    profileImage: headshots.jingmin,
+  },
+  {
+    name: "Russell Sng",
+    role: "Strategic Growth & Developer Relations @ Artificial Agency",
+    profileURL: "",
+    profileImage: headshots.russell,
+  },
+  {
+    name: "Ambrose Ling",
+    role: "Machine Learning Engineer Intern @ Tenstorrent",
+    profileURL: "",
+    profileImage: headshots.ambrose,
+  },
+  {
+    name: "Chunlok Lo",
+    role: "Software Engineer @ Riot Games",
+    profileURL: "",
+    profileImage: headshots.chunlok,
   },
 ];
+
+export const panelSpeakers = [
+  {
+    name: "Mehdi Saeedi",
+    role: "Principal Staff @ AMD",
+    profileURL: "",
+    profileImage: headshots.mehdi,
+  },
+  {
+    name: "Vitalii Boiko",
+    role: "Founder, CEO @ PixelaLabs",
+    profileURL: "",
+    profileImage: headshots.vitalii,
+  },
+  {
+    name: "Dante Camarena",
+    role: "Technical Director @ Ravine Studios",
+    profileURL: "",
+    profileImage: headshots.dante,
+  },
+];  
 
 export const ai2Logo = ai2Assets.logo_sketch;

@@ -88,13 +88,14 @@ async function findExistingFile(
 export async function uploadToGoogleDrive(
   fileBuffer: ArrayBuffer,
   fileName: string,
-  replace: boolean = false
+  replace: boolean = false,
+  folderId?: string
 ): Promise<{ id: string; webViewLink: string }> {
   const auth = createGoogleAuth();
   const drive = google.drive({ version: "v3", auth });
 
   const buffer = Buffer.from(fileBuffer);
-  const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID!;
+  const targetFolderId = folderId || process.env.GOOGLE_DRIVE_FOLDER_ID!;
 
   const readable = new Readable();
   readable.push(buffer);
@@ -110,8 +111,8 @@ export async function uploadToGoogleDrive(
 
   if (replace) {
     // Check if file already exists and update it
-    const existingFileId = await findExistingFile(drive, fileName, folderId);
-    
+    const existingFileId = await findExistingFile(drive, fileName, targetFolderId);
+
     if (existingFileId) {
       console.log(`Updating existing file: ${fileName}`);
       response = await drive.files.update({
@@ -124,7 +125,7 @@ export async function uploadToGoogleDrive(
       // File doesn't exist but replace=true, create new file
       const metadata = {
         name: fileName,
-        parents: [folderId],
+        parents: [targetFolderId],
       };
       
       response = await drive.files.create({
@@ -152,7 +153,7 @@ export async function uploadToGoogleDrive(
     // Create new file (first upload)
     const metadata = {
       name: fileName,
-      parents: [folderId],
+      parents: [targetFolderId],
     };
     
     response = await drive.files.create({
@@ -197,4 +198,36 @@ export function validateGoogleDriveConfig(): string | null {
   }
 
   return null;
+}
+
+/**
+ * Maps user year to corresponding Google Drive folder ID
+ * Throws an error if the year-specific folder is not configured
+ *
+ * @param year - User's year ('1', '2', '3', '4', 'PEY', 'masters', 'phd')
+ * @returns Folder ID for the specified year
+ * @throws Error if folder ID is not configured for the specified year
+ */
+export function getYearFolderId(year?: string): string | null {
+  if (!year) {
+    return null;
+  }
+
+  const folderMap: Record<string, string | undefined> = {
+    '1': '1UjvM5jQuG98o5WVTeFT2Jyk8R2-DnoCc',
+    '2': '1yfx8VmjGGZT-g1GPCwe0xIlY8WYs-SFc',
+    '3': '1NBiKUpbJiwxFMaspx6M6OiS86vyJf--J',
+    '4': '148T0C6ft8Ktv-KvHPDSNraDY8w3nGyM0',
+    'PEY': '148T0C6ft8Ktv-KvHPDSNraDY8w3nGyM0',
+    'masters': '1rCPNw-OO6N3ohohsSFd0Ol6Erm2lZLR-',
+    'phd': "1_8GnYlpUjE2ClkiqqnIIWiEOdd0hgETI",
+  };
+
+  const folderId = folderMap[year];
+
+  if (!folderId) {
+    throw new Error(`Google Drive folder not configured for year: ${year}. Please set the environment variable for this year.`);
+  }
+
+  return folderId;
 }

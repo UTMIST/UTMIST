@@ -26,6 +26,7 @@ export default function ProfileEditForm({
     github: profile.github || "",
     twitter: profile.twitter || "",
     avatar: profile.avatar || "",
+    year: profile.year || "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -58,6 +59,7 @@ export default function ProfileEditForm({
         github: formData.github,
         twitter: formData.twitter,
         avatar: formData.avatar,
+        year: formData.year,
       });
 
       if (!success) {
@@ -74,6 +76,7 @@ export default function ProfileEditForm({
         github: formData.github,
         twitter: formData.twitter,
         avatar: formData.avatar,
+        year: formData.year,
       };
 
       onSave(updatedProfile);
@@ -140,22 +143,22 @@ export default function ProfileEditForm({
           )}
         </div>
 
-        {/*<div>*/}
-        {/*  <label*/}
-        {/*    htmlFor="title"*/}
-        {/*    className="block text-sm font-medium text-gray-700 mb-2"*/}
-        {/*  >*/}
-        {/*    Title*/}
-        {/*  </label>*/}
-        {/*  <input*/}
-        {/*    type="text"*/}
-        {/*    id="title"*/}
-        {/*    value={formData.title}*/}
-        {/*    onChange={(e) => handleInputChange("title", e.target.value)}*/}
-        {/*    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"*/}
-        {/*    placeholder="Your professional title"*/}
-        {/*  />*/}
-        {/*</div>*/}
+        <div>
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Title
+          </label>
+          <input
+            type="text"
+            id="title"
+            value={formData.title}
+            onChange={(e) => handleInputChange("title", e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Your professional title"
+          />
+        </div>
 
         <div>
           <label
@@ -172,6 +175,30 @@ export default function ProfileEditForm({
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Tell us about yourself..."
           />
+        </div>
+
+        <div>
+          <label
+            htmlFor="year"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Year
+          </label>
+          <select
+            id="year"
+            value={formData.year}
+            onChange={(e) => handleInputChange("year", e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Select your year</option>
+            <option value="1">1st Year</option>
+            <option value="2">2nd Year</option>
+            <option value="3">3rd Year</option>
+            <option value="4">4th Year</option>
+            <option value="PEY">PEY</option>
+            <option value="masters">Masters</option>
+            <option value="phd">PhD</option>
+          </select>
         </div>
 
         <div>

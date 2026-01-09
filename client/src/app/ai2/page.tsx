@@ -15,6 +15,8 @@ import {
   agentDevelopment,
   sponsorsLogos
 } from './data';
+import { ai2speakers, panelSpeakers } from "./data";
+// import Leaderboard from "@/components/Leaderboard";
 
 // Types
 interface TimelineItem {
@@ -37,12 +39,22 @@ interface StepDetail {
 }
 
 export default function AI2Page() {
-  const [activeButton, setActiveButton] = useState<string>("October 25");
+  const [activeButton, setActiveButton] = useState<string>("November 2");
 
   const handleButtonClick = (buttonId: string): void => {
     setActiveButton(buttonId);
   };
-  
+
+  // const scrollToLeaderboard = () => {
+  //   const leaderboardSection = document.getElementById('leaderboard-section');
+  //   if (leaderboardSection) {
+  //     leaderboardSection.scrollIntoView({
+  //       behavior: 'smooth',
+  //       block: 'start'
+  //     });
+  //   }
+  // };
+
   return (
     <main>
       <div className="bg">
@@ -52,9 +64,14 @@ export default function AI2Page() {
           <p className="hero-subtitle">(Brought to you by the Academics Department)</p>
           <p className="hero-subtitle-gradient">October 25 - November 2, 2025</p>
           <p className="hero-subtitle-gradient">In-person + Online</p>
-          <button className="ticket-button">
-            <a href="https://luma.com/jjw2v8rp">Apply!</a>
-          </button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <button className="ticket-button">
+              <a href="https://luma.com/jjw2v8rp">Apply!</a>
+            </button>
+            {/*<button className="leaderboard-button" onClick={scrollToLeaderboard}>*/}
+            {/*  Show Leaderboard*/}
+            {/*</button>*/}
+          </div>
         </div>
 
         {/* Intro Section */}
@@ -66,16 +83,16 @@ export default function AI2Page() {
                 className="h-64 w-auto"
                 src={ai2Logo}
                 alt="AI2 Logo"
-              />  
-            </div>          
+              />
+            </div>
             <h1 className="ai2-h1">Join us for an incredible experience</h1>
             <p className="px-6 sm:px-8 md:px-0">
-              Welcome back for UTMIST AI Squared 2025 Fall Split! Centered around groups of participants competing 
-              to design the best AI agent in a custom platform fighting game, AI Squared brings together individuals of all skill 
-              levels in a encouraging learning environment filled with fun and excitement! 
+              Welcome back for UTMIST AI Squared 2025 Fall Split! Centered around groups of participants competing
+              to design the best AI agent in a custom platform fighting game, AI Squared brings together individuals of all skill
+              levels in a encouraging learning environment filled with fun and excitement!
             </p>
             <p className="px-6 sm:px-8 md:px-0">
-              There will be workshops, speakers, as well as the grand finals. The tournament will be held in an double elimination bracket format of consecutive rounds of 
+              There will be workshops, speakers, as well as the grand finals. The tournament will be held in an double elimination bracket format of consecutive rounds of
               agents facing off 1v1 until the winner is crowned. Who will stand tall? Will it be you?
             </p>
           </div>
@@ -96,7 +113,7 @@ export default function AI2Page() {
                   className="w-36 h-36 mr-8 object-contain"
                   width={96}
                   height={96}
-                /> 
+                />
                 <div>
                 <h3 className="how-it-works-h3">{step.title}</h3>
                 <p className="how-it-works-p">{step.text}</p>
@@ -107,6 +124,11 @@ export default function AI2Page() {
             Find our open-source environment and server code <a href="https://github.com/UTMIST/UTMIST-AI2" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">here</a>
           </h2>
         </section>
+
+        {/* Leaderboard */}
+        {/*<section id="leaderboard-section" className="leaderboard-section mb-16">*/}
+        {/*  <Leaderboard tableName="ai2_leaderboard" limit={10} />*/}
+        {/*</section>*/}
 
         {/* YouTube Section */}
         <section className="youtube mb-12">
@@ -199,7 +221,7 @@ export default function AI2Page() {
                     primary: "rgba(106, 102, 245, 0.6)",
                     secondary: "ffffff",
                     titleColor: "#000000",
-                    titleColorActive: "#000000", 
+                    titleColorActive: "#000000",
                     cardBgColor: "#ffffff",
                     cardTitleColor: "#000000",
                     cardSubtitleColor: "#000000",
@@ -245,11 +267,30 @@ export default function AI2Page() {
 
         {/* Speakers */}
         <section className="speakers items-center max-w-2xl mx-auto px-4 text-center mb-16">
-          <div className="flex flex-col gap-4 pl-2 pr-2">
-            <h1 className="ai2-h1">Speakers</h1>
-            <h2 className="ai2-h2">Coming soon... so stay tuned!</h2>
+          <div className="gap-4">
+            <h1 className="ai2-h1">Speakers Session</h1>
+            <h3 className="speakers-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Intro to the RL Paradigm</i></h3>
+            <PeopleGrid people={[ai2speakers[0]]}/>
+            <h3 className="speakers-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>How the Gaming Inustry Is Shifting to Agents</i></h3>
+            <PeopleGrid people={[ai2speakers[1]]}/>
+            <h3 className="speakers-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Deploying neural networks on Tenstorrent Hardware</i></h3>
+            <PeopleGrid people={[ai2speakers[2]]}/>
+            <h3 className="speakers-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Designing AI for Fun in Games</i></h3>
+            <PeopleGrid people={[ai2speakers[3]]}/>
           </div>
         </section>
+
+        <section className="speakers items-center max-w-2xl mx-auto px-4 text-center mb-16">
+          <div className="gap-4">
+            <h1 className="ai2-h1">Panel Speakers</h1>
+            <h3 className="speakers-section-subtitle text-2xl md:text-3xl lg:text-4xl">
+              <i>AI & Gaming Industry Panel: Applications of Machine Learning in Video Games</i>
+            </h3>
+            <PeopleGrid people={panelSpeakers}/>
+          </div>
+        </section>
+
+
 
         {/* Special Thanks Section */}
         <section className="organizers mb-16">
