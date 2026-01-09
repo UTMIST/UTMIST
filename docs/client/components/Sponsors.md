@@ -1,7 +1,7 @@
 # Sponsors Component Documentation
 
 ## Overview
-A React component that displays UTMIST's sponsor logos in a grid layout with a "Backed By" header.
+A React component that displays UTMIST's sponsor logos in a grid layout with a "Supported By" header.
 
 ## Dependencies
 - `next/image`: For optimized image loading
@@ -14,7 +14,7 @@ A React component that displays UTMIST's sponsor logos in a grid layout with a "
 ## Component Structure
 ```
 Sponsors
-├── Title ("Backed By")
+├── Title ("Supported By")
 └── Sponsors Grid
     ├── AMD Logo
     ├── Qualcomm Logo

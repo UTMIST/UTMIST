@@ -207,21 +207,32 @@ const workshopContent: Record<number, WorkshopContent> = {
         "• Compare with other text classification methods"
       ],
       codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
-
     }
   },
   7: {
     title: "Best Practices & Evaluation in ML",
     code: {
-      content: [],
-      codeLink: ""
+      content: [
+        "Given a small dataset and task, build a baseline, improve it, and report metrics",
+        "• Implement multiple evaluation metrics",
+        "• Discuss results and next steps",
+        "• Iterative model improvement",
+      ],
+      codeLink: "https://github.com/UTMIST/UTMIST-MLF/tree/main/week7"
     }
   },
   8: {
     title: "Deep Learning & Modern Architectures",
     code: {
-      content: [],
-      codeLink: ""
+      content: [
+        "Understand the evolution of deep learning architectures",
+        "• Implement AlexNet for image classification",
+        "• Learn about skip connections and build ResNet blocks",
+        "• Implement LSTM for time series prediction",
+        "• Understand the Transformer architecture and attention mechanism",
+        "• Explore Vision Transformers (ViT)"
+      ],
+      codeLink: "https://github.com/UTMIST/UTMIST-MLF/tree/main/week8"
     }
   }
 };
@@ -484,7 +495,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
     4: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w04.pdf",
     5: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w05.pdf",
     6: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w06.pdf",
-    7: "",
+    7: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w07.pdf",
     8: "",
   };
 
@@ -496,8 +507,8 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
     4: "https://youtu.be/CHXnVtfVdP4", 
     5: "https://youtu.be/CSz45oZ4L1o", 
     6: "https://youtu.be/Mmo7fjWvuxo",
-    7: "", 
-    8: "", 
+    7: "https://youtu.be/39WvCs2Z9ao", 
+    8: "https://youtu.be/-9EKr_rmkI4", 
   };
 
   // weekNumber is now passed as a prop
