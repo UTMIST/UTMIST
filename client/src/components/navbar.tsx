@@ -40,11 +40,11 @@ export default function Navbar() {
               Projects
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link href="/blog" className="nav-item">
               Blog
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link href="/sponsors" className="nav-item">
               Sponsors
@@ -61,10 +61,20 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link href="/eigenai" className="nav-item">
-              EigenAI
+            <Link href="/startups" className="nav-item">
+              MISTic R&D
             </Link>
           </li>
+          <li>
+            <Link href="/ml-fundamentals" className="nav-item">
+                MLF
+            </Link>
+          </li>
+            {/*<li>*/}
+            {/*    <Link href="/departments" className="nav-item">*/}
+            {/*        Departments*/}
+            {/*    </Link>*/}
+            {/*</li>*/}
           <li>
             <Link href={user ? "/profile" : "/auth"} className="nav-button">
               {user ? "Profile" : "Login"}
@@ -100,11 +110,11 @@ export default function Navbar() {
                   Projects
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="/blog" onClick={() => setIsOpen(false)}>
                   Blog
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link href="/sponsors" onClick={() => setIsOpen(false)}>
                   Sponsors
@@ -121,8 +131,13 @@ export default function Navbar() {
                 </Link>
               </li>
               <li>
-                <Link href="/eigenai" onClick={() => setIsOpen(false)}>
-                  EigenAI
+                <Link href="/startups" onClick={() => setIsOpen(false)}>
+                  MISTic R&D
+                </Link>
+              </li>
+              <li>
+                <Link href="/ml-fundamentals" onClick={() => setIsOpen(false)}>
+                    MLF
                 </Link>
               </li>
               <li>

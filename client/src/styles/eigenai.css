@@ -28,23 +28,6 @@
   padding: 0 15rem;
 }
 
-.ticket-button {
-  font-family: var(--system-font);
-  font-weight: 200;
-  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-  background: var(--gradient-b2);
-  color: white;
-  border-radius: 10px;
-  padding: 1rem 2.2rem;
-  margin: 1rem 0rem;
-  cursor: pointer;
-}
-
-.ticket-button:hover {
-  opacity: 0.9;
-  transform: scale(1.05);
-}
-
 .intro-section {
   display: flex;
   flex-direction: row;
@@ -103,6 +86,12 @@
     margin: 0 auto;
 }
 
+.schedule-section {
+    padding: 4rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 /* Speakers */
 .people-container {
   max-width: 800px;
@@ -149,6 +138,16 @@
 }
 
 .people-section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+    background: var(--gradient-bl1);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.schedule-section-title {
     font-size: 2.5rem;
     font-weight: 700;
     text-align: center;
@@ -235,7 +234,7 @@
   justify-content: center;
   padding: 10px 20px;
   background-color: #0b101c; /* Solid background color (white in this example) */
-  font-family: sans-serif;
+  font-family: var(--system-font);
   font-weight: 200;
   font-size: 16px;
   cursor: pointer;
@@ -306,8 +305,7 @@
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: var(--system-font);
   border: 1px solid #e2e2e2;
   border-radius: 8px;
   background-color: #ffffff;
@@ -463,11 +461,6 @@
     font-size: 0.9rem;
   }
 
-  .ticket-button {
-    padding: 1.0rem 2.2rem;
-    font-size: 0.9rem;
-  }
-
   .intro-section-title {
     font-size: 1.75rem;
   }
@@ -537,11 +530,6 @@
   .speaker-card {
     width: 100%;
   }
-
-    .ticket-button {
-        padding: 1.0rem 2.2rem;
-        font-size: 0.9rem;
-    }
 
   .speakers-row {
     flex-direction: column;
