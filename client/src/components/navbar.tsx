@@ -40,11 +40,11 @@ export default function Navbar() {
               Projects
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link href="/blog" className="nav-item">
               Blog
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link href="/sponsors" className="nav-item">
               Sponsors
@@ -110,11 +110,11 @@ export default function Navbar() {
                   Projects
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="/blog" onClick={() => setIsOpen(false)}>
                   Blog
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link href="/sponsors" onClick={() => setIsOpen(false)}>
                   Sponsors
