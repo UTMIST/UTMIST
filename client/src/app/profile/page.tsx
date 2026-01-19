@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getCurrentUser, logout } from "@/utils/auth";
 import { getCurrentUserProfile } from "@/utils/user";
@@ -79,9 +80,9 @@ export default function ProfilePage() {
   const handleLogout = async () => {
     try {
       await logout();
-      router.push('/');
+      router.push("/");
     } catch (error) {
-      console.error('Error logging out:', error);
+      console.error("Error logging out:", error);
     }
   };
 
@@ -160,9 +161,24 @@ export default function ProfilePage() {
             twitter={profile.twitter}
           />
 
-          <ResumeCard userId={profile.id} year={profile.year} name={profile.name} />
+          <ResumeCard
+            userId={profile.id}
+            year={profile.year}
+            name={profile.name}
+          />
 
           <QRCodeCard linkedin={profile.linkedin} />
+
+          {profile.admin ? (
+            <div className="mt-6 flex justify-center">
+              <Link
+                href="/admin"
+                className="bg-gradient-to-r from-red-600 to-red-400 px-6 py-2 rounded-lg font-[var(--system-font)] text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)] transition-all duration-200"
+              >
+                View Admin Dashboard
+              </Link>
+            </div>
+          ) : null}
         </div>
       </div>
     );
