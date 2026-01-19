@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getCurrentUser, logout } from "@/utils/auth";
 import { getCurrentUserProfile } from "@/utils/user";
@@ -11,6 +10,7 @@ import ProfileEditForm from "@/components/profile/ProfileEditForm";
 import SocialCard from "@/components/profile/SocialCard";
 import QRCodeCard from "@/components/profile/QRCodeCard";
 import ResumeCard from "@/components/profile/ResumeCard";
+import AdminCard from "@/components/profile/AdminCard";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -169,16 +169,7 @@ export default function ProfilePage() {
 
           <QRCodeCard linkedin={profile.linkedin} />
 
-          {profile.admin ? (
-            <div className="mt-6 flex justify-center">
-              <Link
-                href="/admin"
-                className="bg-gradient-to-r from-red-600 to-red-400 px-6 py-2 rounded-lg font-[var(--system-font)] text-white hover:opacity-90 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)] transition-all duration-200"
-              >
-                View Admin Dashboard
-              </Link>
-            </div>
-          ) : null}
+          {profile.admin ? <AdminCard /> : null}
         </div>
       </div>
     );
