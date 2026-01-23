@@ -225,19 +225,6 @@ export default function ApplicantsDashboard() {
 					</select>
 				</div>
 				<div>
-					<label htmlFor="appStatusFilter" className="block text-sm font-medium text-gray-700">Application Status</label>
-					<select
-						id="appStatusFilter"
-						value={applicationStatusFilter}
-						onChange={(e) => setApplicationStatusFilter(e.target.value)}
-						className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-					>
-						{applicationStatusOptions.map((status) => (
-							<option key={status} value={status}>{status}</option>
-						))}
-					</select>
-				</div>
-				<div>
 					<label htmlFor="interviewStatusFilter" className="block text-sm font-medium text-gray-700">Interview Status</label>
 					<select
 						id="interviewStatusFilter"
@@ -246,6 +233,19 @@ export default function ApplicantsDashboard() {
 						className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 					>
 						{interviewStatusOptions.map((status) => (
+							<option key={status} value={status}>{status}</option>
+						))}
+					</select>
+				</div>
+				<div>
+					<label htmlFor="appStatusFilter" className="block text-sm font-medium text-gray-700">Application Status</label>
+					<select
+						id="appStatusFilter"
+						value={applicationStatusFilter}
+						onChange={(e) => setApplicationStatusFilter(e.target.value)}
+						className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+					>
+						{applicationStatusOptions.map((status) => (
 							<option key={status} value={status}>{status}</option>
 						))}
 					</select>

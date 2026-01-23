@@ -192,7 +192,7 @@ export default function ApplicantProfile() {
 					
 					<div className="text-2xl font-bold text-gray-900 mb-2">{applicant.name}</div>
 					<div className="text-xl text-gray-700 font-semibold mb-2">Role: 
-						<span className="font-semibold text-blue-700">{ applicant.role}</span></div>
+						<span className="font-semibold text-blue-700">{applicant.role}</span></div>
 					
 					<div className="flex flex-wrap items-center gap-8 mb-8">	
 						<div className={`px-4 py-2 rounded-lg text-base font-semibold shadow-sm ${
