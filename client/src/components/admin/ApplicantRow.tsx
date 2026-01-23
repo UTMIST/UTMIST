@@ -18,28 +18,28 @@ export default function ApplicantRow({applicant}: {applicant: Applicant}) {
                 <td className="px-4 py-2">{role}</td>
                 <td className="px-4 py-2">
                     <span className={`px-2 py-1 rounded text-xs ${
-                        interviewStatus === "Scheduled"
+                        interviewStatus === "SCHEDULED"
                             ? "bg-green-200 text-green-800"
-                            : interviewStatus === "Finished"
+                            : interviewStatus === "COMPLETED"
                             ? "bg-blue-200 text-blue-800"
-                            : "bg-yellow-200 text-yellow-800"
+                            : interviewStatus === "PENDING"
+                            ? "bg-yellow-200 text-yellow-800"
+                            : "bg-gray-200 text-gray-800"
                     }`}>
-                        {interviewStatus}
+                        {interviewStatus || "Not Set"}
                     </span>
                 </td>
                 <td className="px-4 py-2">
                     <span className={`px-2 py-1 rounded text-xs ${
-                        applicationStatus === "Pending"
-                            ? "bg-blue-200 text-blue-800"
-                            : applicationStatus === "Waitlisted"
-                            ? "bg-yellow-200 text-yellow-800"
-                            : applicationStatus === "Accepted"
+                        applicationStatus === "ACCEPTED"
                             ? "bg-green-200 text-green-800"
-                            : applicationStatus === "Rejected"
+                            : applicationStatus === "REJECTED"
                             ? "bg-red-200 text-red-800"
+                            : applicationStatus === "WAITLISTED"
+                            ? "bg-yellow-200 text-yellow-800"
                             : "bg-gray-200 text-gray-800"
                     }`}>
-                        {applicationStatus}
+                        {applicationStatus || "Not Set"}
                     </span>
                 </td>
             </tr>

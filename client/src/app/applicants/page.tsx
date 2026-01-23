@@ -12,31 +12,27 @@ const LIMIT = 20;
 export default function ApplicantsDashboard() {
 	const router = useRouter();
 	const [nameSearch, setNameSearch] = useState("");
-	const [roleSearch, setRoleSearch] = useState("");
+	const [roleSearch, setRoleSearch] = useState("All"); // Changed to "All" for dropdown
 	const [applicationStatusFilter, setApplicationStatusFilter] = useState("All");
 	const [interviewStatusFilter, setInterviewStatusFilter] = useState("All");
 
 	const [applicants, setApplicants] = useState<Applicant[]>([]);
+	const [jobs, setJobs] = useState<{ id: string; job_title: string }[]>([]);
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [isAdmin, setIsAdmin] = useState<boolean | null>(null); // null = loading, false = not admin, true = admin
 
-	const applicationStatusOptions = ["All", "Accepted", "Rejected", "Pending/Waitlisted"];
-
-	// Derive interview status options from current page results (may change across pages)
-	const interviewStatusOptions = [
-		"All",
-		...Array.from(new Set(applicants.map((a) => a.interviewStatus).filter(Boolean)))
-	];
+	const applicationStatusOptions = ["All", "ACCEPTED", "REJECTED", "WAITLISTED"];
+	const interviewStatusOptions = ["All", "PENDING", "SCHEDULED", "COMPLETED"];
 
 	async function fetchApplications(p = page) {
 		setLoading(true);
 		setError(null);
 		try {
-			// Single query with foreign key join - most efficient approach
-			// Join Applicants with user table using userID foreign key
+			// Single query with foreign key joins - most efficient approach
+			// Join Applicants with user table and Jobs table
 			let query = supabase
 				.from("Applicants")
 				.select(`
@@ -53,19 +49,25 @@ export default function ApplicantsDashboard() {
 						id,
 						name,
 						email
+					),
+					Jobs:jobID (
+						id,
+						job_title
 					)
 				`, { count: "exact" });
 
 			// Apply filters
+			// Handle null values: "All" means don't filter (includes null and all enum values)
 			if (applicationStatusFilter && applicationStatusFilter !== "All") {
-				if (applicationStatusFilter === "Pending/Waitlisted") {
-					query = query.in("acceptance_status", ["Pending", "Waitlisted"]);
-				} else {
-					query = query.eq("acceptance_status", applicationStatusFilter);
-				}
+				// Filter by specific acceptance status enum value
+				query = query.eq("acceptance_status", applicationStatusFilter);
 			}
 			if (interviewStatusFilter && interviewStatusFilter !== "All") {
+				// Filter by specific interview status enum value
 				query = query.eq("interview_status", interviewStatusFilter);
+			}
+			if (roleSearch && roleSearch !== "All") {
+				query = query.eq("jobID", roleSearch);
 			}
 
 			// Apply pagination
@@ -82,10 +84,11 @@ export default function ApplicantsDashboard() {
 			// Transform data
 			let transformedData: Applicant[] = (data || []).map((item: any) => {
 				const userData = item.user || {};
+				const jobData = item.Jobs || {};
 				return {
 					id: item.id || "",
 					name: userData.name || "",
-					role: "",
+					role: jobData.job_title || "",
 					interviewStatus: item.interview_status || "",
 					applicationStatus: item.acceptance_status || "",
 					email: userData.email || "",
@@ -116,6 +119,23 @@ export default function ApplicantsDashboard() {
 			setLoading(false);
 		}
 	}
+
+	// Fetch jobs for dropdown
+	useEffect(() => {
+		async function fetchJobs() {
+			const { data: jobsData, error: jobsError } = await supabase
+				.from("Jobs")
+				.select("id, job_title")
+				.order("job_title");
+
+			if (jobsError) {
+				console.error("Error fetching jobs:", jobsError);
+			} else {
+				setJobs(jobsData || []);
+			}
+		}
+		fetchJobs();
+	}, []);
 
 	// Check if user is admin on mount
 	useEffect(() => {
@@ -191,15 +211,18 @@ export default function ApplicantsDashboard() {
 					/>
 				</div>
 				<div>
-					<label htmlFor="roleSearch" className="block text-sm font-medium text-gray-700">Search Role</label>
-					<input
-						type="text"
+					<label htmlFor="roleSearch" className="block text-sm font-medium text-gray-700">Filter by Role</label>
+					<select
 						id="roleSearch"
-						placeholder="Filter by role..."
 						value={roleSearch}
 						onChange={(e) => setRoleSearch(e.target.value)}
-						className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-					/>
+						className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+					>
+						<option value="All">All Roles</option>
+						{jobs.map((job) => (
+							<option key={job.id} value={job.id}>{job.job_title}</option>
+						))}
+					</select>
 				</div>
 				<div>
 					<label htmlFor="appStatusFilter" className="block text-sm font-medium text-gray-700">Application Status</label>
@@ -247,7 +270,7 @@ export default function ApplicantsDashboard() {
 				<thead className="bg-gray-100">
 					<tr className="divide-x-2 divide-[#6b66e3]">
 						<th className="px-4 py-2 text-left">Name</th>
-						<th className="px-4 py-2 text-left">Role Applied</th>
+						<th className="px-4 py-2 text-left">Job Title</th>
 						<th className="px-4 py-2 text-left">Interview Status</th>
 						<th className="px-4 py-2 text-left">Application Status</th>
 					</tr>
