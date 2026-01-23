@@ -5,6 +5,17 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
 
+interface UserData {
+	id: string;
+	name: string;
+	email: string;
+}
+
+interface JobData {
+	id: string;
+	job_title: string;
+}
+
 interface ApplicantData {
 	id: string;
 	name: string;
@@ -67,9 +78,16 @@ export default function ApplicantProfile() {
 					return;
 				}
 
-				// Extract user data
-				const userData = data.user || {};
-				const jobData = data.Jobs || {};
+				// Extract user data - handle both object and array cases
+				const userDataRaw = data.user;
+				const userData: UserData = Array.isArray(userDataRaw) 
+					? (userDataRaw[0] as UserData)
+					: (userDataRaw as UserData) || { id: "", name: "", email: "" };
+				
+				const jobDataRaw = data.Jobs;
+				const jobData: JobData = Array.isArray(jobDataRaw) 
+					? (jobDataRaw[0] as JobData)
+					: (jobDataRaw as JobData) || { id: "", job_title: "" };
 
 				// Parse answers JSON
 				let phone = "";
@@ -108,9 +126,9 @@ export default function ApplicantProfile() {
 
 				setApplicant({
 					id: data.id || "",
-					name: userData.name || "",
-					role: jobData.job_title || "",
-					email: userData.email || "",
+					name: userData?.name || "",
+					role: jobData?.job_title || "",
+					email: userData?.email || "",
 					phone: phone,
 					school: school,
 					major: major,
@@ -173,8 +191,8 @@ export default function ApplicantProfile() {
 					</div>
 					
 					<div className="text-2xl font-bold text-gray-900 mb-2">{applicant.name}</div>
-					<div className="text-xl text-gray-700 font-semibold mb-2">Role:
-						<span className="font-semibold text-blue-700">{applicant.role}</span></div>
+					<div className="text-xl text-gray-700 font-semibold mb-2">Role: 
+						<span className="font-semibold text-blue-700">{ applicant.role}</span></div>
 					
 					<div className="flex flex-wrap items-center gap-8 mb-8">	
 						<div className={`px-4 py-2 rounded-lg text-base font-semibold shadow-sm ${
