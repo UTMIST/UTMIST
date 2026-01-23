@@ -1,24 +1,163 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import applicantData from "@/assets/applicants.json";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase/client";
 
+interface ApplicantData {
+	id: string;
+	name: string;
+	role: string;
+	email: string;
+	phone: string;
+	school: string;
+	major: string;
+	year: string;
+	interviewStatus: string;
+	applicationStatus: string;
+	notes: string;
+	answers: any;
+	questions: any[];
+}
 
 export default function ApplicantProfile() {
 	const params = useParams();
 	const applicantId = params.profile as string;
-	const applicant = (applicantData.find((applicant) => applicant.id === applicantId));
+	const [applicant, setApplicant] = useState<ApplicantData | null>(null);
 	const [notes, setNotes] = useState("");
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
 
-	if(!applicant) {
-		return <div className="w-full min-h-screen flex items-center justify-center">
-			<h1 className="text-3xl font-bold">Applicant Not Found</h1>
-		</div>;
+	useEffect(() => {
+		async function fetchApplicant() {
+			try {
+				const { data, error: fetchError } = await supabase
+					.from("Applicants")
+					.select(`
+						id,
+						interview_status,
+						acceptance_status,
+						jobID,
+						answers,
+						notes,
+						interview_time,
+						created_at,
+						userID,
+						user:userID (
+							id,
+							name,
+							email
+						),
+						Jobs:jobID (
+							id,
+							job_title
+						)
+					`)
+					.eq("id", applicantId)
+					.single();
+
+				if (fetchError) {
+					throw fetchError;
+				}
+
+				if (!data) {
+					setError("Applicant not found");
+					setLoading(false);
+					return;
+				}
+
+				// Extract user data
+				const userData = data.user || {};
+				const jobData = data.Jobs || {};
+
+				// Parse answers JSON
+				let phone = "";
+				let school = "";
+				let major = "";
+				let year = "";
+				let questions: any[] = [];
+
+				if (data.answers) {
+					try {
+						const answers = typeof data.answers === 'string' 
+							? JSON.parse(data.answers) 
+							: data.answers;
+
+						phone = answers.phone || answers.Phone || answers.phoneNumber || "";
+						school = answers.school || answers.School || "";
+						major = answers.major || answers.Major || answers.fieldOfStudy || "";
+						year = answers.year || answers.Year || answers.educationLevel || "";
+
+						// Extract questions if they exist in answers
+						if (Array.isArray(answers.questions)) {
+							questions = answers.questions;
+						} else if (typeof answers === 'object') {
+							// Convert object to array format
+							questions = Object.entries(answers)
+								.filter(([key]) => key.toLowerCase().includes('question') || key.toLowerCase().includes('why'))
+								.map(([question, answer]) => ({
+									question,
+									answer: String(answer)
+								}));
+						}
+					} catch (e) {
+						console.error("Error parsing answers:", e);
+					}
+				}
+
+				setApplicant({
+					id: data.id || "",
+					name: userData.name || "",
+					role: jobData.job_title || "",
+					email: userData.email || "",
+					phone: phone,
+					school: school,
+					major: major,
+					year: year,
+					interviewStatus: data.interview_status || "",
+					applicationStatus: data.acceptance_status || "",
+					notes: data.notes || "",
+					answers: data.answers || {},
+					questions: questions
+				});
+
+				// Load existing notes
+				if (data.notes) {
+					setNotes(data.notes);
+				}
+			} catch (err) {
+				setError(err instanceof Error ? err.message : "Failed to load applicant");
+				console.error("Error fetching applicant:", err);
+			} finally {
+				setLoading(false);
+			}
+		}
+
+		if (applicantId) {
+			fetchApplicant();
+		}
+	}, [applicantId]);
+
+	if (loading) {
+		return (
+			<div className="w-full min-h-screen flex items-center justify-center">
+				<div className="relative">
+					<div className="w-12 h-12 border-4 border-[#6b66e3] border-t-transparent rounded-full animate-spin"></div>
+				</div>
+			</div>
+		);
 	}
 
-	const hideScheduleButton = ["Scheduled", "Finished"].includes(applicant.interviewStatus);
+	if (error || !applicant) {
+		return (
+			<div className="w-full min-h-screen flex items-center justify-center">
+				<h1 className="text-3xl font-bold">{error || "Applicant Not Found"}</h1>
+			</div>
+		);
+	}
+
+	const hideScheduleButton = ["SCHEDULED", "COMPLETED"].includes(applicant.interviewStatus);
 
 	return (
 			<div className="w-full min-h-screen px-0 py-0 relative">
@@ -39,20 +178,24 @@ export default function ApplicantProfile() {
 					
 					<div className="flex flex-wrap items-center gap-8 mb-8">	
 						<div className={`px-4 py-2 rounded-lg text-base font-semibold shadow-sm ${
-							applicant.interviewStatus === "Scheduled" || applicant.interviewStatus === "Finished"
+							applicant.interviewStatus === "SCHEDULED" || applicant.interviewStatus === "COMPLETED"
 								? "bg-green-100 text-green-800 border border-green-200"
-								: "bg-yellow-100 text-yellow-800 border border-yellow-200"
-						}`}>
-							Interview Status: {applicant.interviewStatus}
-						</div>
-						<div className={`px-4 py-2 rounded-lg text-base font-semibold shadow-sm ${
-							applicant.applicationStatus === "Pending"
-								? "bg-blue-100 text-blue-800 border border-blue-200"
-								: applicant.applicationStatus === "Waitlisted"
+								: applicant.interviewStatus === "PENDING"
 								? "bg-yellow-100 text-yellow-800 border border-yellow-200"
 								: "bg-gray-100 text-gray-800 border border-gray-200"
 						}`}>
-							Application Status: {applicant.applicationStatus}
+							Interview Status: {applicant.interviewStatus || "Not Set"}
+						</div>
+						<div className={`px-4 py-2 rounded-lg text-base font-semibold shadow-sm ${
+							applicant.applicationStatus === "ACCEPTED"
+								? "bg-green-100 text-green-800 border border-green-200"
+								: applicant.applicationStatus === "REJECTED"
+								? "bg-red-100 text-red-800 border border-red-200"
+								: applicant.applicationStatus === "WAITLISTED"
+								? "bg-yellow-100 text-yellow-800 border border-yellow-200"
+								: "bg-gray-100 text-gray-800 border border-gray-200"
+						}`}>
+							Application Status: {applicant.applicationStatus || "Not Set"}
 						</div>
 					</div>
 					<div className="flex gap-6 mb-10">
@@ -67,7 +210,7 @@ export default function ApplicantProfile() {
 						<div className="mb-2 flex items-center text-lg">
 							<span className="font-bold text-gray-700 mr-2">Resume:</span>
 							<a
-								href={"https://mvmrwmtxepoyoueoiedh.supabase.co/storage/v1/object/sign/Meals/A%20Shubham's%20Resume.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83ZGQzMTU2ZS1hODE4LTQxOTMtYThkZi00NzZhYTUxYzZmMjUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJNZWFscy9BIFNodWJoYW0ncyBSZXN1bWUucGRmIiwiaWF0IjoxNzU4MzI0NTkwLCJleHAiOjE3ODk4NjA1OTB9.D3Qswo981fig8crwcgtFhu04Odg1hmjujPvx9F5kY3M"}
+								href={"EMPTY"}
 								target="_blank"
 								rel="noopener noreferrer"
 								className="text-blue-600 underline font-semibold ml-2"
@@ -100,12 +243,27 @@ export default function ApplicantProfile() {
 									<span className="text-gray-900">{applicant.year}</span>
 								</div>
 							</div>
-						<div className="mt-8 mb-2 font-bold text-gray-800 flex items-start text-lg">
-							Why do you want this role?
-						</div>
-						<div className="mb-2 text-gray-900 whitespace-pre-wrap">
-							For abc reasons.
-						</div>
+						{applicant.questions && applicant.questions.length > 0 ? (
+							applicant.questions.map((q: any, index: number) => (
+								<div key={index} className="mt-8 mb-4">
+									<div className="mb-2 font-bold text-gray-800 flex items-start text-lg">
+										{q.question || `Question ${index + 1}`}
+									</div>
+									<div className="mb-2 text-gray-900 whitespace-pre-wrap">
+										{q.answer || "No answer provided"}
+									</div>
+								</div>
+							))
+						) : (
+							<div className="mt-8 mb-2">
+								<div className="mb-2 font-bold text-gray-800 flex items-start text-lg">
+									No questions answered
+								</div>
+								<div className="mb-2 text-gray-500">
+									This applicant has not answered any questions yet.
+								</div>
+							</div>
+						)}
 					</div>
 					<div className="bg-white border border-blue-100 rounded-2xl p-8 mb-6 shadow">
 						<div className="mb-4 font-bold text-lg text-blue-700">Leave Notes:</div>
@@ -115,7 +273,27 @@ export default function ApplicantProfile() {
 							onChange={e => setNotes(e.target.value)}
 							placeholder="Type your notes here..."
 						/>
-						<button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl text-lg font-bold shadow transition-colors duration-200">Save Notes</button>
+						<button 
+							onClick={async () => {
+								try {
+									const { error: updateError } = await supabase
+										.from("Applicants")
+										.update({ notes: notes })
+										.eq("id", applicantId);
+
+									if (updateError) {
+										throw updateError;
+									}
+									alert("Notes saved successfully!");
+								} catch (err) {
+									console.error("Error saving notes:", err);
+									alert("Failed to save notes. Please try again.");
+								}
+							}}
+							className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl text-lg font-bold shadow transition-colors duration-200"
+						>
+							Save Notes
+						</button>
 					</div>
 				</div>
 			</div>
