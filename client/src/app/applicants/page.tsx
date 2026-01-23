@@ -1,13 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import ApplicantRow from "@/components/admin/ApplicantRow";
 import { Applicant } from "@/types/admin";
+import { supabase } from "@/lib/supabase/client";
 
 const LIMIT = 20;
 
 export default function ApplicantsDashboard() {
+	const router = useRouter();
 	const [nameSearch, setNameSearch] = useState("");
 	const [roleSearch, setRoleSearch] = useState("");
 	const [applicationStatusFilter, setApplicationStatusFilter] = useState("All");
@@ -18,6 +21,7 @@ export default function ApplicantsDashboard() {
 	const [totalPages, setTotalPages] = useState(1);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [isAdmin, setIsAdmin] = useState<boolean | null>(null); // null = loading, false = not admin, true = admin
 
 	const applicationStatusOptions = ["All", "Accepted", "Rejected", "Pending/Waitlisted"];
 
@@ -31,36 +35,143 @@ export default function ApplicantsDashboard() {
 		setLoading(true);
 		setError(null);
 		try {
-			const params = new URLSearchParams();
-			if (nameSearch) params.append("name", nameSearch);
-			if (roleSearch) params.append("role", roleSearch);
-			if (applicationStatusFilter) params.append("applicationStatus", applicationStatusFilter);
-			if (interviewStatusFilter) params.append("interviewStatus", interviewStatusFilter);
-			params.append("page", String(p));
-			params.append("limit", String(LIMIT));
+			// Single query with foreign key join - most efficient approach
+			// Join Applicants with user table using userID foreign key
+			let query = supabase
+				.from("Applicants")
+				.select(`
+					id,
+					interview_status,
+					acceptance_status,
+					jobID,
+					answers,
+					notes,
+					interview_time,
+					created_at,
+					userID,
+					user:userID (
+						id,
+						name,
+						email
+					)
+				`, { count: "exact" });
 
-			const res = await fetch(`/api/applications?${params.toString()}`);
-			if (!res.ok) throw new Error(`API error: ${res.status}`);
-			const data = await res.json();
+			// Apply filters
+			if (applicationStatusFilter && applicationStatusFilter !== "All") {
+				if (applicationStatusFilter === "Pending/Waitlisted") {
+					query = query.in("acceptance_status", ["Pending", "Waitlisted"]);
+				} else {
+					query = query.eq("acceptance_status", applicationStatusFilter);
+				}
+			}
+			if (interviewStatusFilter && interviewStatusFilter !== "All") {
+				query = query.eq("interview_status", interviewStatusFilter);
+			}
 
-			setApplicants(data.applications || []);
-			setTotalPages(data.totalPages || 1);
-			setPage(data.page || p);
+			// Apply pagination
+			const from = (p - 1) * LIMIT;
+			const to = from + LIMIT - 1;
+			query = query.range(from, to);
+
+			const { data, error: fetchError, count } = await query;
+
+			if (fetchError) {
+				throw fetchError;
+			}
+
+			// Transform data
+			let transformedData: Applicant[] = (data || []).map((item: any) => {
+				const userData = item.user || {};
+				return {
+					id: item.id || "",
+					name: userData.name || "",
+					role: "",
+					interviewStatus: item.interview_status || "",
+					applicationStatus: item.acceptance_status || "",
+					email: userData.email || "",
+					phone: "",
+					school: "",
+					major: "",
+					year: "",
+					notes: item.notes || "",
+					questions: item.answers || []
+				};
+			});
+
+			// Filter by name client-side (since it's from joined table)
+			if (nameSearch) {
+				const searchLower = nameSearch.toLowerCase();
+				transformedData = transformedData.filter(a => 
+					a.name.toLowerCase().includes(searchLower)
+				);
+			}
+
+			setApplicants(transformedData);
+			setTotalPages(count ? Math.ceil(count / LIMIT) : 1);
+			setPage(p);
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Failed to load applications");
+			console.error("Error fetching applicants:", err);
 		} finally {
 			setLoading(false);
 		}
 	}
 
+	// Check if user is admin on mount
 	useEffect(() => {
-		fetchApplications(page);
+		async function checkAdmin() {
+			const { data: { user } } = await supabase.auth.getUser();
+			if (!user) {
+				router.push("/auth");
+				return;
+			}
+
+			// Check if user is admin in the user table
+			const { data: userData, error } = await supabase
+				.from("user")
+				.select("admin")
+				.eq("id", user.id)
+				.single();
+
+			if (error || !userData?.admin) {
+				setIsAdmin(false);
+			} else {
+				setIsAdmin(true);
+			}
+		}
+		checkAdmin();
+	}, [router]);
+
+	// Fetch applications only if user is admin
+	useEffect(() => {
+		if (isAdmin === true) {
+			fetchApplications(page);
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [page]);
+	}, [page, isAdmin]);
 
 	function handleApplyFilters() {
 		setPage(1);
 		fetchApplications(1);
+	}
+
+	// Show loading while checking admin status
+	if (isAdmin === null) {
+		return (
+			<div className="p-8 flex items-center justify-center min-h-screen">
+				<div>Checking permissions...</div>
+			</div>
+		);
+	}
+
+	// Show unauthorized if not admin
+	if (isAdmin === false) {
+		return (
+			<div className="p-8 flex flex-col items-center justify-center min-h-screen">
+				<h1 className="text-2xl font-bold text-red-600 mb-4">Unauthorized</h1>
+				<p className="text-gray-600">You do not have permission to access this page.</p>
+			</div>
+		);
 	}
 
 	return (
