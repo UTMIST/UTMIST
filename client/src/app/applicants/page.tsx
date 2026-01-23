@@ -262,7 +262,13 @@ export default function ApplicantsDashboard() {
 			</div>
 
 			<div className="mb-4">
-				{loading && <div>Loading applications...</div>}
+				{loading && (
+					<div className="flex items-center justify-center py-8">
+						<div className="relative">
+							<div className="w-12 h-12 border-4 border-[#6b66e3] border-t-transparent rounded-full animate-spin"></div>
+						</div>
+					</div>
+				)}
 				{error && <div className="text-red-600">{error}</div>}
 			</div>
 
