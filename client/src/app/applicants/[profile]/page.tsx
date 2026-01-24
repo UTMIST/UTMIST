@@ -3,20 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-
-interface Applicant {
-	id: string;
-	name: string;
-	role: string;
-	answers: { [question: string]: string };
-	interviewStatus: string;
-	applicationStatus: string;
-	notes: string;
-	email: string;
-	school: string;
-	major: string;
-	year: string;
-}
+import type { Applicant } from "@/types/admin";
 
 export default function ApplicantProfile() {
 	const params = useParams();
