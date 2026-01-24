@@ -6,7 +6,7 @@
   -webkit-text-fill-color: transparent;
   font-size: 1.5rem;
   font-weight: 500;
-  font-family: var(--font-space-grotesk);
+  font-family: var(--system-font);
 }
 
 .navbar-container {
@@ -20,9 +20,17 @@
   border: 1px solid var(--gray3);
 }
 
-@media (max-width: 1200px) {
-  .navbar-container {
-    margin: 2.5rem 7.75rem;
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .navbar-container.desktop-navbar {
+    margin: 2.5rem 2rem;
+  }
+  
+  .nav-links {
+    gap: 1.75rem;
+  }
+  
+  .nav-item {
+    font-size: 0.95rem;
   }
 }
 
@@ -63,6 +71,39 @@
   display: flex;
   gap: 2.5rem;
   list-style: none;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Medium-sized devices (tablets) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .nav-links {
+    gap: 1.25rem;
+  }
+  
+  .nav-item {
+    font-size: 0.9rem;
+  }
+  
+  .navbar-container.desktop-navbar {
+    padding: 0.6rem 1.2rem;
+    margin: 2.5rem 1.5rem;
+  }
+  
+  .nav-button {
+    padding: 0.2rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .navbar-logo-text {
+    font-size: 1.3rem;
+  }
+  
+  /* Scale down logo image on medium screens */
+  .navbar-container.desktop-navbar img {
+    width: 28px;
+    height: 28px;
+  }
 }
 
 .hamburger {

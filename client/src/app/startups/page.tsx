@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import Image, { type StaticImageData } from "next/image";
 // import { useState, useEffect, useRef } from "react";
 // import {Person} from "@/types/startups";
@@ -8,6 +7,15 @@ import Myhal from "../../../public/myhal.webp";
 import genai from "../../../public/genai.webp";
 import genaiTwo from "../../../public/genai-two.webp";
 import MyhalTwo from "../../../public/myhal-two.webp";
+
+// Startup logos
+import CaidLogo from "@/assets/photos/startups/caid-logo.png";
+import BuildSafeLogo from "@/assets/photos/startups/buildsafe-logo.png";
+import ClearSiteLogo from "@/assets/photos/startups/clearsite-logo.png";
+
+// Partner logos
+import FrontRowLogo from "@/assets/photos/ventures/frv-black-logo.png";
+import ForumLogo from "@/assets/photos/ventures/forum-black-purple-logo.png";
 
 
 // // Placeholder avatar image (public domain SVG)
@@ -93,18 +101,6 @@ const HeroIntroductionSection = () => {
           Let’s turn your idea into impact.
         </span>
       </p>
-      <div>
-        <Link
-          href="/careers"
-          className="bg-gradient-to-r from-indigo-400 to-blue-800 hover:from-indigo-600 hover:to-blue-900 text-white px-6 py-1 rounded-full text-base font-medium shadow mx-auto hover:shadow-lg transition-colors duration-400"
-        >
-          Apply
-        </Link>
-        <p className="text-xs text-gray-500 text-center mt-1 font-sans">
-          <span className="block">Applications close</span>
-          <span className="block">Sept 31st</span>
-        </p>
-      </div>
     </div>
   );
 };
@@ -329,10 +325,168 @@ const HeroStartupSection = () => {
 //   );
 // };
 
+const StartupsSection = () => {
+  const startups = [
+    { 
+      name: "Caid", 
+      description: "AI-powered healthcare solutions",
+      image: CaidLogo
+    },
+    { 
+      name: "BuildSafe", 
+      description: "Construction safety technology",
+      image: BuildSafeLogo
+    },
+    { 
+      name: "ClearSite.ai", 
+      description: "AI-driven site analysis platform",
+      image: ClearSiteLogo
+    }
+  ];
+
+  return (
+    <section className="py-12 md:py-16">
+      <div className="max-w-6xl mx-auto">
+        <h2 
+          className="text-3xl md:text-4xl font-bold text-center mb-8 bg-clip-text text-transparent"
+          style={{
+            background: "var(--gradient-bl1)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            fontFamily: "var(--system-font)",
+          }}
+        >
+          Our Startups
+        </h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {startups.map((startup, idx) => (
+            <div
+              key={idx}
+              className="bg-white p-6 rounded-xl shadow-md border border-gray-200 hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center transform"
+            >
+              {/* Startup logo */}
+              <div className="w-full h-32 rounded-lg mb-4 flex items-center justify-center border border-gray-300 overflow-hidden bg-white">
+                <Image
+                  src={startup.image}
+                  alt={`${startup.name} logo`}
+                  width={200}
+                  height={128}
+                  className="object-contain w-full h-full p-2"
+                  onError={(e) => {
+                    // Fallback to placeholder if image fails to load
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent) {
+                      parent.innerHTML = `
+                        <div class="text-center">
+                          <div class="w-12 h-12 bg-gray-300 rounded-full mx-auto mb-2 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                          </div>
+                          <span class="text-xs text-gray-500">Logo Placeholder</span>
+                        </div>
+                      `;
+                      parent.className += ' bg-gradient-to-br from-gray-100 to-gray-200';
+                    }
+                  }}
+                />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-gray-800">{startup.name}</h3>
+              <p className="text-gray-600 text-sm">{startup.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const PartnersSection = () => {
+  const partners = [
+    { 
+      name: "Front Row Ventures", 
+      description: "Student-run venture capital fund",
+      image: FrontRowLogo
+    },
+    { 
+      name: "Forum Ventures", 
+      description: "Early-stage venture capital firm",
+      image: ForumLogo
+    }
+  ];
+
+  return (
+    <section className="py-2 md:py-4">
+      <div className="max-w-6xl mx-auto">
+        <h2 
+          className="text-3xl md:text-4xl font-bold text-center mb-8 bg-clip-text text-transparent"
+          style={{
+            background: "var(--gradient-bl1)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            fontFamily: "var(--system-font)",
+          }}
+        >
+          Our Partners
+        </h2>
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {partners.map((partner, idx) => (
+            <div
+              key={idx}
+              className="bg-white p-8 rounded-xl shadow-md border border-gray-200 hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center min-h-[220px] flex flex-col justify-center transform"
+            >
+              {/* Partner logo */}
+              <div className="w-full h-28 rounded-lg mx-auto mb-4 flex items-center justify-center border border-gray-200 overflow-hidden bg-gray-50 p-3">
+                <Image
+                  src={partner.image}
+                  alt={`${partner.name} logo`}
+                  width={160}
+                  height={100}
+                  className="object-contain max-w-full max-h-full"
+                  style={{ 
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    width: 'auto',
+                    height: 'auto'
+                  }}
+                  onError={(e) => {
+                    // Fallback to placeholder if image fails to load
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent) {
+                      parent.innerHTML = `
+                        <div class="text-center">
+                          <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6.5" />
+                          </svg>
+                        </div>
+                      `;
+                      parent.className += ' bg-gradient-to-br from-blue-100 to-indigo-200';
+                    }
+                  }}
+                />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold mb-3 text-gray-800">{partner.name}</h3>
+                <p className="text-gray-600">{partner.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const StartupsPage = () => {
   return (
-    <main className="pt-16 md:pt-10 px-6 md:px-20">
+    <main className="pt-20 md:pt-18 px-6 md:px-20">
       <HeroSection />
+      <StartupsSection />
+      <PartnersSection />
       {/* <div>
         <div className="mt-8 md:mt-12">
           <SliderSection

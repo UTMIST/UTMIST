@@ -3,11 +3,11 @@ import "../styles/home.css";
 
 const StartupsSection = () => {
     return (
-        <section className="py-16 md:py-24" style={{ fontFamily: 'var(--system-font)' }}>
+        <section className="py-30 md:py-40" style={{ fontFamily: 'var(--system-font)' }}>
             <div className="max-w-6xl mx-auto px-4 md:px-16">
                 {/* Header */}
                 <div className="text-center mb-10 md:mb-12">
-                                            <h2 className="hero-card-title mb-4" style={{ fontFamily: 'var(--system-font)' }}>
+                        <h2 className="hero-card-title mb-4" style={{ fontFamily: 'var(--system-font)' }}>
                             MISTic R&D
                         </h2>
                         <p className="text-lg leading-7 text-gray-600 font-sans mb-6 text-center w-full" style={{ fontFamily: 'var(--system-font)' }}>
@@ -68,13 +68,6 @@ const StartupsSection = () => {
                             Join MISTic R&D and turn your AI idea into a world-changing startup
                         </p>
                         <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full">
-                            <Link 
-                                href="/careers" 
-                                className="px-6 py-2 bg-gradient-to-r from-indigo-700 via-indigo-700 to-indigo-500 text-white rounded-full font-medium transition-opacity duration-200 hover:opacity-90 w-auto"
-                                style={{ fontFamily: 'var(--system-font)' }}
-                            >
-                                Apply Now
-                            </Link>
                             <Link 
                                 href="/startups" 
                                 className="px-6 py-2 bg-gradient-to-r from-indigo-700 via-indigo-700 to-indigo-500 text-white rounded-full font-medium transition-opacity duration-200 hover:opacity-90 w-auto"

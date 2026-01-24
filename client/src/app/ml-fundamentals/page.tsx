@@ -26,7 +26,7 @@ type WorkshopContent = {
   };
 };
 
-import { programDirectors, academicsTeam } from "./data";
+import { programDirectors, academicsTeam, techWritersTeam } from "./data";
 
 // Week data for the schedule
 const weekData = [
@@ -138,57 +138,101 @@ const workshopContent: Record<number, WorkshopContent> = {
         "• Implement linear regression from scratch using PyTorch tensors (no autograd yet)",
         "• Plot predictions vs actual data points"
       ],
-      codeLink: "https://apps.cognitiveclass.ai/learning/course/course-v1:IBMSkillsNetwork+GPXX0S25EN+v1/home"
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
     }
   },
   2: {
     title: "Logistic Regression",
     code: {
-      content: [],
-      codeLink: ""
+      content: [
+        "Introduction to Logistic Regression:",
+        "• Build a logistic regression classifier in PyTorch for binary classification",
+        "• Plot decision boundaries",
+        "Model Evaluation:",
+        "• Evaluate using loss and accuracy",
+        "• Implement proper train-validation split",
+        "• Visualize training progress"
+      ],
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
     }
   },
   3: {
     title: "Neural Networks Part 1: Foundations",
     code: {
-      content: [],
-      codeLink: ""
+      content: [
+        "Implement a simple 1-hidden-layer network to solve a basic classification task",
+        "• 2D point classification example",
+        "• Plot decision boundaries and predictions",
+        "• Experiment with different activation functions",
+        "• Visualize network architecture"
+      ],
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
     }
   },
   4: {
     title: "Neural Networks Part 2: Training",
     code: {
-      content: [],
-      codeLink: ""
-
+      content: [
+        "Build and train an MLP for multiclass classification",
+        "• Experiment: Try different learning rates, number of epochs",
+        "• Visualize their impact on training",
+        "• Plot loss curves during training",
+        "• Compare different optimization strategies"
+      ],
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
     }
   },
   5: {
     title: "Decision Trees & Ensemble Learning",
     code: {
-      content: [],
-      codeLink: ""
+      content: [
+        "Compare decision trees vs random forests on toy datasets",
+        "• Observe the effects of hyperparameters (max_depth)",
+        "• Visualize decision boundaries",
+        "• Analyze feature importance",
+        "• Cross-validation for model selection"
+      ],
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
+
     }
   },
   6: {
     title: "Naive Bayes",
     code: {
-      content: [],
-      codeLink: ""
+      content: [
+        "Train Naive Bayes on a spam detection or movie review sentiment dataset",
+        "• Text preprocessing pipeline",
+        "• Feature engineering for text",
+        "• Cross-validation and evaluation",
+        "• Compare with other text classification methods"
+      ],
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
     }
   },
   7: {
     title: "Best Practices & Evaluation in ML",
     code: {
-      content: [],
-      codeLink: ""
+      content: [
+        "Given a small dataset and task, build a baseline, improve it, and report metrics",
+        "• Implement multiple evaluation metrics",
+        "• Discuss results and next steps",
+        "• Iterative model improvement",
+      ],
+      codeLink: "https://github.com/UTMIST/UTMIST-MLF/tree/main/week7"
     }
   },
   8: {
     title: "Deep Learning & Modern Architectures",
     code: {
-      content: [],
-      codeLink: ""
+      content: [
+        "Understand the evolution of deep learning architectures",
+        "• Implement AlexNet for image classification",
+        "• Learn about skip connections and build ResNet blocks",
+        "• Implement LSTM for time series prediction",
+        "• Understand the Transformer architecture and attention mechanism",
+        "• Explore Vision Transformers (ViT)"
+      ],
+      codeLink: "https://github.com/UTMIST/UTMIST-MLF/tree/main/week8"
     }
   }
 };
@@ -446,25 +490,25 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
 
   const pdfUrls: Record<number, string> = {
     1: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w01.pdf",
-    2: "",
-    3: "",
-    4: "",
-    5: "",
-    6: "",
-    7: "",
-    8: "",
+    2: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w02.pdf",
+    3: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w03.pdf",
+    4: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w04.pdf",
+    5: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w05.pdf",
+    6: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w06.pdf",
+    7: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w07.pdf",
+    8: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w08.pdf",
   };
 
   // YouTube video URLs for each week's recordings (you'll need to replace these with actual video URLs)
   const youtubeVideoUrls: Record<number, string> = {
     1: "https://youtu.be/h1DxLpXvPbo", 
-    2: "", 
-    3: "", 
-    4: "", 
-    5: "", 
-    6: "",
-    7: "", 
-    8: "", 
+    2: "https://youtu.be/ccwnTixGaCI", 
+    3: "https://youtu.be/kAa7G4NPJfw", 
+    4: "https://youtu.be/CHXnVtfVdP4", 
+    5: "https://youtu.be/CSz45oZ4L1o", 
+    6: "https://youtu.be/Mmo7fjWvuxo",
+    7: "https://youtu.be/39WvCs2Z9ao", 
+    8: "https://youtu.be/-9EKr_rmkI4", 
   };
 
   // weekNumber is now passed as a prop
@@ -691,6 +735,8 @@ export default function MachineLearningFundamentals() {
           <PeopleGrid people={programDirectors}/>
           <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Academics Team</i></h3>
           <PeopleGrid people={academicsTeam}/>
+            <h3 className="people-section-subtitle text-2xl md:text-3xl lg:text-4xl"><i>Technical Writing Team</i></h3>
+          <PeopleGrid people={techWritersTeam}/>
       </section>
 
     <SponsorSection 

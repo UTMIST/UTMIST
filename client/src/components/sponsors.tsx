@@ -93,7 +93,7 @@ const logos = [
 export default function Sponsors() {
   return (
     <div className="sponsors-container">
-      <h3 className="sponsors-title">Backed By</h3>
+      <h3 className="sponsors-title">Supported By</h3>
       <div className="sponsors-mask">
         <div className="sponsors-carousel">
           {[...logos, ...logos].map((logo, index) => (
