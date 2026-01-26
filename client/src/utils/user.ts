@@ -39,6 +39,7 @@ export const getUserById = async (
       twitter: profileData.twitter || "",
       discord: profileData.discord || "",
       year: profileData.year || "",
+      admin: profileData.admin ?? false,
       resume_upload: profileData.resume_upload || null,
       created_at: profileData.created_at,
       updated_at: profileData.updated_at,
