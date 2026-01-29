@@ -1,3 +1,7 @@
+/* Scrollbar and option hover gradient live here; Tailwind doesn't support these fully. */
+.dropdown-trigger {
+  /* Reserved for trigger-specific overrides if needed. */
+}
 .dropdown-item {
   position: relative;
   color: #4b5563;

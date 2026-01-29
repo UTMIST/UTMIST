@@ -67,7 +67,7 @@ export default function DropdownDemoPage() {
           items={longList}
           defaultValue={longList[0]?.value}
           onValueChange={setLongValue}
-          helperText="Demonstrates scrollable content and default value."
+          helperText={`${longList.length} options — scroll to see more.`}
           className="max-w-md"
         />
         <div className="rounded-xl bg-[#F3F4FF] px-4 py-3 text-sm text-[#1E19B1]">
