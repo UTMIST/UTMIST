@@ -15,6 +15,7 @@ import pwcLogo from "../assets/logos/pwc.webp";
 import rbcLogo from "../assets/logos/rbc.webp";
 import edgeAILogo from "../assets/logos/EdgeAI.webp";
 import cgiLogo from "../assets/logos/cgi.webp";
+import cpsifLogo from "../assets/logos/cpsif.svg";
 
 const logos = [
   { src: amdLogo, alt: "AMD Logo", link: "https://www.amd.com/en" },
@@ -61,39 +62,44 @@ const logos = [
   {
     src: womboLogo,
     alt: "Wombo Logo",
-    link: "https://www.wombo.ai/"
+    link: "https://www.wombo.ai/",
   },
   {
     src: googleLogo,
     alt: "Google Logo",
-    link: "https://www.google.com/"
+    link: "https://www.google.com/",
   },
   {
     src: pwcLogo,
     alt: "PwC Logo",
-    link: "https://www.pwc.com/"
+    link: "https://www.pwc.com/",
   },
   {
     src: rbcLogo,
     alt: "RBC Logo",
-    link: "https://www.rbc.com/"
+    link: "https://www.rbc.com/",
   },
-  {    
+  {
     src: edgeAILogo,
     alt: "Edge AI Logo",
-    link: "https://www.edgeaiinnovations.com/"
+    link: "https://www.edgeaiinnovations.com/",
   },
   {
     src: cgiLogo,
     alt: "CGI Logo",
-    link: "https://www.cgi.com/"
-  }
+    link: "https://www.cgi.com/",
+  },
+  {
+    src: cpsifLogo,
+    alt: "CPSIF Logo",
+    link: "https://www.engineering.utoronto.ca/current-students/centralized-process-for-student-initiative-funding-cpsif/",
+  },
 ];
 
 export default function Sponsors() {
   return (
     <div className="sponsors-container">
-      <h3 className="sponsors-title">Backed By</h3>
+      <h3 className="sponsors-title">Supported By</h3>
       <div className="sponsors-mask">
         <div className="sponsors-carousel">
           {[...logos, ...logos].map((logo, index) => (
