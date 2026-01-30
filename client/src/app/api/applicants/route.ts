@@ -13,34 +13,70 @@ export async function GET(request: Request) {
 	const applicationStatusFilter = searchParams.get("applicationStatusFilter") || "All";
 	const interviewStatusFilter = searchParams.get("interviewStatusFilter") || "All";
 
-	// Authenticate and check admin status
+	// Authenticate and check admin status in parallel with name search
 	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
-
-	if (!user) {
-		return NextResponse.json(
-			{ error: "Unauthorized" },
-			{ status: 401 }
-		);
-	}
-
-	const { data: userRow, error: adminError } = await supabase
-		.from("user")
-		.select("admin")
-		.eq("id", user.id)
-		.single();
-
-	if (adminError || !userRow?.admin) {
-		return NextResponse.json(
-			{ error: "Forbidden: Admin access required" },
-			{ status: 403 }
-		);
-	}
-
+	
 	try {
+		const [authResult, nameSearchResult] = await Promise.all([
+			// Auth + admin check combined
+			(async () => {
+				const { data: { user }, error: authError } = await supabase.auth.getUser();
+				if (authError || !user) {
+					return { error: "Unauthorized", status: 401 };
+				}
+				const { data: userRow, error: adminError } = await supabase
+					.from("user")
+					.select("admin")
+					.eq("id", user.id)
+					.single();
+				if (adminError || !userRow?.admin) {
+					return { error: "Forbidden: Admin access required", status: 403 };
+				}
+				return { user, isAdmin: true };
+			})(),
+			// Name search query (if needed) - run in parallel
+			(async () => {
+				if (!nameSearch || !nameSearch.trim().length) {
+					return null;
+				}
+				const searchLower = nameSearch.toLowerCase().trim();
+				const { data: usersData, error: usersError } = await supabase
+					.from("user")
+					.select("id")
+					.ilike("name", `%${searchLower}%`)
+					.limit(1000);
+				if (usersError) {
+					return { error: usersError };
+				}
+				return (usersData || []).map((u: any) => u.id);
+			})(),
+		]);
+
+		// Check auth result
+		if ("error" in authResult) {
+			return NextResponse.json(
+				{ error: authResult.error },
+				{ status: authResult.status }
+			);
+		}
+
+		// Handle name search result
+		if (nameSearchResult && "error" in nameSearchResult) {
+			throw nameSearchResult.error;
+		}
+
+		let matchingUserIds: string[] | null = nameSearchResult as string[] | null;
+		if (matchingUserIds && matchingUserIds.length === 0) {
+			return NextResponse.json({
+				applicants: [],
+				totalPages: 1,
+				page: 1,
+				count: 0,
+			});
+		}
+
 		// Build the main query with joins
+		// Note: Using exact count for accurate pagination
 		let query = supabase
 			.from("Applicants")
 			.select(`
@@ -64,7 +100,15 @@ export async function GET(request: Request) {
 				)
 			`, { count: "exact" });
 
-		// Apply filters
+		// Apply filters in optimal order (most selective first)
+		if (jobId && jobId !== "All") {
+			query = query.eq("jobID", jobId);
+		}
+
+		if (matchingUserIds) {
+			query = query.in("userID", matchingUserIds);
+		}
+
 		if (applicationStatusFilter && applicationStatusFilter !== "All") {
 			if (applicationStatusFilter === "Not Set") {
 				query = query.is("acceptance_status", null);
@@ -75,37 +119,6 @@ export async function GET(request: Request) {
 
 		if (interviewStatusFilter && interviewStatusFilter !== "All") {
 			query = query.eq("interview_status", interviewStatusFilter);
-		}
-
-		if (jobId && jobId !== "All") {
-			query = query.eq("jobID", jobId);
-		}
-
-		// Handle name search - get user IDs first, then filter
-		if (nameSearch && nameSearch.trim().length > 0) {
-			const searchLower = nameSearch.toLowerCase().trim();
-			const { data: usersData, error: usersError } = await supabase
-				.from("user")
-				.select("id")
-				.ilike("name", `%${searchLower}%`);
-
-			if (usersError) {
-				throw usersError;
-			}
-
-			const matchingUserIds = (usersData || []).map((u: any) => u.id);
-
-			// If no users match, return empty result
-			if (matchingUserIds.length === 0) {
-				return NextResponse.json({
-					applicants: [],
-					totalPages: 1,
-					page: 1,
-					count: 0,
-				});
-			}
-
-			query = query.in("userID", matchingUserIds);
 		}
 
 		// Apply pagination
