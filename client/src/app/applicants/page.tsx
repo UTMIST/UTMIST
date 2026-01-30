@@ -24,7 +24,7 @@ export default function ApplicantsDashboard() {
 	const [error, setError] = useState<string | null>(null);
 	const [isAdmin, setIsAdmin] = useState<boolean | null>(null); // null = loading, false = not admin, true = admin
 
-	const applicationStatusOptions = ["All", "ACCEPTED", "REJECTED", "WAITLISTED"];
+	const applicationStatusOptions = ["All", "Not Set", "ACCEPTED", "REJECTED", "WAITLISTED"];
 	const interviewStatusOptions = ["All", "PENDING", "SCHEDULED", "COMPLETED"];
 
 	async function fetchApplications(p = page) {
@@ -59,8 +59,13 @@ export default function ApplicantsDashboard() {
 			// Apply filters
 			// Handle null values: "All" means don't filter (includes null and all enum values)
 			if (applicationStatusFilter && applicationStatusFilter !== "All") {
-				// Filter by specific acceptance status enum value
-				query = query.eq("acceptance_status", applicationStatusFilter);
+				if (applicationStatusFilter === "Not Set") {
+					// Filter for null acceptance_status values
+					query = query.is("acceptance_status", null);
+				} else {
+					// Filter by specific acceptance status enum value
+					query = query.eq("acceptance_status", applicationStatusFilter);
+				}
 			}
 			if (interviewStatusFilter && interviewStatusFilter !== "All") {
 				// Filter by specific interview status enum value
@@ -70,17 +75,41 @@ export default function ApplicantsDashboard() {
 				query = query.eq("jobID", roleSearch);
 			}
 
-			// If name search is active, we need to fetch all records first, filter by name,
-			// then paginate client-side to get accurate pagination
+			// If name search is active, first get user IDs that match the name
 			const needsNameFilter = nameSearch && nameSearch.trim().length > 0;
+			let matchingUserIds: string[] = [];
 			
-			if (!needsNameFilter) {
-				// No name filter - use server-side pagination (more efficient)
-				const from = (p - 1) * LIMIT;
-				const to = from + LIMIT - 1;
-				query = query.range(from, to);
+			if (needsNameFilter) {
+				const searchLower = nameSearch.toLowerCase().trim();
+				// Query user table to get IDs matching the name
+				const { data: usersData, error: usersError } = await supabase
+					.from("user")
+					.select("id")
+					.ilike("name", `%${searchLower}%`);
+				
+				if (usersError) {
+					throw usersError;
+				}
+				
+				matchingUserIds = (usersData || []).map((u: any) => u.id);
+				
+				// If no users match, return empty result early
+				if (matchingUserIds.length === 0) {
+					setApplicants([]);
+					setTotalPages(1);
+					setPage(p);
+					setLoading(false);
+					return;
+				}
+				
+				// Filter Applicants by matching user IDs
+				query = query.in("userID", matchingUserIds);
 			}
-			// If name filter is active, don't apply pagination yet - we'll do it after filtering
+
+			// Apply server-side pagination (now efficient even with name filter)
+			const from = (p - 1) * LIMIT;
+			const to = from + LIMIT - 1;
+			query = query.range(from, to);
 
 			const { data, error: fetchError, count } = await query;
 
@@ -108,25 +137,8 @@ export default function ApplicantsDashboard() {
 				};
 			});
 
-			// Filter by name client-side (since it's from joined table)
-			if (needsNameFilter) {
-				const searchLower = nameSearch.toLowerCase().trim();
-				transformedData = transformedData.filter(a => 
-					a.name.toLowerCase().includes(searchLower)
-				);
-				
-				// After name filtering, apply client-side pagination
-				const filteredCount = transformedData.length;
-				const from = (p - 1) * LIMIT;
-				const to = from + LIMIT;
-				transformedData = transformedData.slice(from, to);
-				
-				// Update pagination based on filtered results
-				setTotalPages(Math.ceil(filteredCount / LIMIT));
-			} else {
-				// No name filter - use server-side count
-				setTotalPages(count ? Math.ceil(count / LIMIT) : 1);
-			}
+			// Use server-side count for pagination (now accurate even with name filter)
+			setTotalPages(count ? Math.ceil(count / LIMIT) : 1);
 
 			setApplicants(transformedData);
 			setPage(p);
