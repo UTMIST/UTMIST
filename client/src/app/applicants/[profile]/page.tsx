@@ -24,10 +24,12 @@ interface ApplicantData {
 	name: string;
 	role: string;
 	email: string;
+	github?: string;
+	linkedin?: string;
+	year?: string;
 	phone: string;
 	school: string;
 	major: string;
-	year: string;
 	interviewStatus: string;
 	applicationStatus: string;
 	notes: string;
