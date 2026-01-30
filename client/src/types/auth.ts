@@ -11,6 +11,7 @@ export interface UserProfile {
   twitter?: string;
   discord?: string;
   year?: string;
+  admin?: boolean;
   created_at?: string;
   updated_at?: string;
   resume_upload?: Date;
