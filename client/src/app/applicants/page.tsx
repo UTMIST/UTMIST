@@ -70,10 +70,17 @@ export default function ApplicantsDashboard() {
 				query = query.eq("jobID", roleSearch);
 			}
 
-			// Apply pagination
-			const from = (p - 1) * LIMIT;
-			const to = from + LIMIT - 1;
-			query = query.range(from, to);
+			// If name search is active, we need to fetch all records first, filter by name,
+			// then paginate client-side to get accurate pagination
+			const needsNameFilter = nameSearch && nameSearch.trim().length > 0;
+			
+			if (!needsNameFilter) {
+				// No name filter - use server-side pagination (more efficient)
+				const from = (p - 1) * LIMIT;
+				const to = from + LIMIT - 1;
+				query = query.range(from, to);
+			}
+			// If name filter is active, don't apply pagination yet - we'll do it after filtering
 
 			const { data, error: fetchError, count } = await query;
 
@@ -102,15 +109,26 @@ export default function ApplicantsDashboard() {
 			});
 
 			// Filter by name client-side (since it's from joined table)
-			if (nameSearch) {
-				const searchLower = nameSearch.toLowerCase();
+			if (needsNameFilter) {
+				const searchLower = nameSearch.toLowerCase().trim();
 				transformedData = transformedData.filter(a => 
 					a.name.toLowerCase().includes(searchLower)
 				);
+				
+				// After name filtering, apply client-side pagination
+				const filteredCount = transformedData.length;
+				const from = (p - 1) * LIMIT;
+				const to = from + LIMIT;
+				transformedData = transformedData.slice(from, to);
+				
+				// Update pagination based on filtered results
+				setTotalPages(Math.ceil(filteredCount / LIMIT));
+			} else {
+				// No name filter - use server-side count
+				setTotalPages(count ? Math.ceil(count / LIMIT) : 1);
 			}
 
 			setApplicants(transformedData);
-			setTotalPages(count ? Math.ceil(count / LIMIT) : 1);
 			setPage(p);
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Failed to load applications");
@@ -175,6 +193,12 @@ export default function ApplicantsDashboard() {
 		fetchApplications(1);
 	}
 
+	function handleNameSearchKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+		if (e.key === "Enter") {
+			handleApplyFilters();
+		}
+	}
+
 	// Show loading while checking admin status
 	if (isAdmin === null) {
 		return (
@@ -207,6 +231,7 @@ export default function ApplicantsDashboard() {
 						placeholder="Filter by name..."
 						value={nameSearch}
 						onChange={(e) => setNameSearch(e.target.value)}
+						onKeyDown={handleNameSearchKeyDown}
 						className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 					/>
 				</div>
