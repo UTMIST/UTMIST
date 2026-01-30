@@ -28,124 +28,38 @@ export default function ApplicantsDashboard() {
 	const interviewStatusOptions = ["All", "PENDING", "SCHEDULED", "COMPLETED"];
 
 	async function fetchApplications(p = page) {
-		setLoading(true);
 		setError(null);
+		// Only show loading indicator if request takes more than 200ms
+		const loadingTimeout = setTimeout(() => setLoading(true), 200);
+		
 		try {
-			// Single query with foreign key joins - most efficient approach
-			// Join Applicants with user table and Jobs table
-			let query = supabase
-				.from("Applicants")
-				.select(`
-					id,
-					interview_status,
-					acceptance_status,
-					jobID,
-					answers,
-					notes,
-					interview_time,
-					created_at,
-					userID,
-					user:userID (
-						id,
-						name,
-						email
-					),
-					Jobs:jobID (
-						id,
-						job_title
-					)
-				`, { count: "exact" });
-
-			// Apply filters
-			// Handle null values: "All" means don't filter (includes null and all enum values)
-			if (applicationStatusFilter && applicationStatusFilter !== "All") {
-				if (applicationStatusFilter === "Not Set") {
-					// Filter for null acceptance_status values
-					query = query.is("acceptance_status", null);
-				} else {
-					// Filter by specific acceptance status enum value
-					query = query.eq("acceptance_status", applicationStatusFilter);
-				}
-			}
-			if (interviewStatusFilter && interviewStatusFilter !== "All") {
-				// Filter by specific interview status enum value
-				query = query.eq("interview_status", interviewStatusFilter);
-			}
-			if (roleSearch && roleSearch !== "All") {
-				query = query.eq("jobID", roleSearch);
-			}
-
-			// If name search is active, first get user IDs that match the name
-			const needsNameFilter = nameSearch && nameSearch.trim().length > 0;
-			let matchingUserIds: string[] = [];
-			
-			if (needsNameFilter) {
-				const searchLower = nameSearch.toLowerCase().trim();
-				// Query user table to get IDs matching the name
-				const { data: usersData, error: usersError } = await supabase
-					.from("user")
-					.select("id")
-					.ilike("name", `%${searchLower}%`);
-				
-				if (usersError) {
-					throw usersError;
-				}
-				
-				matchingUserIds = (usersData || []).map((u: any) => u.id);
-				
-				// If no users match, return empty result early
-				if (matchingUserIds.length === 0) {
-					setApplicants([]);
-					setTotalPages(1);
-					setPage(p);
-					setLoading(false);
-					return;
-				}
-				
-				// Filter Applicants by matching user IDs
-				query = query.in("userID", matchingUserIds);
-			}
-
-			// Apply server-side pagination (now efficient even with name filter)
-			const from = (p - 1) * LIMIT;
-			const to = from + LIMIT - 1;
-			query = query.range(from, to);
-
-			const { data, error: fetchError, count } = await query;
-
-			if (fetchError) {
-				throw fetchError;
-			}
-
-			// Transform data
-			let transformedData: Applicant[] = (data || []).map((item: any) => {
-				const userData = item.user || {};
-				const jobData = item.Jobs || {};
-				return {
-					id: item.id || "",
-					name: userData.name || "",
-					role: jobData.job_title || "",
-					interviewStatus: item.interview_status || "",
-					applicationStatus: item.acceptance_status || "",
-					email: userData.email || "",
-					phone: "",
-					school: "",
-					major: "",
-					year: "",
-					notes: item.notes || "",
-					questions: item.answers || []
-				};
+			// Build query parameters
+			const params = new URLSearchParams({
+				page: p.toString(),
+				nameSearch: nameSearch || "",
+				jobId: roleSearch !== "All" ? roleSearch : "",
+				applicationStatusFilter: applicationStatusFilter || "All",
+				interviewStatusFilter: interviewStatusFilter || "All",
 			});
 
-			// Use server-side count for pagination (now accurate even with name filter)
-			setTotalPages(count ? Math.ceil(count / LIMIT) : 1);
+			// Call server-side API route
+			const response = await fetch(`/api/applicants?${params.toString()}`);
 
-			setApplicants(transformedData);
+			if (!response.ok) {
+				const errorData = await response.json().catch(() => ({ error: "Failed to load applications" }));
+				throw new Error(errorData.error || `Server error: ${response.status}`);
+			}
+
+			const data = await response.json();
+
+			setApplicants(data.applicants || []);
+			setTotalPages(data.totalPages || 1);
 			setPage(p);
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Failed to load applications");
 			console.error("Error fetching applicants:", err);
 		} finally {
+			clearTimeout(loadingTimeout);
 			setLoading(false);
 		}
 	}
@@ -298,38 +212,41 @@ export default function ApplicantsDashboard() {
 				</div>
 			</div>
 
-			<div className="mb-4">
+			{error && (
+				<div className="mb-4 text-red-600 bg-red-50 border border-red-200 rounded-md p-3">
+					{error}
+				</div>
+			)}
+
+			<div className="relative">
 				{loading && (
-					<div className="flex items-center justify-center py-8">
-						<div className="relative">
-							<div className="w-12 h-12 border-4 border-[#6b66e3] border-t-transparent rounded-full animate-spin"></div>
-						</div>
+					<div className="absolute top-0 right-0 z-10 flex items-center gap-2 text-sm text-gray-600 bg-white px-3 py-1 rounded shadow-sm">
+						<div className="w-4 h-4 border-2 border-[#6b66e3] border-t-transparent rounded-full animate-spin"></div>
+						<span>Loading...</span>
 					</div>
 				)}
-				{error && <div className="text-red-600">{error}</div>}
-			</div>
-
-			<table className="min-w-full border-2 border-[#6b66e3] border-collapse rounded-lg overflow-hidden">
-				<thead className="bg-gray-100">
-					<tr className="divide-x-2 divide-[#6b66e3]">
-						<th className="px-4 py-2 text-left">Name</th>
-						<th className="px-4 py-2 text-left">Job Title</th>
-						<th className="px-4 py-2 text-left">Interview Status</th>
-						<th className="px-4 py-2 text-left">Application Status</th>
-					</tr>
-				</thead>
-				<tbody className="bg-white">
-					{applicants.length === 0 && !loading ? (
-						<tr>
-							<td colSpan={4} className="px-4 py-6 text-center text-gray-500">No applications found.</td>
+				<table className={`min-w-full border-2 border-[#6b66e3] border-collapse rounded-lg overflow-hidden transition-opacity ${loading ? 'opacity-60' : 'opacity-100'}`}>
+					<thead className="bg-gray-100">
+						<tr className="divide-x-2 divide-[#6b66e3]">
+							<th className="px-4 py-2 text-left">Name</th>
+							<th className="px-4 py-2 text-left">Job Title</th>
+							<th className="px-4 py-2 text-left">Interview Status</th>
+							<th className="px-4 py-2 text-left">Application Status</th>
 						</tr>
-					) : (
-						applicants.map((applicant) => (
-							<ApplicantRow key={applicant.id} applicant={applicant} />
-						))
-					)}
-				</tbody>
-			</table>
+					</thead>
+					<tbody className="bg-white">
+						{applicants.length === 0 && !loading ? (
+							<tr>
+								<td colSpan={4} className="px-4 py-6 text-center text-gray-500">No applications found.</td>
+							</tr>
+						) : (
+							applicants.map((applicant) => (
+								<ApplicantRow key={applicant.id} applicant={applicant} />
+							))
+						)}
+					</tbody>
+				</table>
+			</div>
 
 			<div className="flex items-center justify-center mt-4">
 				<div className="flex items-center justify-center gap-6 space-x-2">
