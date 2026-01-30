@@ -27,9 +27,6 @@ interface ApplicantData {
 	github?: string;
 	linkedin?: string;
 	year?: string;
-	phone: string;
-	school: string;
-	major: string;
 	interviewStatus: string;
 	applicationStatus: string;
 	notes: string;
