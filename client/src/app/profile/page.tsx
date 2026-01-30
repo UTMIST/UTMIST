@@ -10,6 +10,7 @@ import ProfileEditForm from "@/components/profile/ProfileEditForm";
 import SocialCard from "@/components/profile/SocialCard";
 import QRCodeCard from "@/components/profile/QRCodeCard";
 import ResumeCard from "@/components/profile/ResumeCard";
+import AdminCard from "@/components/profile/AdminCard";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -79,9 +80,9 @@ export default function ProfilePage() {
   const handleLogout = async () => {
     try {
       await logout();
-      router.push('/');
+      router.push("/");
     } catch (error) {
-      console.error('Error logging out:', error);
+      console.error("Error logging out:", error);
     }
   };
 
@@ -160,9 +161,15 @@ export default function ProfilePage() {
             twitter={profile.twitter}
           />
 
-          <ResumeCard userId={profile.id} year={profile.year} name={profile.name} />
+          <ResumeCard
+            userId={profile.id}
+            year={profile.year}
+            name={profile.name}
+          />
 
           <QRCodeCard linkedin={profile.linkedin} />
+
+          {profile.admin ? <AdminCard /> : null}
         </div>
       </div>
     );
