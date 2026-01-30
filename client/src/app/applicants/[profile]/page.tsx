@@ -9,6 +9,9 @@ interface UserData {
 	id: string;
 	name: string;
 	email: string;
+	github?: string;
+	linkedin?: string;
+	year?: string;
 }
 
 interface JobData {
@@ -58,7 +61,10 @@ export default function ApplicantProfile() {
 						user:userID (
 							id,
 							name,
-							email
+							email,
+							github,
+							linkedin,
+							year
 						),
 						Jobs:jobID (
 							id,
@@ -89,11 +95,7 @@ export default function ApplicantProfile() {
 					? (jobDataRaw[0] as JobData)
 					: (jobDataRaw as JobData) || { id: "", job_title: "" };
 
-				// Parse answers JSON
-				let phone = "";
-				let school = "";
-				let major = "";
-				let year = "";
+				// Parse answers JSON for questions only
 				let questions: any[] = [];
 
 				if (data.answers) {
@@ -101,11 +103,6 @@ export default function ApplicantProfile() {
 						const answers = typeof data.answers === 'string' 
 							? JSON.parse(data.answers) 
 							: data.answers;
-
-						phone = answers.phone || answers.Phone || answers.phoneNumber || "";
-						school = answers.school || answers.School || "";
-						major = answers.major || answers.Major || answers.fieldOfStudy || "";
-						year = answers.year || answers.Year || answers.educationLevel || "";
 
 						// Extract questions if they exist in answers
 						if (Array.isArray(answers.questions)) {
@@ -129,10 +126,9 @@ export default function ApplicantProfile() {
 					name: userData?.name || "",
 					role: jobData?.job_title || "",
 					email: userData?.email || "",
-					phone: phone,
-					school: school,
-					major: major,
-					year: year,
+					github: userData?.github || "",
+					linkedin: userData?.linkedin || "",
+					year: userData?.year || "",
 					interviewStatus: data.interview_status || "",
 					applicationStatus: data.acceptance_status || "",
 					notes: data.notes || "",
@@ -192,7 +188,7 @@ export default function ApplicantProfile() {
 					
 					<div className="text-2xl font-bold text-gray-900 mb-2">{applicant.name}</div>
 					<div className="text-xl text-gray-700 font-semibold mb-2">Role: 
-						<span className="font-semibold text-blue-700">{applicant.role}</span></div>
+						<span className="font-semibold text-blue-700"> {applicant.role}</span></div>
 					
 					<div className="flex flex-wrap items-center gap-8 mb-8">	
 						<div className={`px-4 py-2 rounded-lg text-base font-semibold shadow-sm ${
@@ -243,22 +239,40 @@ export default function ApplicantProfile() {
 									<span className="text-gray-900">{applicant.email}</span>
 								</div>
 								<div className="flex items-center w-[50%]">
-									<span className="font-bold text-gray-700 mr-2">Phone:</span>
-									<span className="text-gray-900">{applicant.phone}</span>
+									<span className="font-bold text-gray-700 mr-2">Year:</span>
+									<span className="text-gray-900">{applicant.year || "Not specified"}</span>
 								</div>
 							</div>
-						<div className="mb-2 mt-8 flex items-center text-lg">
-							<span className="font-bold text-gray-700 mr-2">School:</span>
-							<span className="text-gray-900">{applicant.school}</span>
-						</div>
-							<div className="mb-2 mt-4 flex items-center text-lg gap-8">
+							<div className="mb-2 mt-8 flex items-center text-lg gap-8">
 								<div className="flex items-center w-[50%]">
-									<span className="font-bold text-gray-700 mr-2">Major:</span>
-									<span className="text-gray-900">{applicant.major}</span>
+									<span className="font-bold text-gray-700 mr-2">GitHub:</span>
+									{applicant.github ? (
+										<a
+											href={applicant.github}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="text-blue-600 underline font-semibold"
+										>
+											{applicant.github}
+										</a>
+									) : (
+										<span className="text-gray-500">Not provided</span>
+									)}
 								</div>
 								<div className="flex items-center w-[50%]">
-									<span className="font-bold text-gray-700 mr-2">Year:</span>
-									<span className="text-gray-900">{applicant.year}</span>
+									<span className="font-bold text-gray-700 mr-2">LinkedIn:</span>
+									{applicant.linkedin ? (
+										<a
+											href={applicant.linkedin}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="text-blue-600 underline font-semibold"
+										>
+											{applicant.linkedin}
+										</a>
+									) : (
+										<span className="text-gray-500">Not provided</span>
+									)}
 								</div>
 							</div>
 						{applicant.questions && applicant.questions.length > 0 ? (
