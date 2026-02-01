@@ -16,6 +16,8 @@ import rbcLogo from "../assets/logos/rbc.webp";
 import edgeAILogo from "../assets/logos/EdgeAI.webp";
 import cgiLogo from "../assets/logos/cgi.webp";
 import cpsifLogo from "../assets/logos/cpsif.svg";
+import engsocLogo from "../assets/logos/engsoc.webp";
+import compsciLogo from "../assets/logos/compsci.webp";
 
 const logos = [
   { src: amdLogo, alt: "AMD Logo", link: "https://www.amd.com/en" },
@@ -94,6 +96,16 @@ const logos = [
     alt: "CPSIF Logo",
     link: "https://www.engineering.utoronto.ca/current-students/centralized-process-for-student-initiative-funding-cpsif/",
   },
+  {
+    src: engsocLogo,
+    alt: "Engineering Society Logo",
+    link: "https://skule.ca/",
+  },
+  {
+    src: compsciLogo,
+    alt: "Department of Computer Science",
+    link: "https://web.cs.toronto.edu/",
+  }
 ];
 
 export default function Sponsors() {
