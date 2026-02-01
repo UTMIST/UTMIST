@@ -16,7 +16,7 @@ import rbcLogo from "../assets/logos/rbc.webp";
 import edgeAILogo from "../assets/logos/EdgeAI.webp";
 import cgiLogo from "../assets/logos/cgi.webp";
 import cpsifLogo from "../assets/logos/cpsif.svg";
-import engsocLogo from "../assets/logos/engsoc.webp";
+import engsocLogo from "../assets/logos/engsoc.svg";
 import compsciLogo from "../assets/logos/compsci.webp";
 
 const logos = [
