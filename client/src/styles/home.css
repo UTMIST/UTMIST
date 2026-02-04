@@ -291,6 +291,10 @@
   text-align: center;
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  text-decoration: underline;
+  text-decoration-color: #6b66e3;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.5rem;
 }
 
 /* The masking wrapper */
