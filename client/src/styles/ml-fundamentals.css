@@ -23,7 +23,7 @@
   .hero-subtitle {
     font-size: 1rem;
     font-weight: 200;
-    color: #111827;
+    color: var(--text-1);
     font-family: var(--system-font);
     padding: 0 15rem;
   }
@@ -130,7 +130,7 @@
       font-weight: 600;
       margin: 2rem 0 1.5rem 0;
       text-align: center;
-      color: #222;
+      color: var(--text-2);
   }
   
   .people-row {
@@ -184,7 +184,7 @@
   }
   
   .speaker-info {
-    color: #333;
+    color: var(--text-2);
   }
   
   .speaker-name {
@@ -195,7 +195,7 @@
   
   .speaker-role {
     font-size: 0.875rem;
-    color: #666;
+    color: var(--text-3);
     margin: 0.25rem 0 0;
   }
   
@@ -323,15 +323,15 @@
     margin: 0 auto;
     padding: 20px;
     font-family: var(--system-font);
-    border: 1px solid #e2e2e2;
+    border: 1px solid var(--border);
     border-radius: 8px;
-    background-color: #ffffff;
+    background-color: var(--surface-1);
   }
   .basis-vectors-title {
     font-size: 2.5rem;
     font-weight: 600;
     margin-bottom: 24px;
-    color: #111111;
+    color: var(--text-1);
   }
   .basis-vectors-content {
     display: flex;
@@ -344,7 +344,7 @@
     gap: 12px;
   }
   .accordion-item {
-    border: 1px solid #e2e2e2;
+    border: 1px solid var(--border);
     border-radius: 6px;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -359,8 +359,8 @@
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    background-color: #ffffff;
-    color: black;
+    background-color: var(--surface-1);
+    color: var(--text-1);
     font-size: 14px;
     font-weight: 500;
     transition: background-color 0.2s ease;
@@ -378,18 +378,18 @@
     font-size: 0.8rem;
     line-height: 1.5;
     color: var(--gray1);
-    background-color: #ffffff;
+    background-color: var(--surface-1);
   }
   .visualization-area {
     flex: 3;
     height: 30rem;
-    border: 1px solid #e0e0ff;
+    border: 1px solid var(--border);
     border-radius: 6px;
-    background-color: #f5f8ff;
+    background-color: var(--surface-2);
   }
   
   .content {
-      background: #ffffff;
+      background: var(--surface-1);
       border-radius: 10px;
       padding: 1.5rem;
       margin: 1rem;
@@ -400,14 +400,14 @@
   .content p {
       font-size: 1rem;
       line-height: 1.6;
-      color: #000000;
+      color: var(--text-1);
       margin-bottom: 0.5rem;
   }
   
   .accordion-content p {
       font-size: 0.9rem;
       font-weight: 500;
-      color: #374151;
+      color: var(--text-2);
   }
   
   @keyframes fadeIn {
@@ -419,7 +419,7 @@
       display: flex;
       align-items: flex-start;
       gap: 1.5rem;
-      background: #fff;
+      background: var(--surface-1);
       border-radius: 10px;
       padding: 1.5rem;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
@@ -437,7 +437,7 @@
       flex: 1;
       font-size: 1rem;
       line-height: 1.6;
-      color: #1f2937;
+      color: var(--text-2);
   }
   
   /* Responsive adjustments */
@@ -568,7 +568,7 @@
     margin: 0.8rem 1rem;
     height: 6px;
     width: calc(100% - 2rem);
-    background-color: #f0f0f0;
+    background-color: var(--surface-2);
     border-radius: 20px;
   }
   
@@ -579,3 +579,5 @@
     background-color: #3b82f6; /* blue color */
     transition: width 1s ease-in-out;
   }
+
+

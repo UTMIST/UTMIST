@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center; 
     padding: 1rem; 
-    color: white; 
+    color: var(--text-1); 
 }
 
 
@@ -30,7 +30,7 @@
 }
 
 .footer-logo-container:hover {
-    background-color: var(--gray2, #8a8a8a);
+    background-color: var(--gray2, var(--muted));
 }
 
 .bug-report-container {
@@ -40,13 +40,13 @@
 
 .bug-report-link {
     font-size: 0.75rem;
-    color: #5C5C5C;
+    color: var(--text-3);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .bug-report-link:hover {
-    color: #8a8a8a;
+    color: var(--muted);
 }
 
 .footer-line {
@@ -55,3 +55,6 @@
     background: var(--gradient-line-1), var(--gradient-line-2); /* Set the color of the line */
     margin: 0.5rem 0; /* Optional: Add some margin for spacing */
 }
+
+
+
