@@ -105,13 +105,20 @@ const logos = [
     src: compsciLogo,
     alt: "Department of Computer Science",
     link: "https://web.cs.toronto.edu/",
-  }
+  },
 ];
 
 export default function Sponsors() {
   return (
     <div className="sponsors-container">
       <h3 className="sponsors-title">Supported By</h3>
+      <div
+        className="mx-auto -mt-2 mb-6 h-[5px] w-[180px]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(156, 50, 227, 0), #9C32E3), linear-gradient(to bottom, #98CDF9, #1E19B1)",
+        }}
+      />
       <div className="sponsors-mask">
         <div className="sponsors-carousel">
           {[...logos, ...logos].map((logo, index) => (
