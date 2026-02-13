@@ -290,7 +290,10 @@ function TimeSeriesCard({
   const labels = series.map((p) =>
     range === "24h"
       ? new Date(p.x).toLocaleTimeString([], { hour: "numeric" })
-      : new Date(p.x).toLocaleDateString([], { month: "short", day: "numeric" })
+      : new Date(p.x).toLocaleDateString([], {
+          month: "short",
+          day: "numeric",
+        }),
   );
   const chartData = {
     labels,
@@ -314,7 +317,13 @@ function TimeSeriesCard({
         ticks: { maxRotation: 0, minRotation: 0, autoSkip: true },
       },
       y: {
-        grid: { color: "#eee" },
+        grid: {
+          color:
+            typeof window !== "undefined" &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "#2a2f45"
+              : "#eee",
+        },
         beginAtZero: true,
         ticks: { precision: 0 },
       },

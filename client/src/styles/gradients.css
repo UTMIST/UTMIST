@@ -1,18 +1,54 @@
-:root{
-    --gradient-logo: linear-gradient(0deg, rgba(8, 5, 91, 1) 2%, rgba(107, 102, 227, 1) 100%);
-    --gradient-spot: radial-gradient(circle, #C886C9 20%, #1E19B1 10%, #D9D9D9 0%);
-    --gradient-bl1: linear-gradient(180deg, #000000 0%, #5C5C5C 100%);
-    --gradient-b1: linear-gradient(180deg, #4A3D92 0%, #547BC5 47%, #99B4F9 100%);
-    --gradient-b2: linear-gradient(-99deg, #6B66E3 0%, #1E19B1 100%);
-    --gradient-b3: linear-gradient(180deg, #1E19B1 0%, #A1A1A1 100%);
-    --gradient-line-1:  linear-gradient(90deg, #3D87F5 0%, #9C32E3 100%);
-    --gradient-line-2: linear-gradient(90deg, #98CDF9 0%, #1E19B1 100%);
-    --gradient-proj1: linear-gradient(30deg, #3D87F5 0%, #9C32E3 100%);
-    --gradient-proj2: linear-gradient(100deg, #98CDF9 0%, #1E19B1 100%);
-    --gradient-proj3: linear-gradient(165deg, #F5CDEB 0%, #FF8DE6 100%);
-    --gradient-proj4: linear-gradient(122deg, #98CDF9 0%, #799FE6 22%, #1E19B1 100%);
-    --gradient-search: linear-gradient(103deg, #D0D4DD 0%, #3E76CC 54%, #1E19B1 100%);
-
+:root {
+  --gradient-logo: linear-gradient(
+    0deg,
+    rgba(8, 5, 91, 1) 2%,
+    rgba(107, 102, 227, 1) 100%
+  );
+  --gradient-spot: radial-gradient(
+    circle,
+    #c886c9 20%,
+    #1e19b1 10%,
+    #d9d9d9 0%
+  );
+  --gradient-bl1: linear-gradient(180deg, #000000 0%, #5c5c5c 100%);
+  --gradient-b1: linear-gradient(180deg, #4a3d92 0%, #547bc5 47%, #99b4f9 100%);
+  --gradient-b2: linear-gradient(-99deg, #6b66e3 0%, #1e19b1 100%);
+  --gradient-b3: linear-gradient(180deg, #1e19b1 0%, #a1a1a1 100%);
+  --gradient-line-1: linear-gradient(90deg, #3d87f5 0%, #9c32e3 100%);
+  --gradient-line-2: linear-gradient(90deg, #98cdf9 0%, #1e19b1 100%);
+  --gradient-proj1: linear-gradient(30deg, #3d87f5 0%, #9c32e3 100%);
+  --gradient-proj2: linear-gradient(100deg, #98cdf9 0%, #1e19b1 100%);
+  --gradient-proj3: linear-gradient(165deg, #f5cdeb 0%, #ff8de6 100%);
+  --gradient-proj4: linear-gradient(
+    122deg,
+    #98cdf9 0%,
+    #799fe6 22%,
+    #1e19b1 100%
+  );
+  --gradient-search: linear-gradient(
+    103deg,
+    #d0d4dd 0%,
+    #3e76cc 54%,
+    #1e19b1 100%
+  );
+  --fade-color: 255, 255, 255;
 }
 
-
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gradient-logo: linear-gradient(
+      0deg,
+      rgba(107, 102, 227, 1) 2%,
+      rgba(157, 152, 255, 1) 100%
+    );
+    --gradient-bl1: linear-gradient(180deg, #e2e8f0 0%, #94a3b8 100%);
+    --gradient-b3: linear-gradient(180deg, #6b66e3 0%, #94a3b8 100%);
+    --gradient-search: linear-gradient(
+      103deg,
+      #334155 0%,
+      #3e76cc 54%,
+      #6b66e3 100%
+    );
+    --fade-color: 11, 16, 28;
+  }
+}

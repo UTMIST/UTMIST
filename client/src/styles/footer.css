@@ -1,60 +1,62 @@
 .footer-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; 
-    padding: 1rem; 
-    color: var(--text-1); 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  color: var(--text-1);
 }
-
 
 .footer-logo {
-    font-size: 1.25rem; 
-    font-weight: bold; 
-    margin-bottom: 0.5rem; 
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
-
 .footer-logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-    margin-top: 1rem;
-    margin-bottom: 0.9rem; 
-    width: 35px; 
-    height: 35px; 
-    padding: 0.5rem;
-    background-color: var(--gray3); 
-    border-radius: 50%;
-    transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 0.9rem;
+  width: 35px;
+  height: 35px;
+  padding: 0.5rem;
+  background-color: var(--gray3);
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
 }
 
 .footer-logo-container:hover {
-    background-color: var(--gray2, var(--muted));
+  background-color: var(--gray2, var(--muted));
+}
+
+@media (prefers-color-scheme: dark) {
+  .footer-logo-container img {
+    filter: invert(1);
+  }
 }
 
 .bug-report-container {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .bug-report-link {
-    font-size: 0.75rem;
-    color: var(--text-3);
-    text-decoration: none;
-    transition: color 0.3s ease;
+  font-size: 0.75rem;
+  color: var(--text-3);
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .bug-report-link:hover {
-    color: var(--muted);
+  color: var(--muted);
 }
 
 .footer-line {
-    width: 90%;
-    height: 5px;
-    background: var(--gradient-line-1), var(--gradient-line-2); /* Set the color of the line */
-    margin: 0.5rem 0; /* Optional: Add some margin for spacing */
+  width: 90%;
+  height: 5px;
+  background:
+    var(--gradient-line-1), var(--gradient-line-2); /* Set the color of the line */
+  margin: 0.5rem 0; /* Optional: Add some margin for spacing */
 }
-
-
-

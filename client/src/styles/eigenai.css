@@ -50,13 +50,13 @@
 }
 
 .intro-section-subtitle {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin: 1rem 0rem;
-    background: var(--gradient-bl1);
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-family: var(--system-font);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1rem 0rem;
+  background: var(--gradient-bl1);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: var(--system-font);
 }
 
 .intro-section-description {
@@ -65,6 +65,7 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   font-family: var(--system-font);
+  color: var(--text-1);
 }
 
 .intro-section-right {
@@ -81,15 +82,15 @@
 }
 
 .people-section {
-    padding: 4rem 1rem;
-    max-width: 1200px;
-    margin: 0 auto;
+  padding: 4rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .schedule-section {
-    padding: 4rem 1rem;
-    max-width: 1200px;
-    margin: 0 auto;
+  padding: 4rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* Speakers */
@@ -109,11 +110,11 @@
 }
 
 .people-section-subtitle {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 2rem 0 1.5rem 0;
-    text-align: center;
-    color: var(--text-2);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 2rem 0 1.5rem 0;
+  text-align: center;
+  color: var(--text-2);
 }
 
 .people-row {
@@ -138,23 +139,23 @@
 }
 
 .people-section-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 2rem;
-    background: var(--gradient-bl1);
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+  background: var(--gradient-bl1);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .schedule-section-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 2rem;
-    background: var(--gradient-bl1);
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+  background: var(--gradient-bl1);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .speaker-photo {
@@ -185,7 +186,8 @@
 .lambda-section-container {
   padding: 1px; /* Thickness of border */
   border-radius: 14px;
-  background: linear-gradient(
+  background:
+    linear-gradient(
       280deg,
       rgba(245, 205, 235, 0) 0%,
       rgba(255, 141, 230, 1) 100%
@@ -202,12 +204,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       circle 800px at center,
       rgba(255, 255, 255, 0) 0%,
       rgba(107, 141, 253, 0.277) 100%
     ),
-    white;
+    var(--surface-1);
   border-radius: 12px; /* slightly smaller to fit inside border */
   padding: 15px; /* Optional inner padding */
 }
@@ -222,11 +225,11 @@
 }
 
 .lambda-inner-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .lambda-inner-badge {
@@ -242,7 +245,8 @@
   /* Gradient border using background-clip technique */
   border: double 4px transparent;
   border-radius: 30px;
-  background-image: linear-gradient(#dae5ff, #dae5ff),
+  background-image:
+    linear-gradient(#dae5ff, #dae5ff),
     linear-gradient(70deg, #a4a1fa 0%, #4843dd 100%);
   background-origin: border-box;
   background-clip: padding-box, border-box;
@@ -372,55 +376,61 @@
 }
 
 .content {
-    background: var(--surface-1);
-    border-radius: 10px;
-    padding: 1.5rem;
-    margin: 1rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    animation: fadeIn 0.3s ease-in-out;
+  background: var(--surface-1);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 .content p {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--text-1);
-    margin-bottom: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-1);
+  margin-bottom: 0.5rem;
 }
 
 .accordion-content p {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-2);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-2);
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .content-with-image {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.5rem;
-    background: var(--surface-1);
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  background: var(--surface-1);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .content-image {
-    width: 180px;
-    height: auto;
-    border-radius: 8px;
-    object-fit: cover;
-    flex-shrink: 0;
+  width: 180px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .content-text {
-    flex: 1;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--text-2);
+  flex: 1;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-2);
 }
 
 /* Responsive adjustments */
@@ -433,8 +443,8 @@
   }
 
   .hero-section {
-     padding: calc(7rem + env(safe-area-inset-top)) 1rem 3rem 1rem;
-     padding-top: calc(7rem + constant(safe-area-inset-top)); /* iOS fallback */
+    padding: calc(7rem + env(safe-area-inset-top)) 1rem 3rem 1rem;
+    padding-top: calc(7rem + constant(safe-area-inset-top)); /* iOS fallback */
   }
 
   .hero-title {
@@ -553,5 +563,18 @@
   transition: width 1s ease-in-out;
 }
 
+@media (prefers-color-scheme: dark) {
+  .intro-section-description {
+    background: var(--text-2);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-
+  .lambda-inner-badge {
+    background-color: #1a1f30;
+    color: #7b78f5;
+    background-image:
+      linear-gradient(#1a1f30, #1a1f30),
+      linear-gradient(70deg, #a4a1fa 0%, #4843dd 100%);
+  }
+}
