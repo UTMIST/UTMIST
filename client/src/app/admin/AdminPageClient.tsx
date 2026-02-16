@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import type { ReactNode } from "react";
-import AddCalendly from "./AddCalendly";
 import {
   Chart as ChartJS,
   BarElement,
@@ -38,13 +37,7 @@ type DashboardData = {
   };
 };
 
-export default function AdminPageClient({
-  userId,
-  calendly,
-}: {
-  userId: string;
-  calendly: string;
-}) {
+export default function AdminPageClient() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -142,8 +135,6 @@ export default function AdminPageClient({
   return (
     <div className="bg-white text-black pt-24 pb-8 sm:pt-12 sm:pb-10">
       <div className="max-w-screen-xl mx-auto px-12 lg:px-12">
-        <AddCalendly userId={userId} calendly={calendly} />
-
         <h1 className="text-2xl font-bold mb-2">Analytics Dashboard</h1>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
           <p className="text-gray-600">
