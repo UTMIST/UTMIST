@@ -28,6 +28,7 @@ export default function AddCalendly({
     <div className="max-w-xl mx-auto space-y-4 border rounded-xl p-6">
       <div className="space-y-2">
         <label className="text-lg font-semibold">Calendly</label>
+        <p className="text-sm text-gray-500">Enter your Calendly link which will automatically be sent to interview candidates as you schedule their interview.</p>
         <Input
           type="text"
           placeholder="https://calendly.com/your-link"
