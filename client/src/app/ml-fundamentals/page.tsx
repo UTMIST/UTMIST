@@ -80,6 +80,26 @@ const weekData = [
   }
 ];
 
+// Phase 2 week data for the project schedule
+const phase2WeekData = [
+  {
+    weekNumber: 1,
+    title: "Typical ML Project",
+    description: "Project planning, dataset selection, defining scope, and initial setup",
+    date: "TBD",
+    hasRecording: false,
+    hasCode: false
+  },
+  {
+    weekNumber: 2,
+    title: "Project Proposal",
+    description: "Implementation, model building, experimentation, and documentation",
+    date: "TBD",
+    hasRecording: true,
+    hasCode: false
+  }
+];
+
 // FAQ data
 const faqData: FAQItem[] = [
   {
@@ -237,6 +257,33 @@ const workshopContent: Record<number, WorkshopContent> = {
   }
 };
 
+// Phase 2 workshop content
+const phase2WorkshopContent: Record<number, WorkshopContent> = {
+  1: {
+    title: "Typical ML Project",
+    code: {
+      content: [
+        "Understanding what goes into an ML project:",
+        "• Finding a project idea and dataset",
+        "• Defining project scope and goals"
+      ],
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
+    }
+  },
+  2: {
+    title: "Project Proposal",
+    code: {
+      content: [
+        "Project Proposal:",
+        "• Outlining your approach",
+        "• Planning implementation steps",
+        "• Setting milestones"
+      ],
+      codeLink: "https://cognitiveclass.ai/courses/utmist-machine-learning-fundamentals"
+    }
+  }
+};
+
 // Component definitions
 interface PhaseData {
   title: string;
@@ -379,15 +426,59 @@ function ScheduleSection({ weekData, onOpenModal }: ScheduleSectionProps) {
   );
 }
 
-function ProjectsSection({ }) {
+interface ProjectsSectionProps {
+  weekData: typeof phase2WeekData;
+  onOpenModal: (week: number, type: 'slides' | 'recording' | 'code', isPhase2?: boolean) => void;
+}
+
+function ProjectsSection({ weekData, onOpenModal }: ProjectsSectionProps) {
   return (
     <div className="w-full bg-white px-4 sm:px-6 lg:px-8 pt-30">
       <div className="max-w-6xl mx-auto">
         <div className="text-left mb-12 mt-8 sm:mt-0">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">Phase 2: Project</h2>
           <p className="text-lg text-gray-600">
-            Check back for more information!
+            Apply your knowledge through hands-on project work with mentorship and guidance!
           </p>
+        </div>
+        
+        {/* Week Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+          {weekData.map((week) => (
+            <div key={week.weekNumber} className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow flex flex-col h-full">
+              <div className="flex-1">
+                <h3 className="text-gray-900 font-semibold text-lg mb-2">{week.title}</h3>
+                <span className="font-bold text-black text-base mb-3">Week {week.weekNumber} - {week.date}</span>
+                <p className="text-sm text-gray-600">
+                  {week.description}
+                </p>
+              </div>
+              <div className="flex gap-2 mt-4">
+                <button 
+                  onClick={() => onOpenModal(week.weekNumber, 'slides', true)}
+                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                >
+                  Slides
+                </button>
+                {week.hasRecording !== false && (
+                  <button 
+                    onClick={() => onOpenModal(week.weekNumber, 'recording', true)}
+                    className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                  >
+                    Recording
+                  </button>
+                )}
+                {week.hasCode !== false && (
+                  <button 
+                    onClick={() => onOpenModal(week.weekNumber, 'code', true)}
+                    className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                  >
+                    Code
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -482,10 +573,11 @@ interface WorkshopModalProps {
   modalContent: WorkshopContent | null;
   modalType: ModalType | null;
   weekNumber: number;
+  isPhase2?: boolean;
   onClose: () => void;
 }
 
-function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumber, onClose }: WorkshopModalProps) {
+function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumber, isPhase2 = false, onClose }: WorkshopModalProps) {
   if (!isOpen || !modalContent) return null;
 
   const pdfUrls: Record<number, string> = {
@@ -497,6 +589,15 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
     6: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w06.pdf",
     7: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w07.pdf",
     8: "https://raw.githubusercontent.com/UTMIST/academics-workshops-2025/main/ml_fundamentals/mlf_w08.pdf",
+  };
+
+  const phase2PdfUrls: Record<number, string> = {
+    1: "https://github.com/user-attachments/files/24691455/MLF.P2.Week.1.Slides.pdf",
+    2: "https://docs.google.com/presentation/d/1QrY6-frshcx8NSj8qXI2RkEkY1rqPgdRG7k6Z_I-q24/edit?usp=sharing",
+  };
+
+  const phase2YoutubeVideoUrls: Record<number, string> = {
+    2: "https://drive.google.com/file/d/1tm8JsXgpscG8rw0mVEnl7KRg3McVC5pv/view?usp=sharing"
   };
 
   // YouTube video URLs for each week's recordings (you'll need to replace these with actual video URLs)
@@ -512,8 +613,8 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
   };
 
   // weekNumber is now passed as a prop
-  const pdfUrl = pdfUrls[weekNumber];
-  const youtubeVideoUrl = youtubeVideoUrls[weekNumber];
+  const pdfUrl = isPhase2 ? phase2PdfUrls[weekNumber] : pdfUrls[weekNumber];
+  const youtubeVideoUrl = isPhase2 ? phase2YoutubeVideoUrls[weekNumber] : youtubeVideoUrls[weekNumber];
   
   // Convert YouTube watch URL to embed URL
   const getEmbedUrl = (url: string): string => {
@@ -653,12 +754,14 @@ export default function MachineLearningFundamentals() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
   const [currentWeekNumber, setCurrentWeekNumber] = useState<number>(1);
+  const [isPhase2Modal, setIsPhase2Modal] = useState<boolean>(false);
 
-  const openModal = (week: number, type: ModalType) => {
-    const content = workshopContent[week];
+  const openModal = (week: number, type: ModalType, isPhase2: boolean = false) => {
+    const content = isPhase2 ? phase2WorkshopContent[week] : workshopContent[week];
     setModalContent(content);
     setModalType(type);
     setCurrentWeekNumber(week);
+    setIsPhase2Modal(isPhase2);
     setIsModalOpen(true);
     // Small delay to allow the modal to render first, then animate
     setTimeout(() => {
@@ -672,6 +775,7 @@ export default function MachineLearningFundamentals() {
       setIsModalOpen(false);
       setModalContent(null);
       setModalType(null);
+      setIsPhase2Modal(false);
     }, 300); 
   };
 
@@ -716,7 +820,9 @@ export default function MachineLearningFundamentals() {
       onOpenModal={openModal} 
     />
   
-    <ProjectsSection
+    <ProjectsSection 
+      weekData={phase2WeekData}
+      onOpenModal={openModal}
     />
 
     <FAQSection 
@@ -751,6 +857,7 @@ export default function MachineLearningFundamentals() {
       modalContent={modalContent}
       modalType={modalType}
       weekNumber={currentWeekNumber}
+      isPhase2={isPhase2Modal}
       onClose={closeModal}
     />
   </main>
