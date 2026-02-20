@@ -25,7 +25,7 @@
 
 .cta-subtitle {
   font-size: 1.125rem;
-  color: #666666;
+  color: var(--text-3);
   font-family: var(--system-font);
   padding-right: 20px;
 }
@@ -195,7 +195,7 @@
 .hero-card-description {
   font-size: 1.125rem;
   line-height: 1.75;
-  color: #4b5563;
+  color: var(--text-2);
   font-family: var(--system-font);
   max-width: 65ch;
 }
@@ -229,7 +229,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 1.5rem;
-  background-color: white;
+  background-color: var(--surface-1);
   border-radius: 1rem;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
@@ -245,14 +245,14 @@
 .event-card-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--text-1);
   font-family: var(--system-font);
 }
 
 .event-card-description {
   font-size: 1rem;
   line-height: 1.5;
-  color: #666666;
+  color: var(--text-3);
   font-family: var(--system-font);
 }
 
@@ -279,7 +279,7 @@
   overflow: hidden;
   width: 100%;
   padding: 2rem 0;
-  background-color: #ffffff;
+  background-color: var(--surface-1);
 }
 
 .sponsors-title {
@@ -385,7 +385,7 @@
 
 .stat-description {
   font-size: 1rem;
-  color: #666666;
+  color: var(--text-3);
   max-width: 200px;
   line-height: 1.5;
 }
@@ -463,12 +463,20 @@
 
 .slider-wrapper::before {
   left: 0;
-  background: linear-gradient(to right, white 0%, transparent 100%);
+  background: linear-gradient(
+    to right,
+    rgb(var(--fade-color)) 0%,
+    transparent 100%
+  );
 }
 
 .slider-wrapper::after {
   right: 0;
-  background: linear-gradient(to left, white 0%, transparent 100%);
+  background: linear-gradient(
+    to left,
+    rgb(var(--fade-color)) 0%,
+    transparent 100%
+  );
 }
 
 /*Value Prop Styles */
@@ -493,7 +501,7 @@
 .conference-header h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #111;
+  color: var(--text-1);
   line-height: 1.2;
   margin: 0;
 }
@@ -546,13 +554,13 @@
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0 0 0.5rem 0;
-  color: #111;
+  color: var(--text-1);
 }
 
 .feature-content p {
   font-size: 1rem;
   line-height: 1.5;
-  color: #555;
+  color: var(--text-3);
   margin: 0;
 }
 
@@ -634,7 +642,7 @@
 .faq-subtitle {
   font-size: 1.2rem;
   font-weight: 200;
-  color: #111827;
+  color: var(--text-1);
   font-family: var(--system-font);
   padding: 0 15rem;
 }
@@ -663,7 +671,7 @@
   height: 1px;
   max-width: 950px;
   margin: 0 auto;
-  background-color: #e5e7eb; /* bg-gray-200 */
+  background-color: var(--surface-3); /* bg-gray-200 */
   border: 0;
 }
 

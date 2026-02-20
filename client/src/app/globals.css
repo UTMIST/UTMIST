@@ -1,17 +1,35 @@
 @import "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 :root {
+  color-scheme: light dark;
   --primary: #ffffff;
   --secondary: #1e19b1;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --surface-1: #ffffff;
+  --surface-2: #f1f5f9;
+  --surface-3: #e2e8f0;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text-1: #0f172a;
+  --text-2: #334155;
+  --text-3: #64748b;
+  --text-inverted: #ffffff;
+  --muted: #94a3b8;
+  --input-bg: #f1f5f9;
+  --input-text: #0f172a;
+  --input-border: #cbd5e1;
+  --shadow-1: rgba(15, 23, 42, 0.08);
+  --shadow-2: rgba(15, 23, 42, 0.18);
+  --scrollbar-track: #e2e8f0;
+  --scrollbar-thumb: #94a3b8;
   --gray1: #a1a1a1;
   --gray2: #a6a6a6;
   --gray3: #d9d9d9;
   --gray4: #5c5c5c;
-  --system-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  --system-font:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 h1,
@@ -27,10 +45,32 @@ h3 {
   --color-secondary: var(--secondary);
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
-    --background: #ffffff;
-    --foreground: #0000000;
+    --primary: #0b101c;
+    --background: #0b101c;
+    --foreground: #f8fafc;
+    --surface-1: #111827;
+    --surface-2: #0f172a;
+    --surface-3: #1f2937;
+    --border: #1f2937;
+    --border-strong: #334155;
+    --text-1: #f8fafc;
+    --text-2: #e2e8f0;
+    --text-3: #94a3b8;
+    --text-inverted: #f8fafc;
+    --muted: #64748b;
+    --input-bg: #0f172a;
+    --input-text: #f8fafc;
+    --input-border: #334155;
+    --shadow-1: rgba(0, 0, 0, 0.35);
+    --shadow-2: rgba(0, 0, 0, 0.6);
+    --scrollbar-track: #0f172a;
+    --scrollbar-thumb: #334155;
+    --gray1: #e2e8f0;
+    --gray2: #94a3b8;
+    --gray3: #334155;
+    --gray4: #cbd5e1;
   }
 }
 
@@ -69,27 +109,303 @@ html {
 }
 
 .no-scrollbar {
-  -ms-overflow-style: none;  
-  scrollbar-width: none;    
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .no-scrollbar::-webkit-scrollbar {
-  display: none;            
+  display: none;
 }
 
-
 .scroll-to-top {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    background: linear-gradient(-99deg, #6B66E3 0%, #1E19B1 100%);
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease;
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: linear-gradient(-99deg, #6b66e3 0%, #1e19b1 100%);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .bg-white {
+    background-color: var(--surface-1) !important;
+  }
+
+  .bg-gray-50 {
+    background-color: var(--surface-2) !important;
+  }
+
+  .bg-gray-100 {
+    background-color: var(--surface-3) !important;
+  }
+
+  .bg-gray-200 {
+    background-color: #1f2937 !important;
+  }
+
+  .bg-gray-300 {
+    background-color: #334155 !important;
+  }
+
+  .bg-white\/80 {
+    background-color: rgb(17 24 39 / 0.8) !important;
+  }
+
+  .bg-white\/90 {
+    background-color: rgb(17 24 39 / 0.9) !important;
+  }
+
+  .text-black {
+    color: var(--text-1) !important;
+  }
+
+  .text-gray-900 {
+    color: var(--text-1) !important;
+  }
+
+  .text-gray-800 {
+    color: var(--text-1) !important;
+  }
+
+  .text-gray-700 {
+    color: var(--text-2) !important;
+  }
+
+  .text-gray-600 {
+    color: var(--text-3) !important;
+  }
+
+  .text-gray-500,
+  .text-gray-400 {
+    color: var(--muted) !important;
+  }
+
+  .text-gray-300 {
+    color: #94a3b8 !important;
+  }
+
+  .border-gray-50,
+  .border-gray-100,
+  .border-gray-200 {
+    border-color: var(--border) !important;
+  }
+
+  .border-gray-300,
+  .border-gray-400 {
+    border-color: var(--border-strong) !important;
+  }
+
+  .hover\:bg-gray-100:hover {
+    background-color: var(--surface-3) !important;
+  }
+
+  .hover\:bg-gray-200:hover {
+    background-color: #334155 !important;
+  }
+
+  .hover\:bg-gray-300:hover {
+    background-color: #475569 !important;
+  }
+
+  /* Blue tinted elements */
+  .border-blue-100 {
+    border-color: #1e3a5f !important;
+  }
+
+  .bg-blue-100 {
+    background-color: #1e3a5f !important;
+  }
+
+  .bg-blue-50 {
+    background-color: #0f2942 !important;
+  }
+
+  .border-blue-200,
+  .border-blue-300 {
+    border-color: #1e3a5f !important;
+  }
+
+  .text-blue-600 {
+    color: #60a5fa !important;
+  }
+
+  .text-blue-700 {
+    color: #93c5fd !important;
+  }
+
+  /* Green tinted elements */
+  .bg-green-100 {
+    background-color: #14532d !important;
+  }
+
+  .bg-green-50 {
+    background-color: #052e16 !important;
+  }
+
+  .border-green-200 {
+    border-color: #166534 !important;
+  }
+
+  .text-green-600 {
+    color: #4ade80 !important;
+  }
+
+  .text-green-700 {
+    color: #86efac !important;
+  }
+
+  /* Purple tinted elements */
+  .bg-purple-100 {
+    background-color: #3b0764 !important;
+  }
+
+  .text-purple-600 {
+    color: #c084fc !important;
+  }
+
+  /* Orange tinted elements */
+  .bg-orange-100 {
+    background-color: #431407 !important;
+  }
+
+  .text-orange-600 {
+    color: #fb923c !important;
+  }
+
+  /* Red tinted elements */
+  .bg-red-50 {
+    background-color: #1c0a0a !important;
+  }
+
+  .border-red-200 {
+    border-color: #7f1d1d !important;
+  }
+
+  .text-red-600 {
+    color: #fca5a5 !important;
+  }
+
+  .text-red-500 {
+    color: #f87171 !important;
+  }
+
+  .text-red-700 {
+    color: #fca5a5 !important;
+  }
+
+  .border-red-300 {
+    border-color: #991b1b !important;
+  }
+
+  .border-red-500 {
+    border-color: #b91c1c !important;
+  }
+
+  /* Indigo tinted elements */
+  .bg-indigo-50 {
+    background-color: #1e1b4b !important;
+  }
+
+  /* Yellow status elements */
+  .bg-yellow-50 {
+    background-color: #422006 !important;
+  }
+  .bg-yellow-100 {
+    background-color: #4a2c0a !important;
+  }
+  .bg-yellow-200 {
+    background-color: #5c3a10 !important;
+  }
+  .text-yellow-800 {
+    color: #fbbf24 !important;
+  }
+  .border-yellow-200 {
+    border-color: #6b4a1a !important;
+  }
+
+  /* Green status elements */
+  .bg-green-200 {
+    background-color: #14532d !important;
+  }
+  .text-green-800 {
+    color: #4ade80 !important;
+  }
+
+  /* Blue status elements */
+  .bg-blue-200 {
+    background-color: #1e3a5f !important;
+  }
+  .text-blue-800,
+  .hover\:text-blue-800:hover {
+    color: #60a5fa !important;
+  }
+
+  /* Shadow overrides */
+  .shadow-sm {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .shadow-md {
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.4),
+      0 2px 4px -2px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .shadow-lg {
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.4),
+      0 4px 6px -4px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* Input styling */
+  input,
+  textarea,
+  select {
+    background-color: var(--input-bg) !important;
+    color: var(--input-text) !important;
+    border-color: var(--input-border) !important;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--muted) !important;
+  }
+
+  /* Focus ring overrides */
+  .focus\:ring-\[var\(--secondary\)\]:focus {
+    --tw-ring-color: #6b66e3 !important;
+  }
+
+  /* Gradient fades from white to transparent → dark bg */
+  .from-white\/90 {
+    --tw-gradient-from: rgb(var(--fade-color) / 0.9) !important;
+  }
+
+  .bg-gradient-to-r.from-white\/90 {
+    background-image: linear-gradient(
+      to right,
+      rgb(var(--fade-color) / 0.9),
+      transparent
+    ) !important;
+  }
+
+  .bg-gradient-to-l.from-white\/90 {
+    background-image: linear-gradient(
+      to left,
+      rgb(var(--fade-color) / 0.9),
+      transparent
+    ) !important;
+  }
+
+  /* Placeholder overrides */
+  .placeholder-\[var\(--gray2\)\]::placeholder {
+    color: var(--muted) !important;
+  }
 }

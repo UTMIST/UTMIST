@@ -49,7 +49,7 @@
   padding-left: 1rem;
   font-size: 0.85rem;
   font-weight: 200;
-  color: #111827;
+  color: var(--text-1);
   font-family: var(--system-font);
 }
 
@@ -58,21 +58,21 @@
   margin: 0 auto;
   max-width: 1000px;
   padding: 20px 0rem;
-  background-color: white;
+  background-color: var(--surface-1);
 }
 
 .open-positions-title {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
-  color: #000;
+  color: var(--text-1);
 }
 
 .open-positions-subtitle {
   font-size: 18px;
   font-weight: 400;
   margin-bottom: 20px;
-  color: #6e6e6e;
+  color: var(--text-3);
 }
 
 /* --- Position Card --- */
@@ -81,10 +81,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border: 1px solid #e1e4e8;
+  border: 1px solid var(--border);
   border-radius: 10px;
   margin-bottom: 15px;
-  background-color: white;
+  background-color: var(--surface-1);
 }
 
 .position-info {
@@ -98,13 +98,13 @@
 .position-title {
   font-size: 18px;
   font-weight: bold;
-  color: #000;
+  color: var(--text-1);
 }
 
 .position-details {
   display: flex;
   align-items: center;
-  color: #6e6e6e;
+  color: var(--text-3);
   font-size: 14px;
 }
 
@@ -213,3 +213,6 @@
     font-size: 1.1rem;
   }
 }
+
+
+
