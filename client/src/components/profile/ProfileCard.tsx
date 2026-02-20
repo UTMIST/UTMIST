@@ -86,7 +86,7 @@ export default function ProfileCard({
             <button
               onClick={onEdit}
               disabled={isEditing}
-              style={isEditing ? {} : { background: "var(--gradient-b2)" }}
+              style={isEditing ? {} : { background: "var(--gradient-action)" }}
               className={`px-6 py-2 rounded-lg font-[var(--system-font)] transition-all duration-200 ${
                 isEditing
                   ? "text-gray-500 cursor-not-allowed opacity-50 bg-gray-200"
