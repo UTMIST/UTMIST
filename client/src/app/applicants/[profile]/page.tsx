@@ -1,20 +1,100 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import applicantData from "@/assets/applicants.json";
 import Link from "next/link";
-
+import type { Applicant } from "@/types/admin";
 
 export default function ApplicantProfile() {
 	const params = useParams();
 	const applicantId = params.profile as string;
-	const applicant = (applicantData.find((applicant) => applicant.id === applicantId));
+	const [applicant, setApplicant] = useState<Applicant | null>(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
 	const [notes, setNotes] = useState("");
+	const [saving, setSaving] = useState(false);
+	const [saveMessage, setSaveMessage] = useState<string | null>(null);
+	const [showModal, setShowModal] = useState(false);
+	const [modalAction, setModalAction] = useState<'Accept' | 'Reject' | 'Waitlist' | null>(null);
 
-	if(!applicant) {
+	useEffect(() => {
+		const fetchApplicant = async () => {
+			try {
+				setLoading(true);
+				const response = await fetch(`/api/applicants/${applicantId}`);
+				
+				if (!response.ok) {
+					throw new Error('Failed to fetch applicant');
+				}
+
+				const data = await response.json();
+				setApplicant(data.applicant);
+				setNotes(data.applicant.notes || '');
+			} catch (err) {
+				console.error('Error fetching applicant:', err);
+				setError(err instanceof Error ? err.message : 'Failed to load applicant');
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		if (applicantId) {
+			fetchApplicant();
+		}
+	}, [applicantId]);
+
+	const handleSaveNotes = async () => {
+		try {
+			setSaving(true);
+			setSaveMessage(null);
+			const response = await fetch(`/api/applicants/${applicantId}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ notes }),
+			});
+
+			if (!response.ok) {
+				throw new Error('Failed to save notes');
+			}
+
+			setSaveMessage('Notes saved successfully!');
+			setTimeout(() => setSaveMessage(null), 3000);
+		} catch (err) {
+			console.error('Error saving notes:', err);
+			setSaveMessage('Failed to save notes');
+		} finally {
+			setSaving(false);
+		}
+	};
+
+	const handleActionClick = (action: 'Accept' | 'Reject' | 'Waitlist') => {
+		setModalAction(action);
+		setShowModal(true);
+	};
+
+	const handleConfirmAction = () => {
+		// TODO: Implement the actual action logic here
+		console.log(`Confirmed action: ${modalAction}`);
+		setShowModal(false);
+		setModalAction(null);
+	};
+
+	const handleCancelAction = () => {
+		setShowModal(false);
+		setModalAction(null);
+	};
+
+	if (loading) {
 		return <div className="w-full min-h-screen flex items-center justify-center">
-			<h1 className="text-3xl font-bold">Applicant Not Found</h1>
+			<h1 className="text-3xl font-bold">Loading...</h1>
+		</div>;
+	}
+
+	if (error || !applicant) {
+		return <div className="w-full min-h-screen flex items-center justify-center">
+			<h1 className="text-3xl font-bold">{error || 'Applicant Not Found'}</h1>
 		</div>;
 	}
 
@@ -57,54 +137,37 @@ export default function ApplicantProfile() {
 					</div>
 					<div className="flex gap-6 mb-10">
 						{!hideScheduleButton && (
-							<button className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-xl text-lg font-bold shadow transition-colors duration-200">Schedule Interview</button>
-						)}
-						<button className="border-2 border-[#6B66E3] bg-gradient-to-l from-[#6B66E3] to-[#1E19B1] px-4 py-2 hover:bg-white hover:text-[#6B66E3] rounded-2xl cursor-pointer text-lg font-bold shadow hover:[background-image:none] text-white transition-colors duration-200">Accept</button>
-						<button className="border-2 border-[#6B66E3] bg-white text-[#6B66E3] hover:bg-[#6B66E3] cursor-pointer hover:text-white px-4 py-2 rounded-2xl text-lg font-bold shadow transition-colors duration-200">Reject</button>
-						<button className="border-2 border-[#6B66E3] hover:bg-white cursor-pointer hover:text-[#6B66E3] px-4 py-2 rounded-2xl text-lg bg-[#6B66E3] text-white font-bold shadow transition-colors duration-200">Waitlist</button>
+						<button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-xl text-lg font-bold shadow transition-colors cursor-pointer duration-200">Schedule Interview</button>
+					)}
+				<button onClick={() => handleActionClick('Accept')} className="border-2 border-[#6B66E3] bg-gradient-to-l from-[#6B66E3] to-[#1E19B1] px-4 py-1.5 hover:bg-white hover:text-[#6B66E3] rounded-2xl cursor-pointer text-lg font-bold shadow hover:[background-image:none] text-white transition-colors duration-200">Accept</button>
+				<button onClick={() => handleActionClick('Reject')} className="border-2 border-[#6B66E3] bg-white text-[#6B66E3] hover:bg-[#6B66E3] cursor-pointer hover:text-white px-4 py-1.5 rounded-2xl text-lg font-bold shadow transition-colors duration-200">Reject</button>
+				<button onClick={() => handleActionClick('Waitlist')} className="border-2 border-[#6B66E3] hover:bg-white cursor-pointer hover:text-[#6B66E3] px-4 py-1.5 rounded-2xl text-lg bg-[#6B66E3] text-white font-bold shadow transition-colors duration-200">Waitlist</button>
 					</div>
 					<div className="pr-8 pt-8 pb-8 mb-6">
-						<div className="mb-2 flex items-center text-lg">
-							<span className="font-bold text-gray-700 mr-2">Resume:</span>
-							<a
-								href={"https://mvmrwmtxepoyoueoiedh.supabase.co/storage/v1/object/sign/Meals/A%20Shubham's%20Resume.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83ZGQzMTU2ZS1hODE4LTQxOTMtYThkZi00NzZhYTUxYzZmMjUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJNZWFscy9BIFNodWJoYW0ncyBSZXN1bWUucGRmIiwiaWF0IjoxNzU4MzI0NTkwLCJleHAiOjE3ODk4NjA1OTB9.D3Qswo981fig8crwcgtFhu04Odg1hmjujPvx9F5kY3M"}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="text-blue-600 underline font-semibold ml-2"
-								download
-							>
-								View Resume
-							</a>
-						</div>
-							<div className="mb-2 mt-8 flex items-center text-lg gap-8">
-								<div className="flex items-center w-[50%]">
-									<span className="font-bold text-gray-700 mr-2">Email:</span>
-									<span className="text-gray-900">{applicant.email}</span>
-								</div>
-								<div className="flex items-center w-[50%]">
-									<span className="font-bold text-gray-700 mr-2">Phone:</span>
-									<span className="text-gray-900">{applicant.phone}</span>
-								</div>
-							</div>
-						<div className="mb-2 mt-8 flex items-center text-lg">
+					<div className="mb-2 flex items-center text-lg">
+						<span className="font-bold text-gray-700 mr-2">Email:</span>
+						<span className="text-gray-900">{applicant.email}</span>
+					</div>
+					<div className="mb-2 mt-4 flex items-center text-lg">
 							<span className="font-bold text-gray-700 mr-2">School:</span>
 							<span className="text-gray-900">{applicant.school}</span>
 						</div>
-							<div className="mb-2 mt-4 flex items-center text-lg gap-8">
-								<div className="flex items-center w-[50%]">
-									<span className="font-bold text-gray-700 mr-2">Major:</span>
-									<span className="text-gray-900">{applicant.major}</span>
+					<div className="mb-2 mt-4 flex items-center text-lg">
+						<span className="font-bold text-gray-700 mr-2">Year:</span>
+						<span className="text-gray-900">{applicant.year}</span>
+					</div>
+						<div className="mt-8">
+							<h3 className="text-xl font-bold text-gray-800 mb-4">Application Answers</h3>
+							{applicant.answers && Object.entries(applicant.answers).map(([question, answer]) => (
+								<div key={question} className="mb-6">
+									<div className="mb-2 font-bold text-gray-800 flex items-start text-lg">
+										{question}
+									</div>
+									<div className="mb-2 text-gray-900 whitespace-pre-wrap">
+										{answer}
+									</div>
 								</div>
-								<div className="flex items-center w-[50%]">
-									<span className="font-bold text-gray-700 mr-2">Year:</span>
-									<span className="text-gray-900">{applicant.year}</span>
-								</div>
-							</div>
-						<div className="mt-8 mb-2 font-bold text-gray-800 flex items-start text-lg">
-							Why do you want this role?
-						</div>
-						<div className="mb-2 text-gray-900 whitespace-pre-wrap">
-							For abc reasons.
+							))}
 						</div>
 					</div>
 					<div className="bg-white border border-blue-100 rounded-2xl p-8 mb-6 shadow">
@@ -115,9 +178,48 @@ export default function ApplicantProfile() {
 							onChange={e => setNotes(e.target.value)}
 							placeholder="Type your notes here..."
 						/>
-						<button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl text-lg font-bold shadow transition-colors duration-200">Save Notes</button>
+					<div className="flex items-center gap-4">
+						<button 
+							onClick={handleSaveNotes}
+							disabled={saving}
+							className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl text-lg font-bold shadow transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+						>
+							{saving ? 'Saving...' : 'Save Notes'}
+						</button>
+						{saveMessage && (
+							<span className={`text-base font-semibold ${
+								saveMessage.includes('success') ? 'text-green-600' : 'text-red-600'
+							}`}>
+								{saveMessage}
+							</span>
+						)}
+					</div>
 					</div>
 				</div>
+
+				{showModal && (
+				<div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
+					<div className="bg-white rounded-2xl p-8 max-w-lg w-full mx-4 shadow-2xl">
+						<p className="text-lg text-gray-700 mb-8 text-center">
+								Are you sure you want to <span className="font-semibold">{modalAction}</span> this applicant?
+							</p>
+						<div className="flex gap-4 justify-evenly">
+							<button
+								onClick={handleCancelAction}
+							className="border-2 cursor-pointer border-[#6B66E3] bg-white text-[#6B66E3] hover:bg-[#6B66E3] hover:text-white px-6 py-2 rounded-2xl text-lg font-bold shadow transition-colors duration-200"
+								>
+									No
+								</button>
+								<button
+									onClick={handleConfirmAction}
+								className="border-2 cursor-pointer border-[#6B66E3] bg-[#6B66E3] text-white hover:bg-white hover:text-[#6B66E3] px-6 py-2 rounded-2xl text-lg font-bold shadow transition-colors duration-200"
+								>
+									Yes
+								</button>
+							</div>
+						</div>
+					</div>
+				)}
 			</div>
 	);
 }
