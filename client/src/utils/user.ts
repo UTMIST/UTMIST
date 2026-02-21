@@ -38,6 +38,7 @@ export const getUserById = async (
       github: profileData.github || "",
       twitter: profileData.twitter || "",
       discord: profileData.discord || "",
+      calendly: profileData.calendly || "",
       year: profileData.year || "",
       admin: profileData.admin ?? false,
       resume_upload: profileData.resume_upload || null,
