@@ -284,6 +284,17 @@ const phase2WorkshopContent: Record<number, WorkshopContent> = {
   }
 };
 
+// Sample Projects content
+const sampleProjectContent: WorkshopContent = {
+  title: "Sample Projects",
+  code: {
+    content: [
+      "Explore sample projects to help guide your own project development."
+    ],
+    codeLink: ""
+  }
+};
+
 // Component definitions
 interface PhaseData {
   title: string;
@@ -574,10 +585,11 @@ interface WorkshopModalProps {
   modalType: ModalType | null;
   weekNumber: number;
   isPhase2?: boolean;
+  isSampleProject?: boolean;
   onClose: () => void;
 }
 
-function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumber, isPhase2 = false, onClose }: WorkshopModalProps) {
+function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumber, isPhase2 = false, isSampleProject = false, onClose }: WorkshopModalProps) {
   if (!isOpen || !modalContent) return null;
 
   const pdfUrls: Record<number, string> = {
@@ -596,8 +608,11 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
     2: "https://docs.google.com/presentation/d/1QrY6-frshcx8NSj8qXI2RkEkY1rqPgdRG7k6Z_I-q24/edit?usp=sharing",
   };
 
+  const sampleProjectPdfUrl = "https://github.com/user-attachments/files/24691450/Sample.Projects.pdf";
+
   const phase2YoutubeVideoUrls: Record<number, string> = {
-    2: "https://drive.google.com/file/d/1tm8JsXgpscG8rw0mVEnl7KRg3McVC5pv/view?usp=sharing"
+    1: "https://youtu.be/J_LzN0ts_A8?si=22zHWnXxAPIC4Ucd",
+    2: "https://youtu.be/Ntxq5_Ysdlg?si=S5zsWXgPV_mZjy9z"
   };
 
   // YouTube video URLs for each week's recordings (you'll need to replace these with actual video URLs)
@@ -613,7 +628,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
   };
 
   // weekNumber is now passed as a prop
-  const pdfUrl = isPhase2 ? phase2PdfUrls[weekNumber] : pdfUrls[weekNumber];
+  const pdfUrl = isSampleProject ? sampleProjectPdfUrl : (isPhase2 ? phase2PdfUrls[weekNumber] : pdfUrls[weekNumber]);
   const youtubeVideoUrl = isPhase2 ? phase2YoutubeVideoUrls[weekNumber] : youtubeVideoUrls[weekNumber];
   
   // Convert YouTube watch URL to embed URL
@@ -755,6 +770,7 @@ export default function MachineLearningFundamentals() {
 
   const [currentWeekNumber, setCurrentWeekNumber] = useState<number>(1);
   const [isPhase2Modal, setIsPhase2Modal] = useState<boolean>(false);
+  const [isSampleProjectModal, setIsSampleProjectModal] = useState<boolean>(false);
 
   const openModal = (week: number, type: ModalType, isPhase2: boolean = false) => {
     const content = isPhase2 ? phase2WorkshopContent[week] : workshopContent[week];
@@ -762,6 +778,20 @@ export default function MachineLearningFundamentals() {
     setModalType(type);
     setCurrentWeekNumber(week);
     setIsPhase2Modal(isPhase2);
+    setIsSampleProjectModal(false);
+    setIsModalOpen(true);
+    // Small delay to allow the modal to render first, then animate
+    setTimeout(() => {
+      setIsModalAnimating(true);
+    }, 10);
+  };
+
+  const openSampleProjectModal = () => {
+    setModalContent(sampleProjectContent);
+    setModalType('slides');
+    setCurrentWeekNumber(0); // Not used for sample projects
+    setIsPhase2Modal(false);
+    setIsSampleProjectModal(true);
     setIsModalOpen(true);
     // Small delay to allow the modal to render first, then animate
     setTimeout(() => {
@@ -776,6 +806,7 @@ export default function MachineLearningFundamentals() {
       setModalContent(null);
       setModalType(null);
       setIsPhase2Modal(false);
+      setIsSampleProjectModal(false);
     }, 300); 
   };
 
@@ -825,6 +856,32 @@ export default function MachineLearningFundamentals() {
       onOpenModal={openModal}
     />
 
+    {/* Project Choice and Submission Section */}
+    <div className="w-full bg-white py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-left mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">Project Choice and Submission</h2>
+        </div>
+        <div className="flex justify-center">
+          <div className="border border-gray-200 rounded-2xl bg-white shadow-lg p-8 w-full max-w-md">
+            <p className="text-gray-600 text-center mb-6 leading-relaxed" style={{
+              fontFamily: "var(--system-font)"
+            }}>
+              Explore sample projects to help guide your own project development.
+            </p>
+            <div className="flex justify-center">
+              <button
+                onClick={openSampleProjectModal}
+                className="bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+              >
+                Sample Projects
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <FAQSection 
       faqData={faqData} 
       openFAQ={openFAQ} 
@@ -858,6 +915,7 @@ export default function MachineLearningFundamentals() {
       modalType={modalType}
       weekNumber={currentWeekNumber}
       isPhase2={isPhase2Modal}
+      isSampleProject={isSampleProjectModal}
       onClose={closeModal}
     />
   </main>
