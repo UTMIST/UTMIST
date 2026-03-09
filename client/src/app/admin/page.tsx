@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import AdminPageClient from "./AdminPageClient";
+import AddCalendly from "./AddCalendly";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function AdminPage() {
@@ -24,5 +25,10 @@ export default async function AdminPage() {
   }
 
   // pass user data to client if needed (has to be plain data)
-  return <AdminPageClient />;
+  return (
+    <>
+      <AddCalendly userId={userRow.id} calendly={userRow.calendly ?? ""} />
+      <AdminPageClient />
+    </>
+  );
 }
