@@ -24,11 +24,11 @@
   .navbar-container.desktop-navbar {
     margin: 2.5rem 2rem;
   }
-  
+
   .nav-links {
     gap: 1.75rem;
   }
-  
+
   .nav-item {
     font-size: 0.95rem;
   }
@@ -54,8 +54,10 @@
 .nav-button {
   font-family: var(--system-font);
   font-weight: 200;
-  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-  background: var(--gradient-b2);
+  transition:
+    opacity 0.2s ease-in-out,
+    transform 0.2s ease-in-out;
+  background: var(--gradient-action);
   color: white;
   border-radius: 10px;
   padding: 0.2rem 1.4rem;
@@ -80,25 +82,25 @@
   .nav-links {
     gap: 1.25rem;
   }
-  
+
   .nav-item {
     font-size: 0.9rem;
   }
-  
+
   .navbar-container.desktop-navbar {
     padding: 0.6rem 1.2rem;
     margin: 2.5rem 1.5rem;
   }
-  
+
   .nav-button {
     padding: 0.2rem 1rem;
     font-size: 0.9rem;
   }
-  
+
   .navbar-logo-text {
     font-size: 1.3rem;
   }
-  
+
   /* Scale down logo image on medium screens */
   .navbar-container.desktop-navbar img {
     width: 28px;
