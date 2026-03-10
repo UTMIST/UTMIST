@@ -63,7 +63,7 @@ export default function FAQ() {
                   alt={expandedIndex === index ? "Collapse" : "Expand"}
                   width={20}
                   height={20}
-                  className={`transition-transform duration-300 ${
+                  className={`transition-transform duration-300 dark:invert ${
                     expandedIndex === index ? "transform rotate-45" : ""
                   }`}
                 />

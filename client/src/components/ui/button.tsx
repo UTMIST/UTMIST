@@ -1,8 +1,8 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
@@ -14,11 +14,12 @@ const buttonVariants = cva(
         destructive:
           "text-white rounded-[10px] transition-[opacity,transform] duration-200 ease-in-out hover:opacity-90 hover:scale-105 cursor-pointer [background:linear-gradient(180deg,#FF4444_0%,#CC0000_100%)]",
         outline:
-          "border border-[#d9d9d9] bg-transparent text-[#1e19b1] rounded-[10px] transition-[opacity,transform,border-color] duration-200 ease-in-out hover:border-[#6B66E3] hover:scale-105 cursor-pointer",
+          "border border-[#d9d9d9] dark:border-[#3a3f55] bg-transparent text-[#1e19b1] dark:text-[#8b87f5] rounded-[10px] transition-[opacity,transform,border-color] duration-200 ease-in-out hover:border-[#6B66E3] hover:scale-105 cursor-pointer",
         secondary:
           "text-white rounded-[10px] transition-[opacity,transform] duration-200 ease-in-out hover:opacity-90 hover:scale-105 cursor-pointer [background:linear-gradient(180deg,#5C5C5C_0%,#000000_100%)]",
-        ghost: "text-[#1e19b1] rounded-[10px] transition-[opacity,transform,background] duration-200 ease-in-out hover:bg-[#f5f5f5] hover:scale-105 cursor-pointer",
-        link: "text-[#1e19b1] underline-offset-4 hover:underline transition-opacity duration-200 hover:opacity-80",
+        ghost:
+          "text-[#1e19b1] dark:text-[#8b87f5] rounded-[10px] transition-[opacity,transform,background] duration-200 ease-in-out hover:bg-[#f5f5f5] dark:hover:bg-[#1a1f30] hover:scale-105 cursor-pointer",
+        link: "text-[#1e19b1] dark:text-[#8b87f5] underline-offset-4 hover:underline transition-opacity duration-200 hover:opacity-80",
       },
       size: {
         default: "px-[2.2rem] py-2 my-4",
@@ -31,27 +32,28 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
-)
+  },
+);
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+  asChild?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
+    const Comp = asChild ? Slot : "button";
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       />
-    )
-  }
-)
-Button.displayName = "Button"
+    );
+  },
+);
+Button.displayName = "Button";
 
-export { Button, buttonVariants }
+export { Button, buttonVariants };
