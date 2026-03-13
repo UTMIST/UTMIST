@@ -33,27 +33,113 @@ export default function ApplicantsDashboard() {
 		const loadingTimeout = setTimeout(() => setLoading(true), 200);
 		
 		try {
-			// Build query parameters
-			const params = new URLSearchParams({
-				page: p.toString(),
-				nameSearch: nameSearch || "",
-				jobId: roleSearch !== "All" ? roleSearch : "",
-				applicationStatusFilter: applicationStatusFilter || "All",
-				interviewStatusFilter: interviewStatusFilter || "All",
-			});
+			// Optional name search via user table
+			let matchingUserIds: string[] | null = null;
+			if (nameSearch && nameSearch.trim().length) {
+				const searchLower = nameSearch.toLowerCase().trim();
+				const { data: usersData, error: usersError } = await supabase
+					.from("user")
+					.select("id")
+					.ilike("name", `%${searchLower}%`)
+					.limit(1000);
 
-			// Call server-side API route
-			const response = await fetch(`/api/applicants?${params.toString()}`);
+				if (usersError) {
+					throw usersError;
+				}
 
-			if (!response.ok) {
-				const errorData = await response.json().catch(() => ({ error: "Failed to load applications" }));
-				throw new Error(errorData.error || `Server error: ${response.status}`);
+				matchingUserIds = (usersData || []).map((u: any) => u.id as string);
+
+				if (matchingUserIds.length === 0) {
+					setApplicants([]);
+					setTotalPages(1);
+					setPage(1);
+					return;
+				}
 			}
 
-			const data = await response.json();
+			// Build main Applicants query with joins and filters
+			let query = supabase
+				.from("Applicants")
+				.select(
+					`
+					id,
+					interview_status,
+					acceptance_status,
+					jobID,
+					answers,
+					notes,
+					interview_time,
+					created_at,
+					userID,
+					user:userID (
+						id,
+						name,
+						email
+					),
+					Jobs:jobID (
+						id,
+						job_title
+					)
+				`,
+					{ count: "exact" }
+				);
 
-			setApplicants(data.applicants || []);
-			setTotalPages(data.totalPages || 1);
+			// Apply filters
+			if (roleSearch && roleSearch !== "All") {
+				query = query.eq("jobID", roleSearch);
+			}
+
+			if (matchingUserIds) {
+				query = query.in("userID", matchingUserIds);
+			}
+
+			if (applicationStatusFilter && applicationStatusFilter !== "All") {
+				if (applicationStatusFilter === "Not Set") {
+					query = query.is("acceptance_status", null);
+				} else {
+					query = query.eq("acceptance_status", applicationStatusFilter);
+				}
+			}
+
+			if (interviewStatusFilter && interviewStatusFilter !== "All") {
+				query = query.eq("interview_status", interviewStatusFilter);
+			}
+
+			// Pagination
+			const from = (p - 1) * LIMIT;
+			const to = from + LIMIT - 1;
+			query = query.range(from, to);
+
+			const { data, error: fetchError, count } = await query;
+
+			if (fetchError) {
+				throw fetchError;
+			}
+
+			const applicantsData: Applicant[] = (data || []).map((item: any) => {
+				const userData = item.user || {};
+				const jobData = item.Jobs || {};
+				return {
+					id: item.id || "",
+					name: userData.name || "N/A",
+					role: jobData.job_title || "N/A",
+					interviewStatus: item.interview_status || "",
+					applicationStatus: item.acceptance_status || "",
+					email: userData.email || "",
+					phone: "",
+					school: "",
+					major: "",
+					year: "",
+					notes: item.notes || "",
+					questions: item.answers || [],
+				};
+			});
+
+			const total = count ?? applicantsData.length;
+			const totalPagesCalculated = total ? Math.ceil(total / LIMIT) : 1;
+
+			setApplicants(applicantsData);
+			setTotalPages(totalPagesCalculated);
 			setPage(p);
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Failed to load applications");

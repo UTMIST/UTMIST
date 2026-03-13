@@ -40,6 +40,12 @@ export default function ApplicantProfile() {
 	const [applicant, setApplicant] = useState<ApplicantData | null>(null);
 	const [notes, setNotes] = useState("");
 	const [loading, setLoading] = useState(true);
+	const [updatingStatus, setUpdatingStatus] = useState(false);
+	const [confirmAction, setConfirmAction] = useState<
+		"ACCEPT" | "REJECT" | "WAITLIST" | "SCHEDULE" | null
+	>(null);
+	const [statusMessage, setStatusMessage] = useState<string | null>(null);
+	const [statusVariant, setStatusVariant] = useState<"success" | "error">("success");
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
@@ -152,6 +158,62 @@ export default function ApplicantProfile() {
 		}
 	}, [applicantId]);
 
+	async function updateApplicationStatus(status: "ACCEPTED" | "REJECTED" | "WAITLISTED") {
+		if (!applicantId) return;
+
+		setUpdatingStatus(true);
+		try {
+			const { error: updateError } = await supabase
+				.from("Applicants")
+				.update({ acceptance_status: status })
+				.eq("id", applicantId);
+
+			if (updateError) {
+				throw updateError;
+			}
+
+			setApplicant((prev) =>
+				prev ? { ...prev, applicationStatus: status } : prev
+			);
+			setStatusVariant("success");
+			setStatusMessage(`Application status updated to ${status}.`);
+		} catch (err) {
+			console.error("Error updating application status:", err);
+			setStatusVariant("error");
+			setStatusMessage("Failed to update application status. Please try again.");
+		} finally {
+			setUpdatingStatus(false);
+		}
+	}
+
+	async function markInterviewScheduled() {
+		if (!applicantId) return;
+
+		setUpdatingStatus(true);
+		try {
+			const { error: updateError } = await supabase
+				.from("Applicants")
+				.update({ interview_status: "SCHEDULED" })
+				.eq("id", applicantId);
+
+			if (updateError) {
+				throw updateError;
+			}
+
+			setApplicant((prev) =>
+				prev ? { ...prev, interviewStatus: "SCHEDULED" } : prev
+			);
+			setStatusVariant("success");
+			setStatusMessage("Interview marked as SCHEDULED.");
+		} catch (err) {
+			console.error("Error updating interview status:", err);
+			setStatusVariant("error");
+			setStatusMessage("Failed to update interview status. Please try again.");
+		} finally {
+			setUpdatingStatus(false);
+		}
+	}
+
 	if (loading) {
 		return (
 			<div className="w-full min-h-screen flex items-center justify-center">
@@ -213,11 +275,35 @@ export default function ApplicantProfile() {
 					</div>
 					<div className="flex gap-6 mb-10">
 						{!hideScheduleButton && (
-							<button className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-xl text-lg font-bold shadow transition-colors duration-200">Schedule Interview</button>
+							<button
+								onClick={() => setConfirmAction("SCHEDULE")}
+								disabled={updatingStatus}
+								className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed text-white px-8 py-4 rounded-xl text-lg font-bold shadow transition-colors duration-200"
+							>
+								Schedule Interview
+							</button>
 						)}
-						<button className="border-2 border-[#6B66E3] bg-gradient-to-l from-[#6B66E3] to-[#1E19B1] px-4 py-2 hover:bg-white hover:text-[#6B66E3] rounded-2xl cursor-pointer text-lg font-bold shadow hover:[background-image:none] text-white transition-colors duration-200">Accept</button>
-						<button className="border-2 border-[#6B66E3] bg-white text-[#6B66E3] hover:bg-[#6B66E3] cursor-pointer hover:text-white px-4 py-2 rounded-2xl text-lg font-bold shadow transition-colors duration-200">Reject</button>
-						<button className="border-2 border-[#6B66E3] hover:bg-white cursor-pointer hover:text-[#6B66E3] px-4 py-2 rounded-2xl text-lg bg-[#6B66E3] text-white font-bold shadow transition-colors duration-200">Waitlist</button>
+						<button
+							onClick={() => setConfirmAction("ACCEPT")}
+							disabled={updatingStatus}
+							className="border-2 border-[#6B66E3] bg-gradient-to-l from-[#6B66E3] to-[#1E19B1] px-4 py-2 hover:bg-white hover:text-[#6B66E3] rounded-2xl cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed text-lg font-bold shadow hover:[background-image:none] text-white transition-colors duration-200"
+						>
+							Accept
+						</button>
+						<button
+							onClick={() => setConfirmAction("REJECT")}
+							disabled={updatingStatus}
+							className="border-2 border-[#6B66E3] bg-white text-[#6B66E3] hover:bg-[#6B66E3] cursor-pointer hover:text-white px-4 py-2 rounded-2xl text-lg font-bold shadow disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-200"
+						>
+							Reject
+						</button>
+						<button
+							onClick={() => setConfirmAction("WAITLIST")}
+							disabled={updatingStatus}
+							className="border-2 border-[#6B66E3] hover:bg-white cursor-pointer hover:text-[#6B66E3] px-4 py-2 rounded-2xl text-lg bg-[#6B66E3] text-white font-bold shadow disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-200"
+						>
+							Waitlist
+						</button>
 					</div>
 					<div className="pr-8 pt-8 pb-8 mb-6">
 						<div className="mb-2 flex items-center text-lg">
@@ -315,10 +401,12 @@ export default function ApplicantProfile() {
 									if (updateError) {
 										throw updateError;
 									}
-									alert("Notes saved successfully!");
+									setStatusVariant("success");
+									setStatusMessage("Notes saved successfully.");
 								} catch (err) {
 									console.error("Error saving notes:", err);
-									alert("Failed to save notes. Please try again.");
+									setStatusVariant("error");
+									setStatusMessage("Failed to save notes. Please try again.");
 								}
 							}}
 							className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl text-lg font-bold shadow transition-colors duration-200"
@@ -326,6 +414,80 @@ export default function ApplicantProfile() {
 							Save Notes
 						</button>
 					</div>
+
+					{confirmAction && (
+						<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+							<div className="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 p-6">
+								<h2 className="text-xl font-semibold mb-2">
+									Confirm action
+								</h2>
+								<p className="text-sm text-gray-700 mb-6">
+									{confirmAction === "ACCEPT" &&
+										"Are you sure you want to mark this application as ACCEPTED?"}
+									{confirmAction === "REJECT" &&
+										"Are you sure you want to mark this application as REJECTED?"}
+									{confirmAction === "WAITLIST" &&
+										"Are you sure you want to mark this application as WAITLISTED?"}
+									{confirmAction === "SCHEDULE" &&
+										"Are you sure you want to mark this interview as SCHEDULED?"}
+								</p>
+								<div className="flex justify-end gap-3">
+									<button
+										type="button"
+										onClick={() => setConfirmAction(null)}
+										className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 text-sm font-medium hover:bg-gray-50"
+									>
+										Cancel
+									</button>
+									<button
+										type="button"
+										onClick={async () => {
+											if (confirmAction === "ACCEPT") {
+												await updateApplicationStatus("ACCEPTED");
+											} else if (confirmAction === "REJECT") {
+												await updateApplicationStatus("REJECTED");
+											} else if (confirmAction === "WAITLIST") {
+												await updateApplicationStatus("WAITLISTED");
+											} else if (confirmAction === "SCHEDULE") {
+												await markInterviewScheduled();
+											}
+											setConfirmAction(null);
+										}}
+										className="px-4 py-2 rounded-lg bg-[#6B66E3] text-white text-sm font-semibold hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed"
+										disabled={updatingStatus}
+									>
+										Confirm
+									</button>
+								</div>
+							</div>
+						</div>
+					)}
+
+					{statusMessage && (
+						<div className="fixed inset-0 z-40 flex items-center justify-center bg-black/30">
+							<div className="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 p-6 border"
+								aria-live="polite"
+							>
+								<div className="mb-4">
+									<h2 className="text-lg font-semibold mb-1">
+										{statusVariant === "success" ? "Success" : "Something went wrong"}
+									</h2>
+									<p className="text-sm text-gray-700">
+										{statusMessage}
+									</p>
+								</div>
+								<div className="flex justify-end">
+									<button
+										type="button"
+										onClick={() => setStatusMessage(null)}
+										className="px-4 py-2 rounded-lg bg-[#6B66E3] text-white text-sm font-semibold hover:opacity-90"
+									>
+										OK
+									</button>
+								</div>
+							</div>
+						</div>
+					)}
 				</div>
 			</div>
 	);
