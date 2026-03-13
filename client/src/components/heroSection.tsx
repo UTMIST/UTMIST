@@ -2,7 +2,7 @@ import React from "react";
 
 interface HeroSectionProps {
   title: string;
-  subtitle: string;
+  subtitle: string | React.ReactNode;
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ title, subtitle }) => (
