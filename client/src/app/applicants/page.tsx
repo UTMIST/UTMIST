@@ -8,7 +8,7 @@ import { Applicant } from "@/types/admin";
 const LIMIT = 20;
 
 export default function ApplicantsDashboard() {
-	const [nameSearch, setNameSearch] = useState("");
+	const [nameEmailSearch, setNameEmailSearch] = useState("");
 	const [roleSearch, setRoleSearch] = useState("");
 	const [applicationStatusFilter, setApplicationStatusFilter] = useState("All");
 	const [interviewStatusFilter, setInterviewStatusFilter] = useState("All");
@@ -19,7 +19,7 @@ export default function ApplicantsDashboard() {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
-	const applicationStatusOptions = ["All", "Accepted", "Rejected", "Pending/Waitlisted"];
+	const applicationStatusOptions = ["All", "Accepted", "Rejected", "Pending", "Waitlisted"];
 
 	// Derive interview status options from current page results (may change across pages)
 	const interviewStatusOptions = [
@@ -32,7 +32,7 @@ export default function ApplicantsDashboard() {
 		setError(null);
 		try {
 			const params = new URLSearchParams();
-			if (nameSearch) params.append("name", nameSearch);
+			if (nameEmailSearch) params.append("nameEmail", nameEmailSearch);
 			if (roleSearch) params.append("role", roleSearch);
 			if (applicationStatusFilter) params.append("applicationStatus", applicationStatusFilter);
 			if (interviewStatusFilter) params.append("interviewStatus", interviewStatusFilter);
@@ -69,13 +69,13 @@ export default function ApplicantsDashboard() {
 
 			<div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 p-4 border-2 border-[#e0e0e0] rounded-lg">
 				<div>
-					<label htmlFor="nameSearch" className="block text-sm font-medium text-gray-700">Search Name</label>
+					<label htmlFor="nameSearch" className="block text-sm font-medium text-gray-700">Search Name or Email</label>
 					<input
 						type="text"
 						id="nameSearch"
-						placeholder="Filter by name..."
-						value={nameSearch}
-						onChange={(e) => setNameSearch(e.target.value)}
+						placeholder="Filter by name or email..."
+						value={nameEmailSearch}
+						onChange={(e) => setNameEmailSearch(e.target.value)}
 						className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 					/>
 				</div>

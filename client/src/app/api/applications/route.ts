@@ -4,7 +4,7 @@ import applicantData from "@/assets/applicants.json";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const name = searchParams.get('name') || '';
+  const nameEmail = searchParams.get('nameEmail') || '';
   const role = searchParams.get('role') || '';
   const applicationStatus = searchParams.get('applicationStatus') || 'All';
   const interviewStatus = searchParams.get('interviewStatus') || 'All';
@@ -14,18 +14,17 @@ export async function GET(req: NextRequest) {
   let filteredApplicants: Applicant[] = applicantData;
 
   // Filtering logic
-  if (name) {
-    filteredApplicants = filteredApplicants.filter(a => a.name.toLowerCase().includes(name.toLowerCase()));
+  if (nameEmail) {
+    filteredApplicants = filteredApplicants.filter(
+        a => a.name.toLowerCase().includes(nameEmail.toLowerCase())
+            || a.email.toLowerCase().includes(nameEmail.toLowerCase())
+        );
   }
   if (role) {
     filteredApplicants = filteredApplicants.filter(a => a.role.toLowerCase().includes(role.toLowerCase()));
   }
   if (applicationStatus && applicationStatus !== 'All') {
-    if (applicationStatus === 'Pending/Waitlisted') {
-      filteredApplicants = filteredApplicants.filter(a => a.applicationStatus === 'Pending' || a.applicationStatus === 'Waitlisted');
-    } else {
       filteredApplicants = filteredApplicants.filter(a => a.applicationStatus === applicationStatus);
-    }
   }
   if (interviewStatus && interviewStatus !== 'All') {
     filteredApplicants = filteredApplicants.filter(a => a.interviewStatus === interviewStatus);
