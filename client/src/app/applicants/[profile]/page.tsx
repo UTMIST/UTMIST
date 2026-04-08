@@ -1,24 +1,238 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import applicantData from "@/assets/applicants.json";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase/client";
 
+interface UserData {
+	id: string;
+	name: string;
+	email: string;
+	github?: string;
+	linkedin?: string;
+	year?: string;
+}
+
+interface JobData {
+	id: string;
+	job_title: string;
+}
+
+interface ApplicantData {
+	id: string;
+	name: string;
+	role: string;
+	email: string;
+	github?: string;
+	linkedin?: string;
+	year?: string;
+	interviewStatus: string;
+	applicationStatus: string;
+	notes: string;
+	answers: any;
+	questions: any[];
+}
 
 export default function ApplicantProfile() {
 	const params = useParams();
 	const applicantId = params.profile as string;
-	const applicant = (applicantData.find((applicant) => applicant.id === applicantId));
+	const [applicant, setApplicant] = useState<ApplicantData | null>(null);
 	const [notes, setNotes] = useState("");
+	const [loading, setLoading] = useState(true);
+	const [updatingStatus, setUpdatingStatus] = useState(false);
+	const [confirmAction, setConfirmAction] = useState<
+		"ACCEPT" | "REJECT" | "WAITLIST" | "SCHEDULE" | null
+	>(null);
+	const [statusMessage, setStatusMessage] = useState<string | null>(null);
+	const [statusVariant, setStatusVariant] = useState<"success" | "error">("success");
+	const [error, setError] = useState<string | null>(null);
 
-	if(!applicant) {
-		return <div className="w-full min-h-screen flex items-center justify-center">
-			<h1 className="text-3xl font-bold">Applicant Not Found</h1>
-		</div>;
+	useEffect(() => {
+		async function fetchApplicant() {
+			try {
+				const { data, error: fetchError } = await supabase
+					.from("Applicants")
+					.select(`
+						id,
+						interview_status,
+						acceptance_status,
+						jobID,
+						answers,
+						notes,
+						interview_time,
+						created_at,
+						userID,
+						user:userID (
+							id,
+							name,
+							email,
+							github,
+							linkedin,
+							year
+						),
+						Jobs:jobID (
+							id,
+							job_title
+						)
+					`)
+					.eq("id", applicantId)
+					.single();
+
+				if (fetchError) {
+					throw fetchError;
+				}
+
+				if (!data) {
+					setError("Applicant not found");
+					setLoading(false);
+					return;
+				}
+
+				// Extract user data - handle both object and array cases
+				const userDataRaw = data.user;
+				const userData: UserData = Array.isArray(userDataRaw) 
+					? (userDataRaw[0] as UserData)
+					: (userDataRaw as UserData) || { id: "", name: "", email: "" };
+				
+				const jobDataRaw = data.Jobs;
+				const jobData: JobData = Array.isArray(jobDataRaw) 
+					? (jobDataRaw[0] as JobData)
+					: (jobDataRaw as JobData) || { id: "", job_title: "" };
+
+				// Parse answers JSON for questions only
+				let questions: any[] = [];
+
+				if (data.answers) {
+					try {
+						const answers = typeof data.answers === 'string' 
+							? JSON.parse(data.answers) 
+							: data.answers;
+
+						// Extract questions if they exist in answers
+						if (Array.isArray(answers.questions)) {
+							questions = answers.questions;
+						} else if (typeof answers === 'object') {
+							// Convert object to array format
+							questions = Object.entries(answers)
+								.filter(([key]) => key.toLowerCase().includes('question') || key.toLowerCase().includes('why'))
+								.map(([question, answer]) => ({
+									question,
+									answer: String(answer)
+								}));
+						}
+					} catch (e) {
+						console.error("Error parsing answers:", e);
+					}
+				}
+
+				setApplicant({
+					id: data.id || "",
+					name: userData?.name || "",
+					role: jobData?.job_title || "",
+					email: userData?.email || "",
+					github: userData?.github || "",
+					linkedin: userData?.linkedin || "",
+					year: userData?.year || "",
+					interviewStatus: data.interview_status || "",
+					applicationStatus: data.acceptance_status || "",
+					notes: data.notes || "",
+					answers: data.answers || {},
+					questions: questions
+				});
+
+				// Load existing notes
+				if (data.notes) {
+					setNotes(data.notes);
+				}
+			} catch (err) {
+				setError(err instanceof Error ? err.message : "Failed to load applicant");
+				console.error("Error fetching applicant:", err);
+			} finally {
+				setLoading(false);
+			}
+		}
+
+		if (applicantId) {
+			fetchApplicant();
+		}
+	}, [applicantId]);
+
+	async function updateApplicationStatus(status: "ACCEPTED" | "REJECTED" | "WAITLISTED") {
+		if (!applicantId) return;
+
+		setUpdatingStatus(true);
+		try {
+			const { error: updateError } = await supabase
+				.from("Applicants")
+				.update({ acceptance_status: status })
+				.eq("id", applicantId);
+
+			if (updateError) {
+				throw updateError;
+			}
+
+			setApplicant((prev) =>
+				prev ? { ...prev, applicationStatus: status } : prev
+			);
+			setStatusVariant("success");
+			setStatusMessage(`Application status updated to ${status}.`);
+		} catch (err) {
+			console.error("Error updating application status:", err);
+			setStatusVariant("error");
+			setStatusMessage("Failed to update application status. Please try again.");
+		} finally {
+			setUpdatingStatus(false);
+		}
 	}
 
-	const hideScheduleButton = ["Scheduled", "Finished"].includes(applicant.interviewStatus);
+	async function markInterviewScheduled() {
+		if (!applicantId) return;
+
+		setUpdatingStatus(true);
+		try {
+			const { error: updateError } = await supabase
+				.from("Applicants")
+				.update({ interview_status: "SCHEDULED" })
+				.eq("id", applicantId);
+
+			if (updateError) {
+				throw updateError;
+			}
+
+			setApplicant((prev) =>
+				prev ? { ...prev, interviewStatus: "SCHEDULED" } : prev
+			);
+			setStatusVariant("success");
+			setStatusMessage("Interview marked as SCHEDULED.");
+		} catch (err) {
+			console.error("Error updating interview status:", err);
+			setStatusVariant("error");
+			setStatusMessage("Failed to update interview status. Please try again.");
+		} finally {
+			setUpdatingStatus(false);
+		}
+	}
+
+	if (loading) {
+		return (
+			<div className="w-full min-h-screen flex items-center justify-center">
+				<div className="relative">
+					<div className="w-12 h-12 border-4 border-[#6b66e3] border-t-transparent rounded-full animate-spin"></div>
+				</div>
+			</div>
+		);
+	}
+
+	if (error || !applicant) {
+		return (
+			<div className="w-full min-h-screen flex items-center justify-center">
+				<h1 className="text-3xl font-bold">{error || "Applicant Not Found"}</h1>
+			</div>
+		);
+	}
+
+	const hideScheduleButton = ["SCHEDULED", "COMPLETED"].includes(applicant.interviewStatus);
 
 	return (
 			<div className="w-full min-h-screen px-0 py-0 relative">
@@ -34,40 +248,68 @@ export default function ApplicantProfile() {
 					</div>
 					
 					<div className="text-2xl font-bold text-gray-900 mb-2">{applicant.name}</div>
-					<div className="text-xl text-gray-700 font-semibold mb-2">Role:
-						<span className="font-semibold text-blue-700">{applicant.role}</span></div>
+					<div className="text-xl text-gray-700 font-semibold mb-2">Role: 
+						<span className="font-semibold text-blue-700"> {applicant.role}</span></div>
 					
 					<div className="flex flex-wrap items-center gap-8 mb-8">	
 						<div className={`px-4 py-2 rounded-lg text-base font-semibold shadow-sm ${
-							applicant.interviewStatus === "Scheduled" || applicant.interviewStatus === "Finished"
+							applicant.interviewStatus === "SCHEDULED" || applicant.interviewStatus === "COMPLETED"
 								? "bg-green-100 text-green-800 border border-green-200"
-								: "bg-yellow-100 text-yellow-800 border border-yellow-200"
-						}`}>
-							Interview Status: {applicant.interviewStatus}
-						</div>
-						<div className={`px-4 py-2 rounded-lg text-base font-semibold shadow-sm ${
-							applicant.applicationStatus === "Pending"
-								? "bg-blue-100 text-blue-800 border border-blue-200"
-								: applicant.applicationStatus === "Waitlisted"
+								: applicant.interviewStatus === "PENDING"
 								? "bg-yellow-100 text-yellow-800 border border-yellow-200"
 								: "bg-gray-100 text-gray-800 border border-gray-200"
 						}`}>
-							Application Status: {applicant.applicationStatus}
+							Interview Status: {applicant.interviewStatus || "Not Set"}
+						</div>
+						<div className={`px-4 py-2 rounded-lg text-base font-semibold shadow-sm ${
+							applicant.applicationStatus === "ACCEPTED"
+								? "bg-green-100 text-green-800 border border-green-200"
+								: applicant.applicationStatus === "REJECTED"
+								? "bg-red-100 text-red-800 border border-red-200"
+								: applicant.applicationStatus === "WAITLISTED"
+								? "bg-yellow-100 text-yellow-800 border border-yellow-200"
+								: "bg-gray-100 text-gray-800 border border-gray-200"
+						}`}>
+							Application Status: {applicant.applicationStatus || "Not Set"}
 						</div>
 					</div>
 					<div className="flex gap-6 mb-10">
 						{!hideScheduleButton && (
-							<button className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-xl text-lg font-bold shadow transition-colors duration-200">Schedule Interview</button>
+							<button
+								onClick={() => setConfirmAction("SCHEDULE")}
+								disabled={updatingStatus}
+								className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed text-white px-8 py-4 rounded-xl text-lg font-bold shadow transition-colors duration-200"
+							>
+								Schedule Interview
+							</button>
 						)}
-						<button className="border-2 border-[#6B66E3] bg-gradient-to-l from-[#6B66E3] to-[#1E19B1] px-4 py-2 hover:bg-white hover:text-[#6B66E3] rounded-2xl cursor-pointer text-lg font-bold shadow hover:[background-image:none] text-white transition-colors duration-200">Accept</button>
-						<button className="border-2 border-[#6B66E3] bg-white text-[#6B66E3] hover:bg-[#6B66E3] cursor-pointer hover:text-white px-4 py-2 rounded-2xl text-lg font-bold shadow transition-colors duration-200">Reject</button>
-						<button className="border-2 border-[#6B66E3] hover:bg-white cursor-pointer hover:text-[#6B66E3] px-4 py-2 rounded-2xl text-lg bg-[#6B66E3] text-white font-bold shadow transition-colors duration-200">Waitlist</button>
+						<button
+							onClick={() => setConfirmAction("ACCEPT")}
+							disabled={updatingStatus}
+							className="border-2 border-[#6B66E3] bg-gradient-to-l from-[#6B66E3] to-[#1E19B1] px-4 py-2 hover:bg-white hover:text-[#6B66E3] rounded-2xl cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed text-lg font-bold shadow hover:[background-image:none] text-white transition-colors duration-200"
+						>
+							Accept
+						</button>
+						<button
+							onClick={() => setConfirmAction("REJECT")}
+							disabled={updatingStatus}
+							className="border-2 border-[#6B66E3] bg-white text-[#6B66E3] hover:bg-[#6B66E3] cursor-pointer hover:text-white px-4 py-2 rounded-2xl text-lg font-bold shadow disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-200"
+						>
+							Reject
+						</button>
+						<button
+							onClick={() => setConfirmAction("WAITLIST")}
+							disabled={updatingStatus}
+							className="border-2 border-[#6B66E3] hover:bg-white cursor-pointer hover:text-[#6B66E3] px-4 py-2 rounded-2xl text-lg bg-[#6B66E3] text-white font-bold shadow disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-200"
+						>
+							Waitlist
+						</button>
 					</div>
 					<div className="pr-8 pt-8 pb-8 mb-6">
 						<div className="mb-2 flex items-center text-lg">
 							<span className="font-bold text-gray-700 mr-2">Resume:</span>
 							<a
-								href={"https://mvmrwmtxepoyoueoiedh.supabase.co/storage/v1/object/sign/Meals/A%20Shubham's%20Resume.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83ZGQzMTU2ZS1hODE4LTQxOTMtYThkZi00NzZhYTUxYzZmMjUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJNZWFscy9BIFNodWJoYW0ncyBSZXN1bWUucGRmIiwiaWF0IjoxNzU4MzI0NTkwLCJleHAiOjE3ODk4NjA1OTB9.D3Qswo981fig8crwcgtFhu04Odg1hmjujPvx9F5kY3M"}
+								href={"EMPTY"}
 								target="_blank"
 								rel="noopener noreferrer"
 								className="text-blue-600 underline font-semibold ml-2"
@@ -82,30 +324,63 @@ export default function ApplicantProfile() {
 									<span className="text-gray-900">{applicant.email}</span>
 								</div>
 								<div className="flex items-center w-[50%]">
-									<span className="font-bold text-gray-700 mr-2">Phone:</span>
-									<span className="text-gray-900">{applicant.phone}</span>
-								</div>
-							</div>
-						<div className="mb-2 mt-8 flex items-center text-lg">
-							<span className="font-bold text-gray-700 mr-2">School:</span>
-							<span className="text-gray-900">{applicant.school}</span>
-						</div>
-							<div className="mb-2 mt-4 flex items-center text-lg gap-8">
-								<div className="flex items-center w-[50%]">
-									<span className="font-bold text-gray-700 mr-2">Major:</span>
-									<span className="text-gray-900">{applicant.major}</span>
-								</div>
-								<div className="flex items-center w-[50%]">
 									<span className="font-bold text-gray-700 mr-2">Year:</span>
-									<span className="text-gray-900">{applicant.year}</span>
+									<span className="text-gray-900">{applicant.year || "Not specified"}</span>
 								</div>
 							</div>
-						<div className="mt-8 mb-2 font-bold text-gray-800 flex items-start text-lg">
-							Why do you want this role?
-						</div>
-						<div className="mb-2 text-gray-900 whitespace-pre-wrap">
-							For abc reasons.
-						</div>
+							<div className="mb-2 mt-8 flex items-center text-lg gap-8">
+								<div className="flex items-center w-[50%]">
+									<span className="font-bold text-gray-700 mr-2">GitHub:</span>
+									{applicant.github ? (
+										<a
+											href={applicant.github}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="text-blue-600 underline font-semibold"
+										>
+											{applicant.github}
+										</a>
+									) : (
+										<span className="text-gray-500">Not provided</span>
+									)}
+								</div>
+								<div className="flex items-center w-[50%]">
+									<span className="font-bold text-gray-700 mr-2">LinkedIn:</span>
+									{applicant.linkedin ? (
+										<a
+											href={applicant.linkedin}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="text-blue-600 underline font-semibold"
+										>
+											{applicant.linkedin}
+										</a>
+									) : (
+										<span className="text-gray-500">Not provided</span>
+									)}
+								</div>
+							</div>
+						{applicant.questions && applicant.questions.length > 0 ? (
+							applicant.questions.map((q: any, index: number) => (
+								<div key={index} className="mt-8 mb-4">
+									<div className="mb-2 font-bold text-gray-800 flex items-start text-lg">
+										{q.question || `Question ${index + 1}`}
+									</div>
+									<div className="mb-2 text-gray-900 whitespace-pre-wrap">
+										{q.answer || "No answer provided"}
+									</div>
+								</div>
+							))
+						) : (
+							<div className="mt-8 mb-2">
+								<div className="mb-2 font-bold text-gray-800 flex items-start text-lg">
+									No questions answered
+								</div>
+								<div className="mb-2 text-gray-500">
+									This applicant has not answered any questions yet.
+								</div>
+							</div>
+						)}
 					</div>
 					<div className="bg-white border border-blue-100 rounded-2xl p-8 mb-6 shadow">
 						<div className="mb-4 font-bold text-lg text-blue-700">Leave Notes:</div>
@@ -115,8 +390,104 @@ export default function ApplicantProfile() {
 							onChange={e => setNotes(e.target.value)}
 							placeholder="Type your notes here..."
 						/>
-						<button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl text-lg font-bold shadow transition-colors duration-200">Save Notes</button>
+						<button 
+							onClick={async () => {
+								try {
+									const { error: updateError } = await supabase
+										.from("Applicants")
+										.update({ notes: notes })
+										.eq("id", applicantId);
+
+									if (updateError) {
+										throw updateError;
+									}
+									setStatusVariant("success");
+									setStatusMessage("Notes saved successfully.");
+								} catch (err) {
+									console.error("Error saving notes:", err);
+									setStatusVariant("error");
+									setStatusMessage("Failed to save notes. Please try again.");
+								}
+							}}
+							className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl text-lg font-bold shadow transition-colors duration-200"
+						>
+							Save Notes
+						</button>
 					</div>
+
+					{confirmAction && (
+						<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+							<div className="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 p-6">
+								<h2 className="text-xl font-semibold mb-2">
+									Confirm action
+								</h2>
+								<p className="text-sm text-gray-700 mb-6">
+									{confirmAction === "ACCEPT" &&
+										"Are you sure you want to mark this application as ACCEPTED?"}
+									{confirmAction === "REJECT" &&
+										"Are you sure you want to mark this application as REJECTED?"}
+									{confirmAction === "WAITLIST" &&
+										"Are you sure you want to mark this application as WAITLISTED?"}
+									{confirmAction === "SCHEDULE" &&
+										"Are you sure you want to mark this interview as SCHEDULED?"}
+								</p>
+								<div className="flex justify-end gap-3">
+									<button
+										type="button"
+										onClick={() => setConfirmAction(null)}
+										className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 text-sm font-medium hover:bg-gray-50"
+									>
+										Cancel
+									</button>
+									<button
+										type="button"
+										onClick={async () => {
+											if (confirmAction === "ACCEPT") {
+												await updateApplicationStatus("ACCEPTED");
+											} else if (confirmAction === "REJECT") {
+												await updateApplicationStatus("REJECTED");
+											} else if (confirmAction === "WAITLIST") {
+												await updateApplicationStatus("WAITLISTED");
+											} else if (confirmAction === "SCHEDULE") {
+												await markInterviewScheduled();
+											}
+											setConfirmAction(null);
+										}}
+										className="px-4 py-2 rounded-lg bg-[#6B66E3] text-white text-sm font-semibold hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed"
+										disabled={updatingStatus}
+									>
+										Confirm
+									</button>
+								</div>
+							</div>
+						</div>
+					)}
+
+					{statusMessage && (
+						<div className="fixed inset-0 z-40 flex items-center justify-center bg-black/30">
+							<div className="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 p-6 border"
+								aria-live="polite"
+							>
+								<div className="mb-4">
+									<h2 className="text-lg font-semibold mb-1">
+										{statusVariant === "success" ? "Success" : "Something went wrong"}
+									</h2>
+									<p className="text-sm text-gray-700">
+										{statusMessage}
+									</p>
+								</div>
+								<div className="flex justify-end">
+									<button
+										type="button"
+										onClick={() => setStatusMessage(null)}
+										className="px-4 py-2 rounded-lg bg-[#6B66E3] text-white text-sm font-semibold hover:opacity-90"
+									>
+										OK
+									</button>
+								</div>
+							</div>
+						</div>
+					)}
 				</div>
 			</div>
 	);
