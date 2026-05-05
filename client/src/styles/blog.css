@@ -21,7 +21,7 @@
 .hero-subtitle{
     font-size: 1rem;
     font-weight: 200;
-    color: #111827;
+    color: var(--foreground);
     font-family: var(--system-font);
     padding: 0 2rem;
 }
@@ -62,7 +62,7 @@
 }
 
 .blog-archive-section {
-    background-color: #f8f9fa;
+    background-color: var(--muted);
     padding-top: 3rem;
     padding-bottom: 3rem;
     margin-top: 4rem;
@@ -78,7 +78,7 @@
     width: 400px;
     max-width: 90%;
     transition: all 0.3s;
-    background-color: white;
+    background-color: var(--card);
     position: relative;
     border: none;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -111,11 +111,11 @@
     flex: 1;
     font-size: 1rem;
     background: transparent;
-    color: black;
+    color: var(--foreground);
 }
 
 .search-icon {
-    color: #1E19B1;
+    color: var(--secondary);
     width: 1.2rem;
     height: 1.2rem;
 }
@@ -135,7 +135,7 @@
 }
 
 .scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #64748B;
+  background: var(--muted-foreground);
 }
 
 /* For Firefox */
@@ -150,14 +150,14 @@
   }
   
   .scroll-dark::-webkit-scrollbar-track {
-    background: #cbd5e1; /* lighter slate */
+    background: var(--scrollbar-track);
   }
   
   .scroll-dark::-webkit-scrollbar-thumb {
-    background: #334155; /* darker slate */
+    background: var(--scrollbar-thumb);
     border-radius: 4px;
   }
   
   .scroll-dark::-webkit-scrollbar-thumb:hover {
-    background: #1e293b; /* even darker on hover */
+    background: var(--muted-foreground);
   }

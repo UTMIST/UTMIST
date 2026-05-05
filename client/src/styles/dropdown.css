@@ -4,7 +4,7 @@
 }
 .dropdown-item {
   position: relative;
-  color: #4b5563;
+  color: var(--muted-foreground);
   transition: color 0.2s ease;
   z-index: 0;
 }
@@ -47,4 +47,3 @@
   border-radius: 9999px;
   background: linear-gradient(180deg, #6b66e3 0%, #1e19b1 100%);
 }
-

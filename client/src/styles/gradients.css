@@ -38,3 +38,40 @@
     #1e19b1 100%
   );
 }
+
+.dark {
+  --gradient-logo: linear-gradient(0deg, #93c5fd 2%, #a78bfa 100%);
+  --gradient-spot: radial-gradient(
+    circle,
+    #c084fc 20%,
+    #6366f1 10%,
+    #1f2937 0%
+  );
+  --gradient-bl1: linear-gradient(180deg, #f8fafc 0%, #a5b4fc 100%);
+  --gradient-b1: linear-gradient(180deg, #8b5cf6 0%, #6366f1 47%, #38bdf8 100%);
+  --gradient-action: linear-gradient(
+    180deg,
+    #7c3aed 0%,
+    #4f46e5 50%,
+    #38bdf8 100%
+  );
+  --gradient-b2: linear-gradient(-99deg, #a78bfa 0%, #6366f1 100%);
+  --gradient-b3: linear-gradient(180deg, #93c5fd 0%, #c4b5fd 100%);
+  --gradient-line-1: linear-gradient(90deg, #60a5fa 0%, #c084fc 100%);
+  --gradient-line-2: linear-gradient(90deg, #93c5fd 0%, #818cf8 100%);
+  --gradient-proj1: linear-gradient(30deg, #60a5fa 0%, #c084fc 100%);
+  --gradient-proj2: linear-gradient(100deg, #93c5fd 0%, #818cf8 100%);
+  --gradient-proj3: linear-gradient(165deg, #f3e8ff 0%, #e879f9 100%);
+  --gradient-proj4: linear-gradient(
+    122deg,
+    #93c5fd 0%,
+    #7c3aed 22%,
+    #6366f1 100%
+  );
+  --gradient-search: linear-gradient(
+    103deg,
+    #475569 0%,
+    #60a5fa 54%,
+    #818cf8 100%
+  );
+}

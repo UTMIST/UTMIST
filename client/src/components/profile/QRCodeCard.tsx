@@ -59,7 +59,7 @@ export default function QRCodeCard({ linkedin }: QRCodeCardProps) {
         Scan to Connect
       </h2>
       <div className="flex flex-col items-center">
-        <div className="w-48 h-48 bg-white rounded-lg flex items-center justify-center border border-gray-200">
+        <div className="qr-code-surface w-48 h-48 bg-white rounded-lg flex items-center justify-center border border-gray-200">
           <QRCodeSVG
             value={linkedinUrl}
             size={180}

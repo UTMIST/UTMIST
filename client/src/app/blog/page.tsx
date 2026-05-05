@@ -114,7 +114,7 @@ export default function BlogPage() {
           </div>
         </div>
         {/* Archive List */}
-        <div className="bg-white rounded-xl p-4 sm:p-5 border border-gray-200 shadow-sm relative">
+        <div className="bg-[var(--card)] rounded-xl p-4 sm:p-5 border border-[var(--border)] shadow-sm relative">
           <div
             ref={scrollContainerRef}
             onScroll={handleScroll}
@@ -137,7 +137,7 @@ export default function BlogPage() {
           </div>
           {/* Show more button */}
           {filteredArchive.length > 4 && !isAtBottom && (
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 sm:hidden bg-white/80 backdrop-blur rounded-full p-1 shadow-sm animate-bounce flex items-center justify-center w-7 h-7">
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 sm:hidden bg-white/80 dark:bg-[rgba(21,26,39,0.82)] backdrop-blur rounded-full p-1 shadow-sm animate-bounce flex items-center justify-center w-7 h-7">
               <ChevronDown className="w-5 h-5 text-gray-500" />
             </div>
           )}
