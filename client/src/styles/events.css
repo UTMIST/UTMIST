@@ -375,3 +375,7 @@
   max-width: 1000px;
   margin: 2rem auto;
 }
+
+.dark .google-calendar-embed {
+  filter: invert(1) hue-rotate(180deg);
+}

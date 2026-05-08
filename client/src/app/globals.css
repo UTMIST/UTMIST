@@ -161,7 +161,7 @@ html {
 
 .floating-theme-toggle {
   position: fixed;
-  right: 1.5rem;
+  right: 27px;
   bottom: 5rem;
   z-index: 50;
 }

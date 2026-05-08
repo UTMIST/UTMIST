@@ -49,12 +49,16 @@
 }
 
 .dark .footer-logo-container {
-    background-color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--muted);
+    border-color: var(--border);
+}
+
+.dark .footer-logo-container img {
+    filter: invert(1) brightness(1.15);
 }
 
 .dark .footer-logo-container:hover {
-    background-color: rgba(255, 255, 255, 0.82);
+    background-color: var(--accent);
 }
 
 .bug-report-container {
