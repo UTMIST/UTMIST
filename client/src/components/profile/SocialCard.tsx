@@ -65,7 +65,7 @@ export default function SocialCard({
             href={twitter}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center p-4 bg-black hover:bg-gray-900 rounded-lg transition-colors"
+            className="flex items-center justify-center p-4 bg-black hover:bg-gray-900 rounded-lg transition-colors dark:border dark:border-[var(--border)]"
           >
             <div className="flex items-center space-x-3">
               <svg

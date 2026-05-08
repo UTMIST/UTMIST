@@ -231,4 +231,183 @@ html {
     color: #111827;
     border-color: #e5e7eb;
   }
+
+  /* Pastel tints — translate light pastels to translucent dark tints for good contrast */
+  .dark .bg-blue-50,
+  .dark .bg-blue-100,
+  .dark .hover\:bg-blue-50:hover,
+  .dark .hover\:bg-blue-100:hover {
+    background-color: rgba(59, 130, 246, 0.16);
+  }
+  .dark .bg-blue-200 {
+    background-color: rgba(59, 130, 246, 0.28);
+  }
+  .dark .bg-blue-500 {
+    background-color: #3b82f6;
+  }
+  .dark .border-blue-100,
+  .dark .border-blue-200,
+  .dark .border-blue-300,
+  .dark .border-blue-400 {
+    border-color: rgba(96, 165, 250, 0.55);
+  }
+  .dark .text-blue-600,
+  .dark .text-blue-700,
+  .dark .text-blue-800 {
+    color: #93c5fd;
+  }
+
+  .dark .bg-green-50,
+  .dark .bg-green-100 {
+    background-color: rgba(34, 197, 94, 0.16);
+  }
+  .dark .bg-green-200 {
+    background-color: rgba(34, 197, 94, 0.3);
+  }
+  .dark .border-green-100,
+  .dark .border-green-200,
+  .dark .border-green-300 {
+    border-color: rgba(74, 222, 128, 0.5);
+  }
+  .dark .text-green-600,
+  .dark .text-green-700,
+  .dark .text-green-800 {
+    color: #86efac;
+  }
+
+  .dark .bg-yellow-50,
+  .dark .bg-yellow-100 {
+    background-color: rgba(234, 179, 8, 0.16);
+  }
+  .dark .bg-yellow-200 {
+    background-color: rgba(234, 179, 8, 0.3);
+  }
+  .dark .border-yellow-100,
+  .dark .border-yellow-200,
+  .dark .border-yellow-300 {
+    border-color: rgba(250, 204, 21, 0.5);
+  }
+  .dark .text-yellow-600,
+  .dark .text-yellow-700,
+  .dark .text-yellow-800 {
+    color: #fde68a;
+  }
+
+  .dark .bg-red-50,
+  .dark .bg-red-100,
+  .dark .hover\:bg-red-50:hover {
+    background-color: rgba(239, 68, 68, 0.16);
+  }
+  .dark .bg-red-200 {
+    background-color: rgba(239, 68, 68, 0.3);
+  }
+  .dark .border-red-100,
+  .dark .border-red-200,
+  .dark .border-red-300 {
+    border-color: rgba(248, 113, 113, 0.5);
+  }
+  .dark .text-red-500,
+  .dark .text-red-600,
+  .dark .text-red-700,
+  .dark .text-red-800 {
+    color: #fca5a5;
+  }
+
+  .dark .bg-purple-50,
+  .dark .bg-purple-100 {
+    background-color: rgba(168, 85, 247, 0.18);
+  }
+  .dark .bg-purple-200 {
+    background-color: rgba(168, 85, 247, 0.3);
+  }
+  .dark .border-purple-100,
+  .dark .border-purple-200,
+  .dark .border-purple-300 {
+    border-color: rgba(192, 132, 252, 0.5);
+  }
+  .dark .text-purple-600,
+  .dark .text-purple-700,
+  .dark .text-purple-800 {
+    color: #d8b4fe;
+  }
+
+  .dark .bg-orange-50,
+  .dark .bg-orange-100 {
+    background-color: rgba(249, 115, 22, 0.16);
+  }
+  .dark .bg-orange-200 {
+    background-color: rgba(249, 115, 22, 0.3);
+  }
+  .dark .border-orange-100,
+  .dark .border-orange-200,
+  .dark .border-orange-300 {
+    border-color: rgba(251, 146, 60, 0.5);
+  }
+  .dark .text-orange-600,
+  .dark .text-orange-700,
+  .dark .text-orange-800 {
+    color: #fdba74;
+  }
+
+  .dark .bg-pink-50,
+  .dark .bg-pink-100 {
+    background-color: rgba(236, 72, 153, 0.18);
+  }
+  .dark .border-pink-100,
+  .dark .border-pink-200 {
+    border-color: rgba(244, 114, 182, 0.5);
+  }
+  .dark .text-pink-600,
+  .dark .text-pink-700 {
+    color: #f9a8d4;
+  }
+
+  .dark .bg-indigo-50,
+  .dark .bg-indigo-100 {
+    background-color: rgba(99, 102, 241, 0.18);
+  }
+  .dark .border-indigo-100,
+  .dark .border-indigo-200,
+  .dark .border-indigo-300 {
+    border-color: rgba(129, 140, 248, 0.5);
+  }
+  .dark .text-indigo-600,
+  .dark .text-indigo-700 {
+    color: #a5b4fc;
+  }
+
+  /* Darker gray shades — keep text readable when used in dark cards */
+  .dark .bg-gray-400,
+  .dark .bg-gray-500,
+  .dark .bg-gray-600,
+  .dark .bg-gray-700,
+  .dark .bg-gray-800,
+  .dark .bg-gray-900 {
+    background-color: var(--muted);
+  }
+
+  .dark .border-gray-400,
+  .dark .border-gray-500,
+  .dark .border-gray-600,
+  .dark .border-gray-700 {
+    border-color: var(--border);
+  }
+
+  .dark .divide-gray-100 > :not([hidden]) ~ :not([hidden]),
+  .dark .divide-gray-200 > :not([hidden]) ~ :not([hidden]),
+  .dark .divide-gray-300 > :not([hidden]) ~ :not([hidden]) {
+    border-color: var(--border);
+  }
+
+  /* Boost shadow visibility against dark surfaces */
+  .dark .shadow,
+  .dark .shadow-sm,
+  .dark .shadow-md,
+  .dark .shadow-lg,
+  .dark .shadow-xl,
+  .dark .shadow-2xl {
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.6),
+      0 4px 16px rgba(0, 0, 0, 0.4);
+  }
 }

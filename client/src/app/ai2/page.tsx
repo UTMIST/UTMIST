@@ -1,6 +1,7 @@
 "use client";
 import "@/styles/ai2.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import { AI2Card } from "@/components/cards/ai2-new-feature-card";
 import PeopleGrid from "@/components/peopleGrid";
 import Image from "next/image";
@@ -40,6 +41,24 @@ interface StepDetail {
 
 export default function AI2Page() {
   const [activeButton, setActiveButton] = useState<string>("November 2");
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  const isDark = mounted && resolvedTheme === "dark";
+  const chronoTheme = {
+    primary: "rgba(106, 102, 245, 0.6)",
+    secondary: isDark ? "#0b0f1a" : "#ffffff",
+    titleColor: isDark ? "#f8fafc" : "#000000",
+    titleColorActive: isDark ? "#f8fafc" : "#000000",
+    cardBgColor: isDark ? "#151a27" : "#ffffff",
+    cardTitleColor: isDark ? "#f8fafc" : "#000000",
+    cardSubtitleColor: isDark ? "#cbd5e1" : "#000000",
+    cardDetailsColor: isDark ? "#cbd5e1" : "#000000",
+    shadowColor: "rgba(106, 102, 245, 0.6)",
+    glowColor: "rgba(106, 102, 245, 0.6)",
+  };
 
   const handleButtonClick = (buttonId: string): void => {
     setActiveButton(buttonId);
@@ -217,18 +236,7 @@ export default function AI2Page() {
                   cardHeight={45}
                   timelinePointDimension={20}
                   lineWidth={lineWidth}
-                  theme={{
-                    primary: "rgba(106, 102, 245, 0.6)",
-                    secondary: "ffffff",
-                    titleColor: "#000000",
-                    titleColorActive: "#000000",
-                    cardBgColor: "#ffffff",
-                    cardTitleColor: "#000000",
-                    cardSubtitleColor: "#000000",
-                    cardDetailsColor: "#000000",
-                    shadowColor: "rgba(106, 102, 245, 0.6)",
-                    glowColor: "rgba(106, 102, 245, 0.6)",
-                  }}
+                  theme={chronoTheme}
                 />
               );
             })()}

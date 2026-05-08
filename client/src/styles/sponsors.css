@@ -140,6 +140,30 @@
   color: #b87333;
 }
 
+.dark .sponsor-card--bronze {
+  border-color: #d99a5b;
+}
+
+.dark .sponsor-card__title--bronze {
+  color: #f6b07d;
+}
+
+.dark .sponsor-card--gold {
+  border-color: #facc15;
+}
+
+.dark .sponsor-card__title--gold {
+  color: #fde68a;
+}
+
+.dark .sponsor-card--diamond {
+  border-color: #67e8f9;
+}
+
+.dark .sponsor-card__title--diamond {
+  color: #67e8f9;
+}
+
 .sponsor-card--silver {
   border-color: #777;
 }
@@ -204,6 +228,14 @@
   );
   display: flex;
   align-items: center;
+}
+
+.dark .contact-left {
+  background: linear-gradient(
+    to bottom right,
+    rgba(76, 29, 149, 0.85),
+    rgba(30, 27, 75, 0.92)
+  );
 }
 
 @media (min-width: 768px) {
