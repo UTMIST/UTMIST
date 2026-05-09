@@ -127,11 +127,11 @@ export default function EventsPage() {
       {/* Hero section - Main title and subtitle */}
       <div className="w-full max-w-4xl mx-auto rounded-lg overflow-hidden min-h-[400px] sm:min-h-[700px] sm:p-0">
       <HeroSection title="Events" subtitle="See what is happening in our UTMIST community" />
-          <iframe 
-            src="https://calendar.google.com/calendar/embed?src=51eeb2795ecb293d64557f280d8114d38b73dffda4c188d63aa65d41f2a7286f%40group.calendar.google.com&ctz=America%2FToronto" 
-            style={{ border: 0 }} 
-            className="w-full h-full min-h-[400px] sm:min-h-[700px] p-8"
-            frameBorder="0" 
+          <iframe
+            src="https://calendar.google.com/calendar/embed?src=51eeb2795ecb293d64557f280d8114d38b73dffda4c188d63aa65d41f2a7286f%40group.calendar.google.com&ctz=America%2FToronto"
+            style={{ border: 0 }}
+            className="google-calendar-embed w-full h-full min-h-[400px] sm:min-h-[700px] p-8"
+            frameBorder="0"
             scrolling="no"
           />
         </div>

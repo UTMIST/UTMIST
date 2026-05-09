@@ -387,7 +387,7 @@ export default function AuthPage() {
 
           {error && (
             <div
-              className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm whitespace-pre-line"
+              className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm whitespace-pre-line dark:bg-red-950/40 dark:border-red-800/80 dark:text-red-200"
               role="alert"
             >
               {error}
@@ -396,7 +396,7 @@ export default function AuthPage() {
                   <button
                     onClick={handleResendConfirmation}
                     disabled={resendingConfirmation || !formData.email}
-                    className="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed dark:border-red-700 dark:bg-red-900/50 dark:text-red-100 dark:hover:bg-red-900/70 dark:focus:ring-offset-[var(--background)]"
                   >
                     {resendingConfirmation
                       ? "Sending..."
@@ -491,8 +491,8 @@ export default function AuthPage() {
                 </div>
               )}
               {showForgotPassword && (
-                <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                  <p className="text-sm text-blue-700 mb-2">
+                <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg dark:bg-blue-950/40 dark:border-blue-700/70">
+                  <p className="text-sm text-blue-800 mb-2 dark:text-blue-100">
                     Enter your email address and we&apos;ll send you a password
                     reset link.
                   </p>
@@ -500,14 +500,14 @@ export default function AuthPage() {
                     type="button"
                     onClick={handleForgotPassword}
                     disabled={sendingPasswordReset || !formData.email}
-                    className="inline-flex items-center px-3 py-2 border border-blue-300 shadow-sm text-sm leading-4 font-medium rounded-md text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed mr-2"
+                    className="inline-flex items-center px-3 py-2 border border-blue-600 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed mr-2 dark:border-blue-400 dark:bg-blue-400 dark:text-slate-950 dark:hover:bg-blue-300 dark:focus:ring-offset-[var(--background)]"
                   >
                     {sendingPasswordReset ? "Sending..." : "Send Reset Link"}
                   </button>
                   <button
                     type="button"
                     onClick={() => setShowForgotPassword(false)}
-                    className="text-sm text-gray-600 hover:text-gray-800"
+                    className="text-sm font-medium text-blue-800 hover:text-blue-950 dark:text-blue-100 dark:hover:text-white"
                   >
                     Cancel
                   </button>

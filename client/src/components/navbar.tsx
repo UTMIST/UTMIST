@@ -6,6 +6,7 @@ import Link from "next/link";
 import logo from "../assets/logos/utmist-logo-small.svg";
 import { useState, useEffect } from "react";
 import { useUser } from "@/hooks/useUser";
+import { ThemeToggle } from "./theme-toggle";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -84,7 +85,7 @@ export default function Navbar() {
       </nav>
 
       <nav className="mobile-navbar">
-        <div className="flex justify-between items-center px-4 py-3 bg-white shadow-md fixed top-0 left-0 right-0 z-50">
+        <div className="mobile-navbar-container flex justify-between items-center px-4 py-3 shadow-md fixed top-0 left-0 right-0 z-50">
           <Link href="/" passHref>
             <div className="flex items-center space-x-2 cursor-pointer">
               <Image src={logo} alt="UTMIST Logo" width={32} height={32} />
@@ -92,9 +93,12 @@ export default function Navbar() {
             </div>
           </Link>
 
-          <button className="hamburger" onClick={() => setIsOpen(!isOpen)}>
-            ☰
-          </button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button className="hamburger" onClick={() => setIsOpen(!isOpen)}>
+              ☰
+            </button>
+          </div>
         </div>
 
         {isOpen && (
