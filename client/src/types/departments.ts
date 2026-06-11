@@ -1,3 +1,19 @@
+export interface DepartmentPage {
+    id: string;
+    name: string;
+    tagline: string;
+    description: string;
+    slug: string;
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface DepartmentPageInput {
+    name: string;
+    tagline: string;
+    description: string;
+}
+
 export interface Initiative {
     title: string;
     description: string;
