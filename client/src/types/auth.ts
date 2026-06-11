@@ -10,7 +10,9 @@ export interface UserProfile {
   github?: string;
   twitter?: string;
   discord?: string;
+  calendly?: string;
   year?: string;
+  admin?: boolean;
   created_at?: string;
   updated_at?: string;
   resume_upload?: Date;

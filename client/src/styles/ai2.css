@@ -7,6 +7,11 @@
   background-blend-mode: lighten;
 }
 
+.dark .bg {
+  background-color: rgba(11, 15, 26, 0.72);
+  background-blend-mode: multiply;
+}
+
 .ticket-button {
   font-family: var(--system-font);
   font-weight: 200;
@@ -88,7 +93,7 @@
 .hero-subtitle {
   font-size: 1rem;
   font-weight: 200;
-  color: #111827;
+  color: var(--foreground);
   font-family: var(--system-font);
   padding: 0 15rem;
 }
@@ -96,7 +101,7 @@
 .hero-subtitle-gradient {
   font-size: 1rem;
   font-weight: 400;
-  background: -webkit-linear-gradient(#1E19B1, #0D0A4B);
+  background: var(--gradient-bl1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-family: var(--system-font);
@@ -146,7 +151,7 @@
 .whats-new-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #000000;
+  color: var(--foreground);
   font-family: var(--system-font);
   margin-bottom: 2rem;
   margin-left: 0;
@@ -156,10 +161,10 @@
 .whats-new-card {
   box-sizing: border-box;
   width: 240px;
-  border: 2px solid #ddd;
+  border: 2px solid var(--border);
   border-radius: 8px;
   padding: 20px;
-  background: #fff;
+  background: var(--card);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin: 10px;
   display: flex;
@@ -176,7 +181,7 @@
   font-weight: 600;
   margin: 2rem 0 1.5rem 0;
   text-align: center;
-  color: #222;
+  color: var(--foreground);
 }
 
 /* ===== Timeline ===== */
@@ -240,6 +245,10 @@
     background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
   }
 
+  .dark .timeline-section {
+    background: radial-gradient(circle, rgba(21, 26, 39, 0.95) 0%, rgba(21, 26, 39, 0) 80%);
+  }
+
 }
 
 /* ===== Leaderboard ===== */
@@ -247,7 +256,7 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 2rem;
-  background: rgba(255, 255, 255, 0.9);
+  background: color-mix(in srgb, var(--card) 92%, transparent);
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(30, 25, 177, 0.1);
   backdrop-filter: blur(10px);
@@ -273,7 +282,11 @@
   display: flex;
   align-items: center;
   padding: 1rem 1.5rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--card) 88%, transparent),
+    color-mix(in srgb, var(--muted) 72%, transparent)
+  );
   border-radius: 12px;
   border: 1px solid rgba(106, 102, 245, 0.1);
   transition: all 0.3s ease;
@@ -310,7 +323,7 @@
 .participant-name {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--foreground);
   background: linear-gradient(135deg, #1e19b1, #6a66f5);
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -319,7 +332,7 @@
 .participant-elo {
   font-size: 0.9rem;
   font-weight: 500;
-  color: #6b7280;
+  color: var(--muted-foreground);
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -336,7 +349,7 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  color: #6b7280;
+  color: var(--muted-foreground);
 }
 
 .loading-spinner {
@@ -369,7 +382,7 @@
 .no-participants {
   text-align: center;
   padding: 2rem;
-  color: #6b7280;
+  color: var(--muted-foreground);
   font-style: italic;
 }
 

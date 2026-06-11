@@ -2,7 +2,7 @@ import React from "react";
 
 interface HeroSectionProps {
   title: string;
-  subtitle: string;
+  subtitle: string | React.ReactNode;
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ title, subtitle }) => (
@@ -18,7 +18,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ title, subtitle }) => (
     >
       {title}
     </h2>
-    <p className="text-base font-extralight text-[#111827] font-sans max-w-[768px] mx-auto mb-4 px-8">
+    <p className="text-base font-extralight text-[var(--muted-foreground)] font-sans max-w-[768px] mx-auto mb-4 px-8">
       {subtitle}
     </p>
   </div>

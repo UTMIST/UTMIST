@@ -12,7 +12,7 @@
 }
 
 .career-card {
-  border: 1px solid var(--gray1);
+  border: 1px solid var(--border);
   margin: 0 1rem;
   padding: 1rem 2rem;
   text-align: center;
@@ -40,7 +40,7 @@
 .career-card-line {
   width: 100%;
   height: 1px;
-  background: var(--gray1);
+  background: var(--border);
   margin: 1rem 0;
   border-radius: 999px;
 }
@@ -49,7 +49,7 @@
   padding-left: 1rem;
   font-size: 0.85rem;
   font-weight: 200;
-  color: #111827;
+  color: var(--foreground);
   font-family: var(--system-font);
 }
 
@@ -58,21 +58,21 @@
   margin: 0 auto;
   max-width: 1000px;
   padding: 20px 0rem;
-  background-color: white;
+  background-color: var(--background);
 }
 
 .open-positions-title {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
-  color: #000;
+  color: var(--foreground);
 }
 
 .open-positions-subtitle {
   font-size: 18px;
   font-weight: 400;
   margin-bottom: 20px;
-  color: #6e6e6e;
+  color: var(--muted-foreground);
 }
 
 /* --- Position Card --- */
@@ -81,10 +81,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border: 1px solid #e1e4e8;
+  border: 1px solid var(--border);
   border-radius: 10px;
   margin-bottom: 15px;
-  background-color: white;
+  background-color: var(--card);
 }
 
 .position-info {
@@ -98,13 +98,13 @@
 .position-title {
   font-size: 18px;
   font-weight: bold;
-  color: #000;
+  color: var(--card-foreground);
 }
 
 .position-details {
   display: flex;
   align-items: center;
-  color: #6e6e6e;
+  color: var(--muted-foreground);
   font-size: 14px;
 }
 

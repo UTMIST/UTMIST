@@ -3,6 +3,8 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ScrollToTop from "@/components/scrollToTop";
+import { FloatingThemeToggle } from "@/components/floating-theme-toggle";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "react-hot-toast";
 
 //Metadata for the page
@@ -31,11 +33,19 @@ export default function RootLayout({
         ></script>
       </head>
       <body className="antialiased">
-        <Navbar />
-        {children}
-        <Footer />
-        <ScrollToTop />
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          {children}
+          <Footer />
+          <ScrollToTop />
+          <FloatingThemeToggle />
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

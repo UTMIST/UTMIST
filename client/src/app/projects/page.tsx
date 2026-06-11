@@ -1,13 +1,12 @@
 "use client";
 // import "@/styles/projects.css";
-import { useState } from "react";
-import Image from "next/image";
+import React, { useState } from "react";
 import { Search } from "lucide-react";
 import projectsData from "@/assets/projects.json";
-import githubIcon from "@/assets/logos/github.svg";
 import dummy from "@/assets/photos/fibseq.webp";
 import { ProjectCarousel } from "@/components/carousel";
 import { ProjectType, Project } from "@/types/projects";
+import ProjectCard from "@/components/cards/project-card";
 import HeroSection from "@/components/heroSection";
 
 export default function ProjectsPage() {
@@ -31,7 +30,20 @@ export default function ProjectsPage() {
     aiapps: ProjectType.aiapps,
   };
 
-  const projects: Project[] = projectsData.map((project) => ({
+  type RawProject = {
+    name?: string;
+    description?: string;
+    github?: string;
+    image?: string;
+    type: string;
+    readMoreLink?: string;
+    longDescription?: string;
+    teamMembers?: string[];
+    tools?: string[];
+    year?: string | number;
+  };
+
+  const projects: Project[] = (projectsData as RawProject[]).map((project) => ({
     title: project.name || "Untitled Project",
     description: project.description || "No description available.",
     github: project.github || undefined,
@@ -39,6 +51,10 @@ export default function ProjectsPage() {
     imageAltText: project.name || "Project Image",
     type: projectTypeMap[project.type] ?? ProjectType.genai,
     readMoreLink: project.readMoreLink || "#",
+    longDescription: project.longDescription,
+    teamMembers: project.teamMembers,
+    tools: project.tools,
+    year: project.year,
   }));
 
   const gradientClassMap: Record<ProjectType, string> = {
@@ -66,134 +82,95 @@ export default function ProjectsPage() {
   );
 
   return (
-    <main>
-      <HeroSection
-        title="Projects"
-        subtitle="See the work of the engineers, researchers and pioneers of ML advancements"
-      />
-      {/* Project Sections with Carousels */}
-      {Object.entries(ProjectType).map(([key, type]) => {
-        const typeProjects = projects.filter(
-          (project) => project.type === type
-        );
-        if (typeProjects.length === 0) return null;
-        return (
-          <div key={key} className="mb-16">
-            <div
-              className={`w-4/5 h-[350px] rounded-[15px] max-w-[1000px] px-8 py-8 flex flex-col items-start justify-end text-left mx-auto mb-4 ${gradientClassMap[type]}`}
-            >
-              <h2 className="text-3xl font-bold text-white font-sans text-left tracking-tight mb-2">
-                {displayNames[type]}
-              </h2>
-              <p className="text-lg font-normal text-white font-sans mt-2">
-                Explore the projects that our members have worked on.
-              </p>
-            </div>
-
-            <ProjectCarousel projects={typeProjects} />
-          </div>
-        );
-      })}
-
-      <section className="flex flex-col items-center py-16 px-4">
-        <h2
-          className="text-3xl font-bold relative text-center"
-          style={{ color: "var(--foreground)" }}
-        >
-          See All Projects
-        </h2>
-        <p
-          className="mt-2 text-base text-center"
-          style={{ color: "var(--muted-foreground)" }}
-        >
-          Browse all of our AI and ML projects developed by our students
-        </p>
-
-        <div
-          className="mt-8 flex items-center rounded-full px-4 py-2 w-80 max-w-full border relative"
-          style={{
-            backgroundColor: "var(--background)",
-            borderColor: "var(--border)",
-          }}
-        >
-          <input
-            type="text"
-            className="flex-1 border-none outline-none text-base bg-transparent"
-            style={{ color: "var(--foreground)" }}
-            placeholder="Search projects..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-indigo-700 w-5 h-5" />
-        </div>
-
-        <div className="mt-10 w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 place-items-center md:place-items-stretch justify-center px-4 sm:px-8 md:px-16">
-          {filteredProjects.map((card, index) => {
-            const isLastOddForTwoCols =
-              filteredProjects.length % 2 === 1 &&
-              index === filteredProjects.length - 1;
-            return (
-              <a
-                key={index}
-                href={card.github || card.readMoreLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`
-                relative w-full max-w-[360px] mx-auto
-                rounded-[13px] p-3 sm:p-6 md:p-8 bg-white border border-gray-200 overflow-hidden
-                flex flex-col
-                transition-transform duration-300 ease-in-out
-                hover:-translate-y-1 hover:shadow-lg cursor-pointer
-                  no-underline justify-self-center md:justify-self-auto
-                ${isLastOddForTwoCols ? "md:col-span-2 lg:col-span-1" : ""}
-              `}
-              >
-                <div className="mb-2 sm:mb-4 rounded-lg overflow-hidden">
-                  <Image
-                    src={`/project_images/${encodeURIComponent(
-                      card.title
-                    )}.png`}
-                    alt={card.title}
-                    width={400}
-                    height={200}
-                    style={{ objectFit: "cover" }}
-                    className="w-full aspect-[16/9] object-cover rounded-lg"
-                  />
-                </div>
-                <div className="mt-0">
-                  <h2
-                    className="font-bold font-sans leading-5 text-sm sm:text-base md:text-lg"
-                    style={{ color: "var(--foreground)" }}
-                  >
-                    {card.title}
+      <main>
+        <HeroSection
+            title="Projects"
+            subtitle={
+    <>
+      See the work of the engineers, researchers and pioneers of ML advancements.
+      <br />
+      <br />
+      UTMIST projects are supported through mentorship and compute resources provided
+      by our company sponsors, faculty mentors, and the University of Toronto Engineering Society,
+      including but not limited to the Skule™ Endowment Fund (SEF).
+    </>
+  }
+        />
+        {/* Project Sections with Carousels */}
+        {Object.entries(ProjectType).map(([key, type]) => {
+          const typeProjects = projects.filter(
+              (project) => project.type === type
+          );
+          if (typeProjects.length === 0) return null;
+          return (
+              <div key={key} className="mb-16">
+                <div
+                    className={`w-4/5 h-[350px] rounded-[15px] max-w-[1000px] px-8 py-8 flex flex-col items-start justify-end text-left mx-auto mb-4 ${gradientClassMap[type]}`}
+                >
+                  <h2 className="text-3xl font-bold text-white font-sans text-left tracking-tight mb-2">
+                    {displayNames[type]}
                   </h2>
-                  <p
-                    className="font-sans font-normal text-xs sm:text-sm md:text-base leading-5 line-clamp-3 sm:line-clamp-3 md:line-clamp-4"
-                    style={{ color: "var(--muted-foreground)" }}
-                  >
-                    {card.description}
+                  <p className="text-lg font-normal text-white font-sans mt-2">
+                    Explore the projects that our members have worked on.
                   </p>
                 </div>
-                {card.github && (
+
+                <ProjectCarousel projects={typeProjects}/>
+              </div>
+          );
+        })}
+
+        <section className="flex flex-col items-center py-16 px-4">
+          <h2
+              className="text-3xl font-bold relative text-center"
+              style={{color: "var(--foreground)"}}
+          >
+            See All Projects
+          </h2>
+          <p
+              className="mt-2 text-base text-center"
+              style={{color: "var(--muted-foreground)"}}
+          >
+            Browse all of our AI and ML projects developed by our students
+          </p>
+
+          <div
+              className="mt-8 flex items-center rounded-full px-4 py-2 w-80 max-w-full border relative"
+              style={{
+                backgroundColor: "var(--background)",
+                borderColor: "var(--border)",
+              }}
+          >
+            <input
+                type="text"
+                className="flex-1 border-none outline-none text-base bg-transparent"
+                style={{color: "var(--foreground)"}}
+                placeholder="Search projects..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-indigo-700 w-5 h-5"/>
+          </div>
+
+          <div
+              className="mt-10 w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 place-items-center md:place-items-stretch justify-center px-4 sm:px-8 md:px-16">
+            {filteredProjects.map((card, index) => {
+              const isLastOddForTwoCols =
+                  filteredProjects.length % 2 === 1 &&
+                  index === filteredProjects.length - 1;
+              return (
                   <div
-                    className="mt-2 hidden sm:inline-flex items-center gap-4 no-underline font-sans font-medium text-xs sm:text-sm"
-                    style={{ color: "var(--foreground)" }}
+                      key={index}
+                      className={`w-full flex justify-center md:justify-stretch ${
+                        isLastOddForTwoCols ? "md:col-span-2 lg:col-span-1" : ""
+                      }`}
                   >
-                    <Image
-                      src={githubIcon}
-                      alt="GitHub Icon"
-                      width={20}
-                      height={20}
-                      className="w-4 h-4 sm:w-5 sm:h-5"
-                    />
-                    <span className="hidden sm:inline">Read More</span>
+                    <ProjectCard {...card} />
                   </div>
-                )}
-              </a>
-            );
-          })}
-        </div>
-      </section>
-    </main>
+              );
+            })}
+          </div>
+        </section>
+      </main>
   );
 }

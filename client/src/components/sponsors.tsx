@@ -15,6 +15,9 @@ import pwcLogo from "../assets/logos/pwc.webp";
 import rbcLogo from "../assets/logos/rbc.webp";
 import edgeAILogo from "../assets/logos/EdgeAI.webp";
 import cgiLogo from "../assets/logos/cgi.webp";
+import cpsifLogo from "../assets/logos/cpsif.svg";
+import engsocLogo from "../assets/logos/engsoc.svg";
+import compsciLogo from "../assets/logos/compsci.webp";
 
 const logos = [
   { src: amdLogo, alt: "AMD Logo", link: "https://www.amd.com/en" },
@@ -61,39 +64,61 @@ const logos = [
   {
     src: womboLogo,
     alt: "Wombo Logo",
-    link: "https://www.wombo.ai/"
+    link: "https://www.wombo.ai/",
   },
   {
     src: googleLogo,
     alt: "Google Logo",
-    link: "https://www.google.com/"
+    link: "https://www.google.com/",
   },
   {
     src: pwcLogo,
     alt: "PwC Logo",
-    link: "https://www.pwc.com/"
+    link: "https://www.pwc.com/",
   },
   {
     src: rbcLogo,
     alt: "RBC Logo",
-    link: "https://www.rbc.com/"
+    link: "https://www.rbc.com/",
   },
-  {    
+  {
     src: edgeAILogo,
     alt: "Edge AI Logo",
-    link: "https://www.edgeaiinnovations.com/"
+    link: "https://www.edgeaiinnovations.com/",
   },
   {
     src: cgiLogo,
     alt: "CGI Logo",
-    link: "https://www.cgi.com/"
-  }
+    link: "https://www.cgi.com/",
+  },
+  {
+    src: cpsifLogo,
+    alt: "CPSIF Logo",
+    link: "https://www.engineering.utoronto.ca/current-students/centralized-process-for-student-initiative-funding-cpsif/",
+  },
+  {
+    src: engsocLogo,
+    alt: "Engineering Society Logo",
+    link: "https://skule.ca/",
+  },
+  {
+    src: compsciLogo,
+    alt: "Department of Computer Science",
+    link: "https://web.cs.toronto.edu/",
+  },
 ];
 
 export default function Sponsors() {
   return (
     <div className="sponsors-container">
       <h3 className="sponsors-title">Supported By</h3>
+      <div
+        className="mx-auto -mt-2 mb-6 h-[5px] w-[180px]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(156, 50, 227, 0), #9C32E3), linear-gradient(to bottom, #98CDF9, #1E19B1)",
+        }}
+      />
       <div className="sponsors-mask">
         <div className="sponsors-carousel">
           {[...logos, ...logos].map((logo, index) => (

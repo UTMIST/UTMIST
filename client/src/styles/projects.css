@@ -21,7 +21,7 @@
 .hero-subtitle {
   font-size: 1rem;
   font-weight: 300;
-  color: #111827;
+  color: var(--foreground);
   text-align: center;
   max-width: 768px;
   margin: 1rem auto;
@@ -99,8 +99,8 @@
   border-radius: 13px;
   padding: 2rem;
   margin: 0 2rem;
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--card);
+  border: 1px solid var(--border);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -115,7 +115,7 @@
 }
 
 .project-card-title {
-  color: #111827;
+  color: var(--card-foreground);
   font-size: 1.5rem;
   font-weight: 700;
   font-family: var(--system-font);
@@ -125,7 +125,7 @@
 }
 
 .project-card-description {
-  color: #6b7280;
+  color: var(--muted-foreground);
   font-size: 0.8rem;
   line-height: 1rem;
   font-family: var(--system-font);
@@ -136,7 +136,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #111827;
+  color: var(--foreground);
   text-decoration: none;
   font-family: var(--system-font);
   font-weight: 500;
@@ -190,7 +190,7 @@
 .project-gallery-subtitle {
   margin-top: 0.5rem;
   font-size: 1rem;
-  color: #333;
+  color: var(--muted-foreground);
   text-align: center;
 }
 
@@ -203,7 +203,7 @@
   width: 320px;
   max-width: 90%;
   transition: border 0.3s;
-  background-color: white;
+  background-color: var(--card);
   position: relative;
   border: none;
 }
@@ -231,11 +231,11 @@
   flex: 1;
   font-size: 1rem;
   background: transparent;
-  color: black;
+  color: var(--foreground);
 }
 
 .search-icon {
-  color: #1e19b1;
+  color: var(--secondary);
   width: 1.2rem;
   height: 1.2rem;
 }
@@ -281,7 +281,7 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 20;
-  background-color: white;
+  background-color: var(--card);
   border-radius: 50%;
   padding: 0.5rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
@@ -290,7 +290,7 @@
 }
 
 .carousel-nav-button:hover {
-  background-color: #f3f4f6;
+  background-color: var(--accent);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -316,7 +316,7 @@
   width: 4rem;
   background: linear-gradient(
     to right,
-    rgba(255, 255, 255, 1) 0%,
+    var(--background) 0%,
     rgba(255, 255, 255, 0) 100%
   );
   pointer-events: none;
@@ -331,7 +331,7 @@
   width: 4rem;
   background: linear-gradient(
     to left,
-    rgba(255, 255, 255, 1) 0%,
+    var(--background) 0%,
     rgba(255, 255, 255, 0) 100%
   );
   pointer-events: none;

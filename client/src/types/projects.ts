@@ -18,4 +18,8 @@ export interface Project {
   imageAltText?: string;
   type: ProjectType;
   readMoreLink: string;
+  longDescription?: string;
+  teamMembers?: string[];
+  tools?: string[];
+  year?: string | number;
 }

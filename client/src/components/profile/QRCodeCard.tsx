@@ -10,7 +10,7 @@ interface QRCodeCardProps {
 export default function QRCodeCard({ linkedin }: QRCodeCardProps) {
   if (!linkedin) {
     return (
-      <div className="bg-white rounded-lg shadow-lg p-8">
+      <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
         <h2 className="text-2xl font-semibold text-gray-900 mb-6">
           Scan to Connect
         </h2>
@@ -54,12 +54,12 @@ export default function QRCodeCard({ linkedin }: QRCodeCardProps) {
   const linkedinUrl = getLinkedInUrl(linkedin);
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-8">
+    <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
       <h2 className="text-2xl font-semibold text-gray-900 mb-6">
         Scan to Connect
       </h2>
       <div className="flex flex-col items-center">
-        <div className="w-48 h-48 bg-white rounded-lg flex items-center justify-center border border-gray-200">
+        <div className="qr-code-surface w-48 h-48 bg-white rounded-lg flex items-center justify-center border border-gray-200">
           <QRCodeSVG
             value={linkedinUrl}
             size={180}
