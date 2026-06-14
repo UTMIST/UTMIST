@@ -2,14 +2,24 @@
 
 import { useCallback, useEffect, useState } from "react";
 import {
+  FieldArray,
   Form,
   Field as FormischField,
+  insert,
+  remove,
   reset,
   useForm,
 } from "@formisch/react";
 import type { SubmitHandler } from "@formisch/react";
-import * as v from "valibot";
 
+import SectionBlock from "@/app/admin/departments/SectionBlock";
+import { DepartmentFormSchema } from "@/app/admin/departments/departmentFormSchema";
+import { getDepartmentComponent } from "@/app/admin/departments/componentRegistry";
+import {
+  createEmptySectionDataJson,
+  toDepartmentPageFormInput,
+  toDepartmentPageInput,
+} from "@/app/admin/departments/sectionData";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,6 +35,8 @@ import {
   FieldError,
   FieldGroup,
   FieldLabel,
+  FieldLegend,
+  FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
@@ -34,46 +46,58 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import type { DepartmentPage, DepartmentPageInput } from "@/types/departments";
+import type {
+  DepartmentPage,
+  DepartmentPageFormInput,
+  DepartmentPageInput,
+} from "@/types/departments";
 import {
   createDepartmentPage,
   listDepartmentPages,
   updateDepartmentPage,
 } from "@/utils/departments";
 
-const EMPTY_INPUT: DepartmentPageInput = {
+const EMPTY_INPUT: DepartmentPageFormInput = {
   name: "",
   tagline: "",
-  description: "",
+  slug: "",
+  sections: [{ component: "", dataJson: "{}" }],
 };
-
-const DepartmentFormSchema = v.object({
-  name: v.pipe(
-    v.string(),
-    v.minLength(3, "Department name must be at least 3 characters."),
-    v.maxLength(100, "Department name must be at most 100 characters.")
-  ),
-  tagline: v.pipe(
-    v.string(),
-    v.minLength(5, "Tagline must be at least 5 characters."),
-    v.maxLength(200, "Tagline must be at most 200 characters.")
-  ),
-  description: v.pipe(
-    v.string(),
-    v.minLength(20, "Description must be at least 20 characters."),
-    v.maxLength(2000, "Description must be at most 2000 characters.")
-  ),
-});
 
 type FormMode = "create" | "edit";
 
-function toFormInput(page: DepartmentPage): DepartmentPageInput {
-  return {
-    name: page.name,
-    tagline: page.tagline,
-    description: page.description,
-  };
+function toFormInput(page: DepartmentPage): DepartmentPageFormInput {
+  return toDepartmentPageFormInput(page);
+}
+
+function validateSectionJsonFields(
+  sections: DepartmentPageInput["sections"]
+): string | null {
+  for (const [index, section] of sections.entries()) {
+    const component = getDepartmentComponent(section.component);
+    if (!component) {
+      continue;
+    }
+
+    for (const fieldDef of component.fields) {
+      if (fieldDef.type !== "json") {
+        continue;
+      }
+
+      const rawValue = section.data[fieldDef.key]?.trim();
+      if (!rawValue) {
+        return `Section ${index + 1}: ${fieldDef.label} is required.`;
+      }
+
+      try {
+        JSON.parse(rawValue);
+      } catch {
+        return `Section ${index + 1}: ${fieldDef.label} must be valid JSON.`;
+      }
+    }
+  }
+
+  return null;
 }
 
 export default function DepartmentForm() {
@@ -110,7 +134,7 @@ export default function DepartmentForm() {
   }, [loadPages]);
 
   const applyFormInput = useCallback(
-    (input: DepartmentPageInput) => {
+    (input: DepartmentPageFormInput) => {
       reset(form, { initialInput: input });
       setMsg(null);
     },
@@ -120,12 +144,6 @@ export default function DepartmentForm() {
   const handleModeChange = (nextMode: FormMode) => {
     setMode(nextMode);
     setSelectedPageId("");
-
-    if (nextMode === "create") {
-      applyFormInput(EMPTY_INPUT);
-      return;
-    }
-
     applyFormInput(EMPTY_INPUT);
   };
 
@@ -149,13 +167,21 @@ export default function DepartmentForm() {
       return;
     }
 
+    const pageInput = toDepartmentPageInput(output);
+
+    const jsonError = validateSectionJsonFields(pageInput.sections);
+    if (jsonError) {
+      setMsg({ type: "error", text: jsonError });
+      return;
+    }
+
     setSubmitting(true);
     setMsg(null);
 
     const result =
       mode === "create"
-        ? await createDepartmentPage(output)
-        : await updateDepartmentPage(selectedPageId, output);
+        ? await createDepartmentPage(pageInput)
+        : await updateDepartmentPage(selectedPageId, pageInput);
 
     setSubmitting(false);
 
@@ -187,21 +213,25 @@ export default function DepartmentForm() {
   };
 
   const isEditMode = mode === "edit";
+  const formDisabled = isEditMode && !selectedPageId;
   const canSubmit = !submitting && (!isEditMode || Boolean(selectedPageId));
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="w-full max-w-4xl mx-auto">
       <CardHeader>
         <CardTitle>Department Pages</CardTitle>
         <CardDescription>
-          Create a new department page or edit an existing one. Changes are
-          saved to the database.
+          Set the page header, then build the rest of the page by adding content
+          sections. Each section maps to a component on the public department
+          page.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <FieldGroup>
           <Field>
-            <FieldLabel htmlFor="admin-department-mode">What would you like to do?</FieldLabel>
+            <FieldLabel htmlFor="admin-department-mode">
+              What would you like to do?
+            </FieldLabel>
             <Select
               value={mode}
               onValueChange={(value) => handleModeChange(value as FormMode)}
@@ -210,8 +240,12 @@ export default function DepartmentForm() {
                 <SelectValue placeholder="Choose an option" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="create">Create a new department page</SelectItem>
-                <SelectItem value="edit">Edit an existing department page</SelectItem>
+                <SelectItem value="create">
+                  Create a new department page
+                </SelectItem>
+                <SelectItem value="edit">
+                  Edit an existing department page
+                </SelectItem>
               </SelectContent>
             </Select>
             <FieldDescription>
@@ -273,10 +307,11 @@ export default function DepartmentForm() {
                     aria-invalid={field.errors !== null}
                     placeholder="Department of Infrastructure"
                     autoComplete="off"
-                    disabled={isEditMode && !selectedPageId}
+                    disabled={formDisabled}
                   />
                   <FieldDescription>
-                    The full display name shown on the department page.
+                    The full display name shown at the top of the department
+                    page.
                   </FieldDescription>
                   {field.errors && (
                     <FieldError
@@ -300,7 +335,7 @@ export default function DepartmentForm() {
                     aria-invalid={field.errors !== null}
                     placeholder="We make the tools that lets UTMIST members be awesome!"
                     autoComplete="off"
-                    disabled={isEditMode && !selectedPageId}
+                    disabled={formDisabled}
                   />
                   <FieldDescription>
                     A short subtitle displayed below the department name.
@@ -314,24 +349,24 @@ export default function DepartmentForm() {
               )}
             </FormischField>
 
-            <FormischField of={form} path={["description"]}>
+            <FormischField of={form} path={["slug"]}>
               {(field) => (
                 <Field data-invalid={field.errors !== null}>
-                  <FieldLabel htmlFor="admin-department-description">
-                    Description
+                  <FieldLabel htmlFor="admin-department-slug">
+                    URL Slug
                   </FieldLabel>
-                  <Textarea
+                  <Input
                     {...field.props}
-                    id="admin-department-description"
+                    id="admin-department-slug"
                     value={field.input ?? ""}
                     aria-invalid={field.errors !== null}
-                    placeholder="Describe what this department does..."
-                    className="min-h-[120px] resize-y"
-                    disabled={isEditMode && !selectedPageId}
+                    placeholder="department-of-infrastructure"
+                    autoComplete="off"
+                    disabled={formDisabled}
                   />
                   <FieldDescription>
-                    The &quot;What do we do?&quot; section content for this
-                    department.
+                    Used in the page URL, e.g. /departments/
+                    {field.input?.trim() || "your-slug"}
                   </FieldDescription>
                   {field.errors && (
                     <FieldError
@@ -341,6 +376,57 @@ export default function DepartmentForm() {
                 </Field>
               )}
             </FormischField>
+
+            <FieldArray of={form} path={["sections"]}>
+              {(fieldArray) => (
+                <FieldSet className="gap-4">
+                  <FieldLegend variant="label">Page Content Sections</FieldLegend>
+                  <FieldDescription>
+                    Add sections in the order they should appear on the page.
+                    Each section uses one of your custom components.
+                  </FieldDescription>
+
+                  <FieldGroup className="gap-4">
+                    {fieldArray.items.map((item, index) => (
+                      <SectionBlock
+                        key={item}
+                        form={form}
+                        index={index}
+                        disabled={formDisabled}
+                        canRemove={fieldArray.items.length > 1}
+                        onRemove={() =>
+                          remove(form, { path: ["sections"], at: index })
+                        }
+                      />
+                    ))}
+
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      disabled={formDisabled}
+                      onClick={() =>
+                        insert(form, {
+                          path: ["sections"],
+                          initialInput: {
+                            component: "",
+                            dataJson: createEmptySectionDataJson(""),
+                          },
+                        })
+                      }
+                    >
+                      Add Section
+                    </Button>
+                  </FieldGroup>
+
+                  {fieldArray.errors && (
+                    <FieldError
+                      errors={fieldArray.errors.map((message) => ({ message }))}
+                    />
+                  )}
+                </FieldSet>
+              )}
+            </FieldArray>
           </FieldGroup>
         </Form>
       </CardContent>

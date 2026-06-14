@@ -1,5 +1,9 @@
 import { supabase } from "@/lib/supabase/client";
-import type { DepartmentPage, DepartmentPageInput } from "@/types/departments";
+import type {
+  DepartmentPage,
+  DepartmentPageInput,
+  DepartmentPageSection,
+} from "@/types/departments";
 
 const TABLE = "department_page";
 
@@ -9,6 +13,38 @@ export function slugifyDepartmentName(name: string): string {
     .trim()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
+}
+
+function normalizeSections(
+  sections: DepartmentPageSection[] | null | undefined
+): DepartmentPageSection[] {
+  if (!Array.isArray(sections)) {
+    return [];
+  }
+
+  return sections.map((section) => ({
+    component: section.component ?? "",
+    data: Object.fromEntries(
+      Object.entries(section.data ?? {}).map(([key, value]) => [
+        key,
+        String(value),
+      ])
+    ),
+  }));
+}
+
+function normalizeDepartmentPage(row: Record<string, unknown>): DepartmentPage {
+  return {
+    id: String(row.id),
+    name: String(row.name ?? ""),
+    tagline: String(row.tagline ?? ""),
+    sections: normalizeSections(
+      row.sections as DepartmentPageSection[] | undefined
+    ),
+    slug: String(row.slug ?? ""),
+    created_at: row.created_at ? String(row.created_at) : undefined,
+    updated_at: row.updated_at ? String(row.updated_at) : undefined,
+  };
 }
 
 export async function listDepartmentPages(): Promise<{
@@ -26,7 +62,12 @@ export async function listDepartmentPages(): Promise<{
       return { data: [], error: error.message };
     }
 
-    return { data: (data ?? []) as DepartmentPage[], error: null };
+    return {
+      data: (data ?? []).map((row) =>
+        normalizeDepartmentPage(row as Record<string, unknown>)
+      ),
+      error: null,
+    };
   } catch (error) {
     console.error("Error in listDepartmentPages:", error);
     return {
@@ -44,14 +85,14 @@ export async function createDepartmentPage(
 ): Promise<{ data: DepartmentPage | null; error: string | null }> {
   try {
     const now = new Date().toISOString();
-    const slug = slugifyDepartmentName(input.name);
+    const slug = slugifyDepartmentName(input.slug);
 
     const { data, error } = await supabase
       .from(TABLE)
       .insert({
         name: input.name,
         tagline: input.tagline,
-        description: input.description,
+        sections: input.sections,
         slug,
         created_at: now,
         updated_at: now,
@@ -64,7 +105,10 @@ export async function createDepartmentPage(
       return { data: null, error: error.message };
     }
 
-    return { data: data as DepartmentPage, error: null };
+    return {
+      data: normalizeDepartmentPage(data as Record<string, unknown>),
+      error: null,
+    };
   } catch (error) {
     console.error("Error in createDepartmentPage:", error);
     return {
@@ -87,8 +131,8 @@ export async function updateDepartmentPage(
       .update({
         name: input.name,
         tagline: input.tagline,
-        description: input.description,
-        slug: slugifyDepartmentName(input.name),
+        sections: input.sections,
+        slug: slugifyDepartmentName(input.slug),
         updated_at: new Date().toISOString(),
       })
       .eq("id", id)
@@ -100,7 +144,10 @@ export async function updateDepartmentPage(
       return { data: null, error: error.message };
     }
 
-    return { data: data as DepartmentPage, error: null };
+    return {
+      data: normalizeDepartmentPage(data as Record<string, unknown>),
+      error: null,
+    };
   } catch (error) {
     console.error("Error in updateDepartmentPage:", error);
     return {
