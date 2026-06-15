@@ -5,18 +5,18 @@ import type { DepartmentPage } from "@/types/departments";
 
 jest.mock("@/components/memberList", () => ({
   MemberList: ({
-    members,
+    memberRows,
     title,
     subtitle,
   }: {
-    members: unknown[];
+    memberRows: unknown[];
     title?: string;
     subtitle?: string;
   }) => (
     <div data-testid="member-list">
       <h2>{title}</h2>
       <p>{subtitle}</p>
-      <span>{members.length} groups</span>
+      <span>{memberRows.length} rows</span>
     </div>
   ),
 }));
@@ -67,17 +67,15 @@ describe("Department page renderer", () => {
     render(
       <DepartmentPageRenderer
         page={page}
-        memberGroupsBySectionIndex={{
+        memberRowsBySectionIndex={{
           1: [
             {
-              role: "President",
-              members: [
-                {
-                  name: "Jane Doe",
-                  bio: "",
-                  email: "jane@example.com",
-                },
-              ],
+              Year: 2024,
+              "First Name": "Jane",
+              "Last Name": "Doe",
+              "UofT Email": "jane@example.com",
+              Position: "President",
+              Department: "Administration",
             },
           ],
         }}
@@ -91,6 +89,6 @@ describe("Department page renderer", () => {
     expect(screen.getByTestId("member-list")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Our Team" })).toBeInTheDocument();
     expect(screen.getByText("Meet the people behind the work")).toBeInTheDocument();
-    expect(screen.getByText("1 groups")).toBeInTheDocument();
+    expect(screen.getByText("1 rows")).toBeInTheDocument();
   });
 });

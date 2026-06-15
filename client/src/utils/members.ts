@@ -16,7 +16,24 @@ export interface MemberRecord {
 }
 
 const MEMBER_SELECT =
-  '"First Name", "Preferred/English", "Last Name", "UofT Email", Position, Department';
+  'Year, "First Name", "Preferred/English", "Last Name", "UofT Email", Position, Department';
+
+export function getAvailableMemberYears(rows: MemberRecord[]): number[] {
+  return [
+    ...new Set(
+      rows
+        .map((row) => row.Year)
+        .filter((year): year is number => typeof year === "number")
+    ),
+  ].sort((yearA, yearB) => yearB - yearA);
+}
+
+export function filterMemberRowsByYear(
+  rows: MemberRecord[],
+  year: number
+): MemberRecord[] {
+  return rows.filter((row) => row.Year === year);
+}
 
 export function formatMemberName(row: MemberRecord): string {
   const preferred = row["Preferred/English"]?.trim();

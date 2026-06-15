@@ -6,7 +6,6 @@ import DepartmentPageRenderer from "@/components/department/DepartmentPageRender
 import { createClient } from "@/lib/supabase/server";
 import { getDepartmentPageBySlug } from "@/utils/departments";
 import {
-  buildMemberGroups,
   fetchMembersForDepartments,
   filterMemberRowsForDepartments,
 } from "@/utils/members";
@@ -43,7 +42,7 @@ async function loadDepartmentPage(slug: string) {
       ? await fetchMembersForDepartments(supabase, [...selectedDepartments])
       : { data: [] };
 
-  const memberGroupsBySectionIndex = Object.fromEntries(
+  const memberRowsBySectionIndex = Object.fromEntries(
     page.sections.map((section, index) => {
       if (section.component !== "member_list") {
         return [index, []];
@@ -52,13 +51,15 @@ async function loadDepartmentPage(slug: string) {
       const departments = parseSelectedDepartments(
         section.data.departments ?? ""
       );
-      const sectionRows = filterMemberRowsForDepartments(memberRows, departments);
 
-      return [index, buildMemberGroups(sectionRows)];
+      return [
+        index,
+        filterMemberRowsForDepartments(memberRows, departments),
+      ];
     })
   );
 
-  return { page, memberGroupsBySectionIndex };
+  return { page, memberRowsBySectionIndex };
 }
 
 export async function generateMetadata({
@@ -82,12 +83,12 @@ export default async function DepartmentSlugPage({
   params,
 }: DepartmentSlugPageProps) {
   const { slug } = await params;
-  const { page, memberGroupsBySectionIndex } = await loadDepartmentPage(slug);
+  const { page, memberRowsBySectionIndex } = await loadDepartmentPage(slug);
 
   return (
     <DepartmentPageRenderer
       page={page}
-      memberGroupsBySectionIndex={memberGroupsBySectionIndex}
+      memberRowsBySectionIndex={memberRowsBySectionIndex}
     />
   );
 }

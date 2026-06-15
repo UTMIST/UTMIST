@@ -8,15 +8,15 @@ import { MemberList } from "@/components/memberList";
 import type {
   DepartmentPage,
   DepartmentPageSection,
-  MemberGroup,
 } from "@/types/departments";
+import type { MemberRecord } from "@/utils/members";
 
 interface DepartmentSectionProps {
   section: DepartmentPageSection;
-  memberGroups: MemberGroup[];
+  memberRows: MemberRecord[];
 }
 
-function DepartmentSection({ section, memberGroups }: DepartmentSectionProps) {
+function DepartmentSection({ section, memberRows }: DepartmentSectionProps) {
   const data = section.data;
 
   switch (section.component) {
@@ -38,7 +38,7 @@ function DepartmentSection({ section, memberGroups }: DepartmentSectionProps) {
     case "member_list":
       return (
         <MemberList
-          members={memberGroups}
+          memberRows={memberRows}
           title={data.title || "Member List"}
           subtitle={data.subtitle || "See who makes us special!"}
         />
@@ -90,12 +90,12 @@ function DepartmentSection({ section, memberGroups }: DepartmentSectionProps) {
 
 interface DepartmentPageRendererProps {
   page: DepartmentPage;
-  memberGroupsBySectionIndex: Record<number, MemberGroup[]>;
+  memberRowsBySectionIndex: Record<number, MemberRecord[]>;
 }
 
 export default function DepartmentPageRenderer({
   page,
-  memberGroupsBySectionIndex,
+  memberRowsBySectionIndex,
 }: DepartmentPageRendererProps) {
   return (
     <>
@@ -108,7 +108,7 @@ export default function DepartmentPageRenderer({
           <DepartmentSection
             key={`${section.component}-${index}`}
             section={section}
-            memberGroups={memberGroupsBySectionIndex[index] ?? []}
+            memberRows={memberRowsBySectionIndex[index] ?? []}
           />
         ))}
       </main>
