@@ -198,7 +198,7 @@ export default function DepartmentForm() {
       text:
         mode === "create"
           ? `Department page "${result.data.name}" created successfully.`
-          : `Department page "${result.data.name}" updated successfully.`,
+          : `New version of "${result.data.name}" saved successfully.`,
     });
 
     await loadPages();
@@ -459,7 +459,7 @@ export default function DepartmentForm() {
             {submitting
               ? "Saving..."
               : isEditMode
-                ? "Save Changes"
+                ? "Save New Version"
                 : "Create Department Page"}
           </Button>
         </Field>

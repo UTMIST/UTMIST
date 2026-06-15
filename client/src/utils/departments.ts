@@ -47,6 +47,28 @@ function normalizeDepartmentPage(row: Record<string, unknown>): DepartmentPage {
   };
 }
 
+function pickLatestVersionPerSlug(pages: DepartmentPage[]): DepartmentPage[] {
+  const latestBySlug = new Map<string, DepartmentPage>();
+
+  for (const page of pages) {
+    const existing = latestBySlug.get(page.slug);
+    if (!existing) {
+      latestBySlug.set(page.slug, page);
+      continue;
+    }
+
+    const pageTime = page.created_at ?? page.updated_at ?? "";
+    const existingTime = existing.created_at ?? existing.updated_at ?? "";
+    if (pageTime > existingTime) {
+      latestBySlug.set(page.slug, page);
+    }
+  }
+
+  return Array.from(latestBySlug.values()).sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+}
+
 export async function listDepartmentPages(): Promise<{
   data: DepartmentPage[];
   error: string | null;
@@ -55,7 +77,7 @@ export async function listDepartmentPages(): Promise<{
     const { data, error } = await supabase
       .from(TABLE)
       .select("*")
-      .order("name", { ascending: true });
+      .order("created_at", { ascending: false });
 
     if (error) {
       console.error("Error listing department pages:", error);
@@ -63,8 +85,10 @@ export async function listDepartmentPages(): Promise<{
     }
 
     return {
-      data: (data ?? []).map((row) =>
-        normalizeDepartmentPage(row as Record<string, unknown>)
+      data: pickLatestVersionPerSlug(
+        (data ?? []).map((row) =>
+          normalizeDepartmentPage(row as Record<string, unknown>)
+        )
       ),
       error: null,
     };
@@ -80,35 +104,46 @@ export async function listDepartmentPages(): Promise<{
   }
 }
 
+async function insertDepartmentPage(
+  input: DepartmentPageInput
+): Promise<{ data: DepartmentPage | null; error: string | null }> {
+  const now = new Date().toISOString();
+  const slug = slugifyDepartmentName(input.slug);
+
+  const { data, error } = await supabase
+    .from(TABLE)
+    .insert({
+      name: input.name,
+      tagline: input.tagline,
+      sections: input.sections,
+      slug,
+      created_at: now,
+      updated_at: now,
+    })
+    .select("*")
+    .single();
+
+  if (error) {
+    return { data: null, error: error.message };
+  }
+
+  return {
+    data: normalizeDepartmentPage(data as Record<string, unknown>),
+    error: null,
+  };
+}
+
 export async function createDepartmentPage(
   input: DepartmentPageInput
 ): Promise<{ data: DepartmentPage | null; error: string | null }> {
   try {
-    const now = new Date().toISOString();
-    const slug = slugifyDepartmentName(input.slug);
+    const result = await insertDepartmentPage(input);
 
-    const { data, error } = await supabase
-      .from(TABLE)
-      .insert({
-        name: input.name,
-        tagline: input.tagline,
-        sections: input.sections,
-        slug,
-        created_at: now,
-        updated_at: now,
-      })
-      .select("*")
-      .single();
-
-    if (error) {
-      console.error("Error creating department page:", error);
-      return { data: null, error: error.message };
+    if (result.error) {
+      console.error("Error creating department page:", result.error);
     }
 
-    return {
-      data: normalizeDepartmentPage(data as Record<string, unknown>),
-      error: null,
-    };
+    return result;
   } catch (error) {
     console.error("Error in createDepartmentPage:", error);
     return {
@@ -122,32 +157,17 @@ export async function createDepartmentPage(
 }
 
 export async function updateDepartmentPage(
-  id: string,
+  _id: string,
   input: DepartmentPageInput
 ): Promise<{ data: DepartmentPage | null; error: string | null }> {
   try {
-    const { data, error } = await supabase
-      .from(TABLE)
-      .update({
-        name: input.name,
-        tagline: input.tagline,
-        sections: input.sections,
-        slug: slugifyDepartmentName(input.slug),
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", id)
-      .select("*")
-      .single();
+    const result = await insertDepartmentPage(input);
 
-    if (error) {
-      console.error("Error updating department page:", error);
-      return { data: null, error: error.message };
+    if (result.error) {
+      console.error("Error saving department page version:", result.error);
     }
 
-    return {
-      data: normalizeDepartmentPage(data as Record<string, unknown>),
-      error: null,
-    };
+    return result;
   } catch (error) {
     console.error("Error in updateDepartmentPage:", error);
     return {
@@ -155,7 +175,7 @@ export async function updateDepartmentPage(
       error:
         error instanceof Error
           ? error.message
-          : "Failed to update department page",
+          : "Failed to save department page version",
     };
   }
 }
