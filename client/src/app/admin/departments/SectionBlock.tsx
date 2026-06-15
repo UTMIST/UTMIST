@@ -2,23 +2,18 @@
 
 import {
   Field as FormischField,
-  getInput,
   setInput,
   type FormStore,
 } from "@formisch/react";
 import { XIcon } from "lucide-react";
 
 import type { DepartmentFormSchema } from "@/app/admin/departments/departmentFormSchema";
-import {
-  createEmptySectionDataJson,
-  parseSectionDataJson,
-  stringifySectionData,
-} from "@/app/admin/departments/sectionData";
+import { createEmptySectionDataJson } from "@/app/admin/departments/sectionData";
 import {
   DEPARTMENT_COMPONENT_REGISTRY,
   getDepartmentComponent,
-  type ComponentFieldDef,
 } from "@/app/admin/departments/componentRegistry";
+import SectionFieldEditor from "@/app/admin/departments/fieldEditors/SectionFieldEditor";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -28,7 +23,6 @@ import {
   FieldLegend,
   FieldSet,
 } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -36,7 +30,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 
 interface SectionBlockProps {
   form: FormStore<typeof DepartmentFormSchema>;
@@ -44,77 +37,6 @@ interface SectionBlockProps {
   disabled?: boolean;
   onRemove: () => void;
   canRemove: boolean;
-}
-
-function updateSectionDataField(
-  form: FormStore<typeof DepartmentFormSchema>,
-  index: number,
-  key: string,
-  value: string
-) {
-  const dataJson =
-    getInput(form, { path: ["sections", index, "dataJson"] }) ?? "{}";
-  const data = parseSectionDataJson(dataJson);
-  data[key] = value;
-
-  setInput(form, {
-    path: ["sections", index, "dataJson"],
-    input: stringifySectionData(data),
-  });
-}
-
-function DataField({
-  fieldDef,
-  index,
-  form,
-  disabled,
-}: {
-  fieldDef: ComponentFieldDef;
-  index: number;
-  form: FormStore<typeof DepartmentFormSchema>;
-  disabled?: boolean;
-}) {
-  const fieldId = `admin-section-${index}-${fieldDef.key}`;
-  const dataJson =
-    getInput(form, { path: ["sections", index, "dataJson"] }) ?? "{}";
-  const value = parseSectionDataJson(dataJson)[fieldDef.key] ?? "";
-
-  return (
-    <Field>
-      <FieldLabel htmlFor={fieldId}>{fieldDef.label}</FieldLabel>
-      {fieldDef.type === "textarea" || fieldDef.type === "json" ? (
-        <Textarea
-          id={fieldId}
-          value={value}
-          onChange={(event) =>
-            updateSectionDataField(form, index, fieldDef.key, event.target.value)
-          }
-          placeholder={fieldDef.placeholder}
-          className={
-            fieldDef.type === "json"
-              ? "min-h-[140px] font-mono text-xs"
-              : "min-h-[100px]"
-          }
-          disabled={disabled}
-        />
-      ) : (
-        <Input
-          id={fieldId}
-          value={value}
-          onChange={(event) =>
-            updateSectionDataField(form, index, fieldDef.key, event.target.value)
-          }
-          placeholder={fieldDef.placeholder}
-          type={fieldDef.type === "url" ? "url" : "text"}
-          autoComplete="off"
-          disabled={disabled}
-        />
-      )}
-      {fieldDef.description && (
-        <FieldDescription>{fieldDef.description}</FieldDescription>
-      )}
-    </Field>
-  );
 }
 
 export default function SectionBlock({
@@ -189,7 +111,7 @@ export default function SectionBlock({
               {selectedComponent && (
                 <div className="space-y-4 border-t pt-4">
                   {selectedComponent.fields.map((fieldDef) => (
-                    <DataField
+                    <SectionFieldEditor
                       key={fieldDef.key}
                       fieldDef={fieldDef}
                       index={index}

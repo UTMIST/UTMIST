@@ -1,4 +1,9 @@
-export type ComponentFieldType = "text" | "textarea" | "url" | "json";
+export type ComponentFieldType =
+  | "text"
+  | "textarea"
+  | "url"
+  | "json"
+  | "member_department_multi_select";
 
 export interface ComponentFieldDef {
   key: string;
@@ -53,13 +58,11 @@ export const DEPARTMENT_COMPONENT_REGISTRY: DepartmentComponentDef[] = [
         placeholder: "See who makes us special!",
       },
       {
-        key: "members",
-        label: "Members Data",
-        type: "json",
+        key: "departments",
+        label: "Departments",
+        type: "member_department_multi_select",
         description:
-          'JSON array of { "role": string, "members": [{ "name", "bio", "email" }] }',
-        placeholder:
-          '[{"role":"Director","members":[{"name":"Jane Doe","bio":"...","email":"jane@example.com"}]}]',
+          "Search and select member departments from the Members table.",
       },
     ],
   },
@@ -144,6 +147,9 @@ export function createEmptySectionData(
   }
 
   return Object.fromEntries(
-    component.fields.map((field) => [field.key, ""])
+    component.fields.map((field) => [
+      field.key,
+      field.type === "member_department_multi_select" ? "[]" : "",
+    ])
   );
 }

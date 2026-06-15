@@ -33,6 +33,29 @@ export function stringifySectionData(
   return JSON.stringify(data);
 }
 
+export function parseSelectedDepartments(value: string): string[] {
+  if (!value.trim()) {
+    return [];
+  }
+
+  try {
+    const parsed: unknown = JSON.parse(value);
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed.filter(
+      (item): item is string => typeof item === "string" && item.trim().length > 0
+    );
+  } catch {
+    return [];
+  }
+}
+
+export function stringifySelectedDepartments(departments: string[]): string {
+  return JSON.stringify(departments);
+}
+
 export function createEmptySectionDataJson(componentId: string): string {
   return stringifySectionData(createEmptySectionData(componentId));
 }
