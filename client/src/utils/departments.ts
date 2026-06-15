@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase/client";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import type {
   DepartmentPage,
   DepartmentPageInput,
@@ -69,7 +70,9 @@ function pickLatestVersionPerSlug(pages: DepartmentPage[]): DepartmentPage[] {
   );
 }
 
-export async function listDepartmentPages(): Promise<{
+export async function listDepartmentPagesFromDb(
+  supabase: SupabaseClient
+): Promise<{
   data: DepartmentPage[];
   error: string | null;
 }> {
@@ -93,13 +96,59 @@ export async function listDepartmentPages(): Promise<{
       error: null,
     };
   } catch (error) {
-    console.error("Error in listDepartmentPages:", error);
+    console.error("Error in listDepartmentPagesFromDb:", error);
     return {
       data: [],
       error:
         error instanceof Error
           ? error.message
           : "Failed to load department pages",
+    };
+  }
+}
+
+export async function listDepartmentPages(): Promise<{
+  data: DepartmentPage[];
+  error: string | null;
+}> {
+  return listDepartmentPagesFromDb(supabase);
+}
+
+export async function getDepartmentPageBySlug(
+  supabase: SupabaseClient,
+  slug: string
+): Promise<{ data: DepartmentPage | null; error: string | null }> {
+  try {
+    const normalizedSlug = slugifyDepartmentName(slug);
+    const { data, error } = await supabase
+      .from(TABLE)
+      .select("*")
+      .eq("slug", normalizedSlug)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Error fetching department page:", error);
+      return { data: null, error: error.message };
+    }
+
+    if (!data) {
+      return { data: null, error: null };
+    }
+
+    return {
+      data: normalizeDepartmentPage(data as Record<string, unknown>),
+      error: null,
+    };
+  } catch (error) {
+    console.error("Error in getDepartmentPageBySlug:", error);
+    return {
+      data: null,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to load department page",
     };
   }
 }

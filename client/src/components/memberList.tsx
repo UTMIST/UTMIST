@@ -4,7 +4,17 @@ import Mail from "../../public/email.svg"
 import {useState} from "react";
 import {Member, MemberGroup} from "@/types/departments";
 
-export function MemberList({ members }: { members : MemberGroup[]}) {
+export function MemberList({
+  members,
+  title = "Member List",
+  subtitle = "See who makes us special!",
+  searchPlaceholder = "Search members",
+}: {
+  members: MemberGroup[];
+  title?: string;
+  subtitle?: string;
+  searchPlaceholder?: string;
+}) {
     const [query, setQuery] = useState("");
 
     const groupComponents = members.map((group: MemberGroup) => {
@@ -40,18 +50,18 @@ export function MemberList({ members }: { members : MemberGroup[]}) {
         <div className={'w-fit'}>
             <div>
                 <h1 className={'text-3xl text-right'}
-                >Member List</h1>
+                >{title}</h1>
                 <div className={'flex justify-between '}>
                     <div className={'w-fit'}>
                         <input className={'border-2 rounded-4xl p-3'}
                                type = {'search'}
                                value={query}
-                               placeholder = {'Search members'}
+                               placeholder = {searchPlaceholder}
                                onChange={(e) => setQuery(e.target.value)}
                         />
                     </div>
                     <span className={'text-right text-xl'}
-                    >See who makes us special!</span>
+                    >{subtitle}</span>
                 </div>
             </div>
             <div>

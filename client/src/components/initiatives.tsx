@@ -8,9 +8,9 @@ import {Initiative} from "@/types/departments"
 
 export function InitiativeList({initiatives} : {initiatives: Initiative[]}) {
 
-    const cards = initiatives.map((initiative: Initiative) =>
+    const cards = initiatives.map((initiative: Initiative, index: number) =>
         <li
-        key={initiative.projectLink}
+        key={`${initiative.title}-${initiative.projectLink}-${index}`}
         className={'my-5 w-fit'}
         >
             <InitiativeCard
