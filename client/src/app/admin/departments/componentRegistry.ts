@@ -9,6 +9,7 @@ export type ComponentFieldType =
   | "textarea"
   | "url"
   | "json"
+  | "markdown"
   | "member_department_multi_select"
   | "initiative_repeater";
 
@@ -44,6 +45,27 @@ export const DEPARTMENT_COMPONENT_REGISTRY: DepartmentComponentDef[] = [
         label: "Body",
         type: "textarea",
         placeholder: "Describe this section...",
+      },
+    ],
+  },
+  {
+    id: "markdown_section",
+    label: "Markdown Section",
+    description: "Rich text content rendered from Markdown.",
+    fields: [
+      {
+        key: "heading",
+        label: "Heading",
+        type: "text",
+        placeholder: "Optional section heading",
+      },
+      {
+        key: "content",
+        label: "Markdown Content",
+        type: "markdown",
+        placeholder: "## Hello\n\nWrite **markdown** here...",
+        description:
+          "Supports headings, lists, links, bold, italic, and more.",
       },
     ],
   },

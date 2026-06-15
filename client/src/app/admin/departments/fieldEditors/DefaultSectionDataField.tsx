@@ -36,7 +36,9 @@ export default function DefaultSectionDataField({
   return (
     <Field>
       <FieldLabel htmlFor={fieldId}>{fieldDef.label}</FieldLabel>
-      {fieldDef.type === "textarea" || fieldDef.type === "json" ? (
+      {fieldDef.type === "textarea" ||
+      fieldDef.type === "json" ||
+      fieldDef.type === "markdown" ? (
         <Textarea
           id={fieldId}
           value={value}
@@ -45,8 +47,8 @@ export default function DefaultSectionDataField({
           }
           placeholder={fieldDef.placeholder}
           className={
-            fieldDef.type === "json"
-              ? "min-h-[140px] font-mono text-xs"
+            fieldDef.type === "json" || fieldDef.type === "markdown"
+              ? "min-h-[180px] font-mono text-sm"
               : "min-h-[100px]"
           }
           disabled={disabled}
