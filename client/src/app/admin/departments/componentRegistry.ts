@@ -1,9 +1,16 @@
+import {
+  createEmptyInitiative,
+  INITIATIVE_ITEM_FIELDS,
+  stringifyInitiatives,
+} from "@/app/admin/departments/initiativeFields";
+
 export type ComponentFieldType =
   | "text"
   | "textarea"
   | "url"
   | "json"
-  | "member_department_multi_select";
+  | "member_department_multi_select"
+  | "initiative_repeater";
 
 export interface ComponentFieldDef {
   key: string;
@@ -73,12 +80,9 @@ export const DEPARTMENT_COMPONENT_REGISTRY: DepartmentComponentDef[] = [
     fields: [
       {
         key: "initiatives",
-        label: "Initiatives Data",
-        type: "json",
-        description:
-          'JSON array of { "title", "description", "projectLink", "image" }',
-        placeholder:
-          '[{"title":"UTMIST Website","description":"...","projectLink":"#","image":"file.svg"}]',
+        label: "Initiatives",
+        type: "initiative_repeater",
+        description: "Add one or more initiative cards to this list.",
       },
     ],
   },
@@ -86,22 +90,7 @@ export const DEPARTMENT_COMPONENT_REGISTRY: DepartmentComponentDef[] = [
     id: "initiative_card",
     label: "Single Initiative Card",
     description: "One featured initiative with image and outbound link.",
-    fields: [
-      { key: "title", label: "Title", type: "text" },
-      { key: "description", label: "Description", type: "textarea" },
-      {
-        key: "projectLink",
-        label: "Project Link",
-        type: "url",
-        placeholder: "https://...",
-      },
-      {
-        key: "image",
-        label: "Image URL",
-        type: "text",
-        placeholder: "file.svg or https://...",
-      },
-    ],
+    fields: INITIATIVE_ITEM_FIELDS,
   },
   {
     id: "project_gallery",
@@ -147,9 +136,16 @@ export function createEmptySectionData(
   }
 
   return Object.fromEntries(
-    component.fields.map((field) => [
-      field.key,
-      field.type === "member_department_multi_select" ? "[]" : "",
-    ])
+    component.fields.map((field) => {
+      if (field.type === "member_department_multi_select") {
+        return [field.key, "[]"];
+      }
+
+      if (field.type === "initiative_repeater") {
+        return [field.key, stringifyInitiatives([createEmptyInitiative()])];
+      }
+
+      return [field.key, ""];
+    })
   );
 }
