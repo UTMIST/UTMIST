@@ -14,6 +14,8 @@ import {
   getDepartmentComponent,
 } from "@/app/admin/departments/componentRegistry";
 import SectionFieldEditor from "@/app/admin/departments/fieldEditors/SectionFieldEditor";
+import TwoColumnRowEditor from "@/app/admin/departments/fieldEditors/TwoColumnRowEditor";
+import { TWO_COLUMN_ROW_ID } from "@/app/admin/departments/componentRegistry";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -108,18 +110,26 @@ export default function SectionBlock({
                 )}
               </Field>
 
-              {selectedComponent && (
-                <div className="space-y-4 border-t pt-4">
-                  {selectedComponent.fields.map((fieldDef) => (
-                    <SectionFieldEditor
-                      key={fieldDef.key}
-                      fieldDef={fieldDef}
-                      index={index}
-                      form={form}
-                      disabled={disabled}
-                    />
-                  ))}
-                </div>
+              {selectedComponent?.id === TWO_COLUMN_ROW_ID ? (
+                <TwoColumnRowEditor
+                  form={form}
+                  index={index}
+                  disabled={disabled}
+                />
+              ) : (
+                selectedComponent && (
+                  <div className="space-y-4 border-t pt-4">
+                    {selectedComponent.fields.map((fieldDef) => (
+                      <SectionFieldEditor
+                        key={fieldDef.key}
+                        fieldDef={fieldDef}
+                        index={index}
+                        form={form}
+                        disabled={disabled}
+                      />
+                    ))}
+                  </div>
+                )
               )}
             </>
           );

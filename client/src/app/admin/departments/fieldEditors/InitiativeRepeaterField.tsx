@@ -24,11 +24,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import {
-  getSectionDataFieldValue,
-  updateSectionDataField,
-} from "./sectionDataField";
+  type SectionFieldAccessor,
+  resolveSectionFieldAccessor,
+} from "./fieldEditorTypes";
 
-interface InitiativeRepeaterFieldProps {
+interface InitiativeRepeaterFieldProps extends SectionFieldAccessor {
   fieldDef: ComponentFieldDef;
   index: number;
   form: FormStore<typeof DepartmentFormSchema>;
@@ -40,7 +40,8 @@ function InitiativeItemFields({
   initiative,
   sectionIndex,
   fieldKey,
-  form,
+  readValue,
+  writeValue,
   disabled,
   onRemove,
   canRemove,
@@ -49,23 +50,17 @@ function InitiativeItemFields({
   initiative: Initiative;
   sectionIndex: number;
   fieldKey: string;
-  form: FormStore<typeof DepartmentFormSchema>;
+  readValue: (fieldKey: string) => string;
+  writeValue: (fieldKey: string, value: string) => void;
   disabled?: boolean;
   onRemove: () => void;
   canRemove: boolean;
 }) {
   const updateField = (key: keyof Initiative, value: string) => {
-    const storedValue = getSectionDataFieldValue(form, sectionIndex, fieldKey);
-    const initiatives = parseInitiatives(storedValue);
+    const initiatives = parseInitiatives(readValue(fieldKey));
     const next = [...initiatives];
     next[initiativeIndex] = { ...next[initiativeIndex], [key]: value };
-
-    updateSectionDataField(
-      form,
-      sectionIndex,
-      fieldKey,
-      stringifyInitiatives(next)
-    );
+    writeValue(fieldKey, stringifyInitiatives(next));
   };
 
   return (
@@ -132,17 +127,18 @@ export default function InitiativeRepeaterField({
   index,
   form,
   disabled,
+  getValue,
+  setValue,
 }: InitiativeRepeaterFieldProps) {
-  const storedValue = getSectionDataFieldValue(form, index, fieldDef.key);
+  const { readValue, writeValue } = resolveSectionFieldAccessor(form, index, {
+    getValue,
+    setValue,
+  });
+  const storedValue = readValue(fieldDef.key);
   const initiatives = parseInitiatives(storedValue);
 
   const setInitiatives = (nextInitiatives: Initiative[]) => {
-    updateSectionDataField(
-      form,
-      index,
-      fieldDef.key,
-      stringifyInitiatives(nextInitiatives)
-    );
+    writeValue(fieldDef.key, stringifyInitiatives(nextInitiatives));
   };
 
   return (
@@ -160,7 +156,8 @@ export default function InitiativeRepeaterField({
             initiative={initiative}
             sectionIndex={index}
             fieldKey={fieldDef.key}
-            form={form}
+            readValue={readValue}
+            writeValue={writeValue}
             disabled={disabled}
             canRemove={initiatives.length > 1}
             onRemove={() =>

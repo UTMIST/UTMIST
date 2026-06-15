@@ -4,6 +4,17 @@ import {
   stringifyInitiatives,
 } from "@/app/admin/departments/initiativeFields";
 
+export const TWO_COLUMN_ROW_ID = "two_column_row";
+
+export function createEmptyTwoColumnSectionData(): Record<string, string> {
+  return {
+    leftComponent: "",
+    leftDataJson: "{}",
+    rightComponent: "",
+    rightDataJson: "{}",
+  };
+}
+
 export type ComponentFieldType =
   | "text"
   | "textarea"
@@ -139,6 +150,12 @@ export const DEPARTMENT_COMPONENT_REGISTRY: DepartmentComponentDef[] = [
       },
     ],
   },
+  {
+    id: TWO_COLUMN_ROW_ID,
+    label: "Two Column Row",
+    description: "Place two components side by side in one row.",
+    fields: [],
+  },
 ];
 
 export function getDepartmentComponent(
@@ -152,6 +169,10 @@ export function getDepartmentComponent(
 export function createEmptySectionData(
   componentId: string
 ): Record<string, string> {
+  if (componentId === TWO_COLUMN_ROW_ID) {
+    return createEmptyTwoColumnSectionData();
+  }
+
   const component = getDepartmentComponent(componentId);
   if (!component) {
     return {};

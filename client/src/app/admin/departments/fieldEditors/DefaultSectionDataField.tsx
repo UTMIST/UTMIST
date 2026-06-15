@@ -13,11 +13,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import {
-  getSectionDataFieldValue,
-  updateSectionDataField,
-} from "./sectionDataField";
+  type SectionFieldAccessor,
+  resolveSectionFieldAccessor,
+} from "./fieldEditorTypes";
 
-interface DefaultSectionDataFieldProps {
+interface DefaultSectionDataFieldProps extends SectionFieldAccessor {
   fieldDef: ComponentFieldDef;
   index: number;
   form: FormStore<typeof DepartmentFormSchema>;
@@ -29,9 +29,15 @@ export default function DefaultSectionDataField({
   index,
   form,
   disabled,
+  getValue,
+  setValue,
 }: DefaultSectionDataFieldProps) {
+  const { readValue, writeValue } = resolveSectionFieldAccessor(form, index, {
+    getValue,
+    setValue,
+  });
   const fieldId = `admin-section-${index}-${fieldDef.key}`;
-  const value = getSectionDataFieldValue(form, index, fieldDef.key);
+  const value = readValue(fieldDef.key);
 
   return (
     <Field>
@@ -42,9 +48,7 @@ export default function DefaultSectionDataField({
         <Textarea
           id={fieldId}
           value={value}
-          onChange={(event) =>
-            updateSectionDataField(form, index, fieldDef.key, event.target.value)
-          }
+          onChange={(event) => writeValue(fieldDef.key, event.target.value)}
           placeholder={fieldDef.placeholder}
           className={
             fieldDef.type === "json" || fieldDef.type === "markdown"
@@ -57,9 +61,7 @@ export default function DefaultSectionDataField({
         <Input
           id={fieldId}
           value={value}
-          onChange={(event) =>
-            updateSectionDataField(form, index, fieldDef.key, event.target.value)
-          }
+          onChange={(event) => writeValue(fieldDef.key, event.target.value)}
           placeholder={fieldDef.placeholder}
           type={fieldDef.type === "url" ? "url" : "text"}
           autoComplete="off"

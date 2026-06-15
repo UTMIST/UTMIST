@@ -67,8 +67,8 @@ describe("Department page renderer", () => {
     render(
       <DepartmentPageRenderer
         page={page}
-        memberRowsBySectionIndex={{
-          1: [
+        memberRowsBySlotKey={{
+          "1": [
             {
               Year: 2024,
               "First Name": "Jane",

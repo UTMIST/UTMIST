@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { parseSelectedDepartments } from "@/app/admin/departments/sectionData";
+import { collectMemberListSlots } from "@/app/admin/departments/nestedSectionData";
 import DepartmentPageRenderer from "@/components/department/DepartmentPageRenderer";
 import { createClient } from "@/lib/supabase/server";
 import { getDepartmentPageBySlug } from "@/utils/departments";
@@ -26,40 +26,24 @@ async function loadDepartmentPage(slug: string) {
     notFound();
   }
 
-  const selectedDepartments = new Set<string>();
-  page.sections.forEach((section) => {
-    if (section.component !== "member_list") {
-      return;
-    }
-
-    parseSelectedDepartments(section.data.departments ?? "").forEach(
-      (department) => selectedDepartments.add(department)
-    );
-  });
+  const memberListSlots = collectMemberListSlots(page.sections);
+  const selectedDepartments = [
+    ...new Set(memberListSlots.flatMap((slot) => slot.departments)),
+  ];
 
   const { data: memberRows } =
-    selectedDepartments.size > 0
-      ? await fetchMembersForDepartments(supabase, [...selectedDepartments])
+    selectedDepartments.length > 0
+      ? await fetchMembersForDepartments(supabase, selectedDepartments)
       : { data: [] };
 
-  const memberRowsBySectionIndex = Object.fromEntries(
-    page.sections.map((section, index) => {
-      if (section.component !== "member_list") {
-        return [index, []];
-      }
-
-      const departments = parseSelectedDepartments(
-        section.data.departments ?? ""
-      );
-
-      return [
-        index,
-        filterMemberRowsForDepartments(memberRows, departments),
-      ];
-    })
+  const memberRowsBySlotKey = Object.fromEntries(
+    memberListSlots.map((slot) => [
+      slot.key,
+      filterMemberRowsForDepartments(memberRows, slot.departments),
+    ])
   );
 
-  return { page, memberRowsBySectionIndex };
+  return { page, memberRowsBySlotKey };
 }
 
 export async function generateMetadata({
@@ -83,12 +67,12 @@ export default async function DepartmentSlugPage({
   params,
 }: DepartmentSlugPageProps) {
   const { slug } = await params;
-  const { page, memberRowsBySectionIndex } = await loadDepartmentPage(slug);
+  const { page, memberRowsBySlotKey } = await loadDepartmentPage(slug);
 
   return (
     <DepartmentPageRenderer
       page={page}
-      memberRowsBySectionIndex={memberRowsBySectionIndex}
+      memberRowsBySlotKey={memberRowsBySlotKey}
     />
   );
 }

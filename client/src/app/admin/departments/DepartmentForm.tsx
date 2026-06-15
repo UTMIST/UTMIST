@@ -14,7 +14,15 @@ import type { SubmitHandler } from "@formisch/react";
 
 import SectionBlock from "@/app/admin/departments/SectionBlock";
 import { DepartmentFormSchema } from "@/app/admin/departments/departmentFormSchema";
-import { getDepartmentComponent } from "@/app/admin/departments/componentRegistry";
+import {
+  getDepartmentComponent,
+  TWO_COLUMN_ROW_ID,
+} from "@/app/admin/departments/componentRegistry";
+import {
+  getColumnComponent,
+  getColumnData,
+  validateNestedSectionData,
+} from "@/app/admin/departments/nestedSectionData";
 import {
   createEmptySectionDataJson,
   toDepartmentPageFormInput,
@@ -74,6 +82,26 @@ function validateSectionJsonFields(
   sections: DepartmentPageInput["sections"]
 ): string | null {
   for (const [index, section] of sections.entries()) {
+    if (section.component === TWO_COLUMN_ROW_ID) {
+      for (const column of ["left", "right"] as const) {
+        const componentId = getColumnComponent(section.data, column);
+        if (!componentId) {
+          continue;
+        }
+
+        const nestedError = validateNestedSectionData(
+          index,
+          column,
+          componentId,
+          getColumnData(section.data, column)
+        );
+        if (nestedError) {
+          return nestedError;
+        }
+      }
+      continue;
+    }
+
     const component = getDepartmentComponent(section.component);
     if (!component) {
       continue;

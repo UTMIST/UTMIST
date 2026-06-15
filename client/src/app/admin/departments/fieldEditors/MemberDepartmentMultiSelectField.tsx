@@ -21,11 +21,11 @@ import { cn } from "@/lib/utils";
 import { listMemberDepartments } from "@/utils/members";
 
 import {
-  getSectionDataFieldValue,
-  updateSectionDataField,
-} from "./sectionDataField";
+  type SectionFieldAccessor,
+  resolveSectionFieldAccessor,
+} from "./fieldEditorTypes";
 
-interface MemberDepartmentMultiSelectFieldProps {
+interface MemberDepartmentMultiSelectFieldProps extends SectionFieldAccessor {
   fieldDef: ComponentFieldDef;
   index: number;
   form: FormStore<typeof DepartmentFormSchema>;
@@ -37,9 +37,15 @@ export default function MemberDepartmentMultiSelectField({
   index,
   form,
   disabled,
+  getValue,
+  setValue,
 }: MemberDepartmentMultiSelectFieldProps) {
+  const { readValue, writeValue } = resolveSectionFieldAccessor(form, index, {
+    getValue,
+    setValue,
+  });
   const fieldId = `admin-section-${index}-${fieldDef.key}`;
-  const storedValue = getSectionDataFieldValue(form, index, fieldDef.key);
+  const storedValue = readValue(fieldDef.key);
   const selected = useMemo(
     () => parseSelectedDepartments(storedValue),
     [storedValue]
@@ -83,12 +89,7 @@ export default function MemberDepartmentMultiSelectField({
   }, [options, query]);
 
   const setSelected = (nextSelected: string[]) => {
-    updateSectionDataField(
-      form,
-      index,
-      fieldDef.key,
-      stringifySelectedDepartments(nextSelected)
-    );
+    writeValue(fieldDef.key, stringifySelectedDepartments(nextSelected));
   };
 
   const toggleDepartment = (department: string) => {
