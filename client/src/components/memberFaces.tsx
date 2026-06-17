@@ -184,7 +184,7 @@ function FaceCard({
         )}
       </div>
 
-      <div className="relative h-32 w-32 overflow-hidden rounded-full">
+      <div className="relative h-32 w-32 overflow-hidden rounded-full border border-[#00349f]">
         {avatar ? (
           <Image
             src={avatar}

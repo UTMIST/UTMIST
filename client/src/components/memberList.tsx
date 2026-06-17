@@ -13,6 +13,8 @@ import {
   type MemberRecord,
 } from "@/utils/members";
 
+const SUBTITLE_INLINE_MAX_LENGTH = 45;
+
 export function MemberList({
   memberRows,
   title = "Member List",
@@ -25,6 +27,9 @@ export function MemberList({
   searchPlaceholder?: string;
 }) {
   const [query, setQuery] = useState("");
+  const sectionSubtitle = subtitle?.trim() ?? "";
+  const subtitleOnSeparateRow =
+    sectionSubtitle.length > SUBTITLE_INLINE_MAX_LENGTH;
   const availableYears = useMemo(
     () => getAvailableMemberYears(memberRows),
     [memberRows]
@@ -86,15 +91,29 @@ export function MemberList({
     <div className="w-fit max-w-full self-center">
       <div>
         <h1 className="text-right text-3xl">{title}</h1>
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <div
+          className={cn(
+            "flex items-center gap-3",
+            subtitleOnSeparateRow ? "flex-wrap" : "flex-nowrap justify-between"
+          )}
+        >
           <input
-            className="rounded-4xl border-2 p-3"
+            className="shrink-0 rounded-4xl border-2 p-3"
             type="search"
             value={query}
             placeholder={searchPlaceholder}
             onChange={(event) => setQuery(event.target.value)}
           />
-          <span className="text-right text-xl">{subtitle}</span>
+          {sectionSubtitle && (
+            <span
+              className={cn(
+                "text-right text-xl",
+                subtitleOnSeparateRow ? "w-full" : "shrink-0"
+              )}
+            >
+              {sectionSubtitle}
+            </span>
+          )}
         </div>
         {availableYears.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-2">

@@ -15,7 +15,7 @@ export default function DepartmentPageRenderer({
 }: DepartmentPageRendererProps) {
   return (
     <>
-      <div className="mx-auto mb-32 mt-20 flex max-w-4xl flex-col justify-center gap-1 text-center">
+      <div className="mx-auto mb-32 mt-20 flex max-w-4xl flex-col justify-center gap-4 text-center">
         <h1 className="text-5xl">{page.name}</h1>
         {page.tagline?.trim() && <p>{page.tagline}</p>}
       </div>

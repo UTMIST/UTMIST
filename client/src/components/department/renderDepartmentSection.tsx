@@ -33,7 +33,7 @@ export function renderDepartmentSection({
       return (
         <section className="w-full text-left">
           {data.heading?.trim() && (
-            <h2 className="text-3xl">{data.heading}</h2>
+            <h2 className="text-3xl pb-4">{data.heading}</h2>
           )}
           {data.body?.trim() && <p className="w-full">{data.body}</p>}
         </section>
