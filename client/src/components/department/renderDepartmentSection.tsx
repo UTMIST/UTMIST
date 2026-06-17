@@ -10,6 +10,7 @@ import {
 import { MarkdownSection } from "@/components/department/MarkdownSection";
 import { ProjectGallerySection } from "@/components/department/ProjectGallerySection";
 import { InitiativeCard, InitiativeList } from "@/components/initiatives";
+import { MemberFaces } from "@/components/memberFaces";
 import { MemberList } from "@/components/memberList";
 import type { DepartmentPageSection } from "@/types/departments";
 import type { MemberRecord } from "@/utils/members";
@@ -49,6 +50,15 @@ export function renderDepartmentSection({
           memberRows={memberRowsBySlotKey[slotKey] ?? []}
           title={data.title || "Member List"}
           subtitle={data.subtitle || "See who makes us special!"}
+        />
+      );
+
+    case "member_faces":
+      return (
+        <MemberFaces
+          memberRows={memberRowsBySlotKey[slotKey] ?? []}
+          title={data.title}
+          subtitle={data.subtitle}
         />
       );
 
@@ -130,7 +140,7 @@ export function renderTwoColumnRow({
   });
 
   return (
-    <section className="flex w-full flex-col gap-8 text-left lg:flex-row lg:items-start lg:justify-between">
+    <section className="flex w-full flex-col gap-8 text-left lg:flex-row lg:items-start lg:gap-x-40 lg:gap-y-8">
       {columns}
     </section>
   );

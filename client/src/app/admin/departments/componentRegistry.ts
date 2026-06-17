@@ -107,6 +107,33 @@ export const DEPARTMENT_COMPONENT_REGISTRY: DepartmentComponentDef[] = [
     ],
   },
   {
+    id: "member_faces",
+    label: "Member Faces",
+    description:
+      "Searchable grid of member profile photos with social links.",
+    fields: [
+      {
+        key: "title",
+        label: "Section Title",
+        type: "text",
+        placeholder: "Meet the Team",
+      },
+      {
+        key: "subtitle",
+        label: "Subtitle",
+        type: "text",
+        placeholder: "See who makes us special!",
+      },
+      {
+        key: "departments",
+        label: "Departments",
+        type: "member_department_multi_select",
+        description:
+          "Search and select member departments from the Members table.",
+      },
+    ],
+  },
+  {
     id: "initiative_list",
     label: "Initiative List",
     description: "A vertical list of initiative cards.",

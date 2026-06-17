@@ -87,6 +87,88 @@ export function buildMemberGroups(rows: MemberRecord[]): MemberGroup[] {
     .map(([role, members]) => ({ role, members }));
 }
 
+export interface MemberFace {
+  name: string;
+  email: string;
+  position: string;
+}
+
+export function buildMemberFaces(rows: MemberRecord[]): MemberFace[] {
+  const seen = new Set<string>();
+  const faces: MemberFace[] = [];
+
+  for (const row of rows) {
+    const email = row["UofT Email"]?.trim() ?? "";
+    const name = formatMemberName(row);
+    const position = row.Position?.trim() || "Member";
+    const key = email.toLowerCase() || `${name}-${position}`;
+
+    if (seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+
+    faces.push({ name, email, position });
+  }
+
+  return faces;
+}
+
+export interface MemberProfile {
+  avatar: string;
+  linkedin: string;
+  github: string;
+}
+
+/**
+ * Look up members in the public.user table by their email address and return
+ * their avatar and social links keyed by lower-cased email.
+ */
+export async function fetchMemberProfilesByEmail(
+  emails: string[]
+): Promise<Record<string, MemberProfile>> {
+  const uniqueEmails = [
+    ...new Set(emails.map((email) => email.trim()).filter(Boolean)),
+  ];
+
+  if (uniqueEmails.length === 0) {
+    return {};
+  }
+
+  const { supabase } = await import("@/lib/supabase/client");
+
+  try {
+    const { data, error } = await supabase
+      .from("user")
+      .select("email, avatar, linkedin, github")
+      .in("email", uniqueEmails);
+
+    if (error) {
+      console.error("Error fetching member profiles:", error);
+      return {};
+    }
+
+    const profilesByEmail: Record<string, MemberProfile> = {};
+    for (const row of data ?? []) {
+      const email = String(row.email ?? "").trim().toLowerCase();
+      if (!email) {
+        continue;
+      }
+
+      profilesByEmail[email] = {
+        avatar: row.avatar ?? "",
+        linkedin: row.linkedin ?? "",
+        github: row.github ?? "",
+      };
+    }
+
+    return profilesByEmail;
+  } catch (error) {
+    console.error("Error in fetchMemberProfilesByEmail:", error);
+    return {};
+  }
+}
+
 export async function fetchMembersForDepartments(
   supabase: SupabaseClient,
   departments: string[]

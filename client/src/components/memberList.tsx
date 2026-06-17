@@ -117,7 +117,7 @@ export function MemberList({
         )}
       </div>
       <div>
-        <div className="mt-4 h-[48rem] w-fit max-w-full overflow-x-hidden overflow-y-auto rounded-2xl border-2 pt-1">
+        <div className="mt-4 h-[40rem] w-fit max-w-full overflow-x-hidden overflow-y-auto rounded-2xl border-2 pt-1">
           {groupComponents.length > 0 ? (
             groupComponents
           ) : (

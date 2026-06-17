@@ -56,6 +56,8 @@ export function parseNestedSection(
   };
 }
 
+const MEMBER_COMPONENT_IDS = new Set(["member_list", "member_faces"]);
+
 export type MemberListSlot = {
   key: string;
   departments: string[];
@@ -67,7 +69,7 @@ export function collectMemberListSlots(
   const slots: MemberListSlot[] = [];
 
   sections.forEach((section, index) => {
-    if (section.component === "member_list") {
+    if (MEMBER_COMPONENT_IDS.has(section.component)) {
       slots.push({
         key: String(index),
         departments: parseSelectedDepartments(section.data.departments ?? ""),
@@ -81,7 +83,7 @@ export function collectMemberListSlots(
 
     for (const column of ["left", "right"] as const) {
       const nestedComponent = getColumnComponent(section.data, column);
-      if (nestedComponent !== "member_list") {
+      if (!MEMBER_COMPONENT_IDS.has(nestedComponent)) {
         continue;
       }
 
