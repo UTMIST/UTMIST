@@ -9,6 +9,7 @@ import type { SectionFieldAccessor } from "@/app/admin/departments/fieldEditors/
 import DefaultSectionDataField from "./DefaultSectionDataField";
 import InitiativeRepeaterField from "./InitiativeRepeaterField";
 import MemberDepartmentMultiSelectField from "./MemberDepartmentMultiSelectField";
+import ProjectRepeaterField from "./ProjectRepeaterField";
 
 interface SectionFieldEditorProps extends SectionFieldAccessor {
   fieldDef: ComponentFieldDef;
@@ -23,6 +24,8 @@ export default function SectionFieldEditor(props: SectionFieldEditorProps) {
       return <MemberDepartmentMultiSelectField {...props} />;
     case "initiative_repeater":
       return <InitiativeRepeaterField {...props} />;
+    case "project_repeater":
+      return <ProjectRepeaterField {...props} />;
     default:
       return <DefaultSectionDataField {...props} />;
   }

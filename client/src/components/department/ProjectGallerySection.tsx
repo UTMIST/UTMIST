@@ -2,44 +2,29 @@
 
 import { useMemo, useState } from "react";
 
+import { parseGalleryProjects } from "@/app/admin/departments/projectFields";
 import { ProjectCarousel } from "@/components/carousel";
-import dummy from "@/assets/photos/fibseq.webp";
-import projectsData from "@/assets/projects.json";
-import type { Project } from "@/types/projects";
-import { ProjectType } from "@/types/projects";
-
-const projectTypeMap: Record<string, ProjectType> = {
-  genai: ProjectType.genai,
-  cvpr: ProjectType.cvpr,
-  finml: ProjectType.finml,
-  medai: ProjectType.medai,
-  supvlr: ProjectType.supvlr,
-  mlops: ProjectType.mlops,
-  aiapps: ProjectType.aiapps,
-};
-
-const projects: Project[] = projectsData.map((project) => ({
-  title: project.name || "Untitled Project",
-  description: project.description || "No description available.",
-  github: project.github || undefined,
-  image: dummy,
-  imageAltText: project.name || "Project Image",
-  type: projectTypeMap[project.type] ?? ProjectType.genai,
-  readMoreLink: project.readMoreLink || "#",
-}));
+import { resolveGalleryProjects } from "@/utils/projects";
 
 interface ProjectGallerySectionProps {
   title?: string;
   subtitle?: string;
   searchPlaceholder?: string;
+  projectsJson?: string;
 }
 
 export function ProjectGallerySection({
   title = "Project Gallery",
   subtitle = "Check out our awesome stuff!",
   searchPlaceholder = "Search projects",
+  projectsJson = "[]",
 }: ProjectGallerySectionProps) {
   const [query, setQuery] = useState("");
+
+  const projects = useMemo(
+    () => resolveGalleryProjects(parseGalleryProjects(projectsJson)),
+    [projectsJson]
+  );
 
   const filteredProjects = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -52,12 +37,12 @@ export function ProjectGallerySection({
         project.title.toLowerCase().includes(normalizedQuery) ||
         project.description.toLowerCase().includes(normalizedQuery)
     );
-  }, [query]);
+  }, [projects, query]);
 
   return (
     <section className="w-full text-center">
-      <h2 className="text-4xl">{title}</h2>
-      <p>{subtitle}</p>
+      <h2 className="text-3xl pb-1">{title}</h2>
+      <p className="pb-1">{subtitle}</p>
       <input
         className="mt-2 w-90 rounded-4xl border-2 p-3"
         type="search"

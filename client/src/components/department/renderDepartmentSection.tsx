@@ -98,6 +98,7 @@ export function renderDepartmentSection({
           title={data.title}
           subtitle={data.subtitle}
           searchPlaceholder={data.searchPlaceholder}
+          projectsJson={data.projects ?? "[]"}
         />
       );
 

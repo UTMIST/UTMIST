@@ -3,6 +3,7 @@ import {
   INITIATIVE_ITEM_FIELDS,
   stringifyInitiatives,
 } from "@/app/admin/departments/initiativeFields";
+import { stringifyGalleryProjects } from "@/app/admin/departments/projectFields";
 
 export const TWO_COLUMN_ROW_ID = "two_column_row";
 
@@ -22,7 +23,8 @@ export type ComponentFieldType =
   | "json"
   | "markdown"
   | "member_department_multi_select"
-  | "initiative_repeater";
+  | "initiative_repeater"
+  | "project_repeater";
 
 export interface ComponentFieldDef {
   key: string;
@@ -175,6 +177,13 @@ export const DEPARTMENT_COMPONENT_REGISTRY: DepartmentComponentDef[] = [
         type: "text",
         placeholder: "Search projects",
       },
+      {
+        key: "projects",
+        label: "Custom Projects",
+        type: "project_repeater",
+        description:
+          "Optional. Leave empty to show all projects from projects.json.",
+      },
     ],
   },
   {
@@ -213,6 +222,10 @@ export function createEmptySectionData(
 
       if (field.type === "initiative_repeater") {
         return [field.key, stringifyInitiatives([createEmptyInitiative()])];
+      }
+
+      if (field.type === "project_repeater") {
+        return [field.key, stringifyGalleryProjects([])];
       }
 
       return [field.key, ""];
