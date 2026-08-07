@@ -6,6 +6,8 @@ import Image from "next/image";
 import { X } from "lucide-react";
 import githubIcon from "@/assets/logos/github.svg";
 import { Project } from "@/types/projects";
+import ProjectImage from "@/components/projects/ProjectImage";
+import { getProjectImageSrc } from "@/utils/projects";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -68,12 +70,11 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
         </button>
 
         <div className="relative w-full aspect-[16/9] bg-[var(--muted)]">
-          <Image
-            src={`/project_images/${encodeURIComponent(title)}.png`}
+          <ProjectImage
+            src={getProjectImageSrc(project)}
             alt={imageAltText}
             fill
             sizes="(max-width: 768px) 100vw, 672px"
-            style={{ objectFit: "cover" }}
           />
         </div>
 

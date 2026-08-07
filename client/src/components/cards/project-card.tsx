@@ -5,6 +5,8 @@ import Image from "next/image";
 import githubIcon from "../../assets/logos/github.svg";
 import { Project } from "@/types/projects";
 import ProjectModal from "@/components/projects/project-modal";
+import ProjectImage from "@/components/projects/ProjectImage";
+import { getProjectImageSrc } from "@/utils/projects";
 
 const ProjectCard: React.FC<Project> = (project) => {
   const {
@@ -24,12 +26,11 @@ const ProjectCard: React.FC<Project> = (project) => {
         className="relative w-full max-w-[360px] rounded-[13px] p-3 sm:p-6 md:p-8 bg-[var(--card)] border border-[var(--border)] overflow-hidden flex flex-col text-left transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg cursor-pointer"
       >
         <div className="mb-2 sm:mb-4 rounded-lg overflow-hidden w-full">
-          <Image
-            src={`/project_images/${encodeURIComponent(title)}.png`}
+          <ProjectImage
+            src={getProjectImageSrc(project)}
             alt={imageAltText}
             width={400}
             height={200}
-            style={{ objectFit: "cover" }}
             className="w-full aspect-[16/9] object-cover rounded-lg"
           />
         </div>
