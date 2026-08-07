@@ -1,0 +1,57 @@
+name: Label PR size
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  pull-requests: read
+  issues: write
+
+jobs:
+  label-size:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Label PR size
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const changed = pr.additions + pr.deletions;
+
+            const labels = [
+              { name: "size/xs", max: 10 },
+              { name: "size/s", max: 50 },
+              { name: "size/m", max: 200 },
+              { name: "size/l", max: 500 },
+              { name: "size/xl", max: Infinity },
+            ];
+
+            const sizeLabels = labels.map(label => label.name);
+            const newLabel = labels.find(label => changed <= label.max).name;
+
+            const { owner, repo } = context.repo;
+            const issue_number = pr.number;
+
+            const currentLabels = pr.labels.map(label => label.name);
+
+            for (const label of sizeLabels) {
+              if (currentLabels.includes(label) && label !== newLabel) {
+                await github.rest.issues.removeLabel({
+                  owner,
+                  repo,
+                  issue_number,
+                  name: label,
+                });
+              }
+            }
+
+            if (!currentLabels.includes(newLabel)) {
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number,
+                labels: [newLabel],
+              });
+            }
