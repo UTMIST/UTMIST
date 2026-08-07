@@ -1,7 +1,10 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const USER_PATHS = ["/dashboard", "/api", "/admin"];
+// Paths that require a signed-in user. Note this is only a first gate — it does
+// not distinguish admins from members. Anything exposing applicant PII also
+// needs an explicit admin check (see lib/auth/guards.ts).
+const USER_PATHS = ["/dashboard", "/api", "/admin", "/applicants"];
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -10,7 +13,7 @@ export async function updateSession(request: NextRequest) {
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         getAll() {

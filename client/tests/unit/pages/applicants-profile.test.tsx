@@ -33,7 +33,9 @@ jest.mock('@/assets/applicants.json', () => [
   },
 ]);
 
-import ApplicantProfile from '@/app/applicants/[profile]/page';
+// The route's page.tsx is a server component that enforces the admin guard;
+// these tests cover the client profile view it renders.
+import ApplicantProfile from '@/app/applicants/[profile]/ApplicantProfileClient';
 
 describe('Applicant Profile Page', () => {
   beforeEach(() => {
