@@ -7,9 +7,7 @@ import {
   validateName,
   validateAuthForm,
   getPasswordStrengthColor,
-  isFormValid,
-  type PasswordStrength,
-  type FormErrors
+  isFormValid
 } from '../../src/utils/validation';
 
 describe('Validation Utils - Unit Tests', () => {

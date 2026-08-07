@@ -162,7 +162,10 @@ export const generateTestUser = (overrides: Partial<typeof mockUsers.validUser> 
   email: overrides.email || `test-${Math.random().toString(36).substr(2, 9)}@example.com`
 });
 
-export const generateTestFormData = (type: 'login' | 'registration', overrides: any = {}) => {
+export const generateTestFormData = (
+  type: 'login' | 'registration',
+  overrides: Record<string, unknown> = {}
+) => {
   const baseData = type === 'login' ? mockFormData.validLogin : mockFormData.validRegistration;
   return {
     ...baseData,
@@ -215,22 +218,35 @@ export const simulateRegistrationFlow = async (
   return { result, mockCall: mockClient.auth.signUp };
 };
 
+// Shapes these assertions rely on. Deliberately loose — they describe the parts
+// of a Supabase auth response the assertions read, not the full response type.
+interface AuthResultLike {
+  error: { message?: string } | null;
+  data: { user: { email?: string } | null };
+}
+
+interface SessionLike {
+  access_token?: string;
+  user?: unknown;
+  expires_at?: number;
+}
+
 // Common test assertions
-export const assertSuccessfulAuth = (result: any) => {
+export const assertSuccessfulAuth = (result: AuthResultLike) => {
   expect(result.error).toBeNull();
   expect(result.data.user).toBeDefined();
-  expect(result.data.user.email).toBeDefined();
+  expect(result.data.user?.email).toBeDefined();
 };
 
-export const assertFailedAuth = (result: any, expectedErrorMessage?: string) => {
+export const assertFailedAuth = (result: AuthResultLike, expectedErrorMessage?: string) => {
   expect(result.error).toBeDefined();
   expect(result.data.user).toBeNull();
   if (expectedErrorMessage) {
-    expect(result.error.message).toBe(expectedErrorMessage);
+    expect(result.error?.message).toBe(expectedErrorMessage);
   }
 };
 
-export const assertValidSession = (session: any) => {
+export const assertValidSession = (session: SessionLike) => {
   expect(session).toBeDefined();
   expect(session.access_token).toBeDefined();
   expect(session.user).toBeDefined();
