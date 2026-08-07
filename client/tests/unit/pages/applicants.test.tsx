@@ -9,7 +9,9 @@ jest.mock('@/components/admin/ApplicantRow', () => ({
   ),
 }));
 
-import ApplicantsDashboard from '@/app/applicants/page';
+// The route's page.tsx is a server component that enforces the admin guard;
+// these tests cover the client dashboard it renders.
+import ApplicantsDashboard from '@/app/applicants/ApplicantsPageClient';
 
 describe('Applicants Dashboard Page', () => {
   beforeEach(() => {

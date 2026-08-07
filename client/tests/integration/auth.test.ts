@@ -16,16 +16,6 @@ describe('Authentication Integration Tests', () => {
     }
   };
 
-  // Mock auth utilities
-  const mockAuthUtils = {
-    login: jest.fn(),
-    register: jest.fn(),
-    logout: jest.fn(),
-    getCurrentUser: jest.fn(),
-    resetPassword: jest.fn(),
-    onAuthStateChange: jest.fn()
-  };
-
   beforeEach(() => {
     jest.clearAllMocks();
   });

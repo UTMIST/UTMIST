@@ -1,8 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { Applicant } from '../../../types/admin';
 import applicantData from "@/assets/applicants.json";
+import { getAdminUser } from '@/lib/auth/guards';
 
 export async function GET(req: NextRequest) {
+  // Applicant records are PII. Middleware only checks that *someone* is signed
+  // in, so the admin check has to happen here.
+  const admin = await getAdminUser();
+  if (!admin) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
   const { searchParams } = new URL(req.url);
   const name = searchParams.get('name') || '';
   const role = searchParams.get('role') || '';

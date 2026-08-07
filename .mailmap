@@ -1,0 +1,37 @@
+# Collapses duplicate git identities so contributor stats reflect people, not
+# accounts. Most duplicates are a personal email plus a GitHub noreply address.
+#
+# Check the result with:  git shortlog -sn --all
+#
+# Groupings below were inferred from matching emails and GitHub handles. If any
+# is wrong, or you'd rather a different name/email be canonical, edit the line.
+
+Albert Huynh <itsalbert.huynh@mail.utoronto.ca> <huynhalb@gmail.com>
+Albert Huynh <itsalbert.huynh@mail.utoronto.ca> <albert.huynh@ibm.com>
+
+Ambrose Ling <lingambrose@gmail.com> <93873940+ambroseling@users.noreply.github.com>
+
+Ethan Qiu <ethanqiu@gmail.com> <78055829+qiuethan@users.noreply.github.com>
+
+Guneev Pannu <guneevpannu@outlook.com> Guneevp <guneevpannu@outlook.com>
+
+Jessica <j.chen1904@gmail.com> <86748529+swannercjj@users.noreply.github.com>
+Jessica <j.chen1904@gmail.com> swannercjj <j.chen1904@gmail.com>
+Jessica <j.chen1904@gmail.com> unknown <j.chen1904@gmail.com>
+
+Joseph Carnide <joseph.carnide@mail.utoronto.ca>
+Joseph Carnide <joseph.carnide@mail.utoronto.ca> <157228844+carnide1@users.noreply.github.com>
+
+Kenny Cui <kenny.cui@mail.utoronto.ca> KCui0327 <kenny.cui@mail.utoronto.ca>
+Kenny Cui <kenny.cui@mail.utoronto.ca> TheKCui0327 <kenny.cui@mail.utoronto.ca>
+
+Shubham Garg <shubham.garg@mail.utoronto.ca>
+Shubham Garg <shubham.garg@mail.utoronto.ca> <64797913+SHU8HAM1@users.noreply.github.com>
+
+Tanayjyot Singh Chawla <tjsinghchawla@gmail.com>
+Tanayjyot Singh Chawla <tjsinghchawla@gmail.com> <83966141+TanayJyot@users.noreply.github.com>
+
+William Lam <williamntlam@gmail.com> <163342709+williamntlam@users.noreply.github.com>
+
+Yanzhen Chen <yanzhenchen123@gmail.com> <117863711+YheChen@users.noreply.github.com>
+Yanzhen Chen <yanzhenchen123@gmail.com> YheChen <yanzhenchen123@gmail.com>

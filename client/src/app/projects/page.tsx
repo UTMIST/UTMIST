@@ -1,5 +1,4 @@
 "use client";
-// import "@/styles/projects.css";
 import React, { useState } from "react";
 import { Search } from "lucide-react";
 import projectsData from "@/assets/projects.json";
