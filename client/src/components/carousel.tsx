@@ -1,5 +1,4 @@
 "use client";
-// import "@/styles/projects.css";
 import { useRef, useState, useEffect } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import ProjectCard from "@/components/cards/project-card";
