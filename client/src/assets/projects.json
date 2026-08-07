@@ -1,9 +1,404 @@
 [
   {
+    "name": "Amicare",
+    "description": "Amicare is a Canadian healthtech company building an AI-powered platform for both home care and institutional staffing. After launching a mobile MVP that connects caregivers with seniors for on-demand support, they are now expanding to serve hospitals and long-term care homes with intelligent shift management and automation. UTMIST is partnering with Amicare to scale this system, building infrastructure for dual-sided usage, smart matching and pricing algorithms, and AI agents that support onboarding, scheduling, and help desk automation.",
+    "type": "aiapps",
+    "readMoreLink": "",
+    "year": "Fall 2025",
+    "teamMembers": [
+      "Ethan Qiu",
+      "Mateo Arcos",
+      "Patrick Gaied",
+      "Abby Lui",
+      "Flora Liu",
+      "Shirley Zhang",
+      "Toryn Chua",
+      "Vishnu Sai",
+      "Bruce Qiu",
+      "Taka Lee"
+    ]
+  },
+  {
+    "name": "Caposys",
+    "description": "Caposys is building a product called \"Audit Mate\" to audit buildings on the basis of environmental impact. Audit Mate is able to identify areas for improvement as well as recommend government schemes that provide incentives for making such upgrades.",
+    "type": "aiapps",
+    "readMoreLink": "",
+    "year": "Fall 2025",
+    "teamMembers": [
+      "Justin",
+      "Danjie Tang",
+      "Simha",
+      "Shahmeer Khan",
+      "Javier Huang",
+      "Luke Pan",
+      "Massah Arafeh",
+      "Ariel Liu",
+      "Aidan Tran"
+    ]
+  },
+  {
+    "name": "Flybits",
+    "description": "Flybits is a company that enables large financial institutions to scale context-aware solutions. One of its key initiatives increased the discoverability of financial products. This project seeks to generate data-driven insights that aid financial marketing decisions, all while ensuring the explainability of the AI outputs.",
+    "type": "finml",
+    "readMoreLink": "",
+    "year": "Fall 2025",
+    "teamMembers": [
+      "Ethan Qiu",
+      "Alice Song",
+      "Renzo Ugarte Basurco",
+      "Brandon Li",
+      "Avantika Chaturvedi",
+      "Jacob Allan"
+    ]
+  },
+  {
+    "name": "Lawbrokr",
+    "description": "Lawbrokr is a legal technology startup dedicated to assisting law firms in client pre-screening and improving match success rates. UTMIST is collaborating with Lawbrokr to develop Justice AI, the legal industry's first agentic marketing assistant built to help law firms of all sizes scale operational productivity.",
+    "type": "aiapps",
+    "readMoreLink": "",
+    "year": "Fall 2025",
+    "teamMembers": [
+      "Justin",
+      "Wilson Chen",
+      "Zimo Huang",
+      "Jessica Yi",
+      "Duncan Leung",
+      "Zafina Mahmood",
+      "Ali Elbadrawy",
+      "Sam Lukas",
+      "Avery Lor"
+    ]
+  },
+  {
+    "name": "SciML",
+    "description": "Under the guidance of Professor Jason Hattrick-Simpers, this project seeks to reduce infrastructure dependencies by developing a new methodology for synthesizing compact, efficient neural networks that operate on resource-constrained hardware. The work focuses on lowering costs for Chemistry, Physics, and Biology research with on-device solutions that make ML accessible in resource-constrained labs.",
+    "type": "mlops",
+    "readMoreLink": "",
+    "year": "Fall 2025",
+    "teamMembers": [
+      "Abdul Fatir",
+      "Jason Wang",
+      "Aidan Sun",
+      "Alex Mack-Mumford",
+      "Alex Abesteh",
+      "Steven Qiao",
+      "Rainy Chen"
+    ]
+  },
+  {
+    "name": "Tenstorrent",
+    "description": "Tenstorrent is an AI and ML company, currently valued at $2.6 billion, that designs and sells advanced computing hardware. UTMIST is collaborating with Tenstorrent to rigorously test their software and hardware, all while working on novel research that seeks to expand video generation capabilities.",
+    "type": "genai",
+    "readMoreLink": "",
+    "year": "Fall 2025",
+    "teamMembers": [
+      "Abdul Fatir",
+      "Matthew Xie",
+      "Saanjali Maharaaj",
+      "Mark Wang",
+      "Zachary Tang",
+      "Ambrose Ling",
+      "Ashish Thomas"
+    ]
+  },
+  {
+    "name": "Agent Forge",
+    "description": "This project focuses on developing Agent Forge, a no-code AI platform that empowers users to fine-tune models, orchestrate intelligent agents, and integrate with third-party services. Using LoRA adapters for efficient model customization and a visual flowchart-style interface for AI orchestration, Agent Forge bridges the gap between cutting-edge research and accessible, real-world AI deployment. The platform also features a tool builder for creating natural language-defined APIs, enabling agents to connect seamlessly to services like Notion, Google Drive, and more.",
+    "type": "aiapps",
+    "readMoreLink": "",
+    "year": "Fall 2025",
+    "teamMembers": [
+      "Isaac Picov",
+      "Joel"
+    ]
+  },
+  {
+    "name": "NeuroTech",
+    "description": "This project focuses on building the machine learning pipeline for a next-generation wearable device designed to support fine motor rehabilitation in post-stroke patients. Using surface electromyography (sEMG) signals collected from the forearm, the ML system detects finger-specific motor intent in real-time and translates it into precise prosthetic actuation. The pipeline integrates deep learning approaches including CNNs, LSTMs, and GNNs, alongside a transfer learning framework that pre-trains on healthy subject data before fine-tuning on stroke patient datasets.",
+    "type": "medai",
+    "readMoreLink": "",
+    "year": "Fall 2025",
+    "teamMembers": [
+      "Isaac Picov"
+    ]
+  },
+  {
+    "name": "Overcooked",
+    "description": "This project explores multi-agent reinforcement learning (MARL) in a game-inspired environment based on the video game Overcooked. Our aim is to develop intelligent cooperative agents that can understand tasks, plan collaboratively, and adapt strategies dynamically in a complex, multi-step cooking environment, with a focus on inter-agent latent communication and whether it can bolster task performance.",
+    "type": "aiapps",
+    "readMoreLink": "",
+    "year": "Fall 2025",
+    "teamMembers": [
+      "Zach Tang",
+      "Veer",
+      "Lucas Choi",
+      "Daniel De Brun",
+      "Jessica Chen",
+      "Raiyan Khan",
+      "Sean Ye",
+      "William Bo",
+      "Evan Yep"
+    ]
+  },
+  {
+    "name": "Video Upscaling",
+    "description": "An applied research project focused on real-time high-resolution video upscaling using cutting-edge deep learning techniques. We explore models such as Real-ESRGAN and other advanced generative enhancement architectures, aiming to develop a system capable of taking lower-quality video streams and producing high-resolution outputs in real-time. Beyond improving resolution, we aim to preserve detail, reduce noise, and optimize performance for latency-sensitive environments such as live streaming, video conferencing, and real-time media production.",
+    "type": "cvpr",
+    "readMoreLink": "",
+    "year": "Fall 2025",
+    "teamMembers": [
+      "Zach Tang",
+      "Nazmus",
+      "Edwin Dong",
+      "Kirpa Kaur",
+      "Tom Nguyen",
+      "Steric Tsui",
+      "Asim Rahman"
+    ]
+  },
+  {
+    "name": "Dynamic Few-Shot Object Detection",
+    "description": "Robots and field systems regularly encounter unseen objects in dynamic environments. Standard detectors require full retraining or extensive fine-tuning, which is slow, compute-heavy, and operationally impractical. This project develops a Dynamic Few-Shot Object Detector (DFOD): a system capable of discovering and localizing entirely new object classes on the fly from just three to five user-provided example images, without requiring full end-to-end retraining of the model.",
+    "type": "cvpr",
+    "readMoreLink": "",
+    "year": "Fall 2025",
+    "teamMembers": [
+      "Hanhee Lee",
+      "Abhinn Kaushik",
+      "Danelle D'Souza",
+      "Dunura Epasinghe",
+      "Emmanuel Ko",
+      "Prabeer Sohal",
+      "William Darko",
+      "Vincent Qu"
+    ]
+  },
+  {
+    "name": "FixMyElo",
+    "description": "Today, thousands of chess engines compete against each other, playing games so complex they are beyond human comprehension, yet none of them can explain their moves to humans. FixMyElo aims to create just that: a self-learning chess engine that can provide an English explanation for position evaluation, describe the rationale behind moves, and answer any questions asked by the user.",
+    "type": "aiapps",
+    "readMoreLink": "",
+    "year": "Fall 2025",
+    "teamMembers": [
+      "Enaya Amir",
+      "Khushi",
+      "Masaru",
+      "Andy",
+      "Keishi",
+      "Vincent",
+      "Colleen",
+      "Jacqueline",
+      "Kane",
+      "Nico",
+      "Sushaan"
+    ]
+  },
+  {
+    "name": "OCT Eye-SNN",
+    "description": "Optical Coherence Tomography (OCT) is a non-invasive imaging technique that captures high-resolution cross-sections of the retina and has become the standard tool for diagnosing sight-threatening diseases. While OCT provides clinicians with the detail needed to detect early signs of disease, interpreting the scans requires trained specialists. By designing a spiking neural network model that is lightweight and energy-efficient, this project aims to open the door for deployment on edge devices and handheld OCT scanners, bringing diagnostic capabilities directly to the point of care.",
+    "type": "medai",
+    "readMoreLink": "",
+    "year": "Fall 2025",
+    "teamMembers": [
+      "Enaya Amir",
+      "Aayush",
+      "Mani",
+      "Nour",
+      "Aarushi",
+      "Joshua"
+    ]
+  },
+  {
+    "name": "SceneClarity",
+    "description": "Autonomous vehicles depend on computer vision for real-time scene understanding, but performance often degrades in adverse conditions such as glare, fog, rain, or snow. This project aims to build a modular reliability scoring pipeline that quantifies and explains potential perception failures caused by environmental or visual degradation, supporting decision-making, safety assessment, debugging, and driver notifications.",
+    "type": "cvpr",
+    "readMoreLink": "",
+    "year": "Fall 2025",
+    "teamMembers": [
+      "Javier Huang",
+      "Ciny Liang",
+      "Tommy Yu",
+      "Ashwin Santhosh",
+      "Emmanuel Ko",
+      "Winston Liang",
+      "Elena Zhu",
+      "Isaac Wan",
+      "Gerardus Raynard Effrien"
+    ]
+  },
+  {
+    "name": "Breast Cancer Detection",
+    "description": "Many models can detect various diseases given medical-grade imaging (e.g. MRIs, x-rays), but there is often a lack of interpretability into why the model made its choices. This project focuses on developing an interpretable machine learning model for early-stage breast cancer detection using clinical imaging data. The team works with tools like scikit-learn, SHAP, and LIME to develop, evaluate, and explain predictions in a project with real-world impact.",
+    "type": "medai",
+    "readMoreLink": "",
+    "year": "Fall 2025",
+    "teamMembers": [
+      "Hanhee Lee",
+      "Riyad Valiyev",
+      "Om Patel",
+      "Ellie Kim",
+      "Jace Mu",
+      "Ryan Neil Alumkal",
+      "Franco Miguel Valencia",
+      "Hussain Elahi",
+      "Max Chen",
+      "Stanley Pang"
+    ]
+  },
+  {
+    "name": "DeepSlop Detector",
+    "description": "In today's social media landscape, AI slop has taken over, and it is becoming harder to distinguish whether an image is AI-generated or not, posing risks of disinformation, fraud, and malicious impersonation. DeepSlop Detector aims to build an interpretable AI image detection model that quantifies how likely an image is AI-generated. We work through the entire ML pipeline with SOTA image classification models including ResNet-50, MobileNetV3, and Vision Transformers, leveraging both spatial and frequency domain analysis, and use interpretability methods such as Grad-CAM to visualize the pixel-level anomalies behind the model's decisions.",
+    "type": "cvpr",
+    "readMoreLink": "",
+    "year": "Winter 2026",
+    "teamMembers": [
+      "Hanhee Lee",
+      "Victor Weng",
+      "Aditya Ram Kumar",
+      "Diego Figarella",
+      "Jeffrey Hu",
+      "Ahmed Zamir",
+      "Roderick Liao",
+      "Isabella Tang",
+      "Joe Lee",
+      "Vanessa Huo"
+    ]
+  },
+  {
+    "name": "Agentiiv",
+    "description": "Agentiiv helps enterprises maximize their team's potential by combining advanced AI agents with human expertise. UTMIST is collaborating with Agentiiv to design and implement a production-grade MCP Gateway that acts as a centralized communication layer for AI agents and MCP servers. The gateway manages secure request routing, enforces access control, and provides unified authentication, audit logging, and system monitoring, consolidating these capabilities into a single interface that simplifies AI integration while improving security and operational visibility.",
+    "type": "aiapps",
+    "readMoreLink": "",
+    "year": "Winter 2026",
+    "teamMembers": [
+      "Javier Huang",
+      "Calvin Dobbs",
+      "David Daniliuc",
+      "Raymond Chan",
+      "Diler Zaza",
+      "Albert Huynh",
+      "Ali Elbadrawy",
+      "Charles Chen",
+      "Jacky Zhao",
+      "Abdelrahman Elshrief"
+    ]
+  },
+  {
+    "name": "Bigger Bird",
+    "description": "Bigger Bird is a patch that builds upon Google's BigBird sparse attention model by making context-aware token selections, using algorithms such as minimax regret and facility location, while maintaining complexity that scales with sequence length. The current prototype patches BART and achieves accuracy within 2 F1 points of Big Bird while performing only 12% of the softmax comparisons Big Bird requires on the IMDb dataset. End deliverables include a Hugging Face model and Triton kernels.",
+    "type": "genai",
+    "readMoreLink": "",
+    "year": "Winter 2026",
+    "teamMembers": [
+      "Isaac Picov",
+      "Enaya Amir",
+      "Derek",
+      "Han"
+    ]
+  },
+  {
+    "name": "Geometry of Sycophancy",
+    "description": "Large Language Models often generate answers that humans are most likely to want to hear, displaying sycophancy. Geometry of Sycophancy aims to develop a greater understanding of activation shifts during supervised training and how LLMs internally become more sycophantic. The project investigates how fine-tuning objectives might support sycophantic behaviour and how geometric properties of the internal model can be used to detect, interpret, and ultimately alleviate sycophancy.",
+    "type": "genai",
+    "readMoreLink": "",
+    "year": "Fall 2025 – Winter 2026",
+    "teamMembers": [
+      "Enaya Amir",
+      "Oscar",
+      "Vincent",
+      "Ethan",
+      "Joseph",
+      "Warrick",
+      "Evan",
+      "Harsh",
+      "Najma",
+      "Rachel",
+      "Sujoy"
+    ]
+  },
+  {
+    "name": "Solving Inverse Problems on Weight Space",
+    "description": "This project explores a new direction in generative machine learning: re-casting inverse problems as generative modeling tasks directly in weight space. Building on recent advances in flow-based models, we augment them with energy-based models (EBMs) and equivariant architectures that respect the parameter symmetries of neural networks. This enables inference-time objectives for tasks such as binary quantization, machine unlearning, and image inverse problems on implicit neural representations (INRs). The long-term goal is to advance weight-space learning as a practical paradigm for modifying and repurposing pre-trained models.",
+    "type": "genai",
+    "readMoreLink": "",
+    "year": "2025–2026",
+    "teamMembers": [
+      "Josh Zhang",
+      "Maria Chzhen",
+      "Daniel Saragih"
+    ]
+  },
+  {
+    "name": "AURA",
+    "description": "AURA (Adaptive Understanding & Response Assistant) addresses the long waiting times and limited accessibility in today's mental healthcare system. Guided by the design principles of Personality-Adaptive Conversational Agents (PACA), AURA supports users through proactive, personality-adaptive conversations while reducing pressure on human therapists by providing them with regularly summarized biological and conversational data. The team plans to first develop a text-based prototype, followed by a voice-based system, evaluated through metrics such as the System Usability Scale (SUS), Conversational Turns per Session (CPS), and user-based empathy assessments.",
+    "type": "medai",
+    "readMoreLink": "",
+    "year": "2025–2026",
+    "teamMembers": [
+      "Kai Li",
+      "Irmak Aytekin",
+      "Yibin Wang"
+    ]
+  },
+  {
+    "name": "AIP",
+    "description": "AIP (Automated Iterative Pseudo-labeling) explores automating iterative pseudo-labeling to enable semi-supervised training of medical image AI with minimal expert-labeled data. By building a modular, model-agnostic pipeline, AIP generates high-quality pseudo-labels across datasets and architectures, overcoming the data scarcity that has long constrained medical image processing. The framework combines cross-validation, uncertainty filtering, and iterative refinement to maximize label efficiency, with the long-term goal of establishing AIP as a standardized, open-source tool and foundational resource for future research.",
+    "type": "medai",
+    "readMoreLink": "",
+    "year": "2025–2026",
+    "teamMembers": [
+      "Josh Lunger",
+      "Tianhao Fu"
+    ]
+  },
+  {
+    "name": "AirfoilLearner",
+    "description": "Many recent papers claim ML-based fluid PDE solvers beat classical methods, yet results are often biased by weak baselines. This project will (1) rigorously benchmark state-of-the-art ML solvers for fluid-related PDEs against strong numerical baselines, (2) explore CFD optimization approaches such as physics-informed neural operators (e.g. PINO) for airfoil and shape optimization, and (3) build AirfoilLearner, a platform that integrates these models with standard numerical methods, where an agentic AI selects the most effective solver for each task to assist engineers.",
+    "type": "supvlr",
+    "readMoreLink": "",
+    "year": "Summer 2025 – Winter 2026",
+    "teamMembers": [
+      "Harry",
+      "Ege Artan",
+      "Davut Karataş",
+      "Kaan Öktem"
+    ]
+  },
+  {
+    "name": "Interactive VOCAP",
+    "description": "This project investigates a new paradigm in performance animation: shifting agency from animators to voice actors through voice-driven animation control. While existing pipelines mainly treat speech as an input for lip-sync, Interactive VOCAP designs an interactive workflow where nuanced voice signals (pitch, intensity, timbre, rhythm) directly influence a character's visual performance, mapping them into intuitive control channels for facial gestures. The team plans to validate these control signals through interviews and usability studies with VTubers and voice actors.",
+    "type": "genai",
+    "readMoreLink": "",
+    "year": "2025–2026",
+    "teamMembers": [
+      "Ashish Ajin Thomas",
+      "Evan Pan (UofT CS PhD)"
+    ]
+  },
+  {
+    "name": "Stable Diffusion",
+    "description": "Diffusion models have become the backbone of modern image and video generation. To deepen our understanding of this component of modern computer vision, this project aims to reimplement Stable Diffusion from first principles, systematically evaluate its design choices through controlled ablations, and explore targeted fine-tuning for downstream applications such as personalization, style transfer, and domain-specific image generation. Work spans the full generative modeling pipeline, including the latent autoencoder, U-Net denoiser, and text-conditioning modules, as well as fine-tuning techniques such as LoRA and DreamBooth-style adaptation.",
+    "type": "genai",
+    "readMoreLink": "",
+    "year": "Winter 2026",
+    "teamMembers": [
+      "Aarav Kohli"
+    ]
+  },
+  {
+    "name": "Segment Anything",
+    "description": "Foundation models like Meta's Segment Anything Model (SAM) have dramatically lowered the barrier to high-quality image segmentation. This project reimplements and systematically analyzes SAM through controlled baselines and ablation studies, building the core components, including the image encoder, prompt encoder, and mask decoder, and evaluating how different design choices impact segmentation quality across datasets and prompting strategies (point, box, and mask prompts). Time permitting, the project will explore fine-tuning SAM for domain-specific applications such as medical imaging and remote sensing.",
+    "type": "cvpr",
+    "readMoreLink": "",
+    "year": "Winter 2026",
+    "teamMembers": [
+      "Ian Fong"
+    ]
+  },
+  {
     "name": "QuDiffuse",
     "description": "This project explores the use of D-Wave’s quantum annealing to improve the efficiency of diffusion models, aiming to reduce generation time while maintaining high quality data samples.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/qudiffuse.webp",
     "type": "genai",
     "readMoreLink": ""
   },
@@ -11,7 +406,6 @@
     "name": "Machine Learning in RNA Folding Predictions",
     "description": "Using machine learning to predict RNA folding, this project aims to develop a generative model that maps a given RNA sequence to its 3D molecular structure while optimizing computational energy efficiency.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/rnafolding.webp",
     "type": "medai",
     "readMoreLink": ""
   },
@@ -19,7 +413,6 @@
     "name": "Deep Emotion",
     "description": "This project uses contrastive learning on fMRI brain scans to identify which movie scenes a person is viewing. The goal is to align brain activity with visual stimuli using deep learning techniques.",
     "github": "https://github.com/lungerjo/DeepEmotion",
-    "image": "/assets/images/deepemotion.webp",
     "type": "medai",
     "readMoreLink": ""
   },
@@ -27,7 +420,6 @@
     "name": "Flow to Learn",
     "description": "This project applies flow matching techniques to neural network parameters, leveraging mixture learning and model weight merging strategies to predict and transfer weights between models.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/flowtolearn.webp",
     "type": "genai",
     "readMoreLink": ""
   },
@@ -35,7 +427,6 @@
     "name": "AI ChatBot",
     "description": "This AI chatbot answers student inquiries and promotes UTMIST events across Discord and other platforms. It aims to streamline student-club communication with a smart conversational interface.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/aichatbot.webp",
     "type": "nlp",
     "readMoreLink": ""
   },
@@ -43,7 +434,6 @@
     "name": "AI Warehouse",
     "description": "UTMIST is collaborating with AI Warehouse to build an evolution simulation in Unity using C# and genetic algorithms for educational videos reaching millions of viewers.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/evolutionbattle.webp",
     "type": "aiapps",
     "readMoreLink": ""
   },
@@ -51,7 +441,6 @@
     "name": "Lovelytics",
     "description": "Partnering with Lovelytics, this project extends a LangChain-powered LLM automation tool for business workflows, focusing on task generation via natural language prompts on Azure Databricks.",
     "github": "https://github.com/alvina-yang/Lovelytics",
-    "image": "/assets/images/lovelytics.webp",
     "type": "aiapps",
     "readMoreLink": ""
   },
@@ -59,7 +448,6 @@
     "name": "Aercoustics",
     "description": "This collaboration with Aercoustics focuses on classifying sound events from construction sites using acoustic data, aiding in compliance and environmental monitoring.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/aercoustics.webp",
     "type": "supvlr",
     "readMoreLink": ""
   },
@@ -67,7 +455,6 @@
     "name": "Aemulus VR",
     "description": "Aemulus VR is using neural rendering and Gaussian Splatting to create photorealistic 3D e-commerce displays for luxury products, transforming online shopping experiences.",
     "github": "https://docs.google.com/document/d/1hxuRUOMjrEGVizKCHK3ifhrFGOQ5wrx4kK9OHfJNrdE/edit?tab=t.0",
-    "image": "/assets/images/aemulusvr.webp",
     "type": "genai",
     "readMoreLink": ""
   },
@@ -75,7 +462,6 @@
     "name": "KnockRI",
     "description": "Knockri uses AI to evaluate candidates through video, audio, and text, reducing hiring bias by focusing on competencies instead of resumes in order to promote fair recruitment practices.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/knockri.webp",
     "type": "aiapps",
     "readMoreLink": ""
   },
@@ -83,7 +469,6 @@
     "name": "ML Compute Platform Project",
     "description": "This system dynamically manages UTMIST’s cloud-based ML workloads. It handles MLOps workflows, allocates compute resources, logs performance, and provides real-time monitoring across cloud providers.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/mlcompute.webp",
     "type": "mlops",
     "readMoreLink": ""
   },
@@ -91,7 +476,6 @@
     "name": "ML Project Platform",
     "description": "A centralized hub to manage the ML project lifecycle, including task tracking, team collaboration, milestone monitoring, and code/resource sharing for ongoing and past projects.",
     "github": "https://github.com/UTMIST/Projects-Platform",
-    "image": "/assets/images/mlprojectplatform.webp",
     "type": "mlops",
     "readMoreLink": ""
   },
@@ -99,7 +483,6 @@
     "name": "ECG Analysis Using Deep CNNs",
     "description": "Applying deep convolutional neural networks to analyze ECG data for cardiovascular disease detection.",
     "github": "https://utorontomist.medium.com/an-application-of-deep-learning-model-to-specify-cardiovascular-diseases-via-analyzing-ecg-diagrams-e5360723cd57",
-    "image": "/assets/images/ecg-analysis.webp",
     "type": "medai",
     "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
   },
@@ -107,7 +490,6 @@
     "name": "Employee Attrition Factors Prediction",
     "description": "Utilizing machine learning to identify and address factors contributing to employee attrition.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/employee-attrition.webp",
     "type": "supvlr",
     "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
   },
@@ -115,7 +497,6 @@
     "name": "Real Estate Price Prediction",
     "description": "Developing a real-time model to predict real estate prices using machine learning techniques.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/real-estate-prediction.webp",
     "type": "finml",
     "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
   },
@@ -123,7 +504,6 @@
     "name": "SmileDetector",
     "description": "Creating a web application that employs machine learning to detect and rate smiles.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/smile-detector.webp",
     "type": "supvlr",
     "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
   },
@@ -131,7 +511,6 @@
     "name": "WallStreetBots",
     "description": "Implementing NLP and reinforcement learning for stock price prediction and market analysis.",
     "github": "https://utorontomist.medium.com/wall-street-bots-building-an-automatic-stock-trading-platform-based-on-artificial-intelligence-4f49df89ac41",
-    "image": "/assets/images/wallstreetbots.webp",
     "type": "finml",
     "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
   },
@@ -139,7 +518,6 @@
     "name": "Handwriting Recognition Using Deep Learning",
     "description": "Applying deep learning techniques to recognize handwritten text in physical documents.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/handwriting-recognition.webp",
     "type": "supvlr",
     "readMoreLink": "https://utmist.gitlab.io/projects/2021-2022/"
   },
@@ -147,7 +525,6 @@
     "name": "DiffMuse",
     "description": "Exploring music synthesis using diffusion models to generate new compositions.",
     "github": "https://youtu.be/gLKfO3fbxlg",
-    "image": "/assets/images/diffmuse.webp",
     "type": "genai",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -155,7 +532,6 @@
     "name": "Numerai Quant Team",
     "description": "Developing models to compete on Numerai's weekly hedge fund prediction challenges.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/numerai.webp",
     "type": "finml",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -163,7 +539,6 @@
     "name": "VirtualCreatures",
     "description": "Reimagining Karl Sims' 1994 'Evolving Virtual Creatures' paper using modern techniques.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/virtual-creatures.webp",
     "type": "mlresearch",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -171,7 +546,6 @@
     "name": "12-Lead ECG Reconstruction",
     "description": "Reconstructing full 12-lead ECG signals from only 2-3 lead inputs using ML models.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/ecg-reconstruction.webp",
     "type": "mlhealth",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -179,7 +553,6 @@
     "name": "AltaML",
     "description": "Building an ML pipeline tailored for applications in the construction industry.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/altaml.webp",
     "type": "mlops",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -187,7 +560,6 @@
     "name": "FashionBot",
     "description": "Developing a customizable fashion recommendation system using machine learning.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/fashionbot.webp",
     "type": "aiapps",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -195,7 +567,6 @@
     "name": "Omni",
     "description": "Integrating information retrieval into the creative process through ML techniques.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/omni.webp",
     "type": "aiapps",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -203,7 +574,6 @@
     "name": "Osu!",
     "description": "Generating Osu! beatmaps using sequence-to-sequence models for rhythm game enthusiasts.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/osu.webp",
     "type": "aiapps",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -211,7 +581,6 @@
     "name": "PhotoML - Startup Collaboration",
     "description": "Applying machine learning to enhance picture selection processes.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/photoml.webp",
     "type": "aiapps",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -219,7 +588,6 @@
     "name": "RealTime2",
     "description": "Advancing the RealTime project from 2021 with new features and improvements.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/realtime2.webp",
     "type": "finml",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -227,7 +595,6 @@
     "name": "WallStreetBots2",
     "description": "Continuing the WallStreetBots project with a focus on cryptocurrency price prediction.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/wallstreetbots2.webp",
     "type": "finml",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -235,7 +602,6 @@
     "name": "Wind Turbine Audibility",
     "description": "Providing an ML solution for the turbine audibility problem in collaboration with Aercoustics Ltd.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/wind-turbine.webp",
     "type": "supvlr",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -243,7 +609,6 @@
     "name": "Side Channel Attacks",
     "description": "Crack the AES cryptosystem via side channel attacks using deep learning (ResNet, LSTM, Transformer). The project involves hardware-level data collection and attack modeling.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/aes-sidechannel.webp",
     "type": "supvlr",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -251,7 +616,6 @@
     "name": "Auto-Colorization of Historical Black and White Images",
     "description": "Re-implement and improve CNN-based automatic image colorization using GMMs and a specialized architecture, building on the 'Colorful Image Colorization' paper.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/auto-colorization.webp",
     "type": "cvpr",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -259,7 +623,6 @@
     "name": "Denoising Renderings using Deep Learning",
     "description": "Build a Monte Carlo renderer with deep learning denoising and a real-time GUI viewer. The goal is to improve CGI quality and efficiency.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/deep-denoising.webp",
     "type": "cvpr",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -267,7 +630,6 @@
     "name": "EMILI",
     "description": "Construct a dynamic pipeline to collect domain-specific datasets and train LLMs. The project involves web crawling, relevance filtering, and dataset-feedback loops.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/emili-llm.webp",
     "type": "mlops",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -275,7 +637,6 @@
     "name": "Virtual Creatures II",
     "description": "Use NEAT and multi-agent RL to evolve and train virtual creatures in Unity, building on last year's successful evolution of walkers and swimmers.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/virtual-creatures.webp",
     "type": "mlrl",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -283,7 +644,6 @@
     "name": "Is Hashing All You Need For Implicit Neural Representations",
     "description": "Explore why multi-resolution hash embeddings outperform other methods in INRs. Conduct experiments and possibly submit to ICML/NeurIPS 2024.",
     "github": "https://drive.google.com/file/d/1FTrMbFmRnFzO5xN8OEJGnEUNuJ1JaL24/view",
-    "image": "/assets/images/inr-hashing.webp",
     "type": "cvpr",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -291,7 +651,6 @@
     "name": "QuSparse - Quantum Approaches to Sparse Signal Reconstruction",
     "description": "Use quantum algorithms like QFT to improve sparse signal reconstruction, transforming signals into quantum states and reconstructing using QML.",
     "github": "https://drive.google.com/file/d/1t9uDjQ3YaghbyVE_ASK0RJowOQrP5zL9/view",
-    "image": "/assets/images/qu-sparse.webp",
     "type": "genai",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -299,7 +658,6 @@
     "name": "NucleAIse",
     "description": "Predict protein functions and Gene Ontologies using LLMs (Transformers), GNNs, and CNNs. The project aims to identify key model features and improve biological insights for drug discovery.",
     "github": "https://github.com/ambroseling/NucleAIse",
-    "image": "/assets/images/nuclease.webp",
     "type": "medai",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -307,7 +665,6 @@
     "name": "Real-Time Trading with Sequence Models and RL",
     "description": "Develop a deep RL-based real-time trading agent for FX and commodities. Design a custom RL environment and agent leveraging sequence models and DRL techniques.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/realtime-trading.webp",
     "type": "finml",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   },
@@ -315,7 +672,6 @@
     "name": "Spiking Neural Networks with Memristor Hardware",
     "description": "Build neuromorphic computing systems using Spiking Neural Networks (SNNs) and memristor-based hardware. Split into software and hardware teams for training and circuit fabrication.",
     "github": "https://github.com/UTMIST",
-    "image": "/assets/images/spiking-neural-networks.webp",
     "type": "genai",
     "readMoreLink": "https://utmist.gitlab.io/projects/2022-2023/"
   }

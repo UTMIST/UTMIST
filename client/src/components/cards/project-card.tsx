@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import githubIcon from "../../assets/logos/github.svg";
 import { Project } from "@/types/projects";
 import ProjectModal from "@/components/projects/project-modal";
+import fallbackImage from "@/assets/photos/fibseq.webp";
 
 const ProjectCard: React.FC<Project> = (project) => {
   const {
@@ -14,6 +15,9 @@ const ProjectCard: React.FC<Project> = (project) => {
     imageAltText = "Project Image",
   } = project;
   const [open, setOpen] = useState(false);
+  const [imgSrc, setImgSrc] = useState<string | StaticImageData>(
+    `/project_images/${encodeURIComponent(title)}.webp`
+  );
 
   return (
     <>
@@ -25,12 +29,13 @@ const ProjectCard: React.FC<Project> = (project) => {
       >
         <div className="mb-2 sm:mb-4 rounded-lg overflow-hidden w-full">
           <Image
-            src={`/project_images/${encodeURIComponent(title)}.png`}
+            src={imgSrc}
             alt={imageAltText}
             width={400}
             height={200}
             style={{ objectFit: "cover" }}
             className="w-full aspect-[16/9] object-cover rounded-lg"
+            onError={() => setImgSrc(fallbackImage)}
           />
         </div>
         <div>

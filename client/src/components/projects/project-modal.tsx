@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { X } from "lucide-react";
 import githubIcon from "@/assets/logos/github.svg";
+import fallbackImage from "@/assets/photos/fibseq.webp";
 import { Project } from "@/types/projects";
 
 interface ProjectModalProps {
@@ -13,6 +14,10 @@ interface ProjectModalProps {
 }
 
 const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
+  const [imgSrc, setImgSrc] = useState<string | StaticImageData>(
+    project ? `/project_images/${encodeURIComponent(project.title)}.webp` : ""
+  );
+
   useEffect(() => {
     if (!project) return;
 
@@ -69,11 +74,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
 
         <div className="relative w-full aspect-[16/9] bg-[var(--muted)]">
           <Image
-            src={`/project_images/${encodeURIComponent(title)}.png`}
+            src={imgSrc}
             alt={imageAltText}
             fill
             sizes="(max-width: 768px) 100vw, 672px"
             style={{ objectFit: "cover" }}
+            onError={() => setImgSrc(fallbackImage)}
           />
         </div>
 
