@@ -288,7 +288,11 @@ When in doubt, copy the closest existing test:
 
 ## CI
 
-Tests are intended to run in CI as part of the build. The recommended invocation is `npm test` (no watcher, exits non-zero on failure). For coverage thresholds, configure them under the `coverageThreshold` key in `jest.config.js`.
+[`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) runs `npm test` on every pull request, alongside lint and typecheck, before the build. A failing test blocks the merge.
+
+The suite needs no secrets in CI — it provisions its own environment. `jest.setup.js` sets the Supabase variables, and `tests/unit/pages/eigenai.test.tsx` sets and unsets `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` itself to cover both branches. Injecting those values through the workflow would break that test.
+
+For coverage thresholds, configure them under the `coverageThreshold` key in `jest.config.js`.
 
 ## Troubleshooting
 
