@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ["20.11.1"]
+        node-version: ["22.16.0"]
 
     defaults:
       run:
@@ -29,6 +29,19 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      # Lint, typecheck and test need no secrets. The suite provisions its own
+      # environment: jest.setup.js sets the Supabase vars, and the eigenai test
+      # sets and unsets NEXT_PUBLIC_GOOGLE_MAPS_API_KEY itself to cover both the
+      # present and missing cases. Injecting those vars here would break it.
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
 
       - name: Build
         run: npm run build
