@@ -4,8 +4,11 @@ on:
   pull_request_target:
     types: [opened, synchronize, reopened]
 
+# Labels on a pull request are written through the issues endpoint, but the
+# permission GitHub checks is `pull-requests` — `issues: write` alone yields
+# "Resource not accessible by integration" (403) on the addLabels call.
 permissions:
-  pull-requests: read
+  pull-requests: write
   issues: write
 
 jobs:
