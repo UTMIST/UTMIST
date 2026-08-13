@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X } from "lucide-react";
 import githubIcon from "@/assets/logos/github.svg";
-import { Project } from "@/types/projects";
+import { Project } from "@/features/public-site/types/projects";
 
 interface ProjectModalProps {
   project: Project | null;

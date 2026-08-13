@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { EventCardProps } from "@/types/Blog";
+import { EventCardProps } from "@/features/public-site/types/Blog";
 import dummy from "@/assets/photos/fibseq.webp";
 
 export default function BlogCardLarge({ title, date, author, image, url }: EventCardProps) {

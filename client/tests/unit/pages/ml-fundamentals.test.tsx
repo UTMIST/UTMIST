@@ -14,14 +14,14 @@ jest.mock('@/shared/ui/heroSection', () => ({
   default: ({ title }: { title: string }) => <div data-testid="hero">{title}</div>,
 }));
 
-jest.mock('@/components/peopleGrid', () => ({
+jest.mock('@/features/public-site/components/peopleGrid', () => ({
   __esModule: true,
   default: ({ people }: { people: Array<{ name: string }> }) => (
     <div data-testid="people-grid">{people.length}</div>
   ),
 }));
 
-jest.mock('@/app/ml-fundamentals/data', () => ({
+jest.mock('@/features/public-site/data/ml-fundamentals', () => ({
   programDirectors: [{ name: 'Director A' }],
   academicsTeam: [{ name: 'Academic A' }, { name: 'Academic B' }],
   techWritersTeam: [{ name: 'Writer A' }],

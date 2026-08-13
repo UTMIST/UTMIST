@@ -1,4 +1,4 @@
-import { EventCardProps } from "@/types/Blog";
+import { EventCardProps } from "@/features/public-site/types/Blog";
 
 interface BlogListItemProps extends EventCardProps {
   isFirst?: boolean;

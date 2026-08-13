@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-jest.mock('@/components/cards/hero-card', () => ({
+jest.mock('@/features/public-site/components/cards/hero-card', () => ({
   __esModule: true,
   default: ({ title, description }: { title: string; description: string }) => (
     <div data-testid="hero-card">
@@ -10,32 +10,32 @@ jest.mock('@/components/cards/hero-card', () => ({
   ),
 }));
 
-jest.mock('@/components/sponsors', () => ({
+jest.mock('@/features/public-site/components/sponsors', () => ({
   __esModule: true,
   default: () => <div data-testid="sponsors" />,
 }));
 
-jest.mock('@/components/stats', () => ({
+jest.mock('@/features/public-site/components/stats', () => ({
   __esModule: true,
   default: () => <div data-testid="stats" />,
 }));
 
-jest.mock('@/components/events', () => ({
+jest.mock('@/features/public-site/components/events', () => ({
   __esModule: true,
   default: () => <div data-testid="events" />,
 }));
 
-jest.mock('@/components/valueprops', () => ({
+jest.mock('@/features/public-site/components/valueprops', () => ({
   __esModule: true,
   default: () => <div data-testid="valueprops" />,
 }));
 
-jest.mock('@/components/startupsSection', () => ({
+jest.mock('@/features/public-site/components/startupsSection', () => ({
   __esModule: true,
   default: () => <div data-testid="startups-section" />,
 }));
 
-jest.mock('@/components/faq', () => ({
+jest.mock('@/features/public-site/components/faq', () => ({
   __esModule: true,
   default: () => <div data-testid="faq" />,
 }));

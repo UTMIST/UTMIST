@@ -1,6 +1,6 @@
 "use client";
 
-import "../../styles/sponsors.css";
+import "@/styles/sponsors.css";
 import { useState } from "react";
 
 export default function ContactUsCard() {

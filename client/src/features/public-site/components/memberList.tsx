@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image"
-import Mail from "../../public/email.svg"
+import Mail from "../../../../public/email.svg"
 import {useState} from "react";
 
 interface Member {

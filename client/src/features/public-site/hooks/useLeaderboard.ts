@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/shared/lib/client";
-import type { LeaderboardParticipant } from "@/types/ai2";
+import type { LeaderboardParticipant } from "@/features/public-site/types/ai2";
 
 interface UseLeaderboardProps {
   tableName?: string;

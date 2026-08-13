@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-jest.mock('@/components/memberList', () => ({
+jest.mock('@/features/public-site/components/memberList', () => ({
   PersonCard: ({ name, bio, email }: { name: string; bio: string; email: string }) => (
     <div data-testid="person-card">
       <h3>{name}</h3>

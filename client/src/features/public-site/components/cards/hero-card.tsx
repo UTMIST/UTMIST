@@ -1,6 +1,6 @@
-import "../../styles/home.css";
+import "@/styles/home.css";
 import Image from "next/image";
-import { HeroCardProps } from "@/app/types/home";
+import { HeroCardProps } from "@/features/public-site/types/home";
 
 
 export default function HeroCard({ image, title, description }: HeroCardProps) {

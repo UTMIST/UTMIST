@@ -1,6 +1,6 @@
 // import React from "react";
-// import { useLeaderboard } from "@/hooks/useLeaderboard";
-// import type { LeaderboardProps } from "@/types/ai2";
+// import { useLeaderboard } from "@/features/public-site/hooks/useLeaderboard";
+// import type { LeaderboardProps } from "@/features/public-site/types/ai2";
 //
 // const getRankIcon = (rank: number) => {
 //   switch (rank) {

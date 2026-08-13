@@ -1,5 +1,5 @@
 import React from 'react';
-import "../styles/home.css";
+import "@/styles/home.css";
 import { Pen, Laptop, Wrench } from 'lucide-react';
 
 const ValueProps: React.FC = () => {

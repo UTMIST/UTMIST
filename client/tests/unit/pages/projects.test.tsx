@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 
-jest.mock('@/components/carousel', () => ({
+jest.mock('@/features/public-site/components/carousel', () => ({
   ProjectCarousel: ({ projects }: { projects: Array<{ title: string }> }) => (
     <div data-testid="project-carousel">{projects.length}</div>
   ),

@@ -1,8 +1,8 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
-import ProjectCard from "@/components/cards/project-card";
-import { Project } from "@/types/projects";
+import ProjectCard from "@/features/public-site/components/cards/project-card";
+import { Project } from "@/features/public-site/types/projects";
 
 export const ProjectCarousel = ({ projects }: { projects: Project[] }) => {
   const carouselRef = useRef<HTMLDivElement>(null);

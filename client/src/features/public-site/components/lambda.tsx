@@ -1,5 +1,5 @@
 
-import "../styles/eigenai.css";
+import "@/styles/eigenai.css";
 
 export default function LamdaSection() {
     return (

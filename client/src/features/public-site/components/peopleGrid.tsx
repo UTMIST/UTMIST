@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/eigenai.css";
+import "@/styles/eigenai.css";
 import Image, { StaticImageData } from "next/image";
 
 interface Speaker {

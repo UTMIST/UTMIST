@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import githubIcon from "../../assets/logos/github.svg";
-import { Project } from "@/types/projects";
-import ProjectModal from "@/components/projects/project-modal";
+import githubIcon from "@/assets/logos/github.svg";
+import { Project } from "@/features/public-site/types/projects";
+import ProjectModal from "@/features/public-site/components/project-modal";
 
 const ProjectCard: React.FC<Project> = (project) => {
   const {

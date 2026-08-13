@@ -1,4 +1,4 @@
-import "../../styles/sponsors.css";
+import "@/styles/sponsors.css";
 
 interface SponsorCardProps {
     category: string;

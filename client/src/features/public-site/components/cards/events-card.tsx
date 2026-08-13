@@ -1,6 +1,6 @@
 
-import "../../styles/home.css";
-import { EventCardProps } from "@/app/types/home";
+import "@/styles/home.css";
+import { EventCardProps } from "@/features/public-site/types/home";
 
 export default function EventCard({ title, description, url }: EventCardProps) {
     return (
