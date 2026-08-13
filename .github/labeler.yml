@@ -1,0 +1,67 @@
+"zone: design-system":
+  - changed-files:
+      - any-glob-to-any-file:
+          - client/src/shared/ui/**
+          - client/src/app/layout.tsx
+          - client/src/app/globals.css
+          - client/src/app/not-found.tsx
+          - client/src/app/dev/**
+"zone: platform":
+  - changed-files:
+      - any-glob-to-any-file:
+          - client/src/shared/lib/**
+          - client/src/middleware.ts
+"zone: devex":
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/**
+          - docs/**
+          - client/eslint.config.mjs
+          - client/tsconfig.json
+          - client/jest.config.js
+          - client/jest.setup.js
+          - client/next.config.ts
+          - client/package.json
+"zone: public-site":
+  - changed-files:
+      - any-glob-to-any-file:
+          - client/src/features/public-site/**
+          - client/src/assets/**
+          - client/src/app/page.tsx
+          - client/src/app/departments/**
+          - client/src/app/projects/**
+          - client/src/app/sponsors/**
+          - client/src/app/blog/**
+          - client/src/app/startups/**
+          - client/src/app/ai2/**
+          - client/src/app/eigenai/**
+          - client/src/app/ml-fundamentals/**
+          - client/src/app/api/umami/**
+"zone: recruitment":
+  - changed-files:
+      - any-glob-to-any-file:
+          - client/src/features/recruitment/**
+          - client/src/app/apply/**
+          - client/src/app/applicants/**
+          - client/src/app/admin/**
+          - client/src/app/api/applications/**
+          - client/src/app/api/apply/**
+          - client/src/app/api/drive_upload/**
+"zone: careers":
+  - changed-files:
+      - any-glob-to-any-file:
+          - client/src/features/careers/**
+          - client/src/assets/careers.json
+"zone: events":
+  - changed-files:
+      - any-glob-to-any-file:
+          - client/src/features/events/**
+          - client/src/app/events/**
+"zone: members":
+  - changed-files:
+      - any-glob-to-any-file:
+          - client/src/features/members/**
+          - client/src/app/auth/**
+          - client/src/app/profile/**
+          - client/src/app/dashboard/**
+          - client/src/app/api/auth/**

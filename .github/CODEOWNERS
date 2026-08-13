@@ -1,0 +1,60 @@
+# Zone ownership — see docs/ZONES.md. Placeholder owner until zones are assigned.
+
+# Design system
+/client/src/shared/ui/ @Eeetan
+/client/src/app/layout.tsx @Eeetan
+/client/src/app/globals.css @Eeetan
+/client/src/app/not-found.tsx @Eeetan
+/client/src/app/dev/ @Eeetan
+
+# Platform
+/client/src/shared/lib/ @Eeetan
+/client/src/middleware.ts @Eeetan
+
+# DevEx / CI-CD
+/.github/ @Eeetan
+/docs/ @Eeetan
+/client/eslint.config.mjs @Eeetan
+/client/tsconfig.json @Eeetan
+/client/jest.config.js @Eeetan
+/client/jest.setup.js @Eeetan
+/client/next.config.ts @Eeetan
+/client/package.json @Eeetan
+
+# Public site
+/client/src/features/public-site/ @Eeetan
+/client/src/assets/ @Eeetan
+/client/src/app/page.tsx @Eeetan
+/client/src/app/departments/ @Eeetan
+/client/src/app/projects/ @Eeetan
+/client/src/app/sponsors/ @Eeetan
+/client/src/app/blog/ @Eeetan
+/client/src/app/startups/ @Eeetan
+/client/src/app/ai2/ @Eeetan
+/client/src/app/eigenai/ @Eeetan
+/client/src/app/ml-fundamentals/ @Eeetan
+/client/src/app/api/umami/ @Eeetan
+
+# Recruitment
+/client/src/features/recruitment/ @Eeetan
+/client/src/app/apply/ @Eeetan
+/client/src/app/applicants/ @Eeetan
+/client/src/app/admin/ @Eeetan
+/client/src/app/api/applications/ @Eeetan
+/client/src/app/api/apply/ @Eeetan
+/client/src/app/api/drive_upload/ @Eeetan
+
+# Careers
+/client/src/features/careers/ @Eeetan
+/client/src/assets/careers.json @Eeetan
+
+# Events
+/client/src/features/events/ @Eeetan
+/client/src/app/events/ @Eeetan
+
+# Members
+/client/src/features/members/ @Eeetan
+/client/src/app/auth/ @Eeetan
+/client/src/app/profile/ @Eeetan
+/client/src/app/dashboard/ @Eeetan
+/client/src/app/api/auth/ @Eeetan
