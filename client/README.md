@@ -34,7 +34,7 @@ Profile data lives in a `user` table keyed by the Supabase auth user id. The
 Both layers matter, and neither is sufficient alone.
 
 **1. Middleware** ([`src/middleware.ts`](src/middleware.ts) →
-[`src/utils/supabase/middleware.ts`](src/utils/supabase/middleware.ts))
+[`src/shared/lib/supabase/middleware.ts`](src/shared/lib/supabase/middleware.ts))
 
 Runs on every non-asset request. It refreshes the Supabase session and bounces
 signed-out users away from anything under `USER_PATHS`:
@@ -46,7 +46,7 @@ signed-out users away from anything under `USER_PATHS`:
 Middleware only knows *signed in* versus *signed out*. It cannot tell an admin
 from an ordinary member.
 
-**2. Server-side guards** ([`src/lib/auth/guards.ts`](src/lib/auth/guards.ts))
+**2. Server-side guards** ([`src/shared/lib/auth/guards.ts`](src/shared/lib/auth/guards.ts))
 
 This is where the admin check actually happens.
 
@@ -69,7 +69,7 @@ prerendered. You can confirm a route is actually gated by looking for `ƒ`
 ### Error handling
 
 Auth errors are normalized to the `AUTH_ERRORS` codes in
-[`src/utils/auth.ts`](src/utils/auth.ts), so the UI can distinguish cases like
+[`src/shared/lib/auth/client.ts`](src/shared/lib/auth/client.ts), so the UI can distinguish cases like
 "email already taken" from "email needs confirmation" and offer the right
 follow-up (such as resending a confirmation mail).
 

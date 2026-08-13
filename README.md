@@ -56,6 +56,13 @@ pushing, and what to expect from review.
 New contributors: start with [docs/Setup.md](docs/Setup.md), then pick up a
 [`good first issue`](https://github.com/UTMIST/UTMIST/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
 
+## Zones & ownership
+
+The codebase is split into ownership **zones** (design system, platform,
+DevEx/CI-CD, and one per feature). See [docs/ZONES.md](docs/ZONES.md) for the
+map. Issues and PRs get labeled with the zone they touch automatically, and
+CODEOWNERS routes review to that zone's owner.
+
 <!-- LICENSE -->
 ## License
 

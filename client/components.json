@@ -15,8 +15,8 @@
     "components": "@/shared/ui",
     "utils": "@/shared/lib/utils",
     "ui": "@/shared/ui",
-    "lib": "@/lib",
-    "hooks": "@/hooks"
+    "lib": "@/shared/lib",
+    "hooks": "@/shared/lib/hooks"
   },
   "registries": {}
 }
