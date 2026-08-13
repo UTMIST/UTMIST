@@ -106,6 +106,7 @@ partners.
 **Paths:**
 - `client/src/features/careers/`
 - `client/src/assets/careers.json`
+- `client/src/app/careers/`
 
 **Owner:** TBD
 

@@ -52,6 +52,7 @@
       - any-glob-to-any-file:
           - client/src/features/careers/**
           - client/src/assets/careers.json
+          - client/src/app/careers/**
 "zone: events":
   - changed-files:
       - any-glob-to-any-file:

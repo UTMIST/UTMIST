@@ -47,6 +47,7 @@
 # Careers
 /client/src/features/careers/ @Eeetan
 /client/src/assets/careers.json @Eeetan
+/client/src/app/careers/ @Eeetan
 
 # Events
 /client/src/features/events/ @Eeetan
