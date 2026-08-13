@@ -6,6 +6,10 @@
           - client/src/app/globals.css
           - client/src/app/not-found.tsx
           - client/src/app/dev/**
+          - client/src/styles/navbar.css
+          - client/src/styles/footer.css
+          - client/src/styles/dropdown.css
+          - client/src/styles/gradients.css
 "zone: platform":
   - changed-files:
       - any-glob-to-any-file:
@@ -37,6 +41,7 @@
           - client/src/app/eigenai/**
           - client/src/app/ml-fundamentals/**
           - client/src/app/api/umami/**
+          - client/src/styles/**
 "zone: recruitment":
   - changed-files:
       - any-glob-to-any-file:
@@ -53,11 +58,13 @@
           - client/src/features/careers/**
           - client/src/assets/careers.json
           - client/src/app/careers/**
+          - client/src/styles/careers.css
 "zone: events":
   - changed-files:
       - any-glob-to-any-file:
           - client/src/features/events/**
           - client/src/app/events/**
+          - client/src/styles/events.css
 "zone: members":
   - changed-files:
       - any-glob-to-any-file:

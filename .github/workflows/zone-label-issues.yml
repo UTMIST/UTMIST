@@ -25,6 +25,14 @@ jobs:
             const chosen = match ? match[1].trim() : null;
             const newLabel = zones.includes(chosen) ? `zone: ${chosen}` : null;
 
+            if (!match) {
+              // No "### Zone" section in the body at all — e.g. a
+              // non-template issue, or an `edited` event that strips/omits
+              // the template section. Bail out without touching labels so
+              // we never wipe manually-applied zone labels.
+              return;
+            }
+
             const { owner, repo } = context.repo;
             const issue_number = context.payload.issue.number;
             const current = context.payload.issue.labels.map((l) => l.name);

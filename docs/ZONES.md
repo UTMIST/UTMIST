@@ -21,6 +21,10 @@ primitives (cards, sliders, carousel) that every feature builds on.
 - `client/src/app/globals.css`
 - `client/src/app/not-found.tsx`
 - `client/src/app/dev/`
+- `client/src/styles/navbar.css`
+- `client/src/styles/footer.css`
+- `client/src/styles/dropdown.css`
+- `client/src/styles/gradients.css`
 
 **Owner:** TBD
 
@@ -79,6 +83,8 @@ static/marketing surfaces — and the first target for auto-updating content.
 - `client/src/app/eigenai/`
 - `client/src/app/ml-fundamentals/`
 - `client/src/app/api/umami/`
+- `client/src/styles/` (all stylesheets not claimed file-level by another
+  zone below)
 
 **Owner:** TBD
 
@@ -107,6 +113,7 @@ partners.
 - `client/src/features/careers/`
 - `client/src/assets/careers.json`
 - `client/src/app/careers/`
+- `client/src/styles/careers.css`
 
 **Owner:** TBD
 
@@ -118,6 +125,7 @@ including event management screens.
 **Paths:**
 - `client/src/features/events/`
 - `client/src/app/events/`
+- `client/src/styles/events.css`
 
 **Owner:** TBD
 
@@ -147,6 +155,11 @@ home of the compute-platform UI.
   (universal, client-only, server-only) instead of one, so browser bundles
   never pick up server-only code (e.g. `next/headers`, googleapis).
 - These rules are enforced by ESLint; violations fail CI.
+- `client/src/styles/` is a flat, cross-zone stylesheet directory rather than
+  a `shared/*` module, so it's split file-level across zones instead of
+  living under one owner — see the Design system, Careers, Events, and
+  Public site path lists above. New stylesheets should be colocated with
+  their owning zone going forward instead of added to this shared folder.
 
 ### How work flows
 

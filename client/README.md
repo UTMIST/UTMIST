@@ -10,7 +10,7 @@ This document covers **how the app is put together**. For anything else:
 | Get it running locally | [docs/Setup.md](../docs/Setup.md) |
 | Open your first PR | [CONTRIBUTING.md](../CONTRIBUTING.md) |
 | Write or run tests | [docs/client/Testing.md](../docs/client/Testing.md) |
-| Find where a file lives | [docs/client/FileStructure.md](../docs/client/FileStructure.md) |
+| Find where a file lives | [docs/FileStructure.md](../docs/FileStructure.md) |
 | Read up on a specific page or component | [docs/client/](../docs/client/) |
 
 ## Authentication

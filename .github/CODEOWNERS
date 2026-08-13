@@ -22,6 +22,12 @@
 /client/package.json @Eeetan
 
 # Public site
+# NOTE: CODEOWNERS resolves ownership by "last match wins" — a later pattern
+# in this file beats an earlier, more-specific one. The directory rule below
+# must therefore appear BEFORE the client/src/styles/*.css file-level
+# overrides owned by other zones (see the "Design system styles" block at
+# the end of this file, plus the styles.css lines under Careers/Events) so
+# those later, more-specific entries are the ones that win.
 /client/src/features/public-site/ @Eeetan
 /client/src/assets/ @Eeetan
 /client/src/app/page.tsx @Eeetan
@@ -34,6 +40,7 @@
 /client/src/app/eigenai/ @Eeetan
 /client/src/app/ml-fundamentals/ @Eeetan
 /client/src/app/api/umami/ @Eeetan
+/client/src/styles/ @Eeetan
 
 # Recruitment
 /client/src/features/recruitment/ @Eeetan
@@ -48,10 +55,12 @@
 /client/src/features/careers/ @Eeetan
 /client/src/assets/careers.json @Eeetan
 /client/src/app/careers/ @Eeetan
+/client/src/styles/careers.css @Eeetan
 
 # Events
 /client/src/features/events/ @Eeetan
 /client/src/app/events/ @Eeetan
+/client/src/styles/events.css @Eeetan
 
 # Members
 /client/src/features/members/ @Eeetan
@@ -59,3 +68,13 @@
 /client/src/app/profile/ @Eeetan
 /client/src/app/dashboard/ @Eeetan
 /client/src/app/api/auth/ @Eeetan
+
+# Design system styles
+# Kept separate from the "Design system" block above (rather than inline)
+# because CODEOWNERS uses "last match wins": these file-level overrides must
+# appear after the "Public site" directory rule (/client/src/styles/) for
+# these four stylesheets to resolve to Design system instead of Public site.
+/client/src/styles/navbar.css @Eeetan
+/client/src/styles/footer.css @Eeetan
+/client/src/styles/dropdown.css @Eeetan
+/client/src/styles/gradients.css @Eeetan
