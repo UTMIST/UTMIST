@@ -2,8 +2,7 @@
 import React, { useState } from 'react';
 import { PersonalInformation, ContactInformation, EducationInformation, ApplicationFormData, UniversityAPIResponse } from "../../types/apply"
 import { DocumentArrowUpIcon } from "@heroicons/react/24/outline";
-import { validatePhoneNumber } from '../../utils/validation';
-import { validatePostalCode } from '../../utils/validation';
+import { validatePhoneNumber, validatePostalCode } from '@/shared/lib/validation';
 
 // A robust, reusable wrapper for dropdowns to ensure cross-browser compatibility
 const SelectWrapper = ({ children, className }: { children: React.ReactNode, className?: string }) => (

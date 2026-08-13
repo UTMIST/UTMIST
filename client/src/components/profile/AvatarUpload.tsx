@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { uploadFile, deleteFile } from "@/utils/upload";
+import { uploadFile, deleteFile } from "@/shared/lib/storage/upload";
 import { updateUserProfile } from "@/shared/lib/auth/user";
 
 interface AvatarUploadProps {

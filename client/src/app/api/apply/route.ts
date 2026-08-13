@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { ApplicationFormData } from '../../../types/apply';
-import { validateEmail, validatePhoneNumber, validatePostalCode } from '../../../utils/validation';
+import { validateEmail, validatePhoneNumber, validatePostalCode } from '@/shared/lib/validation';
 
 export async function POST(req: NextRequest) {
   try {
