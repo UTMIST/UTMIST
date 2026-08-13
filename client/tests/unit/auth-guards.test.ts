@@ -12,7 +12,7 @@ const mockEq = jest.fn(() => ({ single: mockSingle }));
 const mockSelect = jest.fn(() => ({ eq: mockEq }));
 const mockFrom = jest.fn(() => ({ select: mockSelect }));
 
-jest.mock('@/lib/supabase/server', () => ({
+jest.mock('@/shared/lib/supabase/server', () => ({
   createClient: jest.fn(async () => ({
     auth: { getUser: () => mockGetUser() },
     from: mockFrom,

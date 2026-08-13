@@ -1,5 +1,5 @@
 import type { UserProfile } from "@/types/auth";
-import { supabase } from "@/lib/supabase/client";
+import { supabase } from "@/shared/lib/supabase/client";
 
 /**
  * Get user profile by ID from the public.user table

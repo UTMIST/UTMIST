@@ -8,7 +8,7 @@ jest.mock('next/navigation', () => ({
   useRouter: () => ({ push: mockPush }),
 }));
 
-jest.mock('@/lib/supabase/client', () => ({
+jest.mock('@/shared/lib/supabase/client', () => ({
   supabase: {
     auth: {
       getUser: () => mockGetUser(),

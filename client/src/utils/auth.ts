@@ -1,5 +1,5 @@
 import type { UserProfile, AuthUser } from '@/types/auth';
-import { supabase } from "@/lib/supabase/client";
+import { supabase } from "@/shared/lib/supabase/client";
 // Constants for error handling
 const AUTH_ERRORS = {
   EMAIL_ALREADY_TAKEN: 'EMAIL_ALREADY_TAKEN',
