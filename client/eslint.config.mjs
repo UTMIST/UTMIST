@@ -44,4 +44,70 @@ const eslintConfig = [
   },
 ];
 
+// --- Zone boundaries (see docs/ZONES.md) -----------------------------------
+// Features may import shared barrels, never other features and never shared
+// internals. Shared may never import features. docs/superpowers/specs/
+// 2026-08-13-zone-ownership-repo-prep-design.md is the source of truth.
+const ZONE_FEATURES = ["public-site", "recruitment", "careers", "events", "members"];
+
+const SHARED_BARRELS_ONLY = {
+  group: [
+    "@/shared/ui/*",
+    "@/shared/lib/*",
+    "!@/shared/lib/client",
+    "!@/shared/lib/server",
+  ],
+  message:
+    "Import the barrels (@/shared/ui, @/shared/lib, @/shared/lib/client, @/shared/lib/server), not shared internals.",
+};
+
+const zoneBoundaryRules = ZONE_FEATURES.map((feature) => ({
+  files: [`src/features/${feature}/**`],
+  rules: {
+    "no-restricted-imports": [
+      "error",
+      {
+        patterns: [
+          {
+            group: ZONE_FEATURES.filter((f) => f !== feature).flatMap((f) => [
+              `@/features/${f}`,
+              `@/features/${f}/*`,
+            ]),
+            message:
+              "Features may not import other features. Promote genuinely shared code to @/shared (platform/design-system owners review it).",
+          },
+          SHARED_BARRELS_ONLY,
+        ],
+      },
+    ],
+  },
+}));
+
+const sharedBoundaryRule = {
+  files: ["src/shared/**"],
+  rules: {
+    "no-restricted-imports": [
+      "error",
+      {
+        patterns: [
+          {
+            group: ["@/features/*"],
+            message: "Shared code may never depend on features.",
+          },
+        ],
+      },
+    ],
+  },
+};
+
+const appBarrelRule = {
+  files: ["src/app/**"],
+  ignores: ["src/app/api/**"],
+  rules: {
+    "no-restricted-imports": ["error", { patterns: [SHARED_BARRELS_ONLY] }],
+  },
+};
+
+eslintConfig.push(...zoneBoundaryRules, sharedBoundaryRule, appBarrelRule);
+
 export default eslintConfig;
