@@ -27,12 +27,12 @@ jest.mock('@/shared/lib/supabase/server', () => ({
 // the real guards implementation (using the mock above) instead of loading it.
 jest.mock('@/shared/lib/server', () => jest.requireActual('@/shared/lib/auth/guards'));
 
-jest.mock('@/app/admin/AdminPageClient', () => ({
+jest.mock('@/features/recruitment/components/AdminPageClient', () => ({
   __esModule: true,
   default: () => <div data-testid="admin-client">Admin Client</div>,
 }));
 
-jest.mock('@/app/admin/AddCalendly', () => ({
+jest.mock('@/features/recruitment/components/AddCalendly', () => ({
   __esModule: true,
   default: ({ userId, calendly }: { userId: string; calendly: string }) => (
     <div data-testid="add-calendly">

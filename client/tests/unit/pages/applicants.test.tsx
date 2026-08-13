@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
-jest.mock('@/components/admin/ApplicantRow', () => ({
+jest.mock('@/features/recruitment/components/ApplicantRow', () => ({
   __esModule: true,
   default: ({ applicant }: { applicant: { id: string; name: string } }) => (
     <tr data-testid="applicant-row">
@@ -11,7 +11,7 @@ jest.mock('@/components/admin/ApplicantRow', () => ({
 
 // The route's page.tsx is a server component that enforces the admin guard;
 // these tests cover the client dashboard it renders.
-import ApplicantsDashboard from '@/app/applicants/ApplicantsPageClient';
+import ApplicantsDashboard from '@/features/recruitment/components/ApplicantsPageClient';
 
 describe('Applicants Dashboard Page', () => {
   beforeEach(() => {

@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 
-import ApplicantRow from "@/components/admin/ApplicantRow";
-import { Applicant } from "@/types/admin";
+import ApplicantRow from "@/features/recruitment/components/ApplicantRow";
+import { Applicant } from "@/features/recruitment/types/admin";
 
 const LIMIT = 20;
 

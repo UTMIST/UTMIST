@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Applicant } from "@/types/admin";
+import { Applicant } from "@/features/recruitment/types/admin";
 
 
 export default function ApplicantRow({applicant}: {applicant: Applicant}) {
