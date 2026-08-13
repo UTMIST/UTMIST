@@ -38,6 +38,11 @@ there are no leads, all owners are devs, and one person may own multiple zones.
 - **Import rules:** `features/*` may import `shared/*`, never another feature.
   `shared/*` never imports `features/*`. Enforced by lint (below), so foundational
   owners review anything promoted to shared.
+- **Stable public APIs for foundational zones:** `shared/ui` and `shared/lib`
+  each export their public surface through a barrel (`index.ts`). Features
+  import only `@/shared/ui` / `@/shared/lib` — deep imports into shared
+  internals are a lint error. Foundational owners can then refactor internals
+  freely without feature zones changing a single import.
 
 ## Target directory structure
 
@@ -75,7 +80,8 @@ moves into the owning feature's `api/` directory.
    dropdown (applies the zone label), plus a bug template. Zone labels let the
    project board slice work into per-owner lanes.
 5. **Boundary lint** — ESLint import-restriction rules enforcing the zone import
-   rules above; violations fail CI.
+   rules above, including the no-deep-imports-into-shared rule (features must
+   import the `@/shared/ui` / `@/shared/lib` barrels); violations fail CI.
 6. **Required CI check** — after this lands, mark the `build` check as required
    in branch protection on `main` (currently zero required checks). CODEOWNERS
    review starts **advisory** (not required for merge) to fit volunteer cadence;
@@ -98,7 +104,9 @@ Order of operations — typecheck, lint, and tests must be green after each step
    page; verified (tests + manual smoke of authed routes) before anything else
    moves.
 2. **Stand up `shared/ui`** — move `components/ui` plus reusable primitives
-   (cards, slider, carousel), navbar/footer, theme provider/toggles.
+   (cards, slider, carousel), navbar/footer, theme provider/toggles. Both
+   `shared/ui` and `shared/lib` get an `index.ts` barrel defining their public
+   API; all feature imports go through it.
 3. **Move features one zone at a time** — for each zone: create
    `features/<zone>/`, move its components/hooks/logic, thin out its `app/`
    pages to shells, fold its `app/api` logic into `features/<zone>/api/`.
