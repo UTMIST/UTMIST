@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import type { UserProfile } from "@/shared/lib/auth/types";
+import type { UserProfile } from "@/shared/lib";
 
 interface ProfileCardProps {
   userProfile: UserProfile;

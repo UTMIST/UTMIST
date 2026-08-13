@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { Applicant } from '../../../types/admin';
 import applicantData from "@/assets/applicants.json";
-import { getAdminUser } from '@/shared/lib/auth/guards';
+import { getAdminUser } from '@/shared/lib/server';
 
 export async function GET(req: NextRequest) {
   // Applicant records are PII. Middleware only checks that *someone* is signed

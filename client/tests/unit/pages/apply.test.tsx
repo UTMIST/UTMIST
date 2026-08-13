@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
-jest.mock('@/shared/lib/validation', () => ({
+jest.mock('@/shared/lib', () => ({
   validatePhoneNumber: jest.fn(() => true),
   validatePostalCode: jest.fn(() => true),
 }));

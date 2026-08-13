@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/shared/lib/supabase/server";
+import { createClient } from "@/shared/lib/server";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const range = searchParams.get("range") ?? "30d";

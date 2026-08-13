@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getCurrentUser, logout } from '@/shared/lib/auth/client';
-import { getCurrentUserProfile } from '@/shared/lib/auth/user';
-import type { UserProfile, AuthUser } from '@/shared/lib/auth/types';
+import { getCurrentUser, logout, getCurrentUserProfile } from '@/shared/lib/client';
+import type { UserProfile, AuthUser } from '@/shared/lib';
 
 export default function DashboardPage() {
   const router = useRouter();

@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, within } from '@testing-library/react';
 
-jest.mock('@/shared/lib/hooks/useUser', () => ({
+jest.mock('@/shared/lib/client', () => ({
   useUser: () => ({ user: null, loading: false }),
 }));
 

@@ -8,7 +8,7 @@ import { NextRequest } from 'next/server';
 
 const mockGetAdminUser = jest.fn();
 
-jest.mock('@/shared/lib/auth/guards', () => ({
+jest.mock('@/shared/lib/server', () => ({
   getAdminUser: () => mockGetAdminUser(),
 }));
 

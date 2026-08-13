@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/shared/lib/supabase/client";
+import { supabase } from "@/shared/lib/client";
 import type { LeaderboardParticipant } from "@/types/ai2";
 
 interface UseLeaderboardProps {

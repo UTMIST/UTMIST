@@ -2,9 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getCurrentUser, logout } from "@/shared/lib/auth/client";
-import { getCurrentUserProfile } from "@/shared/lib/auth/user";
-import type { UserProfile, AuthUser } from "@/shared/lib/auth/types";
+import { getCurrentUser, logout, getCurrentUserProfile } from "@/shared/lib/client";
+import type { UserProfile, AuthUser } from "@/shared/lib";
 import ProfileCard from "@/components/profile/ProfileCard";
 import ProfileEditForm from "@/components/profile/ProfileEditForm";
 import SocialCard from "@/components/profile/SocialCard";

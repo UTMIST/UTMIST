@@ -3,7 +3,7 @@ import {
   validatePDF,
   validateGoogleDriveConfig,
   getYearFolderId,
-} from "@/shared/lib/storage/google-drive";
+} from "@/shared/lib/server";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/shared/lib/supabase/client';
+import { supabase } from '@/shared/lib/client';
 import Image from 'next/image';
 import logo from '@/assets/logos/utmist-logo-small.svg';
 

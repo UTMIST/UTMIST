@@ -19,12 +19,18 @@ jest.mock('@/shared/lib/supabase/server', () => ({
   })),
 }));
 
+// The `@/shared/lib/server` barrel also re-exports `./supabase/middleware` and
+// `./storage/google-drive`, which pull in `@supabase/ssr`'s realtime client and
+// `googleapis`. Jest can't parse those transitively, so replace the barrel with
+// the real guards implementation (using the mock above) instead of loading it.
+jest.mock('@/shared/lib/server', () => jest.requireActual('@/shared/lib/auth/guards'));
+
 import {
   getAdminUser,
   getCurrentUser,
   requireAdmin,
   requireUser,
-} from '@/shared/lib/auth/guards';
+} from '@/shared/lib/server';
 
 const signedOut = () => mockGetUser.mockResolvedValue({ data: { user: null } });
 

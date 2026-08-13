@@ -11,7 +11,7 @@ import {
   resendConfirmation,
   resetPassword,
   AUTH_ERRORS,
-} from "@/shared/lib/auth/client";
+} from "@/shared/lib/client";
 
 interface PasswordStrength {
   score: number;

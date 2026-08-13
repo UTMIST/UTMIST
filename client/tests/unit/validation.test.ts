@@ -8,7 +8,7 @@ import {
   validateAuthForm,
   getPasswordStrengthColor,
   isFormValid
-} from '@/shared/lib/validation';
+} from '@/shared/lib';
 
 describe('Validation Utils - Unit Tests', () => {
   describe('validateEmail', () => {
