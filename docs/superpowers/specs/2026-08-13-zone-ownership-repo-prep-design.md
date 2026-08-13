@@ -38,11 +38,14 @@ there are no leads, all owners are devs, and one person may own multiple zones.
 - **Import rules:** `features/*` may import `shared/*`, never another feature.
   `shared/*` never imports `features/*`. Enforced by lint (below), so foundational
   owners review anything promoted to shared.
-- **Stable public APIs for foundational zones:** `shared/ui` and `shared/lib`
-  each export their public surface through a barrel (`index.ts`). Features
-  import only `@/shared/ui` / `@/shared/lib` — deep imports into shared
-  internals are a lint error. Foundational owners can then refactor internals
-  freely without feature zones changing a single import.
+- **Stable public APIs for foundational zones:** `shared/ui` exports through
+  one barrel (`@/shared/ui`). `shared/lib` exports through three entry points —
+  `@/shared/lib` (universal), `@/shared/lib/client` (browser-only), and
+  `@/shared/lib/server` (server-only) — because one barrel would mix
+  `next/headers`/googleapis code into client bundles and break the Next.js
+  build. Deep imports into shared internals are a lint error. Foundational
+  owners can then refactor internals freely without feature zones changing a
+  single import.
 
 ## Target directory structure
 
