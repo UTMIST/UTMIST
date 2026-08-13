@@ -2,7 +2,7 @@ import "@/styles/sponsors.css";
 import sponsorData from "@/assets/sponsors.json";
 import SponsorCard from "@/components/cards/sponsor-card";
 import ContactUsCard from "@/components/cards/contact-us-card";
-import HeroSection from "@/components/heroSection";
+import { HeroSection } from "@/shared/ui";
 
 export default function SponsorsPage() {
   return (

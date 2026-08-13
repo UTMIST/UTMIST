@@ -4,12 +4,17 @@ jest.mock('@/shared/lib/client', () => ({
   useUser: () => ({ user: null, loading: false }),
 }));
 
-jest.mock('@/components/theme-toggle', () => ({
+// Deep-path mock (not a barrel mock): navbar.tsx imports ThemeToggle via a
+// sibling relative path ("./theme-toggle"), which bypasses the @/shared/ui
+// barrel entirely. Jest's module registry keys mocks by resolved absolute
+// file path, and '@/shared/ui/theme-toggle' resolves to the same file as
+// navbar.tsx's relative import, so this still intercepts it.
+jest.mock('@/shared/ui/theme-toggle', () => ({
   __esModule: true,
   ThemeToggle: () => <div data-testid="theme-toggle" />,
 }));
 
-import Navbar from '@/components/navbar';
+import { Navbar } from '@/shared/ui';
 
 describe('Navbar — Programs dropdown', () => {
   it('renders a single Programs trigger instead of separate MISTic R&D and MLF items', () => {

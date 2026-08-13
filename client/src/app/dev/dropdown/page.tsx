@@ -5,7 +5,7 @@ import { useState } from "react";
 import {
   Dropdown,
   type DropdownItem,
-} from "@/components/ui/dropdown";
+} from "@/shared/ui";
 
 const departmentOptions: DropdownItem[] = [
   { label: "AI²", value: "ai2" },

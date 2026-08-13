@@ -7,7 +7,7 @@ import { TagFilter } from "./components/tag-filter";
 import { EventCard } from './components/event-card';
 import { getUpcomingEvents, getPastEvents, getFeaturedEvents } from './api/events';
 import type { UpcomingEvent, PastEvent, FeaturedEvent } from './api/events';
-import HeroSection from "@/components/heroSection";
+import { HeroSection } from "@/shared/ui";
 
 /**
  * Main Events Page Component

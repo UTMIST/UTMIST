@@ -1,5 +1,5 @@
 import "@/styles/careers.css";
-import HeroSection from "@/components/heroSection";
+import { HeroSection } from "@/shared/ui";
 import Image from 'next/image';
 import { Positions } from "@/types/careers";
 import positionsData from "@/assets/careers.json";

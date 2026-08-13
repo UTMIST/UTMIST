@@ -5,7 +5,7 @@ import Image, { StaticImageData } from "next/image"
 import { useState } from "react"
 import blueTick from "@/assets/icons/blue-tick-icon.svg";
 import darkBlueTick from "@/assets/icons/dark-blue-tick-icon.svg";
-import HeroSection from "@/components/heroSection";
+import { HeroSection } from "@/shared/ui";
 import ibmLogo from "@/assets/photos/ml-fundamentals/ibm.png";
 import PeopleGrid from "@/components/peopleGrid";
 

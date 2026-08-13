@@ -1,13 +1,13 @@
-import "../styles/footer.css";
+import "../../styles/footer.css";
 import Image from "next/image";
-import logo from "../assets/logos/utmist-logo-small.svg"; 
-import github from "../assets/logos/github.svg"; 
-import linkedin from "../assets/logos/linkedin.svg"; 
-import twitter from "../assets/logos/x.svg"; 
-import discord from "../assets/logos/discord.svg"; 
-import facebook from "../assets/logos/facebook.svg"; 
-import instagram from "../assets/logos/instagram.svg"; 
-import medium from "../assets/logos/medium.svg"; 
+import logo from "../../assets/logos/utmist-logo-small.svg";
+import github from "../../assets/logos/github.svg";
+import linkedin from "../../assets/logos/linkedin.svg";
+import twitter from "../../assets/logos/x.svg";
+import discord from "../../assets/logos/discord.svg";
+import facebook from "../../assets/logos/facebook.svg";
+import instagram from "../../assets/logos/instagram.svg";
+import medium from "../../assets/logos/medium.svg";
 
 
 

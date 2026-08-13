@@ -7,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "./select";
 import { cn } from "@/shared/lib";
 
 import "../../styles/dropdown.css";

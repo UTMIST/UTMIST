@@ -6,7 +6,7 @@ import dummy from "@/assets/photos/fibseq.webp";
 import { ProjectCarousel } from "@/components/carousel";
 import { ProjectType, Project } from "@/types/projects";
 import ProjectCard from "@/components/cards/project-card";
-import HeroSection from "@/components/heroSection";
+import { HeroSection } from "@/shared/ui";
 
 export default function ProjectsPage() {
   const displayNames: Record<ProjectType, string> = {

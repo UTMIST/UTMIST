@@ -1,9 +1,9 @@
 "use client";
-import "../styles/navbar.css";
-import "../styles/gradients.css";
+import "../../styles/navbar.css";
+import "../../styles/gradients.css";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../assets/logos/utmist-logo-small.svg";
+import logo from "../../assets/logos/utmist-logo-small.svg";
 import { useState, useEffect, useRef } from "react";
 import { useUser } from "@/shared/lib/client";
 import { ThemeToggle } from "./theme-toggle";

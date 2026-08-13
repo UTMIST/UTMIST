@@ -35,7 +35,16 @@ jest.mock('@/app/events/components/event-card', () => ({
   EventCard: ({ title }: { title: string }) => <div data-testid="event-card">{title}</div>,
 }));
 
-jest.mock('@/components/heroSection', () => ({
+// The @/shared/ui barrel eagerly re-exports navbar.tsx, which imports
+// @/shared/lib/client (real Supabase browser client). That transitively pulls
+// in the ESM-only `isows` package, which Jest cannot parse. This page never
+// renders Navbar, so a minimal stub is enough to keep the barrel's module
+// graph from loading the real Supabase client at import time.
+jest.mock('@/shared/lib/client', () => ({
+  useUser: () => ({ user: null, loading: false }),
+}));
+
+jest.mock('@/shared/ui/heroSection', () => ({
   __esModule: true,
   default: ({ title }: { title: string }) => <div data-testid="hero">{title}</div>,
 }));

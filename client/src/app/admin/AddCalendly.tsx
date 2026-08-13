@@ -2,8 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { updateUserProfile } from "@/shared/lib/client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button, Input } from "@/shared/ui";
 
 export default function AddCalendly({
   userId,

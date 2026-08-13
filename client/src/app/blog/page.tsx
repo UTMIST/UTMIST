@@ -4,7 +4,7 @@ import "@/styles/blog.css";
 import BlogCardLarge from "@/components/cards/blog-card-large";
 import BlogCardSmall from "@/components/cards/blog-card-small";
 import BlogListItem from "@/components/cards/blog-list-item";
-import HeroSection from "@/components/heroSection";
+import { HeroSection } from "@/shared/ui";
 import { Search, ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { BlogPost, getFeaturedPosts, getRecentPosts, getArchivePosts } from "./api/blog";
