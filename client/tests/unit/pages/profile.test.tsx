@@ -15,34 +15,34 @@ jest.mock('@/shared/lib/client', () => ({
   getCurrentUserProfile: () => mockGetCurrentUserProfile(),
 }));
 
-jest.mock('@/components/profile/ProfileCard', () => ({
+jest.mock('@/features/members/components/profile/ProfileCard', () => ({
   __esModule: true,
   default: ({ userProfile }: { userProfile: { name: string } }) => (
     <div data-testid="profile-card">{userProfile.name}</div>
   ),
 }));
 
-jest.mock('@/components/profile/ProfileEditForm', () => ({
+jest.mock('@/features/members/components/profile/ProfileEditForm', () => ({
   __esModule: true,
   default: () => <div data-testid="profile-edit-form" />,
 }));
 
-jest.mock('@/components/profile/SocialCard', () => ({
+jest.mock('@/features/members/components/profile/SocialCard', () => ({
   __esModule: true,
   default: () => <div data-testid="social-card" />,
 }));
 
-jest.mock('@/components/profile/QRCodeCard', () => ({
+jest.mock('@/features/members/components/profile/QRCodeCard', () => ({
   __esModule: true,
   default: () => <div data-testid="qr-card" />,
 }));
 
-jest.mock('@/components/profile/ResumeCard', () => ({
+jest.mock('@/features/members/components/profile/ResumeCard', () => ({
   __esModule: true,
   default: () => <div data-testid="resume-card" />,
 }));
 
-jest.mock('@/components/profile/AdminCard', () => ({
+jest.mock('@/features/members/components/profile/AdminCard', () => ({
   __esModule: true,
   default: () => <div data-testid="admin-card" />,
 }));
