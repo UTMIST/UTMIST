@@ -24,7 +24,7 @@ import {
   getCurrentUser,
   requireAdmin,
   requireUser,
-} from '@/lib/auth/guards';
+} from '@/shared/lib/auth/guards';
 
 const signedOut = () => mockGetUser.mockResolvedValue({ data: { user: null } });
 

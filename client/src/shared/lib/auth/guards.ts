@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/shared/lib/supabase/server";
-import type { UserProfile } from "@/types/auth";
+import type { UserProfile } from "@/shared/lib/auth/types";
 
 /**
  * Server-side access guards.

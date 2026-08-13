@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { getUserById } from "@/utils/user";
+import { getUserById } from "@/shared/lib/auth/user";
 
 interface ResumeUploadProps {
   userId: string;

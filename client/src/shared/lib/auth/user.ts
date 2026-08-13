@@ -1,4 +1,4 @@
-import type { UserProfile } from "@/types/auth";
+import type { UserProfile } from "@/shared/lib/auth/types";
 import { supabase } from "@/shared/lib/supabase/client";
 
 /**

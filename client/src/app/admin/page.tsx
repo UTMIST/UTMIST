@@ -1,6 +1,6 @@
 import AdminPageClient from "./AdminPageClient";
 import AddCalendly from "./AddCalendly";
-import { requireAdmin } from "@/lib/auth/guards";
+import { requireAdmin } from "@/shared/lib/auth/guards";
 
 export default async function AdminPage() {
   const userRow = await requireAdmin();

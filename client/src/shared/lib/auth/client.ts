@@ -1,4 +1,4 @@
-import type { UserProfile, AuthUser } from '@/types/auth';
+import type { UserProfile, AuthUser } from '@/shared/lib/auth/types';
 import { supabase } from "@/shared/lib/supabase/client";
 // Constants for error handling
 const AUTH_ERRORS = {

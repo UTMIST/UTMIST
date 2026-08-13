@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { updateUserProfile } from "@/utils/user";
+import { updateUserProfile } from "@/shared/lib/auth/user";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 

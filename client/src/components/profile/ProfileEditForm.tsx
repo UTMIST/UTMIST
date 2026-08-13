@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { updateUserProfile } from "@/utils/user";
+import { updateUserProfile } from "@/shared/lib/auth/user";
 import AvatarUpload from "./AvatarUpload";
-import type { UserProfile } from "@/types/auth";
+import type { UserProfile } from "@/shared/lib/auth/types";
 
 interface ProfileEditFormProps {
   profile: UserProfile;

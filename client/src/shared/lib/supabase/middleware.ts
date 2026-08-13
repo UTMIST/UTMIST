@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 // Paths that require a signed-in user. Note this is only a first gate — it does
 // not distinguish admins from members. Anything exposing applicant PII also
-// needs an explicit admin check (see lib/auth/guards.ts).
+// needs an explicit admin check (see shared/lib/auth/guards.ts).
 const USER_PATHS = ["/dashboard", "/api", "/admin", "/applicants"];
 
 export async function updateSession(request: NextRequest) {

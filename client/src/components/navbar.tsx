@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "../assets/logos/utmist-logo-small.svg";
 import { useState, useEffect, useRef } from "react";
-import { useUser } from "@/hooks/useUser";
+import { useUser } from "@/shared/lib/hooks/useUser";
 import { ThemeToggle } from "./theme-toggle";
 
 const programLinks = [

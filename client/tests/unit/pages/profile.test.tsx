@@ -9,12 +9,12 @@ jest.mock('next/navigation', () => ({
   useRouter: () => ({ push: mockPush }),
 }));
 
-jest.mock('@/utils/auth', () => ({
+jest.mock('@/shared/lib/auth/client', () => ({
   getCurrentUser: () => mockGetCurrentUser(),
   logout: () => mockLogout(),
 }));
 
-jest.mock('@/utils/user', () => ({
+jest.mock('@/shared/lib/auth/user', () => ({
   getCurrentUserProfile: () => mockGetCurrentUserProfile(),
 }));
 
