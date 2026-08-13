@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { Tag } from './tag';
+import { Tag } from '@/features/events/components/tag';
 
 interface Resource {
   title: string;
