@@ -23,13 +23,16 @@ jobs:
             // Issue forms render the dropdown as "### Zone\n\n<value>"
             const match = body.match(/### Zone\s*\n+\s*(.+)/);
             const chosen = match ? match[1].trim() : null;
-            const newLabel = zones.includes(chosen) ? `zone: ${chosen}` : null;
+            const newLabel = chosen && zones.includes(chosen) ? `zone: ${chosen}` : null;
 
-            if (!match) {
-              // No "### Zone" section in the body at all — e.g. a
-              // non-template issue, or an `edited` event that strips/omits
-              // the template section. Bail out without touching labels so
-              // we never wipe manually-applied zone labels.
+            if (!newLabel) {
+              // Only touch labels when the body names a real zone. Bail out
+              // otherwise: no "### Zone" section (non-template issue, or an
+              // `edited` event that strips the section), a "not sure" or
+              // other unknown dropdown value, "_No response_", or a blanked
+              // value line (where the regex overshoots into the next
+              // markdown heading). Removing labels in any of these cases
+              // would wipe manually-applied zone labels.
               return;
             }
 

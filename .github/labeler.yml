@@ -30,7 +30,6 @@
   - changed-files:
       - any-glob-to-any-file:
           - client/src/features/public-site/**
-          - client/src/assets/**
           - client/src/app/page.tsx
           - client/src/app/departments/**
           - client/src/app/projects/**
@@ -41,7 +40,23 @@
           - client/src/app/eigenai/**
           - client/src/app/ml-fundamentals/**
           - client/src/app/api/umami/**
+  # Catch-alls with carve-outs for files other zones claim at file level.
+  # (all-globs-to-any-file: a changed file must match the glob AND none of
+  # the negations — negations inside any-glob-to-any-file would match
+  # every other file in the repo.)
+  - changed-files:
+      - all-globs-to-any-file:
+          - client/src/assets/**
+          - "!client/src/assets/careers.json" # zone: careers
+  - changed-files:
+      - all-globs-to-any-file:
           - client/src/styles/**
+          - "!client/src/styles/navbar.css" # zone: design-system
+          - "!client/src/styles/footer.css" # zone: design-system
+          - "!client/src/styles/dropdown.css" # zone: design-system
+          - "!client/src/styles/gradients.css" # zone: design-system
+          - "!client/src/styles/careers.css" # zone: careers
+          - "!client/src/styles/events.css" # zone: events
 "zone: recruitment":
   - changed-files:
       - any-glob-to-any-file:
