@@ -1,6 +1,6 @@
-import { 
-  validateEmail, 
-  validatePassword, 
+import {
+  validateEmail,
+  validatePassword,
   validatePasswordForRegistration,
   validatePasswordStrength,
   validateConfirmPassword,
@@ -8,7 +8,7 @@ import {
   validateAuthForm,
   getPasswordStrengthColor,
   isFormValid
-} from '../../src/utils/validation';
+} from '@/shared/lib';
 
 describe('Validation Utils - Unit Tests', () => {
   describe('validateEmail', () => {

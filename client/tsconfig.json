@@ -33,8 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/components/slider/slider.jsx",
-    "src/types",
+    "src/features/public-site/components/slider/slider.jsx",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [

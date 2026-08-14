@@ -25,6 +25,17 @@ All work starts from an [issue](https://github.com/UTMIST/UTMIST/issues).
 If you get stuck or go quiet on an issue, say so in a comment and unassign
 yourself. Stalled-but-assigned issues are worse than open ones.
 
+## Zones & ownership
+
+The codebase is split into ownership **zones** — design system, platform,
+DevEx/CI-CD, and one per feature (public site, recruitment, careers, events,
+members). [docs/ZONES.md](docs/ZONES.md) is the map: each zone's mission,
+paths, and owner. Set the **Zone** dropdown when filing an issue and a
+workflow applies the matching `zone:<name>` label automatically; the same
+path-based labeling applies to PRs, and CODEOWNERS requests review from that
+zone's owner. Read it before touching code outside the feature you already
+know, so you know whose lane you're in.
+
 ## Branches
 
 Branch off the latest `main`:

@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
-import ScrollToTop from "@/components/scrollToTop";
-import { FloatingThemeToggle } from "@/components/floating-theme-toggle";
-import { ThemeProvider } from "@/components/theme-provider";
+import { Footer } from "@/shared/ui";
+import {
+  Navbar,
+  ScrollToTop,
+  FloatingThemeToggle,
+  ThemeProvider,
+} from "@/shared/ui/client";
 import { Toaster } from "react-hot-toast";
 
 //Metadata for the page

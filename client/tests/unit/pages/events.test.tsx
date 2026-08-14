@@ -4,20 +4,20 @@ const mockGetUpcoming = jest.fn();
 const mockGetPast = jest.fn();
 const mockGetFeatured = jest.fn();
 
-jest.mock('@/app/events/api/events', () => ({
+jest.mock('@/features/events/api/events', () => ({
   __esModule: true,
   getUpcomingEvents: () => mockGetUpcoming(),
   getPastEvents: () => mockGetPast(),
   getFeaturedEvents: () => mockGetFeatured(),
 }));
 
-jest.mock('@/app/events/components/event-item', () => ({
+jest.mock('@/features/events/components/event-item', () => ({
   EventItem: ({ event }: { event: { id: string; title: string } }) => (
     <div data-testid="event-item">{event.title}</div>
   ),
 }));
 
-jest.mock('@/app/events/components/search-bar', () => ({
+jest.mock('@/features/events/components/search-bar', () => ({
   SearchBar: ({ value, onChange }: { value: string; onChange: (v: string) => void }) => (
     <input
       data-testid="search-bar"
@@ -27,15 +27,15 @@ jest.mock('@/app/events/components/search-bar', () => ({
   ),
 }));
 
-jest.mock('@/app/events/components/tag-filter', () => ({
+jest.mock('@/features/events/components/tag-filter', () => ({
   TagFilter: () => <div data-testid="tag-filter" />,
 }));
 
-jest.mock('@/app/events/components/event-card', () => ({
+jest.mock('@/features/events/components/event-card', () => ({
   EventCard: ({ title }: { title: string }) => <div data-testid="event-card">{title}</div>,
 }));
 
-jest.mock('@/components/heroSection', () => ({
+jest.mock('@/shared/ui/heroSection', () => ({
   __esModule: true,
   default: ({ title }: { title: string }) => <div data-testid="hero">{title}</div>,
 }));

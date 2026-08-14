@@ -1,0 +1,34 @@
+name: Task
+description: A scoped piece of work for a zone
+title: "[task]: "
+body:
+  - type: dropdown
+    id: zone
+    attributes:
+      label: Zone
+      description: Which zone does this belong to? (see docs/ZONES.md)
+      options:
+        - design-system
+        - platform
+        - devex
+        - public-site
+        - recruitment
+        - careers
+        - events
+        - members
+        - not sure
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What needs to happen
+      description: Scope it so one person can own it end-to-end.
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Definition of done
+    validations:
+      required: false

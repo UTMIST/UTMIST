@@ -14,18 +14,18 @@ jest.mock('react-chrono', () => ({
   ),
 }));
 
-jest.mock('@/components/cards/ai2-new-feature-card', () => ({
+jest.mock('@/features/public-site/components/cards/ai2-new-feature-card', () => ({
   AI2Card: ({ title }: { title: string }) => <div data-testid="ai2-card">{title}</div>,
 }));
 
-jest.mock('@/components/peopleGrid', () => ({
+jest.mock('@/features/public-site/components/peopleGrid', () => ({
   __esModule: true,
   default: ({ people }: { people: Array<{ name: string }> }) => (
     <div data-testid="people-grid">{people.length}</div>
   ),
 }));
 
-jest.mock('@/app/ai2/data', () => ({
+jest.mock('@/features/public-site/data/ai2', () => ({
   specialThanks: [{ name: 'Past Organizer' }],
   aiSquaredDetails: [
     { image: '/cube.png', title: 'Step 1', text: 'Sign up' },

@@ -1,12 +1,12 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 
-jest.mock('@/components/carousel', () => ({
+jest.mock('@/features/public-site/components/carousel', () => ({
   ProjectCarousel: ({ projects }: { projects: Array<{ title: string }> }) => (
     <div data-testid="project-carousel">{projects.length}</div>
   ),
 }));
 
-jest.mock('@/components/heroSection', () => ({
+jest.mock('@/shared/ui/heroSection', () => ({
   __esModule: true,
   default: ({ title }: { title: string }) => <div data-testid="hero">{title}</div>,
 }));

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-jest.mock('@/components/heroSection', () => ({
+jest.mock('@/shared/ui/heroSection', () => ({
   __esModule: true,
   default: ({ title, subtitle }: { title: string; subtitle: string }) => (
     <div data-testid="hero">

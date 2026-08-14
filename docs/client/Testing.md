@@ -57,7 +57,7 @@ The `@/` alias is mapped to `client/src/` via `moduleNameMapper` in `jest.config
 
 ```ts
 import HomePage from '@/app/page';
-import { login } from '@/utils/auth';
+import { login } from '@/shared/lib/client';
 ```
 
 ## Standard page-test template
@@ -69,7 +69,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
 // 1. Mock declarations FIRST. jest.mock is hoisted, but for clarity place
 //    every mock above the page import.
-jest.mock('@/components/heroSection', () => ({
+jest.mock('@/shared/ui/heroSection', () => ({
   __esModule: true,
   default: ({ title }: { title: string }) => (
     <div data-testid="hero">{title}</div>
@@ -97,6 +97,28 @@ Rules of thumb:
 - **One `describe` block per page**, named after the page.
 - **`it('does X')` not `it('should do X')`** — match the existing suite's voice.
 - **Mock external IO at the boundary**: `fetch`, Supabase clients, `next/navigation`, route-local `./api/*` modules.
+- **Mocking a single shared UI component**: mock the underlying file
+  directly (`@/shared/ui/heroSection`, `@/shared/ui/dropdown`, …) rather than
+  a whole barrel. Jest intercepts by resolved module path, so mocking the file
+  that backs one barrel re-export is enough — mocking the barrel itself would
+  mean re-exporting every other component too. Page code still imports from
+  the barrels (`import { HeroSection } from '@/shared/ui'`,
+  `import { Dropdown } from '@/shared/ui/client'`); only the test's
+  `jest.mock()` call uses the deep path.
+- **Know which UI barrel the page imports**: `@/shared/ui` holds server-safe
+  primitives (Button, Input, Textarea, Footer, HeroSection) and pulls in no
+  Supabase or other browser-only code — pages that only use primitives need no
+  Supabase-related mocks. `@/shared/ui/client` is the chrome barrel (Navbar,
+  select/dropdown, theme components); importing anything from it loads
+  navbar.tsx → `@/shared/lib/client` → supabase-js → the ESM-only `isows`
+  package, which Jest cannot parse. Tests for pages that import from
+  `@/shared/ui/client` must stub that boundary first:
+
+  ```tsx
+  jest.mock('@/shared/lib/client', () => ({
+    useUser: () => ({ user: null, loading: false }),
+  }));
+  ```
 
 ## Cookbooks
 
@@ -142,13 +164,15 @@ expect(global.fetch).toHaveBeenCalledWith(
 
 ### Mocking Supabase
 
-For client components that import `@/lib/supabase/client`:
+Client components get Supabase through the `@/shared/lib/client` barrel, not
+a deep import — mock the barrel, providing only what the component under
+test actually calls:
 
 ```tsx
 const mockGetUser = jest.fn();
 const mockUpdateUser = jest.fn();
 
-jest.mock('@/lib/supabase/client', () => ({
+jest.mock('@/shared/lib/client', () => ({
   supabase: {
     auth: {
       getUser: () => mockGetUser(),
@@ -158,15 +182,20 @@ jest.mock('@/lib/supabase/client', () => ({
 }));
 ```
 
-For server components that use `createClient()` from `@/lib/supabase/server`, see "Server components" below.
+For server components that use `createClient()` from `@/shared/lib/server`,
+see "Server components" below. Tests that exercise `shared/lib` itself
+(rather than a feature that consumes it) are the one place a deep path is
+correct instead of a barrel — see the "Server components" example, which
+mocks `@/shared/lib/supabase/server` directly because the `@/shared/lib/server`
+barrel also re-exports `googleapis`/`@supabase/ssr` code Jest can't parse.
 
-### Auth flows (`@/utils/auth`, `@/utils/user`)
+### Auth flows (`@/shared/lib/client`)
 
 ```tsx
 const mockLogin = jest.fn();
 const mockGetCurrentUser = jest.fn();
 
-jest.mock('@/utils/auth', () => ({
+jest.mock('@/shared/lib/client', () => ({
   login: (...args: unknown[]) => mockLogin(...args),
   getCurrentUser: () => mockGetCurrentUser(),
   AUTH_ERRORS: {
@@ -190,9 +219,14 @@ jest.mock('@/assets/careers.json', () => [
 
 ### Server (async) components
 
-Server components like [`src/app/admin/page.tsx`](../../client/src/app/admin/page.tsx) are `async function`s that `await createClient()` and call `redirect()`. Test them by:
+Server components like
+[`src/features/recruitment/pages/admin.tsx`](../../client/src/features/recruitment/pages/admin.tsx)
+(re-exported as the shell at `src/app/admin/page.tsx`) are `async function`s
+that `await requireAdmin()` (or another guard from `@/shared/lib/server`,
+which calls `redirect()` internally when the check fails). Test them by:
 
-1. Mocking `redirect` to throw a sentinel error so you can assert the path.
+1. Mocking the Supabase call the guard makes, and `redirect`, so you can
+   assert the redirect path without a real database.
 2. Calling the page directly and rendering the resolved JSX.
 
 ```tsx
@@ -203,6 +237,27 @@ const mockRedirect = jest.fn((path: string) => {
 jest.mock('next/navigation', () => ({
   redirect: (path: string) => mockRedirect(path),
 }));
+
+const mockGetUser = jest.fn();
+const mockSingle = jest.fn();
+const mockEq = jest.fn(() => ({ single: mockSingle }));
+const mockSelect = jest.fn(() => ({ eq: mockEq }));
+const mockFrom = jest.fn(() => ({ select: mockSelect }));
+
+jest.mock('@/shared/lib/supabase/server', () => ({
+  createClient: jest.fn(async () => ({
+    auth: { getUser: () => mockGetUser() },
+    from: mockFrom,
+  })),
+}));
+
+// The `@/shared/lib/server` barrel also re-exports `./supabase/middleware` and
+// `./storage/google-drive`, which pull in `@supabase/ssr`'s realtime client and
+// `googleapis`. Jest can't parse those transitively, so replace the barrel with
+// the real guards implementation (using the mock above) instead of loading it —
+// this deep path into `shared/lib` internals is the accepted exception, used
+// only when testing code that consumes `shared/lib/server` this directly.
+jest.mock('@/shared/lib/server', () => jest.requireActual('@/shared/lib/auth/guards'));
 
 // Redirect path assertion:
 await expect(AdminPage()).rejects.toThrow('__REDIRECT__:/auth');

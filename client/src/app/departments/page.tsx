@@ -1,13 +1,1 @@
-import {PersonCard} from "@/components/memberList"
-
-export default function DepartmentsPage() {
-    return (
-        <>
-            <PersonCard
-                name={"Ambrose Ling"}
-                bio={"Look how much it space it can hold, now each member can give a taste of their personality to their card!"}
-                email={"myEmail@mail.com"}
-            />
-        </>
-    )
-}
+export { default } from "@/features/public-site/pages/departments";

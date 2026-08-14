@@ -12,7 +12,7 @@ const mockGetCurrentUser = jest.fn();
 const mockResendConfirmation = jest.fn();
 const mockResetPassword = jest.fn();
 
-jest.mock('@/utils/auth', () => ({
+jest.mock('@/shared/lib/client', () => ({
   login: (...args: unknown[]) => mockLogin(...args),
   register: (...args: unknown[]) => mockRegister(...args),
   getCurrentUser: () => mockGetCurrentUser(),

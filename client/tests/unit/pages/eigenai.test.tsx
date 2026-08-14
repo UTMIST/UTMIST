@@ -1,23 +1,23 @@
 import { render, screen } from '@testing-library/react';
 
-jest.mock('@/components/peopleGrid', () => ({
+jest.mock('@/features/public-site/components/peopleGrid', () => ({
   __esModule: true,
   default: ({ people }: { people: Array<{ name: string }> }) => (
     <div data-testid="people-grid">{people.length}</div>
   ),
 }));
 
-jest.mock('@/components/lambda', () => ({
+jest.mock('@/features/public-site/components/lambda', () => ({
   __esModule: true,
   default: () => <div data-testid="lambda-section" />,
 }));
 
-jest.mock('@/components/workshops', () => ({
+jest.mock('@/features/public-site/components/workshops', () => ({
   __esModule: true,
   default: () => <div data-testid="workshops" />,
 }));
 
-jest.mock('@/app/eigenai/data', () => ({
+jest.mock('@/features/public-site/data/eigenai', () => ({
   founderPanelSpeakers: [{ name: 'Founder A' }],
   researchPanelSpeakers: [{ name: 'Researcher A' }],
   keynoteSpeakers: [{ name: 'Keynote A' }],

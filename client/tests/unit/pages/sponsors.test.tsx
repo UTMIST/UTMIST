@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 
-jest.mock('@/components/heroSection', () => ({
+jest.mock('@/shared/ui/heroSection', () => ({
   __esModule: true,
   default: ({ title }: { title: string }) => <div data-testid="hero">{title}</div>,
 }));
 
-jest.mock('@/components/cards/sponsor-card', () => ({
+jest.mock('@/features/public-site/components/cards/sponsor-card', () => ({
   __esModule: true,
   default: ({ category, price }: { category: string; price: string }) => (
     <div data-testid="sponsor-card">
@@ -15,7 +15,7 @@ jest.mock('@/components/cards/sponsor-card', () => ({
   ),
 }));
 
-jest.mock('@/components/cards/contact-us-card', () => ({
+jest.mock('@/features/public-site/components/cards/contact-us-card', () => ({
   __esModule: true,
   default: () => <div data-testid="contact-us-card" />,
 }));

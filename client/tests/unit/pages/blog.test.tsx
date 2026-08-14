@@ -13,29 +13,29 @@ const mockGetFeatured = jest.fn();
 const mockGetRecent = jest.fn();
 const mockGetArchive = jest.fn();
 
-jest.mock('@/app/blog/api/blog', () => ({
+jest.mock('@/features/public-site/api/blog', () => ({
   __esModule: true,
   getFeaturedPosts: () => mockGetFeatured(),
   getRecentPosts: () => mockGetRecent(),
   getArchivePosts: () => mockGetArchive(),
 }));
 
-jest.mock('@/components/cards/blog-card-large', () => ({
+jest.mock('@/features/public-site/components/cards/blog-card-large', () => ({
   __esModule: true,
   default: ({ title }: { title: string }) => <div data-testid="blog-large">{title}</div>,
 }));
 
-jest.mock('@/components/cards/blog-card-small', () => ({
+jest.mock('@/features/public-site/components/cards/blog-card-small', () => ({
   __esModule: true,
   default: ({ title }: { title: string }) => <div data-testid="blog-small">{title}</div>,
 }));
 
-jest.mock('@/components/cards/blog-list-item', () => ({
+jest.mock('@/features/public-site/components/cards/blog-list-item', () => ({
   __esModule: true,
   default: ({ title }: { title: string }) => <div data-testid="blog-list-item">{title}</div>,
 }));
 
-jest.mock('@/components/heroSection', () => ({
+jest.mock('@/shared/ui/heroSection', () => ({
   __esModule: true,
   default: ({ title }: { title: string }) => <div data-testid="hero">{title}</div>,
 }));

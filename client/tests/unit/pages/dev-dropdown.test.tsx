@@ -1,6 +1,15 @@
 import { render, screen } from '@testing-library/react';
 
-jest.mock('@/components/ui/dropdown', () => ({
+// This page imports Dropdown from the @/shared/ui/client chrome barrel, which
+// also re-exports navbar.tsx → @/shared/lib/client (real Supabase browser
+// client) → the ESM-only `isows` package, which Jest cannot parse. The page
+// never renders Navbar, so a minimal stub keeps the chrome barrel's module
+// graph from loading the real Supabase client at import time.
+jest.mock('@/shared/lib/client', () => ({
+  useUser: () => ({ user: null, loading: false }),
+}));
+
+jest.mock('@/shared/ui/dropdown', () => ({
   Dropdown: ({
     label,
     placeholder,
