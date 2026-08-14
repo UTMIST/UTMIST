@@ -149,12 +149,17 @@ home of the compute-platform UI.
 
 - `features/*` may import from `shared/*`, never from another feature.
 - `shared/*` never imports from `features/*`.
+- Nothing under `features/*` or `shared/*` imports from `app/` — route
+  shells re-export feature pages, never the reverse.
 - Features must go through the shared barrels — `@/shared/ui`,
   `@/shared/lib`, `@/shared/lib/client`, `@/shared/lib/server` — not deep
   imports into shared internals. `shared/lib` has three entry points
   (universal, client-only, server-only) instead of one, so browser bundles
   never pick up server-only code (e.g. `next/headers`, googleapis).
-- These rules are enforced by ESLint; violations fail CI.
+- These rules are enforced by ESLint on *resolved* import paths, so
+  relative imports (`../recruitment/...`) and `@/` aliases are policed
+  identically, and a new `features/<zone>/` directory is picked up
+  automatically. Violations fail CI.
 - `client/src/styles/` is a flat, cross-zone stylesheet directory rather than
   a `shared/*` module, so it's split file-level across zones instead of
   living under one owner — see the Design system, Careers, Events, and
@@ -169,3 +174,13 @@ automatically, which lands the issue in its owner's lane on the project
 board. When a PR touching a zone's paths is opened, the same path-based
 labeling applies the zone label to the PR, and CODEOWNERS automatically
 requests review from that zone's owner.
+
+## Keeping the zone list in sync
+
+The zone list is hand-maintained in several files (`.github/labeler.yml`,
+`.github/CODEOWNERS`, this doc, the issue template's Zone dropdown, the
+issue-labeling workflow, and the ESLint boundary config). CI runs
+`node scripts/check-zones.mjs` (the **Zone consistency** workflow) to
+cross-check them, with the `zone: <name>` labels in `.github/labeler.yml`
+as the canonical list. If you add, rename, or remove a zone, update every
+file and run the script locally before pushing.
