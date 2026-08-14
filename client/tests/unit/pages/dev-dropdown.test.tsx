@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 
-// The @/shared/ui barrel eagerly re-exports navbar.tsx, which imports
-// @/shared/lib/client (real Supabase browser client). That transitively pulls
-// in the ESM-only `isows` package, which Jest cannot parse. This page never
-// renders Navbar, so a minimal stub is enough to keep the barrel's module
+// This page imports Dropdown from the @/shared/ui/client chrome barrel, which
+// also re-exports navbar.tsx → @/shared/lib/client (real Supabase browser
+// client) → the ESM-only `isows` package, which Jest cannot parse. The page
+// never renders Navbar, so a minimal stub keeps the chrome barrel's module
 // graph from loading the real Supabase client at import time.
 jest.mock('@/shared/lib/client', () => ({
   useUser: () => ({ user: null, loading: false }),

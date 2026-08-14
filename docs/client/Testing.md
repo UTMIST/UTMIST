@@ -97,13 +97,28 @@ Rules of thumb:
 - **One `describe` block per page**, named after the page.
 - **`it('does X')` not `it('should do X')`** — match the existing suite's voice.
 - **Mock external IO at the boundary**: `fetch`, Supabase clients, `next/navigation`, route-local `./api/*` modules.
-- **Mocking a single `@/shared/ui` component**: mock the underlying file
+- **Mocking a single shared UI component**: mock the underlying file
   directly (`@/shared/ui/heroSection`, `@/shared/ui/dropdown`, …) rather than
-  the whole `@/shared/ui` barrel. Jest intercepts by resolved module path, so
-  mocking the file that backs one barrel re-export is enough — mocking the
-  barrel itself would mean re-exporting every other component too. Page code
-  still imports from the barrel (`import { HeroSection } from '@/shared/ui'`);
-  only the test's `jest.mock()` call uses the deep path.
+  a whole barrel. Jest intercepts by resolved module path, so mocking the file
+  that backs one barrel re-export is enough — mocking the barrel itself would
+  mean re-exporting every other component too. Page code still imports from
+  the barrels (`import { HeroSection } from '@/shared/ui'`,
+  `import { Dropdown } from '@/shared/ui/client'`); only the test's
+  `jest.mock()` call uses the deep path.
+- **Know which UI barrel the page imports**: `@/shared/ui` holds server-safe
+  primitives (Button, Input, Textarea, Footer, HeroSection) and pulls in no
+  Supabase or other browser-only code — pages that only use primitives need no
+  Supabase-related mocks. `@/shared/ui/client` is the chrome barrel (Navbar,
+  select/dropdown, theme components); importing anything from it loads
+  navbar.tsx → `@/shared/lib/client` → supabase-js → the ESM-only `isows`
+  package, which Jest cannot parse. Tests for pages that import from
+  `@/shared/ui/client` must stub that boundary first:
+
+  ```tsx
+  jest.mock('@/shared/lib/client', () => ({
+    useUser: () => ({ user: null, loading: false }),
+  }));
+  ```
 
 ## Cookbooks
 

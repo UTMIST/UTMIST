@@ -14,7 +14,7 @@ jest.mock('@/shared/ui/theme-toggle', () => ({
   ThemeToggle: () => <div data-testid="theme-toggle" />,
 }));
 
-import { Navbar } from '@/shared/ui';
+import { Navbar } from '@/shared/ui/client';
 
 describe('Navbar — Programs dropdown', () => {
   it('renders a single Programs trigger instead of separate MISTic R&D and MLF items', () => {

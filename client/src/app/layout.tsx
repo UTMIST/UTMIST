@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Footer } from "@/shared/ui";
 import {
   Navbar,
-  Footer,
   ScrollToTop,
   FloatingThemeToggle,
   ThemeProvider,
-} from "@/shared/ui";
+} from "@/shared/ui/client";
 import { Toaster } from "react-hot-toast";
 
 //Metadata for the page

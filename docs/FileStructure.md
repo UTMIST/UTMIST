@@ -48,7 +48,8 @@ client/src/
 │   └── lib/                # platform: auth/ hooks/ storage/ supabase/
 │       ├── index.ts        # universal barrel   → @/shared/lib
 │       ├── client.ts        # browser-only barrel → @/shared/lib/client
-│       └── server.ts        # server-only barrel  → @/shared/lib/server
+│       ├── server.ts        # server-only barrel  → @/shared/lib/server
+│       └── storage.ts       # server-only storage barrel → @/shared/lib/storage
 ├── assets/                # images, icons, static JSON (careers.json, etc.)
 ├── styles/
 └── middleware.ts          # platform
@@ -74,35 +75,44 @@ router forces a physical file under `app/`. Route handlers under
 a zone by path (see the Recruitment/Members path lists in
 [`docs/ZONES.md`](ZONES.md)), not re-exported as shells.
 
-## The three platform barrels
+## The four platform barrels
 
-`shared/lib` has three entry points instead of one, so a browser bundle can
+`shared/lib` has four entry points instead of one, so a browser bundle can
 never accidentally pick up server-only code (`next/headers`, `googleapis`,
-etc.). Every import into `shared/lib` from outside it goes through one of
-these three — never a deep path into `shared/lib/auth/*`,
+etc.), and routes that never touch Google Drive don't bundle `googleapis`.
+Every import into `shared/lib` from outside it goes through one of
+these four — never a deep path into `shared/lib/auth/*`,
 `shared/lib/supabase/*`, or `shared/lib/storage/*`.
 
 | Barrel | Import path | Safe in | Contains |
 | --- | --- | --- | --- |
 | Universal | `@/shared/lib` | client & server | Auth types, validation helpers, `cn()` |
 | Client-only | `@/shared/lib/client` | client components | Browser Supabase client, client-side auth helpers, `useUser()`, upload helpers |
-| Server-only | `@/shared/lib/server` | server components, route handlers | Server Supabase client, `updateSession()`, auth guards (`requireUser`, `requireAdmin`, …), Google Drive/storage |
+| Server-only | `@/shared/lib/server` | server components, route handlers | Server Supabase client, `updateSession()`, auth guards (`requireUser`, `requireAdmin`, …) |
+| Storage (server-only) | `@/shared/lib/storage` | route handlers that upload to Drive | Google Drive upload + validation helpers (pulls in `googleapis` — import only where actually needed) |
 
-## The `shared/ui` barrel
+## The `shared/ui` barrels
 
-`@/shared/ui` is the sole entry point for the design system: form primitives
-(`button`, `input`, `textarea`, `select`, `dropdown`), layout (`navbar`,
-`footer`), and cross-cutting UI (`theme-provider`, `theme-toggle`,
-`floating-theme-toggle`, `scrollToTop`, `heroSection`). Import components
-from the barrel, not from `shared/ui/<file>` directly.
+The design system has two entry points, split the same way as `shared/lib`:
+
+- `@/shared/ui` — server-safe primitives: `button`, `input`, `textarea`,
+  `footer`, `heroSection`. Safe to import from server components; pulls in
+  no Supabase or client-only dependencies.
+- `@/shared/ui/client` — client chrome: `navbar`, `select`, `dropdown`,
+  `theme-provider`, `theme-toggle`, `floating-theme-toggle`, `scrollToTop`.
+  These are `"use client"` components (navbar reaches Supabase via
+  `@/shared/lib/client`).
+
+Import components from these barrels, not from `shared/ui/<file>` directly.
 
 ## Import rules
 
 - `features/*` may import from `shared/*`, never from another feature.
 - `shared/*` never imports from `features/*`.
 - Everyone outside `shared/lib` itself goes through the barrels —
-  `@/shared/ui`, `@/shared/lib`, `@/shared/lib/client`, `@/shared/lib/server`
-  — not deep imports into shared internals.
+  `@/shared/ui`, `@/shared/ui/client`, `@/shared/lib`, `@/shared/lib/client`,
+  `@/shared/lib/server`, `@/shared/lib/storage` — not deep imports into
+  shared internals.
 - `app/**` (other than `app/api/**`) may only import the shared barrels —
   route shells re-export from `features/*`, they don't reach into feature
   internals or shared internals directly.
