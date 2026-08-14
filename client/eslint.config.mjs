@@ -1,6 +1,8 @@
 // eslint-config-next 16 ships native flat config, so these are imported and
 // spread directly. The previous FlatCompat shim only existed to consume the
 // old eslintrc-style presets and now throws on them.
+import fs from "node:fs";
+import path from "node:path";
 import coreWebVitals from "eslint-config-next/core-web-vitals";
 import typescript from "eslint-config-next/typescript";
 
@@ -46,53 +48,104 @@ const eslintConfig = [
 
 // --- Zone boundaries (see docs/ZONES.md) -----------------------------------
 // Features may import shared barrels, never other features and never shared
-// internals. Shared may never import features. docs/superpowers/specs/
+// internals. Shared may never import features. Nothing outside src/app may
+// import the app route shells. docs/superpowers/specs/
 // 2026-08-13-zone-ownership-repo-prep-design.md is the source of truth.
-const ZONE_FEATURES = ["public-site", "recruitment", "careers", "events", "members"];
+//
+// Enforced with import/no-restricted-paths (bundled with eslint-config-next,
+// which also wires up the TypeScript resolver for the `@/` alias) rather than
+// no-restricted-imports: the latter matches the literal specifier string, so
+// relative imports (`../recruitment/...`) sailed past every boundary. This
+// rule matches the *resolved file path*, so alias and relative imports are
+// enforced identically.
+//
+// src/middleware.ts is intentionally outside every zone block below: it
+// deep-imports supabase middleware via a relative path to keep the heavy
+// server barrel out of the edge bundle.
+const CLIENT_ROOT = import.meta.dirname;
 
-const SHARED_BARRELS_ONLY = {
-  group: [
-    "@/shared/ui/*",
-    "@/shared/lib/*",
-    "!@/shared/lib/client",
-    "!@/shared/lib/server",
-  ],
+// Derived from the filesystem so a newly added src/features/<zone>/ directory
+// is enforced by construction — no list to keep in sync.
+const ZONE_FEATURES = fs
+  .readdirSync(path.join(CLIENT_ROOT, "src/features"), { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name);
+
+// The only files under src/shared that non-shared code may import. Paths are
+// relative to `from: "./src/shared"` below. client.ts/storage.ts barrels may
+// land slightly after this config — `except` is pure path matching, so
+// permitting them before they exist is harmless.
+const SHARED_BARREL_FILES = [
+  "./ui/index.ts",
+  "./ui/client.ts",
+  "./lib/index.ts",
+  "./lib/client.ts",
+  "./lib/server.ts",
+  "./lib/storage.ts",
+];
+
+const SHARED_BARRELS_MESSAGE =
+  "Import the barrels (@/shared/ui, @/shared/ui/client, @/shared/lib, @/shared/lib/client, @/shared/lib/server, @/shared/lib/storage), not shared internals.";
+
+// Per-feature isolation: a file in feature X may resolve into src/features/X
+// (its own zone, alias or relative) but nowhere else under src/features.
+const featureIsolationZones = ZONE_FEATURES.map((feature) => ({
+  target: `./src/features/${feature}`,
+  from: "./src/features",
+  except: [`./${feature}`],
   message:
-    "Import the barrels (@/shared/ui, @/shared/lib, @/shared/lib/client, @/shared/lib/server), not shared internals.",
-};
+    "Features may not import other features. Promote genuinely shared code to @/shared (platform/design-system owners review it).",
+}));
 
-const zoneBoundaryRules = ZONE_FEATURES.map((feature) => ({
-  files: [`src/features/${feature}/**`],
+const featureBoundaryRule = {
+  files: ["src/features/**"],
   rules: {
-    "no-restricted-imports": [
+    "import/no-restricted-paths": [
       "error",
       {
-        patterns: [
+        basePath: CLIENT_ROOT,
+        zones: [
+          ...featureIsolationZones,
           {
-            group: ZONE_FEATURES.filter((f) => f !== feature).flatMap((f) => [
-              `@/features/${f}`,
-              `@/features/${f}/*`,
-            ]),
-            message:
-              "Features may not import other features. Promote genuinely shared code to @/shared (platform/design-system owners review it).",
+            target: "./src/features",
+            from: "./src/shared",
+            except: SHARED_BARREL_FILES,
+            message: SHARED_BARRELS_MESSAGE,
           },
-          SHARED_BARRELS_ONLY,
+          {
+            target: "./src/features",
+            from: "./src/app",
+            message:
+              "Features may not import app route files. Route shells re-export feature pages, never the reverse.",
+          },
         ],
       },
     ],
   },
-}));
+};
 
 const sharedBoundaryRule = {
   files: ["src/shared/**"],
   rules: {
-    "no-restricted-imports": [
+    "import/no-restricted-paths": [
       "error",
       {
-        patterns: [
+        basePath: CLIENT_ROOT,
+        zones: [
           {
-            group: ["@/features/*"],
+            target: "./src/shared",
+            from: "./src/features",
             message: "Shared code may never depend on features.",
+          },
+          {
+            target: "./src/shared",
+            from: "./src/app",
+            // globals.css is a stylesheet that happens to live in src/app, not
+            // a route module — shared/ui/scrollToTop.tsx imports it today. The
+            // module-boundary ban below is about code, so the stylesheet stays
+            // importable.
+            except: ["./globals.css"],
+            message: "Shared code may never depend on app route files.",
           },
         ],
       },
@@ -104,10 +157,23 @@ const appBarrelRule = {
   files: ["src/app/**"],
   ignores: ["src/app/api/**"],
   rules: {
-    "no-restricted-imports": ["error", { patterns: [SHARED_BARRELS_ONLY] }],
+    "import/no-restricted-paths": [
+      "error",
+      {
+        basePath: CLIENT_ROOT,
+        zones: [
+          {
+            target: "./src/app",
+            from: "./src/shared",
+            except: SHARED_BARREL_FILES,
+            message: SHARED_BARRELS_MESSAGE,
+          },
+        ],
+      },
+    ],
   },
 };
 
-eslintConfig.push(...zoneBoundaryRules, sharedBoundaryRule, appBarrelRule);
+eslintConfig.push(featureBoundaryRule, sharedBoundaryRule, appBarrelRule);
 
 export default eslintConfig;
