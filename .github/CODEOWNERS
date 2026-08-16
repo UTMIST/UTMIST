@@ -1,26 +1,34 @@
 # Zone ownership — see docs/ZONES.md. Placeholder owner until zones are assigned.
+#
+# Every owner here must be a real account with write access to this repo.
+# GitHub does not warn you otherwise: it drops any line whose owner it cannot
+# resolve and carries on, so a file full of typos looks exactly like a working
+# one until someone notices reviews are never requested. This file previously
+# named @Eeetan, which does not exist, and every one of its 52 lines was
+# silently ignored. The Taxonomy consistency workflow now asks GitHub to parse
+# this file on each PR and fails if it reports any error.
 
 # Design system
-/client/src/shared/ui/ @Eeetan
-/client/src/app/layout.tsx @Eeetan
-/client/src/app/globals.css @Eeetan
-/client/src/app/not-found.tsx @Eeetan
-/client/src/app/dev/ @Eeetan
+/client/src/shared/ui/ @qiuethan
+/client/src/app/layout.tsx @qiuethan
+/client/src/app/globals.css @qiuethan
+/client/src/app/not-found.tsx @qiuethan
+/client/src/app/dev/ @qiuethan
 
 # Platform
-/client/src/shared/lib/ @Eeetan
-/client/src/middleware.ts @Eeetan
+/client/src/shared/lib/ @qiuethan
+/client/src/middleware.ts @qiuethan
 
 # DevEx / CI-CD
-/.github/ @Eeetan
-/docs/ @Eeetan
-/client/eslint.config.mjs @Eeetan
-/client/tsconfig.json @Eeetan
-/client/jest.config.js @Eeetan
-/client/jest.setup.js @Eeetan
-/client/next.config.ts @Eeetan
-/client/package.json @Eeetan
-/client/package-lock.json @Eeetan
+/.github/ @qiuethan
+/docs/ @qiuethan
+/client/eslint.config.mjs @qiuethan
+/client/tsconfig.json @qiuethan
+/client/jest.config.js @qiuethan
+/client/jest.setup.js @qiuethan
+/client/next.config.ts @qiuethan
+/client/package.json @qiuethan
+/client/package-lock.json @qiuethan
 
 # Public site
 # NOTE: CODEOWNERS resolves ownership by "last match wins" — a later pattern
@@ -29,53 +37,53 @@
 # overrides owned by other zones (see the "Design system styles" block at
 # the end of this file, plus the styles.css lines under Careers/Events) so
 # those later, more-specific entries are the ones that win.
-/client/src/features/public-site/ @Eeetan
-/client/src/assets/ @Eeetan
-/client/src/app/page.tsx @Eeetan
-/client/src/app/departments/ @Eeetan
-/client/src/app/projects/ @Eeetan
-/client/src/app/sponsors/ @Eeetan
-/client/src/app/blog/ @Eeetan
-/client/src/app/startups/ @Eeetan
-/client/src/app/ai2/ @Eeetan
-/client/src/app/eigenai/ @Eeetan
-/client/src/app/ml-fundamentals/ @Eeetan
-/client/src/app/api/umami/ @Eeetan
-/client/src/styles/ @Eeetan
+/client/src/features/public-site/ @qiuethan
+/client/src/assets/ @qiuethan
+/client/src/app/page.tsx @qiuethan
+/client/src/app/departments/ @qiuethan
+/client/src/app/projects/ @qiuethan
+/client/src/app/sponsors/ @qiuethan
+/client/src/app/blog/ @qiuethan
+/client/src/app/startups/ @qiuethan
+/client/src/app/ai2/ @qiuethan
+/client/src/app/eigenai/ @qiuethan
+/client/src/app/ml-fundamentals/ @qiuethan
+/client/src/app/api/umami/ @qiuethan
+/client/src/styles/ @qiuethan
 
 # Recruitment
-/client/src/features/recruitment/ @Eeetan
-/client/src/app/apply/ @Eeetan
-/client/src/app/applicants/ @Eeetan
-/client/src/app/admin/ @Eeetan
-/client/src/app/api/applications/ @Eeetan
-/client/src/app/api/apply/ @Eeetan
-/client/src/app/api/drive_upload/ @Eeetan
+/client/src/features/recruitment/ @qiuethan
+/client/src/app/apply/ @qiuethan
+/client/src/app/applicants/ @qiuethan
+/client/src/app/admin/ @qiuethan
+/client/src/app/api/applications/ @qiuethan
+/client/src/app/api/apply/ @qiuethan
+/client/src/app/api/drive_upload/ @qiuethan
 
 # Careers
-/client/src/features/careers/ @Eeetan
-/client/src/assets/careers.json @Eeetan
-/client/src/app/careers/ @Eeetan
-/client/src/styles/careers.css @Eeetan
+/client/src/features/careers/ @qiuethan
+/client/src/assets/careers.json @qiuethan
+/client/src/app/careers/ @qiuethan
+/client/src/styles/careers.css @qiuethan
 
 # Events
-/client/src/features/events/ @Eeetan
-/client/src/app/events/ @Eeetan
-/client/src/styles/events.css @Eeetan
+/client/src/features/events/ @qiuethan
+/client/src/app/events/ @qiuethan
+/client/src/styles/events.css @qiuethan
 
 # Members
-/client/src/features/members/ @Eeetan
-/client/src/app/auth/ @Eeetan
-/client/src/app/profile/ @Eeetan
-/client/src/app/dashboard/ @Eeetan
-/client/src/app/api/auth/ @Eeetan
+/client/src/features/members/ @qiuethan
+/client/src/app/auth/ @qiuethan
+/client/src/app/profile/ @qiuethan
+/client/src/app/dashboard/ @qiuethan
+/client/src/app/api/auth/ @qiuethan
 
 # Design system styles
 # Kept separate from the "Design system" block above (rather than inline)
 # because CODEOWNERS uses "last match wins": these file-level overrides must
 # appear after the "Public site" directory rule (/client/src/styles/) for
 # these four stylesheets to resolve to Design system instead of Public site.
-/client/src/styles/navbar.css @Eeetan
-/client/src/styles/footer.css @Eeetan
-/client/src/styles/dropdown.css @Eeetan
-/client/src/styles/gradients.css @Eeetan
+/client/src/styles/navbar.css @qiuethan
+/client/src/styles/footer.css @qiuethan
+/client/src/styles/dropdown.css @qiuethan
+/client/src/styles/gradients.css @qiuethan

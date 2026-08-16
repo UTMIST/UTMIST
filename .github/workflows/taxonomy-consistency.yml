@@ -23,6 +23,9 @@ on:
       - ".github/workflows/taxonomy-consistency.yml"
       - "scripts/check-taxonomy.mjs"
 
+permissions:
+  contents: read
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -33,3 +36,26 @@ jobs:
           node-version: "22"
       - name: Check zone and area mapping consistency
         run: node scripts/check-taxonomy.mjs
+
+      # Zone labels are only half of review routing — CODEOWNERS is what turns
+      # a zone into a reviewer. GitHub silently drops any CODEOWNERS line whose
+      # owner does not exist or lacks write access, so a fully broken file is
+      # indistinguishable from a working one until someone notices reviews are
+      # never requested. (That is not hypothetical: every line named a
+      # non-existent user for the file's entire life before this check.)
+      # Ask GitHub to parse the copy on THIS ref, not the default branch, or a
+      # PR fixing CODEOWNERS would be graded against the broken version.
+      - name: Check CODEOWNERS resolves
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          REF: ${{ github.sha }}
+        run: |
+          errors=$(gh api "repos/$REPO/codeowners/errors?ref=$REF" --jq '.errors | length')
+          if [ "$errors" -gt 0 ]; then
+            echo "::error::CODEOWNERS has $errors unresolvable line(s) — those paths route to nobody."
+            gh api "repos/$REPO/codeowners/errors?ref=$REF" \
+              --jq '.errors[] | "line \(.line): \(.message)"'
+            exit 1
+          fi
+          echo "CODEOWNERS resolves cleanly."
