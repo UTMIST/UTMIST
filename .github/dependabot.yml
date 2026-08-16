@@ -1,0 +1,137 @@
+# Dependabot version updates.
+#
+# Two dependency surfaces exist in this repo: the npm packages under client/,
+# and the actions pinned in .github/workflows/. Both drift, and both break the
+# site when they drift far enough that a fix has to be a rewrite.
+#
+# The whole design here is about review load. Ungrouped, this repo produces
+# roughly a PR per package per week, which nobody reads and everybody rubber
+# stamps. Grouping turns that into a handful of PRs a week that are actually
+# worth opening.
+#
+# Options reference:
+# https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference
+version: 2
+
+updates:
+  # ---------------------------------------------------------------------------
+  # npm — client/
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: npm
+    directory: /client
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: America/Toronto
+    # Grouping (below) means one PR usually carries many bumps, so this cap is
+    # about the queue a reviewer sees on Monday, not the number of updates.
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - "zone: devex"
+    # Conventional Commits, per CONTRIBUTING.md — `chore` is this repo's type
+    # for tooling and dependencies. Yields "chore(deps): bump next from ...".
+    commit-message:
+      prefix: chore
+      prefix-development: chore
+      include: scope
+    # Let a release settle before chasing it. A bad publish is usually caught
+    # and yanked within a day or two, and we would rather not spend a review
+    # cycle on a version that gets pulled.
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
+    groups:
+      # ORDER MATTERS: a dependency lands in the FIRST group it matches, so the
+      # catch-all has to stay last or it swallows everything above it.
+      #
+      # The named groups below are packages that must move together — bumping
+      # one without the others produces a type error or a peer-dep warning, so
+      # a "one PR per package" split would just create broken PRs. They cover
+      # majors too, deliberately: a Next major that leaves eslint-config-next
+      # behind is not a smaller change to review, it is a broken one.
+      next:
+        patterns:
+          - next
+          - "@next/*"
+          - eslint-config-next
+      react:
+        patterns:
+          - react
+          - react-dom
+          - "@types/react"
+          - "@types/react-dom"
+      supabase:
+        patterns:
+          - "@supabase/*"
+      tailwind:
+        patterns:
+          - tailwindcss
+          - "@tailwindcss/*"
+          - tailwindcss-animate
+          - postcss
+          - autoprefixer
+      testing:
+        patterns:
+          - jest
+          - "jest-*"
+          - ts-jest
+          - "@types/jest"
+          - "@testing-library/*"
+      lint-and-types:
+        patterns:
+          - eslint
+          - "@eslint/*"
+          - "@typescript-eslint/*"
+          - typescript
+          - "@types/node"
+      # Everything else: minor and patch ride together in one PR. Majors are
+      # excluded here on purpose, so each one gets its own PR — a breaking
+      # change should never be buried in a batch of routine bumps.
+      minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+      # Groups apply to version updates unless told otherwise, so security
+      # fixes need their own entry or they arrive one PR per advisory — and
+      # this repo has a backlog of alerts to work through. Same split as above
+      # and for the same reason: the safe ones ride together, and a major that
+      # might break the build gets its own PR rather than wedging every other
+      # fix behind it.
+      security-minor-and-patch:
+        applies-to: security-updates
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+
+  # ---------------------------------------------------------------------------
+  # GitHub Actions — .github/workflows/
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: America/Toronto
+    open-pull-requests-limit: 3
+    labels:
+      - dependencies
+      - "zone: devex"
+    commit-message:
+      prefix: chore
+      include: scope
+    cooldown:
+      default-days: 7
+    groups:
+      # Action majors are almost always a runtime bump (Node 20 -> 24) that
+      # every action in the repo has to take at once, so one PR is the honest
+      # unit of review here.
+      actions:
+        patterns:
+          - "*"

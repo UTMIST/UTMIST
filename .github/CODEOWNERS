@@ -20,6 +20,7 @@
 /client/jest.setup.js @Eeetan
 /client/next.config.ts @Eeetan
 /client/package.json @Eeetan
+/client/package-lock.json @Eeetan
 
 # Public site
 # NOTE: CODEOWNERS resolves ownership by "last match wins" — a later pattern

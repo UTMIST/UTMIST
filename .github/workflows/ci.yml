@@ -43,17 +43,36 @@ jobs:
       - name: Test
         run: npm test
 
+      # Dependabot and fork PRs cannot read this repo's secrets (Dependabot runs
+      # against a separate secret store, forks against none), so these come out
+      # empty there. shared/lib/supabase/client.ts throws at module load on an
+      # empty URL or key, which fails the prerender and turns every such PR red.
+      # Fall back to syntactically-valid placeholders: nothing is fetched from
+      # Supabase at build time — no generateStaticParams, no build-time queries,
+      # the server client is only reached behind cookies — so the values only
+      # have to parse, not resolve.
       - name: Build
         run: npm run build
         env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key' }}
           NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
 
   preview:
     needs: build
     # Fork PRs can't read repo secrets, so only same-repo branches get previews.
-    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    # Dependabot branches live in this repo and so pass that test, but a
+    # Dependabot run reads the Dependabot secret store rather than this one:
+    # VERCEL_TOKEN comes out empty and `vercel pull` fails on every dependency
+    # PR. Putting a real deploy token in that store would hand it to a run whose
+    # lockfile just changed, so previews are skipped for Dependabot instead —
+    # build, lint, typecheck and tests still gate those PRs. For a bump that
+    # warrants a visual check, push the branch under your own name and open a
+    # PR from it.
+    if: >-
+      github.event_name == 'pull_request'
+      && github.event.pull_request.head.repo.full_name == github.repository
+      && github.event.pull_request.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
