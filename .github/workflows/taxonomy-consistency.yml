@@ -1,0 +1,35 @@
+name: Taxonomy consistency
+
+# Zones (PRs, by code touched) and areas (issues, by kind of work) are two
+# independent lists, each repeated across several hand-maintained files. This
+# checks both, and checks they have not leaked into each other.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      # zone sources
+      - ".github/labeler.yml"
+      - ".github/CODEOWNERS"
+      - "docs/ZONES.md"
+      - "client/eslint.config.mjs"
+      - "client/src/features/**"
+      # area sources
+      - ".github/ISSUE_TEMPLATE/task.yml"
+      - ".github/workflows/area-label-issues.yml"
+      - "docs/AREAS.md"
+      # the checker itself
+      - ".github/workflows/taxonomy-consistency.yml"
+      - "scripts/check-taxonomy.mjs"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: client/.nvmrc
+      - name: Check zone and area mapping consistency
+        run: node scripts/check-taxonomy.mjs
