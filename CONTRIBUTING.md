@@ -10,6 +10,13 @@ locally first — everything below assumes you have it up.
 
 All work starts from an [issue](https://github.com/UTMIST/UTMIST/issues).
 
+Every issue carries an **area** saying what kind of work it needs:
+`area: content` (copy, images, listings — no dev context needed),
+`area: product` (something a visitor would notice), or `area: engineering`
+(refactors, tests, tooling — no visible change). Filtering by area is the
+fastest way to find work that matches what you want to do; see
+[docs/AREAS.md](docs/AREAS.md).
+
 - **First contribution?** Filter by
   [`good first issue`](https://github.com/UTMIST/UTMIST/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
   These are scoped so you can finish them without deep context on the codebase.
@@ -30,11 +37,19 @@ yourself. Stalled-but-assigned issues are worse than open ones.
 The codebase is split into ownership **zones** — design system, platform,
 DevEx/CI-CD, and one per feature (public site, recruitment, careers, events,
 members). [docs/ZONES.md](docs/ZONES.md) is the map: each zone's mission,
-paths, and owner. Set the **Zone** dropdown when filing an issue and a
-workflow applies the matching `zone:<name>` label automatically; the same
-path-based labeling applies to PRs, and CODEOWNERS requests review from that
-zone's owner. Read it before touching code outside the feature you already
+paths, and owner. Read it before touching code outside the feature you already
 know, so you know whose lane you're in.
+
+Zones attach to **code**, so you never pick one yourself. When you open a PR,
+path-based labeling reads the files you changed, applies a `zone:<name>` label
+for each zone they touch, and CODEOWNERS requests review from those owners. A PR
+touching two zones gets both labels and both reviewers — a sign it may be worth
+splitting.
+
+This is why issues carry an [area](docs/AREAS.md) and not a zone. When an issue
+is filed, which code it will touch is often the thing nobody knows yet; what kind
+of work it is, is answerable straight away. The two lists are independent and do
+not map onto each other.
 
 ## Branches
 

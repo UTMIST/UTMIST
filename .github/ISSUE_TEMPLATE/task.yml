@@ -1,21 +1,19 @@
 name: Task
-description: A scoped piece of work for a zone
+description: A scoped piece of work
 title: "[task]: "
 body:
   - type: dropdown
-    id: zone
+    id: area
     attributes:
-      label: Zone
-      description: Which zone does this belong to? (see docs/ZONES.md)
+      label: Area
+      description: >-
+        What kind of work is this? Areas say what the job needs, not which code
+        it touches — the zone is worked out from the files a PR changes. See
+        docs/AREAS.md.
       options:
-        - design-system
-        - platform
-        - devex
-        - public-site
-        - recruitment
-        - careers
-        - events
-        - members
+        - content
+        - product
+        - engineering
         - not sure
     validations:
       required: true

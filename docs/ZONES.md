@@ -5,6 +5,12 @@ headcount — there are no leads, every owner is a dev, and one person may own
 multiple zones. This doc is the source of truth for each zone's mission,
 paths, and owner.
 
+Zones classify **code**, and therefore pull requests: a PR's zone is worked out
+from the files it changes. Issues are classified by [area](AREAS.md) instead —
+what kind of work they need — because when an issue is filed, which code it will
+touch is often the open question. The two lists are independent, and an issue
+never carries a zone label.
+
 ## Foundational zones
 
 Foundational zones are cross-cutting — changes here affect every feature.
@@ -168,19 +174,22 @@ home of the compute-platform UI.
 
 ### How work flows
 
-An issue is filed with the **Zone** dropdown set on the task template. A
-workflow reads that dropdown and applies the matching `zone:<name>` label
-automatically, which lands the issue in its owner's lane on the project
-board. When a PR touching a zone's paths is opened, the same path-based
-labeling applies the zone label to the PR, and CODEOWNERS automatically
-requests review from that zone's owner.
+An issue is filed with the **Area** dropdown set on the task template, and a
+workflow applies the matching `area:<name>` label — what kind of work this is.
+It carries no zone.
+
+The zone arrives with the code. When a PR is opened, path-based labeling applies
+a `zone:<name>` label for every zone whose paths it touches, and CODEOWNERS
+requests review from those zones' owners. A PR may legitimately touch more than
+one zone; an issue is never pre-assigned to any.
 
 ## Keeping the zone list in sync
 
 The zone list is hand-maintained in several files (`.github/labeler.yml`,
-`.github/CODEOWNERS`, this doc, the issue template's Zone dropdown, the
-issue-labeling workflow, and the ESLint boundary config). CI runs
-`node scripts/check-zones.mjs` (the **Zone consistency** workflow) to
+`.github/CODEOWNERS`, this doc, and the ESLint boundary config). CI runs
+`node scripts/check-taxonomy.mjs` (the **Taxonomy consistency** workflow) to
 cross-check them, with the `zone: <name>` labels in `.github/labeler.yml`
-as the canonical list. If you add, rename, or remove a zone, update every
-file and run the script locally before pushing.
+as the canonical list. That script also checks the separate
+[area list](AREAS.md), and checks the two taxonomies have not leaked into each
+other's files. If you add, rename, or remove a zone, update every file and run
+the script locally before pushing.
