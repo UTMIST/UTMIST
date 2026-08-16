@@ -26,6 +26,9 @@
           - client/jest.setup.js
           - client/next.config.ts
           - client/package.json
+          # Transitive bumps touch only the lockfile. Without this, those PRs
+          # match no glob at all and land with no zone label.
+          - client/package-lock.json
 "zone: public-site":
   - changed-files:
       - any-glob-to-any-file:

@@ -134,6 +134,37 @@ you believe is incorrect.
 
 Once approved, a maintainer merges. Delete your branch afterward.
 
+## Dependency updates
+
+[Dependabot](.github/dependabot.yml) opens dependency PRs every Monday morning —
+one set for the npm packages in `client/`, one for the actions in
+`.github/workflows/`. They are labelled `dependencies` and `zone: devex`, and a
+release has to be a week old before it is proposed, so a publish that gets
+yanked never reaches us.
+
+Related packages are grouped into a single PR (`next`, `react`, `supabase`,
+`tailwind`, `testing`, `lint-and-types`), because bumping one of those without
+the others just produces a type error. Everything else ships as one
+minor-and-patch PR per week, with each major update on its own.
+
+Reviewing one:
+
+- **Read the release notes** in the PR body before the diff. For a grouped or
+  patch-level PR that is usually the whole review — CI has already linted,
+  typechecked, tested and built it.
+- **Majors get a real look.** They arrive alone precisely so you can give them
+  one. Check the migration notes for anything the build cannot catch: a
+  changed default, a runtime bump, a dropped API we call.
+- **Dependabot PRs do not get a Vercel preview** ([why](.github/workflows/ci.yml)).
+  If a bump could move the UI — Next, Tailwind, a component library — push the
+  branch under your own name and open a PR from it to get a preview.
+- **If one breaks CI**, do not merge around it. Either fix it forward in a
+  commit on the same branch, or comment `@dependabot ignore this major version`
+  and open an issue for the upgrade so it does not silently reappear.
+
+`@dependabot rebase`, `@dependabot recreate` and `@dependabot reopen` work as
+comments on the PR too.
+
 ## Code conventions
 
 Match the surrounding code. Beyond that:
