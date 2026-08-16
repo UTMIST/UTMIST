@@ -10,11 +10,12 @@ backend service to run.
 
 ## Prerequisites
 
-### Node.js 22
+### Node.js 24
 
-The project is pinned to **Node 22**. Older versions fail in ways that do not
-name the real cause — Next 16 refuses to start, and Jest crashes inside its own
-config loader. `npm install` will stop you before you get that far.
+The project is pinned to **Node 24**, the version Vercel builds and runs the
+site on. Older versions fail in ways that do not name the real cause — Next 16
+refuses to start, and Jest crashes inside its own config loader. `npm install`
+will stop you before you get that far.
 
 The version is pinned in [`client/.nvmrc`](../client/.nvmrc) and
 [`client/.tool-versions`](../client/.tool-versions), so a version manager will
@@ -28,11 +29,11 @@ mise install     # mise — reads .tool-versions
 asdf install     # asdf — reads .tool-versions
 ```
 
-No version manager? Install Node 22 LTS from
+No version manager? Install Node 24 LTS from
 [nodejs.org](https://nodejs.org/). Then confirm:
 
 ```bash
-node -v          # must print v22.x
+node -v          # must print v24.x
 ```
 
 ### Operating system
@@ -105,11 +106,11 @@ organized and how to add tests.
 
 ## Troubleshooting
 
-**`npm ERR! code EBADENGINE` … `Required: {"node":">=22.0.0"}`**
+**`npm ERR! code EBADENGINE` … `Required: {"node":"24.x"}`**
 
 You are on the wrong Node version. This is the error working correctly — it is
 telling you up front instead of letting Next or Jest fail confusingly later.
-Switch to Node 22 (see [Prerequisites](#nodejs-22)) and re-run.
+Switch to Node 24 (see [Prerequisites](#nodejs-24)) and re-run.
 
 **`Missing Supabase environment variables. Please check your .env file.`**
 
