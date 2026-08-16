@@ -1,4 +1,9 @@
-name: Label issue zone
+name: Label issue area
+
+# Areas classify ISSUES by the kind of work they need (see docs/AREAS.md).
+# Zones classify PRS by the code they touch (see docs/ZONES.md) — a different
+# taxonomy with a different job, applied by zone-label.yml. Nothing here should
+# ever apply a `zone:` label.
 
 on:
   issues:
@@ -8,31 +13,28 @@ permissions:
   issues: write
 
 jobs:
-  label-zone:
+  label-area:
     runs-on: ubuntu-latest
     steps:
-      - name: Apply zone label from template dropdown
+      - name: Apply area label from template dropdown
         uses: actions/github-script@v8
         with:
           script: |
-            const zones = [
-              "design-system", "platform", "devex", "public-site",
-              "recruitment", "careers", "events", "members",
-            ];
+            const areas = ["content", "product", "engineering"];
             const body = context.payload.issue.body || "";
-            // Issue forms render the dropdown as "### Zone\n\n<value>"
-            const match = body.match(/### Zone\s*\n+\s*(.+)/);
+            // Issue forms render the dropdown as "### Area\n\n<value>"
+            const match = body.match(/### Area\s*\n+\s*(.+)/);
             const chosen = match ? match[1].trim() : null;
-            const newLabel = chosen && zones.includes(chosen) ? `zone: ${chosen}` : null;
+            const newLabel = chosen && areas.includes(chosen) ? `area: ${chosen}` : null;
 
             if (!newLabel) {
-              // Only touch labels when the body names a real zone. Bail out
-              // otherwise: no "### Zone" section (non-template issue, or an
+              // Only touch labels when the body names a real area. Bail out
+              // otherwise: no "### Area" section (non-template issue, or an
               // `edited` event that strips the section), a "not sure" or
               // other unknown dropdown value, "_No response_", or a blanked
               // value line (where the regex overshoots into the next
               // markdown heading). Removing labels in any of these cases
-              // would wipe manually-applied zone labels.
+              // would wipe manually-applied area labels.
               return;
             }
 
@@ -40,8 +42,8 @@ jobs:
             const issue_number = context.payload.issue.number;
             const current = context.payload.issue.labels.map((l) => l.name);
 
-            for (const z of zones) {
-              const label = `zone: ${z}`;
+            for (const a of areas) {
+              const label = `area: ${a}`;
               if (current.includes(label) && label !== newLabel) {
                 await github.rest.issues.removeLabel({ owner, repo, issue_number, name: label });
               }
