@@ -45,18 +45,25 @@ jobs:
 
       # Dependabot and fork PRs cannot read this repo's secrets (Dependabot runs
       # against a separate secret store, forks against none), so these come out
-      # empty there. shared/lib/supabase/client.ts throws at module load on an
-      # empty URL or key, which fails the prerender and turns every such PR red.
-      # Fall back to syntactically-valid placeholders: nothing is fetched from
-      # Supabase at build time — no generateStaticParams, no build-time queries,
-      # the server client is only reached behind cookies — so the values only
-      # have to parse, not resolve.
+      # empty there. Three pages throw on a missing value rather than degrading:
+      # shared/lib/supabase/client.ts throws at module load, and eigenai.tsx
+      # throws on render. Either one fails the prerender and turns every such PR
+      # red, whatever the PR actually changed.
+      #
+      # So every var the prerender can throw on needs a fallback here, not just
+      # the ones that happen to have bitten us — a page added later that throws
+      # on a new var will fail these PRs the same way, and the failure will look
+      # like the dependency bump's fault. The placeholders only have to parse,
+      # not resolve: nothing is fetched at build time (no generateStaticParams,
+      # no build-time queries, the server client is only reached behind
+      # cookies), and the Maps key is read to build a client-side embed URL.
+      # Real secrets still win wherever they are readable.
       - name: Build
         run: npm run build
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key' }}
-          NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
+          NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || 'placeholder-maps-key' }}
 
   preview:
     needs: build
