@@ -95,6 +95,19 @@ updates:
         update-types:
           - minor
           - patch
+      # Groups apply to version updates unless told otherwise, so security
+      # fixes need their own entry or they arrive one PR per advisory — and
+      # this repo has a backlog of alerts to work through. Same split as above
+      # and for the same reason: the safe ones ride together, and a major that
+      # might break the build gets its own PR rather than wedging every other
+      # fix behind it.
+      security-minor-and-patch:
+        applies-to: security-updates
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
 
   # ---------------------------------------------------------------------------
   # GitHub Actions — .github/workflows/
