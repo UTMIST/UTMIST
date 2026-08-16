@@ -15,6 +15,9 @@ All work starts from an [issue](https://github.com/UTMIST/UTMIST/issues).
   These are scoped so you can finish them without deep context on the codebase.
 - Issues are prioritized `P0` (highest) through `P3`. If you have no preference,
   take the highest-priority thing that is unassigned.
+- Skip anything labelled `blocked` — it is waiting on another issue. `ready`
+  means its blockers are all closed and nobody has claimed it yet, so that is
+  the queue to pull from. See [Blocked and ready](#blocked-and-ready) below.
 - **Comment on the issue to claim it**, and it will be assigned to you. This
   stops two people building the same thing — which has happened here before.
 - If nothing fits, open an issue with the
@@ -24,6 +27,36 @@ All work starts from an [issue](https://github.com/UTMIST/UTMIST/issues).
 
 If you get stuck or go quiet on an issue, say so in a comment and unassign
 yourself. Stalled-but-assigned issues are worse than open ones.
+
+## Blocked and ready
+
+Say what an issue depends on using GitHub's built-in **issue dependencies** —
+open the issue, and under **Relationships** in the sidebar add it to
+**Blocked by**. That list is the source of truth; there is nothing to write in
+the issue body.
+
+From there,
+[a workflow](.github/workflows/blocked-ready-automation.yml) keeps two labels in
+sync. Do not set them by hand — the next run will overwrite you.
+
+- An issue with an open blocker gets `blocked`. Once every blocker is closed it
+  flips to `ready`. Reopen a blocker and its dependents go back to `blocked`.
+- Claiming an issue (which assigns it to you) drops `ready`, because it is no
+  longer up for grabs. Unassigning yourself puts it back on the queue.
+- An issue with no dependencies at all is left alone — it gets neither label.
+  So `ready` means "this was blocked and now isn't", not "any open issue".
+
+If the repo has a `PROJECTS_TOKEN` secret configured, the same transitions set
+the card's **Status** on the
+[project board](https://github.com/orgs/UTMIST/projects/12) to `Ready` or
+`Blocked`. Moving a card to `In Development` or `In Review` is still a human
+step.
+
+One quirk worth knowing: GitHub does not let a workflow trigger on a dependency
+being added or removed, so that one change is picked up by a sweep that runs
+every half hour rather than instantly. Closing a blocker, opening an issue, and
+claiming one all update immediately. If you need it now, run the workflow
+manually from the Actions tab.
 
 ## Zones & ownership
 

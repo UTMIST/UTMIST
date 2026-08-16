@@ -39,5 +39,5 @@ Closes #
 ## Notes for reviewers
 
 <!-- Anything worth flagging: a tradeoff you made, something you were unsure
-     about, an area that deserves a closer look, or a follow-up you plan to do
+     about, something that deserves a closer look, or a follow-up you plan to do
      separately. Optional. -->

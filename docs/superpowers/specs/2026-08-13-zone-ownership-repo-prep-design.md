@@ -5,8 +5,8 @@
 
 ## Goal
 
-Restructure the UTMIST website repo into ownership **zones** so that devs own areas
-end-to-end, and prep the repo (CODEOWNERS, labels, issue intake, boundary
+Restructure the UTMIST website repo into ownership **zones** so that devs own a
+zone end-to-end, and prep the repo (CODEOWNERS, labels, issue intake, boundary
 enforcement) ahead of onboarding. Zones are divided by **duty**, not headcount:
 there are no leads, all owners are devs, and one person may own multiple zones.
 

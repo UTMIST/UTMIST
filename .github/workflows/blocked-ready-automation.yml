@@ -1,0 +1,275 @@
+name: Blocked/ready automation
+
+# Keeps the `blocked` / `ready` labels — and the project board Status — in sync
+# with GitHub's NATIVE issue dependencies. Declare a dependency in the issue's
+# "Blocked by" section in the GitHub UI; this workflow only ever reads it, so
+# the dependency graph stays the single source of truth.
+#
+#   blocked : at least one declared blocker is still open
+#   ready   : every blocker is closed, and nobody has claimed the issue
+#
+# Opt-in by design: an issue that declares no dependencies gets neither label.
+# `ready` therefore means "this just became available", not "any open issue".
+#
+# Triggers, and why each is here:
+# - opened / assigned / unassigned — re-evaluate that one issue. Claiming an
+#   issue drops `ready` (it is no longer up for grabs); fully unassigning it
+#   puts it back.
+# - closed / reopened — re-evaluate everything the issue was blocking, found
+#   through the native `blocking` edge. Closing the last blocker is the event
+#   that flips a dependent to `ready`.
+# - schedule — GitHub emits `issue_dependencies` webhooks when a dependency is
+#   added or removed, but that event CANNOT trigger Actions (it is absent from
+#   the supported list in
+#   docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows).
+#   The sweep is what closes that gap: a dependency added in the UI is picked
+#   up within the interval instead of never. This is the only reason cron is
+#   here — drop it and dependency edits go unnoticed until the issue is next
+#   opened/closed/assigned.
+# - workflow_dispatch — the same sweep, on demand.
+#
+# Every write is conditional on the issue's current labels, so a sweep with
+# nothing to do performs no writes and leaves no timeline noise.
+#
+# Board Status is optional: with a Projects-scoped PAT in the PROJECTS_TOKEN
+# repo secret, Status on project #12 moves to Ready / Blocked alongside the
+# labels. Without the secret only labels change — the board step no-ops and the
+# run still succeeds.
+
+on:
+  issues:
+    types: [opened, closed, reopened, assigned, unassigned]
+  schedule:
+    # Dependency add/remove reaches Actions no other way. Note GitHub disables
+    # cron in repos with no pushes for 60 days — re-enable in the Actions tab.
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+# Serialize per issue; sweeps serialize against each other. Queue rather than
+# cancel — a cancelled run would leave its dependents half-synced.
+concurrency:
+  group: blocked-ready-${{ github.event.issue.number || 'sweep' }}
+  cancel-in-progress: false
+
+jobs:
+  sync-blockers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync blocked/ready state
+        uses: actions/github-script@v8
+        env:
+          PROJECTS_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
+        with:
+          script: |
+            // --- Board config (stable IDs for org project #12, "UTMIST Website 2026-2027") ---
+            // NOTE: editing the Status field's options in the GitHub UI
+            // regenerates every option ID. If board updates start no-oping,
+            // re-read the IDs and update these four constants.
+            const PROJECT_ID   = 'PVT_kwDOAovuf84Bf3xL';
+            const STATUS_FIELD = 'PVTSSF_lADOAovuf84Bf3xLzhaHfGQ';
+            const OPT_READY    = 'b4cdb8ee'; // Status → Ready
+            const OPT_BLOCKED  = '8a033d57'; // Status → Blocked
+
+            const { owner, repo } = context.repo;
+            const token = process.env.PROJECTS_TOKEN;
+            if (!token) core.info('PROJECTS_TOKEN not set — updating labels only (board Status skipped).');
+
+            // --- Reading native dependencies ---------------------------------
+            // `blockedBy` / `blocking` are the GitHub-native dependency edges.
+            // GraphQL `issues` excludes pull requests, so no PR filtering here.
+            const ISSUE_FIELDS = `
+              number
+              state
+              assignees(first: 1) { totalCount }
+              labels(first: 100) { nodes { name } }
+              blockedBy(first: 100) { totalCount nodes { number state } }`;
+
+            const fetchIssue = async (number) => {
+              const data = await github.graphql(
+                `query($owner:String!,$repo:String!,$number:Int!){
+                   repository(owner:$owner,name:$repo){ issue(number:$number){ ${ISSUE_FIELDS} } } }`,
+                { owner, repo, number },
+              );
+              return data.repository.issue;
+            };
+
+            const fetchAllOpen = async () => {
+              const out = [];
+              let cursor = null;
+              for (;;) {
+                const data = await github.graphql(
+                  `query($owner:String!,$repo:String!,$cursor:String){
+                     repository(owner:$owner,name:$repo){
+                       issues(first: 100, states: OPEN, after: $cursor){
+                         pageInfo { hasNextPage endCursor }
+                         nodes { ${ISSUE_FIELDS} } } } }`,
+                  { owner, repo, cursor },
+                );
+                const page = data.repository.issues;
+                out.push(...page.nodes);
+                if (!page.pageInfo.hasNextPage) break;
+                cursor = page.pageInfo.endCursor;
+              }
+              return out;
+            };
+
+            // Open issues that the given issue blocks — the set to re-evaluate
+            // when it closes or reopens.
+            const fetchBlocking = async (number) => {
+              const data = await github.graphql(
+                `query($owner:String!,$repo:String!,$number:Int!){
+                   repository(owner:$owner,name:$repo){ issue(number:$number){
+                     blocking(first: 100){ nodes { number state } } } } }`,
+                { owner, repo, number },
+              );
+              return data.repository.issue.blocking.nodes
+                .filter((n) => n.state === 'OPEN')
+                .map((n) => n.number);
+            };
+
+            // --- Writes ------------------------------------------------------
+            const addLabel = async (n, name) => {
+              try {
+                await github.rest.issues.addLabels({ owner, repo, issue_number: n, labels: [name] });
+                return true;
+              } catch (e) { core.warning(`#${n}: add '${name}' failed: ${e.message}`); return false; }
+            };
+
+            const removeLabel = async (n, name) => {
+              try {
+                await github.rest.issues.removeLabel({ owner, repo, issue_number: n, name });
+                return true;
+              } catch (e) {
+                // 404 just means it wasn't there — nothing to report.
+                if (e.status !== 404) core.warning(`#${n}: remove '${name}' failed: ${e.message}`);
+                return false;
+              }
+            };
+
+            // Optional: set the issue's project Status via the PAT (skipped if unset).
+            const gqlPAT = async (query, variables) => {
+              const controller = new AbortController();
+              const timer = setTimeout(() => controller.abort(), 10000);
+              let res;
+              try {
+                res = await fetch('https://api.github.com/graphql', {
+                  method: 'POST',
+                  headers: { Authorization: `bearer ${token}`, 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ query, variables }),
+                  signal: controller.signal,
+                });
+              } finally {
+                clearTimeout(timer);
+              }
+              if (!res.ok) throw new Error(`GraphQL HTTP ${res.status}`);
+              const json = await res.json();
+              if (json.errors) throw new Error(JSON.stringify(json.errors));
+              return json.data;
+            };
+
+            const setBoardStatus = async (issueNumber, optionId) => {
+              if (!token) return;
+              try {
+                const data = await gqlPAT(
+                  `query($owner:String!,$repo:String!,$number:Int!){
+                     repository(owner:$owner,name:$repo){ issue(number:$number){
+                       projectItems(first:20){ nodes{ id project{ id } } } } } }`,
+                  { owner, repo, number: issueNumber },
+                );
+                const item = data.repository.issue.projectItems.nodes
+                  .find((n) => n.project.id === PROJECT_ID);
+                if (!item) { core.info(`#${issueNumber}: not on the project board — skipping Status.`); return; }
+                await gqlPAT(
+                  `mutation($p:ID!,$i:ID!,$f:ID!,$o:String!){
+                     updateProjectV2ItemFieldValue(input:{projectId:$p,itemId:$i,fieldId:$f,
+                       value:{singleSelectOptionId:$o}}){ projectV2Item{ id } } }`,
+                  { p: PROJECT_ID, i: item.id, f: STATUS_FIELD, o: optionId },
+                );
+                core.info(`#${issueNumber}: board Status updated.`);
+              } catch (e) {
+                core.warning(`#${issueNumber}: board Status update failed: ${e.message}`);
+              }
+            };
+
+            // --- State machine -----------------------------------------------
+            const desiredFor = (iss) => {
+              const openBlockers = iss.blockedBy.nodes.filter((b) => b.state === 'OPEN');
+              if (iss.blockedBy.totalCount === 0) {
+                // Not in the dependency graph. Never label it — only clear
+                // labels left behind when its last dependency was removed.
+                return { blocked: false, ready: false, status: null, why: 'no dependencies — labels cleared' };
+              }
+              if (openBlockers.length > 0) {
+                return {
+                  blocked: true, ready: false, status: OPT_BLOCKED,
+                  why: `blocked by ${openBlockers.map((b) => '#' + b.number).join(', ')}`,
+                };
+              }
+              if (iss.assignees.totalCount > 0) {
+                // Unblocked, but claimed — not up for grabs. Board Status is
+                // left to a human (In Development / In Review).
+                return { blocked: false, ready: false, status: null, why: 'unblocked but claimed' };
+              }
+              return { blocked: false, ready: true, status: OPT_READY, why: 'all blockers closed' };
+            };
+
+            const reconcile = async (iss) => {
+              if (!iss) return;
+              const has = (name) => iss.labels.nodes.some((l) => l.name === name);
+
+              // A closed issue is neither blocked nor available.
+              if (iss.state !== 'OPEN') {
+                if (has('blocked')) await removeLabel(iss.number, 'blocked');
+                if (has('ready')) await removeLabel(iss.number, 'ready');
+                return;
+              }
+
+              const d = desiredFor(iss);
+              let changed = false;
+              if (d.blocked !== has('blocked')) {
+                const ok = d.blocked
+                  ? await addLabel(iss.number, 'blocked')
+                  : await removeLabel(iss.number, 'blocked');
+                changed = changed || ok;
+              }
+              if (d.ready !== has('ready')) {
+                const ok = d.ready
+                  ? await addLabel(iss.number, 'ready')
+                  : await removeLabel(iss.number, 'ready');
+                changed = changed || ok;
+              }
+
+              // Only touch the board when a label actually moved, so the
+              // half-hourly sweep stays silent when nothing has changed.
+              if (!changed) return;
+              core.info(`#${iss.number}: ${d.why}.`);
+              if (d.status) await setBoardStatus(iss.number, d.status);
+            };
+
+            // --- Dispatch ------------------------------------------------------
+            if (context.eventName === 'schedule' || context.eventName === 'workflow_dispatch') {
+              const all = await fetchAllOpen();
+              core.info(`Sweep: checking ${all.length} open issue(s).`);
+              for (const iss of all) await reconcile(iss);
+              return;
+            }
+
+            const number = context.payload.issue.number;
+            const action = context.payload.action;
+
+            // Always re-evaluate the issue the event fired on.
+            await reconcile(await fetchIssue(number));
+
+            // Closing the last blocker is what makes a dependent ready, so fan
+            // out to whatever this issue blocks.
+            if (action === 'closed' || action === 'reopened') {
+              const dependents = await fetchBlocking(number);
+              if (dependents.length === 0) {
+                core.info(`No open issues are blocked by #${number}.`);
+                return;
+              }
+              for (const dep of dependents) await reconcile(await fetchIssue(dep));
+            }
