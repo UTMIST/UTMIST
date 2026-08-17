@@ -9,9 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: ["22.16.0"]
 
     defaults:
       run:
@@ -20,10 +17,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js ${{ matrix.node-version }}
+      # client/.nvmrc is the single source of truth for the Node version, read
+      # here and by every other job below, so local dev and CI cannot drift.
+      # A matrix entry naming the version again would be a second copy to
+      # forget — which is how this repo ended up gating on 22 while Vercel
+      # deployed on 24.
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: client/.nvmrc
           cache: npm
           cache-dependency-path: client/package-lock.json
 
@@ -94,6 +96,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # `vercel build` runs the Next build here on the runner, so without this
+      # it used whatever Node the image happened to ship — the gate ran one
+      # version and the artifact we actually deploy was built on another.
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: client/.nvmrc
+
       - name: Install Vercel CLI
         run: npm install -g vercel
 
@@ -158,6 +168,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      # Same reason as the preview job: this builds the artifact that goes to
+      # production, so it has to be the version the gate ran on.
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: client/.nvmrc
 
       - name: Install Vercel CLI
         run: npm install -g vercel
