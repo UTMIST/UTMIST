@@ -6,6 +6,10 @@ to `main`.
 New here? Start with [docs/Setup.md](docs/Setup.md) and get the site running
 locally first — everything below assumes you have it up.
 
+This page is the mechanics. The people side — your first week, what owning a
+zone means, review turnaround, weekly expectations — lives in
+[docs/ONBOARDING.md](docs/ONBOARDING.md).
+
 ## Picking something to work on
 
 All work starts from an [issue](https://github.com/UTMIST/UTMIST/issues).
@@ -172,7 +176,10 @@ users see it.
 
 ### Review
 
-A maintainer reviews and either approves or requests changes. Push follow-up
+The owners of the zones your PR touches review it (requested automatically
+via CODEOWNERS) and either approve or request changes. The turnaround
+expectation — 48 hours, both directions — is in
+[docs/ONBOARDING.md](docs/ONBOARDING.md#pull-requests). Push follow-up
 commits to the same branch; do not force-push once review has started, as it
 makes review comments hard to follow.
 

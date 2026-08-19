@@ -3,7 +3,9 @@
 This repo is organized into ownership **zones**. Zones are divided by duty, not
 headcount — there are no leads, every owner is a dev, and one person may own
 multiple zones. This doc is the source of truth for each zone's mission,
-paths, and owner.
+paths, and owner. What owning a zone means day to day — review, triage,
+keeping its docs honest — is in
+[ONBOARDING.md](ONBOARDING.md#zones-what-youre-responsible-for).
 
 Zones classify **code**, and therefore pull requests: a PR's zone is worked out
 from the files it changes. Issues are classified by [area](AREAS.md) instead —

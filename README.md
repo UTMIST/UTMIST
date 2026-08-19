@@ -56,6 +56,10 @@ pushing, and what to expect from review.
 New contributors: start with [docs/Setup.md](docs/Setup.md), then pick up a
 [`good first issue`](https://github.com/UTMIST/UTMIST/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
 
+Joining the dev team? [docs/ONBOARDING.md](docs/ONBOARDING.md) is your first
+week: what you're responsible for, how work gets assigned, and what we expect
+from each other.
+
 ## Zones & ownership
 
 The codebase is split into ownership **zones** (design system, platform,
