@@ -70,6 +70,27 @@ to work in.
 hydration guard", "Evaluate set-state-in-effect in ApplicantsPageClient data
 fetch", "Apply form defines a component during render".
 
+### coordination
+
+Getting a decision made, an agreement reached, or a person assigned. No code, and
+often no repo file, changes — but the work is real and it usually blocks something
+else on the board.
+
+**Typically:** locking requirements with another department, naming an owner for an
+area, approving billing or seats, passing a data-handling review, running a hiring or
+event cycle end-to-end, training the people who take over next year.
+
+**Who can take it:** a PM, a VP, or an area owner — someone with the standing to get
+the answer, not necessarily a dev. This is the distinction the area exists to draw: a
+developer cannot unblock these by writing code.
+
+**Done looks like:** the decision is recorded somewhere durable, or the named person
+exists. If it produced only a conversation, it is not done.
+
+**Real examples:** "Requirements + design locked with recruitment leads", "Who owns the
+component library?", "Vercel Pro billing approved and seats assigned", "Access control
+and data handling review passed".
+
 ## Areas vs. the type labels
 
 Areas sit alongside the existing `bug`, `enhancement`, `documentation`, and
@@ -80,9 +101,13 @@ name) — and the difference decides who picks it up.
 
 ## Picking one
 
+- Would a developer be the wrong person to hand it to? → **coordination**
 - Does it only change words, pictures, or data? → **content**
 - Would a visitor notice the difference? → **product**
 - Would a visitor notice nothing at all? → **engineering**
+
+Ask the coordination question first. The other three all assume the work is done by
+writing something in the repo; if that assumption does not hold, none of them fit.
 
 If an issue genuinely spans two, split it. If you cannot tell, pick **not sure**
 — that applies no label and flags it for triage, which is better than a wrong
