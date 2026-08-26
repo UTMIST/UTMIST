@@ -20,7 +20,7 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            const areas = ["content", "product", "engineering"];
+            const areas = ["content", "product", "engineering", "coordination"];
             const body = context.payload.issue.body || "";
             // Issue forms render the dropdown as "### Area\n\n<value>"
             const match = body.match(/### Area\s*\n+\s*(.+)/);
