@@ -34,7 +34,7 @@ primitives (cards, sliders, carousel) that every feature builds on.
 - `client/src/styles/dropdown.css`
 - `client/src/styles/gradients.css`
 
-**Owner:** TBD
+**Owner:** Jenny Bian (@pusheen5000000)
 
 ### Platform
 
@@ -46,7 +46,7 @@ connects the front end to live club data.
 - `client/src/shared/lib/`
 - `client/src/middleware.ts`
 
-**Owner:** TBD
+**Owner:** Michelle Liu (@michelle-yl)
 
 ### DevEx / CI-CD
 
@@ -64,7 +64,7 @@ buildable and the contributor path clear.
 - `client/next.config.ts`
 - `client/package.json`
 
-**Owner:** TBD
+**Owner:** Guneev Pannu (@Guneevp)
 
 ## Feature zones
 
@@ -94,7 +94,7 @@ static/marketing surfaces — and the first target for auto-updating content.
 - `client/src/styles/` (all stylesheets not claimed file-level by another
   zone below)
 
-**Owner:** TBD
+**Owner:** Angela Zheng (@angelayzheng)
 
 ### Recruitment
 
@@ -110,7 +110,7 @@ interview scheduling — including its own admin screens.
 - `client/src/app/api/apply/`
 - `client/src/app/api/drive_upload/`
 
-**Owner:** TBD
+**Owner:** Yanzhen Chen (@YheChen)
 
 ### Careers
 
@@ -123,7 +123,7 @@ partners.
 - `client/src/app/careers/`
 - `client/src/styles/careers.css`
 
-**Owner:** TBD
+**Owner:** Jenny Bian (@pusheen5000000)
 
 ### Events
 
@@ -135,7 +135,7 @@ including event management screens.
 - `client/src/app/events/`
 - `client/src/styles/events.css`
 
-**Owner:** TBD
+**Owner:** Angela Zheng (@angelayzheng)
 
 ### Members
 
@@ -149,7 +149,7 @@ home of the compute-platform UI.
 - `client/src/app/dashboard/`
 - `client/src/app/api/auth/`
 
-**Owner:** TBD
+**Owner:** Michelle Liu (@michelle-yl)
 
 ## Shared conventions
 
