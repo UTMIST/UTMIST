@@ -26,9 +26,10 @@ fastest way to find work that matches what you want to do; see
   These are scoped so you can finish them without deep context on the codebase.
 - Issues are prioritized `P0` (highest) through `P3`. If you have no preference,
   take the highest-priority thing that is unassigned.
-- Skip anything labelled `blocked` — it is waiting on another issue. `ready`
-  means its blockers are all closed and nobody has claimed it yet, so that is
-  the queue to pull from. See [Blocked and ready](#blocked-and-ready) below.
+- Filter with `-is:blocked` to hide anything waiting on another issue. The
+  `ready` label is narrower and better: it means an issue's blockers have all
+  closed and nobody has claimed it yet, so that is the queue to pull from. See
+  [Blocked and ready](#blocked-and-ready) below.
 - **Comment on the issue to claim it**, and it will be assigned to you. This
   stops two people building the same thing — which has happened here before.
 - If nothing fits, open an issue with the
@@ -46,22 +47,34 @@ open the issue, and under **Relationships** in the sidebar add it to
 **Blocked by**. That list is the source of truth; there is nothing to write in
 the issue body.
 
-From there,
-[a workflow](.github/workflows/blocked-ready-automation.yml) keeps two labels in
-sync. Do not set them by hand — the next run will overwrite you.
+**There is no `blocked` label, deliberately.** GitHub indexes dependency state
+itself, so `is:blocked` in issue search already returns exactly the set a label
+would have carried. A label would be a second copy of the same fact and could
+drift out of date; the search qualifier is computed when you run it and cannot.
 
-- An issue with an open blocker gets `blocked`. Once every blocker is closed it
-  flips to `ready`. Reopen a blocker and its dependents go back to `blocked`.
+- **Available work:** [`-is:blocked`](https://github.com/UTMIST/UTMIST/issues?q=is%3Aissue+is%3Aopen+-is%3Ablocked)
+- **Everything waiting on something else:** [`is:blocked`](https://github.com/UTMIST/UTMIST/issues?q=is%3Aissue+is%3Aopen+is%3Ablocked)
+
+From there,
+[a workflow](.github/workflows/blocked-ready-automation.yml) keeps the `ready`
+label in sync. Do not set it by hand — the next run will overwrite you.
+
+- Once every blocker on an issue is closed, it gets `ready`. Reopen a blocker
+  and `ready` comes off again.
 - Claiming an issue (which assigns it to you) drops `ready`, because it is no
   longer up for grabs. Unassigning yourself puts it back on the queue.
-- An issue with no dependencies at all is left alone — it gets neither label.
+- An issue with no dependencies at all is left alone — it never gets `ready`.
   So `ready` means "this was blocked and now isn't", not "any open issue".
+
+That last point is why `ready` survives while `blocked` did not: it describes a
+*transition*, which no search can express. `-is:blocked no:assignee` looks
+similar but is a much larger set, because it also includes everything that was
+never blocked in the first place.
 
 If the repo has a `PROJECTS_TOKEN` secret configured, the same transitions set
 the card's **Status** on the
-[project board](https://github.com/orgs/UTMIST/projects/12) to `Ready` or
-`Blocked`. Moving a card to `In Development` or `In Review` is still a human
-step.
+[project board](https://github.com/orgs/UTMIST/projects/12). Moving a card on
+past that is still a human step.
 
 One quirk worth knowing: GitHub does not let a workflow trigger on a dependency
 being added or removed, so that one change is picked up by a sweep that runs

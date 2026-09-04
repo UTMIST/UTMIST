@@ -82,8 +82,9 @@ merges is right.
 **The issue queue is self-serve.** Find an unassigned issue, comment to
 claim it, get to work. You don't need to ask first.
 [CONTRIBUTING.md](../CONTRIBUTING.md#picking-something-to-work-on) explains
-the labels you'll filter by: `area`, priority (`P0` to `P3`), `blocked` and
-`ready`.
+the labels you'll filter by: `area`, priority (`P0` to `P3`), and `ready`.
+Blocked work is not a label — filter it out with `-is:blocked`, which GitHub
+computes from the dependency graph itself.
 
 Two conventions on top of that:
 

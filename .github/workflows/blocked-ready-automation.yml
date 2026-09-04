@@ -1,15 +1,25 @@
 name: Blocked/ready automation
 
-# Keeps the `blocked` / `ready` labels — and the project board Status — in sync
-# with GitHub's NATIVE issue dependencies. Declare a dependency in the issue's
+# Keeps the `ready` label — and the project board Status — in sync with
+# GitHub's NATIVE issue dependencies. Declare a dependency in the issue's
 # "Blocked by" section in the GitHub UI; this workflow only ever reads it, so
 # the dependency graph stays the single source of truth.
 #
-#   blocked : at least one declared blocker is still open
-#   ready   : every blocker is closed, and nobody has claimed the issue
+#   ready : every blocker is closed, and nobody has claimed the issue
 #
-# Opt-in by design: an issue that declares no dependencies gets neither label.
-# `ready` therefore means "this just became available", not "any open issue".
+# There is deliberately no `blocked` label. GitHub indexes dependency state
+# itself, so `is:blocked` in issue search returns exactly the set a label would
+# have carried — verified as an identical set, not merely an equal count. A
+# label would be a second copy of that fact and could drift; the search
+# qualifier is computed at query time and cannot. Use `-is:blocked` to find
+# work that is available.
+#
+# `ready` has no such replacement: it means "this WAS blocked and now isn't,
+# and nobody has claimed it", which is a transition rather than a state.
+# `-is:blocked no:assignee` is a different, much larger set - it includes
+# everything that was never blocked to begin with.
+#
+# Opt-in by design: an issue that declares no dependencies never gets `ready`.
 #
 # Triggers, and why each is here:
 # - opened / assigned / unassigned — re-evaluate that one issue. Claiming an
@@ -176,12 +186,19 @@ jobs:
                 const data = await gqlPAT(
                   `query($owner:String!,$repo:String!,$number:Int!){
                      repository(owner:$owner,name:$repo){ issue(number:$number){
-                       projectItems(first:20){ nodes{ id project{ id } } } } } }`,
+                       projectItems(first:20){ nodes{ id project{ id }
+                         fieldValueByName(name:"Status"){
+                           ... on ProjectV2ItemFieldSingleSelectValue { optionId } } } } } } }`,
                   { owner, repo, number: issueNumber },
                 );
                 const item = data.repository.issue.projectItems.nodes
                   .find((n) => n.project.id === PROJECT_ID);
                 if (!item) { core.info(`#${issueNumber}: not on the project board — skipping Status.`); return; }
+                // Already correct: skip the mutation. This is what keeps the
+                // half-hourly sweep quiet now that the board write is no longer
+                // gated on a label having moved. Costs nothing extra — the
+                // current value comes back on the lookup we already make.
+                if (item.fieldValueByName?.optionId === optionId) return;
                 await gqlPAT(
                   `mutation($p:ID!,$i:ID!,$f:ID!,$o:String!){
                      updateProjectV2ItemFieldValue(input:{projectId:$p,itemId:$i,fieldId:$f,
@@ -200,41 +217,34 @@ jobs:
               if (iss.blockedBy.totalCount === 0) {
                 // Not in the dependency graph. Never label it — only clear
                 // labels left behind when its last dependency was removed.
-                return { blocked: false, ready: false, status: null, why: 'no dependencies — labels cleared' };
+                return { ready: false, status: null, why: 'no dependencies — label cleared' };
               }
               if (openBlockers.length > 0) {
                 return {
-                  blocked: true, ready: false, status: OPT_BLOCKED,
+                  ready: false, status: OPT_BLOCKED,
                   why: `blocked by ${openBlockers.map((b) => '#' + b.number).join(', ')}`,
                 };
               }
               if (iss.assignees.totalCount > 0) {
                 // Unblocked, but claimed — not up for grabs. Board Status is
                 // left to a human (In Development / In Review).
-                return { blocked: false, ready: false, status: null, why: 'unblocked but claimed' };
+                return { ready: false, status: null, why: 'unblocked but claimed' };
               }
-              return { blocked: false, ready: true, status: OPT_READY, why: 'all blockers closed' };
+              return { ready: true, status: OPT_READY, why: 'all blockers closed' };
             };
 
             const reconcile = async (iss) => {
               if (!iss) return;
               const has = (name) => iss.labels.nodes.some((l) => l.name === name);
 
-              // A closed issue is neither blocked nor available.
+              // A closed issue is not available.
               if (iss.state !== 'OPEN') {
-                if (has('blocked')) await removeLabel(iss.number, 'blocked');
                 if (has('ready')) await removeLabel(iss.number, 'ready');
                 return;
               }
 
               const d = desiredFor(iss);
               let changed = false;
-              if (d.blocked !== has('blocked')) {
-                const ok = d.blocked
-                  ? await addLabel(iss.number, 'blocked')
-                  : await removeLabel(iss.number, 'blocked');
-                changed = changed || ok;
-              }
               if (d.ready !== has('ready')) {
                 const ok = d.ready
                   ? await addLabel(iss.number, 'ready')
@@ -242,10 +252,12 @@ jobs:
                 changed = changed || ok;
               }
 
-              // Only touch the board when a label actually moved, so the
-              // half-hourly sweep stays silent when nothing has changed.
-              if (!changed) return;
-              core.info(`#${iss.number}: ${d.why}.`);
+              // The board write is NOT gated on the label having moved. Blocked
+              // issues no longer carry a label at all, so gating on that would
+              // mean a newly blocked issue never reached the board. Silence on
+              // an unchanged sweep is preserved inside setBoardStatus instead,
+              // which reads the item's current Status and skips a no-op write.
+              if (changed) core.info(`#${iss.number}: ${d.why}.`);
               if (d.status) await setBoardStatus(iss.number, d.status);
             };
 
