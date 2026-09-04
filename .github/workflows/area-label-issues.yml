@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Apply area label from template dropdown
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const areas = ["content", "product", "engineering", "coordination"];

@@ -69,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Sync blocked/ready state
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           PROJECTS_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
         with:
