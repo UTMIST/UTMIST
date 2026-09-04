@@ -8,82 +8,82 @@
 # silently ignored. The Taxonomy consistency workflow now asks GitHub to parse
 # this file on each PR and fails if it reports any error.
 
-# Design system
-/client/src/shared/ui/ @qiuethan
-/client/src/app/layout.tsx @qiuethan
-/client/src/app/globals.css @qiuethan
-/client/src/app/not-found.tsx @qiuethan
-/client/src/app/dev/ @qiuethan
+# Design system — Jenny Bian
+/client/src/shared/ui/ @pusheen5000000
+/client/src/app/layout.tsx @pusheen5000000
+/client/src/app/globals.css @pusheen5000000
+/client/src/app/not-found.tsx @pusheen5000000
+/client/src/app/dev/ @pusheen5000000
 
-# Platform
-/client/src/shared/lib/ @qiuethan
-/client/src/middleware.ts @qiuethan
+# Platform — Michelle Liu
+/client/src/shared/lib/ @michelle-yl
+/client/src/middleware.ts @michelle-yl
 
-# DevEx / CI-CD
-/.github/ @qiuethan
-/docs/ @qiuethan
-/client/eslint.config.mjs @qiuethan
-/client/tsconfig.json @qiuethan
-/client/jest.config.js @qiuethan
-/client/jest.setup.js @qiuethan
-/client/next.config.ts @qiuethan
-/client/package.json @qiuethan
-/client/package-lock.json @qiuethan
+# DevEx / CI-CD — Guneev Pannu
+/.github/ @Guneevp
+/docs/ @Guneevp
+/client/eslint.config.mjs @Guneevp
+/client/tsconfig.json @Guneevp
+/client/jest.config.js @Guneevp
+/client/jest.setup.js @Guneevp
+/client/next.config.ts @Guneevp
+/client/package.json @Guneevp
+/client/package-lock.json @Guneevp
 
-# Public site
+# Public site — Angela Zheng
 # NOTE: CODEOWNERS resolves ownership by "last match wins" — a later pattern
 # in this file beats an earlier, more-specific one. The directory rule below
 # must therefore appear BEFORE the client/src/styles/*.css file-level
 # overrides owned by other zones (see the "Design system styles" block at
 # the end of this file, plus the styles.css lines under Careers/Events) so
 # those later, more-specific entries are the ones that win.
-/client/src/features/public-site/ @qiuethan
-/client/src/assets/ @qiuethan
-/client/src/app/page.tsx @qiuethan
-/client/src/app/departments/ @qiuethan
-/client/src/app/projects/ @qiuethan
-/client/src/app/sponsors/ @qiuethan
-/client/src/app/blog/ @qiuethan
-/client/src/app/startups/ @qiuethan
-/client/src/app/ai2/ @qiuethan
-/client/src/app/eigenai/ @qiuethan
-/client/src/app/ml-fundamentals/ @qiuethan
-/client/src/app/api/umami/ @qiuethan
-/client/src/styles/ @qiuethan
+/client/src/features/public-site/ @angelayzheng
+/client/src/assets/ @angelayzheng
+/client/src/app/page.tsx @angelayzheng
+/client/src/app/departments/ @angelayzheng
+/client/src/app/projects/ @angelayzheng
+/client/src/app/sponsors/ @angelayzheng
+/client/src/app/blog/ @angelayzheng
+/client/src/app/startups/ @angelayzheng
+/client/src/app/ai2/ @angelayzheng
+/client/src/app/eigenai/ @angelayzheng
+/client/src/app/ml-fundamentals/ @angelayzheng
+/client/src/app/api/umami/ @angelayzheng
+/client/src/styles/ @angelayzheng
 
-# Recruitment
-/client/src/features/recruitment/ @qiuethan
-/client/src/app/apply/ @qiuethan
-/client/src/app/applicants/ @qiuethan
-/client/src/app/admin/ @qiuethan
-/client/src/app/api/applications/ @qiuethan
-/client/src/app/api/apply/ @qiuethan
-/client/src/app/api/drive_upload/ @qiuethan
+# Recruitment — Yanzhen Chen
+/client/src/features/recruitment/ @YheChen
+/client/src/app/apply/ @YheChen
+/client/src/app/applicants/ @YheChen
+/client/src/app/admin/ @YheChen
+/client/src/app/api/applications/ @YheChen
+/client/src/app/api/apply/ @YheChen
+/client/src/app/api/drive_upload/ @YheChen
 
-# Careers
-/client/src/features/careers/ @qiuethan
-/client/src/assets/careers.json @qiuethan
-/client/src/app/careers/ @qiuethan
-/client/src/styles/careers.css @qiuethan
+# Careers — Jenny Bian
+/client/src/features/careers/ @pusheen5000000
+/client/src/assets/careers.json @pusheen5000000
+/client/src/app/careers/ @pusheen5000000
+/client/src/styles/careers.css @pusheen5000000
 
-# Events
-/client/src/features/events/ @qiuethan
-/client/src/app/events/ @qiuethan
-/client/src/styles/events.css @qiuethan
+# Events — Angela Zheng
+/client/src/features/events/ @angelayzheng
+/client/src/app/events/ @angelayzheng
+/client/src/styles/events.css @angelayzheng
 
-# Members
-/client/src/features/members/ @qiuethan
-/client/src/app/auth/ @qiuethan
-/client/src/app/profile/ @qiuethan
-/client/src/app/dashboard/ @qiuethan
-/client/src/app/api/auth/ @qiuethan
+# Members — Michelle Liu
+/client/src/features/members/ @michelle-yl
+/client/src/app/auth/ @michelle-yl
+/client/src/app/profile/ @michelle-yl
+/client/src/app/dashboard/ @michelle-yl
+/client/src/app/api/auth/ @michelle-yl
 
 # Design system styles
 # Kept separate from the "Design system" block above (rather than inline)
 # because CODEOWNERS uses "last match wins": these file-level overrides must
 # appear after the "Public site" directory rule (/client/src/styles/) for
 # these four stylesheets to resolve to Design system instead of Public site.
-/client/src/styles/navbar.css @qiuethan
-/client/src/styles/footer.css @qiuethan
-/client/src/styles/dropdown.css @qiuethan
-/client/src/styles/gradients.css @qiuethan
+/client/src/styles/navbar.css @pusheen5000000
+/client/src/styles/footer.css @pusheen5000000
+/client/src/styles/dropdown.css @pusheen5000000
+/client/src/styles/gradients.css @pusheen5000000
