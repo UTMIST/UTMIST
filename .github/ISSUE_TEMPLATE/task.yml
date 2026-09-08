@@ -1,6 +1,6 @@
 name: Task
 description: A scoped piece of work
-title: "[task]: "
+title: ""
 body:
   - type: dropdown
     id: area
