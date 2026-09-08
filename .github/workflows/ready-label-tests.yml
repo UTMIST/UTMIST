@@ -1,0 +1,22 @@
+name: Ready label tests
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/blocked-ready-automation.yml
+      - .github/workflows/ready-label-tests.yml
+      - scripts/ready-label.test.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: client/.nvmrc
+      - run: node --test scripts/ready-label.test.mjs
