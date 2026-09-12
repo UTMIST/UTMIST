@@ -1,0 +1,19 @@
+services:
+  payload-postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: utmist_payload
+      POSTGRES_PASSWORD: payload_local_dev
+      POSTGRES_USER: payload
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U payload -d utmist_payload"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - payload-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  payload-postgres-data:
