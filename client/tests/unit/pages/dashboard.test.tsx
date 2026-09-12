@@ -15,7 +15,7 @@ jest.mock('@/shared/lib/client', () => ({
   getCurrentUserProfile: () => mockGetCurrentUserProfile(),
 }));
 
-import DashboardPage from '@/app/dashboard/page';
+import DashboardPage from '@/app/(frontend)/dashboard/page';
 
 describe('Dashboard Page', () => {
   beforeEach(() => {
