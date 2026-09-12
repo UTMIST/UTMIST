@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "payload generate:importmap && payload generate:types && next build",
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
