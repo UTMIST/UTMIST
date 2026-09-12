@@ -221,7 +221,7 @@ jest.mock('@/assets/careers.json', () => [
 
 Server components like
 [`src/features/recruitment/pages/admin.tsx`](../../client/src/features/recruitment/pages/admin.tsx)
-(re-exported as the shell at `src/app/admin/page.tsx`) are `async function`s
+(re-exported as the shell at `src/app/(frontend)/admin/page.tsx`) are `async function`s
 that `await requireAdmin()` (or another guard from `@/shared/lib/server`,
 which calls `redirect()` internally when the check fails). Test them by:
 

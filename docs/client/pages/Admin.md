@@ -2,8 +2,8 @@
 
 ### 📁 Location
 
-- **Path**: `app/admin/page.tsx`
-- **API Route**: `app/api/umami/overview/route.ts`
+- **Path**: `app/(frontend)/admin/page.tsx`
+- **API Route**: `app/(frontend)/api/umami/overview/route.ts`
 - **Dependencies**:
 
   - Fetches analytics from [Umami Cloud](https://umami.is/)
