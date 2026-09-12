@@ -18,7 +18,7 @@ jest.mock('@/features/public-site/data/ml-fundamentals', () => ({
   techWritersTeam: [{ name: 'Writer A' }],
 }));
 
-import MLFundamentals from '@/app/ml-fundamentals/page';
+import MLFundamentals from '@/app/(frontend)/ml-fundamentals/page';
 
 describe('ML Fundamentals Page', () => {
   it('renders both Phase 1 and Phase 2 schedule sections', () => {

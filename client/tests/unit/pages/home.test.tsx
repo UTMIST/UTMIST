@@ -40,7 +40,7 @@ jest.mock('@/features/public-site/components/faq', () => ({
   default: () => <div data-testid="faq" />,
 }));
 
-import Home from '@/app/page';
+import Home from '@/app/(frontend)/page';
 
 describe('Home Page', () => {
   it('renders the hero title and subtitle', () => {

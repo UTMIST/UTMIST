@@ -10,7 +10,7 @@ jest.mock('@/features/public-site/components/memberList', () => ({
   ),
 }));
 
-import DepartmentsPage from '@/app/departments/page';
+import DepartmentsPage from '@/app/(frontend)/departments/page';
 
 describe('Departments Page', () => {
   it('renders a PersonCard with the expected props', () => {

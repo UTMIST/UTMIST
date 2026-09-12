@@ -14,7 +14,7 @@ The `ProjectsPage` component is a client-side rendered page in a Next.js applica
 
 ## File Location
 
-`src/app/projects/page.tsx`
+`src/app/(frontend)/projects/page.tsx`
 
 ---
 
