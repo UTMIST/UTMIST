@@ -25,7 +25,7 @@ jest.mock('@/assets/careers.json', () => [
   },
 ]);
 
-import CareersPage from '@/app/careers/page';
+import CareersPage from '@/app/(frontend)/careers/page';
 
 describe('Careers Page', () => {
   it('renders the page hero with title and subtitle', () => {
