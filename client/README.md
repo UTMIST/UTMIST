@@ -1,7 +1,8 @@
 # UTMIST Client Application
 
 The UTMIST club website: a Next.js 16 app (App Router, React 19, Tailwind 4)
-with authentication and data storage on Supabase.
+with authentication and application data on Supabase, plus an embedded Payload
+CMS foundation.
 
 This document covers **how the app is put together**. For anything else:
 
@@ -75,8 +76,9 @@ follow-up (such as resending a confirmation mail).
 
 ## Server-side logic
 
-There is no separate backend service. Server work lives in App Router route
-handlers under [`src/app/api/`](src/app/api/):
+There is no separate backend service. Existing application server work lives
+in App Router route handlers under
+[`src/app/(frontend)/api/`](src/app/(frontend)/api/):
 
 | Route | Purpose |
 | --- | --- |
@@ -85,6 +87,15 @@ handlers under [`src/app/api/`](src/app/api/):
 | `api/applications` | Applicant records — admin only |
 | `api/drive_upload` | Pushes uploaded resumes to Google Drive |
 | `api/umami/overview` | Traffic stats for the `/admin` dashboard |
+
+## Payload CMS
+
+Payload is embedded in this same Next.js application and has its own root route
+group, editor authentication, and Postgres schema. The editor dashboard is at
+`/cms`; its API is at `/cms-api`. The proof collection is intentionally not
+connected to a public page yet. See
+[`docs/client/Payload.md`](../docs/client/Payload.md) for setup, isolation, and
+generated-file details.
 
 ## Deployment
 
@@ -95,6 +106,10 @@ production automatically.
 Environment variables are stored as GitHub Actions secrets for CI and in the
 Vercel project settings for runtime. When adding a new one, it must be added in
 **both** places, plus documented in [`env.example`](env.example).
+
+Payload deployments require `PAYLOAD_SECRET` and `PAYLOAD_DATABASE_URI`.
+Preview environments must use isolated credentials and data rather than the
+production CMS database.
 
 Supabase redirect URLs need to list the production origin alongside
 `http://localhost:3000`, or auth callbacks will fail in production only.

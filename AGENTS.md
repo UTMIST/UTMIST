@@ -10,7 +10,8 @@ doc each line links to.
 
 - The whole site is one Next.js 16 app (App Router, React 19, Tailwind 4,
   Supabase) in `client/`. There is no separate backend: server logic lives
-  in route handlers under `client/src/app/api/`.
+  in route handlers under `client/src/app/(frontend)/api/` and Payload is
+  mounted under `client/src/app/(payload)/`.
   ([client/README.md](client/README.md))
 - Node is pinned to **24** (`client/.nvmrc`, `client/.tool-versions`).
   Older versions fail with misleading errors. ([docs/Setup.md](docs/Setup.md))

@@ -4,8 +4,8 @@
 
 - **`/client/`**
   The Next.js application. This is the entire codebase — the site is a single
-  full-stack Next.js app, with server-side logic living in route handlers
-  under `client/src/app/api/` rather than a separate backend service.
+  full-stack Next.js app, with server-side logic living in App Router route
+  handlers rather than a separate backend service.
 
 - **`/docs/`**
   Project documentation, including this file and [`docs/ZONES.md`](ZONES.md),
@@ -24,19 +24,16 @@ responsible for it. The two must agree.
 
 ```
 client/src/
-├── app/                  # routes: thin shells + a few cross-cutting files
-│   ├── layout.tsx        # root layout (design system)
-│   ├── globals.css       # design tokens (design system)
-│   ├── not-found.tsx     # 404 page (design system)
-│   ├── dev/              # component playground (design system)
-│   ├── page.tsx          # re-exports features/public-site/pages/home
-│   ├── departments/ projects/ sponsors/ blog/ startups/
-│   │   ai2/ eigenai/ ml-fundamentals/ api/umami/    # → public-site
-│   ├── apply/ applicants/ admin/
-│   │   api/applications/ api/apply/ api/drive_upload/  # → recruitment
-│   ├── careers/                                        # → careers
-│   ├── events/                                          # → events
-│   └── auth/ profile/ dashboard/ api/auth/              # → members
+├── app/
+│   ├── (frontend)/       # existing site routes; group does not change URLs
+│   │   ├── layout.tsx    # site root layout (design system)
+│   │   ├── not-found.tsx # site 404 page (design system)
+│   │   ├── page.tsx      # re-exports features/public-site/pages/home
+│   │   └── …             # public, recruitment, careers, events, member routes
+│   ├── (payload)/        # isolated Payload layout, /cms, and CMS API routes
+│   └── globals.css       # site design tokens (design system)
+├── cms/                  # Payload collections and stable CMS constants
+├── payload-types.ts      # generated Payload document types
 ├── features/
 │   ├── public-site/      # pages/ components/ api/ data/ hooks/ types/
 │   ├── recruitment/      # pages/ components/ api/ types/
@@ -57,21 +54,27 @@ client/src/
 
 ## The `app/` shell pattern
 
-Every route under `client/src/app/` (besides the design-system files listed
-above) is a **thin shell**: it re-exports the real page component from its
-owning feature and nothing else.
+Existing site routes live under the URL-transparent
+`client/src/app/(frontend)/` group. Apart from route handlers and the
+design-system files listed above, each is a **thin shell**: it re-exports the
+real page component from its owning feature and nothing else.
 
 ```ts
-// client/src/app/events/page.tsx
+// client/src/app/(frontend)/events/page.tsx
 export { default } from "@/features/events/pages/events";
 ```
 
-Route logic, data fetching, and UI all live in
+The `(payload)` route group is the exception: its generated-compatible route
+files and dedicated root layout mount the CMS without inheriting the public
+navbar, footer, or global theme providers. See
+[`docs/client/Payload.md`](client/Payload.md).
+
+Route logic, data fetching, and UI for the existing site all live in
 `features/<zone>/pages/<name>.tsx` — the file under `app/` exists only
 because Next.js's file-system router requires something at that path. This
 keeps ownership of a route's behavior with the feature zone even though the
 router forces a physical file under `app/`. Route handlers under
-`app/api/**` are the exception — they hold real logic and are attributed to
+`app/(frontend)/api/**` are the exception — they hold real logic and are attributed to
 a zone by path (see the Recruitment/Members path lists in
 [`docs/ZONES.md`](ZONES.md)), not re-exported as shells.
 
@@ -113,7 +116,8 @@ Import components from these barrels, not from `shared/ui/<file>` directly.
   `@/shared/ui`, `@/shared/ui/client`, `@/shared/lib`, `@/shared/lib/client`,
   `@/shared/lib/server`, `@/shared/lib/storage` — not deep imports into
   shared internals.
-- `app/**` (other than `app/api/**`) may only import the shared barrels —
+- `app/**` (other than route handlers and Payload's generated-compatible
+  shells) may only import the shared barrels —
   route shells re-export from `features/*`, they don't reach into feature
   internals or shared internals directly.
 - These rules are enforced by ESLint (`client/eslint.config.mjs`);
