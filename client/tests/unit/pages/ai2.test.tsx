@@ -51,7 +51,7 @@ jest.mock('@/features/public-site/data/ai2', () => ({
   panelSpeakers: [{ name: 'Panel Speaker' }],
 }));
 
-import AI2Page from '@/app/ai2/page';
+import AI2Page from '@/app/(frontend)/ai2/page';
 
 describe('AI2 Page', () => {
   it('renders hero title and apply button', () => {

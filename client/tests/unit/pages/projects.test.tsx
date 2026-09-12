@@ -28,7 +28,7 @@ jest.mock('@/assets/projects.json', () => [
   },
 ]);
 
-import ProjectsPage from '@/app/projects/page';
+import ProjectsPage from '@/app/(frontend)/projects/page';
 
 describe('Projects Page', () => {
   it('renders the Projects hero', () => {

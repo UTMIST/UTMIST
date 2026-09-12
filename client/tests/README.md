@@ -65,8 +65,8 @@ const config = {
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',
     '!src/**/*.d.ts',
-    '!src/app/layout.tsx',
-    '!src/app/not-found.tsx'
+    '!src/app/**/layout.tsx',
+    '!src/app/**/not-found.tsx'
   ]
 }
 
@@ -193,4 +193,4 @@ When setting up CI/CD:
 - Add E2E tests with Playwright or Cypress
 - Add visual regression testing
 - Implement performance testing
-- Add accessibility testing with jest-axe 
+- Add accessibility testing with jest-axe

@@ -17,7 +17,7 @@ jest.mock('@/shared/lib/client', () => ({
   },
 }));
 
-import ResetPasswordPage from '@/app/auth/reset-password/page';
+import ResetPasswordPage from '@/app/(frontend)/auth/reset-password/page';
 
 describe('Reset Password Page', () => {
   beforeEach(() => {

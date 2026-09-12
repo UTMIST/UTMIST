@@ -10,14 +10,18 @@
 
 # Design system — Jenny Bian
 /client/src/shared/ui/ @pusheen5000000
-/client/src/app/layout.tsx @pusheen5000000
+/client/src/app/(frontend)/layout.tsx @pusheen5000000
 /client/src/app/globals.css @pusheen5000000
-/client/src/app/not-found.tsx @pusheen5000000
-/client/src/app/dev/ @pusheen5000000
+/client/src/app/(frontend)/not-found.tsx @pusheen5000000
+/client/src/app/(frontend)/dev/ @pusheen5000000
 
 # Platform — Michelle Liu
 /client/src/shared/lib/ @michelle-yl
 /client/src/middleware.ts @michelle-yl
+/client/src/cms/ @michelle-yl
+/client/src/app/(payload)/ @michelle-yl
+/client/payload.config.ts @michelle-yl
+/client/src/payload-types.ts @michelle-yl
 
 # DevEx / CI-CD — Guneev Pannu
 /.github/ @Guneevp
@@ -39,44 +43,44 @@
 # those later, more-specific entries are the ones that win.
 /client/src/features/public-site/ @angelayzheng
 /client/src/assets/ @angelayzheng
-/client/src/app/page.tsx @angelayzheng
-/client/src/app/departments/ @angelayzheng
-/client/src/app/projects/ @angelayzheng
-/client/src/app/sponsors/ @angelayzheng
-/client/src/app/blog/ @angelayzheng
-/client/src/app/startups/ @angelayzheng
-/client/src/app/ai2/ @angelayzheng
-/client/src/app/eigenai/ @angelayzheng
-/client/src/app/ml-fundamentals/ @angelayzheng
-/client/src/app/api/umami/ @angelayzheng
+/client/src/app/(frontend)/page.tsx @angelayzheng
+/client/src/app/(frontend)/departments/ @angelayzheng
+/client/src/app/(frontend)/projects/ @angelayzheng
+/client/src/app/(frontend)/sponsors/ @angelayzheng
+/client/src/app/(frontend)/blog/ @angelayzheng
+/client/src/app/(frontend)/startups/ @angelayzheng
+/client/src/app/(frontend)/ai2/ @angelayzheng
+/client/src/app/(frontend)/eigenai/ @angelayzheng
+/client/src/app/(frontend)/ml-fundamentals/ @angelayzheng
+/client/src/app/(frontend)/api/umami/ @angelayzheng
 /client/src/styles/ @angelayzheng
 
 # Recruitment — Yanzhen Chen
 /client/src/features/recruitment/ @YheChen
-/client/src/app/apply/ @YheChen
-/client/src/app/applicants/ @YheChen
-/client/src/app/admin/ @YheChen
-/client/src/app/api/applications/ @YheChen
-/client/src/app/api/apply/ @YheChen
-/client/src/app/api/drive_upload/ @YheChen
+/client/src/app/(frontend)/apply/ @YheChen
+/client/src/app/(frontend)/applicants/ @YheChen
+/client/src/app/(frontend)/admin/ @YheChen
+/client/src/app/(frontend)/api/applications/ @YheChen
+/client/src/app/(frontend)/api/apply/ @YheChen
+/client/src/app/(frontend)/api/drive_upload/ @YheChen
 
 # Careers — Jenny Bian
 /client/src/features/careers/ @pusheen5000000
 /client/src/assets/careers.json @pusheen5000000
-/client/src/app/careers/ @pusheen5000000
+/client/src/app/(frontend)/careers/ @pusheen5000000
 /client/src/styles/careers.css @pusheen5000000
 
 # Events — Angela Zheng
 /client/src/features/events/ @angelayzheng
-/client/src/app/events/ @angelayzheng
+/client/src/app/(frontend)/events/ @angelayzheng
 /client/src/styles/events.css @angelayzheng
 
 # Members — Michelle Liu
 /client/src/features/members/ @michelle-yl
-/client/src/app/auth/ @michelle-yl
-/client/src/app/profile/ @michelle-yl
-/client/src/app/dashboard/ @michelle-yl
-/client/src/app/api/auth/ @michelle-yl
+/client/src/app/(frontend)/auth/ @michelle-yl
+/client/src/app/(frontend)/profile/ @michelle-yl
+/client/src/app/(frontend)/dashboard/ @michelle-yl
+/client/src/app/(frontend)/api/auth/ @michelle-yl
 
 # Design system styles
 # Kept separate from the "Design system" block above (rather than inline)

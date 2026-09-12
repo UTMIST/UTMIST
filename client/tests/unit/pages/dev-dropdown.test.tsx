@@ -32,7 +32,7 @@ jest.mock('@/shared/ui/dropdown', () => ({
   ),
 }));
 
-import DropdownDemoPage from '@/app/dev/dropdown/page';
+import DropdownDemoPage from '@/app/(frontend)/dev/dropdown/page';
 
 describe('Dev Dropdown Demo Page', () => {
   it('renders the page heading and intro copy', () => {

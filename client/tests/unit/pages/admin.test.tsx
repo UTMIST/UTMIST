@@ -41,7 +41,7 @@ jest.mock('@/features/recruitment/components/AddCalendly', () => ({
   ),
 }));
 
-import AdminPage from '@/app/admin/page';
+import AdminPage from '@/app/(frontend)/admin/page';
 
 describe('Admin Page', () => {
   beforeEach(() => {

@@ -25,10 +25,10 @@ primitives (cards, sliders, carousel) that every feature builds on.
 
 **Paths:**
 - `client/src/shared/ui/`
-- `client/src/app/layout.tsx`
+- `client/src/app/(frontend)/layout.tsx`
 - `client/src/app/globals.css`
-- `client/src/app/not-found.tsx`
-- `client/src/app/dev/`
+- `client/src/app/(frontend)/not-found.tsx`
+- `client/src/app/(frontend)/dev/`
 - `client/src/styles/navbar.css`
 - `client/src/styles/footer.css`
 - `client/src/styles/dropdown.css`
@@ -45,6 +45,10 @@ connects the front end to live club data.
 **Paths:**
 - `client/src/shared/lib/`
 - `client/src/middleware.ts`
+- `client/src/cms/`
+- `client/src/app/(payload)/`
+- `client/payload.config.ts`
+- `client/src/payload-types.ts` (generated)
 
 **Owner:** Michelle Liu (@michelle-yl)
 
@@ -81,16 +85,16 @@ static/marketing surfaces — and the first target for auto-updating content.
 **Paths:**
 - `client/src/features/public-site/`
 - `client/src/assets/`
-- `client/src/app/page.tsx`
-- `client/src/app/departments/`
-- `client/src/app/projects/`
-- `client/src/app/sponsors/`
-- `client/src/app/blog/`
-- `client/src/app/startups/`
-- `client/src/app/ai2/`
-- `client/src/app/eigenai/`
-- `client/src/app/ml-fundamentals/`
-- `client/src/app/api/umami/`
+- `client/src/app/(frontend)/page.tsx`
+- `client/src/app/(frontend)/departments/`
+- `client/src/app/(frontend)/projects/`
+- `client/src/app/(frontend)/sponsors/`
+- `client/src/app/(frontend)/blog/`
+- `client/src/app/(frontend)/startups/`
+- `client/src/app/(frontend)/ai2/`
+- `client/src/app/(frontend)/eigenai/`
+- `client/src/app/(frontend)/ml-fundamentals/`
+- `client/src/app/(frontend)/api/umami/`
 - `client/src/styles/` (all stylesheets not claimed file-level by another
   zone below)
 
@@ -103,12 +107,12 @@ interview scheduling — including its own admin screens.
 
 **Paths:**
 - `client/src/features/recruitment/`
-- `client/src/app/apply/`
-- `client/src/app/applicants/`
-- `client/src/app/admin/`
-- `client/src/app/api/applications/`
-- `client/src/app/api/apply/`
-- `client/src/app/api/drive_upload/`
+- `client/src/app/(frontend)/apply/`
+- `client/src/app/(frontend)/applicants/`
+- `client/src/app/(frontend)/admin/`
+- `client/src/app/(frontend)/api/applications/`
+- `client/src/app/(frontend)/api/apply/`
+- `client/src/app/(frontend)/api/drive_upload/`
 
 **Owner:** Yanzhen Chen (@YheChen)
 
@@ -120,7 +124,7 @@ partners.
 **Paths:**
 - `client/src/features/careers/`
 - `client/src/assets/careers.json`
-- `client/src/app/careers/`
+- `client/src/app/(frontend)/careers/`
 - `client/src/styles/careers.css`
 
 **Owner:** Jenny Bian (@pusheen5000000)
@@ -132,7 +136,7 @@ including event management screens.
 
 **Paths:**
 - `client/src/features/events/`
-- `client/src/app/events/`
+- `client/src/app/(frontend)/events/`
 - `client/src/styles/events.css`
 
 **Owner:** Angela Zheng (@angelayzheng)
@@ -144,10 +148,10 @@ home of the compute-platform UI.
 
 **Paths:**
 - `client/src/features/members/`
-- `client/src/app/auth/`
-- `client/src/app/profile/`
-- `client/src/app/dashboard/`
-- `client/src/app/api/auth/`
+- `client/src/app/(frontend)/auth/`
+- `client/src/app/(frontend)/profile/`
+- `client/src/app/(frontend)/dashboard/`
+- `client/src/app/(frontend)/api/auth/`
 
 **Owner:** Michelle Liu (@michelle-yl)
 
