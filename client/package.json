@@ -16,7 +16,11 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:unit": "jest tests/unit",
-    "test:integration": "jest tests/integration"
+    "test:integration": "jest tests/integration",
+    "payload:db:start": "docker compose -f compose.payload.yml up -d --wait",
+    "payload:db:stop": "docker compose -f compose.payload.yml down",
+    "payload:generate-types": "payload generate:types",
+    "payload:generate-importmap": "payload generate:importmap"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
