@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import StartupsPage from '@/app/startups/page';
+import StartupsPage from '@/app/(frontend)/startups/page';
 
 describe('Startups Page', () => {
   it('renders the MISTic R&D hero title', () => {

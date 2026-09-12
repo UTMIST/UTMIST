@@ -30,7 +30,7 @@ describe('EigenAI Page', () => {
   });
 
   it('renders hero, intro, and skill-level sections', async () => {
-    const { default: EigenAIPage } = await import('@/app/eigenai/page');
+    const { default: EigenAIPage } = await import('@/app/(frontend)/eigenai/page');
     render(<EigenAIPage />);
     expect(screen.getByRole('heading', { name: 'EigenAI' })).toBeInTheDocument();
     expect(screen.getByText(/What is EigenAI\?/i)).toBeInTheDocument();
@@ -40,14 +40,14 @@ describe('EigenAI Page', () => {
   });
 
   it('renders the keynote, panel, and speaker people grids', async () => {
-    const { default: EigenAIPage } = await import('@/app/eigenai/page');
+    const { default: EigenAIPage } = await import('@/app/(frontend)/eigenai/page');
     render(<EigenAIPage />);
     const grids = screen.getAllByTestId('people-grid');
     expect(grids.length).toBeGreaterThan(0);
   });
 
   it('renders the Lambda and Workshops sections', async () => {
-    const { default: EigenAIPage } = await import('@/app/eigenai/page');
+    const { default: EigenAIPage } = await import('@/app/(frontend)/eigenai/page');
     render(<EigenAIPage />);
     expect(screen.getByTestId('lambda-section')).toBeInTheDocument();
     expect(screen.getByTestId('workshops')).toBeInTheDocument();
@@ -58,7 +58,7 @@ describe('EigenAI Page', () => {
     const previous = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
     delete process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-    const { default: EigenAIPage } = await import('@/app/eigenai/page');
+    const { default: EigenAIPage } = await import('@/app/(frontend)/eigenai/page');
     expect(() => render(<EigenAIPage />)).toThrow(
       /Google Maps API key is not defined/
     );

@@ -40,7 +40,7 @@ jest.mock('@/shared/ui/heroSection', () => ({
   default: ({ title }: { title: string }) => <div data-testid="hero">{title}</div>,
 }));
 
-import BlogPage from '@/app/blog/page';
+import BlogPage from '@/app/(frontend)/blog/page';
 
 describe('Blog Page', () => {
   beforeEach(() => {
