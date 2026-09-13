@@ -71,10 +71,12 @@ That last point is why `ready` survives while `blocked` did not: it describes a
 similar but is a much larger set, because it also includes everything that was
 never blocked in the first place.
 
-If the repo has a `PROJECTS_TOKEN` secret configured, the same transitions set
-the card's **Status** on the
-[project board](https://github.com/orgs/UTMIST/projects/12). Moving a card on
-past that is still a human step.
+The [project board](https://github.com/orgs/UTMIST/projects/12) uses **Status**
+only for progress: **Not Started → In Development → In Review → Done**.
+Update it as work progresses. Dependencies and the `ready` label never change
+Status: an issue can be in development and blocked at the same time.
+Use native **Blocked by** relationships and `is:blocked` filters to track
+dependencies. The readiness workflow needs no project credential.
 
 One quirk worth knowing: GitHub does not let a workflow trigger on a dependency
 being added or removed, so that one change is picked up by a sweep that runs

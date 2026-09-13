@@ -89,6 +89,14 @@ jobs:
       group: vercel-preview-${{ github.event.pull_request.number }}
       cancel-in-progress: true
 
+    # Pin the CLI to the production project in the UTMIST Infrastructure team.
+    # Without this, `vercel pull --yes` auto-links to whichever project named
+    # `client` sits in the token's default team, which since 2026-09-04 is an
+    # empty duplicate with no environment variables.
+    env:
+      VERCEL_ORG_ID: team_xAGWQZLeFUyvgLA8iOTNJFnu
+      VERCEL_PROJECT_ID: prj_L6wyTsPfqVyJGmheCUenmIutXtJz
+
     defaults:
       run:
         working-directory: ./client
@@ -161,6 +169,11 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
+
+    # Same pinning as the preview job; see the comment there.
+    env:
+      VERCEL_ORG_ID: team_xAGWQZLeFUyvgLA8iOTNJFnu
+      VERCEL_PROJECT_ID: prj_L6wyTsPfqVyJGmheCUenmIutXtJz
 
     defaults:
       run:
