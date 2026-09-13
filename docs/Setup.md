@@ -5,8 +5,8 @@ serves the site at `http://localhost:3000`, you are ready to pick up an issue �
 see [CONTRIBUTING.md](../CONTRIBUTING.md).
 
 The site is a single full-stack Next.js app living in `client/`. Server-side
-logic is in route handlers under `client/src/app/api/`. There is no separate
-backend service to run.
+logic is in route handlers under `client/src/app/(frontend)/api/` and the
+embedded Payload route group. There is no separate backend service to run.
 
 ## Prerequisites
 
@@ -65,7 +65,8 @@ cp env.example .env
 
 Then fill in the values. [`client/env.example`](../client/env.example) documents
 each one and marks which are required — the app will not boot without the
-Supabase pair, and `npm run build` fails without the Google Maps key.
+Supabase pair, Payload requires its secret and Postgres URI when `/cms` is
+used, and `npm run build` fails without the Google Maps key.
 
 **You will not be able to fill these in on your own.** Ask a web team lead for
 access to the shared credentials.
@@ -79,6 +80,10 @@ npm run dev
 ```
 
 The site is served at `http://localhost:3000`.
+
+The Payload editor is served by the same process at `http://localhost:3000/cms`.
+It creates its tables only in the configured Postgres `payload` schema. See
+[`docs/client/Payload.md`](client/Payload.md) before using it for the first time.
 
 ## Everyday commands
 
@@ -94,6 +99,8 @@ Run these from `client/`:
 | `npm run typecheck` | Generate Next route types, then typecheck |
 | `npm test` | Full Jest suite |
 | `npm run test:watch` | Jest, re-running on change |
+| `npm run payload:generate-types` | Refresh generated Payload document types |
+| `npm run payload:generate-importmap` | Refresh Payload admin component imports |
 
 Before pushing, run the three checks CI gates on:
 
@@ -123,6 +130,12 @@ editing it — Next only reads env files at startup.
 `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is unset. Only `/eigenai` breaks under
 `npm run dev`, but `npm run build` fails outright because the page is
 prerendered.
+
+**`Error: cannot connect to Postgres` when opening `/cms`**
+
+Check `PAYLOAD_DATABASE_URI`, including URL-encoding special characters in the
+password. The database role must be able to create and use objects in the
+dedicated `payload` schema. Do not use the production database for local work.
 
 **`tsc` reports errors for every image import**
 

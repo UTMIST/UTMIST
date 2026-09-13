@@ -155,7 +155,7 @@ const sharedBoundaryRule = {
 
 const appBarrelRule = {
   files: ["src/app/**"],
-  ignores: ["src/app/api/**"],
+  ignores: ["src/app/(frontend)/api/**", "src/app/(payload)/**"],
   rules: {
     "import/no-restricted-paths": [
       "error",

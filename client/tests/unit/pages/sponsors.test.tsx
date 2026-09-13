@@ -25,7 +25,7 @@ jest.mock('@/assets/sponsors.json', () => [
   { category: 'Silver', price: '$2000', perks: ['Mention in newsletter'] },
 ]);
 
-import SponsorsPage from '@/app/sponsors/page';
+import SponsorsPage from '@/app/(frontend)/sponsors/page';
 
 describe('Sponsors Page', () => {
   it('renders the Sponsor Us section', () => {

@@ -5,7 +5,7 @@ jest.mock('@/shared/lib', () => ({
   validatePostalCode: jest.fn(() => true),
 }));
 
-import ApplicationForm from '@/app/apply/page';
+import ApplicationForm from '@/app/(frontend)/apply/page';
 
 describe('Apply Page', () => {
   beforeEach(() => {
