@@ -3,10 +3,7 @@
 The frontend's `client/src/app/(frontend)/not-found.tsx` displays the UTMIST
 404 page when a frontend route calls `notFound()`.
 
-An unknown URL such as `/bleh` does not belong to either root route group.
-`client/src/app/global-not-found.tsx` handles these requests using Next.js's
-`experimental.globalNotFound` setting. It renders the same page inside the
-frontend root layout, which supplies global styles, navigation, and the
-required `<html>` and `<body>` elements. Keep both files: the group-level
-file handles missing resources within a route, and the global file handles
-unmatched URLs across the app, including after the Payload route group is added.
+The catch-all route at `client/src/app/(frontend)/[...unmatched]/page.tsx`
+calls `notFound()` for unknown URLs such as `/bleh`. Keeping unmatched URLs
+inside the frontend route group gives the 404 page the frontend metadata and
+layout, and preserves client-side navigation from its links.

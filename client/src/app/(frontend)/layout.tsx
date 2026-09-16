@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "../globals.css";
 import { Footer } from "@/shared/ui";
 import {
@@ -28,11 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <head>
-        <script
-          defer
+        <Script
           src="https://cloud.umami.is/script.js"
           data-website-id="b8823fc7-2a15-4942-af06-bf179b7fac1a"
-        ></script>
+        />
       </head>
       <body className="antialiased">
         <ThemeProvider
