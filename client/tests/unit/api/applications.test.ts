@@ -29,7 +29,7 @@ jest.mock('@/assets/applicants.json', () => [
   },
 ]);
 
-import { GET } from '@/app/api/applications/route';
+import { GET } from '@/app/(frontend)/api/applications/route';
 
 const request = (query = '') =>
   new NextRequest(`http://localhost:3000/api/applications${query}`);
