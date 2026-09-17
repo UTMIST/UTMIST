@@ -16,8 +16,8 @@ through the `proofs` collection without selecting a public render surface yet.
 | --- | --- |
 | `/cms` | Payload editor dashboard |
 | `/cms-api` | Payload REST API |
-| `/cms-graphql` | Reserved Payload GraphQL endpoint |
-| `/cms-graphql-playground` | Reserved Payload GraphQL playground |
+| `/cms-api/cms-graphql` | Payload GraphQL endpoint |
+| `/cms-graphql-playground` | Payload GraphQL playground |
 
 The existing recruitment dashboard remains at `/admin`. Payload uses its own
 `cms-users` authentication collection and does not reuse Supabase member
