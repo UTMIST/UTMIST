@@ -35,38 +35,6 @@
   gap: 1rem;
 }
 
-.primary-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0.5rem 1rem;
-  background: var(--gradient-action);
-  color: white;
-  border-radius: 25px;
-  font-weight: 500;
-  transition: opacity 0.2s ease-in-out;
-}
-
-.secondary-button {
-  padding: 0.5rem 1.5rem;
-  background: transparent;
-  color: var(--secondary);
-  border: 2px solid var(--secondary);
-  border-radius: 9999px;
-  font-weight: 500;
-  transition: all 0.2s ease-in-out;
-}
-
-.primary-button:hover {
-  opacity: 0.9;
-}
-
-.secondary-button:hover {
-  background: var(--secondary);
-  color: var(--primary);
-}
-
 @media (max-width: 768px) {
   .cta-container {
     flex-direction: column;
@@ -111,8 +79,7 @@
     width: 100%;
   }
 
-  .primary-button,
-  .secondary-button {
+  .cta-buttons > a {
     width: 70%;
     text-align: center;
   }

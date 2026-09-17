@@ -6,6 +6,7 @@ import Link from "next/link";
 import logo from "../../assets/logos/utmist-logo-small.svg";
 import { useState, useEffect, useRef } from "react";
 import { useUser } from "@/shared/lib/client";
+import { Button } from "./button";
 import { ThemeToggle } from "./theme-toggle";
 
 const programLinks = [
@@ -128,9 +129,11 @@ export default function Navbar() {
             {/*    </Link>*/}
             {/*</li>*/}
           <li>
-            <Link href={user ? "/profile" : "/auth"} className="nav-button">
-              {user ? "Profile" : "Login"}
-            </Link>
+            <Button asChild size="sm">
+              <Link href={user ? "/profile" : "/auth"}>
+                {user ? "Profile" : "Login"}
+              </Link>
+            </Button>
           </li>
         </ul>
       </nav>
@@ -216,13 +219,14 @@ export default function Navbar() {
                 )}
               </li>
               <li>
-                <Link
-                  href={user ? "/profile" : "/auth"}
-                  onClick={closeMobileMenu}
-                  className="nav-button"
-                >
-                  {user ? "Profile" : "Login"}
-                </Link>
+                <Button asChild size="sm">
+                  <Link
+                    href={user ? "/profile" : "/auth"}
+                    onClick={closeMobileMenu}
+                  >
+                    {user ? "Profile" : "Login"}
+                  </Link>
+                </Button>
               </li>
             </ul>
           </div>

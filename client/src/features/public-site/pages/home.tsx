@@ -9,7 +9,8 @@ import Events from "@/features/public-site/components/events";
 import ValueProps from "@/features/public-site/components/valueprops";
 import StartupsSection from "@/features/public-site/components/startupsSection";
 import FAQ from "@/features/public-site/components/faq";
-import Link from "next/link"; // Import Link from next/link
+import { Button } from "@/shared/ui";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -22,15 +23,12 @@ export default function Home() {
             University of Toronto Machine Intelligence Student Team
           </p>
           <div className="cta-buttons">
-            <Link href="/careers" className="primary-button">
-              Join Us
-            </Link>
-            <Link
-              href="mailto:utorontomist@gmail.com"
-              className="secondary-button"
-            >
-              Contact Us
-            </Link>
+            <Button asChild variant="default" size="lg">
+              <Link href="/careers">Join Us</Link>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <Link href="mailto:utorontomist@gmail.com">Contact Us</Link>
+            </Button>
           </div>
         </div>
         <div className="cta-logo">
