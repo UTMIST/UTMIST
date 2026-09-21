@@ -47,7 +47,7 @@ jest.mock('@/features/members/components/profile/AdminCard', () => ({
   default: () => <div data-testid="admin-card" />,
 }));
 
-import ProfilePage from '@/app/profile/page';
+import ProfilePage from '@/app/(frontend)/profile/page';
 
 describe('Profile Page', () => {
   beforeEach(() => {

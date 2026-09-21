@@ -24,7 +24,7 @@ jest.mock('@/shared/lib/client', () => ({
   },
 }));
 
-import AuthPage from '@/app/auth/page';
+import AuthPage from '@/app/(frontend)/auth/page';
 
 describe('Auth Page', () => {
   beforeEach(() => {
