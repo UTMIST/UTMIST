@@ -58,6 +58,26 @@ that table too: booking moves an application to `interview_scheduled`, while a
 candidate cancellation returns it to `in_review`. Scheduling is not a second
 workflow status.
 
+`interview_scheduled` stays in that table but is owned by `bookInterview`.
+`transitionApplication` rejects it with `validation`, because an application
+parked in the interview stage with no booking could never acquire one: the
+booking call would ask for a transition from `interview_scheduled` to itself.
+
+Accepting or rejecting an application releases any interview still ahead of
+it — the booking is cancelled and its slot returns to `available`. Both stages
+are terminal, so a booking left confirmed could never be cancelled afterwards
+(`cancelInterview` routes back through `in_review`, which neither stage
+allows) and its slot would stay reserved for nobody. A booking that has already
+started is left alone, as the record of an interview that happened.
+Rescheduling requires the application to still be in `interview_scheduled`.
+
+Availability is always filtered against the adapter's clock. A slot whose
+`startsAt` has passed is excluded from `listAvailability` and refused by
+booking and rescheduling with `conflict`. That check runs again at mutation
+time rather than trusting the earlier listing, because a candidate can leave
+the scheduler open until the slot they picked expires. A refused reschedule
+leaves the existing booking and both slot reservations untouched.
+
 Candidate UI receives `CandidateApplicationView`, which has no notes, stage
 actors, reviewer identities, or internal waitlist value. Reviewer UI receives
 `ReviewerApplicationView`, including attributed free-text notes and stage
@@ -111,6 +131,10 @@ attributed notes, open availability, and an existing booking. It supports
 candidate profile edits and submissions, reviewer filtering/detail/notes/stage
 transitions, and interviewer availability plus candidate booking,
 rescheduling, and cancellation.
+
+Its slot times are absolute dates rather than offsets from now, so tests and
+previews that need bookable availability should pin the clock through the
+`now` option instead of relying on the real one.
 
 The live candidate/posting adapter belongs to #378. Department-scoped reads,
 application writes, reviewer notes, stage controls, and scheduling persistence

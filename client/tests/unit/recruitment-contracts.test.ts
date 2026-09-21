@@ -2,6 +2,7 @@ import {
   ApplicationStage,
   CandidateDecision,
   CandidateStage,
+  InterviewBookingStatus,
   RecruitmentErrorCode,
   canTransitionApplicationStage,
   legacyStatusesToApplicationStage,
@@ -101,6 +102,12 @@ describe("fixture recruitment adapter", () => {
   const engineeringOpenSlotId = recruitmentId(
     "availability-slot",
     "slot-engineering-open",
+  );
+  const caseyApplicationId = recruitmentId("application", "application-casey");
+  const caseyBookingId = recruitmentId("booking", "booking-casey");
+  const caseyScheduledSlotId = recruitmentId(
+    "availability-slot",
+    "slot-scheduled",
   );
 
   it("returns a candidate-safe view for an internal waitlist", async () => {
@@ -220,5 +227,124 @@ describe("fixture recruitment adapter", () => {
         applicationId: engineeringApplicationId,
       }),
     ).rejects.toMatchObject({ code: RecruitmentErrorCode.Forbidden });
+  });
+
+  it("releases an upcoming interview when an application is rejected", async () => {
+    const adapter = createFixtureRecruitmentAdapter({
+      now: () => new Date("2026-09-16T12:00:00.000Z"),
+    });
+
+    await adapter.transitionApplication({
+      reviewerId: engineeringReviewerId,
+      applicationId: caseyApplicationId,
+      stage: ApplicationStage.Rejected,
+    });
+
+    const rejected = await adapter.getReviewerApplication({
+      reviewerId: engineeringReviewerId,
+      applicationId: caseyApplicationId,
+    });
+    expect(rejected.interview).toBeUndefined();
+
+    const slots = await adapter.listAvailability({
+      candidateId: aliceId,
+      applicationId: engineeringApplicationId,
+    });
+    expect(slots.map((slot) => slot.id)).toContain(caseyScheduledSlotId);
+
+    await expect(
+      adapter.rescheduleInterview({
+        candidateId: caseyId,
+        applicationId: caseyApplicationId,
+        bookingId: caseyBookingId,
+        slotId: engineeringOpenSlotId,
+      }),
+    ).rejects.toMatchObject({ code: RecruitmentErrorCode.Conflict });
+  });
+
+  it("reserves the interview_scheduled transition for booking operations", async () => {
+    const adapter = createFixtureRecruitmentAdapter({
+      now: () => new Date("2026-09-16T12:00:00.000Z"),
+    });
+    const before = await adapter.getReviewerApplication({
+      reviewerId: engineeringReviewerId,
+      applicationId: engineeringApplicationId,
+    });
+
+    await expect(
+      adapter.transitionApplication({
+        reviewerId: engineeringReviewerId,
+        applicationId: engineeringApplicationId,
+        stage: ApplicationStage.InterviewScheduled,
+      }),
+    ).rejects.toMatchObject({ code: RecruitmentErrorCode.Validation });
+
+    const after = await adapter.getReviewerApplication({
+      reviewerId: engineeringReviewerId,
+      applicationId: engineeringApplicationId,
+    });
+    expect(after.application.stage).toBe(ApplicationStage.InReview);
+    expect(after.stageHistory).toHaveLength(before.stageHistory.length);
+
+    const booking = await adapter.bookInterview({
+      candidateId: aliceId,
+      applicationId: engineeringApplicationId,
+      slotId: engineeringOpenSlotId,
+    });
+    expect(booking.status).toBe(InterviewBookingStatus.Confirmed);
+
+    const scheduled = await adapter.getReviewerApplication({
+      reviewerId: engineeringReviewerId,
+      applicationId: engineeringApplicationId,
+    });
+    expect(scheduled.application.stage).toBe(
+      ApplicationStage.InterviewScheduled,
+    );
+  });
+
+  it("never lists or books an interview slot whose start time has passed", async () => {
+    const adapter = createFixtureRecruitmentAdapter({
+      now: () => new Date("2026-10-10T12:00:00.000Z"),
+    });
+
+    await expect(
+      adapter.listAvailability({
+        candidateId: aliceId,
+        applicationId: engineeringApplicationId,
+      }),
+    ).resolves.toHaveLength(0);
+
+    await expect(
+      adapter.bookInterview({
+        candidateId: aliceId,
+        applicationId: engineeringApplicationId,
+        slotId: engineeringOpenSlotId,
+      }),
+    ).rejects.toMatchObject({ code: RecruitmentErrorCode.Conflict });
+  });
+
+  it("keeps the current booking when a reschedule target has expired", async () => {
+    const adapter = createFixtureRecruitmentAdapter({
+      now: () => new Date("2026-10-10T12:00:00.000Z"),
+    });
+
+    await expect(
+      adapter.rescheduleInterview({
+        candidateId: caseyId,
+        applicationId: caseyApplicationId,
+        bookingId: caseyBookingId,
+        slotId: engineeringOpenSlotId,
+      }),
+    ).rejects.toMatchObject({ code: RecruitmentErrorCode.Conflict });
+
+    const unchanged = await adapter.getReviewerApplication({
+      reviewerId: engineeringReviewerId,
+      applicationId: caseyApplicationId,
+    });
+    expect(unchanged.application.stage).toBe(
+      ApplicationStage.InterviewScheduled,
+    );
+    expect(unchanged.interview?.id).toBe(caseyBookingId);
+    expect(unchanged.interview?.slotId).toBe(caseyScheduledSlotId);
   });
 });

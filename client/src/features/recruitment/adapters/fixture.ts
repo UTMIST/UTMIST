@@ -23,6 +23,7 @@ import {
   type CandidateProfile,
   type CandidateProfileUpdate,
   type InterviewBooking,
+  type IsoDateTime,
   type Posting,
   type PostingId,
   type PublishAvailabilityInput,
@@ -251,7 +252,21 @@ export class FixtureRecruitmentAdapter implements RecruitmentAdapter {
   ): Promise<ReviewerApplicationView> {
     const application = this.requireApplication(input.applicationId);
     this.assertReviewerAccess(input.reviewerId, application);
+
+    // interview_scheduled belongs to bookInterview. Setting it here would leave
+    // an application in the interview stage with no booking, and the candidate
+    // could then never book one: bookInterview would ask for a transition from
+    // interview_scheduled to itself, which the table rejects.
+    if (input.stage === ApplicationStage.InterviewScheduled) {
+      throw new RecruitmentAdapterError(
+        RecruitmentErrorCode.Validation,
+        "interview_scheduled is set by booking an interview, not by a reviewer",
+        { field: "stage" },
+      );
+    }
+
     this.moveApplication(application, input.stage, input.reviewerId);
+    this.releaseUpcomingInterview(application);
     return this.reviewerView(application);
   }
 
@@ -264,7 +279,8 @@ export class FixtureRecruitmentAdapter implements RecruitmentAdapter {
       this.availability.filter(
         (slot) =>
           slot.departmentId === posting.department.id &&
-          slot.status === AvailabilitySlotStatus.Available,
+          slot.status === AvailabilitySlotStatus.Available &&
+          !this.hasStarted(slot),
       ),
     );
   }
@@ -352,6 +368,13 @@ export class FixtureRecruitmentAdapter implements RecruitmentAdapter {
     input: RescheduleInterviewInput,
   ): Promise<CandidateInterviewBooking> {
     const application = this.assertCandidateApplication(input);
+    if (application.stage !== ApplicationStage.InterviewScheduled) {
+      throw new RecruitmentAdapterError(
+        RecruitmentErrorCode.Conflict,
+        `Cannot reschedule an interview for an application in ${application.stage}`,
+      );
+    }
+
     const posting = this.requirePosting(application.postingId);
     const booking = this.requireCandidateBooking(
       input.bookingId,
@@ -490,6 +513,40 @@ export class FixtureRecruitmentAdapter implements RecruitmentAdapter {
     this.stageHistory[application.id] = history;
   }
 
+  /**
+   * Accepted and rejected are terminal, so a confirmed future booking left
+   * behind can never be cancelled: cancelInterview routes back through
+   * in_review, which neither stage allows. Release the slot here instead of
+   * stranding it. A booking that has already started stays as the record of an
+   * interview that happened.
+   */
+  private releaseUpcomingInterview(application: ApplicationRecord): void {
+    if (
+      application.stage !== ApplicationStage.Accepted &&
+      application.stage !== ApplicationStage.Rejected
+    ) {
+      return;
+    }
+
+    for (const booking of this.bookings) {
+      if (
+        booking.applicationId !== application.id ||
+        booking.status !== InterviewBookingStatus.Confirmed ||
+        this.hasStarted(booking)
+      ) {
+        continue;
+      }
+
+      booking.status = InterviewBookingStatus.Cancelled;
+      this.requireSlot(booking.slotId).status =
+        AvailabilitySlotStatus.Available;
+    }
+  }
+
+  private hasStarted(window: { startsAt: IsoDateTime }): boolean {
+    return Date.parse(window.startsAt) <= this.now().getTime();
+  }
+
   private requireCandidate(candidateId: CandidateId): CandidateProfile {
     const candidate = this.candidates.find((item) => item.id === candidateId);
     if (!candidate) {
@@ -537,9 +594,12 @@ export class FixtureRecruitmentAdapter implements RecruitmentAdapter {
     departmentId: AvailabilitySlot["departmentId"],
   ): AvailabilitySlot {
     const slot = this.requireSlot(slotId);
+    // Re-checked on mutation rather than trusting the earlier listing: a
+    // candidate can leave the scheduler open until the chosen slot expires.
     if (
       slot.departmentId !== departmentId ||
-      slot.status !== AvailabilitySlotStatus.Available
+      slot.status !== AvailabilitySlotStatus.Available ||
+      this.hasStarted(slot)
     ) {
       throw new RecruitmentAdapterError(
         RecruitmentErrorCode.Conflict,
