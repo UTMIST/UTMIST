@@ -139,24 +139,6 @@
   gap: 0.75rem;
 }
 
-.nav-button {
-  font-family: var(--system-font);
-  font-weight: 200;
-  transition:
-    opacity 0.2s ease-in-out,
-    transform 0.2s ease-in-out;
-  background: var(--gradient-action);
-  color: var(--primary);
-  border-radius: 10px;
-  padding: 0.2rem 1.4rem;
-  cursor: pointer;
-}
-
-.nav-button:hover {
-  opacity: 0.9;
-  transform: scale(1.05);
-}
-
 .nav-links {
   display: flex;
   gap: 2.5rem;
@@ -178,11 +160,6 @@
   .navbar-container.desktop-navbar {
     padding: 0.6rem 1.2rem;
     margin: 2.5rem 1.5rem;
-  }
-
-  .nav-button {
-    padding: 0.2rem 1rem;
-    font-size: 0.9rem;
   }
 
   .navbar-logo-text {
