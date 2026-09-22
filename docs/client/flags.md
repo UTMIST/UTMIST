@@ -103,26 +103,58 @@ export default async function Page() {
 ## How real adapters replace fixtures
 
 The fixtures satisfy the same interfaces (`FlagAdapter`, `BetaPreferenceStore`)
-as the real adapters, so going live is a change to **one seam** — the two
-bindings at the top of `flags/server.ts`:
+as the real adapters, so going live is a change to **one seam** in
+`flags/server.ts`. The flag adapter is **selected by environment**; the beta
+store is still the fixture pending #289:
 
 ```ts
-const adapter: FlagAdapter = fixtureFlagAdapter;      // ← Vercel Flags adapter (#287/#447)
+// SDK key selected per environment: FLAGS_KEY_PREVIEW on preview,
+// FLAGS_KEY_DEV on development/local, and none in production (stays off).
+const sdkKey = selectSdkKey();
+const adapter = sdkKey
+  ? createVercelFlagAdapter(sdkKey)  // ← Vercel Flags (landed in #447)
+  : NODE_ENV === "production"
+    ? offAdapter                     // keyless prod: all off, never fixtures
+    : fixtureFlagAdapter;            // dev / CI without a key
 const betaStore: BetaPreferenceStore = fixtureBetaStore; // ← Supabase-backed store (#289)
 ```
 
-To replace a fixture:
+Status of each seam:
 
-1. **Flags** — [#287](https://github.com/UTMIST/UTMIST/issues/287) /
-   [#447](https://github.com/UTMIST/UTMIST/issues/447) implement `FlagAdapter`
-   over Vercel Flags (`flags` + `@flags-sdk/vercel`, server-only, OIDC auth) and
-   repoint `adapter`. The failure-off wrapper stays, so the SDK's cached/embedded
-   fallback cannot silently defeat default-off.
-2. **Beta preferences** —
+1. **Flags — done (#447).** `flags/vercel.ts` exports
+   `createVercelFlagAdapter(sdkKey)`, a `FlagAdapter` over Vercel Flags (`flags`
+   + `@flags-sdk/vercel`, server-only). Auth is an explicit **per-environment SDK
+   key**, not OIDC: `flags/server.ts` selects `FLAGS_KEY_PREVIEW` on preview,
+   `FLAGS_KEY_DEV` on development/local, and no key in production (so it stays
+   off), then passes it to `createVercelAdapter(sdkKey)` — no `vercel env pull`
+   or OIDC token is needed. Key selection lives in `server.ts` (SDK-free) so
+   `vercel.ts` is only **lazily imported** when a key is present, keeping dev/CI
+   without one off the SDK (and Jest off its ESM-only `jose` dependency). The
+   `Eigen-AI-Redesign` flag is declared there with `defaultValue: false`; the
+   failure-off wrapper stays on top. To resist the provider's
+   **embedded/cached fallback** silently re-enabling a flag during an outage,
+   set `VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING=1` so a runtime failure returns
+   the hardcoded `false` rather than the build-time snapshot.
+2. **Beta preferences — pending (#289).**
    [#289](https://github.com/UTMIST/UTMIST/issues/289) implements
    `BetaPreferenceStore` over Supabase with row-level policies enforcing "a user
    can only edit their own preference" (the `denied` case) and repoints
    `betaStore`.
+
+### EigenAI consumer (#447) & rollout
+
+`/eigenai` is the first live consumer. The route shell re-exports a server
+selector (`features/public-site/pages/eigenaiFlagged.tsx`, `dynamic =
+"force-dynamic"`) that evaluates `Eigen-AI-Redesign` and renders the existing
+page or the redesign — off/missing/error keeps the existing page.
+
+**Local/preview opt-in is dashboard-driven, not code:** turn `Eigen-AI-Redesign`
+**ON in the Development and Preview environments** and keep **Production OFF**.
+Locally, set `FLAGS_KEY_DEV` (the Development-environment SDK key) in `.env` so
+the app evaluates against the Development config; a toggle takes effect on the
+next request without redeploy (the route is dynamic and the SDK streams/polls
+updates). Production has no key wired, so no public production enablement happens
+as part of this plumbing.
 
 Because the exported function signatures don't change, consumers
 ([#287](https://github.com/UTMIST/UTMIST/issues/287),
@@ -146,8 +178,17 @@ Retire a flag and its obsolete implementation after rollout, per
 - [`tests/unit/flags/beta-preferences.test.ts`](../../client/tests/unit/flags/beta-preferences.test.ts)
   — preference reads (`boolean | null`) and typed write results, including the
   `denied` and `unauthenticated` cases.
+- [`tests/unit/flags/vercel-adapter.test.ts`](../../client/tests/unit/flags/vercel-adapter.test.ts)
+  — the Vercel adapter's name→flag mapping (unknown → `undefined`), with the SDK
+  mocked so no key/network is touched.
+- [`tests/unit/pages/eigenai-selector.test.tsx`](../../client/tests/unit/pages/eigenai-selector.test.tsx)
+  — the `/eigenai` selector picks existing vs. redesign for off/on and stays on
+  the existing page for default-off.
 
 These double as the runnable "examples can be built without the provider" proof.
 Import the flags modules directly (not the `@/shared/lib/server` barrel, which
 transitively pulls in `@supabase/ssr` and `googleapis` that Jest cannot parse —
 see [`tests/unit/auth-guards.test.ts`](../../client/tests/unit/auth-guards.test.ts)).
+The real Vercel adapter is only reached through the lazy import in
+`flags/server.ts`, so tests that touch `flags/server` never load the SDK; a test
+that imports `flags/vercel` directly must mock `flags/next` + `@flags-sdk/vercel`.

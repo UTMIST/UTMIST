@@ -3,10 +3,11 @@
 // This module is server-only and is re-exported through `@/shared/lib/server`.
 // Browser code must import only the types from `@/shared/lib`, never this file.
 //
-// It currently binds the deterministic fixtures. When the real adapters land,
-// the ONLY change here is the two bindings below:
-//   - #287/#447 replace `adapter` with the Vercel Flags adapter.
-//   - #289 replaces `betaStore` with the Supabase-backed store.
+// The flag adapter is selected by environment (#447): the real Vercel Flags
+// adapter whenever a per-environment SDK key is configured, the deterministic
+// fixtures in local dev / CI without one, and a hard "off" adapter in production
+// without a key (so the fixtures can never leak into production). #289 still
+// replaces `betaStore` with the Supabase-backed store the same way.
 // The failure-off wrapper and the exported function signatures stay the same,
 // so no consuming code changes. See docs/client/flags.md.
 
@@ -19,7 +20,37 @@ import type {
 } from "./types";
 
 // --- Adapter bindings (the swap seam) ---------------------------------------
-const adapter: FlagAdapter = fixtureFlagAdapter;
+/** Every flag off — the safe binding for production with no Vercel context. */
+const offAdapter: FlagAdapter = { evaluate: async () => undefined };
+
+// Select the Vercel Flags SDK key for the current environment. Auth is an
+// explicit per-env key, not OIDC: preview uses `FLAGS_KEY_PREVIEW`, everything
+// else (development / local) uses `FLAGS_KEY_DEV`, and production is deliberately
+// keyless so the redesign stays off there. Kept SDK-free (only `process.env`) so
+// this module never imports `./vercel` eagerly — see the lazy import below.
+function selectSdkKey(): string | undefined {
+  if (process.env.VERCEL_ENV === "production") return undefined;
+  if (process.env.VERCEL_ENV === "preview") return process.env.FLAGS_KEY_PREVIEW;
+  return process.env.FLAGS_KEY_DEV;
+}
+
+// Resolve the flag adapter once. The Vercel adapter (and its `flags/next` +
+// `@flags-sdk/vercel` SDK) is **lazily imported** only when an SDK key is
+// present, so dev/CI without one never loads the SDK — that keeps Jest off the
+// SDK's ESM-only transitive deps (e.g. `jose`) with no test-config changes.
+let adapterPromise: Promise<FlagAdapter> | undefined;
+function getFlagAdapter(): Promise<FlagAdapter> {
+  if (!adapterPromise) {
+    const sdkKey = selectSdkKey();
+    adapterPromise = sdkKey
+      ? import("./vercel").then((m) => m.createVercelFlagAdapter(sdkKey))
+      : Promise.resolve(
+          process.env.NODE_ENV === "production" ? offAdapter : fixtureFlagAdapter,
+        );
+  }
+  return adapterPromise;
+}
+
 const betaStore: BetaPreferenceStore = fixtureBetaStore;
 // ----------------------------------------------------------------------------
 
@@ -39,6 +70,7 @@ export async function evaluateFlag(
   ctx: EvaluationContext = ANONYMOUS,
 ): Promise<boolean> {
   try {
+    const adapter = await getFlagAdapter();
     return (await adapter.evaluate(name, ctx)) ?? false;
   } catch {
     return false;
