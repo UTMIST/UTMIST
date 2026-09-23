@@ -7,7 +7,7 @@ in for the real provider until it lands.
 This is the F3.8 (#372) deliverable under epic
 [F3](https://github.com/UTMIST/UTMIST/issues/271). The provider decision and the
 integration contract are [#286](https://github.com/UTMIST/UTMIST/issues/286):
-**Vercel Flags** (`flags` + `@flags-sdk/vercel`) for flag storage, **Supabase**
+**Vercel Flags** (`@vercel/flags-core`) for flag storage, **Supabase**
 for member identity and preferences.
 
 Everything here works with **no provider** — the fixtures are in-memory and
@@ -43,6 +43,8 @@ multivalue flags. Evaluation defaults **off** (per #286):
 - an unknown flag name → `false`;
 - a missing / failed configuration → `false`;
 - an adapter that throws → `false` (the wrapper in `server.ts` catches it);
+- a stale provider read (cached definitions served while the provider is
+  disconnected) → `false` (enforced by the Vercel adapter);
 - a missing context is treated as an unknown (`public`) user, so member-only
   flags stay off.
 
@@ -122,19 +124,27 @@ const betaStore: BetaPreferenceStore = fixtureBetaStore; // ← Supabase-backed 
 Status of each seam:
 
 1. **Flags — done (#447).** `flags/vercel.ts` exports
-   `createVercelFlagAdapter(sdkKey)`, a `FlagAdapter` over Vercel Flags (`flags`
-   + `@flags-sdk/vercel`, server-only). Auth is an explicit **per-environment SDK
-   key**, not OIDC: `flags/server.ts` selects `FLAGS_KEY_PREVIEW` on preview,
-   `FLAGS_KEY_DEV` on development/local, and no key in production (so it stays
-   off), then passes it to `createVercelAdapter(sdkKey)` — no `vercel env pull`
-   or OIDC token is needed. Key selection lives in `server.ts` (SDK-free) so
-   `vercel.ts` is only **lazily imported** when a key is present, keeping dev/CI
-   without one off the SDK (and Jest off its ESM-only `jose` dependency). The
-   `Eigen-AI-Redesign` flag is declared there with `defaultValue: false`; the
-   failure-off wrapper stays on top. To resist the provider's
-   **embedded/cached fallback** silently re-enabling a flag during an outage,
-   set `VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING=1` so a runtime failure returns
-   the hardcoded `false` rather than the build-time snapshot.
+   `createVercelFlagAdapter(sdkKey)`, a `FlagAdapter` over Vercel Flags
+   (`@vercel/flags-core`'s `FlagsClient`, server-only). Auth is an explicit
+   **per-environment SDK key**, not OIDC: `flags/server.ts` selects
+   `FLAGS_KEY_PREVIEW` on preview, `FLAGS_KEY_DEV` on development/local, and no
+   key in production (so it stays off), then passes it to `createClient(sdkKey)`
+   — no `vercel env pull` or OIDC token is needed. Key selection lives in
+   `server.ts` (SDK-free) so `vercel.ts` is only **lazily imported** when a key
+   is present, keeping dev/CI without one off the SDK (and Jest off its ESM-only
+   dependencies). The `Eigen-AI-Redesign` flag is declared there and evaluated
+   with a `false` default; the failure-off wrapper stays on top.
+
+   The adapter calls the client directly rather than through `flags/next` +
+   `@flags-sdk/vercel` because those return only the value and drop the
+   evaluation metrics. Once an instance has cached definitions, the client
+   keeps serving them after the provider stream disconnects, tagged
+   `cacheStatus: "STALE"`, instead of failing. The adapter treats a `STALE` (or
+   errored) evaluation as `false`, so a warmed instance can't keep a flag on
+   through an outage, and the flag comes back on once the stream reconnects.
+   Separately, set `VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING=1` so no
+   build-time snapshot is bundled as a fallback; that setting does not affect
+   the runtime cache.
 2. **Beta preferences — pending (#289).**
    [#289](https://github.com/UTMIST/UTMIST/issues/289) implements
    `BetaPreferenceStore` over Supabase with row-level policies enforcing "a user
@@ -179,8 +189,22 @@ Retire a flag and its obsolete implementation after rollout, per
   — preference reads (`boolean | null`) and typed write results, including the
   `denied` and `unauthenticated` cases.
 - [`tests/unit/flags/vercel-adapter.test.ts`](../../client/tests/unit/flags/vercel-adapter.test.ts)
-  — the Vercel adapter's name→flag mapping (unknown → `undefined`), with the SDK
-  mocked so no key/network is touched.
+  — the Vercel adapter's name→flag mapping (unknown → `undefined`) and
+  failure-off for errors and stale reads, including a warmed enabled definition
+  going off after a disconnect and back on after reconnect, with
+  `@vercel/flags-core` mocked so no key/network is touched.
+- [`tests/unit/flags/flags-env-selection.test.ts`](../../client/tests/unit/flags/flags-env-selection.test.ts)
+  — which adapter `evaluateFlag` binds per environment (preview key, dev key,
+  production always off, keyless → fixtures), plus the edges: a preview deploy
+  without a preview key stays off (no dev-key or fixture fallback), the adapter
+  is built once and reads the key once, and a failed adapter build keeps every
+  flag off for the instance lifetime.
+- [`tests/unit/flags/vercel-adapter-sdk.test.ts`](../../client/tests/unit/flags/vercel-adapter-sdk.test.ts)
+  — the Vercel adapter against the **real** `@vercel/flags-core`, offline: a
+  local datafile and a stub `fetch` are injected, so no key or network is used.
+  Checks the assumptions the mocked test makes (the real `FLAG_NOT_FOUND` shape,
+  runtime reads without a live stream tagged `STALE`, environment `reuse`,
+  non-boolean variants) so an SDK bump that breaks failure-off fails here.
 - [`tests/unit/pages/eigenai-selector.test.tsx`](../../client/tests/unit/pages/eigenai-selector.test.tsx)
   — the `/eigenai` selector picks existing vs. redesign for off/on and stays on
   the existing page for default-off.
@@ -191,4 +215,6 @@ transitively pulls in `@supabase/ssr` and `googleapis` that Jest cannot parse �
 see [`tests/unit/auth-guards.test.ts`](../../client/tests/unit/auth-guards.test.ts)).
 The real Vercel adapter is only reached through the lazy import in
 `flags/server.ts`, so tests that touch `flags/server` never load the SDK; a test
-that imports `flags/vercel` directly must mock `flags/next` + `@flags-sdk/vercel`.
+that imports `flags/vercel` directly must either mock `@vercel/flags-core` or,
+like `vercel-adapter-sdk.test.ts`, run under `@jest-environment node` and wrap
+`createClient` to inject a datafile and a stub `fetch`.

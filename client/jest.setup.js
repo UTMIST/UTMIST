@@ -33,6 +33,13 @@ jest.mock('next/image', () => ({
 process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://test.supabase.co'
 process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key'
 
+// Keep flag evaluation hermetic: strip any real Vercel Flags SDK key that a
+// developer's `.env` (loaded by next/jest) might carry, so the server module
+// always selects the deterministic fixtures instead of the live adapter.
+// The real-adapter test passes its own key explicitly and mocks the SDK.
+delete process.env.FLAGS_KEY_DEV
+delete process.env.FLAGS_KEY_PREVIEW
+
 // Global test utilities
 global.fetch = jest.fn()
 

@@ -34,10 +34,10 @@ function selectSdkKey(): string | undefined {
   return process.env.FLAGS_KEY_DEV;
 }
 
-// Resolve the flag adapter once. The Vercel adapter (and its `flags/next` +
-// `@flags-sdk/vercel` SDK) is **lazily imported** only when an SDK key is
+// Resolve the flag adapter once. The Vercel adapter (and its
+// `@vercel/flags-core` SDK) is **lazily imported** only when an SDK key is
 // present, so dev/CI without one never loads the SDK — that keeps Jest off the
-// SDK's ESM-only transitive deps (e.g. `jose`) with no test-config changes.
+// SDK's ESM-only dependencies with no test-config changes.
 let adapterPromise: Promise<FlagAdapter> | undefined;
 function getFlagAdapter(): Promise<FlagAdapter> {
   if (!adapterPromise) {
@@ -63,7 +63,9 @@ const ANONYMOUS: EvaluationContext = { cohort: "public" };
  * Per the #286 contract, this returns `false` for a missing flag, missing
  * configuration, or any evaluation failure, and treats a missing context as an
  * unknown (`public`) user so member-only flags stay off. Centralising this
- * here means every adapter — fixture or real — inherits the guarantee.
+ * here means every adapter — fixture or real — inherits the guarantee. A stale
+ * provider read (cached definitions served after a disconnect) resolves rather
+ * than throws, so the Vercel adapter turns that into `false` itself.
  */
 export async function evaluateFlag(
   name: string,
