@@ -106,7 +106,9 @@ export class FixtureRecruitmentAdapter implements RecruitmentAdapter {
 
   async listOpenPostings(): Promise<readonly Posting[]> {
     return clone(
-      this.postings.filter((posting) => posting.status === PostingStatus.Open),
+      this.postings.filter(
+        (posting) => !this.postingUnavailableReason(posting),
+      ),
     );
   }
 
@@ -120,10 +122,13 @@ export class FixtureRecruitmentAdapter implements RecruitmentAdapter {
     this.requireCandidate(input.candidateId);
     const posting = this.requirePosting(input.postingId);
 
-    if (posting.status !== PostingStatus.Open) {
+    // Re-checked here rather than trusting the listing the candidate saw: a
+    // posting can close while its application form is still open.
+    const unavailable = this.postingUnavailableReason(posting);
+    if (unavailable) {
       throw new RecruitmentAdapterError(
         RecruitmentErrorCode.Unavailable,
-        "This posting is not accepting applications",
+        unavailable,
       );
     }
 
@@ -545,6 +550,29 @@ export class FixtureRecruitmentAdapter implements RecruitmentAdapter {
 
   private hasStarted(window: { startsAt: IsoDateTime }): boolean {
     return Date.parse(window.startsAt) <= this.now().getTime();
+  }
+
+  /**
+   * Why this posting cannot take an application right now, or undefined when
+   * it can. Listing and submission both ask this one question, so a posting is
+   * never advertised on terms the submission path would refuse. `status` alone
+   * is not enough: an Open posting is still shut outside its own window.
+   * Closing is exclusive, so the closing instant itself no longer accepts.
+   */
+  private postingUnavailableReason(posting: Posting): string | undefined {
+    if (posting.status !== PostingStatus.Open) {
+      return "This posting is not accepting applications";
+    }
+
+    const now = this.now().getTime();
+    if (now < Date.parse(posting.opensAt)) {
+      return "This posting has not opened for applications yet";
+    }
+    if (now >= Date.parse(posting.closesAt)) {
+      return "This posting has closed for applications";
+    }
+
+    return undefined;
   }
 
   private requireCandidate(candidateId: CandidateId): CandidateProfile {

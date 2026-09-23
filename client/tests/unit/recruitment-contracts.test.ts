@@ -347,4 +347,66 @@ describe("fixture recruitment adapter", () => {
     expect(unchanged.interview?.id).toBe(caseyBookingId);
     expect(unchanged.interview?.slotId).toBe(caseyScheduledSlotId);
   });
+
+  it("does not list or accept an application before the posting opens", async () => {
+    const adapter = createFixtureRecruitmentAdapter({
+      now: () => new Date("2026-08-01T12:00:00.000Z"),
+    });
+
+    await expect(adapter.listOpenPostings()).resolves.toHaveLength(0);
+    await expect(
+      adapter.submitApplication({
+        candidateId: aliceId,
+        postingId: academicsPostingId,
+        answers: [
+          { questionId: academicsQuestionId, answer: "Applying early." },
+        ],
+      }),
+    ).rejects.toMatchObject({ code: RecruitmentErrorCode.Unavailable });
+  });
+
+  it.each([
+    ["at the closing instant", "2027-01-15T04:59:59.000Z"],
+    ["after closing", "2027-02-01T12:00:00.000Z"],
+  ])(
+    "does not list or accept an application %s",
+    async (_label, instant) => {
+      const adapter = createFixtureRecruitmentAdapter({
+        now: () => new Date(instant),
+      });
+
+      await expect(adapter.listOpenPostings()).resolves.toHaveLength(0);
+      await expect(
+        adapter.submitApplication({
+          candidateId: aliceId,
+          postingId: academicsPostingId,
+          answers: [
+            { questionId: academicsQuestionId, answer: "Applying late." },
+          ],
+        }),
+      ).rejects.toMatchObject({ code: RecruitmentErrorCode.Unavailable });
+    },
+  );
+
+  it("rechecks the window when a posting closes between listing and submission", async () => {
+    let clock = new Date("2026-09-16T12:00:00.000Z");
+    const adapter = createFixtureRecruitmentAdapter({ now: () => clock });
+
+    const listed = await adapter.listOpenPostings();
+    expect(listed.map((posting) => posting.id)).toContain(academicsPostingId);
+
+    clock = new Date("2027-02-01T12:00:00.000Z");
+    await expect(
+      adapter.submitApplication({
+        candidateId: aliceId,
+        postingId: academicsPostingId,
+        answers: [
+          {
+            questionId: academicsQuestionId,
+            answer: "Left the form open past the deadline.",
+          },
+        ],
+      }),
+    ).rejects.toMatchObject({ code: RecruitmentErrorCode.Unavailable });
+  });
 });

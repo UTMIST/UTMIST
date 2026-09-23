@@ -78,6 +78,13 @@ time rather than trusting the earlier listing, because a candidate can leave
 the scheduler open until the slot they picked expires. A refused reschedule
 leaves the existing booking and both slot reservations untouched.
 
+Postings follow the same rule. `status` alone does not make a posting open:
+`listOpenPostings` also requires the clock to fall inside `opensAt`-`closesAt`,
+and `submitApplication` re-checks that window so a posting that closes while a
+candidate is still filling in the form cannot still take the submission.
+Opening is inclusive and closing is exclusive, so the closing instant itself
+already refuses. Both refusals carry `unavailable`.
+
 Candidate UI receives `CandidateApplicationView`, which has no notes, stage
 actors, reviewer identities, or internal waitlist value. Reviewer UI receives
 `ReviewerApplicationView`, including attributed free-text notes and stage
@@ -132,9 +139,10 @@ candidate profile edits and submissions, reviewer filtering/detail/notes/stage
 transitions, and interviewer availability plus candidate booking,
 rescheduling, and cancellation.
 
-Its slot times are absolute dates rather than offsets from now, so tests and
-previews that need bookable availability should pin the clock through the
-`now` option instead of relying on the real one.
+Its slot and posting times are absolute dates rather than offsets from now --
+the seeded postings close on 2027-01-15 -- so tests and previews that need an
+open posting or bookable availability should pin the clock through the `now`
+option instead of relying on the real one.
 
 The live candidate/posting adapter belongs to #378. Department-scoped reads,
 application writes, reviewer notes, stage controls, and scheduling persistence
