@@ -1,8 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 
 // The selector is a server component. Mock the server barrel so no Supabase /
 // Vercel Flags code loads, and stub the existing page (heavy: styles, images,
-// and a Google Maps env check). The redesign stub is light, so it renders for
+// and a Google Maps env check). The redesign renders for
 // real — that also covers its scoped `.eigenai-redesign` wrapper.
 const mockEvaluateFlag = jest.fn();
 const mockGetCurrentUser = jest.fn();
@@ -53,6 +53,19 @@ describe('EigenAI flag selector', () => {
     const redesign = screen.getByTestId('eigenai-redesign');
     expect(redesign).toBeInTheDocument();
     expect(redesign).toHaveClass('eigenai-redesign');
+    const navigation = screen.getByRole('navigation', { name: 'EigenAI' });
+    expect(navigation).toBeInTheDocument();
+    expect(within(navigation).getByRole('link', { name: 'About' })).toHaveAttribute('href', '/#about-us');
+    expect(within(navigation).getByRole('link', { name: 'Projects' })).toHaveAttribute('href', '/projects');
+    expect(within(navigation).getByRole('link', { name: 'Event' })).toHaveAttribute('href', '/events');
+    expect(within(navigation).getByRole('link', { name: 'Sponsors' })).toHaveAttribute('href', '/sponsors');
+    expect(within(navigation).getByRole('link', { name: 'Login' })).toHaveAttribute('href', '/auth');
+    expect(screen.getByRole('contentinfo')).toBeInTheDocument();
+    expect(screen.getByText('What is eigenai?')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Speakers' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Jensen Huang' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Workshops' })).toBeInTheDocument();
+    expect(screen.getAllByText('Building Applications with the Claude API')).toHaveLength(3);
     expect(screen.queryByTestId('eigenai-existing')).not.toBeInTheDocument();
   });
 

@@ -10,7 +10,7 @@ there is no flash of the wrong page and the choice is never frozen at build.
   selector's `default` and its `dynamic`.
 - Selector (server): `client/src/features/public-site/pages/eigenaiFlagged.tsx`.
 - Existing page (client): `client/src/features/public-site/pages/eigenai.tsx`.
-- Redesign stub (client): `client/src/features/public-site/pages/eigenaiRedesign.tsx`.
+- Redesign page: `client/src/features/public-site/pages/eigenaiRedesign.tsx`.
 
 ## How the selection works
 
@@ -38,16 +38,31 @@ and the embedded-fallback mitigation.
 The flag is **off in production** until the redesign launches (#444). To preview
 the redesign, turn `Eigen-AI-Redesign` **ON in the Development / Preview**
 environment in the Vercel dashboard; a toggle takes effect on the next request
-without a redeploy. The redesign component is currently a **stub** (scoped to the
-`.eigenai-redesign` wrapper); the approved UI and content are composed in the
-integration task (#444/#445/#446).
+without a redeploy. The redesign is scoped to the `.eigenai-redesign` wrapper
+and uses responsive metric, speaker, keynote, workshop, and event-lockup
+components. It reuses the existing EigenAI content, speaker portraits, event
+photography, UTMIST branding, social assets, and shared button primitive.
+The redesign uses locally bundled copies of the Figma type families (DM Serif
+Display, DM Sans, and Instrument Sans) and keeps its cyan, white, and lavender
+text gradients and glow treatments scoped to that page.
+When the redesign is present, page-scoped `:has()` selectors suppress the
+shared site navbar, footer, and floating theme control. The redesign supplies
+its own responsive navigation and footer inside the continuous orbital
+background, using the same liquid-glass surface treatment as the event UI.
+Until the final conference lineup is approved, the redesign intentionally uses
+the placeholder speaker names, roles, and workshop copy shown in Figma. Those
+cards reuse existing repository portraits; the canonical EigenAI speaker data
+remains unchanged.
+The UTMIST lockups use the exported Figma `White Side 2` artwork rather than a
+typed approximation, preserving the custom letterforms in the hero, EigenAI
+navigation, and footer.
 
 ## Gotchas
 
 - The existing page reads `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` and throws on render
   if it is unset. Because `/eigenai` is now `force-dynamic`, this throws at
   request time, not during `next build`.
-- The redesign stub deliberately has **no** Maps dependency, so the "on" branch
+- The redesign deliberately has **no** Maps dependency, so the "on" branch
   renders without that key.
 
 ## Tests
