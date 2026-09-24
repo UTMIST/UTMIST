@@ -7,16 +7,16 @@ there is no flash of the wrong page and the choice is never frozen at build.
 ## Location
 
 - Route shell: `client/src/app/(frontend)/eigenai/page.tsx` — re-exports the
-  selector's `default` and its `dynamic`.
+  selector's `default` and declares `dynamic = "force-dynamic"` itself.
 - Selector (server): `client/src/features/public-site/pages/eigenaiFlagged.tsx`.
 - Existing page (client): `client/src/features/public-site/pages/eigenai.tsx`.
 - Redesign page: `client/src/features/public-site/pages/eigenaiRedesign.tsx`.
 
 ## How the selection works
 
-`eigenaiFlagged.tsx` is an async server component with
-`export const dynamic = "force-dynamic"` (per-request evaluation; `/eigenai` is
-not statically prerendered). It reads the optional current profile with
+`eigenaiFlagged.tsx` is an async server component. The route shell declares
+`export const dynamic = "force-dynamic"` for per-request evaluation; `/eigenai` is
+not statically prerendered. The selector reads the optional current profile with
 `getCurrentUser()` — the page is public, so it never `requireUser()` — and calls:
 
 ```tsx
@@ -30,12 +30,15 @@ return showRedesign ? <EigenAIRedesign /> : <EigenAIPage />;
 `evaluateFlag` (from `@/shared/lib/server`) is **default-off**: a missing flag,
 missing configuration, or an evaluation failure returns `false`, so anything but
 an explicit "on" keeps the existing page. See
-[../flags.md](../flags.md) for the flag runtime, auth (per-environment SDK keys),
+[../flags.md](../flags.md) for the flag runtime, automatic Vercel OIDC authentication,
 and the embedded-fallback mitigation.
 
 ## Rollout / opt-in
 
-The flag is **off in production** until the redesign launches (#444). To preview
+Keep the flag **off in the Production dashboard** until launch (#444).
+Production now evaluates its own flag configuration, with no hardcoded override.
+Vercel authenticates automatically; local live evaluation uses credentials from
+`vercel env pull .env.local`. `FLAGS_SECRET` is not an SDK credential. To preview
 the redesign, turn `Eigen-AI-Redesign` **ON in the Development / Preview**
 environment in the Vercel dashboard; a toggle takes effect on the next request
 without a redeploy. The redesign is scoped to the `.eigenai-redesign` wrapper

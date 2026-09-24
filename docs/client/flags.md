@@ -110,30 +110,35 @@ as the real adapters, so going live is a change to **one seam** in
 store is still the fixture pending #289:
 
 ```ts
-// SDK key selected per environment: FLAGS_KEY_PREVIEW on preview,
-// FLAGS_KEY_DEV on development/local, and none in production (stays off).
-const sdkKey = selectSdkKey();
-const adapter = sdkKey
-  ? createVercelFlagAdapter(sdkKey)  // ← Vercel Flags (landed in #447)
+// Live on Vercel, or locally with credentials from `vercel env pull`.
+const adapter = hasVercelContext()
+  ? createVercelFlagAdapter()       // automatic Vercel OIDC / standard FLAGS
   : NODE_ENV === "production"
-    ? offAdapter                     // keyless prod: all off, never fixtures
-    : fixtureFlagAdapter;            // dev / CI without a key
+    ? offAdapter                    // unconfigured build: off, never fixtures
+    : fixtureFlagAdapter;           // offline dev / CI
 const betaStore: BetaPreferenceStore = fixtureBetaStore; // ← Supabase-backed store (#289)
 ```
 
 Status of each seam:
 
 1. **Flags — done (#447).** `flags/vercel.ts` exports
-   `createVercelFlagAdapter(sdkKey)`, a `FlagAdapter` over Vercel Flags
-   (`@vercel/flags-core`'s `FlagsClient`, server-only). Auth is an explicit
-   **per-environment SDK key**, not OIDC: `flags/server.ts` selects
-   `FLAGS_KEY_PREVIEW` on preview, `FLAGS_KEY_DEV` on development/local, and no
-   key in production (so it stays off), then passes it to `createClient(sdkKey)`
-   — no `vercel env pull` or OIDC token is needed. Key selection lives in
-   `server.ts` (SDK-free) so `vercel.ts` is only **lazily imported** when a key
-   is present, keeping dev/CI without one off the SDK (and Jest off its ESM-only
-   dependencies). The `Eigen-AI-Redesign` flag is declared there and evaluated
-   with a `false` default; the failure-off wrapper stays on top.
+   `createVercelFlagAdapter()`, a `FlagAdapter` over Vercel Flags
+   (`@vercel/flags-core`'s `FlagsClient`, server-only). Authentication uses
+   **Vercel OIDC automatically**, with the standard `FLAGS` credential supported
+   as an optional SDK override. Vercel supplies the identity and environment for
+   Development, Preview, and Production; no `FLAGS_KEY_DEV` or
+   `FLAGS_KEY_PREVIEW` secrets are required. `FLAGS_SECRET` is for Flags Explorer
+   overrides, not provider authentication; this adapter does not read it or
+   implement toolbar overrides.
+
+   `server.ts` selects the live adapter when `VERCEL=1`, `VERCEL_ENV`, or local
+   `VERCEL_OIDC_TOKEN` / `FLAGS` credentials are present. It lazily imports the
+   SDK and caches the adapter, but **never initializes it outside a request**.
+   Evaluation initializes the client inside the current request so it can read
+   request-scoped OIDC even when no token exists in `process.env`. Offline dev
+   and CI use fixtures; unconfigured production builds stay off. Authentication
+   failures in a live environment stay off rather than falling back to fixtures.
+   `Eigen-AI-Redesign` is evaluated with a `false` default.
 
    The adapter calls the client directly rather than through `flags/next` +
    `@flags-sdk/vercel` because those return only the value and drop the
@@ -160,11 +165,17 @@ page or the redesign — off/missing/error keeps the existing page.
 
 **Local/preview opt-in is dashboard-driven, not code:** turn `Eigen-AI-Redesign`
 **ON in the Development and Preview environments** and keep **Production OFF**.
-Locally, set `FLAGS_KEY_DEV` (the Development-environment SDK key) in `.env` so
-the app evaluates against the Development config; a toggle takes effect on the
-next request without redeploy (the route is dynamic and the SDK streams/polls
-updates). Production has no key wired, so no public production enablement happens
-as part of this plumbing.
+For live local flags, run `vercel link` for the `utmist-infrastructure/client`
+project, then `vercel env pull .env.local` from `client/`. This supplies the
+Development OIDC token. Pull again when it expires. Keep `.env.local` untracked.
+Without credentials, local development uses the fixtures (currently enabling the
+redesign). Vercel deployments authenticate automatically at runtime; GitHub
+Actions does not need a flag SDK secret or a copied OIDC token.
+
+A dashboard change takes effect on subsequent requests as the SDK receives it,
+without redeployment. **Production now follows its dashboard configuration**;
+there is no hardcoded production override. Keep its value off until launch.
+Missing, invalid, or stale provider results still keep the existing page.
 
 Because the exported function signatures don't change, consumers
 ([#287](https://github.com/UTMIST/UTMIST/issues/287),
@@ -194,14 +205,14 @@ Retire a flag and its obsolete implementation after rollout, per
   going off after a disconnect and back on after reconnect, with
   `@vercel/flags-core` mocked so no key/network is touched.
 - [`tests/unit/flags/flags-env-selection.test.ts`](../../client/tests/unit/flags/flags-env-selection.test.ts)
-  — which adapter `evaluateFlag` binds per environment (preview key, dev key,
-  production always off, keyless → fixtures), plus the edges: a preview deploy
-  without a preview key stays off (no dev-key or fixture fallback), the adapter
-  is built once and reads the key once, and a failed adapter build keeps every
-  flag off for the instance lifetime.
+  — automatic adapter selection across Development, Preview, and Production,
+  request-scoped OIDC without an env token, local credentials, offline fixtures,
+  production provider values, and failure-off without fixture fallback.
 - [`tests/unit/flags/vercel-adapter-sdk.test.ts`](../../client/tests/unit/flags/vercel-adapter-sdk.test.ts)
   — the Vercel adapter against the **real** `@vercel/flags-core`, offline: a
-  local datafile and a stub `fetch` are injected, so no key or network is used.
+  local datafile, mocked OIDC token, and stub `fetch` are injected, so no real
+  credentials or network are used. Verifies authentication starts at evaluation
+  time and the runtime stream uses OIDC for each environment's datafile.
   Checks the assumptions the mocked test makes (the real `FLAG_NOT_FOUND` shape,
   runtime reads without a live stream tagged `STALE`, environment `reuse`,
   non-boolean variants) so an SDK bump that breaks failure-off fails here.

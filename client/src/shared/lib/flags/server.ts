@@ -3,10 +3,9 @@
 // This module is server-only and is re-exported through `@/shared/lib/server`.
 // Browser code must import only the types from `@/shared/lib`, never this file.
 //
-// The flag adapter is selected by environment (#447): the real Vercel Flags
-// adapter whenever a per-environment SDK key is configured, the deterministic
-// fixtures in local dev / CI without one, and a hard "off" adapter in production
-// without a key (so the fixtures can never leak into production). #289 still
+// Vercel deployments use automatic OIDC authentication. Local development can
+// use credentials from `vercel env pull`, or fixtures when running offline.
+// Unconfigured production builds stay off, never falling back to fixtures. #289 still
 // replaces `betaStore` with the Supabase-backed store the same way.
 // The failure-off wrapper and the exported function signatures stay the same,
 // so no consuming code changes. See docs/client/flags.md.
@@ -23,27 +22,26 @@ import type {
 /** Every flag off — the safe binding for production with no Vercel context. */
 const offAdapter: FlagAdapter = { evaluate: async () => undefined };
 
-// Select the Vercel Flags SDK key for the current environment. Auth is an
-// explicit per-env key, not OIDC: preview uses `FLAGS_KEY_PREVIEW`, everything
-// else (development / local) uses `FLAGS_KEY_DEV`, and production is deliberately
-// keyless so the redesign stays off there. Kept SDK-free (only `process.env`) so
-// this module never imports `./vercel` eagerly — see the lazy import below.
-function selectSdkKey(): string | undefined {
-  if (process.env.VERCEL_ENV === "production") return undefined;
-  if (process.env.VERCEL_ENV === "preview") return process.env.FLAGS_KEY_PREVIEW;
-  return process.env.FLAGS_KEY_DEV;
+// Request-scoped OIDC tokens need not be present in process.env on Vercel.
+// Select the live adapter by deployment context as well as local credentials;
+// the SDK resolves authentication and the environment when a request evaluates.
+// FLAGS is the SDK's standard optional credential; FLAGS_SECRET is unrelated
+// to provider authentication and must never select the live adapter by itself.
+function hasVercelContext(): boolean {
+  return process.env.VERCEL === "1" || Boolean(
+    process.env.VERCEL_ENV || process.env.VERCEL_OIDC_TOKEN || process.env.FLAGS,
+  );
 }
 
 // Resolve the flag adapter once. The Vercel adapter (and its
-// `@vercel/flags-core` SDK) is **lazily imported** only when an SDK key is
-// present, so dev/CI without one never loads the SDK — that keeps Jest off the
-// SDK's ESM-only dependencies with no test-config changes.
+// `@vercel/flags-core` SDK) is lazily imported so offline dev/CI never loads
+// the SDK. Cache the client, not an initialization promise: authentication and
+// initialization must happen inside evaluate(), in the current request.
 let adapterPromise: Promise<FlagAdapter> | undefined;
 function getFlagAdapter(): Promise<FlagAdapter> {
   if (!adapterPromise) {
-    const sdkKey = selectSdkKey();
-    adapterPromise = sdkKey
-      ? import("./vercel").then((m) => m.createVercelFlagAdapter(sdkKey))
+    adapterPromise = hasVercelContext()
+      ? import("./vercel").then((m) => m.createVercelFlagAdapter())
       : Promise.resolve(
           process.env.NODE_ENV === "production" ? offAdapter : fixtureFlagAdapter,
         );

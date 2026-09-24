@@ -6,12 +6,9 @@
 // through `@/shared/lib/server`; browser code imports types from `@/shared/lib`.
 //
 // Provider: Vercel Flags via `@vercel/flags-core`'s `FlagsClient`. Auth is an
-// explicit **per-environment SDK key**: `flags/server.ts` selects the key for
-// the current `VERCEL_ENV` (`FLAGS_KEY_DEV` for development/local,
-// `FLAGS_KEY_PREVIEW` for preview; there is no production key — production
-// stays off) and passes it to `createVercelFlagAdapter`. `createClient(sdkKey)`
-// authenticates from that key alone, so no Vercel OIDC token / `vercel env pull`
-// is required.
+// automatic Vercel OIDC (or the SDK's standard FLAGS credential). Vercel supplies
+// the deployment identity and environment; local dev uses `vercel env pull`.
+// FLAGS_SECRET is for Flags Explorer overrides, not SDK authentication.
 //
 // The client is used directly (not through `flags/next` + `@flags-sdk/vercel`)
 // because those wrappers return only the evaluated value and discard the
@@ -33,9 +30,9 @@ const DECLARED_FLAGS: ReadonlySet<string> = new Set([
 ]);
 
 /**
- * Build the Vercel-backed `FlagAdapter` for a given SDK key. The key is selected
- * per environment in `./server` and passed in here, so this module never reads
- * `process.env` and stays a pure function of its argument.
+ * Build the Vercel-backed adapter with the SDK's default authentication.
+ * Do not eagerly initialize: request-scoped OIDC is only available when a
+ * request evaluates a flag. Production uses its own dashboard configuration.
  *
  * Failure-off (#286): only a **fresh** `true` enables a flag. Anything else is
  * `false` — an evaluation error (including a missing definition), a
@@ -48,8 +45,8 @@ const DECLARED_FLAGS: ReadonlySet<string> = new Set([
  * this runtime cache.) A rejection propagates for the `./server` wrapper to
  * turn into `false`.
  */
-export function createVercelFlagAdapter(sdkKey: string): FlagAdapter {
-  const client = createClient(sdkKey);
+export function createVercelFlagAdapter(): FlagAdapter {
+  const client = createClient(process.env.FLAGS || undefined);
 
   // EigenAI is an environment-level on/off, so no per-user targeting context is
   // threaded yet; cohort targeting (#289) is added later by passing entities to

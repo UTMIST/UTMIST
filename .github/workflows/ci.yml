@@ -132,9 +132,8 @@ jobs:
           NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           PAYLOAD_DATABASE_URI: ${{ secrets.PAYLOAD_DATABASE_URI }}
-          # Preview-environment Vercel Flags key. Production is deliberately
-          # keyless (the deploy job sets none), so flags stay off in prod.
-          FLAGS_KEY_PREVIEW: ${{ secrets.FLAGS_KEY_PREVIEW }}
+          # Flags authenticate at request time with Vercel-provided OIDC.
+          # No per-environment Flags SDK secrets are needed in GitHub Actions.
 
       - name: Deploy Preview to Vercel
         id: deploy

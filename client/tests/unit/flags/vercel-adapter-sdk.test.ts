@@ -13,6 +13,7 @@
 // package.json, so a bump that changes these behaviours surfaces in this file.
 
 import type { FlagsClient } from '@vercel/flags-core';
+import { getVercelOidcToken } from '@vercel/oidc';
 
 import { createVercelFlagAdapter } from '@/shared/lib/flags/vercel';
 import type { EvaluationContext } from '@/shared/lib/flags/types';
@@ -25,11 +26,14 @@ type ClientOptions = Record<string, unknown>;
 let mockClientOptions: ClientOptions = {};
 const mockClients: FlagsClient[] = [];
 
+jest.mock('@vercel/oidc', () => ({ getVercelOidcToken: jest.fn() }));
+const mockOidcToken = jest.mocked(getVercelOidcToken);
+
 jest.mock('@vercel/flags-core', () => {
   const actual = jest.requireActual('@vercel/flags-core');
   return {
     ...actual,
-    createClient: (sdkKey: string) => {
+    createClient: (sdkKey?: string) => {
       const client = actual.createClient(sdkKey, mockClientOptions);
       mockClients.push(client);
       return client;
@@ -66,7 +70,7 @@ function datafile(
 /** Build the adapter with the real SDK in the given mode. */
 function adapterWith(options: ClientOptions) {
   mockClientOptions = { fetch: offlineFetch, waitUntil: () => {}, ...options };
-  return createVercelFlagAdapter('vf_server_test');
+  return createVercelFlagAdapter();
 }
 
 /** The build step reads the provided datafile as fresh (`HIT`/`MISS`). */
@@ -78,6 +82,7 @@ function buildStepAdapter(definition: Record<string, unknown> | undefined, env?:
 beforeEach(() => {
   jest.spyOn(console, 'warn').mockImplementation(() => {});
   jest.spyOn(console, 'error').mockImplementation(() => {});
+  mockOidcToken.mockReset().mockRejectedValue(new Error('No request token'));
 });
 
 afterEach(async () => {
@@ -87,6 +92,48 @@ afterEach(async () => {
 });
 
 describe('Vercel adapter × real @vercel/flags-core', () => {
+  it.each(['development', 'preview', 'production'])(
+    'authenticates inside the request with OIDC and evaluates the %s datafile',
+    async (environment) => {
+      const fetch = jest.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+        if (String(input).endsWith('/v1/ingest')) return new Response('{}');
+        // Keep the provider stream open until shutdown, so reads are fresh.
+        const body = new ReadableStream({
+          start(controller) {
+            controller.enqueue(new TextEncoder().encode(JSON.stringify({
+              type: 'datafile',
+              data: datafile({
+                variants: [false, true],
+                environments: { development: 1, preview: 1, production: 0 },
+              }, environment),
+            }) + '\n'));
+            init?.signal?.addEventListener('abort', () => controller.close(), { once: true });
+          },
+        });
+        return new Response(body);
+      });
+      const adapter = adapterWith({
+        buildStep: false,
+        stream: { initTimeoutMs: 1000 },
+        polling: false,
+        fetch,
+      });
+
+      // The client can be constructed before a request has an OIDC token.
+      expect(mockOidcToken).not.toHaveBeenCalled();
+      expect(fetch).not.toHaveBeenCalled();
+      mockOidcToken.mockResolvedValue(`test-${environment}-oidc`);
+
+      await expect(adapter.evaluate(EIGEN, anonymous)).resolves.toBe(environment !== 'production');
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining('/v1/stream'),
+        expect.objectContaining({
+          headers: expect.objectContaining({ Authorization: `Bearer test-${environment}-oidc` }),
+        }),
+      );
+    },
+  );
+
   describe('fresh reads', () => {
     it('is on when the environment serves the `true` variant', async () => {
       const adapter = buildStepAdapter({
