@@ -359,10 +359,8 @@ body:has(.eigenai-redesign) > .floating-theme-toggle {
 
 .eigenai-section-heading {
   background-image: radial-gradient(
-    ellipse 65% 100% at 35% 50%,
+    ellipse 54% 100% at 30% 48%,
     #fff 0%,
-    #d1b9fd 50%,
-    #b995fc 75%,
     #a272fb 100%
   );
   -webkit-background-clip: text;
@@ -397,13 +395,24 @@ body:has(.eigenai-redesign) > .floating-theme-toggle {
 
 .eigenai-lockup {
   display: inline-grid;
+  grid-template-columns: 30.3% 69.7%;
   width: max-content;
   max-width: 100%;
-  margin-top: -0.28em;
+  line-height: 1;
+  text-align: center;
+}
+
+.eigenai-lockup__utmist {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: 1.4em;
+  height: auto;
+  margin-bottom: -0.35em;
 }
 
 .eigenai-wordmark {
   display: grid;
+  grid-column: 1 / -1;
   isolation: isolate;
   font-size: inherit;
   line-height: normal;
@@ -584,9 +593,9 @@ body:has(.eigenai-redesign) > .floating-theme-toggle {
 }
 
 .eigenai-lockup-subtitle {
-  width: 69.7%;
-  margin-top: -0.11em;
-  margin-left: auto;
+  grid-column: 2;
+  width: 100%;
+  margin-top: -2.5em;
   white-space: nowrap;
   font-size: 0.15758em;
   font-weight: 400;

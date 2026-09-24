@@ -48,6 +48,16 @@ photography, UTMIST branding, social assets, and shared button primitive.
 The redesign uses locally bundled copies of the Figma type families (DM Serif
 Display, DM Sans, and Instrument Sans) and keeps its cyan, white, and lavender
 text gradients and glow treatments scoped to that page.
+The implementation intentionally uses a smaller responsive web type scale than
+the source Figma artwork: body copy starts at `1rem`, metric display text is
+capped at `6rem`, the event wordmark at `7rem`, and section headings at `4rem`.
+Shared `max-w-6xl` content containers and narrower prose columns keep text and
+cards wrapping predictably on wide screens. Footer social controls use standard
+`44px` targets with `20px` icons.
+The reusable `EigenAILockup` component includes the UTMIST logo and accepts one
+responsive `fontSize` value. The logo and conference subtitle are sized and
+positioned proportionally with `em` units, so every lockup size preserves the
+same relationship between all three elements.
 When the redesign is present, page-scoped `:has()` selectors suppress the
 shared site navbar, footer, and floating theme control. The redesign supplies
 its own responsive navigation and footer inside the continuous orbital

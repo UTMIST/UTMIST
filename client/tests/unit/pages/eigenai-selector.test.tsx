@@ -66,6 +66,28 @@ describe('EigenAI flag selector', () => {
     expect(screen.getByRole('heading', { name: 'Jensen Huang' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Workshops' })).toBeInTheDocument();
     expect(screen.getAllByText('Building Applications with the Claude API')).toHaveLength(3);
+    const contentContainers = screen.getAllByTestId('eigenai-content');
+    expect(contentContainers.length).toBeGreaterThanOrEqual(5);
+    expect(
+      contentContainers.every((container) => container.classList.contains('max-w-6xl')),
+    ).toBe(true);
+    expect(screen.getByTestId('eigenai-metrics')).toHaveClass(
+      'gap-y-4',
+      'sm:gap-x-6',
+      'sm:gap-y-0',
+    );
+    const lockups = screen.getAllByTestId('eigenai-lockup');
+    expect(lockups).toHaveLength(2);
+    expect(
+      lockups.every((lockup) =>
+        within(lockup).getByRole('img', { name: 'UTMIST' }),
+      ),
+    ).toBe(true);
+    expect(lockups[0]).toHaveStyle({ fontSize: 'clamp(4rem, 10vw, 7rem)' });
+    expect(lockups[1]).toHaveStyle({ fontSize: 'clamp(3rem, 8vw, 5rem)' });
+    expect(screen.getByRole('link', { name: 'UTMIST on Instagram' })).toHaveClass(
+      'size-11',
+    );
     expect(screen.queryByTestId('eigenai-existing')).not.toBeInTheDocument();
   });
 
