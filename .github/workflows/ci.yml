@@ -132,9 +132,9 @@ jobs:
           NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           PAYLOAD_DATABASE_URI: ${{ secrets.PAYLOAD_DATABASE_URI }}
-          # Preview-environment Vercel Flags key. Production is deliberately
+          # Preview-environment Vercel Flags SDK key. Production is deliberately
           # keyless (the deploy job sets none), so flags stay off in prod.
-          FLAGS_KEY_PREVIEW: ${{ secrets.FLAGS_KEY_PREVIEW }}
+          FLAGS_SECRET: ${{ secrets.FLAGS_SECRET }}
 
       - name: Deploy Preview to Vercel
         id: deploy

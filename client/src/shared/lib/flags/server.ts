@@ -24,14 +24,14 @@ import type {
 const offAdapter: FlagAdapter = { evaluate: async () => undefined };
 
 // Select the Vercel Flags SDK key for the current environment. Auth is an
-// explicit per-env key, not OIDC: preview uses `FLAGS_KEY_PREVIEW`, everything
-// else (development / local) uses `FLAGS_KEY_DEV`, and production is deliberately
-// keyless so the redesign stays off there. Kept SDK-free (only `process.env`) so
-// this module never imports `./vercel` eagerly — see the lazy import below.
+// explicit SDK key in `FLAGS_SECRET`, not OIDC; each Vercel environment holds its
+// own value (the Development key locally, the Preview key on preview). Production
+// is deliberately keyless — and ignored here even if a value is set — so the
+// redesign stays off there. Kept SDK-free (only `process.env`) so this module
+// never imports `./vercel` eagerly — see the lazy import below.
 function selectSdkKey(): string | undefined {
   if (process.env.VERCEL_ENV === "production") return undefined;
-  if (process.env.VERCEL_ENV === "preview") return process.env.FLAGS_KEY_PREVIEW;
-  return process.env.FLAGS_KEY_DEV;
+  return process.env.FLAGS_SECRET;
 }
 
 // Resolve the flag adapter once. The Vercel adapter (and its

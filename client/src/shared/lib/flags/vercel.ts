@@ -6,10 +6,9 @@
 // through `@/shared/lib/server`; browser code imports types from `@/shared/lib`.
 //
 // Provider: Vercel Flags via `@vercel/flags-core`'s `FlagsClient`. Auth is an
-// explicit **per-environment SDK key**: `flags/server.ts` selects the key for
-// the current `VERCEL_ENV` (`FLAGS_KEY_DEV` for development/local,
-// `FLAGS_KEY_PREVIEW` for preview; there is no production key — production
-// stays off) and passes it to `createVercelFlagAdapter`. `createClient(sdkKey)`
+// explicit **per-environment SDK key** in `FLAGS_SECRET` (the Development key
+// locally, the Preview key on preview; production is never given one and stays
+// off). `flags/server.ts` reads it and passes it to `createVercelFlagAdapter`. `createClient(sdkKey)`
 // authenticates from that key alone, so no Vercel OIDC token / `vercel env pull`
 // is required.
 //

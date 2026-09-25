@@ -1,6 +1,6 @@
 // Which flag adapter `evaluateFlag` binds per environment (#447): the Vercel
-// adapter with the preview key on preview, with the dev key elsewhere, never in
-// production (all off, even with a key present), and the fixtures when no key
+// adapter with the `FLAGS_SECRET` key on preview and development / local, never
+// in production (all off, even with a key present), and the fixtures when no key
 // is configured outside production.
 //
 // The Vercel adapter module is mocked so no SDK is loaded; each case re-imports
@@ -12,6 +12,7 @@ const ORIGINAL_ENV = process.env;
 /** Start from the original env minus any flag config, then apply `vars`. */
 function setEnv(vars: Record<string, string>) {
   process.env = { ...ORIGINAL_ENV };
+  delete process.env.FLAGS_SECRET;
   delete process.env.FLAGS_KEY_DEV;
   delete process.env.FLAGS_KEY_PREVIEW;
   delete process.env.VERCEL_ENV;
@@ -38,29 +39,24 @@ describe('flag adapter selection by environment', () => {
     jest.dontMock('@/shared/lib/flags/vercel');
   });
 
-  it('uses the Vercel adapter with the preview key on preview', async () => {
-    setEnv({ VERCEL_ENV: 'preview', FLAGS_KEY_PREVIEW: 'preview-key', FLAGS_KEY_DEV: 'dev-key' });
+  it('uses the Vercel adapter with FLAGS_SECRET on preview', async () => {
+    setEnv({ VERCEL_ENV: 'preview', NODE_ENV: 'production', FLAGS_SECRET: 'preview-key' });
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
     await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(true);
     expect(createVercelFlagAdapter).toHaveBeenCalledWith('preview-key');
   });
 
-  it('uses the Vercel adapter with the dev key in development / local', async () => {
-    setEnv({ FLAGS_KEY_DEV: 'dev-key' });
+  it('uses the Vercel adapter with FLAGS_SECRET in development / local', async () => {
+    setEnv({ FLAGS_SECRET: 'dev-key' });
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
     await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(true);
     expect(createVercelFlagAdapter).toHaveBeenCalledWith('dev-key');
   });
 
-  it('keeps every flag off in production, even with keys present', async () => {
-    setEnv({
-      VERCEL_ENV: 'production',
-      NODE_ENV: 'production',
-      FLAGS_KEY_DEV: 'dev-key',
-      FLAGS_KEY_PREVIEW: 'preview-key',
-    });
+  it('keeps every flag off in production, even with a key present', async () => {
+    setEnv({ VERCEL_ENV: 'production', NODE_ENV: 'production', FLAGS_SECRET: 'some-key' });
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
     // `showDemoBanner` is on in the fixtures, so `false` proves they're not bound.
@@ -77,10 +73,10 @@ describe('flag adapter selection by environment', () => {
     expect(createVercelFlagAdapter).not.toHaveBeenCalled();
   });
 
-  // A preview deployment builds with NODE_ENV=production. Without a preview key
-  // it must stay off — neither borrowing the dev key nor falling to fixtures.
-  it('keeps every flag off on preview without a preview key, even with a dev key', async () => {
-    setEnv({ VERCEL_ENV: 'preview', NODE_ENV: 'production', FLAGS_KEY_DEV: 'dev-key' });
+  // A preview deployment builds with NODE_ENV=production. Without a key it must
+  // stay off rather than fall to the fixtures.
+  it('keeps every flag off on a keyless preview', async () => {
+    setEnv({ VERCEL_ENV: 'preview', NODE_ENV: 'production' });
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
     await expect(evaluateFlag('showDemoBanner')).resolves.toBe(false);
@@ -88,8 +84,19 @@ describe('flag adapter selection by environment', () => {
     expect(createVercelFlagAdapter).not.toHaveBeenCalled();
   });
 
+  // FLAGS_KEY_DEV / FLAGS_KEY_PREVIEW were renamed to FLAGS_SECRET. A stale
+  // `.env` or deployment still carrying only the old names must not enable the
+  // live adapter.
+  it('ignores the retired FLAGS_KEY_DEV / FLAGS_KEY_PREVIEW names', async () => {
+    setEnv({ FLAGS_KEY_DEV: 'dev-key', FLAGS_KEY_PREVIEW: 'preview-key' });
+    const { createVercelFlagAdapter, evaluateFlag } = await loadServer();
+
+    await evaluateFlag('Eigen-AI-Redesign');
+    expect(createVercelFlagAdapter).not.toHaveBeenCalled();
+  });
+
   it('treats an empty key as unset (no adapter built with a blank key)', async () => {
-    setEnv({ VERCEL_ENV: 'preview', NODE_ENV: 'production', FLAGS_KEY_PREVIEW: '' });
+    setEnv({ VERCEL_ENV: 'preview', NODE_ENV: 'production', FLAGS_SECRET: '' });
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
     await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(false);
@@ -105,7 +112,7 @@ describe('flag adapter selection by environment', () => {
   });
 
   it('builds the adapter once, however many flags evaluate concurrently', async () => {
-    setEnv({ FLAGS_KEY_DEV: 'dev-key' });
+    setEnv({ FLAGS_SECRET: 'dev-key' });
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
     const results = await Promise.all(
@@ -117,11 +124,11 @@ describe('flag adapter selection by environment', () => {
   });
 
   it('reads the key once: a key changed after first use is not picked up', async () => {
-    setEnv({ FLAGS_KEY_DEV: 'dev-key' });
+    setEnv({ FLAGS_SECRET: 'dev-key' });
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
     await evaluateFlag('Eigen-AI-Redesign');
-    process.env.FLAGS_KEY_DEV = 'rotated-key';
+    process.env.FLAGS_SECRET = 'rotated-key';
     await evaluateFlag('Eigen-AI-Redesign');
     expect(createVercelFlagAdapter).toHaveBeenCalledTimes(1);
     expect(createVercelFlagAdapter).toHaveBeenCalledWith('dev-key');
@@ -131,7 +138,7 @@ describe('flag adapter selection by environment', () => {
   // adapter fails (e.g. the SDK throws on a malformed key), every flag stays off
   // for the life of the server instance rather than retrying per request.
   it('stays off for the instance lifetime when building the adapter throws', async () => {
-    setEnv({ FLAGS_KEY_DEV: 'dev-key' });
+    setEnv({ FLAGS_SECRET: 'dev-key' });
     const createVercelFlagAdapter = jest.fn(() => {
       throw new Error('@vercel/flags-core: Invalid sdkKey');
     });
@@ -146,7 +153,7 @@ describe('flag adapter selection by environment', () => {
   });
 
   it('turns an adapter that resolves undefined or rejects into false', async () => {
-    setEnv({ FLAGS_KEY_DEV: 'dev-key' });
+    setEnv({ FLAGS_SECRET: 'dev-key' });
     const evaluate = jest
       .fn()
       .mockResolvedValueOnce(undefined)
@@ -164,7 +171,7 @@ describe('flag adapter selection by environment', () => {
   });
 
   it('passes the anonymous public context when none is given', async () => {
-    setEnv({ FLAGS_KEY_DEV: 'dev-key' });
+    setEnv({ FLAGS_SECRET: 'dev-key' });
     const evaluate = jest.fn(async () => true);
     jest.doMock('@/shared/lib/flags/vercel', () => ({
       createVercelFlagAdapter: () => ({ evaluate }),

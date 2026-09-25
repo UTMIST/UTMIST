@@ -110,8 +110,8 @@ as the real adapters, so going live is a change to **one seam** in
 store is still the fixture pending #289:
 
 ```ts
-// SDK key selected per environment: FLAGS_KEY_PREVIEW on preview,
-// FLAGS_KEY_DEV on development/local, and none in production (stays off).
+// SDK key from FLAGS_SECRET (per-environment value: Development key locally,
+// Preview key on preview), ignored in production (stays off).
 const sdkKey = selectSdkKey();
 const adapter = sdkKey
   ? createVercelFlagAdapter(sdkKey)  // ← Vercel Flags (landed in #447)
@@ -126,9 +126,10 @@ Status of each seam:
 1. **Flags — done (#447).** `flags/vercel.ts` exports
    `createVercelFlagAdapter(sdkKey)`, a `FlagAdapter` over Vercel Flags
    (`@vercel/flags-core`'s `FlagsClient`, server-only). Auth is an explicit
-   **per-environment SDK key**, not OIDC: `flags/server.ts` selects
-   `FLAGS_KEY_PREVIEW` on preview, `FLAGS_KEY_DEV` on development/local, and no
-   key in production (so it stays off), then passes it to `createClient(sdkKey)`
+   **per-environment SDK key** in `FLAGS_SECRET`, not OIDC: each environment
+   holds its own value (the Development key locally, the Preview key on
+   preview), `flags/server.ts` ignores it in production (so it stays off), then
+   passes it to `createClient(sdkKey)`
    — no `vercel env pull` or OIDC token is needed. Key selection lives in
    `server.ts` (SDK-free) so `vercel.ts` is only **lazily imported** when a key
    is present, keeping dev/CI without one off the SDK (and Jest off its ESM-only
@@ -160,7 +161,7 @@ page or the redesign — off/missing/error keeps the existing page.
 
 **Local/preview opt-in is dashboard-driven, not code:** turn `Eigen-AI-Redesign`
 **ON in the Development and Preview environments** and keep **Production OFF**.
-Locally, set `FLAGS_KEY_DEV` (the Development-environment SDK key) in `.env` so
+Locally, set `FLAGS_SECRET` to the Development-environment SDK key in `.env` so
 the app evaluates against the Development config; a toggle takes effect on the
 next request without redeploy (the route is dynamic and the SDK streams/polls
 updates). Production has no key wired, so no public production enablement happens
@@ -194,9 +195,10 @@ Retire a flag and its obsolete implementation after rollout, per
   going off after a disconnect and back on after reconnect, with
   `@vercel/flags-core` mocked so no key/network is touched.
 - [`tests/unit/flags/flags-env-selection.test.ts`](../../client/tests/unit/flags/flags-env-selection.test.ts)
-  — which adapter `evaluateFlag` binds per environment (preview key, dev key,
-  production always off, keyless → fixtures), plus the edges: a preview deploy
-  without a preview key stays off (no dev-key or fixture fallback), the adapter
+  — which adapter `evaluateFlag` binds per environment (`FLAGS_SECRET` on
+  preview and development, production always off, keyless → fixtures), plus the
+  edges: a keyless preview deploy stays off (no fixture fallback), the retired
+  `FLAGS_KEY_DEV` / `FLAGS_KEY_PREVIEW` names are ignored, the adapter
   is built once and reads the key once, and a failed adapter build keeps every
   flag off for the instance lifetime.
 - [`tests/unit/flags/vercel-adapter-sdk.test.ts`](../../client/tests/unit/flags/vercel-adapter-sdk.test.ts)
