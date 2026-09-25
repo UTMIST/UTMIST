@@ -72,15 +72,24 @@ cards wrapping predictably on wide screens. Footer social controls use standard
 The reusable `EigenAILockup` component includes the UTMIST logo and accepts one
 responsive `fontSize` value. The logo and conference subtitle are sized and
 positioned proportionally with `em` units, so every lockup size preserves the
-same relationship between all three elements. Its layered text treatment comes
+same relationship between all three elements. Its glass text treatment comes
 from the parallel `EigenAIWordmark` component, which can also appear inline in
-headings without the logo or conference subtitle. The visible wordmark fill
-reproduces the 16 colour-and-position controls from Figma shader node `99:236`;
-its depth, shine, and glint layers reproduce that node's full-opacity white
-inner shadow, whose offset and blur are both `6.2224px` at the Figma size. The
+headings without the logo or conference subtitle. The wordmark fill is Figma's
+first-party "Mesh gradient" shader, a bicubic Catmull-Rom patch blended in
+linear light, which CSS gradients cannot reproduce. It is therefore baked into
+`src/assets/eigenai-redesign/wordmark-mesh.webp` from the 16 colour-and-position
+controls on Figma node `136:7`. Like Figma, the page stretches it over the glyph
+ink bounds rather than the text box. Re-bake the image if designers move those
+points. The glass shimmer is Figma's full-opacity white inner shadow, whose
+offset and blur are both `6.2224px` at `172.84px` (`0.036em`). CSS has no inner
+shadow for text, so an SVG filter reproduces it: the glyph alpha is offset down,
+blurred, subtracted from itself, and flooded white above the fill. The blur's
+standard deviation is half the Figma radius. Its primitives are fractions of
+the text span's `em`-sized box, so it renders at the correct scale on first
+paint without measuring the font. The
 lockup can optionally include Figma cursor node `99:256`; the hero enables it,
 while later lockups omit it. The cursor itself is outline-only, and its shape is
-also used as a local mask on the hero wordmark layers. It therefore hides the
+also used as a local mask on the hero wordmark. It therefore hides the
 overlapping part of the final `i` while allowing the live page backdrop to show
 through instead of approximating the background with a solid fill.
 Decorative artwork lives in a continuous page-level composition and section

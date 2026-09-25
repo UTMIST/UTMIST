@@ -1,5 +1,8 @@
 import clsx from "clsx";
+import { useId } from "react";
 import type { CSSProperties } from "react";
+
+import wordmarkMesh from "@/assets/eigenai-redesign/wordmark-mesh.webp";
 
 const cursorMask =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 105.434 97.3234'%3E%3Cpath d='M13.2921 2.72363C8.55347 2.03757 5.12829 7.1428 7.55968 11.2676L45.9581 76.4072C48.9081 81.4118 56.577 79.3199 56.5773 73.5107V45.8037C56.5774 43.1579 58.0117 40.72 60.3243 39.4346L88.2286 23.9238C93.0014 21.2709 91.6787 14.0745 86.2745 13.292L13.2921 2.72363Z' fill='black'/%3E%3C/svg%3E\")";
@@ -22,34 +25,35 @@ export const eigenAIColorMesh = [
   "linear-gradient(135deg,#5ce5ea 0%,#6e70ed 26%,#64deea 45%,#ad54fb 66%,#128ab3 100%)",
 ].join(",");
 
-const layerBackgrounds = {
-  base: eigenAIColorMesh,
-  depth:
-    "linear-gradient(180deg,transparent 0 38%,rgba(255,255,255,.96) 47%,rgba(255,255,255,.34) 54%,transparent 62%),linear-gradient(180deg,transparent 0 52%,rgba(100,222,234,.28) 63%,rgba(26,179,166,.7) 82%,rgba(18,138,178,.96) 100%)",
-  shine:
-    "linear-gradient(104deg,transparent 0%,transparent 24%,rgba(219,252,255,.08) 30%,rgba(255,255,255,.96) 39%,rgba(225,251,255,.68) 44%,rgba(214,192,255,.14) 52%,transparent 61%,transparent 100%)",
-  glint:
-    "radial-gradient(circle at 91.27% 41.5%,#fff 0%,rgba(255,255,255,.96) 1.2%,rgba(199,250,255,.5) 3.2%,transparent 9%),linear-gradient(180deg,rgba(92,229,234,.34) 0%,rgba(110,112,237,.1) 24%,transparent 43%)",
-} as const;
+// The wordmark fill is Figma's first-party "Mesh gradient" shader (a bicubic
+// patch blended in linear light, which CSS gradients cannot reproduce), baked
+// from the 16 points on Figma node 136:7. Figma stretches shader fills over the
+// glyph ink bounds, so the image is sized and offset to this span's ink box.
+const meshFill =
+  "bg-[length:3.15em_0.94em] bg-[position:0.015em_0.457em] bg-no-repeat";
+
+// Figma renders the wordmark's glass shimmer as a full-opacity white inner
+// shadow whose offset and blur are both 6.2224px at a 172.84px font size.
+// CSS has no inner shadow for text, so an SVG filter reproduces it. Its
+// primitives are fractions of the text span's box, which is em-sized (a 1.5
+// line height plus 0.06em and 0.18em padding, around a 3.18em advance), so the
+// shadow scales with the font in server-rendered HTML without measuring it.
+const innerShadowEm = 6.2224 / 172.84;
+const textBoxEm = { width: 3.18, height: 1.5 + 0.06 + 0.18 };
+const shadowOffset = innerShadowEm / textBoxEm.height;
+// Figma blur radius is twice the Gaussian standard deviation.
+const shadowBlur = `${innerShadowEm / 2 / textBoxEm.width} ${innerShadowEm / 2 / textBoxEm.height}`;
 
 type EigenAIWordmarkProps = {
   className?: string;
   cursorCutout?: boolean;
 };
 
-type WordmarkLayerProps = {
-  backgroundImage: string;
-  className: string;
-  cursorCutout: boolean;
-  hidden?: boolean;
-};
-
-function WordmarkLayer({
-  backgroundImage,
+export function EigenAIWordmark({
   className,
-  cursorCutout,
-  hidden = true,
-}: WordmarkLayerProps) {
+  cursorCutout = false,
+}: EigenAIWordmarkProps) {
+  const filterId = `eigenai-glass-${useId().replace(/[^\w-]/g, "")}`;
   const maskStyles = cursorCutout
     ? ({
         "--cursor-mask": cursorMask,
@@ -60,53 +64,53 @@ function WordmarkLayer({
 
   return (
     <span
-      aria-hidden={hidden || undefined}
-      className={clsx(
-        "col-start-1 row-start-1 block bg-clip-text py-[0.06em] pb-[0.18em] font-[inherit] leading-[inherit] tracking-[inherit] whitespace-pre text-transparent",
-        cursorCutout &&
-          "[-webkit-mask-position:calc(100%+0.48em)_1.023em,0_0] [-webkit-mask-repeat:no-repeat] [-webkit-mask-size:0.61em_auto,100%_100%] [-webkit-mask-composite:xor] [mask-position:calc(100%+0.48em)_1.023em,0_0] [mask-repeat:no-repeat] [mask-size:0.61em_auto,100%_100%] [mask-composite:exclude]",
-        className,
-      )}
-      style={{ ...maskStyles, backgroundImage }}
-    >
-      eigenai
-    </span>
-  );
-}
-
-export function EigenAIWordmark({
-  className,
-  cursorCutout = false,
-}: EigenAIWordmarkProps) {
-  return (
-    <span
       data-testid="eigenai-wordmark"
       className={clsx(
         "font-eigen-serif col-span-full inline-grid isolate text-[inherit] leading-normal tracking-[0]",
         className,
       )}
     >
-      <WordmarkLayer
-        backgroundImage={layerBackgrounds.base}
-        className="relative z-1"
-        cursorCutout={cursorCutout}
-        hidden={false}
-      />
-      <WordmarkLayer
-        backgroundImage={layerBackgrounds.depth}
-        className="z-2 opacity-78"
-        cursorCutout={cursorCutout}
-      />
-      <WordmarkLayer
-        backgroundImage={layerBackgrounds.shine}
-        className="z-3 bg-[length:170%_100%] bg-[position:47%_0] opacity-88 mix-blend-screen"
-        cursorCutout={cursorCutout}
-      />
-      <WordmarkLayer
-        backgroundImage={layerBackgrounds.glint}
-        className="z-4 opacity-82 mix-blend-screen"
-        cursorCutout={cursorCutout}
-      />
+      <span
+        className={clsx(
+          "col-start-1 row-start-1 block bg-clip-text py-[0.06em] pb-[0.18em] font-[inherit] leading-[inherit] tracking-[inherit] whitespace-pre text-transparent",
+          meshFill,
+          cursorCutout &&
+            "[-webkit-mask-position:calc(100%+0.48em)_1.023em,0_0] [-webkit-mask-repeat:no-repeat] [-webkit-mask-size:0.61em_auto,100%_100%] [-webkit-mask-composite:xor] [mask-position:calc(100%+0.48em)_1.023em,0_0] [mask-repeat:no-repeat] [mask-size:0.61em_auto,100%_100%] [mask-composite:exclude]",
+        )}
+        style={{
+          ...maskStyles,
+          backgroundImage: `url(${wordmarkMesh.src})`,
+          filter: `url(#${filterId})`,
+        }}
+      >
+        eigenai
+      </span>
+      <svg
+        aria-hidden
+        className="pointer-events-none absolute size-0 overflow-hidden"
+      >
+        <filter
+          id={filterId}
+          data-testid="eigenai-wordmark-glass"
+          primitiveUnits="objectBoundingBox"
+          colorInterpolationFilters="sRGB"
+        >
+          <feOffset in="SourceAlpha" dy={shadowOffset} result="offset" />
+          <feGaussianBlur in="offset" stdDeviation={shadowBlur} result="blur" />
+          <feComposite
+            in="SourceAlpha"
+            in2="blur"
+            operator="out"
+            result="rim"
+          />
+          <feFlood floodColor="#fff" result="white" />
+          <feComposite in="white" in2="rim" operator="in" result="shine" />
+          <feMerge>
+            <feMergeNode in="SourceGraphic" />
+            <feMergeNode in="shine" />
+          </feMerge>
+        </filter>
+      </svg>
     </span>
   );
 }
