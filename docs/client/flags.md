@@ -141,12 +141,18 @@ bypass a flag's `decide` function.
 
 When `FLAGS_SECRET` is present, declared flags run through `flags/next`.
 `definitions.ts` declares `Eigen-AI-Redesign` with `defaultValue: false`; its
-`decide` calls `evaluateProviderFlag` with the evaluation context. The SDK reads
-and authenticates the request's `vercel-flag-overrides` cookie. Invalid or expired
-cookies are ignored; authenticated development/preview overrides affect only
-that request/browser. The SDK memoizes evaluation per request, never globally
-across visitors. Without an Explorer secret, evaluation calls the provider
-wrapper directly and ignores override cookies.
+`decide` calls `evaluateProviderFlag` with the evaluation context. Before invoking
+the declaration, `server.ts` validates the request's `vercel-flag-overrides`
+cookie with the SDK's `decryptOverrides` helper on every evaluation. This is
+necessary because `flags@4.3.1` caches its last decrypted cookie across requests
+without rechecking expiry. Invalid or expired cookies bypass that cache: the
+wrapper evaluates the provider and reports the resulting value with the SDK's
+`reportValue`. This includes cookies that were accepted before they expired.
+
+Valid development/preview overrides affect only that request/browser. The SDK
+memoizes flag evaluation per request, never globally across visitors. Without
+an Explorer secret, evaluation calls the provider wrapper directly and ignores
+override cookies.
 
 `provider.ts` selects the core adapter using `FLAGS`. With no key, local/test
 runs use fixtures; `NODE_ENV=production` builds stay off. Provider initialization
@@ -246,5 +252,6 @@ change fixture tests. `tests/integration/flags-explorer.test.ts` exercises the
 real Flags SDK cryptography, discovery and request-scoped overrides alongside
 the real core client. It uses synthetic credentials, a local datafile and stub
 transport, covering credential separation, invalid/expired proofs and cookies,
+expiry across requests after an override was accepted (on, off and keyless),
 production suppression, unknown/non-boolean overrides, and stale provider reads.
 The core SDK contract tests also remain in place for outage fallback semantics.

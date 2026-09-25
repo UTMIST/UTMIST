@@ -26,7 +26,21 @@ export async function evaluateFlag(
       const definition = Object.hasOwn(flagDefinitions, name)
         ? flagDefinitions[name]
         : undefined;
-      if (definition) return (await definition.run({ identify: ctx })) === true;
+      if (definition) {
+        const { cookies } = await import("next/headers");
+        const cookie = (await cookies()).get("vercel-flag-overrides")?.value;
+        if (cookie) {
+          const { decryptOverrides, reportValue } = await import("flags");
+          // flags@4.3.1 caches its last decrypted cookie across requests without
+          // rechecking expiry. Validate again before entering that cached path.
+          if ((await decryptOverrides(cookie)) === undefined) {
+            const value = await evaluateProviderFlag(name, ctx);
+            reportValue(name, value);
+            return value;
+          }
+        }
+        return (await definition.run({ identify: ctx })) === true;
+      }
     }
     return await evaluateProviderFlag(name, ctx);
   } catch {

@@ -68,6 +68,7 @@ beforeEach(() => {
 });
 
 afterEach(async () => {
+  jest.useRealTimers();
   await Promise.all(mockClients.splice(0).map((client) => client.shutdown()));
   process.env = originalEnv;
 });
@@ -120,6 +121,41 @@ it('ignores malformed, wrong-secret and expired overrides and uses the provider'
     setRequest(cookie);
     await expect(evaluateFlag(flagKey)).resolves.toBe(true);
   }
+});
+
+it.each([
+  { label: 'on with the provider off', override: true, provider: false },
+  { label: 'off with the provider on', override: false, provider: true },
+  { label: 'on without a provider key', override: true, provider: undefined },
+])('expires a previously accepted override: $label', async ({ override, provider }) => {
+  const issuedAt = new Date('2026-09-25T12:00:00Z');
+  jest.useFakeTimers({ now: issuedAt, doNotFake: ['nextTick', 'queueMicrotask'] });
+  if (provider === undefined) delete process.env.FLAGS;
+  mockClientOptions.datafile = {
+    projectId: 'prj_test',
+    environment: 'preview',
+    configUpdatedAt: 1,
+    revision: 1,
+    definitions: { [flagKey]: { variants: [false, true], environments: { preview: provider ? 1 : 0 } } },
+  };
+  const { evaluateFlag } = await import('@/shared/lib/flags/server');
+  const cookie = await encryptOverrides({ [flagKey]: override }, secret, '1s');
+  setRequest(cookie);
+  await expect(evaluateFlag(flagKey)).resolves.toBe(override);
+  setRequest();
+  await expect(evaluateFlag(flagKey)).resolves.toBe(provider ?? false);
+
+  // Keep the same server modules alive, but create a new request after expiry.
+  // A cookie-less request does not evict the SDK's last decrypted cookie.
+  jest.setSystemTime(issuedAt.getTime() + 2000);
+  for (let replay = 0; replay < 2; replay++) {
+    setRequest(cookie);
+    await expect(evaluateFlag(flagKey)).resolves.toBe(provider ?? false);
+  }
+
+  // Expiring an old cookie must not prevent a newly issued override working.
+  setRequest(await encryptOverrides({ [flagKey]: override }, secret));
+  await expect(evaluateFlag(flagKey)).resolves.toBe(override);
 });
 
 it('keeps production off even with valid provider credentials and a signed on override', async () => {
