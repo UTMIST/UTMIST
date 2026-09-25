@@ -3,7 +3,7 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
 // The selector is a server component. Mock the server barrel so no Supabase /
 // Vercel Flags code loads, and stub the existing page (heavy: styles, images,
 // and a Google Maps env check). The redesign renders for
-// real — that also covers its scoped `.eigenai-redesign` wrapper.
+// real — that also covers its Tailwind-styled redesign wrapper.
 const mockEvaluateFlag = jest.fn();
 const mockGetCurrentUser = jest.fn();
 
@@ -51,7 +51,11 @@ describe("EigenAI flag selector", () => {
 
     const redesign = screen.getByTestId("eigenai-redesign");
     expect(redesign).toBeInTheDocument();
-    expect(redesign).toHaveClass("eigenai-redesign");
+    expect(redesign).toHaveClass(
+      "font-eigen-body",
+      "font-medium",
+      "bg-[#0c0249]",
+    );
     const navigation = screen.getByRole("navigation", { name: "EigenAI" });
     expect(navigation).toBeInTheDocument();
     expect(
@@ -63,8 +67,8 @@ describe("EigenAI flag selector", () => {
       "w-full",
       "justify-between",
     );
-    expect(screen.getByTestId("eigenai-mobile-nav-surface")).not.toHaveClass(
-      "eigenai-mobile-glass",
+    expect(screen.getByTestId("eigenai-mobile-nav-surface")).toHaveClass(
+      "bg-[#0c0249]/90",
     );
     expect(
       navigation.querySelector('[aria-hidden="true"].pointer-events-none.h-8'),
@@ -89,9 +93,9 @@ describe("EigenAI flag selector", () => {
     const loginLink = within(navigation).getByRole("link", { name: "Login" });
     expect(loginLink).toHaveAttribute("href", "/auth");
     expect(loginLink).toHaveClass(
-      "eigenai-login-button",
-      "eigenai-body",
-      "font-normal",
+      "bg-[rgb(76_229_232/0.4)]",
+      "font-eigen-body",
+      "font-medium",
       "tracking-[-0.01em]",
     );
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
@@ -99,6 +103,7 @@ describe("EigenAI flag selector", () => {
       name: /What is eigenai\s*\?/,
     });
     expect(aboutHeading).toBeInTheDocument();
+    expect(aboutHeading).toHaveClass("font-eigen-serif!", "font-medium!");
     expect(
       within(aboutHeading).getByTestId("eigenai-wordmark"),
     ).toBeInTheDocument();
@@ -137,12 +142,17 @@ describe("EigenAI flag selector", () => {
     expect(
       within(lockups[1]).queryByTestId("eigenai-lockup-cursor"),
     ).not.toBeInTheDocument();
-    expect(within(lockups[0]).getByTestId("eigenai-wordmark")).toHaveClass(
-      "eigenai-wordmark--cursor-cutout",
-    );
-    expect(within(lockups[1]).getByTestId("eigenai-wordmark")).not.toHaveClass(
-      "eigenai-wordmark--cursor-cutout",
-    );
+    expect(
+      within(lockups[0]).getByTestId("eigenai-wordmark").firstElementChild,
+    ).toHaveStyle({ maskImage: "var(--cursor-mask), linear-gradient(#000 0 0)" });
+    expect(
+      within(lockups[0]).getByTestId("eigenai-wordmark").firstElementChild,
+    ).toHaveClass("[mask-position:calc(100%+0.48em)_1.023em,0_0]");
+    expect(
+      within(lockups[1]).getByTestId("eigenai-wordmark").firstElementChild,
+    ).not.toHaveStyle({
+      maskImage: "var(--cursor-mask), linear-gradient(#000 0 0)",
+    });
     expect(screen.getAllByTestId("eigenai-wordmark")).toHaveLength(3);
     expect(
       lockups.every((lockup) =>
@@ -153,7 +163,7 @@ describe("EigenAI flag selector", () => {
       lockups.every((lockup) =>
         within(lockup)
           .getByText("CONFERENCE ’26")
-          .classList.contains("eigenai-instrument-gradient"),
+          .classList.contains("bg-clip-text"),
       ),
     ).toBe(true);
     expect(lockups[0]).toHaveStyle({
@@ -161,9 +171,9 @@ describe("EigenAI flag selector", () => {
     });
     expect(lockups[1]).toHaveStyle({ fontSize: "clamp(3.5rem, 12vw, 5rem)" });
     const backdrop = screen.getByTestId("eigenai-continuous-backdrop");
-    expect(backdrop.querySelectorAll(".eigenai-background-bloom")).toHaveLength(
-      13,
-    );
+    expect(
+      within(backdrop).getAllByTestId("eigenai-backdrop-image"),
+    ).toHaveLength(13);
     const orbitClusters = screen.getAllByTestId("eigenai-orbit-cluster");
     expect(orbitClusters).toHaveLength(4);
     expect(screen.getAllByTestId("eigenai-orbit-cloud")).toHaveLength(4);
@@ -173,7 +183,7 @@ describe("EigenAI flag selector", () => {
     expect(lambdaClusters).toHaveLength(2);
     for (const cluster of lambdaClusters) {
       expect(cluster.querySelectorAll("img")).toHaveLength(2);
-      expect(cluster).toHaveClass("eigenai-lambda-cluster");
+      expect(cluster).toHaveClass("[container-type:inline-size]");
     }
     const ringGroups = screen.getAllByTestId("eigenai-ring-group");
     expect(ringGroups).toHaveLength(1);
@@ -233,6 +243,20 @@ describe("EigenAI flag selector", () => {
     expect(
       screen.getByRole("link", { name: "UTMIST on Instagram" }),
     ).toHaveClass("size-11");
+    const footerLinks = [
+      ["Discord", "https://discord.com/invite/88mSPw8"],
+      ["LinkedIn", "https://www.linkedin.com/company/utmist/"],
+      ["Instagram", "https://www.instagram.com/uoft_utmist/"],
+      ["Facebook", "https://www.facebook.com/UofT.MIST"],
+      ["X", "https://x.com/utmist1"],
+      ["GitHub", "https://github.com/UTMIST"],
+      ["Medium", "https://utorontomist.medium.com/"],
+    ];
+    for (const [label, href] of footerLinks) {
+      expect(
+        screen.getByRole("link", { name: `UTMIST on ${label}` }),
+      ).toHaveAttribute("href", href);
+    }
     expect(screen.queryByTestId("eigenai-existing")).not.toBeInTheDocument();
   });
 
@@ -253,10 +277,15 @@ describe("EigenAI flag selector", () => {
       document.getElementById("eigenai-mobile-menu")?.querySelector("ul"),
     ).toHaveClass("items-start", "text-left");
     const mobileNavSurface = screen.getByTestId("eigenai-mobile-nav-surface");
-    expect(mobileNavSurface).toHaveClass(
-      "eigenai-mobile-glass",
-      "rounded-b-3xl",
+    expect(mobileNavSurface).toHaveClass("rounded-b-3xl");
+    expect(mobileNavSurface.firstElementChild).toHaveClass(
+      "backdrop-blur-[22px]",
+      "before:hidden",
     );
+    const navigation = screen.getByRole("navigation", { name: "EigenAI" });
+    expect(
+      navigation.querySelector('[aria-hidden="true"].pointer-events-none.h-8'),
+    ).not.toBeInTheDocument();
     expect(document.getElementById("eigenai-mobile-menu")).toHaveClass("px-5");
     expect(document.getElementById("eigenai-mobile-menu")?.parentElement).toBe(
       mobileNavSurface,

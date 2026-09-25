@@ -9,12 +9,18 @@ import {
 } from "@/features/public-site/data/eigenai";
 import { EigenAILockup } from "@/features/public-site/components/eigenai-lockup";
 import { EigenNavigation } from "@/features/public-site/components/eigenai-navigation";
+import {
+  EigenGlassSurface,
+  EigenSpeakerPortrait,
+} from "@/features/public-site/components/eigenai-surfaces";
 import { EigenAIWordmark } from "@/features/public-site/components/eigenai-wordmark";
 import utmistWordmark from "@/assets/logos/utmist-wordmark-white.png";
 import discordLogo from "@/assets/logos/discord.svg";
+import facebookLogo from "@/assets/logos/facebook.svg";
 import githubLogo from "@/assets/logos/github.svg";
 import instagramLogo from "@/assets/logos/instagram.svg";
 import linkedinLogo from "@/assets/logos/linkedin.svg";
+import mediumLogo from "@/assets/logos/medium.svg";
 import xLogo from "@/assets/logos/x.svg";
 import ellipseA from "@/assets/eigenai-redesign/ellipse-a.svg";
 import ellipseB from "@/assets/eigenai-redesign/ellipse-b.svg";
@@ -135,9 +141,9 @@ const workshops: Workshop[] = Array.from({ length: 3 }, () => ({
 
 const socialLinks = [
   {
-    href: "https://www.instagram.com/uoft_utmist/",
-    label: "Instagram",
-    icon: instagramLogo,
+    href: "https://discord.com/invite/88mSPw8",
+    label: "Discord",
+    icon: discordLogo,
   },
   {
     href: "https://www.linkedin.com/company/utmist/",
@@ -145,9 +151,19 @@ const socialLinks = [
     icon: linkedinLogo,
   },
   {
-    href: "https://discord.com/invite/88mSPw8",
-    label: "Discord",
-    icon: discordLogo,
+    href: "https://www.instagram.com/uoft_utmist/",
+    label: "Instagram",
+    icon: instagramLogo,
+  },
+  {
+    href: "https://www.facebook.com/UofT.MIST",
+    label: "Facebook",
+    icon: facebookLogo,
+  },
+  {
+    href: "https://x.com/utmist1",
+    label: "X",
+    icon: xLogo,
   },
   {
     href: "https://github.com/UTMIST",
@@ -155,9 +171,9 @@ const socialLinks = [
     icon: githubLogo,
   },
   {
-    href: "https://x.com/utmist1",
-    label: "X",
-    icon: xLogo,
+    href: "https://utorontomist.medium.com/",
+    label: "Medium",
+    icon: mediumLogo,
   },
 ];
 
@@ -193,7 +209,7 @@ function ConcentricRingGroup({
           src={ring.src}
           alt=""
           data-ring-index={index}
-          className="eigenai-background-orbit absolute left-1/2 top-1/2 h-auto max-w-none -translate-x-1/2 -translate-y-1/2"
+          className="absolute top-1/2 left-1/2 h-auto max-w-none -translate-x-1/2 -translate-y-1/2 opacity-42 mix-blend-screen [filter:drop-shadow(0_0_5px_rgb(255_255_255/0.12))_drop-shadow(0_0_18px_rgb(89_224_233/0.12))_saturate(132%)]"
           style={{ width: `${(ring.width / 951.318) * 100}%` }}
         />
       ))}
@@ -207,7 +223,7 @@ function MobileConcentricRingGroups() {
       key={group.id}
       aria-hidden="true"
       data-testid="eigenai-mobile-ring-group"
-      className="eigenai-mobile-ring-group absolute aspect-square -translate-x-1/2 -translate-y-1/2 md:hidden"
+      className="absolute aspect-square -translate-x-1/2 -translate-y-1/2 md:hidden"
       style={{ left: group.left, top: group.top, width: group.width }}
     >
       {concentricRings.map((ring, index) => (
@@ -216,7 +232,7 @@ function MobileConcentricRingGroups() {
           src={ring.src}
           alt=""
           data-ring-index={index}
-          className="eigenai-background-orbit absolute left-1/2 top-1/2 h-auto max-w-none -translate-x-1/2 -translate-y-1/2"
+          className="absolute top-1/2 left-1/2 h-auto max-w-none -translate-x-1/2 -translate-y-1/2 opacity-68 mix-blend-screen [filter:drop-shadow(0_0_6px_rgb(255_255_255/0.2))_drop-shadow(0_0_20px_rgb(89_224_233/0.2))_saturate(145%)]"
           style={{ width: `${(ring.width / 951.318) * 100}%` }}
         />
       ))}
@@ -243,6 +259,7 @@ function BackdropImage({
     <Image
       src={src}
       alt=""
+      data-testid="eigenai-backdrop-image"
       className={`absolute h-auto max-w-none ${className}`}
       style={{
         left: `${(x / FIGMA_BACKDROP_WIDTH) * 100}%`,
@@ -285,13 +302,13 @@ function OrbitCluster({
       <Image
         src={src}
         alt=""
-        className="eigenai-background-orbit h-auto w-full max-w-none"
+        className="h-auto w-full max-w-none opacity-42 mix-blend-screen [filter:drop-shadow(0_0_5px_rgb(255_255_255/0.12))_drop-shadow(0_0_18px_rgb(89_224_233/0.12))_saturate(132%)]"
       />
       <Image
         src={iconCloud}
         alt=""
         data-testid="eigenai-orbit-cloud"
-        className="eigenai-background-icon absolute h-auto"
+        className="absolute z-1 h-auto opacity-62 mix-blend-screen drop-shadow-[0_0_4px_rgb(255_255_255/0.2)]"
         style={{
           left: "22.306%",
           top: "7.12%",
@@ -320,7 +337,7 @@ function LambdaCluster({
   return (
     <div
       data-testid="eigenai-lambda-cluster"
-      className="eigenai-lambda-cluster absolute hidden md:block"
+      className="absolute hidden [container-type:inline-size] md:block"
       style={{
         left: `${(x / FIGMA_BACKDROP_WIDTH) * 100}%`,
         top: `${(y / FIGMA_BACKDROP_HEIGHT) * 100}%`,
@@ -330,7 +347,7 @@ function LambdaCluster({
       <Image
         src={back}
         alt=""
-        className="eigenai-background-lambda-back relative h-auto w-full"
+        className="relative h-auto w-full blur-[0.9693cqw]"
         style={{
           left: "-0.046%",
           transform: `translateY(${(backOffset / back.height) * 100}%)`,
@@ -339,7 +356,7 @@ function LambdaCluster({
       <Image
         src={front}
         alt=""
-        className="eigenai-background-lambda-front absolute left-0 top-0 h-auto w-full"
+        className="absolute top-0 left-0 h-auto w-full blur-[4.0711cqw]"
       />
     </div>
   );
@@ -357,7 +374,7 @@ function ContinuousBackdrop() {
         <BackdropImage
           key={field.id}
           {...field}
-          className="eigenai-background-bloom"
+          className="opacity-44 mix-blend-screen [filter:drop-shadow(0_0_34px_rgb(89_224_233/0.08))_saturate(122%)]"
         />
       ))}
 
@@ -414,7 +431,7 @@ function ContinuousBackdrop() {
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="eigenai-section-heading eigenai-serif text-center text-[clamp(2rem,6vw,4rem)] font-normal leading-tight text-transparent">
+    <h2 className="font-eigen-serif! bg-[radial-gradient(ellipse_54%_100%_at_30%_48%,#fff_0%,#a272fb_100%)] bg-clip-text text-center text-[clamp(2rem,6vw,4rem)] leading-tight font-medium! text-transparent">
       {children}
     </h2>
   );
@@ -423,10 +440,10 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 function Metric({ value, label }: { value: string; label: string }) {
   return (
     <div className="text-center">
-      <p className="eigenai-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white">
+      <p className="font-eigen-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white">
         {value}
       </p>
-      <p className="eigenai-sans mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl">
+      <p className="font-eigen-sans mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl">
         {label}
       </p>
     </div>
@@ -441,11 +458,11 @@ function GradientPanel({
   className?: string;
 }) {
   return (
-    <div
-      className={`eigenai-glass-panel rounded-4xl sm:rounded-[3.1648rem] ${className}`}
+    <EigenGlassSurface
+      className={`rounded-4xl sm:rounded-[3.1648rem] ${className}`}
     >
       <div className="relative z-1 h-full rounded-[inherit]">{children}</div>
-    </div>
+    </EigenGlassSurface>
   );
 }
 
@@ -470,7 +487,7 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
   return (
     <GradientPanel className="mt-18 sm:mt-24 sm:min-h-64">
       <article className="relative flex min-w-0 flex-col px-5 pb-5 pt-16 text-center sm:min-h-64 sm:px-8 sm:pb-6 sm:pt-20 sm:text-left">
-        <div className="eigenai-speaker-portrait absolute left-1/2 top-0 size-32 -translate-x-1/2 translate-y-[-55%] rounded-full p-0.5 sm:size-40">
+        <EigenSpeakerPortrait className="absolute top-0 left-1/2 size-32 -translate-x-1/2 translate-y-[-55%] rounded-full p-0.5 sm:size-40">
           <div className="relative size-full overflow-hidden rounded-full bg-[#0c0249]">
             <Image
               src={speaker.profileImage}
@@ -480,8 +497,8 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
               className="object-cover"
             />
           </div>
-        </div>
-        <h3 className="eigenai-sans text-lg/tight font-semibold text-white sm:text-2xl">
+        </EigenSpeakerPortrait>
+        <h3 className="font-eigen-sans text-lg/tight font-semibold text-white sm:text-2xl">
           {speaker.name}
         </h3>
         <p className="mt-2 text-xs/relaxed tracking-[0.01em] wrap-anywhere text-[#5edbe7] sm:mt-3 sm:text-base">
@@ -500,14 +517,14 @@ function KeynoteCard({ speaker }: { speaker: Speaker }) {
           <p className="bg-[linear-gradient(90deg,#5edbe7_26.442%,#ffffff_55.769%,#f1dcff_79.327%)] bg-clip-text text-sm tracking-[0.01em] text-transparent sm:text-lg">
             Keynote Speaker
           </p>
-          <h3 className="eigenai-sans mt-1 text-xl/tight font-semibold text-white sm:text-3xl">
+          <h3 className="font-eigen-sans mt-1 text-xl/tight font-semibold text-white sm:text-3xl">
             {speaker.name}
           </h3>
           <p className="mt-2 text-sm tracking-[0.01em] text-[#5edbe7] sm:mt-3 sm:text-lg">
             {speaker.role}
           </p>
         </div>
-        <div className="eigenai-speaker-portrait relative order-1 mx-auto size-32 rounded-full p-0.5 sm:size-52 md:order-2">
+        <EigenSpeakerPortrait className="relative order-1 mx-auto size-32 rounded-full p-0.5 sm:size-52 md:order-2">
           <div className="relative size-full overflow-hidden rounded-full bg-[#0c0249]">
             <Image
               src={speaker.profileImage}
@@ -517,7 +534,7 @@ function KeynoteCard({ speaker }: { speaker: Speaker }) {
               className="object-cover"
             />
           </div>
-        </div>
+        </EigenSpeakerPortrait>
       </article>
     </GradientPanel>
   );
@@ -529,7 +546,7 @@ function WorkshopCard({ workshop }: { workshop: Workshop }) {
       <article className="grid min-w-0 p-5 sm:min-h-72 sm:p-10">
         <div>
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-            <h3 className="eigenai-sans max-w-3xl text-xl/tight font-semibold text-white sm:text-3xl">
+            <h3 className="font-eigen-sans max-w-3xl text-xl/tight font-semibold text-white sm:text-3xl">
               {workshop.title}
             </h3>
             {workshop.image ? (
@@ -545,7 +562,7 @@ function WorkshopCard({ workshop }: { workshop: Workshop }) {
             ) : null}
           </div>
           {workshop.host ? (
-            <p className="mt-3 text-sm font-extralight tracking-[0.01em] text-[#5edbe7] sm:text-base">
+            <p className="mt-3 text-sm font-medium tracking-[0.01em] text-[#5edbe7] sm:text-base">
               {workshop.host}
             </p>
           ) : null}
@@ -579,21 +596,23 @@ function EigenFooter() {
         <ul className="relative z-10 mt-5 flex flex-wrap justify-center gap-3 sm:mt-6 sm:gap-5">
           {socialLinks.map((social) => (
             <li key={social.label}>
-              <a
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`UTMIST on ${social.label}`}
-                className="eigenai-liquid-orb flex size-11 items-center justify-center rounded-full transition hover:-translate-y-1"
-              >
-                <Image
-                  src={social.icon}
-                  alt=""
-                  width={20}
-                  height={20}
-                  className="size-5 brightness-0 invert"
-                />
-              </a>
+              <EigenGlassSurface asChild variant="orb">
+                <a
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`UTMIST on ${social.label}`}
+                  className="flex size-11 items-center justify-center rounded-full transition hover:-translate-y-1"
+                >
+                  <Image
+                    src={social.icon}
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="size-5 brightness-0 invert"
+                  />
+                </a>
+              </EigenGlassSurface>
             </li>
           ))}
         </ul>
@@ -606,7 +625,7 @@ export default function EigenAIRedesign() {
   return (
     <main
       data-testid="eigenai-redesign"
-      className="eigenai-redesign relative isolate overflow-hidden bg-[#0c0249] text-white"
+      className="font-eigen-body relative isolate overflow-hidden bg-[#0c0249] font-medium text-white"
     >
       <ContinuousBackdrop />
       <EigenNavigation />
@@ -616,11 +635,11 @@ export default function EigenAIRedesign() {
       >
         <ContentContainer className="flex -translate-y-4 flex-col items-center">
           <EigenAILockup fontSize="clamp(4rem, 15vw, 10.5rem)" showCursor />
-          <div className="eigenai-glass-panel relative mt-8 flex min-h-10 w-fit max-w-full items-center justify-center rounded-full px-4 py-2 text-xs/snug tracking-[-0.01em] sm:mt-10 sm:min-h-11 sm:px-8 sm:text-base">
+          <EigenGlassSurface className="mt-8 flex min-h-10 w-fit max-w-full items-center justify-center rounded-full px-4 py-2 text-xs/snug tracking-[-0.01em] sm:mt-10 sm:min-h-11 sm:px-8 sm:text-base">
             <span className="relative z-1 text-center text-white sm:whitespace-nowrap">
               October 3rd &amp; 4th @ LOCAT
             </span>
-          </div>
+          </EigenGlassSurface>
         </ContentContainer>
       </section>
 
@@ -711,7 +730,7 @@ export default function EigenAIRedesign() {
         className="relative flex items-center justify-center px-5 pb-10 pt-4 text-center sm:min-h-192 sm:px-10 sm:py-32"
       >
         <ContentContainer>
-          <p className="eigenai-closing-copy eigenai-body mx-auto max-w-4xl text-[clamp(1.75rem,6vw,4rem)] font-extralight italic leading-tight tracking-[0.01em] text-transparent">
+          <p className="font-eigen-body mx-auto max-w-4xl bg-[linear-gradient(90deg,#5edbe7_26.4423%,#fff_55.7692%,#f1dcff_79.3269%)] bg-clip-text text-[clamp(1.75rem,6vw,4rem)] leading-tight font-medium tracking-[0.01em] text-transparent italic">
             Across the Many
             <br />
             Frontiers of AI

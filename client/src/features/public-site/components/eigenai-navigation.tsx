@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import utmistWordmark from "@/assets/logos/utmist-wordmark-white.png";
+import { EigenGlassSurface } from "@/features/public-site/components/eigenai-surfaces";
 
 const navigationLinks = [
   { href: "/#about-us", label: "About" },
@@ -49,10 +50,18 @@ export function EigenNavigation() {
           data-testid="eigenai-mobile-nav-surface"
           className={`relative z-30 w-full md:hidden ${
             isOpen
-              ? "eigenai-mobile-glass rounded-b-3xl"
+              ? "rounded-b-3xl"
               : "bg-[#0c0249]/90 shadow-md backdrop-blur-xl"
           }`}
         >
+          {isOpen ? (
+            <EigenGlassSurface
+              variant="mobile"
+              className="pointer-events-none absolute inset-0 rounded-b-3xl before:hidden"
+            >
+              <span />
+            </EigenGlassSurface>
+          ) : null}
           <div
             data-testid="eigenai-mobile-nav-bar"
             className="flex w-full items-center justify-between px-4 py-3"
@@ -101,22 +110,26 @@ export function EigenNavigation() {
                   </li>
                 ))}
                 <li className="mt-2 px-2">
-                  <Link
-                    href="/auth"
-                    className="eigenai-login-button eigenai-body relative block w-fit rounded-full px-7 py-2 text-center text-sm/normal font-normal tracking-[-0.01em] text-white"
-                    onClick={closeMenu}
-                  >
-                    Login
-                  </Link>
+                  <EigenGlassSurface asChild variant="action">
+                    <Link
+                      href="/auth"
+                      className="font-eigen-body block w-fit rounded-full px-7 py-2 text-center text-sm/normal font-medium tracking-[-0.01em] text-white"
+                      onClick={closeMenu}
+                    >
+                      Login
+                    </Link>
+                  </EigenGlassSurface>
                 </li>
               </ul>
             </div>
           ) : null}
 
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-full h-8 bg-gradient-to-b from-[#0c0249]/75 to-transparent"
-          />
+          {!isOpen ? (
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 top-full h-8 bg-gradient-to-b from-[#0c0249]/75 to-transparent"
+            />
+          ) : null}
         </div>
 
         <div className="hidden items-center justify-between gap-4 md:flex">
@@ -134,7 +147,10 @@ export function EigenNavigation() {
             />
           </Link>
 
-          <div className="eigenai-liquid-glass flex items-center rounded-full px-12 py-3">
+          <EigenGlassSurface
+            variant="liquid"
+            className="flex items-center rounded-full px-12 py-3"
+          >
             <ul className="relative z-10 flex items-center gap-7">
               {navigationLinks.map((item) => (
                 <li key={item.href}>
@@ -147,14 +163,16 @@ export function EigenNavigation() {
                 </li>
               ))}
             </ul>
-          </div>
+          </EigenGlassSurface>
 
-          <Link
-            href="/auth"
-            className="eigenai-login-button eigenai-body relative z-10 shrink-0 rounded-[3.165rem] px-8 py-2 text-sm/normal font-normal tracking-[-0.01em] text-white transition"
-          >
-            Login
-          </Link>
+          <EigenGlassSurface asChild variant="action">
+            <Link
+              href="/auth"
+              className="font-eigen-body z-10 shrink-0 rounded-[3.165rem] px-8 py-2 text-sm/normal font-medium tracking-[-0.01em] text-white transition"
+            >
+              Login
+            </Link>
+          </EigenGlassSurface>
         </div>
 
         {isOpen ? (
