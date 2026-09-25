@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "payload generate:importmap && payload generate:types && next build",
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -16,7 +16,11 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:unit": "jest tests/unit",
-    "test:integration": "jest tests/integration"
+    "test:integration": "jest tests/integration",
+    "payload:db:start": "docker compose -f compose.payload.yml up -d --wait",
+    "payload:db:stop": "docker compose -f compose.payload.yml down",
+    "payload:generate-types": "payload generate:types",
+    "payload:generate-importmap": "payload generate:importmap"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -29,10 +33,12 @@
     "@supabase/supabase-js": "^2.50.0",
     "@tailwindcss/cli": "^4.3.3",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@vercel/flags-core": "1.8.2",
     "aos": "^2.3.4",
     "chart.js": "^4.5.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "flags": "4.3.1",
     "flowbite-react": "^0.12.6",
     "framer-motion": "^12.23.12",
     "googleapis": "^156.0.0",

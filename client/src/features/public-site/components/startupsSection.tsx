@@ -1,5 +1,6 @@
 import Link from "next/link";
 import "@/styles/home.css";
+import { Button } from "@/shared/ui";
 
 const StartupsSection = () => {
   return (
@@ -169,16 +170,9 @@ const StartupsSection = () => {
               startup
             </p>
             <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full">
-              <Link
-                href="/startups"
-                className="px-6 py-2 text-white rounded-full font-medium transition-opacity duration-200 hover:opacity-90 w-auto"
-                style={{
-                  fontFamily: "var(--system-font)",
-                  background: "var(--gradient-action)",
-                }}
-              >
-                Learn More
-              </Link>
+              <Button asChild size="lg">
+                <Link href="/startups">Learn More</Link>
+              </Button>
             </div>
           </div>
         </div>
