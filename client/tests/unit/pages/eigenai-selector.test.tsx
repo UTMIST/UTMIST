@@ -135,7 +135,7 @@ describe("EigenAI flag selector", () => {
     ).toHaveLength(3);
     expect(
       screen.getAllByText("Building Applications with the Claude API")[0],
-    ).toHaveClass("font-normal!");
+    ).toHaveClass("font-medium!");
     const contentContainers = screen.getAllByTestId("eigenai-content");
     expect(contentContainers.length).toBeGreaterThanOrEqual(5);
     expect(
