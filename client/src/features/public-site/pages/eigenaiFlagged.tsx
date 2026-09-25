@@ -11,6 +11,8 @@
 
 import { contextFromProfile } from "@/shared/lib";
 import { evaluateFlag, getCurrentUser } from "@/shared/lib/server";
+import { Footer } from "@/shared/ui";
+import { FloatingThemeToggle, Navbar } from "@/shared/ui/client";
 
 import EigenAIPage from "./eigenai";
 import EigenAIRedesign from "./eigenaiRedesign";
@@ -23,5 +25,16 @@ export default async function EigenAIFlagged() {
     contextFromProfile(profile),
   );
 
-  return showRedesign ? <EigenAIRedesign /> : <EigenAIPage />;
+  if (showRedesign) return <EigenAIRedesign />;
+
+  // The frontend layout omits its chrome on /eigenai. Restore the standard
+  // controls for the legacy branch, including default-off provider failures.
+  return (
+    <>
+      <Navbar />
+      <EigenAIPage />
+      <Footer />
+      <FloatingThemeToggle />
+    </>
+  );
 }

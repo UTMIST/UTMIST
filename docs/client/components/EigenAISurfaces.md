@@ -29,4 +29,6 @@ Tailwind utilities.
 The frontend layout wraps the standard site navbar, footer, and floating theme
 toggle in `HideOnEigenAI`. The route-aware client component omits that shared
 chrome on `/eigenai` and nested EigenAI routes, regardless of which feature-flag
-variant is selected. The EigenAI page supplies its own navigation and footer.
+variant is selected. The page selector restores the standard navbar, footer,
+and floating theme toggle for the legacy branch, including flag-evaluation
+failures. The redesign supplies its own navigation and footer instead.

@@ -12,6 +12,11 @@ jest.mock("@/shared/lib/server", () => ({
   getCurrentUser: () => mockGetCurrentUser(),
 }));
 
+jest.mock("@/shared/ui/client", () => ({
+  Navbar: () => <nav aria-label="Site">Standard navigation</nav>,
+  FloatingThemeToggle: () => <button>Change theme</button>,
+}));
+
 jest.mock("@/features/public-site/pages/eigenai", () => ({
   __esModule: true,
   default: () => <div data-testid="eigenai-existing">existing</div>,
@@ -32,12 +37,15 @@ describe("EigenAI flag selector", () => {
     expect(dynamic).toBe("force-dynamic");
   });
 
-  it("selects the existing page when the flag is off", async () => {
+  it("selects the existing page with standard chrome when the flag is off", async () => {
     mockEvaluateFlag.mockResolvedValue(false);
 
     render(await EigenAIFlagged());
 
     expect(screen.getByTestId("eigenai-existing")).toBeInTheDocument();
+    expect(screen.getByRole("navigation", { name: "Site" })).toBeInTheDocument();
+    expect(screen.getByRole("contentinfo")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Change theme" })).toBeInTheDocument();
     expect(screen.queryByTestId("eigenai-redesign")).not.toBeInTheDocument();
     expect(mockEvaluateFlag).toHaveBeenCalledWith("Eigen-AI-Redesign", {
       cohort: "public",
@@ -58,6 +66,8 @@ describe("EigenAI flag selector", () => {
     );
     const navigation = screen.getByRole("navigation", { name: "EigenAI" });
     expect(navigation).toBeInTheDocument();
+    expect(screen.queryByRole("navigation", { name: "Site" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Change theme" })).not.toBeInTheDocument();
     expect(
       within(navigation).getByRole("button", { name: "Open navigation menu" }),
     ).toHaveAttribute("aria-expanded", "false");
@@ -308,5 +318,8 @@ describe("EigenAI flag selector", () => {
     render(await EigenAIFlagged());
 
     expect(screen.getByTestId("eigenai-existing")).toBeInTheDocument();
+    expect(screen.getByRole("navigation", { name: "Site" })).toBeInTheDocument();
+    expect(screen.getByRole("contentinfo")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Change theme" })).toBeInTheDocument();
   });
 });

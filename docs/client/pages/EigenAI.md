@@ -24,8 +24,13 @@ const showRedesign = await evaluateFlag(
   "Eigen-AI-Redesign",
   contextFromProfile(profile),
 );
-return showRedesign ? <EigenAIRedesign /> : <EigenAIPage />;
 ```
+
+When enabled, the selector renders `EigenAIRedesign`, which supplies its own
+navigation and footer. Otherwise it renders `Navbar`, `EigenAIPage`, `Footer`,
+and `FloatingThemeToggle` together, preserving the legacy page's standard site
+controls. The frontend layout omits its copies on `/eigenai` through
+`HideOnEigenAI`, so each variant renders exactly one set of controls.
 
 `evaluateFlag` (from `@/shared/lib/server`) is **default-off**: a missing flag,
 missing configuration, or an evaluation failure returns `false`, so anything but
@@ -94,8 +99,9 @@ glass bubble explicitly, avoiding distortion from the former square icon canvas.
 Glass panels use a fully transparent fill, the Figma gradient border, and a
 light backdrop filter approximating the source refraction and dispersion
 without introducing a blue colour tint.
-When the redesign is present, page-scoped `:has()` selectors suppress the
-shared site navbar, footer, and floating theme control. The redesign supplies
+The route-aware `HideOnEigenAI` wrapper suppresses the frontend layout's shared
+navbar, footer, and floating theme control; the selector restores them only for
+the legacy branch. The redesign supplies
 its own responsive navigation and footer inside the continuous orbital
 background, using the same liquid-glass surface treatment as the event UI. The
 navigation login control combines the Figma `rgba(76, 229, 232, 0.4)` blue body
@@ -138,6 +144,8 @@ navigation, and footer.
 ## Tests
 
 - `client/tests/unit/pages/eigenai-selector.test.tsx` — off → existing, on →
-  redesign, default-off → existing (server barrel mocked).
+  redesign, default-off → existing (server barrel mocked). Checks that the
+  legacy/default-off branches retain standard navigation, footer, and theme
+  controls, and the redesign has only its own chrome.
 - `client/tests/unit/pages/eigenai.test.tsx` — the existing page's own
   render/data/throw assertions (imports the component directly).
