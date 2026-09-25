@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING: "1"
 
     defaults:
       run:
@@ -101,6 +103,7 @@ jobs:
     env:
       VERCEL_ORG_ID: team_xAGWQZLeFUyvgLA8iOTNJFnu
       VERCEL_PROJECT_ID: prj_L6wyTsPfqVyJGmheCUenmIutXtJz
+      VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING: "1"
 
     defaults:
       run:
@@ -132,8 +135,11 @@ jobs:
           NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           PAYLOAD_DATABASE_URI: ${{ secrets.PAYLOAD_DATABASE_URI }}
-          # Flags authenticate at request time with Vercel-provided OIDC.
-          # No per-environment Flags SDK secrets are needed in GitHub Actions.
+          # Separate provider credentials and Explorer encryption key. Configure
+          # both in Vercel Preview settings too: these build env vars alone do
+          # not configure the deployed function's runtime environment.
+          FLAGS: ${{ secrets.FLAGS }}
+          FLAGS_SECRET: ${{ secrets.FLAGS_SECRET }}
 
       - name: Deploy Preview to Vercel
         id: deploy
@@ -183,6 +189,7 @@ jobs:
     env:
       VERCEL_ORG_ID: team_xAGWQZLeFUyvgLA8iOTNJFnu
       VERCEL_PROJECT_ID: prj_L6wyTsPfqVyJGmheCUenmIutXtJz
+      VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING: "1"
 
     defaults:
       run:

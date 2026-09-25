@@ -16,9 +16,9 @@ jest.mock('@vercel/flags-core', () => ({
   createClient: jest.fn(() => ({ evaluate: jest.fn() })),
 }));
 
-// Building the adapter creates its client via the mocked
+// Building the adapter with an arbitrary key creates its client via the mocked
 // `createClient()`; the client stub is whatever that first call returned.
-const vercelFlagAdapter = createVercelFlagAdapter();
+const vercelFlagAdapter = createVercelFlagAdapter('test-key');
 const mockEvaluate = (createClient as jest.Mock).mock.results[0].value
   .evaluate as jest.Mock;
 
@@ -122,9 +122,9 @@ describe('vercelFlagAdapter', () => {
     expect(mockEvaluate).not.toHaveBeenCalled();
   });
 
-  it('builds one SDK client per adapter with automatic OIDC authentication', () => {
+  it('builds one SDK client per adapter, from the key it was given', () => {
     expect(createClient).toHaveBeenCalledTimes(1);
-    expect(createClient).toHaveBeenCalledWith(undefined);
+    expect(createClient).toHaveBeenCalledWith('test-key');
   });
 
   it('propagates a rejection for the evaluator wrapper to turn into default-off', async () => {
@@ -152,17 +152,5 @@ describe('vercelFlagAdapter', () => {
     await expect(
       vercelFlagAdapter.evaluate('Eigen-AI-Redesign', anonymous),
     ).resolves.toBe(true);
-  });
-
-  it('supports the standard FLAGS credential without custom environment-specific names', () => {
-    const originalFlags = process.env.FLAGS;
-    try {
-      process.env.FLAGS = 'standard-credential';
-      createVercelFlagAdapter();
-      expect(createClient).toHaveBeenLastCalledWith('standard-credential');
-    } finally {
-      if (originalFlags === undefined) delete process.env.FLAGS;
-      else process.env.FLAGS = originalFlags;
-    }
   });
 });

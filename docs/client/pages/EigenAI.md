@@ -35,18 +35,25 @@ controls. The frontend layout omits its copies on `/eigenai` through
 `evaluateFlag` (from `@/shared/lib/server`) is **default-off**: a missing flag,
 missing configuration, or an evaluation failure returns `false`, so anything but
 an explicit "on" keeps the existing page. See
-[../flags.md](../flags.md) for the flag runtime, automatic Vercel OIDC authentication,
+[../flags.md](../flags.md) for the flag runtime, per-environment SDK keys,
 and the embedded-fallback mitigation.
 
 ## Rollout / opt-in
 
-Keep the flag **off in the Production dashboard** until launch (#444).
-Production now evaluates its own flag configuration, with no hardcoded override.
-Vercel authenticates automatically; local live evaluation uses credentials from
-`vercel env pull .env.local`. `FLAGS_SECRET` is not an SDK credential. To preview
-the redesign, turn `Eigen-AI-Redesign` **ON in the Development / Preview**
-environment in the Vercel dashboard; a toggle takes effect on the next request
-without a redeploy. The redesign is scoped to the `.eigenai-redesign` wrapper
+The flag is **always off in production** until launch (#444): the public
+evaluator checks `VERCEL_ENV=production` before provider evaluation or Explorer
+overrides. Provider authentication uses the environment's `FLAGS` SDK key; the
+separate `FLAGS_SECRET` enables authenticated Flags Explorer discovery and
+browser overrides. In development/preview, an Explorer override takes
+precedence for that browser; clear it to test dashboard toggles.
+
+To preview the redesign, configure the Development / Preview `FLAGS` key and
+turn `Eigen-AI-Redesign` **ON** in that environment's Vercel dashboard. Subsequent
+server evaluations follow provider updates without a redeploy. Local development
+without a provider key uses fixtures, which currently enable the redesign.
+See [../flags.md](../flags.md) for setup and verification.
+
+The redesign is scoped to its `data-testid="eigenai-redesign"` wrapper
 and uses responsive metric, speaker, keynote, workshop, and event-lockup
 components. It reuses the existing EigenAI content, speaker portraits, event
 photography, UTMIST branding, social assets, and shared button primitive.
