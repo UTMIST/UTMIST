@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING: "1"
 
     defaults:
       run:
@@ -47,10 +49,13 @@ jobs:
 
       # Dependabot and fork PRs cannot read this repo's secrets (Dependabot runs
       # against a separate secret store, forks against none), so these come out
-      # empty there. Three pages throw on a missing value rather than degrading:
-      # shared/lib/supabase/client.ts throws at module load, and eigenai.tsx
-      # throws on render. Either one fails the prerender and turns every such PR
-      # red, whatever the PR actually changed.
+      # empty there. Pages that throw on a missing value rather than degrading
+      # fail the prerender and turn every such PR red, whatever the PR actually
+      # changed — e.g. shared/lib/supabase/client.ts throws at module load.
+      # (eigenai.tsx still throws on a missing Maps key, but as of #447 /eigenai
+      # is `force-dynamic` and no longer prerendered at build, so it needs the
+      # key at request time, not here — the fallback below stays anyway, since a
+      # future prerendered page could read the same var.)
       #
       # So every var the prerender can throw on needs a fallback here, not just
       # the ones that happen to have bitten us — a page added later that throws
@@ -98,6 +103,7 @@ jobs:
     env:
       VERCEL_ORG_ID: team_xAGWQZLeFUyvgLA8iOTNJFnu
       VERCEL_PROJECT_ID: prj_L6wyTsPfqVyJGmheCUenmIutXtJz
+      VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING: "1"
 
     defaults:
       run:
@@ -129,6 +135,11 @@ jobs:
           NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           PAYLOAD_DATABASE_URI: ${{ secrets.PAYLOAD_DATABASE_URI }}
+          # Separate provider credentials and Explorer encryption key. Configure
+          # both in Vercel Preview settings too: these build env vars alone do
+          # not configure the deployed function's runtime environment.
+          FLAGS: ${{ secrets.FLAGS }}
+          FLAGS_SECRET: ${{ secrets.FLAGS_SECRET }}
 
       - name: Deploy Preview to Vercel
         id: deploy
@@ -178,6 +189,7 @@ jobs:
     env:
       VERCEL_ORG_ID: team_xAGWQZLeFUyvgLA8iOTNJFnu
       VERCEL_PROJECT_ID: prj_L6wyTsPfqVyJGmheCUenmIutXtJz
+      VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING: "1"
 
     defaults:
       run:
