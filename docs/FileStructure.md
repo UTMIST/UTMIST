@@ -42,7 +42,7 @@ client/src/
 │   └── members/          # pages/ components/ api/
 ├── shared/
 │   ├── ui/                # design-system barrel (components + index.ts)
-│   └── lib/                # platform: auth/ hooks/ storage/ supabase/
+│   └── lib/                # platform: auth/ flags/ hooks/ storage/ supabase/
 │       ├── index.ts        # universal barrel   → @/shared/lib
 │       ├── client.ts        # browser-only barrel → @/shared/lib/client
 │       ├── server.ts        # server-only barrel  → @/shared/lib/server
@@ -128,6 +128,8 @@ Import components from these barrels, not from `shared/ui/<file>` directly.
 - [`client/README.md`](../client/README.md) — architecture: auth flow,
   server-side guards, deployment.
 - [`docs/client/Testing.md`](client/Testing.md) — test suite conventions.
+- [`docs/client/flags.md`](client/flags.md) — feature-flag & beta-preference
+  contract, fixtures, and how real adapters replace them.
 - [`docs/client/`](client/) — per-page and per-component notes.
 
 ## Additional Notes
