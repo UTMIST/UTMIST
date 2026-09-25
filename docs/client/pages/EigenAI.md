@@ -7,16 +7,16 @@ there is no flash of the wrong page and the choice is never frozen at build.
 ## Location
 
 - Route shell: `client/src/app/(frontend)/eigenai/page.tsx` — re-exports the
-  selector's `default` and its `dynamic`.
+  selector's `default` and declares `dynamic = "force-dynamic"` locally.
 - Selector (server): `client/src/features/public-site/pages/eigenaiFlagged.tsx`.
 - Existing page (client): `client/src/features/public-site/pages/eigenai.tsx`.
 - Redesign stub (client): `client/src/features/public-site/pages/eigenaiRedesign.tsx`.
 
 ## How the selection works
 
-`eigenaiFlagged.tsx` is an async server component with
-`export const dynamic = "force-dynamic"` (per-request evaluation; `/eigenai` is
-not statically prerendered). It reads the optional current profile with
+`eigenaiFlagged.tsx` is an async server component. The route shell declares
+`export const dynamic = "force-dynamic"` for per-request evaluation; `/eigenai`
+is not statically prerendered. It reads the optional current profile with
 `getCurrentUser()` — the page is public, so it never `requireUser()` — and calls:
 
 ```tsx
@@ -41,6 +41,13 @@ environment in the Vercel dashboard; a toggle takes effect on the next request
 without a redeploy. The redesign component is currently a **stub** (scoped to the
 `.eigenai-redesign` wrapper); the approved UI and content are composed in the
 integration task (#444/#445/#446).
+
+Provider authentication uses the environment's `FLAGS` SDK key. The separate
+`FLAGS_SECRET` enables authenticated Flags Explorer discovery and browser
+overrides. In development/preview an Explorer override takes precedence over
+the provider for that browser; clear it to test dashboard toggles. The
+production guard runs before overrides, so Production always shows the existing
+page. See [../flags.md](../flags.md) for setup and verification.
 
 ## Gotchas
 

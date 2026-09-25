@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING: "1"
 
     defaults:
       run:
@@ -101,6 +103,7 @@ jobs:
     env:
       VERCEL_ORG_ID: team_xAGWQZLeFUyvgLA8iOTNJFnu
       VERCEL_PROJECT_ID: prj_L6wyTsPfqVyJGmheCUenmIutXtJz
+      VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING: "1"
 
     defaults:
       run:
@@ -132,8 +135,10 @@ jobs:
           NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           PAYLOAD_DATABASE_URI: ${{ secrets.PAYLOAD_DATABASE_URI }}
-          # Preview-environment Vercel Flags SDK key. Production is deliberately
-          # keyless (the deploy job sets none), so flags stay off in prod.
+          # Separate provider credentials and Explorer encryption key. Configure
+          # both in Vercel Preview settings too: these build env vars alone do
+          # not configure the deployed function's runtime environment.
+          FLAGS: ${{ secrets.FLAGS }}
           FLAGS_SECRET: ${{ secrets.FLAGS_SECRET }}
 
       - name: Deploy Preview to Vercel
@@ -184,6 +189,7 @@ jobs:
     env:
       VERCEL_ORG_ID: team_xAGWQZLeFUyvgLA8iOTNJFnu
       VERCEL_PROJECT_ID: prj_L6wyTsPfqVyJGmheCUenmIutXtJz
+      VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING: "1"
 
     defaults:
       run:
