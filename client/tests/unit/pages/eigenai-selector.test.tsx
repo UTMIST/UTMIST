@@ -22,6 +22,10 @@ jest.mock("@/features/public-site/pages/eigenai", () => ({
   default: () => <div data-testid="eigenai-existing">existing</div>,
 }));
 
+jest.mock("react-intersection-observer", () => ({
+  useInView: () => ({ ref: jest.fn(), inView: false }),
+}));
+
 import EigenAIFlagged from "@/features/public-site/pages/eigenaiFlagged";
 // `dynamic` is declared on the route segment itself (that's the only place
 // Next.js reads it), so assert it there rather than on the selector module.
@@ -122,13 +126,16 @@ describe("EigenAI flag selector", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Jensen Huang" }),
-    ).toBeInTheDocument();
+    ).toHaveClass("font-normal!");
     expect(
       screen.getByRole("heading", { name: "Workshops" }),
     ).toBeInTheDocument();
     expect(
       screen.getAllByText("Building Applications with the Claude API"),
     ).toHaveLength(3);
+    expect(
+      screen.getAllByText("Building Applications with the Claude API")[0],
+    ).toHaveClass("font-normal!");
     const contentContainers = screen.getAllByTestId("eigenai-content");
     expect(contentContainers.length).toBeGreaterThanOrEqual(5);
     expect(
@@ -142,6 +149,13 @@ describe("EigenAI flag selector", () => {
       "grid-cols-3",
       "gap-x-2",
       "sm:gap-x-0",
+    );
+    const attendees = screen.getByText("Attendees");
+    expect(attendees).toHaveClass("font-eigen-body", "text-white");
+    expect(attendees.previousElementSibling).toHaveClass(
+      "font-eigen-serif",
+      "text-[clamp(2.25rem,8vw,6rem)]",
+      "text-white",
     );
     const lockups = screen.getAllByTestId("eigenai-lockup");
     expect(lockups).toHaveLength(2);
@@ -186,7 +200,7 @@ describe("EigenAI flag selector", () => {
     ).toHaveLength(13);
     const orbitClusters = screen.getAllByTestId("eigenai-orbit-cluster");
     expect(orbitClusters).toHaveLength(4);
-    expect(screen.getAllByTestId("eigenai-orbit-cloud")).toHaveLength(4);
+    expect(screen.getAllByTestId("eigenai-orbit-cloud")).toHaveLength(3);
     expect(orbitClusters[0]).toHaveStyle({ maxWidth: "951.318px" });
     expect(orbitClusters[3]).toHaveStyle({ maxWidth: "1113.84px" });
     const lambdaClusters = screen.getAllByTestId("eigenai-lambda-cluster");
@@ -257,10 +271,10 @@ describe("EigenAI flag selector", () => {
       ["Discord", "https://discord.com/invite/88mSPw8"],
       ["LinkedIn", "https://www.linkedin.com/company/utmist/"],
       ["Instagram", "https://www.instagram.com/uoft_utmist/"],
-      ["Facebook", "https://www.facebook.com/UofT.MIST"],
-      ["X", "https://x.com/utmist1"],
+      // ["Facebook", "https://www.facebook.com/UofT.MIST"],
+      // ["X", "https://x.com/utmist1"],
       ["GitHub", "https://github.com/UTMIST"],
-      ["Medium", "https://utorontomist.medium.com/"],
+      // ["Medium", "https://utorontomist.medium.com/"],
     ];
     for (const [label, href] of footerLinks) {
       expect(

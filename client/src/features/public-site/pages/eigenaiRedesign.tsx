@@ -13,15 +13,16 @@ import {
   EigenGlassSurface,
   EigenSpeakerPortrait,
 } from "@/features/public-site/components/eigenai-surfaces";
+import { StatItem } from "@/features/public-site/components/stats";
 import { EigenAIWordmark } from "@/features/public-site/components/eigenai-wordmark";
 import utmistWordmark from "@/assets/logos/utmist-wordmark-white.png";
 import discordLogo from "@/assets/logos/discord.svg";
-import facebookLogo from "@/assets/logos/facebook.svg";
+// import facebookLogo from "@/assets/logos/facebook.svg";
 import githubLogo from "@/assets/logos/github.svg";
 import instagramLogo from "@/assets/logos/instagram.svg";
 import linkedinLogo from "@/assets/logos/linkedin.svg";
-import mediumLogo from "@/assets/logos/medium.svg";
-import xLogo from "@/assets/logos/x.svg";
+// import mediumLogo from "@/assets/logos/medium.svg";
+// import xLogo from "@/assets/logos/x.svg";
 import ellipseA from "@/assets/eigenai-redesign/ellipse-a.svg";
 import ellipseB from "@/assets/eigenai-redesign/ellipse-b.svg";
 import ellipseC from "@/assets/eigenai-redesign/ellipse-c.svg";
@@ -279,12 +280,14 @@ function OrbitCluster({
   y,
   width,
   transform,
+  showCloud = true,
 }: {
   src: StaticImageData;
   x: number;
   y: number;
   width: number;
   transform?: string;
+  showCloud?: boolean;
 }) {
   return (
     <div
@@ -304,17 +307,19 @@ function OrbitCluster({
         alt=""
         className="h-auto w-full max-w-none opacity-42 mix-blend-screen [filter:drop-shadow(0_0_5px_rgb(255_255_255/0.12))_drop-shadow(0_0_18px_rgb(89_224_233/0.12))_saturate(132%)]"
       />
-      <Image
-        src={iconCloud}
-        alt=""
-        data-testid="eigenai-orbit-cloud"
-        className="absolute z-1 h-auto opacity-62 mix-blend-screen drop-shadow-[0_0_4px_rgb(255_255_255/0.2)]"
-        style={{
-          left: "22.306%",
-          top: "7.12%",
-          width: "2.036%",
-        }}
-      />
+      {showCloud ? (
+        <span
+          data-testid="eigenai-orbit-cloud"
+          className="absolute z-1 flex aspect-square items-center justify-center rounded-full border border-white/55 opacity-62 mix-blend-screen drop-shadow-[0_0_4px_rgb(255_255_255/0.2)]"
+          style={{
+            left: "21.3%",
+            top: "5.82%",
+            width: "4.066%",
+          }}
+        >
+          <Image src={iconCloud} alt="" className="h-auto w-1/2" />
+        </span>
+      ) : null}
     </div>
   );
 }
@@ -384,6 +389,7 @@ function ContinuousBackdrop() {
         y={-679.9}
         width={951.318}
         transform="rotate(-30deg) scaleY(-1)"
+        showCloud={false}
       />
       <OrbitCluster
         src={techOrbit}
@@ -437,19 +443,6 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Metric({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="text-center">
-      <p className="font-eigen-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white">
-        {value}
-      </p>
-      <p className="font-eigen-sans mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl">
-        {label}
-      </p>
-    </div>
-  );
-}
-
 function GradientPanel({
   children,
   className = "",
@@ -498,10 +491,10 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
             />
           </div>
         </EigenSpeakerPortrait>
-        <h3 className="font-eigen-sans text-lg/tight font-semibold text-white sm:text-2xl">
+        <h3 className="font-eigen-sans text-lg/tight font-medium! text-white sm:text-2xl">
           {speaker.name}
         </h3>
-        <p className="mt-2 text-xs/relaxed tracking-[0.01em] wrap-anywhere text-[#5edbe7] sm:mt-3 sm:text-base">
+        <p className="mt-2 text-xs/relaxed font-normal tracking-[0.01em] wrap-anywhere text-[#5edbe7] sm:mt-3 sm:text-base">
           {speaker.role}
         </p>
       </article>
@@ -517,10 +510,10 @@ function KeynoteCard({ speaker }: { speaker: Speaker }) {
           <p className="bg-[linear-gradient(90deg,#5edbe7_26.442%,#ffffff_55.769%,#f1dcff_79.327%)] bg-clip-text text-sm tracking-[0.01em] text-transparent sm:text-lg">
             Keynote Speaker
           </p>
-          <h3 className="font-eigen-sans mt-1 text-xl/tight font-semibold text-white sm:text-3xl">
+          <h3 className="font-eigen-sans mt-1 text-xl/tight font-normal! text-white sm:text-3xl">
             {speaker.name}
           </h3>
-          <p className="mt-2 text-sm tracking-[0.01em] text-[#5edbe7] sm:mt-3 sm:text-lg">
+          <p className="mt-2 text-sm font-normal tracking-[0.01em] text-[#5edbe7] sm:mt-3 sm:text-lg">
             {speaker.role}
           </p>
         </div>
@@ -546,7 +539,7 @@ function WorkshopCard({ workshop }: { workshop: Workshop }) {
       <article className="grid min-w-0 p-5 sm:min-h-72 sm:p-10">
         <div>
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-            <h3 className="font-eigen-sans max-w-3xl text-xl/tight font-semibold text-white sm:text-3xl">
+            <h3 className="font-eigen-sans max-w-3xl text-xl/tight font-medium! text-white sm:text-3xl">
               {workshop.title}
             </h3>
             {workshop.image ? (
@@ -566,7 +559,7 @@ function WorkshopCard({ workshop }: { workshop: Workshop }) {
               {workshop.host}
             </p>
           ) : null}
-          <p className="mt-4 max-w-3xl text-sm/relaxed tracking-[-0.01em] text-white sm:mt-6 sm:text-lg">
+          <p className="mt-4 max-w-3xl text-sm/relaxed font-normal tracking-[-0.01em] text-white sm:mt-6 sm:text-lg">
             {workshop.description}
           </p>
         </div>
@@ -635,7 +628,7 @@ export default function EigenAIRedesign() {
       >
         <ContentContainer className="flex -translate-y-4 flex-col items-center">
           <EigenAILockup fontSize="clamp(4rem, 15vw, 10.5rem)" showCursor />
-          <EigenGlassSurface className="mt-8 flex min-h-10 w-fit max-w-full items-center justify-center rounded-full px-4 py-2 text-xs/snug tracking-[-0.01em] sm:mt-10 sm:min-h-11 sm:px-8 sm:text-base">
+          <EigenGlassSurface className="mt-8 flex min-h-15 w-fit max-w-full items-center justify-center rounded-full px-4 py-4 text-lg leading-none tracking-[-0.01em] sm:mt-10 sm:min-h-11 sm:px-8 sm:text-3xl">
             <span className="relative z-1 text-center text-white sm:whitespace-nowrap">
               October 3rd &amp; 4th @ LOCAT
             </span>
@@ -652,9 +645,27 @@ export default function EigenAIRedesign() {
             data-testid="eigenai-metrics"
             className="mx-auto grid max-w-3xl grid-cols-3 gap-x-2 sm:gap-x-0"
           >
-            <Metric value="500+" label="Attendees" />
-            <Metric value="20" label="Speakers" />
-            <Metric value="11" label="Workshops" />
+            <StatItem
+              number="500+"
+              description="Attendees"
+              className="text-center"
+              numberClassName="font-eigen-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white"
+              descriptionClassName="font-eigen-body mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl"
+            />
+            <StatItem
+              number="20"
+              description="Speakers"
+              className="text-center"
+              numberClassName="font-eigen-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white"
+              descriptionClassName="font-eigen-body mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl"
+            />
+            <StatItem
+              number="11"
+              description="Workshops"
+              className="text-center"
+              numberClassName="font-eigen-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white"
+              descriptionClassName="font-eigen-body mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl"
+            />
           </div>
 
           <div className="mt-10 sm:mt-28">
