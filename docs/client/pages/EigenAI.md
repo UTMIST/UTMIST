@@ -51,17 +51,55 @@ text gradients and glow treatments scoped to that page.
 The implementation intentionally uses a smaller responsive web type scale than
 the source Figma artwork: body copy starts at `1rem`, metric display text is
 capped at `6rem`, the event wordmark at `7rem`, and section headings at `4rem`.
+Instrument Sans copy uses weight `200`, while DM Sans and DM Serif Display
+retain their display weights. The lockup's Instrument Sans conference subtitle
+uses the Figma cyan-white-lavender text gradient.
 Shared `max-w-6xl` content containers and narrower prose columns keep text and
 cards wrapping predictably on wide screens. Footer social controls use standard
 `44px` targets with `20px` icons.
 The reusable `EigenAILockup` component includes the UTMIST logo and accepts one
 responsive `fontSize` value. The logo and conference subtitle are sized and
 positioned proportionally with `em` units, so every lockup size preserves the
-same relationship between all three elements.
+same relationship between all three elements. Its layered text treatment comes
+from the parallel `EigenAIWordmark` component, which can also appear inline in
+headings without the logo or conference subtitle. The visible wordmark fill
+reproduces the 16 colour-and-position controls from Figma shader node `99:236`;
+its depth, shine, and glint layers reproduce that node's full-opacity white
+inner shadow, whose offset and blur are both `6.2224px` at the Figma size. The
+lockup can optionally include Figma cursor node `99:256`; the hero enables it,
+while later lockups omit it. The cursor itself is outline-only, and its shape is
+also used as a local mask on the hero wordmark layers. It therefore hides the
+overlapping part of the final `i` while allowing the live page backdrop to show
+through instead of approximating the background with a solid fill.
+Decorative artwork lives in a continuous page-level composition and section
+backgrounds allow overflow, preventing lambda and ring artwork from being cut
+at section boundaries. Outlined circles use reusable three-layer concentric
+groups with shared center points and reduced opacity to remain secondary to the
+page content. The composition normalizes the eight `1440 × 1024` Figma backdrop
+frames into one `1440 × 8192` coordinate plane: blurred cyan, blue, purple, and
+lavender fields cross the former frame boundaries without seams, while each
+orbit keeps its rings, glass symbols, and line details in one logical cluster.
+The hero and workshop lambdas are likewise paired layers in that same backdrop
+instead of section-local elements. Their exported white strokes reproduce the
+Figma treatment: the fine `1.0768px` layer has a `4.3071px` layer blur and the
+heavy `4.3071px` layer has an `18.0897px` layer blur at the `444.352px` source
+width. Container-relative blur units preserve those proportions responsively.
+Horizontal scale follows the viewport and
+vertical anchors follow the full rendered page, preserving the Figma sequence
+while allowing the responsive content to determine the page height. Ellipse and
+orbit widths are capped at their Figma-exported desktop dimensions so ultra-wide
+viewports cannot enlarge separate clusters until they overlap. Orbit clusters
+place the tightly bounded cloud-upload export from Figma node `99:465` over its
+glass bubble explicitly, avoiding distortion from the former square icon canvas.
+Glass panels use a fully transparent fill, the Figma gradient border, and a
+light backdrop filter approximating the source refraction and dispersion
+without introducing a blue colour tint.
 When the redesign is present, page-scoped `:has()` selectors suppress the
 shared site navbar, footer, and floating theme control. The redesign supplies
 its own responsive navigation and footer inside the continuous orbital
-background, using the same liquid-glass surface treatment as the event UI.
+background, using the same liquid-glass surface treatment as the event UI. The
+navigation login control combines the Figma `rgba(76, 229, 232, 0.4)` blue body
+with the shared `1.582px` cyan-white-lavender glass outline.
 Until the final conference lineup is approved, the redesign intentionally uses
 the placeholder speaker names, roles, and workshop copy shown in Figma. Those
 cards reuse existing repository portraits; the canonical EigenAI speaker data

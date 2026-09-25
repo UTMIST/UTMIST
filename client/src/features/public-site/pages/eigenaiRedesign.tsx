@@ -8,41 +8,72 @@ import {
   speakerSession,
 } from "@/features/public-site/data/eigenai";
 import { EigenAILockup } from "@/features/public-site/components/eigenai-lockup";
-import conferencePhoto from "@/assets/photos/eigenai-conference.webp";
+import { EigenAIWordmark } from "@/features/public-site/components/eigenai-wordmark";
 import utmistWordmark from "@/assets/logos/utmist-wordmark-white.png";
 import discordLogo from "@/assets/logos/discord.svg";
 import githubLogo from "@/assets/logos/github.svg";
 import instagramLogo from "@/assets/logos/instagram.svg";
 import linkedinLogo from "@/assets/logos/linkedin.svg";
 import xLogo from "@/assets/logos/x.svg";
-import closingOrbit from "@/assets/eigenai-redesign/closing-orbit.svg";
 import ellipseA from "@/assets/eigenai-redesign/ellipse-a.svg";
 import ellipseB from "@/assets/eigenai-redesign/ellipse-b.svg";
 import ellipseC from "@/assets/eigenai-redesign/ellipse-c.svg";
 import ellipseD from "@/assets/eigenai-redesign/ellipse-d.svg";
 import ellipseE from "@/assets/eigenai-redesign/ellipse-e.svg";
 import ellipseF from "@/assets/eigenai-redesign/ellipse-f.svg";
-import ellipseG from "@/assets/eigenai-redesign/ellipse-g.svg";
-import ellipseH from "@/assets/eigenai-redesign/ellipse-h.svg";
-import ellipseI from "@/assets/eigenai-redesign/ellipse-i.svg";
 import ellipseRingInner from "@/assets/eigenai-redesign/ellipse-ring-inner.svg";
 import ellipseRingMiddle from "@/assets/eigenai-redesign/ellipse-ring-middle.svg";
 import ellipseRingOuter from "@/assets/eigenai-redesign/ellipse-ring-outer.svg";
 import iconCloud from "@/assets/eigenai-redesign/icon-cloud.svg";
-import iconGroup from "@/assets/eigenai-redesign/icon-group.svg";
-import iconNfc from "@/assets/eigenai-redesign/icon-nfc.svg";
-import iconSitemap from "@/assets/eigenai-redesign/icon-sitemap.svg";
+import closingOrbit from "@/assets/eigenai-redesign/closing-orbit.svg";
 import lambdaHeroBack from "@/assets/eigenai-redesign/lambda-hero-back.svg";
 import lambdaHeroFront from "@/assets/eigenai-redesign/lambda-hero-front.svg";
 import lambdaWorkshopBack from "@/assets/eigenai-redesign/lambda-workshop-back.svg";
 import lambdaWorkshopFront from "@/assets/eigenai-redesign/lambda-workshop-front.svg";
-import ornamentCluster from "@/assets/eigenai-redesign/ornament-cluster.svg";
-import ornamentDiamond from "@/assets/eigenai-redesign/ornament-diamond.svg";
-import ornamentRibbon from "@/assets/eigenai-redesign/ornament-ribbon.svg";
-import ornamentSpark from "@/assets/eigenai-redesign/ornament-spark.svg";
-import ornamentWave from "@/assets/eigenai-redesign/ornament-wave.svg";
 import techOrbit from "@/assets/eigenai-redesign/tech-orbit.svg";
-import techOrbitContinuation from "@/assets/eigenai-redesign/tech-orbit-continuation.svg";
+
+const concentricRings = [
+  { id: "outer", src: ellipseRingOuter, width: 951.318 },
+  { id: "inner", src: ellipseRingInner, width: 731.172 },
+  { id: "middle", src: ellipseRingMiddle, width: 532.68 },
+];
+
+const FIGMA_BACKDROP_WIDTH = 1440;
+const FIGMA_BACKDROP_HEIGHT = 8192;
+
+const backdropColorFields = [
+  { id: "hero-purple-top", src: ellipseC, x: 180, y: -801, width: 1738 },
+  { id: "hero-purple-left", src: ellipseA, x: -752, y: 453, width: 1738 },
+  { id: "hero-blue", src: ellipseB, x: 122, y: 566, width: 1338 },
+  { id: "hero-cyan", src: ellipseF, x: -399.54, y: 517.46, width: 965.753 },
+  { id: "hero-purple-right", src: ellipseA, x: 540, y: 317, width: 1738 },
+  { id: "about-lavender", src: ellipseD, x: 504, y: 1355, width: 2135 },
+  {
+    id: "about-cyan-right",
+    src: ellipseE,
+    x: 799.46,
+    y: 1338.46,
+    width: 764.073,
+  },
+  {
+    id: "about-cyan-left",
+    src: ellipseF,
+    x: -7.54,
+    y: 1794.46,
+    width: 965.753,
+  },
+  { id: "speaker-purple-left", src: ellipseC, x: -1250, y: 2238, width: 2070 },
+  { id: "speaker-purple-right", src: ellipseC, x: 337, y: 3050, width: 1738 },
+  { id: "workshop-purple-right", src: ellipseA, x: 671, y: 3596, width: 1738 },
+  {
+    id: "closing-cyan-left",
+    src: ellipseF,
+    x: -379.54,
+    y: 5620.46,
+    width: 965.753,
+  },
+  { id: "closing-purple", src: ellipseC, x: -130, y: 6415, width: 1738 },
+] as const;
 
 const currentSpeakers = [
   ...speakerSession,
@@ -135,23 +166,156 @@ type Speaker = {
   profileImage: StaticImageData;
 };
 
-function BackgroundGlassIcon({
-  src,
-  className,
-  large = false,
+function ConcentricRingGroup({
+  centerX,
+  centerY,
 }: {
-  src: StaticImageData;
-  className: string;
-  large?: boolean;
+  centerX: number;
+  centerY: number;
 }) {
   return (
     <div
       aria-hidden="true"
-      className={`eigenai-background-glass-orb absolute hidden items-center justify-center rounded-full md:flex ${
-        large ? "size-8" : "size-6"
-      } ${className}`}
+      data-testid="eigenai-ring-group"
+      className="absolute hidden aspect-square -translate-x-1/2 -translate-y-1/2 md:block"
+      style={{
+        left: `${(centerX / FIGMA_BACKDROP_WIDTH) * 100}%`,
+        top: `${(centerY / FIGMA_BACKDROP_HEIGHT) * 100}%`,
+        width: `${(951.318 / FIGMA_BACKDROP_WIDTH) * 100}%`,
+        maxWidth: "951.318px",
+      }}
     >
-      <Image src={src} alt="" className="eigenai-background-icon" />
+      {concentricRings.map((ring, index) => (
+        <Image
+          key={ring.id}
+          src={ring.src}
+          alt=""
+          data-ring-index={index}
+          className="eigenai-background-orbit absolute left-1/2 top-1/2 h-auto max-w-none -translate-x-1/2 -translate-y-1/2"
+          style={{ width: `${(ring.width / 951.318) * 100}%` }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function BackdropImage({
+  src,
+  x,
+  y,
+  width,
+  className,
+  transform,
+}: {
+  src: StaticImageData;
+  x: number;
+  y: number;
+  width: number;
+  className: string;
+  transform?: string;
+}) {
+  return (
+    <Image
+      src={src}
+      alt=""
+      className={`absolute h-auto max-w-none ${className}`}
+      style={{
+        left: `${(x / FIGMA_BACKDROP_WIDTH) * 100}%`,
+        top: `${(y / FIGMA_BACKDROP_HEIGHT) * 100}%`,
+        width: `${(width / FIGMA_BACKDROP_WIDTH) * 100}%`,
+        maxWidth: `${width}px`,
+        transform,
+        transformOrigin: "center",
+      }}
+    />
+  );
+}
+
+function OrbitCluster({
+  src,
+  x,
+  y,
+  width,
+  transform,
+}: {
+  src: StaticImageData;
+  x: number;
+  y: number;
+  width: number;
+  transform?: string;
+}) {
+  return (
+    <div
+      data-testid="eigenai-orbit-cluster"
+      className="absolute hidden aspect-square md:block"
+      style={{
+        left: `${(x / FIGMA_BACKDROP_WIDTH) * 100}%`,
+        top: `${(y / FIGMA_BACKDROP_HEIGHT) * 100}%`,
+        width: `${(width / FIGMA_BACKDROP_WIDTH) * 100}%`,
+        maxWidth: `${width}px`,
+        transform,
+        transformOrigin: "center",
+      }}
+    >
+      <Image
+        src={src}
+        alt=""
+        className="eigenai-background-orbit h-auto w-full max-w-none"
+      />
+      <Image
+        src={iconCloud}
+        alt=""
+        data-testid="eigenai-orbit-cloud"
+        className="eigenai-background-icon absolute h-auto"
+        style={{
+          left: "22.306%",
+          top: "7.12%",
+          width: "2.036%",
+        }}
+      />
+    </div>
+  );
+}
+
+function LambdaCluster({
+  back,
+  front,
+  x,
+  y,
+  width,
+  backOffset,
+}: {
+  back: StaticImageData;
+  front: StaticImageData;
+  x: number;
+  y: number;
+  width: number;
+  backOffset: number;
+}) {
+  return (
+    <div
+      data-testid="eigenai-lambda-cluster"
+      className="eigenai-lambda-cluster absolute hidden md:block"
+      style={{
+        left: `${(x / FIGMA_BACKDROP_WIDTH) * 100}%`,
+        top: `${(y / FIGMA_BACKDROP_HEIGHT) * 100}%`,
+        width: `${(width / FIGMA_BACKDROP_WIDTH) * 100}%`,
+      }}
+    >
+      <Image
+        src={back}
+        alt=""
+        className="eigenai-background-lambda-back relative h-auto w-full"
+        style={{
+          left: "-0.046%",
+          transform: `translateY(${(backOffset / back.height) * 100}%)`,
+        }}
+      />
+      <Image
+        src={front}
+        alt=""
+        className="eigenai-background-lambda-front absolute left-0 top-0 h-auto w-full"
+      />
     </div>
   );
 }
@@ -160,90 +324,63 @@ function ContinuousBackdrop() {
   return (
     <div
       aria-hidden="true"
+      data-testid="eigenai-continuous-backdrop"
       className="pointer-events-none absolute inset-0 overflow-hidden"
     >
       <div className="absolute inset-0 bg-[#0c0249]" />
+      {backdropColorFields.map((field) => (
+        <BackdropImage
+          key={field.id}
+          {...field}
+          className="eigenai-background-bloom"
+        />
+      ))}
 
-      <Image
-        src={ellipseC}
-        alt=""
-        className="eigenai-background-bloom absolute -top-200 left-[12%] max-w-none opacity-95"
+      <OrbitCluster
+        src={techOrbit}
+        x={201}
+        y={-679.9}
+        width={951.318}
+        transform="rotate(-30deg) scaleY(-1)"
       />
-      <Image
-        src={ellipseA}
-        alt=""
-        className="eigenai-background-bloom absolute -left-208 top-112 max-w-none"
+      <OrbitCluster
+        src={techOrbit}
+        x={-279.4375}
+        y={625.4805}
+        width={951.318}
       />
-      <Image
-        src={ellipseB}
-        alt=""
-        className="eigenai-background-bloom absolute left-28 top-132 max-w-none"
+      <ConcentricRingGroup centerX={1604.659} centerY={620.659} />
+
+      <LambdaCluster
+        back={lambdaHeroBack}
+        front={lambdaHeroFront}
+        x={47}
+        y={532}
+        width={321.409}
+        backOffset={4.172}
       />
-      <Image
-        src={ellipseD}
-        alt=""
-        className="eigenai-background-bloom absolute -right-312 top-280 max-w-none"
-      />
-      <Image
-        src={ellipseF}
-        alt=""
-        className="eigenai-background-bloom absolute -left-120 top-368 max-w-none"
-      />
-      <Image
-        src={ellipseE}
-        alt=""
-        className="eigenai-background-bloom absolute -right-24 top-388 max-w-none"
-      />
-      <Image
-        src={ellipseI}
-        alt=""
-        className="eigenai-background-bloom absolute -left-120 top-688 max-w-none"
-      />
-      <Image
-        src={ellipseC}
-        alt=""
-        className="eigenai-background-bloom absolute -right-260 top-768 max-w-none"
-      />
-      <Image
-        src={ellipseA}
-        alt=""
-        className="eigenai-background-bloom absolute -left-184 top-1040 max-w-none"
-      />
-      <Image
-        src={ellipseD}
-        alt=""
-        className="eigenai-background-bloom absolute -right-288 top-1280 max-w-none"
-      />
-      <Image
-        src={ellipseB}
-        alt=""
-        className="eigenai-background-bloom absolute -left-128 top-1528 max-w-none"
+      <LambdaCluster
+        back={lambdaWorkshopBack}
+        front={lambdaWorkshopFront}
+        x={995.205}
+        y={4329}
+        width={444.352}
+        backOffset={5.768}
       />
 
-      <Image
-        src={ellipseRingOuter}
-        alt=""
-        className="eigenai-background-orbit absolute -left-76 top-160 max-w-none opacity-90"
+      <OrbitCluster
+        src={techOrbit}
+        x={755.1}
+        y={4509.1}
+        width={951.318}
+        transform="rotate(-30deg) scaleY(-1)"
       />
-      <Image
-        src={ellipseRingMiddle}
-        alt=""
-        className="eigenai-background-orbit absolute -left-48 top-188 max-w-none opacity-90"
-      />
-      <Image
-        src={ellipseRingInner}
-        alt=""
-        className="eigenai-background-orbit absolute -left-40 top-176 max-w-none opacity-90"
-      />
-      <Image
-        src={ellipseG}
-        alt=""
-        className="eigenai-background-orbit absolute -right-36 top-492 max-w-none"
-      />
-      <Image
-        src={ellipseH}
-        alt=""
-        className="eigenai-background-orbit absolute -right-96 top-872 max-w-none"
+      <OrbitCluster
+        src={closingOrbit}
+        x={159.7}
+        y={6745.7}
+        width={1113.84}
+        transform="rotate(-130deg) scaleY(-1)"
       />
     </div>
   );
@@ -382,7 +519,7 @@ function WorkshopCard({ workshop }: { workshop: Workshop }) {
             ) : null}
           </div>
           {workshop.host ? (
-            <p className="mt-3 text-sm font-normal tracking-[0.01em] text-[#5edbe7] sm:text-base">
+            <p className="mt-3 text-sm font-extralight tracking-[0.01em] text-[#5edbe7] sm:text-base">
               {workshop.host}
             </p>
           ) : null}
@@ -433,7 +570,7 @@ function EigenNavigation() {
 
         <Link
           href="/auth"
-          className="relative z-10 shrink-0 rounded-[3.165rem] border-[1.582px] border-[#59e0e9] bg-transparent px-5 py-2 text-xs font-normal tracking-[0.01em] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_0_24px_rgba(89,224,233,0.14)] backdrop-blur-xl transition hover:border-white hover:bg-white/10 sm:px-8 sm:text-sm"
+          className="eigenai-login-button eigenai-body relative z-10 shrink-0 rounded-[3.165rem] px-5 py-2 text-xs/normal font-normal tracking-[-0.01em] text-white transition sm:px-8 sm:text-sm/normal"
         >
           Login
         </Link>
@@ -494,65 +631,14 @@ export default function EigenAIRedesign() {
     >
       <ContinuousBackdrop />
       <EigenNavigation />
-      <section className="relative flex min-h-192 items-center justify-center overflow-hidden px-5 pb-20 pt-32 sm:min-h-216 sm:px-10 sm:pb-24 sm:pt-36">
-        <div
-          aria-hidden="true"
-          className="absolute left-[3.25%] top-[52%] hidden md:block"
-        >
-          <Image
-            src={lambdaHeroBack}
-            alt=""
-            className="eigenai-background-lambda-back size-auto"
-          />
-          <Image
-            src={lambdaHeroFront}
-            alt=""
-            className="eigenai-background-lambda-front absolute left-px top-[-0.26rem] size-auto"
-          />
-        </div>
-        <BackgroundGlassIcon
-          src={iconGroup}
-          className="left-[24.85%] top-[62.84%]"
-        />
-        <BackgroundGlassIcon
-          src={iconSitemap}
-          className="left-[2.01%] top-[72.95%]"
-        />
-        <BackgroundGlassIcon
-          src={iconCloud}
-          className="right-[2.5%] top-3/5 -rotate-30 -scale-y-100"
-          large
-        />
-        <BackgroundGlassIcon src={iconNfc} className="right-[6.8%] top-1/5" />
-        <Image
-          src={ornamentWave}
-          alt=""
-          className="eigenai-background-linework absolute left-[1%] top-[62%] hidden md:block"
-        />
-        <Image
-          src={ornamentDiamond}
-          alt=""
-          className="eigenai-background-linework absolute left-[33%] top-[82%] hidden size-auto md:block"
-        />
-        <Image
-          src={ornamentRibbon}
-          alt=""
-          className="eigenai-background-linework absolute -left-8 top-9/10 hidden md:block"
-        />
-        <Image
-          src={ornamentSpark}
-          alt=""
-          className="eigenai-background-linework absolute left-[36.7%] top-[91.3%] hidden size-auto md:block"
-        />
-        <Image
-          src={ornamentCluster}
-          alt=""
-          className="eigenai-background-glass-art absolute right-[28.1%] top-[54.5%] hidden md:block"
-        />
+      <section
+        data-testid="eigenai-hero"
+        className="relative flex min-h-192 items-center justify-center px-5 pb-20 pt-32 sm:min-h-216 sm:px-10 sm:pb-24 sm:pt-36"
+      >
         <ContentContainer className="flex -translate-y-4 flex-col items-center">
-          <EigenAILockup fontSize="clamp(4rem, 10vw, 7rem)" />
-          <div className="eigenai-glass-panel relative mt-10 flex min-h-11 w-fit max-w-full items-center justify-center rounded-full px-5 py-2 text-sm/snug font-normal tracking-[-0.01em] text-white sm:px-8 sm:text-base">
-            <span className="relative z-1 text-center sm:whitespace-nowrap">
+          <EigenAILockup fontSize="clamp(6rem, 15vw, 10.5rem)" showCursor />
+          <div className="eigenai-glass-panel relative mt-10 flex min-h-11 w-fit max-w-full items-center justify-center rounded-full px-5 py-2 text-sm/snug tracking-[-0.01em] sm:px-8 sm:text-base">
+            <span className="relative z-1 text-center text-white sm:whitespace-nowrap">
               October 3rd &amp; 4th @ LOCAT
             </span>
           </div>
@@ -566,7 +652,7 @@ export default function EigenAIRedesign() {
         <ContentContainer>
           <div
             data-testid="eigenai-metrics"
-            className="grid gap-y-4 sm:grid-cols-3 sm:gap-x-6 sm:gap-y-0"
+            className="mx-auto grid max-w-3xl gap-y-4 sm:grid-cols-3 sm:gap-x-0 sm:gap-y-0"
           >
             <Metric value="500+" label="Attendees" />
             <Metric value="20" label="Speakers" />
@@ -574,19 +660,15 @@ export default function EigenAIRedesign() {
           </div>
 
           <div className="mt-20 sm:mt-28">
-            <SectionHeading>What is eigenai?</SectionHeading>
+            <SectionHeading>
+              What is <EigenAIWordmark />?
+            </SectionHeading>
             <div className="mt-12 grid items-start justify-between gap-10 md:grid-cols-[minmax(16rem,24rem)_minmax(0,36rem)] lg:gap-16">
               <GradientPanel className="min-h-80 overflow-hidden sm:min-h-136">
-                <div className="relative min-h-80 overflow-hidden rounded-[inherit] sm:min-h-136">
-                  <Image
-                    src={conferencePhoto}
-                    alt="Students attending an EigenAI conference session"
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover opacity-70 mix-blend-luminosity"
-                  />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_45%_68%,rgba(89,224,233,0.42),transparent_36%),linear-gradient(to_top,rgba(12,2,73,0.82),transparent_68%)]" />
-                </div>
+                <div
+                  aria-hidden="true"
+                  className="min-h-80 rounded-[inherit] sm:min-h-136"
+                />
               </GradientPanel>
               <div className="max-w-2xl text-base/relaxed tracking-[-0.01em] text-white sm:text-lg">
                 <p>
@@ -628,35 +710,7 @@ export default function EigenAIRedesign() {
         </ContentContainer>
       </section>
 
-      <section
-        id="workshops"
-        className="relative overflow-hidden px-5 py-24 sm:px-10 sm:py-32"
-      >
-        <div
-          aria-hidden="true"
-          className="absolute right-0 top-0 hidden md:block"
-        >
-          <Image
-            src={lambdaWorkshopBack}
-            alt=""
-            className="eigenai-background-lambda-back size-auto"
-          />
-          <Image
-            src={lambdaWorkshopFront}
-            alt=""
-            className="eigenai-background-lambda-front absolute left-px top-[-0.36rem] size-auto"
-          />
-        </div>
-        <Image
-          src={techOrbit}
-          alt=""
-          className="eigenai-background-orbit absolute -right-128 -top-40 hidden -rotate-30 -scale-y-100 lg:block"
-        />
-        <Image
-          src={techOrbitContinuation}
-          alt=""
-          className="eigenai-background-orbit absolute -right-128 top-196 hidden -rotate-30 -scale-y-100 lg:block"
-        />
+      <section id="workshops" className="relative px-5 py-24 sm:px-10 sm:py-32">
         <ContentContainer>
           <SectionHeading>Workshops</SectionHeading>
           <div className="mt-12 space-y-8 sm:space-y-12">
@@ -670,14 +724,12 @@ export default function EigenAIRedesign() {
         </ContentContainer>
       </section>
 
-      <section className="relative flex min-h-192 items-center justify-center overflow-hidden px-5 py-24 text-center sm:px-10 sm:py-32">
-        <Image
-          src={closingOrbit}
-          alt=""
-          className="eigenai-background-orbit absolute left-1/2 top-92 hidden -translate-x-1/2 -rotate-130 -scale-y-100 md:block"
-        />
+      <section
+        data-testid="eigenai-closing"
+        className="relative flex min-h-192 items-center justify-center px-5 py-24 text-center sm:px-10 sm:py-32"
+      >
         <ContentContainer>
-          <p className="eigenai-closing-copy eigenai-body mx-auto max-w-4xl text-[clamp(2.5rem,6vw,4rem)] font-normal italic leading-tight tracking-[0.01em] text-transparent">
+          <p className="eigenai-closing-copy eigenai-body mx-auto max-w-4xl text-[clamp(2.5rem,6vw,4rem)] font-extralight italic leading-tight tracking-[0.01em] text-transparent">
             Across the Many
             <br />
             Frontiers of AI

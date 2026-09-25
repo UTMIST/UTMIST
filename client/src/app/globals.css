@@ -114,10 +114,24 @@ html {
 
 .eigenai-redesign {
   font-family: "Instrument Sans", Arial, sans-serif;
+  font-weight: 200;
 }
 
 .eigenai-redesign .eigenai-body {
   font-family: "Instrument Sans", Arial, sans-serif;
+}
+
+.eigenai-instrument-gradient {
+  background-image: linear-gradient(
+    90deg,
+    #5edbe7 26.4423%,
+    #fff 55.7692%,
+    #f1dcff 79.3269%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 200;
 }
 
 .eigenai-redesign .eigenai-sans {
@@ -129,41 +143,43 @@ html {
 }
 
 .eigenai-background-bloom {
+  opacity: 0.44;
   mix-blend-mode: screen;
   filter: saturate(122%) drop-shadow(0 0 34px rgba(89, 224, 233, 0.08));
 }
 
 .eigenai-background-orbit {
+  opacity: 0.42;
   mix-blend-mode: screen;
   filter: saturate(132%) drop-shadow(0 0 5px rgba(255, 255, 255, 0.12))
     drop-shadow(0 0 18px rgba(89, 224, 233, 0.12));
 }
 
+.eigenai-lambda-cluster {
+  container-type: inline-size;
+}
+
 .eigenai-background-lambda-back {
-  opacity: 0.58;
-  mix-blend-mode: screen;
-  filter: blur(0.7px) drop-shadow(0 0 5px rgba(255, 255, 255, 0.5))
-    drop-shadow(0 0 15px rgba(89, 224, 233, 0.5))
-    drop-shadow(0 0 30px rgba(162, 114, 251, 0.35));
+  opacity: 1;
+  mix-blend-mode: normal;
+  filter: blur(0.9693cqw);
 }
 
 .eigenai-background-lambda-front {
-  opacity: 0.82;
-  mix-blend-mode: screen;
-  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.75))
-    drop-shadow(0 0 9px rgba(89, 224, 233, 0.4))
-    drop-shadow(0 0 20px rgba(162, 114, 251, 0.24));
+  opacity: 1;
+  mix-blend-mode: normal;
+  filter: blur(4.0711cqw);
 }
 
 .eigenai-background-linework {
-  opacity: 0.78;
+  opacity: 0.4;
   mix-blend-mode: screen;
   filter: saturate(130%) drop-shadow(0 0 4px rgba(255, 255, 255, 0.22))
     drop-shadow(0 0 12px rgba(89, 224, 233, 0.14));
 }
 
 .eigenai-background-glass-art {
-  opacity: 0.82;
+  opacity: 0.46;
   mix-blend-mode: screen;
   filter: saturate(145%) drop-shadow(0 0 5px rgba(255, 255, 255, 0.18))
     drop-shadow(0 0 17px rgba(89, 224, 233, 0.18));
@@ -171,6 +187,7 @@ html {
 
 .eigenai-background-glass-orb {
   isolation: isolate;
+  opacity: 0.54;
   background:
     radial-gradient(
       circle at 28% 18%,
@@ -217,7 +234,7 @@ html {
 .eigenai-background-icon {
   position: relative;
   z-index: 1;
-  opacity: 0.82;
+  opacity: 0.62;
   mix-blend-mode: screen;
   filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.2));
 }
@@ -277,6 +294,8 @@ body:has(.eigenai-redesign) > .floating-theme-toggle {
   position: relative;
   isolation: isolate;
   background: transparent;
+  -webkit-backdrop-filter: blur(1.25px) saturate(132%) contrast(110%);
+  backdrop-filter: blur(1.25px) saturate(132%) contrast(110%);
 }
 
 .eigenai-glass-panel::before {
@@ -307,20 +326,8 @@ body:has(.eigenai-redesign) > .floating-theme-toggle {
   z-index: 0;
   inset: 1.582px;
   border-radius: inherit;
-  background:
-    radial-gradient(
-      ellipse 75% 38% at 23% 0%,
-      rgba(255, 255, 255, 0.075),
-      transparent 72%
-    ),
-    radial-gradient(
-      ellipse 52% 55% at 100% 100%,
-      rgba(223, 214, 255, 0.055),
-      transparent 74%
-    );
+  background: transparent;
   content: "";
-  -webkit-backdrop-filter: blur(1.5px) saturate(145%) contrast(106%);
-  backdrop-filter: blur(1.5px) saturate(145%) contrast(106%);
   pointer-events: none;
 }
 
@@ -331,7 +338,21 @@ body:has(.eigenai-redesign) > .floating-theme-toggle {
   background: transparent;
 }
 
-.eigenai-liquid-orb::before {
+.eigenai-login-button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 0;
+  background: rgba(76, 229, 232, 0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 0 24px rgba(89, 224, 233, 0.14);
+  -webkit-backdrop-filter: blur(22px) saturate(145%);
+  backdrop-filter: blur(22px) saturate(145%);
+}
+
+.eigenai-liquid-orb::before,
+.eigenai-login-button::before {
   position: absolute;
   inset: 0;
   padding: 1.582px;
@@ -357,6 +378,10 @@ body:has(.eigenai-redesign) > .floating-theme-toggle {
   background: rgba(255, 255, 255, 0.08);
 }
 
+.eigenai-login-button:hover {
+  background: rgba(76, 229, 232, 0.5);
+}
+
 .eigenai-section-heading {
   background-image: radial-gradient(
     ellipse 54% 100% at 30% 48%,
@@ -365,6 +390,7 @@ body:has(.eigenai-redesign) > .floating-theme-toggle {
   );
   -webkit-background-clip: text;
   background-clip: text;
+  font-weight: 400;
 }
 
 .eigenai-closing-copy {
@@ -394,12 +420,23 @@ body:has(.eigenai-redesign) > .floating-theme-toggle {
 }
 
 .eigenai-lockup {
+  position: relative;
   display: inline-grid;
   grid-template-columns: 30.3% 69.7%;
   width: max-content;
   max-width: 100%;
   line-height: 1;
   text-align: center;
+}
+
+.eigenai-lockup__cursor {
+  position: absolute;
+  z-index: 20;
+  top: 1.05em;
+  right: -0.48em;
+  width: 0.61em;
+  height: auto;
+  pointer-events: none;
 }
 
 .eigenai-lockup__utmist {
@@ -411,7 +448,7 @@ body:has(.eigenai-redesign) > .floating-theme-toggle {
 }
 
 .eigenai-wordmark {
-  display: grid;
+  display: inline-grid;
   grid-column: 1 / -1;
   isolation: isolate;
   font-size: inherit;
@@ -432,6 +469,28 @@ body:has(.eigenai-redesign) > .floating-theme-toggle {
   white-space: pre;
   -webkit-background-clip: text;
   background-clip: text;
+}
+
+.eigenai-wordmark--cursor-cutout > span {
+  --eigenai-cursor-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 105.434 97.3234'%3E%3Cpath d='M13.2921 2.72363C8.55347 2.03757 5.12829 7.1428 7.55968 11.2676L45.9581 76.4072C48.9081 81.4118 56.577 79.3199 56.5773 73.5107V45.8037C56.5774 43.1579 58.0117 40.72 60.3243 39.4346L88.2286 23.9238C93.0014 21.2709 91.6787 14.0745 86.2745 13.292L13.2921 2.72363Z' fill='black'/%3E%3C/svg%3E");
+  -webkit-mask-image: var(--eigenai-cursor-mask), linear-gradient(#000 0 0);
+  mask-image: var(--eigenai-cursor-mask), linear-gradient(#000 0 0);
+  -webkit-mask-position:
+    calc(100% + 0.48em) 0.973em,
+    0 0;
+  mask-position:
+    calc(100% + 0.48em) 0.973em,
+    0 0;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size:
+    0.61em auto,
+    100% 100%;
+  mask-size:
+    0.61em auto,
+    100% 100%;
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }
 
 .eigenai-wordmark__base {
@@ -512,14 +571,14 @@ body:has(.eigenai-redesign) > .floating-theme-toggle {
     ),
     radial-gradient(
       circle at 67% 100%,
-      #1a99b2 0%,
-      rgba(26, 153, 178, 0.8) 20%,
+      #1a99b3 0%,
+      rgba(26, 153, 179, 0.8) 20%,
       transparent 48%
     ),
     radial-gradient(
       circle at 100% 100%,
-      #128ab2 0%,
-      rgba(18, 138, 178, 0.8) 20%,
+      #128ab3 0%,
+      rgba(18, 138, 179, 0.8) 20%,
       transparent 48%
     ),
     linear-gradient(
@@ -528,7 +587,7 @@ body:has(.eigenai-redesign) > .floating-theme-toggle {
       #6e70ed 26%,
       #64deea 45%,
       #ad54fb 66%,
-      #128ab2 100%
+      #128ab3 100%
     );
 }
 
