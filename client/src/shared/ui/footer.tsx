@@ -39,20 +39,20 @@ export default function Footer() {
                         </a>
                     </div>
                 </li>
-                <li>
+                {/* <li>
                     <div className="footer-logo-container">
                         <a href="https://www.facebook.com/UofT.MIST" target="_blank" rel="noopener noreferrer">
                             <Image src={facebook} alt="UTMIST Logo"/>
                         </a>
                     </div>
-                </li>
-                <li>
+                </li> */}
+                {/* <li>
                     <div className="footer-logo-container">
                         <a href="https://x.com/utmist1" target="_blank" rel="noopener noreferrer">
                             <Image src={twitter} alt="UTMIST Logo" />
                         </a>
                     </div>
-                </li>
+                </li> */}
                 <li>
                     <div className="footer-logo-container">
                         <a href="https://github.com/UTMIST" target="_blank" rel="noopener noreferrer">
@@ -60,13 +60,13 @@ export default function Footer() {
                         </a>
                     </div>
                 </li>
-                <li>
+                {/* <li>
                     <div className="footer-logo-container">
                         <a href="https://utorontomist.medium.com/" target="_blank" rel="noopener noreferrer">
                             <Image src={medium} alt="UTMIST Logo"/>
                         </a>
                     </div>
-                </li>
+                </li> */}
                 
             </ul>
             

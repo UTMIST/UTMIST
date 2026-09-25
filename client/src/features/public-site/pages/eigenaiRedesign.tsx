@@ -155,26 +155,26 @@ const socialLinks = [
     label: "Instagram",
     icon: instagramLogo,
   },
-  {
-    href: "https://www.facebook.com/UofT.MIST",
-    label: "Facebook",
-    icon: facebookLogo,
-  },
-  {
-    href: "https://x.com/utmist1",
-    label: "X",
-    icon: xLogo,
-  },
+  // {
+  //   href: "https://www.facebook.com/UofT.MIST",
+  //   label: "Facebook",
+  //   icon: facebookLogo,
+  // },
+  // {
+  //   href: "https://x.com/utmist1",
+  //   label: "X",
+  //   icon: xLogo,
+  // },
   {
     href: "https://github.com/UTMIST",
     label: "GitHub",
     icon: githubLogo,
   },
-  {
-    href: "https://utorontomist.medium.com/",
-    label: "Medium",
-    icon: mediumLogo,
-  },
+  // {
+  //   href: "https://utorontomist.medium.com/",
+  //   label: "Medium",
+  //   icon: mediumLogo,
+  // },
 ];
 
 type Speaker = {
