@@ -100,6 +100,25 @@ its own responsive navigation and footer inside the continuous orbital
 background, using the same liquid-glass surface treatment as the event UI. The
 navigation login control combines the Figma `rgba(76, 229, 232, 0.4)` blue body
 with the shared `1.582px` cyan-white-lavender glass outline.
+On mobile, the event navigation follows the main site's hamburger pattern: its
+white UTMIST event wordmark sits left, the matching hamburger sits right, and a
+left-aligned page list places Login below it in a dismissible glass menu. A
+mobile-specific liquid-glass surface is enabled only while the menu is open and
+wraps the top bar and link list as one outlined shape. With the menu closed, the
+plain dark bar has no outline. The wordmark remains at the far left and the menu
+control at the far right. A short gradient below the fixed bar lets content fade beneath it, and
+the open menu layers above that fade to meet the bar exactly without a gap. Its
+lower corners retain the liquid-glass rounding. Desktop navigation has a
+deeper dark-to-transparent top fade so scrolling content remains secondary
+behind the floating controls.
+Mobile layouts keep the three headline metrics in one row immediately below a
+full dynamic-viewport hero, center section headings and speaker-card copy, use
+`1.25rem` page gutters and compact section/card spacing, and reduce
+the type scale and footer footprint. The closing section uses a shorter mobile
+canvas while retaining a prominent lower event lockup. The hero's concentric ring
+groups remain visible on small screens at alternating viewport edges and repeat
+down the full page with stronger contrast; the original Figma coordinate and
+scale resume at `md`.
 Until the final conference lineup is approved, the redesign intentionally uses
 the placeholder speaker names, roles, and workshop copy shown in Figma. Those
 cards reuse existing repository portraits; the canonical EigenAI speaker data

@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 
 // The selector is a server component. Mock the server barrel so no Supabase /
 // Vercel Flags code loads, and stub the existing page (heavy: styles, images,
@@ -55,6 +55,26 @@ describe("EigenAI flag selector", () => {
     const navigation = screen.getByRole("navigation", { name: "EigenAI" });
     expect(navigation).toBeInTheDocument();
     expect(
+      within(navigation).getByRole("button", { name: "Open navigation menu" }),
+    ).toHaveAttribute("aria-expanded", "false");
+    expect(within(navigation).getAllByAltText("UTMIST")).toHaveLength(2);
+    expect(screen.getByTestId("eigenai-mobile-nav-bar")).toHaveClass(
+      "flex",
+      "w-full",
+      "justify-between",
+    );
+    expect(screen.getByTestId("eigenai-mobile-nav-surface")).not.toHaveClass(
+      "eigenai-mobile-glass",
+    );
+    expect(
+      navigation.querySelector('[aria-hidden="true"].pointer-events-none.h-8'),
+    ).toHaveClass("h-8", "bg-gradient-to-b", "to-transparent");
+    expect(navigation.previousElementSibling).toHaveClass(
+      "h-36",
+      "from-[#06002f]/90",
+      "md:block",
+    );
+    expect(
       within(navigation).getByRole("link", { name: "About" }),
     ).toHaveAttribute("href", "/#about-us");
     expect(
@@ -104,9 +124,9 @@ describe("EigenAI flag selector", () => {
     expect(screen.getByTestId("eigenai-metrics")).toHaveClass(
       "mx-auto",
       "max-w-3xl",
-      "gap-y-4",
+      "grid-cols-3",
+      "gap-x-2",
       "sm:gap-x-0",
-      "sm:gap-y-0",
     );
     const lockups = screen.getAllByTestId("eigenai-lockup");
     expect(lockups).toHaveLength(2);
@@ -137,9 +157,9 @@ describe("EigenAI flag selector", () => {
       ),
     ).toBe(true);
     expect(lockups[0]).toHaveStyle({
-      fontSize: "clamp(6rem, 15vw, 10.5rem)",
+      fontSize: "clamp(4rem, 15vw, 10.5rem)",
     });
-    expect(lockups[1]).toHaveStyle({ fontSize: "clamp(3rem, 8vw, 5rem)" });
+    expect(lockups[1]).toHaveStyle({ fontSize: "clamp(3.5rem, 12vw, 5rem)" });
     const backdrop = screen.getByTestId("eigenai-continuous-backdrop");
     expect(backdrop.querySelectorAll(".eigenai-background-bloom")).toHaveLength(
       13,
@@ -157,6 +177,7 @@ describe("EigenAI flag selector", () => {
     }
     const ringGroups = screen.getAllByTestId("eigenai-ring-group");
     expect(ringGroups).toHaveLength(1);
+    expect(ringGroups[0]).toHaveClass("hidden", "md:block");
     expect(ringGroups[0]).toHaveStyle({ maxWidth: "951.318px" });
     for (const group of ringGroups) {
       const rings = group.querySelectorAll("img");
@@ -170,12 +191,42 @@ describe("EigenAI flag selector", () => {
         );
       }
     }
+    const mobileRingGroups = screen.getAllByTestId(
+      "eigenai-mobile-ring-group",
+    );
+    expect(mobileRingGroups).toHaveLength(5);
+    expect(mobileRingGroups.map((group) => group.style.top)).toEqual([
+      "6%",
+      "30%",
+      "54%",
+      "76%",
+      "94%",
+    ]);
+    for (const group of mobileRingGroups) {
+      expect(group).toHaveClass("md:hidden");
+      expect(group.querySelectorAll("img")).toHaveLength(3);
+    }
     expect(screen.getByTestId("eigenai-hero")).not.toHaveClass(
       "overflow-hidden",
     );
+    expect(screen.getByTestId("eigenai-hero")).toHaveClass("min-h-[100svh]");
+    expect(screen.getByTestId("eigenai-hero")).toHaveClass("px-5");
+    expect(screen.getByTestId("eigenai-metrics").closest("section")).toHaveClass(
+      "pt-4",
+    );
+    expect(
+      screen
+        .getAllByRole("heading", { name: "Someguy Lastnameem" })[0]
+        .closest("article"),
+    ).toHaveClass("text-center", "sm:text-left");
+    expect(
+      screen.getByRole("heading", { name: "Jensen Huang" }).parentElement,
+    ).toHaveClass("text-center", "md:text-left");
     expect(screen.getByTestId("eigenai-closing")).not.toHaveClass(
       "overflow-hidden",
+      "min-h-96",
     );
+    expect(screen.getByTestId("eigenai-closing")).toHaveClass("pt-4");
     expect(
       screen.getByRole("heading", { name: "Workshops" }).closest("section"),
     ).not.toHaveClass("overflow-hidden");
@@ -183,6 +234,41 @@ describe("EigenAI flag selector", () => {
       screen.getByRole("link", { name: "UTMIST on Instagram" }),
     ).toHaveClass("size-11");
     expect(screen.queryByTestId("eigenai-existing")).not.toBeInTheDocument();
+  });
+
+  it("opens and dismisses the redesign mobile navigation", async () => {
+    mockEvaluateFlag.mockResolvedValue(true);
+
+    render(await EigenAIFlagged());
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Open navigation menu" }),
+    );
+
+    expect(
+      screen.getByRole("button", { name: "Close navigation menu" }),
+    ).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getAllByRole("link", { name: "Login" })).toHaveLength(2);
+    expect(
+      document.getElementById("eigenai-mobile-menu")?.querySelector("ul"),
+    ).toHaveClass("items-start", "text-left");
+    const mobileNavSurface = screen.getByTestId("eigenai-mobile-nav-surface");
+    expect(mobileNavSurface).toHaveClass(
+      "eigenai-mobile-glass",
+      "rounded-b-3xl",
+    );
+    expect(document.getElementById("eigenai-mobile-menu")).toHaveClass("px-5");
+    expect(document.getElementById("eigenai-mobile-menu")?.parentElement).toBe(
+      mobileNavSurface,
+    );
+    expect(document.body).toHaveStyle({ overflow: "hidden" });
+
+    fireEvent.keyDown(document, { key: "Escape" });
+
+    expect(
+      screen.getByRole("button", { name: "Open navigation menu" }),
+    ).toHaveAttribute("aria-expanded", "false");
+    expect(document.body).not.toHaveStyle({ overflow: "hidden" });
   });
 
   it("keeps the existing page on default-off (missing config / error)", async () => {

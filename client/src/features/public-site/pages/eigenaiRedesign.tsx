@@ -8,6 +8,7 @@ import {
   speakerSession,
 } from "@/features/public-site/data/eigenai";
 import { EigenAILockup } from "@/features/public-site/components/eigenai-lockup";
+import { EigenNavigation } from "@/features/public-site/components/eigenai-navigation";
 import { EigenAIWordmark } from "@/features/public-site/components/eigenai-wordmark";
 import utmistWordmark from "@/assets/logos/utmist-wordmark-white.png";
 import discordLogo from "@/assets/logos/discord.svg";
@@ -37,6 +38,14 @@ const concentricRings = [
   { id: "inner", src: ellipseRingInner, width: 731.172 },
   { id: "middle", src: ellipseRingMiddle, width: 532.68 },
 ];
+
+const mobileRingGroups = [
+  { id: "hero-right", left: "88%", top: "6%", width: "min(88vw, 22rem)" },
+  { id: "about-left", left: "4%", top: "30%", width: "min(82vw, 20rem)" },
+  { id: "speakers-right", left: "92%", top: "54%", width: "min(86vw, 21rem)" },
+  { id: "workshops-left", left: "2%", top: "76%", width: "min(82vw, 20rem)" },
+  { id: "closing-right", left: "88%", top: "94%", width: "min(88vw, 22rem)" },
+] as const;
 
 const FIGMA_BACKDROP_WIDTH = 1440;
 const FIGMA_BACKDROP_HEIGHT = 8192;
@@ -152,13 +161,6 @@ const socialLinks = [
   },
 ];
 
-const eigenNavigationLinks = [
-  { href: "/#about-us", label: "About" },
-  { href: "/projects", label: "Projects" },
-  { href: "/events", label: "Event" },
-  { href: "/sponsors", label: "Sponsors" },
-];
-
 type Speaker = {
   name: string;
   role: string;
@@ -197,6 +199,29 @@ function ConcentricRingGroup({
       ))}
     </div>
   );
+}
+
+function MobileConcentricRingGroups() {
+  return mobileRingGroups.map((group) => (
+    <div
+      key={group.id}
+      aria-hidden="true"
+      data-testid="eigenai-mobile-ring-group"
+      className="eigenai-mobile-ring-group absolute aspect-square -translate-x-1/2 -translate-y-1/2 md:hidden"
+      style={{ left: group.left, top: group.top, width: group.width }}
+    >
+      {concentricRings.map((ring, index) => (
+        <Image
+          key={ring.id}
+          src={ring.src}
+          alt=""
+          data-ring-index={index}
+          className="eigenai-background-orbit absolute left-1/2 top-1/2 h-auto max-w-none -translate-x-1/2 -translate-y-1/2"
+          style={{ width: `${(ring.width / 951.318) * 100}%` }}
+        />
+      ))}
+    </div>
+  ));
 }
 
 function BackdropImage({
@@ -350,6 +375,7 @@ function ContinuousBackdrop() {
         width={951.318}
       />
       <ConcentricRingGroup centerX={1604.659} centerY={620.659} />
+      <MobileConcentricRingGroups />
 
       <LambdaCluster
         back={lambdaHeroBack}
@@ -388,7 +414,7 @@ function ContinuousBackdrop() {
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="eigenai-section-heading eigenai-serif text-[clamp(2.5rem,6vw,4rem)] font-normal leading-tight text-transparent">
+    <h2 className="eigenai-section-heading eigenai-serif text-center text-[clamp(2rem,6vw,4rem)] font-normal leading-tight text-transparent">
       {children}
     </h2>
   );
@@ -397,10 +423,10 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 function Metric({ value, label }: { value: string; label: string }) {
   return (
     <div className="text-center">
-      <p className="eigenai-serif text-[clamp(3rem,8vw,6rem)] leading-none text-white">
+      <p className="eigenai-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white">
         {value}
       </p>
-      <p className="eigenai-sans mt-2 text-base/tight font-semibold text-white sm:text-xl lg:text-2xl">
+      <p className="eigenai-sans mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl">
         {label}
       </p>
     </div>
@@ -442,8 +468,8 @@ function ContentContainer({
 
 function SpeakerCard({ speaker }: { speaker: Speaker }) {
   return (
-    <GradientPanel className="mt-24 min-h-64">
-      <article className="relative flex min-h-64 min-w-0 flex-col px-6 pb-6 pt-20 sm:px-8">
+    <GradientPanel className="mt-18 sm:mt-24 sm:min-h-64">
+      <article className="relative flex min-w-0 flex-col px-5 pb-5 pt-16 text-center sm:min-h-64 sm:px-8 sm:pb-6 sm:pt-20 sm:text-left">
         <div className="eigenai-speaker-portrait absolute left-1/2 top-0 size-32 -translate-x-1/2 translate-y-[-55%] rounded-full p-0.5 sm:size-40">
           <div className="relative size-full overflow-hidden rounded-full bg-[#0c0249]">
             <Image
@@ -455,10 +481,10 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
             />
           </div>
         </div>
-        <h3 className="eigenai-sans text-xl/tight font-semibold text-white sm:text-2xl">
+        <h3 className="eigenai-sans text-lg/tight font-semibold text-white sm:text-2xl">
           {speaker.name}
         </h3>
-        <p className="mt-3 text-sm/relaxed tracking-[0.01em] wrap-anywhere text-[#5edbe7] sm:text-base">
+        <p className="mt-2 text-xs/relaxed tracking-[0.01em] wrap-anywhere text-[#5edbe7] sm:mt-3 sm:text-base">
           {speaker.role}
         </p>
       </article>
@@ -468,26 +494,26 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
 
 function KeynoteCard({ speaker }: { speaker: Speaker }) {
   return (
-    <GradientPanel className="min-h-52">
-      <article className="relative grid min-h-52 min-w-0 items-center gap-8 px-7 py-8 sm:px-10 md:grid-cols-[minmax(0,1fr)_auto]">
-        <div className="order-2 min-w-0 md:order-1">
-          <p className="bg-[linear-gradient(90deg,#5edbe7_26.442%,#ffffff_55.769%,#f1dcff_79.327%)] bg-clip-text text-base tracking-[0.01em] text-transparent sm:text-lg">
+    <GradientPanel className="sm:min-h-52">
+      <article className="relative grid min-w-0 items-center gap-5 p-5 sm:min-h-52 sm:gap-8 sm:px-10 sm:py-8 md:grid-cols-[minmax(0,1fr)_auto]">
+        <div className="order-2 min-w-0 text-center md:order-1 md:text-left">
+          <p className="bg-[linear-gradient(90deg,#5edbe7_26.442%,#ffffff_55.769%,#f1dcff_79.327%)] bg-clip-text text-sm tracking-[0.01em] text-transparent sm:text-lg">
             Keynote Speaker
           </p>
-          <h3 className="eigenai-sans mt-1 text-2xl/tight font-semibold text-white sm:text-3xl">
+          <h3 className="eigenai-sans mt-1 text-xl/tight font-semibold text-white sm:text-3xl">
             {speaker.name}
           </h3>
-          <p className="mt-3 text-base tracking-[0.01em] text-[#5edbe7] sm:text-lg">
+          <p className="mt-2 text-sm tracking-[0.01em] text-[#5edbe7] sm:mt-3 sm:text-lg">
             {speaker.role}
           </p>
         </div>
-        <div className="eigenai-speaker-portrait relative order-1 mx-auto size-40 rounded-full p-0.5 sm:size-52 md:order-2">
+        <div className="eigenai-speaker-portrait relative order-1 mx-auto size-32 rounded-full p-0.5 sm:size-52 md:order-2">
           <div className="relative size-full overflow-hidden rounded-full bg-[#0c0249]">
             <Image
               src={speaker.profileImage}
               alt={`${speaker.name}, ${speaker.role}`}
               fill
-              sizes="(max-width: 640px) 160px, 208px"
+              sizes="(max-width: 640px) 128px, 208px"
               className="object-cover"
             />
           </div>
@@ -500,10 +526,10 @@ function KeynoteCard({ speaker }: { speaker: Speaker }) {
 function WorkshopCard({ workshop }: { workshop: Workshop }) {
   return (
     <GradientPanel>
-      <article className="grid min-h-72 min-w-0 gap-6 px-6 py-8 sm:p-10">
+      <article className="grid min-w-0 p-5 sm:min-h-72 sm:p-10">
         <div>
-          <div className="flex flex-wrap items-center gap-4">
-            <h3 className="eigenai-sans max-w-3xl text-2xl/tight font-semibold text-white sm:text-3xl">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+            <h3 className="eigenai-sans max-w-3xl text-xl/tight font-semibold text-white sm:text-3xl">
               {workshop.title}
             </h3>
             {workshop.image ? (
@@ -523,7 +549,7 @@ function WorkshopCard({ workshop }: { workshop: Workshop }) {
               {workshop.host}
             </p>
           ) : null}
-          <p className="mt-6 max-w-3xl text-base/relaxed tracking-[-0.01em] text-white sm:text-lg">
+          <p className="mt-4 max-w-3xl text-sm/relaxed tracking-[-0.01em] text-white sm:mt-6 sm:text-lg">
             {workshop.description}
           </p>
         </div>
@@ -532,56 +558,9 @@ function WorkshopCard({ workshop }: { workshop: Workshop }) {
   );
 }
 
-function EigenNavigation() {
-  return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-5">
-      <nav
-        aria-label="EigenAI"
-        className="mx-auto flex max-w-6xl items-center justify-between gap-4"
-      >
-        <Link
-          href="/"
-          className="relative z-10 flex shrink-0 items-center gap-2.5"
-          aria-label="UTMIST home"
-        >
-          <Image
-            src={utmistWordmark}
-            alt="UTMIST"
-            width={112}
-            height={34}
-            className="h-auto w-23 sm:w-28"
-          />
-        </Link>
-
-        <div className="eigenai-liquid-glass hidden items-center rounded-full px-12 py-3 md:flex">
-          <ul className="relative z-10 flex items-center gap-7">
-            {eigenNavigationLinks.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="text-sm tracking-[0.04em] text-white/75 transition hover:text-white"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <Link
-          href="/auth"
-          className="eigenai-login-button eigenai-body relative z-10 shrink-0 rounded-[3.165rem] px-5 py-2 text-xs/normal font-normal tracking-[-0.01em] text-white transition sm:px-8 sm:text-sm/normal"
-        >
-          Login
-        </Link>
-      </nav>
-    </header>
-  );
-}
-
 function EigenFooter() {
   return (
-    <footer className="relative z-10 flex min-h-80 items-center justify-center bg-white/30 px-5 py-12">
+    <footer className="relative z-10 flex min-h-52 items-center justify-center bg-white/30 px-5 py-8 sm:min-h-64 sm:py-10">
       <ContentContainer className="flex flex-col items-center text-center">
         <Link
           href="/"
@@ -593,11 +572,11 @@ function EigenFooter() {
             alt="UTMIST"
             width={332}
             height={101}
-            className="h-auto w-[min(14rem,70vw)]"
+            className="h-auto w-[min(10rem,55vw)] sm:w-[min(12rem,60vw)]"
           />
         </Link>
 
-        <ul className="relative z-10 mt-7 flex flex-wrap justify-center gap-4 sm:gap-6">
+        <ul className="relative z-10 mt-5 flex flex-wrap justify-center gap-3 sm:mt-6 sm:gap-5">
           {socialLinks.map((social) => (
             <li key={social.label}>
               <a
@@ -633,11 +612,11 @@ export default function EigenAIRedesign() {
       <EigenNavigation />
       <section
         data-testid="eigenai-hero"
-        className="relative flex min-h-192 items-center justify-center px-5 pb-20 pt-32 sm:min-h-216 sm:px-10 sm:pb-24 sm:pt-36"
+        className="relative flex min-h-[100svh] items-center justify-center px-5 pb-10 pt-24 sm:min-h-216 sm:px-10 sm:pb-24 sm:pt-36"
       >
         <ContentContainer className="flex -translate-y-4 flex-col items-center">
-          <EigenAILockup fontSize="clamp(6rem, 15vw, 10.5rem)" showCursor />
-          <div className="eigenai-glass-panel relative mt-10 flex min-h-11 w-fit max-w-full items-center justify-center rounded-full px-5 py-2 text-sm/snug tracking-[-0.01em] sm:px-8 sm:text-base">
+          <EigenAILockup fontSize="clamp(4rem, 15vw, 10.5rem)" showCursor />
+          <div className="eigenai-glass-panel relative mt-8 flex min-h-10 w-fit max-w-full items-center justify-center rounded-full px-4 py-2 text-xs/snug tracking-[-0.01em] sm:mt-10 sm:min-h-11 sm:px-8 sm:text-base">
             <span className="relative z-1 text-center text-white sm:whitespace-nowrap">
               October 3rd &amp; 4th @ LOCAT
             </span>
@@ -647,30 +626,30 @@ export default function EigenAIRedesign() {
 
       <section
         id="about"
-        className="relative px-5 py-24 sm:px-10 sm:pb-28 sm:pt-8"
+        className="relative px-5 pb-10 pt-4 sm:px-10 sm:pb-28 sm:pt-8"
       >
         <ContentContainer>
           <div
             data-testid="eigenai-metrics"
-            className="mx-auto grid max-w-3xl gap-y-4 sm:grid-cols-3 sm:gap-x-0 sm:gap-y-0"
+            className="mx-auto grid max-w-3xl grid-cols-3 gap-x-2 sm:gap-x-0"
           >
             <Metric value="500+" label="Attendees" />
             <Metric value="20" label="Speakers" />
             <Metric value="11" label="Workshops" />
           </div>
 
-          <div className="mt-20 sm:mt-28">
+          <div className="mt-10 sm:mt-28">
             <SectionHeading>
               What is <EigenAIWordmark />?
             </SectionHeading>
-            <div className="mt-12 grid items-start justify-between gap-10 md:grid-cols-[minmax(16rem,24rem)_minmax(0,36rem)] lg:gap-16">
-              <GradientPanel className="min-h-80 overflow-hidden sm:min-h-136">
+            <div className="mt-6 grid items-start justify-between gap-6 sm:mt-12 sm:gap-10 md:grid-cols-[minmax(16rem,24rem)_minmax(0,36rem)] lg:gap-16">
+              <GradientPanel className="min-h-64 overflow-hidden sm:min-h-136">
                 <div
                   aria-hidden="true"
-                  className="min-h-80 rounded-[inherit] sm:min-h-136"
+                  className="min-h-64 rounded-[inherit] sm:min-h-136"
                 />
               </GradientPanel>
-              <div className="max-w-2xl text-base/relaxed tracking-[-0.01em] text-white sm:text-lg">
+              <div className="max-w-2xl text-sm/relaxed tracking-[-0.01em] text-white sm:text-lg">
                 <p>
                   EigenAI is a UTMIST flagship conference introducing students
                   to the world of AI, ML, software, and emerging technologies.
@@ -678,7 +657,7 @@ export default function EigenAIRedesign() {
                   advanced topics, participants gain hands-on experience and
                   practical insights.
                 </p>
-                <p className="mt-7">
+                <p className="mt-5 sm:mt-7">
                   This year’s theme is Mapping AI through the Multiverse, which
                   invites students to journey through the many dimensions of AI,
                   allowing them to explore the field from multiple perspectives
@@ -695,14 +674,14 @@ export default function EigenAIRedesign() {
 
       <section
         id="speakers"
-        className="relative px-5 py-24 sm:px-10 sm:pb-32 sm:pt-20"
+        className="relative px-5 py-10 sm:px-10 sm:pb-32 sm:pt-20"
       >
         <ContentContainer>
           <SectionHeading>Speakers</SectionHeading>
-          <div className="mt-12">
+          <div className="mt-6 sm:mt-12">
             <KeynoteCard speaker={keynoteSpeaker} />
           </div>
-          <div className="mt-12 grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-6 grid gap-x-8 gap-y-6 sm:mt-12 sm:gap-y-12 md:grid-cols-2 lg:grid-cols-3">
             {speakers.map((speaker, index) => (
               <SpeakerCard key={`${speaker.name}-${index}`} speaker={speaker} />
             ))}
@@ -710,10 +689,13 @@ export default function EigenAIRedesign() {
         </ContentContainer>
       </section>
 
-      <section id="workshops" className="relative px-5 py-24 sm:px-10 sm:py-32">
+      <section
+        id="workshops"
+        className="relative px-5 pb-4 pt-10 sm:px-10 sm:py-32"
+      >
         <ContentContainer>
           <SectionHeading>Workshops</SectionHeading>
-          <div className="mt-12 space-y-8 sm:space-y-12">
+          <div className="mt-6 space-y-4 sm:mt-12 sm:space-y-12">
             {workshops.map((workshop, index) => (
               <WorkshopCard
                 key={`${workshop.title}-${index}`}
@@ -726,16 +708,16 @@ export default function EigenAIRedesign() {
 
       <section
         data-testid="eigenai-closing"
-        className="relative flex min-h-192 items-center justify-center px-5 py-24 text-center sm:px-10 sm:py-32"
+        className="relative flex items-center justify-center px-5 pb-10 pt-4 text-center sm:min-h-192 sm:px-10 sm:py-32"
       >
         <ContentContainer>
-          <p className="eigenai-closing-copy eigenai-body mx-auto max-w-4xl text-[clamp(2.5rem,6vw,4rem)] font-extralight italic leading-tight tracking-[0.01em] text-transparent">
+          <p className="eigenai-closing-copy eigenai-body mx-auto max-w-4xl text-[clamp(1.75rem,6vw,4rem)] font-extralight italic leading-tight tracking-[0.01em] text-transparent">
             Across the Many
             <br />
             Frontiers of AI
           </p>
-          <div className="mt-20 sm:mt-24">
-            <EigenAILockup fontSize="clamp(3rem, 8vw, 5rem)" />
+          <div className="mt-8 sm:mt-24">
+            <EigenAILockup fontSize="clamp(3.5rem, 12vw, 5rem)" />
           </div>
         </ContentContainer>
       </section>

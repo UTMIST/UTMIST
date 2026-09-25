@@ -155,6 +155,12 @@ html {
     drop-shadow(0 0 18px rgba(89, 224, 233, 0.12));
 }
 
+.eigenai-mobile-ring-group .eigenai-background-orbit {
+  opacity: 0.68;
+  filter: saturate(145%) drop-shadow(0 0 6px rgba(255, 255, 255, 0.2))
+    drop-shadow(0 0 20px rgba(89, 224, 233, 0.2));
+}
+
 .eigenai-lambda-cluster {
   container-type: inline-size;
 }
@@ -246,8 +252,8 @@ body:has(.eigenai-redesign) > .floating-theme-toggle {
   display: none;
 }
 
-.eigenai-liquid-glass {
-  position: relative;
+.eigenai-liquid-glass,
+.eigenai-mobile-glass {
   border: 0;
   background:
     radial-gradient(
@@ -268,7 +274,27 @@ body:has(.eigenai-redesign) > .floating-theme-toggle {
   backdrop-filter: blur(22px) saturate(145%);
 }
 
-.eigenai-liquid-glass::before {
+.eigenai-liquid-glass {
+  position: relative;
+}
+
+.eigenai-mobile-glass {
+  background:
+    radial-gradient(
+      ellipse 45% 180% at 10% -45%,
+      rgba(255, 255, 255, 0.22),
+      transparent 68%
+    ),
+    radial-gradient(
+      ellipse 60% 160% at 95% 145%,
+      rgba(223, 214, 255, 0.16),
+      transparent 70%
+    ),
+    rgba(12, 2, 73, 0.9);
+}
+
+.eigenai-liquid-glass::before,
+.eigenai-mobile-glass::before {
   position: absolute;
   inset: 0;
   padding: 1.582px;
