@@ -43,6 +43,25 @@ For example, leave Preview **Off** and override **On** in your browser to review
 the redesign while everyone else sees the existing page. **Clear the override**
 when finished to follow the dashboard again.
 
+### If the Toolbar is missing
+
+In Vercel, open **client → Settings → General → Vercel Toolbar** and set
+**Pre-Production Deployments** to **On**. Save, then open a newly built Preview.
+Vercel supplies the Toolbar automatically; this Preview does not need a React
+Toolbar component or browser extension.
+
+The Preview job in [CI](../../.github/workflows/ci.yml) uploads source and builds
+it on Vercel. Keep that build on Vercel: the previous `vercel build` in GitHub
+Actions followed by `vercel deploy --prebuilt` missed the platform settings that
+make Vercel's Next.js adapter inject the Toolbar loader. The deployment setting
+could say **On** while the shipped JavaScript contained no loader. Vercel
+documents the [build-time system-variable limitation of prebuilt deployments](https://vercel.com/docs/cli/deploy#when-not-to-use---prebuilt).
+
+If a fresh Preview still has no Toolbar, check session visibility settings and
+whether the browser blocks `https://vercel.live`. `FLAGS_SECRET` controls flag
+discovery and overrides after the Toolbar loads; changing it does not make the
+Toolbar appear.
+
 ### Use live flags locally
 
 Follow the commands under [Set up this project](#set-up-this-project) to link
@@ -316,6 +335,7 @@ access are needed to complete this deployment verification.
 | Preview shows the old page while its dashboard flag is On | Clear browser overrides, verify the deployment is linked to `utmist-infrastructure/client`, and check for authentication/provider errors. A missing `FLAGS` variable is normal with OIDC. |
 | Local page ignores dashboard changes | Without pulled OIDC credentials or an explicit SDK key, local development uses fixtures. Pull Development credentials and restart the dev server. |
 | An SDK key reads unexpected values | Explicit `FLAGS` overrides OIDC; its project and flag environment determine which configuration is read. |
+| Toolbar itself is missing | Enable Pre-Production Toolbar, use a fresh Preview built on Vercel, and check browser/session blocking. See [If the Toolbar is missing](#if-the-toolbar-is-missing). |
 | Toolbar cannot discover flags or apply overrides | Check that `FLAGS_SECRET` is configured for that deployment's environment and discovery is accessible. Do not replace it with an SDK key. |
 | Production stays off | Intentional until launch: `server.ts` rejects both dashboard enablement and browser overrides in Production. |
 

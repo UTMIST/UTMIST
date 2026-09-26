@@ -112,36 +112,30 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # `vercel build` runs the Next build here on the runner, so without this
-      # it used whatever Node the image happened to ship — the gate ran one
-      # version and the artifact we actually deploy was built on another.
+      # Run the CLI on the pinned Node version. Vercel builds the Preview
+      # using the project's Node 24 setting.
       - name: Set up Node.js
         uses: actions/setup-node@v7
         with:
           node-version-file: client/.nvmrc
 
       - name: Install Vercel CLI
-        run: npm install -g vercel
+        run: npm install -g vercel@60.1.3
 
-      - name: Pull Vercel environment info
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build Project
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
-          NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
-          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
-          PAYLOAD_DATABASE_URI: ${{ secrets.PAYLOAD_DATABASE_URI }}
-          # Flags evaluate at request time using Vercel's automatic OIDC identity.
-          # FLAGS_SECRET for Explorer is configured in Vercel Preview settings;
-          # neither credential needs to be copied into this build step.
-
+      # Build on Vercel so its Next.js adapter receives the platform settings
+      # needed to inject the Toolbar. A GitHub prebuild omits that loader even
+      # when Toolbar is enabled on the deployment. The build job still gates
+      # this job on lint, typecheck, tests, and a Next build.
       - name: Deploy Preview to Vercel
         id: deploy
-        run: echo "url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" >> "$GITHUB_OUTPUT"
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          deployment=$(vercel deploy --yes --target=preview --format=json \
+            --build-env VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING=1 \
+            --token="$VERCEL_TOKEN")
+          url=$(jq -er '.deployment.url | select(startswith("https://"))' <<< "$deployment")
+          echo "url=$url" >> "$GITHUB_OUTPUT"
 
       - name: Comment preview URL on PR
         uses: actions/github-script@v9
