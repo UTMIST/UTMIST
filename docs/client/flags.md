@@ -13,6 +13,51 @@ for member identity and preferences.
 Everything here works with **no provider** — the fixtures are in-memory and
 deterministic — so server/client examples and the opt-in UI can be built now.
 
+## Using the EigenAI flag
+
+**Do I need to set `FLAGS`? No, not for this Vercel project.** Leave it unset:
+Vercel supplies OIDC automatically so the application can read dashboard values.
+Keep the existing `FLAGS_SECRET` in Vercel's environment settings; it secures
+Toolbar discovery and browser overrides. It does not set the flag's value.
+Neither credential changes when you toggle the feature.
+
+### Change what everyone sees on Preview
+
+1. Open [Eigen-AI-Redesign in the Vercel dashboard](https://vercel.com/utmist-infrastructure/client/flag/Eigen-AI-Redesign).
+2. Change the **Preview** value: **On** shows the redesign; **Off** shows the
+   existing EigenAI page.
+3. Open `/eigenai` on the latest Preview deployment linked in the PR's preview
+   comment. Clear any Toolbar override and refresh the page.
+
+Dashboard changes take effect on subsequent server evaluations after the SDK
+receives the update. No redeploy is needed for a flag toggle. Everyone without
+a browser override follows the Preview value.
+
+### Test a different value in your browser
+
+Open the Preview's **Vercel Toolbar → Flags Explorer** and override
+`Eigen-AI-Redesign` to **On** or **Off**. The override applies only to that
+browser; it does not change the dashboard value for other visitors.
+
+For example, leave Preview **Off** and override **On** in your browser to review
+the redesign while everyone else sees the existing page. **Clear the override**
+when finished to follow the dashboard again.
+
+### Use live flags locally
+
+Follow the commands under [Set up this project](#set-up-this-project) to link
+`client/`, pull Development credentials into `.env.local`, and start the dev
+server. Then use the dashboard's **Development** value for local testing.
+No manual `FLAGS` key is needed. Without Vercel context or provider credentials,
+local development uses fixtures, which currently enable the redesign.
+
+### Launch to Production
+
+Production is currently forced **Off** by a code guard in `server.ts`.
+Changing Production to On in the dashboard or setting a browser override cannot
+enable the redesign. Launch requires a reviewed code change to remove that
+guard before the Production dashboard value can control the page.
+
 ## Where it lives
 
 ```
@@ -181,11 +226,8 @@ The `flags/next` declaration in `definitions.ts` mirrors the dashboard:
 | Variants | `false` (Off), `true` (On) |
 | Default | `false` |
 
-For example, set Preview's dashboard value to **Off**. Visitors without overrides
-see the existing EigenAI page. Open the preview's `/eigenai` page and use the
-Toolbar's Flags Explorer to override the flag **On**. Only that browser sees the
-redesign. Clear the override to resume the dashboard value. Neither credential
-changes when a flag is toggled. Production remains off even with an override.
+See [Using the EigenAI flag](#using-the-eigenai-flag) for dashboard toggles,
+browser overrides, local testing, and the Production launch restriction.
 
 ### Evaluation path
 
