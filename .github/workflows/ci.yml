@@ -134,7 +134,8 @@ jobs:
           deployment=$(vercel deploy --yes --target=preview --format=json \
             --build-env VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING=1 \
             --token="$VERCEL_TOKEN")
-          url=$(jq -er '.deployment.url | select(startswith("https://"))' <<< "$deployment")
+          # JSON is flat in CI and wrapped in agent/non-interactive mode.
+          url=$(jq -er '(.url // .deployment.url) | select(type == "string") | select(startswith("https://"))' <<< "$deployment")
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
       - name: Comment preview URL on PR

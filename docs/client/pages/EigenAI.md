@@ -52,7 +52,7 @@ To preview the redesign, turn `Eigen-AI-Redesign` **ON** in the Preview Vercel
 dashboard. Deployments authenticate automatically without a manual `FLAGS` key.
 For live local Development values, link the project and run `vercel env pull`
 from `client/`. Subsequent server evaluations follow provider updates without a
-redeploy. Offline local development uses fixtures, which currently enable the
+redeploy. Offline local development uses fixtures, which currently disable the
 redesign.
 See [../flags.md](../flags.md) for setup and verification.
 

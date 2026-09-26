@@ -68,12 +68,12 @@ describe('flag adapter selection by environment', () => {
     },
   );
 
-  it('falls back to the fixtures without a key outside production', async () => {
+  it('uses offline fixtures with the redesign disabled when no provider is configured', async () => {
     setEnv({});
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
     await expect(evaluateFlag('showDemoBanner')).resolves.toBe(true);
-    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(true);
+    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(false);
     expect(createVercelFlagAdapter).not.toHaveBeenCalled();
   });
 

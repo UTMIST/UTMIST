@@ -68,7 +68,7 @@ Follow the commands under [Set up this project](#set-up-this-project) to link
 `client/`, pull Development credentials into `.env.local`, and start the dev
 server. Then use the dashboard's **Development** value for local testing.
 No manual `FLAGS` key is needed. Without Vercel context or provider credentials,
-local development uses fixtures, which currently enable the redesign.
+local development uses fixtures, which currently keep the redesign off.
 
 ### Launch to Production
 
@@ -316,8 +316,8 @@ internal SDK declarations in feature code; that would bypass the public guard.
 `dynamic = "force-dynamic"`, so server selection is not frozen at build time.
 Off/missing/error keeps the existing page with its standard navigation, footer,
 and theme control; on selects the redesigned page with its own navigation and
-footer. Offline local development uses fixtures, which currently enable the
-redesign. Preview deployments use OIDC without a manual SDK key. Production
+footer. Offline local development uses fixtures, which currently keep the
+redesign off. Preview deployments use OIDC without a manual SDK key. Production
 remains off.
 
 For provider verification, use a Preview deployment or pull Development OIDC
