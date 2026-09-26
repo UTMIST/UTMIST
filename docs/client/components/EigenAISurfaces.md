@@ -19,10 +19,14 @@ Set `asChild` when the surface should style its single child link instead of
 rendering a wrapper. `EigenSpeakerPortrait` contains the shared portrait-ring
 treatment used by speaker cards.
 
-`EigenAIWordmark` uses a reusable internal layer component for its four text
-layers. Its bespoke gradient and optional cursor mask remain inline style data;
-all positioning, typography, opacity, masking configuration, and blending use
-Tailwind utilities.
+`EigenAIWordmark` is a server component that renders a single text layer. Its
+fill is `wordmark-mesh.webp`, a baked render of the Figma mesh-gradient shader,
+which Tailwind sizes and positions over the glyph ink box. Its glass shimmer is
+an inline SVG inner-shadow filter in `objectBoundingBox` primitive units. The
+text span's box is sized in `em`, so the filter scales with the font and ships
+in the server-rendered HTML with no client JavaScript. Changing that span's
+line height or padding means updating `textBoxEm`. Each instance gets its own
+filter id from `useId`. The optional cursor mask remains inline style data.
 
 ## Global chrome
 
