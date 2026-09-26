@@ -11,4 +11,5 @@ export { default as Navbar } from "./navbar";
 export { ThemeProvider } from "./theme-provider";
 export { ThemeToggle } from "./theme-toggle";
 export { FloatingThemeToggle } from "./floating-theme-toggle";
+export { HideOnEigenAI } from "./hide-on-eigenai";
 export { default as ScrollToTop } from "./scrollToTop";

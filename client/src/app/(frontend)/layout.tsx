@@ -6,6 +6,7 @@ import {
   Navbar,
   ScrollToTop,
   FloatingThemeToggle,
+  HideOnEigenAI,
   ThemeProvider,
 } from "@/shared/ui/client";
 import { Toaster } from "react-hot-toast";
@@ -41,11 +42,17 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
+          <HideOnEigenAI>
+            <Navbar />
+          </HideOnEigenAI>
           {children}
-          <Footer />
+          <HideOnEigenAI>
+            <Footer />
+          </HideOnEigenAI>
           <ScrollToTop />
-          <FloatingThemeToggle />
+          <HideOnEigenAI>
+            <FloatingThemeToggle />
+          </HideOnEigenAI>
           <Toaster />
         </ThemeProvider>
       </body>

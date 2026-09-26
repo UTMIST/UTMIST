@@ -5,11 +5,10 @@
 // without any consuming code changing. It is server-only and reached only
 // through `@/shared/lib/server`; browser code imports types from `@/shared/lib`.
 //
-// Provider: Vercel Flags via `@vercel/flags-core`'s `FlagsClient`. Auth is an
-// explicit per-environment SDK key in `FLAGS` (Development locally, Preview
-// on preview). Production ignores credentials and stays off. `flags/provider.ts`
-// passes the key to `createVercelFlagAdapter`; `createClient(sdkKey)` authenticates
-// from that key alone, so no Vercel OIDC token is required.
+// Provider: Vercel Flags via `@vercel/flags-core`'s `FlagsClient`. Auth uses
+// automatic Vercel OIDC unless an explicit FLAGS SDK key is supplied by
+// flags/provider.ts. OIDC is resolved inside a request, not at construction.
+// The public evaluator keeps production off regardless of authentication.
 //
 // The flags/next declaration calls this adapter for provider evaluation. We
 // retain the core client because @flags-sdk/vercel returns only the value and
@@ -31,9 +30,9 @@ const DECLARED_FLAGS: ReadonlySet<string> = new Set([
 ]);
 
 /**
- * Build the Vercel-backed `FlagAdapter` for a given SDK key. The key is selected
- * per environment in `./server` and passed in here, so this module never reads
- * `process.env` and stays a pure function of its argument.
+ * Build the Vercel-backed adapter, using OIDC when no SDK key is supplied.
+ * Do not call initialize() here: evaluate() initializes the SDK in the current
+ * request, where the deployment's OIDC identity is available.
  *
  * Failure-off (#286): only a **fresh** `true` enables a flag. Anything else is
  * `false` — an evaluation error (including a missing definition), a
@@ -46,7 +45,7 @@ const DECLARED_FLAGS: ReadonlySet<string> = new Set([
  * this runtime cache.) A rejection propagates for the `./provider` wrapper to
  * turn into `false`.
  */
-export function createVercelFlagAdapter(sdkKey: string): FlagAdapter {
+export function createVercelFlagAdapter(sdkKey?: string): FlagAdapter {
   const client = createClient(sdkKey);
 
   // EigenAI is an environment-level on/off, so no per-user targeting context is
