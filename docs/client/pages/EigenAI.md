@@ -35,22 +35,25 @@ controls. The frontend layout omits its copies on `/eigenai` through
 `evaluateFlag` (from `@/shared/lib/server`) is **default-off**: a missing flag,
 missing configuration, or an evaluation failure returns `false`, so anything but
 an explicit "on" keeps the existing page. See
-[../flags.md](../flags.md) for the flag runtime, per-environment SDK keys,
+[../flags.md](../flags.md) for the flag runtime, OIDC authentication,
 and the embedded-fallback mitigation.
 
 ## Rollout / opt-in
 
 The flag is **always off in production** until launch (#444): the public
 evaluator checks `VERCEL_ENV=production` before provider evaluation or Explorer
-overrides. Provider authentication uses the environment's `FLAGS` SDK key; the
-separate `FLAGS_SECRET` enables authenticated Flags Explorer discovery and
+overrides. Provider authentication uses Vercel's automatic OIDC identity (or an
+optional explicit `FLAGS` SDK key); the separate `FLAGS_SECRET` enables
+authenticated Flags Explorer discovery and
 browser overrides. In development/preview, an Explorer override takes
 precedence for that browser; clear it to test dashboard toggles.
 
-To preview the redesign, configure the Development / Preview `FLAGS` key and
-turn `Eigen-AI-Redesign` **ON** in that environment's Vercel dashboard. Subsequent
-server evaluations follow provider updates without a redeploy. Local development
-without a provider key uses fixtures, which currently enable the redesign.
+To preview the redesign, turn `Eigen-AI-Redesign` **ON** in the Preview Vercel
+dashboard. Deployments authenticate automatically without a manual `FLAGS` key.
+For live local Development values, link the project and run `vercel env pull`
+from `client/`. Subsequent server evaluations follow provider updates without a
+redeploy. Offline local development uses fixtures, which currently enable the
+redesign.
 See [../flags.md](../flags.md) for setup and verification.
 
 The redesign is scoped to its `data-testid="eigenai-redesign"` wrapper

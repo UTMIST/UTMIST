@@ -9,7 +9,12 @@ import { NextRequest } from 'next/server';
 let mockRequest: NextRequest;
 let mockClientOptions: CreateClientOptions;
 const mockClients: FlagsClient[] = [];
-const mockKeys: string[] = [];
+const mockKeys: Array<string | undefined> = [];
+const mockOidcToken = jest.fn();
+
+jest.mock('@vercel/oidc', () => ({
+  getVercelOidcToken: () => mockOidcToken(),
+}));
 
 jest.mock('next/headers', () => ({
   headers: async () => mockRequest.headers,
@@ -20,7 +25,7 @@ jest.mock('@vercel/flags-core', () => {
   const actual = jest.requireActual<typeof import('@vercel/flags-core')>('@vercel/flags-core');
   return {
     ...actual,
-    createClient: (key: string) => {
+    createClient: (key?: string) => {
       mockKeys.push(key);
       const client = actual.createClient(key, mockClientOptions);
       mockClients.push(client);
@@ -51,6 +56,7 @@ beforeEach(() => {
   process.env = { ...originalEnv, VERCEL_ENV: 'preview', FLAGS: 'vf_server_test', FLAGS_SECRET: secret };
   Object.assign(process.env, { NODE_ENV: 'production' });
   mockKeys.length = 0;
+  mockOidcToken.mockReset().mockRejectedValue(new Error('OIDC unavailable'));
   setRequest();
   mockClientOptions = {
     buildStep: true,
@@ -67,10 +73,71 @@ beforeEach(() => {
   };
 });
 
+// Feed the real SDK a live stream so it must authenticate and evaluate fresh
+// provider data, rather than bypassing auth with a supplied build-time datafile.
+function useOidcProvider() {
+  delete process.env.FLAGS;
+  const datafile = mockClientOptions.datafile;
+  delete mockClientOptions.datafile;
+  Object.assign(mockClientOptions, {
+    buildStep: false,
+    stream: { initTimeoutMs: 100 },
+    polling: false,
+    fetch: jest.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+      return new Response(new ReadableStream({
+        start(controller) {
+          controller.enqueue(new TextEncoder().encode(
+            JSON.stringify({ type: 'datafile', data: datafile }) + '\n',
+          ));
+          init?.signal?.addEventListener('abort', () => controller.close(), { once: true });
+        },
+      }));
+    }),
+  });
+}
+
 afterEach(async () => {
   jest.useRealTimers();
   await Promise.all(mockClients.splice(0).map((client) => client.shutdown()));
   process.env = originalEnv;
+});
+
+it('reads Preview flags through request-time OIDC and isolates Explorer overrides', async () => {
+  useOidcProvider();
+  const { evaluateFlag } = await import('@/shared/lib/flags/server');
+  expect(mockOidcToken).not.toHaveBeenCalled();
+  expect(mockClientOptions.fetch).not.toHaveBeenCalled();
+  mockOidcToken.mockResolvedValue('synthetic-preview-oidc');
+
+  await expect(evaluateFlag(flagKey)).resolves.toBe(true);
+  expect(mockKeys).toEqual([undefined]);
+  expect(mockClientOptions.fetch).toHaveBeenCalledWith(
+    expect.stringContaining('/v1/stream'),
+    expect.objectContaining({
+      headers: expect.objectContaining({ Authorization: 'Bearer synthetic-preview-oidc' }),
+    }),
+  );
+
+  setRequest(await encryptOverrides({ [flagKey]: false }, secret));
+  await expect(evaluateFlag(flagKey)).resolves.toBe(false);
+  setRequest();
+  await expect(evaluateFlag(flagKey)).resolves.toBe(true);
+});
+
+it('fails off when Preview OIDC is unavailable instead of using local fixtures', async () => {
+  useOidcProvider();
+  const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+  try {
+    const { evaluateFlag } = await import('@/shared/lib/flags/server');
+    await expect(evaluateFlag(flagKey)).resolves.toBe(false);
+    expect(mockKeys).toEqual([undefined]);
+    expect(mockOidcToken).toHaveBeenCalled();
+    expect(mockClientOptions.fetch).not.toHaveBeenCalled();
+  } finally {
+    warn.mockRestore();
+    error.mockRestore();
+  }
 });
 
 it('authenticates the real provider with FLAGS while FLAGS_SECRET holds an Explorer secret', async () => {
@@ -88,6 +155,7 @@ it('evaluates the provider without an Explorer secret, ignoring override cookies
 
 it('does not treat FLAGS_SECRET alone as provider credentials', async () => {
   delete process.env.FLAGS;
+  delete process.env.VERCEL_ENV;
   const { evaluateFlag } = await import('@/shared/lib/flags/server');
   await expect(evaluateFlag(flagKey)).resolves.toBe(false);
   expect(mockKeys).toEqual([]);
@@ -102,8 +170,9 @@ it('applies an authenticated override only to the request that carries it', asyn
   await expect(evaluateFlag(flagKey)).resolves.toBe(true);
 });
 
-it('allows a signed preview opt-in with no provider key and leaves other requests off', async () => {
+it('allows a signed opt-in without provider credentials and leaves other requests off', async () => {
   delete process.env.FLAGS;
+  delete process.env.VERCEL_ENV;
   const { evaluateFlag } = await import('@/shared/lib/flags/server');
   setRequest(await encryptOverrides({ [flagKey]: true }, secret));
   await expect(evaluateFlag(flagKey)).resolves.toBe(true);
@@ -158,12 +227,15 @@ it.each([
   await expect(evaluateFlag(flagKey)).resolves.toBe(override);
 });
 
-it('keeps production off even with valid provider credentials and a signed on override', async () => {
+it.each(['sdk-key', 'oidc'])('keeps production off with %s and a signed on override', async (authentication) => {
+  if (authentication === 'oidc') useOidcProvider();
+  mockOidcToken.mockResolvedValue('synthetic-production-oidc');
   process.env.VERCEL_ENV = 'production';
   setRequest(await encryptOverrides({ [flagKey]: true }, secret));
   const { evaluateFlag } = await import('@/shared/lib/flags/server');
   await expect(evaluateFlag(flagKey)).resolves.toBe(false);
   expect(mockKeys).toEqual([]);
+  expect(mockOidcToken).not.toHaveBeenCalled();
 });
 
 it('rejects truthy non-boolean overrides and overrides of undeclared flags', async () => {
@@ -186,7 +258,11 @@ it('returns discovery metadata only with a valid access proof and never contacts
   expect(response.headers.get('cache-control')).toBe('no-store');
   expect(response.headers.get('x-flags-sdk-version')).toBeTruthy();
   expect(await response.json()).toMatchObject({
-    definitions: { [flagKey]: { defaultValue: false, options: [{ value: false }, { value: true }] } },
+    definitions: { [flagKey]: {
+      description: 'Toggle the new 2026 EigenAI Website',
+      defaultValue: false,
+      options: [{ value: false, label: 'Off' }, { value: true, label: 'On' }],
+    } },
   });
   expect(mockKeys).toEqual([]);
 });

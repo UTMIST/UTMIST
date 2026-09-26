@@ -135,11 +135,9 @@ jobs:
           NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           PAYLOAD_DATABASE_URI: ${{ secrets.PAYLOAD_DATABASE_URI }}
-          # Separate provider credentials and Explorer encryption key. Configure
-          # both in Vercel Preview settings too: these build env vars alone do
-          # not configure the deployed function's runtime environment.
-          FLAGS: ${{ secrets.FLAGS }}
-          FLAGS_SECRET: ${{ secrets.FLAGS_SECRET }}
+          # Flags evaluate at request time using Vercel's automatic OIDC identity.
+          # FLAGS_SECRET for Explorer is configured in Vercel Preview settings;
+          # neither credential needs to be copied into this build step.
 
       - name: Deploy Preview to Vercel
         id: deploy

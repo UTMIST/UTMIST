@@ -36,6 +36,8 @@ process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key'
 // Keep tests independent of credentials loaded by next/jest from local .env.
 // Integration tests explicitly provision synthetic provider and Explorer keys.
 delete process.env.VERCEL_ENV
+delete process.env.VERCEL
+delete process.env.VERCEL_OIDC_TOKEN
 delete process.env.FLAGS
 delete process.env.FLAGS_SECRET
 

@@ -3,10 +3,9 @@
 // Internal to the shared flag runtime; the public evaluateFlag wrapper is
 // exported through @/shared/lib/server. Never import this from browser code.
 //
-// The flag adapter is selected by environment (#447): the real Vercel Flags
-// adapter whenever a per-environment SDK key is configured, the deterministic
-// fixtures in local dev / CI without one, and a hard "off" adapter in production
-// without a key (so the fixtures can never leak into production).
+// Vercel deployments authenticate with request-scoped OIDC by default. An
+// explicit FLAGS SDK key is also supported. Offline local dev / CI uses
+// fixtures; production builds without Vercel context or credentials stay off.
 // The failure-off wrapper and the exported function signatures stay the same,
 // so no consuming code changes. See docs/client/flags.md.
 
@@ -17,26 +16,25 @@ import type { EvaluationContext, FlagAdapter } from "./types";
 /** Every flag off — the safe binding for production with no Vercel context. */
 const offAdapter: FlagAdapter = { evaluate: async () => undefined };
 
-// Select the Vercel Flags SDK key for the current environment. Auth is an
-// explicit SDK key in `FLAGS`, not OIDC; each Vercel environment holds its
-// own value (the Development key locally, the Preview key on preview). Production
-// is deliberately keyless — and ignored here even if a value is set — so the
-// redesign stays off there. Kept SDK-free (only `process.env`) so this module
-// never imports `./vercel` eagerly — see the lazy import below.
-function selectSdkKey(): string | undefined {
-  if (process.env.VERCEL_ENV === "production") return undefined;
-  return process.env.FLAGS;
+// Vercel may supply OIDC through the request rather than process.env. Select
+// the live adapter from deployment context too; let the SDK authenticate when
+// evaluate() runs. FLAGS_SECRET only authenticates Explorer overrides.
+// The public evaluator in server.ts enforces production-off before reaching us.
+function hasVercelContext(): boolean {
+  return process.env.VERCEL === "1" || Boolean(
+    process.env.VERCEL_ENV || process.env.VERCEL_OIDC_TOKEN,
+  );
 }
 
 // Resolve the flag adapter once. The Vercel adapter (and its
-// `@vercel/flags-core` SDK) is **lazily imported** only when an SDK key is
-// present, so dev/CI without one never loads the SDK — that keeps Jest off the
-// SDK's ESM-only dependencies with no test-config changes.
+// `@vercel/flags-core` SDK) is lazily imported only with Vercel context or an
+// SDK key. Cache client construction, never eagerly initialize the client:
+// request-scoped authentication is not available during module loading.
 let adapterPromise: Promise<FlagAdapter> | undefined;
 function getFlagAdapter(): Promise<FlagAdapter> {
   if (!adapterPromise) {
-    const sdkKey = selectSdkKey();
-    adapterPromise = sdkKey
+    const sdkKey = process.env.FLAGS || undefined;
+    adapterPromise = sdkKey || hasVercelContext()
       ? import("./vercel").then((m) => m.createVercelFlagAdapter(sdkKey))
       : Promise.resolve(
           process.env.NODE_ENV === "production" ? offAdapter : fixtureFlagAdapter,

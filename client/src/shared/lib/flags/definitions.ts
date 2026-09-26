@@ -12,12 +12,12 @@ import type { EvaluationContext } from "./types";
 
 const eigenAIRedesign = flag<boolean, EvaluationContext>({
   key: "Eigen-AI-Redesign",
-  description: "Preview the EigenAI redesign. Disabled in production until launch.",
+  description: "Toggle the new 2026 EigenAI Website",
   origin: "https://vercel.com/utmist-infrastructure/client/flag/Eigen-AI-Redesign",
   defaultValue: false,
   options: [
-    { value: false, label: "Existing page" },
-    { value: true, label: "Redesign" },
+    { value: false, label: "Off" },
+    { value: true, label: "On" },
   ],
   decide: ({ entities }) => evaluateProviderFlag("Eigen-AI-Redesign", entities),
 });
