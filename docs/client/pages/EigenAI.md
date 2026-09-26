@@ -92,7 +92,26 @@ responsive `fontSize` value. The logo and conference subtitle are sized and
 positioned proportionally with `em` units, so every lockup size preserves the
 same relationship between all three elements. Its glass text treatment comes
 from the parallel `EigenAIWordmark` component, which can also appear inline in
-headings without the logo or conference subtitle. The wordmark fill is Figma's
+headings without the logo or conference subtitle.
+The lockup and wordmark live in shared UI so other site surfaces can reuse the
+same identity without duplication. The featured EigenAI card on `/events` uses
+the lockup instead of its generic title and pairs it with the redesign's deep
+indigo base, cyan and violet glows, subtle glass highlight, and the same shared
+three-SVG concentric orbit element as the redesign backdrop, clipped into its
+upper-right corner. It also reuses the redesign's two-layer hero lambda symbol,
+including the offset back stroke and glowing front stroke, raised from the
+lower-left edge. The lockup stays above these
+decorative layers at desktop and mobile sizes. Other featured cards retain
+their existing title and background treatments.
+The Events page must pass the featured event's `branding` discriminator through
+to `EventCard`; the EigenAI lockup and ring artwork render only for that explicit
+variant. Their foreground layers use fixed stacking levels above the card's
+inline background and highlight overlay. All EigenAI-specific event-card
+layout, decoration, stacking, and responsive rules live beside the JSX as
+conditional Tailwind utilities; `events.css` retains only the generic featured
+card system shared by every event.
+
+The wordmark fill is Figma's
 first-party "Mesh gradient" shader, a bicubic Catmull-Rom patch blended in
 linear light, which CSS gradients cannot reproduce. It is therefore baked into
 `src/assets/eigenai-redesign/wordmark-mesh.webp` from the 16 colour-and-position
@@ -141,6 +160,16 @@ background, using the same liquid-glass surface treatment as the event UI. Its
 links navigate to About, Speakers, Workshops, Schedule, and Venue on the current
 page, with an explicit UTMIST Home link back to the main site. The redesign
 navigation does not include an authentication action.
+Outside `/eigenai`, the frontend layout evaluates `Eigen-AI-Redesign` on the
+server and passes the result to the shared navbar. Only an enabled flag renders
+the `/eigenai` promotional link; missing configuration, provider failures, and
+the production-off guard omit it. The link uses the same shared small gradient
+button styling as the Login/Profile action on both desktop and mobile, while
+the client navbar receives only the resolved boolean.
+The `/events` route evaluates that same flag per request and passes the resolved
+boolean to its client page. The featured EigenAI card renders the redesign
+lockup, lambda, rings, and branded background only when it is enabled; otherwise
+it retains the generic featured-card title treatment.
 On mobile, the event navigation follows the main site's hamburger pattern: its
 white UTMIST event wordmark sits left, the matching hamburger sits right, and a
 left-aligned section link list appears in a dismissible glass menu. A

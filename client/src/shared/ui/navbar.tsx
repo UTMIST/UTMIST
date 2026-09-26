@@ -14,7 +14,11 @@ const programLinks = [
   { href: "/ml-fundamentals", label: "MLF" },
 ];
 
-export default function Navbar() {
+export default function Navbar({
+  showEigenAI = false,
+}: {
+  showEigenAI?: boolean;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [isProgramsOpen, setIsProgramsOpen] = useState(false);
   const [isMobileProgramsOpen, setIsMobileProgramsOpen] = useState(false);
@@ -58,6 +62,13 @@ export default function Navbar() {
         </Link>
 
         <ul className="nav-links">
+          {showEigenAI ? (
+            <li>
+              <Button asChild size="sm">
+                <Link href="/eigenai">EigenAI</Link>
+              </Button>
+            </li>
+          ) : null}
           <li>
             <Link href="/#about-us" className="nav-item">
               About Us
@@ -161,6 +172,15 @@ export default function Navbar() {
               className="mobile-dropdown"
               onClick={(e) => e.stopPropagation()}
             >
+              {showEigenAI ? (
+                <li>
+                  <Button asChild size="sm">
+                    <Link href="/eigenai" onClick={closeMobileMenu}>
+                      EigenAI
+                    </Link>
+                  </Button>
+                </li>
+              ) : null}
               <li>
                 <Link href="/#about-us" onClick={closeMobileMenu}>
                   About Us

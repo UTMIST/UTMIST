@@ -1,5 +1,6 @@
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
+import { EigenAIConcentricRings, EigenAILambdaSymbol } from "@/shared/ui";
 
 import {
   founderPanelSpeakers,
@@ -36,9 +37,6 @@ import ellipseC from "@/assets/eigenai-redesign/ellipse-c.svg";
 import ellipseD from "@/assets/eigenai-redesign/ellipse-d.svg";
 import ellipseE from "@/assets/eigenai-redesign/ellipse-e.svg";
 import ellipseF from "@/assets/eigenai-redesign/ellipse-f.svg";
-import ellipseRingInner from "@/assets/eigenai-redesign/ellipse-ring-inner.svg";
-import ellipseRingMiddle from "@/assets/eigenai-redesign/ellipse-ring-middle.svg";
-import ellipseRingOuter from "@/assets/eigenai-redesign/ellipse-ring-outer.svg";
 import iconCloud from "@/assets/eigenai-redesign/icon-cloud.svg";
 import closingOrbit from "@/assets/eigenai-redesign/closing-orbit.svg";
 import lambdaHeroBack from "@/assets/eigenai-redesign/lambda-hero-back.svg";
@@ -47,11 +45,6 @@ import lambdaWorkshopBack from "@/assets/eigenai-redesign/lambda-workshop-back.s
 import lambdaWorkshopFront from "@/assets/eigenai-redesign/lambda-workshop-front.svg";
 import techOrbit from "@/assets/eigenai-redesign/tech-orbit.svg";
 
-const concentricRings = [
-  { id: "outer", src: ellipseRingOuter, width: 951.318 },
-  { id: "inner", src: ellipseRingInner, width: 731.172 },
-  { id: "middle", src: ellipseRingMiddle, width: 532.68 },
-];
 
 const mobileRingGroups = [
   { id: "hero-right", left: "88%", top: "6%", width: "min(88vw, 22rem)" },
@@ -211,16 +204,7 @@ function ConcentricRingGroup({
         maxWidth: "951.318px",
       }}
     >
-      {concentricRings.map((ring, index) => (
-        <Image
-          key={ring.id}
-          src={ring.src}
-          alt=""
-          data-ring-index={index}
-          className="absolute top-1/2 left-1/2 h-auto max-w-none -translate-x-1/2 -translate-y-1/2 opacity-42 mix-blend-screen [filter:drop-shadow(0_0_5px_rgb(255_255_255/0.12))_drop-shadow(0_0_18px_rgb(89_224_233/0.12))_saturate(132%)]"
-          style={{ width: `${(ring.width / 951.318) * 100}%` }}
-        />
-      ))}
+      <EigenAIConcentricRings className="absolute inset-0" />
     </div>
   );
 }
@@ -234,16 +218,10 @@ function MobileConcentricRingGroups() {
       className="absolute aspect-square -translate-x-1/2 -translate-y-1/2 md:hidden"
       style={{ left: group.left, top: group.top, width: group.width }}
     >
-      {concentricRings.map((ring, index) => (
-        <Image
-          key={ring.id}
-          src={ring.src}
-          alt=""
-          data-ring-index={index}
-          className="absolute top-1/2 left-1/2 h-auto max-w-none -translate-x-1/2 -translate-y-1/2 opacity-68 mix-blend-screen [filter:drop-shadow(0_0_6px_rgb(255_255_255/0.2))_drop-shadow(0_0_20px_rgb(89_224_233/0.2))_saturate(145%)]"
-          style={{ width: `${(ring.width / 951.318) * 100}%` }}
-        />
-      ))}
+      <EigenAIConcentricRings
+        className="absolute inset-0"
+        ringClassName="opacity-68 [filter:drop-shadow(0_0_6px_rgb(255_255_255/0.2))_drop-shadow(0_0_20px_rgb(89_224_233/0.2))_saturate(145%)]"
+      />
     </div>
   ));
 }
@@ -356,19 +334,10 @@ function LambdaCluster({
         width: `${(width / FIGMA_BACKDROP_WIDTH) * 100}%`,
       }}
     >
-      <Image
-        src={back}
-        alt=""
-        className="relative h-auto w-full blur-[0.9693cqw]"
-        style={{
-          left: "-0.046%",
-          transform: `translateY(${(backOffset / back.height) * 100}%)`,
-        }}
-      />
-      <Image
-        src={front}
-        alt=""
-        className="absolute top-0 left-0 h-auto w-full blur-[4.0711cqw]"
+      <EigenAILambdaSymbol
+        back={back}
+        front={front}
+        backOffset={backOffset}
       />
     </div>
   );

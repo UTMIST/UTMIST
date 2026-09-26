@@ -10,6 +10,7 @@ import {
   ThemeProvider,
 } from "@/shared/ui/client";
 import { Toaster } from "react-hot-toast";
+import { evaluateFlag } from "@/shared/lib/server";
 
 //Metadata for the page
 export const metadata: Metadata = {
@@ -22,11 +23,13 @@ export const metadata: Metadata = {
 
 // Root layout for the application
 // This layout wraps around all pages and includes the Navbar and Footer
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const showEigenAI = await evaluateFlag("Eigen-AI-Redesign");
+
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <head>
@@ -43,7 +46,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <HideOnEigenAI>
-            <Navbar />
+            <Navbar showEigenAI={showEigenAI} />
           </HideOnEigenAI>
           {children}
           <HideOnEigenAI>

@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 const mockGetUpcoming = jest.fn();
 const mockGetPast = jest.fn();
 const mockGetFeatured = jest.fn();
+const mockEvaluateFlag = jest.fn();
 
 jest.mock('@/features/events/api/events', () => ({
   __esModule: true,
@@ -32,7 +33,9 @@ jest.mock('@/features/events/components/tag-filter', () => ({
 }));
 
 jest.mock('@/features/events/components/event-card', () => ({
-  EventCard: ({ title }: { title: string }) => <div data-testid="event-card">{title}</div>,
+  EventCard: ({ title, branding }: { title: string; branding?: string }) => (
+    <div data-testid="event-card" data-branding={branding}>{title}</div>
+  ),
 }));
 
 jest.mock('@/shared/ui/heroSection', () => ({
@@ -40,22 +43,27 @@ jest.mock('@/shared/ui/heroSection', () => ({
   default: ({ title }: { title: string }) => <div data-testid="hero">{title}</div>,
 }));
 
+jest.mock('@/shared/lib/server', () => ({
+  evaluateFlag: (...args: unknown[]) => mockEvaluateFlag(...args),
+}));
+
 import EventsPage from '@/app/(frontend)/events/page';
 
 describe('Events Page', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockEvaluateFlag.mockResolvedValue(false);
   });
 
-  it('displays the loading state while events are being fetched', () => {
+  it('displays the loading state while events are being fetched', async () => {
     mockGetUpcoming.mockImplementation(() => new Promise(() => {}));
     mockGetPast.mockImplementation(() => new Promise(() => {}));
     mockGetFeatured.mockImplementation(() => new Promise(() => {}));
-    render(<EventsPage />);
+    render(await EventsPage());
     expect(screen.getByText(/loading events/i)).toBeInTheDocument();
   });
 
-  it('renders upcoming, past, and featured events after loading', async () => {
+  it('keeps the EigenAI card generic while the redesign flag is off', async () => {
     mockGetUpcoming.mockResolvedValue([
       { id: 'u1', title: 'Upcoming One', location: 'BA', description: 'd', tags: ['ml'] },
     ]);
@@ -70,14 +78,34 @@ describe('Events Page', () => {
       },
     ]);
     mockGetFeatured.mockResolvedValue([
-      { title: 'Featured Hackathon', url: 'https://e.com', background: '#fff' },
+      {
+        title: 'Featured Hackathon',
+        url: 'https://e.com',
+        background: '#fff',
+        branding: 'eigenai',
+      },
     ]);
 
-    render(<EventsPage />);
+    render(await EventsPage());
 
     expect(await screen.findByText('Upcoming One')).toBeInTheDocument();
     expect(screen.getByText('Past One')).toBeInTheDocument();
     expect(screen.getByText('Featured Hackathon')).toBeInTheDocument();
+    expect(screen.getByTestId('event-card')).not.toHaveAttribute('data-branding');
+  });
+
+  it('enables the EigenAI card redesign when the flag is on', async () => {
+    mockEvaluateFlag.mockResolvedValue(true);
+    mockGetUpcoming.mockResolvedValue([]);
+    mockGetPast.mockResolvedValue([]);
+    mockGetFeatured.mockResolvedValue([
+      { title: 'EigenAI', url: '/eigenai', background: '#fff', branding: 'eigenai' },
+    ]);
+
+    render(await EventsPage());
+
+    expect(await screen.findByTestId('event-card')).toHaveAttribute('data-branding', 'eigenai');
+    expect(mockEvaluateFlag).toHaveBeenCalledWith('Eigen-AI-Redesign');
   });
 
   it('filters upcoming events by search query', async () => {
@@ -88,7 +116,7 @@ describe('Events Page', () => {
     mockGetPast.mockResolvedValue([]);
     mockGetFeatured.mockResolvedValue([]);
 
-    render(<EventsPage />);
+    render(await EventsPage());
     await waitFor(() => expect(screen.getAllByTestId('event-item')).toHaveLength(2));
 
     const searchBars = screen.getAllByTestId('search-bar');
@@ -106,7 +134,7 @@ describe('Events Page', () => {
     mockGetPast.mockResolvedValue([]);
     mockGetFeatured.mockResolvedValue([]);
 
-    render(<EventsPage />);
+    render(await EventsPage());
     expect(await screen.findByText(/more events are in the works/i)).toBeInTheDocument();
   });
 });

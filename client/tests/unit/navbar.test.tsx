@@ -16,6 +16,27 @@ jest.mock('@/shared/ui/theme-toggle', () => ({
 
 import { Navbar } from '@/shared/ui/client';
 
+describe('Navbar EigenAI promotion', () => {
+  it('only renders the redesigned EigenAI link when its flag is on', () => {
+    const { rerender } = render(<Navbar />);
+    expect(screen.queryByRole('link', { name: 'EigenAI' })).not.toBeInTheDocument();
+
+    rerender(<Navbar showEigenAI />);
+    const eigenAILink = screen.getByRole('link', { name: 'EigenAI' });
+    const loginLink = screen.getByRole('link', { name: 'Login' });
+    expect(eigenAILink).toHaveAttribute('href', '/eigenai');
+    for (const className of [
+      '[background:linear-gradient(-99deg,#6B66E3_0%,#1E19B1_100%)]',
+      'h-8',
+      'px-3',
+      'text-xs',
+    ]) {
+      expect(eigenAILink).toHaveClass(className);
+      expect(loginLink).toHaveClass(className);
+    }
+  });
+});
+
 describe('Navbar — Programs dropdown', () => {
   it('renders a single Programs trigger instead of separate MISTic R&D and MLF items', () => {
     render(<Navbar />);
