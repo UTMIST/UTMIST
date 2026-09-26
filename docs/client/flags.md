@@ -62,6 +62,27 @@ whether the browser blocks `https://vercel.live`. `FLAGS_SECRET` controls flag
 discovery and overrides after the Toolbar loads; changing it does not make the
 Toolbar appear.
 
+### If Flags Explorer says "Invalid token"
+
+This means the discovery endpoint rejected the Toolbar's authentication proof.
+It is separate from the dashboard flag value and provider OIDC authentication.
+
+1. Confirm you opened the latest Preview deployment. Environment-variable
+   changes require a new deployment; an existing deployment keeps its old value.
+2. Check the Vercel runtime logs for `/.well-known/vercel/flags`. An
+   `[flags] Explorer discovery failed:` message identifies known SDK configuration
+   errors without logging the secret or request token.
+3. `FLAGS_SECRET` must be a base64url-encoded **32-byte encryption key**, as
+   described in the [Explorer reference](https://vercel.com/docs/flags/flags-explorer/reference).
+   A `vf_server_...` provider key belongs in `FLAGS`, not `FLAGS_SECRET`.
+4. Check the secret's Preview scope and any branch overrides. The application
+   and Toolbar must use the same value. Preserve valid existing secrets; if a
+   value needs repair, update only the affected environment and redeploy.
+5. Open the new deployment and clear any previous browser override. Changing
+   the secret invalidates cookies encrypted with its previous value.
+
+Never paste secrets or Toolbar authorization tokens into logs, issues, or docs.
+
 ### Use live flags locally
 
 Follow the commands under [Set up this project](#set-up-this-project) to link

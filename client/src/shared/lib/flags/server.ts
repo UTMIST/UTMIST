@@ -54,8 +54,19 @@ export async function getFlagsDiscovery(request: NextRequest): Promise<Response>
     try {
       const { discoveryHandler } = await import("./definitions");
       return await discoveryHandler(request);
-    } catch {
-      // Missing/malformed Explorer credentials must not expose definitions.
+    } catch (error) {
+      // Log only known, credential-free SDK messages. The response stays closed,
+      // and unexpected exceptions must not leak request tokens or secret values.
+      const message = error instanceof Error ? error.message : "";
+      const reason = [
+        "flags: Invalid secret, it must be a 256-bit key (32 bytes)",
+        "flags: Missing FLAGS_SECRET",
+        "flags: verifyAccess was called without a secret. Please set FLAGS_SECRET environment variable.",
+        "The input to be decoded is not correctly encoded.",
+      ].includes(message)
+        ? message
+        : "Unexpected SDK error";
+      console.error("[flags] Explorer discovery failed:", reason);
     }
   }
   return Response.json(null, {

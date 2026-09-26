@@ -278,10 +278,41 @@ it('rejects missing, malformed, wrong-secret and expired discovery proofs', asyn
 });
 
 it('fails discovery closed when FLAGS_SECRET is absent or malformed', async () => {
+  const error = jest.spyOn(console, 'error').mockImplementation(() => {});
   const { getFlagsDiscovery } = await import('@/shared/lib/flags/server');
   const proof = await createAccessProof(secret);
-  delete process.env.FLAGS_SECRET;
-  expect((await getFlagsDiscovery(discoveryRequest(proof))).status).toBe(401);
-  process.env.FLAGS_SECRET = 'vf_server_not_an_explorer_secret';
-  expect((await getFlagsDiscovery(discoveryRequest(proof))).status).toBe(401);
+  try {
+    delete process.env.FLAGS_SECRET;
+    expect((await getFlagsDiscovery(discoveryRequest(proof))).status).toBe(401);
+    process.env.FLAGS_SECRET = 'vf_server_not_an_explorer_secret';
+    expect((await getFlagsDiscovery(discoveryRequest(proof))).status).toBe(401);
+    expect(error).toHaveBeenCalledWith(
+      '[flags] Explorer discovery failed:',
+      'flags: Invalid secret, it must be a 256-bit key (32 bytes)',
+    );
+    expect(JSON.stringify(error.mock.calls)).not.toContain(process.env.FLAGS_SECRET);
+    expect(JSON.stringify(error.mock.calls)).not.toContain(proof);
+  } finally {
+    error.mockRestore();
+  }
+});
+
+it('redacts unexpected discovery errors that could contain credentials', async () => {
+  const proof = await createAccessProof(secret);
+  const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+  jest.doMock('@/shared/lib/flags/definitions', () => ({
+    discoveryHandler: () => { throw new Error(`Unexpected: ${secret} ${proof}`); },
+  }));
+  try {
+    const { getFlagsDiscovery } = await import('@/shared/lib/flags/server');
+    const response = await getFlagsDiscovery(discoveryRequest(proof));
+    expect(response.status).toBe(401);
+    expect(await response.json()).toBeNull();
+    expect(error).toHaveBeenCalledWith('[flags] Explorer discovery failed:', 'Unexpected SDK error');
+    expect(JSON.stringify(error.mock.calls)).not.toContain(secret);
+    expect(JSON.stringify(error.mock.calls)).not.toContain(proof);
+  } finally {
+    jest.dontMock('@/shared/lib/flags/definitions');
+    error.mockRestore();
+  }
 });
