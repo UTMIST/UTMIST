@@ -35,6 +35,7 @@ describe("EigenAI flag selector", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockGetCurrentUser.mockResolvedValue(null);
+    process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = "test-maps-key";
   });
 
   it("renders /eigenai dynamically so the flag is read per request", () => {
@@ -70,6 +71,8 @@ describe("EigenAI flag selector", () => {
     );
     const navigation = screen.getByRole("navigation", { name: "EigenAI" });
     expect(navigation).toBeInTheDocument();
+    expect(navigation).toHaveClass("w-full");
+    expect(navigation).not.toHaveClass("max-w-6xl");
     expect(screen.queryByRole("navigation", { name: "Site" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Change theme" })).not.toBeInTheDocument();
     expect(
@@ -84,9 +87,19 @@ describe("EigenAI flag selector", () => {
     expect(screen.getByTestId("eigenai-mobile-nav-surface")).toHaveClass(
       "bg-[#0c0249]/90",
     );
+    expect(screen.getByTestId("eigenai-desktop-nav-layout")).toHaveClass(
+      "grid-cols-[1fr_auto_1fr]",
+      "md:grid",
+    );
+    expect(
+      within(screen.getByTestId("eigenai-desktop-nav-layout")).getByRole(
+        "link",
+        { name: "UTMIST home" },
+      ),
+    ).toHaveClass("justify-self-start");
     expect(
       navigation.querySelector('[aria-hidden="true"].pointer-events-none.h-8'),
-    ).toHaveClass("h-8", "bg-gradient-to-b", "to-transparent");
+    ).toHaveClass("h-8", "bg-linear-to-b", "to-transparent");
     expect(navigation.previousElementSibling).toHaveClass(
       "h-36",
       "from-[#06002f]/90",
@@ -94,24 +107,23 @@ describe("EigenAI flag selector", () => {
     );
     expect(
       within(navigation).getByRole("link", { name: "About" }),
-    ).toHaveAttribute("href", "/#about-us");
+    ).toHaveAttribute("href", "#about");
     expect(
-      within(navigation).getByRole("link", { name: "Projects" }),
-    ).toHaveAttribute("href", "/projects");
+      within(navigation).getByRole("link", { name: "Speakers" }),
+    ).toHaveAttribute("href", "#speakers");
     expect(
-      within(navigation).getByRole("link", { name: "Event" }),
-    ).toHaveAttribute("href", "/events");
+      within(navigation).getByRole("link", { name: "Workshops" }),
+    ).toHaveAttribute("href", "#workshops");
     expect(
-      within(navigation).getByRole("link", { name: "Sponsors" }),
-    ).toHaveAttribute("href", "/sponsors");
-    const loginLink = within(navigation).getByRole("link", { name: "Login" });
-    expect(loginLink).toHaveAttribute("href", "/auth");
-    expect(loginLink).toHaveClass(
-      "bg-[rgb(76_229_232/0.4)]",
-      "font-eigen-body",
-      "font-medium",
-      "tracking-[-0.01em]",
-    );
+      within(navigation).getByRole("link", { name: "Schedule" }),
+    ).toHaveAttribute("href", "#schedule");
+    expect(
+      within(navigation).getByRole("link", { name: "Venue" }),
+    ).toHaveAttribute("href", "#venue");
+    expect(
+      within(navigation).getByRole("link", { name: "UTMIST Home" }),
+    ).toHaveAttribute("href", "/");
+    expect(within(navigation).queryByRole("link", { name: "Login" })).not.toBeInTheDocument();
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
     const aboutHeading = screen.getByRole("heading", {
       name: /What is eigenai\s*\?/,
@@ -130,12 +142,52 @@ describe("EigenAI flag selector", () => {
     expect(
       screen.getByRole("heading", { name: "Workshops" }),
     ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Schedule" })).toBeInTheDocument();
+    expect(screen.getByTestId("eigenai-schedule")).toHaveClass("grid", "md:grid-cols-2");
+    expect(screen.getByRole("heading", { name: /October 3/ })).toHaveClass(
+      "text-xl",
+      "sm:text-3xl",
+    );
+    expect(
+      screen.getByRole("heading", { name: /October 4/ }),
+    ).toBeInTheDocument();
+    expect(screen.getAllByText("Room TBA")).toHaveLength(16);
+    expect(screen.getAllByText("Session details will be announced soon.")).toHaveLength(6);
+    expect(screen.getByRole("heading", { name: "Venue" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: "Ontario Institute for Studies in Education (OISE)",
+      }),
+    ).toHaveClass("text-xl/tight", "sm:text-3xl");
+    expect(
+      screen.getByTitle("Google Maps preview of the EigenAI venue"),
+    ).toHaveAttribute(
+      "src",
+      expect.stringContaining("maps/embed/v1/place?key=test-maps-key"),
+    );
+    expect(screen.getByRole("link", { name: "Get directions" })).toHaveAttribute(
+      "href",
+      expect.stringContaining("google.com/maps/search"),
+    );
+    expect(screen.getByText("October 3rd & 4th")).toHaveClass(
+      "block",
+      "sm:inline",
+    );
+    expect(screen.getByText("@ LOCAT")).toHaveClass("block", "sm:inline");
     expect(
       screen.getAllByText("Building Applications with the Claude API"),
     ).toHaveLength(3);
     expect(
       screen.getAllByText("Building Applications with the Claude API")[0],
     ).toHaveClass("font-medium!");
+    expect(screen.getByText("CEO @ NVIDIA")).toHaveClass(
+      "text-xs",
+      "sm:text-lg",
+    );
+    expect(screen.getAllByText(/An introduction on how to integrate/)[0]).toHaveClass(
+      "text-xs/relaxed",
+      "sm:text-lg",
+    );
     const contentContainers = screen.getAllByTestId("eigenai-content");
     expect(contentContainers.length).toBeGreaterThanOrEqual(5);
     expect(
@@ -143,6 +195,19 @@ describe("EigenAI flag selector", () => {
         container.classList.contains("max-w-6xl"),
       ),
     ).toBe(true);
+    for (const sectionId of [
+      "about",
+      "speakers",
+      "workshops",
+      "schedule",
+      "venue",
+    ]) {
+      expect(document.getElementById(sectionId)).toHaveClass(
+        "relative",
+        "px-5",
+        "sm:px-10",
+      );
+    }
     expect(screen.getByTestId("eigenai-metrics")).toHaveClass(
       "mx-auto",
       "max-w-3xl",
@@ -243,7 +308,7 @@ describe("EigenAI flag selector", () => {
     expect(screen.getByTestId("eigenai-hero")).not.toHaveClass(
       "overflow-hidden",
     );
-    expect(screen.getByTestId("eigenai-hero")).toHaveClass("min-h-[100svh]");
+    expect(screen.getByTestId("eigenai-hero")).toHaveClass("min-h-svh");
     expect(screen.getByTestId("eigenai-hero")).toHaveClass("px-5");
     expect(screen.getByTestId("eigenai-metrics").closest("section")).toHaveClass(
       "pt-4",
@@ -296,7 +361,8 @@ describe("EigenAI flag selector", () => {
     expect(
       screen.getByRole("button", { name: "Close navigation menu" }),
     ).toHaveAttribute("aria-expanded", "true");
-    expect(screen.getAllByRole("link", { name: "Login" })).toHaveLength(2);
+    expect(screen.queryByRole("link", { name: "Login" })).not.toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: "Schedule" })).toHaveLength(2);
     expect(
       document.getElementById("eigenai-mobile-menu")?.querySelector("ul"),
     ).toHaveClass("items-start", "text-left");

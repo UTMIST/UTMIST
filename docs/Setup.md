@@ -73,6 +73,31 @@ access to the shared credentials.
 
 `.env` is gitignored. Never commit it.
 
+### Google Maps venue preview
+
+Ask a web team lead for the shared development value of
+`NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`. Google Cloud administrators can create one by
+selecting the UTMIST project in the
+[Google Cloud console](https://console.cloud.google.com/google/maps-apis/credentials),
+enabling **Maps Embed API**, and creating an API key under **APIs & Services >
+Credentials**. Configure the key with both of these restrictions:
+
+- **Application restriction:** Websites, including `http://localhost:3000/*`
+  for local development and the production/preview HTTPS origins that use it.
+- **API restriction:** Maps Embed API only.
+
+Put the value in `client/.env` and restart `npm run dev`:
+
+```dotenv
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_key_here
+```
+
+The `NEXT_PUBLIC_` prefix means the key is intentionally included in the
+browser-visible embed URL. Referrer and API restrictions are therefore
+required; never rely on the environment file alone to protect it. Deployment
+owners must also add the value to GitHub Actions secrets and the appropriate
+Vercel project environments.
+
 ### 3. Run it
 
 ```bash
@@ -128,8 +153,8 @@ editing it — Next only reads env files at startup.
 **`Google Maps API key is not defined`**
 
 `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is unset. Only `/eigenai` breaks under
-`npm run dev`, but `npm run build` fails outright because the page is
-prerendered.
+`npm run dev` when the legacy variant is selected. The redesign remains usable
+and replaces its embedded preview with a directions link until the key is set.
 
 **`Error: cannot connect to Postgres` when opening `/cms`**
 

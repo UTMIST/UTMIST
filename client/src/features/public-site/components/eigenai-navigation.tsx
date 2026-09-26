@@ -8,10 +8,12 @@ import utmistWordmark from "@/assets/logos/utmist-wordmark-white.png";
 import { EigenGlassSurface } from "@/features/public-site/components/eigenai-surfaces";
 
 const navigationLinks = [
-  { href: "/#about-us", label: "About" },
-  { href: "/projects", label: "Projects" },
-  { href: "/events", label: "Event" },
-  { href: "/sponsors", label: "Sponsors" },
+  { href: "/", label: "UTMIST Home" },
+  { href: "#about", label: "About" },
+  { href: "#speakers", label: "Speakers" },
+  { href: "#workshops", label: "Workshops" },
+  { href: "#schedule", label: "Schedule" },
+  { href: "#venue", label: "Venue" },
 ];
 
 export function EigenNavigation() {
@@ -40,12 +42,9 @@ export function EigenNavigation() {
     <header className="fixed inset-x-0 top-0 z-50 md:px-6 md:pt-5">
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 top-0 hidden h-36 bg-gradient-to-b from-[#06002f]/90 via-[#0c0249]/55 to-transparent md:block"
+        className="pointer-events-none fixed inset-x-0 top-0 hidden h-36 bg-linear-to-b from-[#06002f]/90 via-[#0c0249]/55 to-transparent md:block"
       />
-      <nav
-        aria-label="EigenAI"
-        className="relative z-10 mx-auto max-w-6xl"
-      >
+      <nav aria-label="EigenAI" className="relative z-10 w-full">
         <div
           data-testid="eigenai-mobile-nav-surface"
           className={`relative z-30 w-full md:hidden ${
@@ -109,17 +108,6 @@ export function EigenNavigation() {
                     </Link>
                   </li>
                 ))}
-                <li className="mt-2 px-2">
-                  <EigenGlassSurface asChild variant="action">
-                    <Link
-                      href="/auth"
-                      className="font-eigen-body block w-fit rounded-full px-7 py-2 text-center text-sm/normal font-medium tracking-[-0.01em] text-white"
-                      onClick={closeMenu}
-                    >
-                      Login
-                    </Link>
-                  </EigenGlassSurface>
-                </li>
               </ul>
             </div>
           ) : null}
@@ -127,15 +115,18 @@ export function EigenNavigation() {
           {!isOpen ? (
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 top-full h-8 bg-gradient-to-b from-[#0c0249]/75 to-transparent"
+              className="pointer-events-none absolute inset-x-0 top-full h-8 bg-linear-to-b from-[#0c0249]/75 to-transparent"
             />
           ) : null}
         </div>
 
-        <div className="hidden items-center justify-between gap-4 md:flex">
+        <div
+          data-testid="eigenai-desktop-nav-layout"
+          className="hidden grid-cols-[1fr_auto_1fr] items-center md:grid"
+        >
           <Link
             href="/"
-            className="relative z-10 flex shrink-0 items-center gap-2.5"
+            className="relative z-10 flex shrink-0 items-center justify-self-start"
             aria-label="UTMIST home"
           >
             <Image
@@ -149,9 +140,9 @@ export function EigenNavigation() {
 
           <EigenGlassSurface
             variant="liquid"
-            className="flex items-center rounded-full px-12 py-3"
+            className="flex items-center justify-self-center rounded-full px-8 py-3"
           >
-            <ul className="relative z-10 flex items-center gap-7">
+            <ul className="relative z-10 flex items-center gap-5">
               {navigationLinks.map((item) => (
                 <li key={item.href}>
                   <Link
@@ -165,14 +156,7 @@ export function EigenNavigation() {
             </ul>
           </EigenGlassSurface>
 
-          <EigenGlassSurface asChild variant="action">
-            <Link
-              href="/auth"
-              className="font-eigen-body z-10 shrink-0 rounded-[3.165rem] px-8 py-2 text-sm/normal font-medium tracking-[-0.01em] text-white transition"
-            >
-              Login
-            </Link>
-          </EigenGlassSurface>
+          <div aria-hidden="true" />
         </div>
 
         {isOpen ? (

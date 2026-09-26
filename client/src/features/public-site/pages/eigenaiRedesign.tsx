@@ -9,6 +9,13 @@ import {
 } from "@/features/public-site/data/eigenai";
 import { EigenAILockup } from "@/features/public-site/components/eigenai-lockup";
 import { EigenNavigation } from "@/features/public-site/components/eigenai-navigation";
+import { EigenAISchedule } from "@/features/public-site/components/eigenai-schedule";
+import { EigenAIVenue } from "@/features/public-site/components/eigenai-venue";
+import {
+  EigenAIContent,
+  EigenAISection,
+  EigenAISectionHeading,
+} from "@/features/public-site/components/eigenai-section";
 import {
   EigenGlassSurface,
   EigenSpeakerPortrait,
@@ -435,14 +442,6 @@ function ContinuousBackdrop() {
   );
 }
 
-function SectionHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="font-eigen-serif! bg-[radial-gradient(ellipse_54%_100%_at_30%_48%,#fff_0%,#a272fb_100%)] bg-clip-text text-center text-[clamp(2rem,6vw,4rem)] leading-tight font-medium! text-transparent">
-      {children}
-    </h2>
-  );
-}
-
 function GradientPanel({
   children,
   className = "",
@@ -456,23 +455,6 @@ function GradientPanel({
     >
       <div className="relative z-1 h-full rounded-[inherit]">{children}</div>
     </EigenGlassSurface>
-  );
-}
-
-function ContentContainer({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      data-testid="eigenai-content"
-      className={`relative z-10 mx-auto w-full max-w-6xl ${className}`}
-    >
-      {children}
-    </div>
   );
 }
 
@@ -494,7 +476,7 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
         <h3 className="font-eigen-sans text-lg/tight font-medium! text-white sm:text-2xl">
           {speaker.name}
         </h3>
-        <p className="mt-2 text-xs/relaxed font-normal tracking-[0.01em] wrap-anywhere text-[#5edbe7] sm:mt-3 sm:text-base">
+        <p className="mt-2 text-[0.6875rem] leading-relaxed font-normal tracking-[0.01em] wrap-anywhere text-[#5edbe7] sm:mt-3 sm:text-base">
           {speaker.role}
         </p>
       </article>
@@ -507,13 +489,13 @@ function KeynoteCard({ speaker }: { speaker: Speaker }) {
     <GradientPanel className="sm:min-h-52">
       <article className="relative grid min-w-0 items-center gap-5 p-5 sm:min-h-52 sm:gap-8 sm:px-10 sm:py-8 md:grid-cols-[minmax(0,1fr)_auto]">
         <div className="order-2 min-w-0 text-center md:order-1 md:text-left">
-          <p className="bg-[linear-gradient(90deg,#5edbe7_26.442%,#ffffff_55.769%,#f1dcff_79.327%)] bg-clip-text text-sm tracking-[0.01em] text-transparent sm:text-lg">
+          <p className="bg-[linear-gradient(90deg,#5edbe7_26.442%,#ffffff_55.769%,#f1dcff_79.327%)] bg-clip-text text-xs tracking-[0.01em] text-transparent sm:text-lg">
             Keynote Speaker
           </p>
           <h3 className="font-eigen-sans mt-1 text-xl/tight font-normal! text-white sm:text-3xl">
             {speaker.name}
           </h3>
-          <p className="mt-2 text-sm font-normal tracking-[0.01em] text-[#5edbe7] sm:mt-3 sm:text-lg">
+          <p className="mt-2 text-xs font-normal tracking-[0.01em] text-[#5edbe7] sm:mt-3 sm:text-lg">
             {speaker.role}
           </p>
         </div>
@@ -555,11 +537,11 @@ function WorkshopCard({ workshop }: { workshop: Workshop }) {
             ) : null}
           </div>
           {workshop.host ? (
-            <p className="mt-3 text-sm font-medium tracking-[0.01em] text-[#5edbe7] sm:text-base">
+            <p className="mt-3 text-xs font-medium tracking-[0.01em] text-[#5edbe7] sm:text-base">
               {workshop.host}
             </p>
           ) : null}
-          <p className="mt-4 max-w-3xl text-sm/relaxed font-normal tracking-[-0.01em] text-white sm:mt-6 sm:text-lg">
+          <p className="mt-3 max-w-3xl text-xs/relaxed font-normal tracking-[-0.01em] text-white sm:mt-6 sm:text-lg">
             {workshop.description}
           </p>
         </div>
@@ -571,7 +553,7 @@ function WorkshopCard({ workshop }: { workshop: Workshop }) {
 function EigenFooter() {
   return (
     <footer className="relative z-10 flex min-h-52 items-center justify-center bg-white/30 px-5 py-8 sm:min-h-64 sm:py-10">
-      <ContentContainer className="flex flex-col items-center text-center">
+      <EigenAIContent className="flex flex-col items-center text-center">
         <Link
           href="/"
           className="relative z-10 flex items-center gap-3"
@@ -609,8 +591,83 @@ function EigenFooter() {
             </li>
           ))}
         </ul>
-      </ContentContainer>
+      </EigenAIContent>
     </footer>
+  );
+}
+
+function HeroSection({ children }: { children: React.ReactNode }) {
+  return (
+    <EigenAISection
+      testId="eigenai-hero"
+      className="flex min-h-svh items-center justify-center pb-10 pt-24 sm:min-h-216 sm:pb-24 sm:pt-36"
+      contentClassName="flex -translate-y-4 flex-col items-center"
+    >
+      {children}
+    </EigenAISection>
+  );
+}
+
+function AboutSection({ children }: { children: React.ReactNode }) {
+  return (
+    <EigenAISection id="about" className="pb-8 pt-4 sm:pb-20 sm:pt-8">
+      {children}
+    </EigenAISection>
+  );
+}
+
+function SpeakersSection({ children }: { children: React.ReactNode }) {
+  return (
+    <EigenAISection
+      id="speakers"
+      title="Speakers"
+      className="py-8 sm:pb-20 sm:pt-12"
+    >
+      {children}
+    </EigenAISection>
+  );
+}
+
+function WorkshopsSection({ children }: { children: React.ReactNode }) {
+  return (
+    <EigenAISection
+      id="workshops"
+      title="Workshops"
+      className="pb-4 pt-8 sm:py-20"
+    >
+      {children}
+    </EigenAISection>
+  );
+}
+
+function ScheduleSection({ children }: { children: React.ReactNode }) {
+  return (
+    <EigenAISection
+      id="schedule"
+      title="Schedule"
+      className="py-8 sm:py-20"
+    >
+      {children}
+    </EigenAISection>
+  );
+}
+
+function VenueSection({ children }: { children: React.ReactNode }) {
+  return (
+    <EigenAISection id="venue" title="Venue" className="py-8 sm:py-20">
+      {children}
+    </EigenAISection>
+  );
+}
+
+function ClosingSection({ children }: { children: React.ReactNode }) {
+  return (
+    <EigenAISection
+      testId="eigenai-closing"
+      className="flex items-center justify-center pb-8 pt-4 text-center sm:min-h-144 sm:py-20"
+    >
+      {children}
+    </EigenAISection>
   );
 }
 
@@ -622,56 +679,48 @@ export default function EigenAIRedesign() {
     >
       <ContinuousBackdrop />
       <EigenNavigation />
-      <section
-        data-testid="eigenai-hero"
-        className="relative flex min-h-[100svh] items-center justify-center px-5 pb-10 pt-24 sm:min-h-216 sm:px-10 sm:pb-24 sm:pt-36"
-      >
-        <ContentContainer className="flex -translate-y-4 flex-col items-center">
-          <EigenAILockup fontSize="clamp(4rem, 15vw, 10.5rem)" showCursor />
-          <EigenGlassSurface className="mt-8 flex min-h-15 w-fit max-w-full items-center justify-center rounded-full px-4 py-4 text-lg leading-none tracking-[-0.01em] sm:mt-10 sm:min-h-11 sm:px-8 sm:text-3xl">
-            <span className="relative z-1 text-center text-white sm:whitespace-nowrap">
-              October 3rd &amp; 4th @ LOCAT
-            </span>
-          </EigenGlassSurface>
-        </ContentContainer>
-      </section>
+      <HeroSection>
+        <EigenAILockup fontSize="clamp(4rem, 15vw, 10.5rem)" showCursor />
+        <EigenGlassSurface className="mt-8 flex w-fit max-w-[min(100%,20rem)] items-center justify-center rounded-3xl px-5 py-3 text-sm/snug tracking-[-0.01em] sm:mt-10 sm:min-h-11 sm:max-w-full sm:rounded-full sm:px-8 sm:py-2 sm:text-3xl/none">
+          <span className="relative z-1 text-center text-white">
+            <span className="block sm:inline">October 3rd &amp; 4th</span>
+            <span className="mt-0.5 block sm:mt-0 sm:inline"> @ LOCAT</span>
+          </span>
+        </EigenGlassSurface>
+      </HeroSection>
 
-      <section
-        id="about"
-        className="relative px-5 pb-10 pt-4 sm:px-10 sm:pb-28 sm:pt-8"
-      >
-        <ContentContainer>
-          <div
-            data-testid="eigenai-metrics"
-            className="mx-auto grid max-w-3xl grid-cols-3 gap-x-2 sm:gap-x-0"
-          >
-            <StatItem
-              number="500+"
-              description="Attendees"
-              className="text-center"
-              numberClassName="font-eigen-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white"
-              descriptionClassName="font-eigen-body mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl"
-            />
-            <StatItem
-              number="20"
-              description="Speakers"
-              className="text-center"
-              numberClassName="font-eigen-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white"
-              descriptionClassName="font-eigen-body mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl"
-            />
-            <StatItem
-              number="11"
-              description="Workshops"
-              className="text-center"
-              numberClassName="font-eigen-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white"
-              descriptionClassName="font-eigen-body mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl"
-            />
-          </div>
+      <AboutSection>
+        <div
+          data-testid="eigenai-metrics"
+          className="mx-auto grid max-w-3xl grid-cols-3 gap-x-2 sm:gap-x-0"
+        >
+          <StatItem
+            number="500+"
+            description="Attendees"
+            className="text-center"
+            numberClassName="font-eigen-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white"
+            descriptionClassName="font-eigen-body mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl"
+          />
+          <StatItem
+            number="20"
+            description="Speakers"
+            className="text-center"
+            numberClassName="font-eigen-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white"
+            descriptionClassName="font-eigen-body mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl"
+          />
+          <StatItem
+            number="11"
+            description="Workshops"
+            className="text-center"
+            numberClassName="font-eigen-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white"
+            descriptionClassName="font-eigen-body mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl"
+          />
+        </div>
 
-          <div className="mt-10 sm:mt-28">
-            <SectionHeading>
+        <div className="mt-10 sm:mt-28">
+            <EigenAISectionHeading>
               What is <EigenAIWordmark />?
-            </SectionHeading>
+            </EigenAISectionHeading>
             <div className="mt-6 grid items-start justify-between gap-6 sm:mt-12 sm:gap-10 md:grid-cols-[minmax(16rem,24rem)_minmax(0,36rem)] lg:gap-16">
               <GradientPanel className="min-h-64 overflow-hidden sm:min-h-136">
                 <div
@@ -698,59 +747,47 @@ export default function EigenAIRedesign() {
                 </p>
               </div>
             </div>
-          </div>
-        </ContentContainer>
-      </section>
+        </div>
+      </AboutSection>
 
-      <section
-        id="speakers"
-        className="relative px-5 py-10 sm:px-10 sm:pb-32 sm:pt-20"
-      >
-        <ContentContainer>
-          <SectionHeading>Speakers</SectionHeading>
-          <div className="mt-6 sm:mt-12">
-            <KeynoteCard speaker={keynoteSpeaker} />
-          </div>
-          <div className="mt-6 grid gap-x-8 gap-y-6 sm:mt-12 sm:gap-y-12 md:grid-cols-2 lg:grid-cols-3">
-            {speakers.map((speaker, index) => (
-              <SpeakerCard key={`${speaker.name}-${index}`} speaker={speaker} />
-            ))}
-          </div>
-        </ContentContainer>
-      </section>
+      <SpeakersSection>
+        <KeynoteCard speaker={keynoteSpeaker} />
+        <div className="mt-6 grid gap-x-8 gap-y-6 sm:mt-12 sm:gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+          {speakers.map((speaker, index) => (
+            <SpeakerCard key={`${speaker.name}-${index}`} speaker={speaker} />
+          ))}
+        </div>
+      </SpeakersSection>
 
-      <section
-        id="workshops"
-        className="relative px-5 pb-4 pt-10 sm:px-10 sm:py-32"
-      >
-        <ContentContainer>
-          <SectionHeading>Workshops</SectionHeading>
-          <div className="mt-6 space-y-4 sm:mt-12 sm:space-y-12">
-            {workshops.map((workshop, index) => (
-              <WorkshopCard
-                key={`${workshop.title}-${index}`}
-                workshop={workshop}
-              />
-            ))}
-          </div>
-        </ContentContainer>
-      </section>
+      <WorkshopsSection>
+        <div className="space-y-4 sm:space-y-12">
+          {workshops.map((workshop, index) => (
+            <WorkshopCard
+              key={`${workshop.title}-${index}`}
+              workshop={workshop}
+            />
+          ))}
+        </div>
+      </WorkshopsSection>
 
-      <section
-        data-testid="eigenai-closing"
-        className="relative flex items-center justify-center px-5 pb-10 pt-4 text-center sm:min-h-192 sm:px-10 sm:py-32"
-      >
-        <ContentContainer>
-          <p className="font-eigen-body mx-auto max-w-4xl bg-[linear-gradient(90deg,#5edbe7_26.4423%,#fff_55.7692%,#f1dcff_79.3269%)] bg-clip-text text-[clamp(1.75rem,6vw,4rem)] leading-tight font-medium tracking-[0.01em] text-transparent italic">
-            Across the Many
-            <br />
-            Frontiers of AI
-          </p>
-          <div className="mt-8 sm:mt-24">
-            <EigenAILockup fontSize="clamp(3.5rem, 12vw, 5rem)" />
-          </div>
-        </ContentContainer>
-      </section>
+      <ScheduleSection>
+        <EigenAISchedule />
+      </ScheduleSection>
+
+      <VenueSection>
+        <EigenAIVenue />
+      </VenueSection>
+
+      <ClosingSection>
+        <p className="font-eigen-body mx-auto max-w-4xl bg-[linear-gradient(90deg,#5edbe7_26.4423%,#fff_55.7692%,#f1dcff_79.3269%)] bg-clip-text text-[clamp(1.75rem,6vw,4rem)] leading-tight font-medium tracking-[0.01em] text-transparent italic">
+          Across the Many
+          <br />
+          Frontiers of AI
+        </p>
+        <div className="mt-8 sm:mt-24">
+          <EigenAILockup fontSize="clamp(3.5rem, 12vw, 5rem)" />
+        </div>
+      </ClosingSection>
 
       <EigenFooter />
     </main>

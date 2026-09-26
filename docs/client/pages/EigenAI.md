@@ -60,6 +60,10 @@ The redesign is scoped to its `data-testid="eigenai-redesign"` wrapper
 and uses responsive metric, speaker, keynote, workshop, and event-lockup
 components. It reuses the existing EigenAI content, speaker portraits, event
 photography, UTMIST branding, social assets, and shared button primitive.
+Its named page sections compose the shared `EigenAISection` primitive, which
+owns the common responsive gutters, content width, heading treatment, and
+heading-to-content spacing. See
+[`../components/EigenAISection.md`](../components/EigenAISection.md).
 The redesign uses locally bundled copies of the Figma type families (DM Serif
 Display, DM Sans, and Instrument Sans) and keeps its cyan, white, and lavender
 text gradients and glow treatments scoped to that page.
@@ -72,6 +76,17 @@ uses the Figma cyan-white-lavender text gradient.
 Shared `max-w-6xl` content containers and narrower prose columns keep text and
 cards wrapping predictably on wide screens. Footer social controls use standard
 `44px` targets with `20px` icons.
+The redesign also includes a two-day schedule for October 3 and 4 from 9:00 AM
+to 5:00 PM. `eigenai-schedule.tsx` owns the typed schedule data and responsive
+layout: each day is a glass panel, shown side by side from the `md` breakpoint
+and stacked on smaller screens. Every time block displays a title and room;
+descriptions are optional so approved details can replace the placeholder copy
+without changing the component structure.
+The venue section reuses the legacy page's OISE location and Maps Embed API
+place query. `eigenai-venue.tsx` shows the address and an external directions
+link in all environments. When `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is configured,
+it also renders a lazy-loaded Google Maps preview; without the key, it renders a
+non-blocking fallback instead of taking down the redesign.
 The reusable `EigenAILockup` component includes the UTMIST logo and accepts one
 responsive `fontSize` value. The logo and conference subtitle are sized and
 positioned proportionally with `em` units, so every lockup size preserves the
@@ -122,12 +137,13 @@ The route-aware `HideOnEigenAI` wrapper suppresses the frontend layout's shared
 navbar, footer, and floating theme control; the selector restores them only for
 the legacy branch. The redesign supplies
 its own responsive navigation and footer inside the continuous orbital
-background, using the same liquid-glass surface treatment as the event UI. The
-navigation login control combines the Figma `rgba(76, 229, 232, 0.4)` blue body
-with the shared `1.582px` cyan-white-lavender glass outline.
+background, using the same liquid-glass surface treatment as the event UI. Its
+links navigate to About, Speakers, Workshops, Schedule, and Venue on the current
+page, with an explicit UTMIST Home link back to the main site. The redesign
+navigation does not include an authentication action.
 On mobile, the event navigation follows the main site's hamburger pattern: its
 white UTMIST event wordmark sits left, the matching hamburger sits right, and a
-left-aligned page list places Login below it in a dismissible glass menu. A
+left-aligned section link list appears in a dismissible glass menu. A
 mobile-specific liquid-glass surface is enabled only while the menu is open and
 wraps the top bar and link list as one outlined shape. With the menu closed, the
 plain dark bar has no outline. The wordmark remains at the far left and the menu
@@ -157,8 +173,8 @@ navigation, and footer.
 - The existing page reads `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` and throws on render
   if it is unset. Because `/eigenai` is now `force-dynamic`, this throws at
   request time, not during `next build`.
-- The redesign deliberately has **no** Maps dependency, so the "on" branch
-  renders without that key.
+- The redesign treats Maps as an enhancement and still renders without the key;
+  the legacy branch continues to require it.
 
 ## Tests
 
