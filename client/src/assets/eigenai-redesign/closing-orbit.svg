@@ -1,4 +1,15 @@
-<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1113.84" height="1113.84" viewBox="0 0 1113.84 1113.84" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1113.84" height="1113.84" viewBox="-48 -48 1209.84 1209.84" fill="none" xmlns="http://www.w3.org/2000/svg">
+<style>
+@keyframes orb-drift-a { 0%, 100% { transform: translate(0, 0); } 22% { transform: translate(22px, -36px); } 53% { transform: translate(-28px, -16px); } 79% { transform: translate(14px, 26px); } }
+@keyframes orb-drift-b { 0%, 100% { transform: translate(0, 0); } 31% { transform: translate(-24px, 30px); } 64% { transform: translate(30px, 12px); } 84% { transform: translate(10px, -24px); } }
+@keyframes orb-drift-c { 0%, 100% { transform: translate(0, 0); } 27% { transform: translate(32px, 18px); } 58% { transform: translate(6px, -34px); } 82% { transform: translate(-22px, 10px); } }
+#cloud-upload, [id="Rectangle 7448"] { animation: orb-drift-a 19s ease-in-out infinite; }
+#group, [id="Rectangle 7449"] { animation: orb-drift-b 22s -5s ease-in-out infinite; }
+#sitemap, [id="Rectangle 7450"] { animation: orb-drift-c 18s -9s ease-in-out infinite; }
+#nfc-variant, [id="Rectangle 7451"] { animation: orb-drift-a 24s -13s ease-in-out infinite; }
+[id="Rectangle 7452"] { animation: orb-drift-b 20s -16s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { #cloud-upload, #group, #sitemap, #nfc-variant, [id^="Rectangle 74"] { animation: none; } }
+</style>
 <g id="Group 1000008264">
 <circle id="Ellipse 17" cx="556.921" cy="556.921" r="555.957" stroke="url(#paint0_linear_0_5)" stroke-opacity="0.38" stroke-width="1.9277"/>
 <circle id="Ellipse 18" cx="556.921" cy="556.921" r="311.302" stroke="url(#paint1_linear_0_5)" stroke-opacity="0.38" stroke-width="1.07939"/>

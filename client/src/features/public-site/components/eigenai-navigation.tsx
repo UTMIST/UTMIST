@@ -8,7 +8,6 @@ import utmistWordmark from "@/assets/logos/utmist-wordmark-white.png";
 import { EigenGlassSurface } from "@/features/public-site/components/eigenai-surfaces";
 
 const navigationLinks = [
-  { href: "/", label: "UTMIST Home" },
   { href: "#about", label: "About" },
   { href: "#speakers", label: "Speakers" },
   { href: "#workshops", label: "Workshops" },

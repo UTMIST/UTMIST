@@ -39,7 +39,7 @@ const COHORT_RANK: Record<Cohort, number> = {
  */
 const DEFAULT_FLAGS: Readonly<Record<string, FixtureFlag>> = {
   showDemoBanner: { enabled: true },
-  "Eigen-AI-Redesign": { enabled: false },
+  "Eigen-AI-Redesign": { enabled: true },
   betaFeature: { enabled: true, minCohort: "member" },
   disabledExample: { enabled: false },
 };

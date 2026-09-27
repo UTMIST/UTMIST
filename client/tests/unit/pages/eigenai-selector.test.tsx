@@ -121,8 +121,8 @@ describe("EigenAI flag selector", () => {
       within(navigation).getByRole("link", { name: "Venue" }),
     ).toHaveAttribute("href", "#venue");
     expect(
-      within(navigation).getByRole("link", { name: "UTMIST Home" }),
-    ).toHaveAttribute("href", "/");
+      within(navigation).queryByRole("link", { name: "UTMIST Home" }),
+    ).not.toBeInTheDocument();
     expect(within(navigation).queryByRole("link", { name: "Login" })).not.toBeInTheDocument();
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
     const aboutHeading = screen.getByRole("heading", {
@@ -264,32 +264,23 @@ describe("EigenAI flag selector", () => {
       within(backdrop).getAllByTestId("eigenai-backdrop-image"),
     ).toHaveLength(13);
     const orbitClusters = screen.getAllByTestId("eigenai-orbit-cluster");
-    expect(orbitClusters).toHaveLength(4);
-    expect(screen.getAllByTestId("eigenai-orbit-cloud")).toHaveLength(3);
+    expect(orbitClusters).toHaveLength(5);
+    for (const cluster of orbitClusters) {
+      expect(cluster.firstElementChild).toHaveClass(
+        "animate-spin",
+        "[animation-duration:40s]",
+        "motion-reduce:animate-none",
+      );
+    }
     expect(orbitClusters[0]).toHaveStyle({ maxWidth: "951.318px" });
-    expect(orbitClusters[3]).toHaveStyle({ maxWidth: "1113.84px" });
+    expect(orbitClusters[4]).toHaveStyle({ maxWidth: "1113.84px" });
     const lambdaClusters = screen.getAllByTestId("eigenai-lambda-cluster");
     expect(lambdaClusters).toHaveLength(2);
     for (const cluster of lambdaClusters) {
       expect(cluster.querySelectorAll("img")).toHaveLength(2);
       expect(cluster).toHaveClass("[container-type:inline-size]");
     }
-    const ringGroups = screen.getAllByTestId("eigenai-ring-group");
-    expect(ringGroups).toHaveLength(1);
-    expect(ringGroups[0]).toHaveClass("hidden", "md:block");
-    expect(ringGroups[0]).toHaveStyle({ maxWidth: "951.318px" });
-    for (const group of ringGroups) {
-      const rings = group.querySelectorAll("img");
-      expect(rings).toHaveLength(3);
-      for (const ring of rings) {
-        expect(ring).toHaveClass(
-          "left-1/2",
-          "top-1/2",
-          "-translate-x-1/2",
-          "-translate-y-1/2",
-        );
-      }
-    }
+    expect(screen.queryByTestId("eigenai-ring-group")).not.toBeInTheDocument();
     const mobileRingGroups = screen.getAllByTestId(
       "eigenai-mobile-ring-group",
     );

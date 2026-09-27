@@ -37,7 +37,6 @@ import ellipseC from "@/assets/eigenai-redesign/ellipse-c.svg";
 import ellipseD from "@/assets/eigenai-redesign/ellipse-d.svg";
 import ellipseE from "@/assets/eigenai-redesign/ellipse-e.svg";
 import ellipseF from "@/assets/eigenai-redesign/ellipse-f.svg";
-import iconCloud from "@/assets/eigenai-redesign/icon-cloud.svg";
 import closingOrbit from "@/assets/eigenai-redesign/closing-orbit.svg";
 import lambdaHeroBack from "@/assets/eigenai-redesign/lambda-hero-back.svg";
 import lambdaHeroFront from "@/assets/eigenai-redesign/lambda-hero-front.svg";
@@ -185,30 +184,6 @@ type Speaker = {
   profileImage: StaticImageData;
 };
 
-function ConcentricRingGroup({
-  centerX,
-  centerY,
-}: {
-  centerX: number;
-  centerY: number;
-}) {
-  return (
-    <div
-      aria-hidden="true"
-      data-testid="eigenai-ring-group"
-      className="absolute hidden aspect-square -translate-x-1/2 -translate-y-1/2 md:block"
-      style={{
-        left: `${(centerX / FIGMA_BACKDROP_WIDTH) * 100}%`,
-        top: `${(centerY / FIGMA_BACKDROP_HEIGHT) * 100}%`,
-        width: `${(951.318 / FIGMA_BACKDROP_WIDTH) * 100}%`,
-        maxWidth: "951.318px",
-      }}
-    >
-      <EigenAIConcentricRings className="absolute inset-0" />
-    </div>
-  );
-}
-
 function MobileConcentricRingGroups() {
   return mobileRingGroups.map((group) => (
     <div
@@ -265,15 +240,19 @@ function OrbitCluster({
   y,
   width,
   transform,
-  showCloud = true,
+  floatDelay = "0s",
 }: {
   src: StaticImageData;
   x: number;
   y: number;
   width: number;
   transform?: string;
-  showCloud?: boolean;
+  floatDelay?: string;
 }) {
+  const orbitBleed = 48;
+  const expandedWidth = ((width + orbitBleed * 2) / width) * 100;
+  const bleedOffset = -(orbitBleed / width) * 100;
+
   return (
     <div
       data-testid="eigenai-orbit-cluster"
@@ -287,24 +266,21 @@ function OrbitCluster({
         transformOrigin: "center",
       }}
     >
-      <Image
-        src={src}
-        alt=""
-        className="h-auto w-full max-w-none opacity-42 mix-blend-screen [filter:drop-shadow(0_0_5px_rgb(255_255_255/0.12))_drop-shadow(0_0_18px_rgb(89_224_233/0.12))_saturate(132%)]"
-      />
-      {showCloud ? (
-        <span
-          data-testid="eigenai-orbit-cloud"
-          className="absolute z-1 flex aspect-square items-center justify-center rounded-full border border-white/55 opacity-62 mix-blend-screen drop-shadow-[0_0_4px_rgb(255_255_255/0.2)]"
+      <div
+        className="relative size-full origin-center animate-spin will-change-transform [animation-duration:40s] motion-reduce:animate-none"
+        style={{ animationDelay: floatDelay }}
+      >
+        <Image
+          src={src}
+          alt=""
+          className="absolute h-auto max-w-none opacity-42 mix-blend-screen [filter:drop-shadow(0_0_5px_rgb(255_255_255/0.12))_drop-shadow(0_0_18px_rgb(89_224_233/0.12))_saturate(132%)]"
           style={{
-            left: "21.3%",
-            top: "5.82%",
-            width: "4.066%",
+            left: `${bleedOffset}%`,
+            top: `${bleedOffset}%`,
+            width: `${expandedWidth}%`,
           }}
-        >
-          <Image src={iconCloud} alt="" className="h-auto w-1/2" />
-        </span>
-      ) : null}
+        />
+      </div>
     </div>
   );
 }
@@ -365,15 +341,22 @@ function ContinuousBackdrop() {
         y={-679.9}
         width={951.318}
         transform="rotate(-30deg) scaleY(-1)"
-        showCloud={false}
+        floatDelay="-2s"
       />
       <OrbitCluster
         src={techOrbit}
         x={-279.4375}
         y={625.4805}
         width={951.318}
+        floatDelay="-5s"
       />
-      <ConcentricRingGroup centerX={1604.659} centerY={620.659} />
+      <OrbitCluster
+        src={techOrbit}
+        x={1129}
+        y={145}
+        width={951.318}
+        floatDelay="-13s"
+      />
       <MobileConcentricRingGroups />
 
       <LambdaCluster
@@ -399,6 +382,7 @@ function ContinuousBackdrop() {
         y={4509.1}
         width={951.318}
         transform="rotate(-30deg) scaleY(-1)"
+        floatDelay="-8s"
       />
       <OrbitCluster
         src={closingOrbit}
@@ -406,6 +390,7 @@ function ContinuousBackdrop() {
         y={6745.7}
         width={1113.84}
         transform="rotate(-130deg) scaleY(-1)"
+        floatDelay="-11s"
       />
     </div>
   );

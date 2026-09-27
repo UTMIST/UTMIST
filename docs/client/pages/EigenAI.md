@@ -76,6 +76,17 @@ uses the Figma cyan-white-lavender text gradient.
 Shared `max-w-6xl` content containers and narrower prose columns keep text and
 cards wrapping predictably on wide screens. Footer social controls use standard
 `44px` targets with `20px` icons.
+The decorative icon orbs follow independent, slow bubble-like drift paths while
+each complete orbit cluster rotates continuously on a 40-second Tailwind
+`animate-spin` loop.
+This carries every bubble around the ring center. Cloud icons are embedded in
+the orbit SVGs so their size, opacity, colourful outline, blending, and motion
+match the other icons without layered duplicates. Motion is disabled by the
+user's reduced-motion preference. Each orbit SVG includes a transparent bleed
+area so drifting bubbles remain visible beyond the original ring bounds.
+The top-right desktop decoration uses the same full orbit cluster and bubble
+set as the other desktop orbit artwork.
+
 The redesign also includes a two-day schedule for October 3 and 4 from 9:00 AM
 to 5:00 PM. `eigenai-schedule.tsx` owns the typed schedule data and responsive
 layout: each day is a glass panel, shown side by side from the `md` breakpoint
@@ -158,8 +169,8 @@ the legacy branch. The redesign supplies
 its own responsive navigation and footer inside the continuous orbital
 background, using the same liquid-glass surface treatment as the event UI. Its
 links navigate to About, Speakers, Workshops, Schedule, and Venue on the current
-page, with an explicit UTMIST Home link back to the main site. The redesign
-navigation does not include an authentication action.
+page. The UTMIST wordmark remains the route back to the main site, while the
+navigation does not include a separate home or authentication action.
 Outside `/eigenai`, the frontend layout evaluates `Eigen-AI-Redesign` on the
 server and passes the result to the shared navbar. Only an enabled flag renders
 the `/eigenai` promotional link; missing configuration, provider failures, and

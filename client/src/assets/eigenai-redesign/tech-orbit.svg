@@ -1,8 +1,21 @@
-<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="951.318" height="951.318" viewBox="0 0 951.318 951.318" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="951.318" height="951.318" viewBox="-48 -48 1047.318 1047.318" fill="none" xmlns="http://www.w3.org/2000/svg">
+<style>
+@keyframes orb-drift-a { 0%, 100% { transform: translate(0, 0); } 22% { transform: translate(22px, -36px); } 53% { transform: translate(-28px, -16px); } 79% { transform: translate(14px, 26px); } }
+@keyframes orb-drift-b { 0%, 100% { transform: translate(0, 0); } 31% { transform: translate(-24px, 30px); } 64% { transform: translate(30px, 12px); } 84% { transform: translate(10px, -24px); } }
+@keyframes orb-drift-c { 0%, 100% { transform: translate(0, 0); } 27% { transform: translate(32px, 18px); } 58% { transform: translate(6px, -34px); } 82% { transform: translate(-22px, 10px); } }
+#group, [id="Rectangle 7449"] { animation: orb-drift-a 19s ease-in-out infinite; }
+#sitemap, [id="Rectangle 7450"] { animation: orb-drift-b 23s -7s ease-in-out infinite; }
+#nfc-variant, [id="Rectangle 7451"] { animation: orb-drift-c 17s -11s ease-in-out infinite; }
+#cloud-upload, [id="Rectangle 7452"] { animation: orb-drift-b 21s -15s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { #group, #sitemap, #nfc-variant, #cloud-upload, [id^="Rectangle 74"] { animation: none; } }
+</style>
 <g id="Group 1000008280">
 <circle id="Ellipse 17" cx="475.659" cy="475.659" r="474.695" stroke="url(#paint0_linear_0_9)" stroke-opacity="0.38" stroke-width="1.9277"/>
 <circle id="Ellipse 18" cx="475.659" cy="475.659" r="265.8" stroke="url(#paint1_linear_0_9)" stroke-opacity="0.38" stroke-width="1.07939"/>
 <circle id="Ellipse 19" cx="475.659" cy="475.659" r="364.622" stroke="url(#paint2_linear_0_9)" stroke-opacity="0.38" stroke-width="1.9277"/>
+<g id="cloud-upload">
+<path transform="translate(833.004 388.142)" d="M4.63148 12.6313C3.40313 12.6313 2.2251 12.1433 1.35653 11.2748C0.487958 10.4062 0 9.22817 0 7.99983C0 6.77148 0.487958 5.59345 1.35653 4.72488C2.2251 3.8563 3.40313 3.36835 4.63148 3.36835C5.47356 1.38944 7.41036 0 9.684 0C12.5724 0 14.9386 2.23995 15.1576 5.07778L15.5786 5.05252C17.6838 5.05252 19.368 6.73669 19.368 8.84191C19.368 10.9471 17.6838 12.6313 15.5786 12.6313H4.63148ZM4.63148 4.21043C2.52626 4.21043 0.842087 5.89461 0.842087 7.99983C0.842087 10.105 2.52626 11.7892 4.63148 11.7892H15.5786C16.3603 11.7892 17.1099 11.4787 17.6627 10.926C18.2154 10.3732 18.5259 9.62359 18.5259 8.84191C18.5259 8.06024 18.2154 7.31058 17.6627 6.75785C17.1099 6.20513 16.3603 5.89461 15.5786 5.89461C15.107 5.89461 14.6523 6.00408 14.2565 6.20618L14.3155 5.47356C14.3155 4.24522 13.8275 3.06719 12.9589 2.19862C12.0904 1.33004 10.9123 0.842087 9.684 0.842087C8.6681 0.842649 7.68047 1.17661 6.8727 1.7927C6.06494 2.40879 5.4817 3.27295 5.21252 4.25254L4.63148 4.21043ZM10.105 10.105V5.68409L11.9997 7.57878L12.6313 7.023L9.684 4.0757L6.73669 7.023L7.36826 7.57878L9.26296 5.68409V10.105H10.105Z" fill="white"/>
+</g>
 <g id="group">
 <path id="Vector_2" d="M650.332 31.0367V34.6457H654.662V31.0367H650.332ZM646.723 27.4278H648.888V28.1496H658.271V27.4278H660.437V29.5932H659.715V38.9764H660.437V41.1418H658.271V40.42H648.888V41.1418H646.723V38.9764H647.444V29.5932H646.723V27.4278ZM648.888 38.9764V39.6982H658.271V38.9764H658.993V29.5932H658.271V28.8714H648.888V29.5932H648.166V38.9764H648.888ZM649.61 30.3149H655.384V33.2021H657.549V38.2546H651.053V35.3675H649.61V30.3149ZM655.384 35.3675H651.775V37.5328H656.828V33.9239H655.384V35.3675ZM647.444 28.1496V28.8714H648.166V28.1496H647.444ZM658.993 28.1496V28.8714H659.715V28.1496H658.993ZM658.993 39.6982V40.42H659.715V39.6982H658.993ZM647.444 39.6982V40.42H648.166V39.6982H647.444Z" fill="white"/>
 </g>
