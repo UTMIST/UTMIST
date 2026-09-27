@@ -139,9 +139,6 @@ describe("EigenAI flag selector", () => {
       screen.getByRole("heading", { name: "Speakers" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "Jensen Huang" }),
-    ).toHaveClass("font-normal!");
-    expect(
       screen.getByRole("heading", { name: "Workshops" }),
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Schedule" })).toBeInTheDocument();
@@ -153,12 +150,10 @@ describe("EigenAI flag selector", () => {
     expect(
       screen.getByRole("heading", { name: /October 4/ }),
     ).toBeInTheDocument();
-    expect(screen.getAllByText("Room TBA")).toHaveLength(16);
-    expect(screen.getAllByText("Session details will be announced soon.")).toHaveLength(6);
     expect(screen.getByRole("heading", { name: "Venue" })).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
-        name: "Ontario Institute for Studies in Education (OISE)",
+        name: "OISE",
       }),
     ).toHaveClass("text-xl/tight", "sm:text-3xl");
     expect(
@@ -171,25 +166,16 @@ describe("EigenAI flag selector", () => {
       "href",
       expect.stringContaining("google.com/maps/search"),
     );
-    expect(screen.getByText("October 3rd & 4th")).toHaveClass(
+    expect(screen.getByText(/Saturday October 3, 2026 and Sunday October 4, 2026/)).toHaveClass(
       "block",
       "sm:inline",
     );
-    expect(screen.getByText("@ LOCAT")).toHaveClass("block", "sm:inline");
     expect(
-      screen.getAllByText("Building Applications with the Claude API"),
-    ).toHaveLength(3);
+      screen.getAllByText("IEEE Workshop"),
+    ).toHaveLength(2);
     expect(
-      screen.getAllByText("Building Applications with the Claude API")[0],
+      screen.getAllByText("IEEE Workshop")[0],
     ).toHaveClass("font-medium!");
-    expect(screen.getByText("CEO @ NVIDIA")).toHaveClass(
-      "text-xs",
-      "sm:text-lg",
-    );
-    expect(screen.getAllByText(/An introduction on how to integrate/)[0]).toHaveClass(
-      "text-xs/relaxed",
-      "sm:text-lg",
-    );
     const contentContainers = screen.getAllByTestId("eigenai-content");
     expect(contentContainers.length).toBeGreaterThanOrEqual(5);
     expect(
@@ -216,13 +202,6 @@ describe("EigenAI flag selector", () => {
       "grid-cols-3",
       "gap-x-2",
       "sm:gap-x-0",
-    );
-    const attendees = screen.getByText("Attendees");
-    expect(attendees).toHaveClass("font-eigen-body", "text-white");
-    expect(attendees.previousElementSibling).toHaveClass(
-      "font-eigen-serif",
-      "text-[clamp(2.25rem,8vw,6rem)]",
-      "text-white",
     );
     const lockups = screen.getAllByTestId("eigenai-lockup");
     expect(lockups).toHaveLength(2);
@@ -306,14 +285,6 @@ describe("EigenAI flag selector", () => {
     expect(screen.getByTestId("eigenai-metrics").closest("section")).toHaveClass(
       "pt-4",
     );
-    expect(
-      screen
-        .getAllByRole("heading", { name: "Someguy Lastnameem" })[0]
-        .closest("article"),
-    ).toHaveClass("text-center", "sm:text-left");
-    expect(
-      screen.getByRole("heading", { name: "Jensen Huang" }).parentElement,
-    ).toHaveClass("text-center", "md:text-left");
     expect(screen.getByTestId("eigenai-closing")).not.toHaveClass(
       "overflow-hidden",
       "min-h-96",

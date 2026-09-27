@@ -40,6 +40,7 @@ export interface EigenAIVenueDetails {
 export interface EigenAIPageContent {
   dateLabel: string;
   locationLabel?: string;
+  ticketUrl?: string;
   metrics: readonly { number: string; description: string }[];
   about: {
     paragraphs: readonly string[];

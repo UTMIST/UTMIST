@@ -535,6 +535,16 @@ export default function EigenAIRedesign({
             ) : null}
           </span>
         </EigenGlassSurface>
+        {content.ticketUrl ? (
+          <Link
+            href={content.ticketUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-6 rounded-full border border-white/30 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10"
+          >
+            Get tickets
+          </Link>
+        ) : null}
       </HeroSection>
 
       <AboutSection>

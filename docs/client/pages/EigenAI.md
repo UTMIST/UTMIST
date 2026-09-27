@@ -118,16 +118,16 @@ area so drifting bubbles remain visible beyond the original ring bounds.
 The top-right desktop decoration uses the same full orbit cluster and bubble
 set as the other desktop orbit artwork.
 
-The default fixture includes a two-day schedule for October 3 and 4 with time
-blocks from 9:00 AM through 4:00 PM. `eigenai-schedule.tsx` accepts typed schedule
-data and owns its responsive layout: each day is a glass panel, shown side by
-side from the `md` breakpoint and stacked on smaller screens. Every time block
-displays a title; rooms and descriptions are optional so approved details can replace the placeholder copy
-without changing the component structure.
-The default venue fixture reuses the legacy page's OISE location and Maps Embed
-API place query. `eigenai-venue.tsx` accepts a venue prop and shows an address and directions
-link in all environments. When `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is configured,
-it also renders a lazy-loaded Google Maps preview; without the key, it renders a
+The default fixture includes the confirmed two-day schedule for October 3 and 4
+in EST. `eigenai-schedule.tsx` accepts typed schedule data and owns its
+responsive layout: each day is a glass panel, shown side by side from the `md`
+breakpoint and stacked on smaller screens. Every time block displays a title;
+rooms and descriptions are optional. Unresolved workshop names and confirmation
+notes are labelled explicitly rather than presented as confirmed details.
+The default venue is OISE at 252 Bloor St W, Toronto, ON M5S 1V6, Canada.
+`eigenai-venue.tsx` accepts a venue prop and shows an address and directions link
+in all environments. When `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is configured, it
+also renders a lazy-loaded Google Maps preview; without the key, it renders a
 non-blocking fallback instead of taking down the redesign.
 The reusable `EigenAILockup` component includes the UTMIST logo and accepts one
 responsive `fontSize` value. The logo and conference subtitle are sized and
@@ -242,21 +242,18 @@ canvas while retaining a prominent lower event lockup. The hero's concentric rin
 groups remain visible on small screens at alternating viewport edges and repeat
 down the full page with stronger contrast; the original Figma coordinate and
 scale resume at `md`.
-Until the final conference lineup is approved, the redesign intentionally uses
-the placeholder speaker names, roles, and workshop copy shown in Figma. Those
-cards reuse existing repository portraits; the canonical EigenAI speaker data
-remains unchanged.
+The confirmed 2026 content does not include a speaker lineup, so speaker cards
+remain in the announcement state. Workshop entries include only names explicitly
+confirmed for the schedule; their descriptions remain marked as coming soon.
 The UTMIST lockups use the exported Figma `White Side 2` artwork rather than a
 typed approximation, preserving the custom letterforms in the hero, EigenAI
 navigation, and footer.
 
 ## Gotchas
 
-- The existing page reads `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` and throws on render
-  if it is unset. Because `/eigenai` is now `force-dynamic`, this throws at
-  request time, not during `next build`.
-- The redesign treats Maps as an enhancement and still renders without the key;
-  the legacy branch continues to require it.
+- Both page variants render the confirmed event details without requiring a Maps
+  API key. The redesign treats Maps as an enhancement and shows a directions
+  fallback when the key is absent.
 
 ## Tests
 

@@ -20,7 +20,7 @@ function ScheduleDay({ date, day, items }: EigenAIScheduleDay) {
         <ol className="divide-y divide-white/15">
           {items.map((item) => (
             <li
-              key={`${date}-${item.time}`}
+              key={`${date}-${item.time}-${item.title}`}
               className="grid gap-1.5 py-4 sm:grid-cols-[6.5rem_minmax(0,1fr)] sm:gap-5 sm:py-5"
             >
               <time className="text-xs font-semibold text-[#5edbe7] sm:text-sm">
