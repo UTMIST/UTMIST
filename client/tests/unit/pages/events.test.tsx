@@ -59,11 +59,12 @@ describe('Events Page', () => {
     mockGetUpcoming.mockImplementation(() => new Promise(() => {}));
     mockGetPast.mockImplementation(() => new Promise(() => {}));
     mockGetFeatured.mockImplementation(() => new Promise(() => {}));
-    render(await EventsPage());
+    render(<EventsPage />);
     expect(screen.getByText(/loading events/i)).toBeInTheDocument();
   });
 
-  it('keeps the EigenAI card generic while the redesign flag is off', async () => {
+  it.each([false, true])('keeps EigenAI branding when the redesign flag is %s', async (enabled) => {
+    mockEvaluateFlag.mockResolvedValue(enabled);
     mockGetUpcoming.mockResolvedValue([
       { id: 'u1', title: 'Upcoming One', location: 'BA', description: 'd', tags: ['ml'] },
     ]);
@@ -86,26 +87,13 @@ describe('Events Page', () => {
       },
     ]);
 
-    render(await EventsPage());
+    render(<EventsPage />);
 
     expect(await screen.findByText('Upcoming One')).toBeInTheDocument();
     expect(screen.getByText('Past One')).toBeInTheDocument();
     expect(screen.getByText('Featured Hackathon')).toBeInTheDocument();
-    expect(screen.getByTestId('event-card')).not.toHaveAttribute('data-branding');
-  });
-
-  it('enables the EigenAI card redesign when the flag is on', async () => {
-    mockEvaluateFlag.mockResolvedValue(true);
-    mockGetUpcoming.mockResolvedValue([]);
-    mockGetPast.mockResolvedValue([]);
-    mockGetFeatured.mockResolvedValue([
-      { title: 'EigenAI', url: '/eigenai', background: '#fff', branding: 'eigenai' },
-    ]);
-
-    render(await EventsPage());
-
-    expect(await screen.findByTestId('event-card')).toHaveAttribute('data-branding', 'eigenai');
-    expect(mockEvaluateFlag).toHaveBeenCalledWith('Eigen-AI-Redesign');
+    expect(screen.getByTestId('event-card')).toHaveAttribute('data-branding', 'eigenai');
+    expect(mockEvaluateFlag).not.toHaveBeenCalled();
   });
 
   it('filters upcoming events by search query', async () => {
@@ -116,7 +104,7 @@ describe('Events Page', () => {
     mockGetPast.mockResolvedValue([]);
     mockGetFeatured.mockResolvedValue([]);
 
-    render(await EventsPage());
+    render(<EventsPage />);
     await waitFor(() => expect(screen.getAllByTestId('event-item')).toHaveLength(2));
 
     const searchBars = screen.getAllByTestId('search-bar');
@@ -134,7 +122,7 @@ describe('Events Page', () => {
     mockGetPast.mockResolvedValue([]);
     mockGetFeatured.mockResolvedValue([]);
 
-    render(await EventsPage());
+    render(<EventsPage />);
     expect(await screen.findByText(/more events are in the works/i)).toBeInTheDocument();
   });
 });

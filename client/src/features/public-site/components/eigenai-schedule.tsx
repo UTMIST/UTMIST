@@ -1,42 +1,8 @@
+import type { EigenAIScheduleDay } from "@/features/public-site/types/eigenai";
+
 import { EigenGlassSurface } from "@/features/public-site/components/eigenai-surfaces";
 
-type ScheduleItem = { time: string; title: string; description?: string; location: string };
-type ScheduleDay = { date: string; day: string; items: ScheduleItem[] };
-
-const description = "Session details will be announced soon.";
-const location = "Room TBA";
-const schedule: ScheduleDay[] = [
-  {
-    day: "Day 1",
-    date: "Saturday, October 3",
-    items: [
-      { time: "9:00 AM", title: "Opening Session", description, location },
-      { time: "10:00 AM", title: "Session Title", location },
-      { time: "11:00 AM", title: "Session Title", description, location },
-      { time: "12:00 PM", title: "Lunch Break", location },
-      { time: "1:00 PM", title: "Session Title", location },
-      { time: "2:00 PM", title: "Session Title", description, location },
-      { time: "3:00 PM", title: "Session Title", location },
-      { time: "4:00 PM", title: "Closing Session", location },
-    ],
-  },
-  {
-    day: "Day 2",
-    date: "Sunday, October 4",
-    items: [
-      { time: "9:00 AM", title: "Welcome Back", description, location },
-      { time: "10:00 AM", title: "Session Title", location },
-      { time: "11:00 AM", title: "Session Title", description, location },
-      { time: "12:00 PM", title: "Lunch Break", location },
-      { time: "1:00 PM", title: "Session Title", location },
-      { time: "2:00 PM", title: "Session Title", description, location },
-      { time: "3:00 PM", title: "Session Title", location },
-      { time: "4:00 PM", title: "Closing Session", location },
-    ],
-  },
-];
-
-function ScheduleDay({ date, day, items }: ScheduleDay) {
+function ScheduleDay({ date, day, items }: EigenAIScheduleDay) {
   return (
     <EigenGlassSurface className="rounded-4xl sm:rounded-[3.1648rem]">
       <article className="relative z-1 p-4 sm:p-8 lg:p-10">
@@ -48,6 +14,9 @@ function ScheduleDay({ date, day, items }: ScheduleDay) {
             {date}
           </h3>
         </header>
+        {items.length === 0 ? (
+          <p className="py-4 text-white/70">Sessions will be announced soon.</p>
+        ) : null}
         <ol className="divide-y divide-white/15">
           {items.map((item) => (
             <li
@@ -57,7 +26,7 @@ function ScheduleDay({ date, day, items }: ScheduleDay) {
               <time className="text-xs font-semibold text-[#5edbe7] sm:text-sm">
                 {item.time}
               </time>
-              <div>
+              <div className="min-w-0 wrap-anywhere">
                 <h4 className="font-eigen-sans text-base/tight font-medium! text-white sm:text-lg/tight">
                   {item.title}
                 </h4>
@@ -66,9 +35,11 @@ function ScheduleDay({ date, day, items }: ScheduleDay) {
                     {item.description}
                   </p>
                 ) : null}
-                <p className="mt-1.5 text-[0.6875rem] font-medium tracking-[0.04em] text-[#dfd6ff] uppercase sm:mt-2 sm:text-xs">
-                  {item.location}
-                </p>
+                {item.location ? (
+                  <p className="mt-1.5 text-[0.6875rem] font-medium tracking-[0.04em] text-[#dfd6ff] uppercase sm:mt-2 sm:text-xs">
+                    {item.location}
+                  </p>
+                ) : null}
               </div>
             </li>
           ))}
@@ -78,10 +49,19 @@ function ScheduleDay({ date, day, items }: ScheduleDay) {
   );
 }
 
-export function EigenAISchedule() {
+export function EigenAISchedule({
+  schedule,
+}: {
+  schedule: readonly EigenAIScheduleDay[];
+}) {
   return (
-    <div data-testid="eigenai-schedule" className="grid gap-5 md:grid-cols-2 md:gap-8">
-      {schedule.map((day) => <ScheduleDay key={day.date} {...day} />)}
+    <div
+      data-testid="eigenai-schedule"
+      className="grid gap-5 md:grid-cols-2 md:gap-8"
+    >
+      {schedule.map((day) => (
+        <ScheduleDay key={day.date} {...day} />
+      ))}
     </div>
   );
 }

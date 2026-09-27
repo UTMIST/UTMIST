@@ -8,25 +8,21 @@ import {
 } from "flags/next";
 
 import { evaluateProviderFlag } from "./provider";
+import { flagCatalog } from "./catalog";
 import type { EvaluationContext } from "./types";
-
-const eigenAIRedesign = flag<boolean, EvaluationContext>({
-  key: "Eigen-AI-Redesign",
-  description: "Toggle the new 2026 EigenAI Website",
-  origin: "https://vercel.com/utmist-infrastructure/client/flag/Eigen-AI-Redesign",
-  defaultValue: false,
-  options: [
-    { value: false, label: "Off" },
-    { value: true, label: "On" },
-  ],
-  decide: ({ entities }) => evaluateProviderFlag("Eigen-AI-Redesign", entities),
-});
 
 export const flagDefinitions: Readonly<
   Record<string, Flag<boolean, EvaluationContext>>
-> = {
-  [eigenAIRedesign.key]: eigenAIRedesign,
-};
+> = Object.fromEntries(
+  Object.entries(flagCatalog).map(([key, metadata]) => [
+    key,
+    flag<boolean, EvaluationContext>({
+      ...metadata,
+      key,
+      decide: ({ entities }) => evaluateProviderFlag(key, entities),
+    }),
+  ]),
+);
 
 export const discoveryHandler = createFlagsDiscoveryEndpoint(() =>
   getProviderData(flagDefinitions),

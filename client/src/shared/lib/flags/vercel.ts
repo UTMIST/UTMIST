@@ -16,18 +16,8 @@
 
 import { createClient } from "@vercel/flags-core";
 
+import { flagCatalog } from "./catalog";
 import type { FlagAdapter } from "./types";
-
-/**
- * Flags this adapter resolves, by Vercel flag key. An undeclared name resolves
- * to `undefined` so the evaluator in `./provider` turns it into the default-off
- * `false`. Other consumers (e.g. #443 `CMS-Access`) add their key here to reuse
- * this single provider integration rather than wiring a second one.
- */
-const DECLARED_FLAGS: ReadonlySet<string> = new Set([
-  // The EigenAI redesign flag (#444). Kept off in production until launch.
-  "Eigen-AI-Redesign",
-]);
 
 /**
  * Build the Vercel-backed adapter, using OIDC when no SDK key is supplied.
@@ -54,7 +44,7 @@ export function createVercelFlagAdapter(sdkKey?: string): FlagAdapter {
   // still satisfies the `FlagAdapter` interface) because it is not consumed.
   return {
     async evaluate(name: string) {
-      if (!DECLARED_FLAGS.has(name)) return undefined;
+      if (!Object.hasOwn(flagCatalog, name)) return undefined;
 
       const result = await client.evaluate<boolean>(name, false);
       if (result.reason === "error") return false;

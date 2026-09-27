@@ -1,14 +1,18 @@
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
-import { EigenAIConcentricRings, EigenAILambdaSymbol } from "@/shared/ui";
-
 import {
-  founderPanelSpeakers,
-  keynoteSpeakers,
-  researchPanelSpeakers,
-  speakerSession,
-} from "@/features/public-site/data/eigenai";
-import { EigenAILockup } from "@/features/public-site/components/eigenai-lockup";
+  EigenAIConcentricRings,
+  EigenAILambdaSymbol,
+  EigenAILockup,
+  EigenAIWordmark,
+} from "@/shared/ui";
+
+import { eigenAIContent } from "@/features/public-site/data/eigenai-redesign";
+import type {
+  EigenAIPageContent,
+  EigenAIWorkshop,
+} from "@/features/public-site/types/eigenai";
+import { EigenAISpeakerCard } from "@/features/public-site/components/eigenai-speaker-card";
 import { EigenNavigation } from "@/features/public-site/components/eigenai-navigation";
 import { EigenAISchedule } from "@/features/public-site/components/eigenai-schedule";
 import { EigenAIVenue } from "@/features/public-site/components/eigenai-venue";
@@ -17,12 +21,8 @@ import {
   EigenAISection,
   EigenAISectionHeading,
 } from "@/features/public-site/components/eigenai-section";
-import {
-  EigenGlassSurface,
-  EigenSpeakerPortrait,
-} from "@/features/public-site/components/eigenai-surfaces";
+import { EigenGlassSurface } from "@/features/public-site/components/eigenai-surfaces";
 import { StatItem } from "@/features/public-site/components/stats";
-import { EigenAIWordmark } from "@/features/public-site/components/eigenai-wordmark";
 import utmistWordmark from "@/assets/logos/utmist-wordmark-white.png";
 import discordLogo from "@/assets/logos/discord.svg";
 // import facebookLogo from "@/assets/logos/facebook.svg";
@@ -44,7 +44,6 @@ import lambdaHeroFront from "@/assets/eigenai-redesign/lambda-hero-front.svg";
 import lambdaWorkshopBack from "@/assets/eigenai-redesign/lambda-workshop-back.svg";
 import lambdaWorkshopFront from "@/assets/eigenai-redesign/lambda-workshop-front.svg";
 import techOrbit from "@/assets/eigenai-redesign/tech-orbit.svg";
-
 
 const mobileRingGroups = [
   { id: "hero-right", left: "88%", top: "6%", width: "min(88vw, 22rem)" },
@@ -91,55 +90,6 @@ const backdropColorFields = [
   { id: "closing-purple", src: ellipseC, x: -130, y: 6415, width: 1738 },
 ] as const;
 
-const currentSpeakers = [
-  ...speakerSession,
-  ...founderPanelSpeakers,
-  ...researchPanelSpeakers,
-];
-
-const placeholderSpeakerCopy = [
-  {
-    name: "Someguy Lastnameem",
-    role: "Staff Software Engineer and Manager @ Google",
-  },
-  {
-    name: "Some Guy",
-    role: "Data Scientist @ Super Long Company Name",
-  },
-  {
-    name: "Guy With Threenames",
-    role: "CEO @ Short",
-  },
-] as const;
-
-const speakers = currentSpeakers.slice(0, 8).map((speaker, index) => ({
-  ...placeholderSpeakerCopy[index % placeholderSpeakerCopy.length],
-  profileURL: "",
-  profileImage: speaker.profileImage,
-}));
-
-const keynoteSpeaker = {
-  ...keynoteSpeakers[0],
-  name: "Jensen Huang",
-  role: "CEO @ NVIDIA",
-};
-
-const workshopDescription =
-  "An introduction on how to integrate the Claude API into any application, using a chat app as a demonstration. The goal is to introduce fundamental API integration skills including API key access, HTTP request authentication, and JSON response handling. The workshop also covers Claude-specific parameters such as temperature settings, system prompts and multi-turn conversation management.";
-
-type Workshop = {
-  title: string;
-  host: string;
-  description: string;
-  image?: StaticImageData;
-};
-
-const workshops: Workshop[] = Array.from({ length: 3 }, () => ({
-  title: "Building Applications with the Claude API",
-  host: "",
-  description: workshopDescription,
-}));
-
 const socialLinks = [
   {
     href: "https://discord.com/invite/88mSPw8",
@@ -182,13 +132,6 @@ const socialLinks = [
     icon: mediumLogo,
   },
 ];
-
-type Speaker = {
-  name: string;
-  role: string;
-  profileURL: string;
-  profileImage: StaticImageData;
-};
 
 function MobileConcentricRingGroups() {
   return mobileRingGroups.map((group) => (
@@ -316,11 +259,7 @@ function LambdaCluster({
         width: `${(width / FIGMA_BACKDROP_WIDTH) * 100}%`,
       }}
     >
-      <EigenAILambdaSymbol
-        back={back}
-        front={front}
-        backOffset={backOffset}
-      />
+      <EigenAILambdaSymbol back={back} front={front} backOffset={backOffset} />
     </div>
   );
 }
@@ -418,68 +357,11 @@ function GradientPanel({
   );
 }
 
-function SpeakerCard({ speaker }: { speaker: Speaker }) {
-  return (
-    <GradientPanel className="mt-18 sm:mt-24 sm:min-h-64">
-      <article className="relative flex min-w-0 flex-col px-5 pb-5 pt-16 text-center sm:min-h-64 sm:px-8 sm:pb-6 sm:pt-20 sm:text-left">
-        <EigenSpeakerPortrait className="absolute top-0 left-1/2 size-32 -translate-x-1/2 translate-y-[-55%] rounded-full p-0.5 sm:size-40">
-          <div className="relative size-full overflow-hidden rounded-full bg-[#0c0249]">
-            <Image
-              src={speaker.profileImage}
-              alt={`${speaker.name}, ${speaker.role}`}
-              fill
-              sizes="(max-width: 640px) 128px, 160px"
-              className="object-cover"
-            />
-          </div>
-        </EigenSpeakerPortrait>
-        <h3 className="font-eigen-sans text-lg/tight font-medium! text-white sm:text-2xl">
-          {speaker.name}
-        </h3>
-        <p className="mt-2 text-[0.6875rem] leading-relaxed font-normal tracking-[0.01em] wrap-anywhere text-[#5edbe7] sm:mt-3 sm:text-base">
-          {speaker.role}
-        </p>
-      </article>
-    </GradientPanel>
-  );
-}
-
-function KeynoteCard({ speaker }: { speaker: Speaker }) {
-  return (
-    <GradientPanel className="sm:min-h-52">
-      <article className="relative grid min-w-0 items-center gap-5 p-5 sm:min-h-52 sm:gap-8 sm:px-10 sm:py-8 md:grid-cols-[minmax(0,1fr)_auto]">
-        <div className="order-2 min-w-0 text-center md:order-1 md:text-left">
-          <p className="bg-[linear-gradient(90deg,#5edbe7_26.442%,#ffffff_55.769%,#f1dcff_79.327%)] bg-clip-text text-xs tracking-[0.01em] text-transparent sm:text-lg">
-            Keynote Speaker
-          </p>
-          <h3 className="font-eigen-sans mt-1 text-xl/tight font-normal! text-white sm:text-3xl">
-            {speaker.name}
-          </h3>
-          <p className="mt-2 text-xs font-normal tracking-[0.01em] text-[#5edbe7] sm:mt-3 sm:text-lg">
-            {speaker.role}
-          </p>
-        </div>
-        <EigenSpeakerPortrait className="relative order-1 mx-auto size-32 rounded-full p-0.5 sm:size-52 md:order-2">
-          <div className="relative size-full overflow-hidden rounded-full bg-[#0c0249]">
-            <Image
-              src={speaker.profileImage}
-              alt={`${speaker.name}, ${speaker.role}`}
-              fill
-              sizes="(max-width: 640px) 128px, 208px"
-              className="object-cover"
-            />
-          </div>
-        </EigenSpeakerPortrait>
-      </article>
-    </GradientPanel>
-  );
-}
-
-function WorkshopCard({ workshop }: { workshop: Workshop }) {
+function WorkshopCard({ workshop }: { workshop: EigenAIWorkshop }) {
   return (
     <GradientPanel>
       <article className="grid min-w-0 p-5 sm:min-h-72 sm:p-10">
-        <div>
+        <div className="min-w-0 wrap-anywhere">
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <h3 className="font-eigen-sans max-w-3xl text-xl/tight font-medium! text-white sm:text-3xl">
               {workshop.title}
@@ -602,11 +484,7 @@ function WorkshopsSection({ children }: { children: React.ReactNode }) {
 
 function ScheduleSection({ children }: { children: React.ReactNode }) {
   return (
-    <EigenAISection
-      id="schedule"
-      title="Schedule"
-      className="py-8 sm:py-20"
-    >
+    <EigenAISection id="schedule" title="Schedule" className="py-8 sm:py-20">
       {children}
     </EigenAISection>
   );
@@ -631,7 +509,11 @@ function ClosingSection({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function EigenAIRedesign() {
+export default function EigenAIRedesign({
+  content = eigenAIContent,
+}: {
+  content?: EigenAIPageContent;
+}) {
   return (
     <main
       data-testid="eigenai-redesign"
@@ -640,11 +522,17 @@ export default function EigenAIRedesign() {
       <ContinuousBackdrop />
       <EigenNavigation />
       <HeroSection>
+        <h1 className="sr-only">EigenAI Conference</h1>
         <EigenAILockup fontSize="clamp(4rem, 15vw, 10.5rem)" showCursor />
         <EigenGlassSurface className="mt-8 flex w-fit max-w-[min(100%,20rem)] items-center justify-center rounded-3xl px-5 py-3 text-sm/snug tracking-[-0.01em] sm:mt-10 sm:min-h-11 sm:max-w-full sm:rounded-full sm:px-8 sm:py-2 sm:text-3xl/none">
           <span className="relative z-1 text-center text-white">
-            <span className="block sm:inline">October 3rd &amp; 4th</span>
-            <span className="mt-0.5 block sm:mt-0 sm:inline"> @ LOCAT</span>
+            <span className="block sm:inline">{content.dateLabel}</span>
+            {content.locationLabel ? (
+              <span className="mt-0.5 block sm:mt-0 sm:inline">
+                {" "}
+                @ {content.locationLabel}
+              </span>
+            ) : null}
           </span>
         </EigenGlassSurface>
       </HeroSection>
@@ -654,74 +542,76 @@ export default function EigenAIRedesign() {
           data-testid="eigenai-metrics"
           className="mx-auto grid max-w-3xl grid-cols-3 gap-x-2 sm:gap-x-0"
         >
-          <StatItem
-            number="500+"
-            description="Attendees"
-            className="text-center"
-            numberClassName="font-eigen-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white"
-            descriptionClassName="font-eigen-body mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl"
-          />
-          <StatItem
-            number="20"
-            description="Speakers"
-            className="text-center"
-            numberClassName="font-eigen-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white"
-            descriptionClassName="font-eigen-body mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl"
-          />
-          <StatItem
-            number="11"
-            description="Workshops"
-            className="text-center"
-            numberClassName="font-eigen-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white"
-            descriptionClassName="font-eigen-body mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl"
-          />
+          {content.metrics.map((metric) => (
+            <StatItem
+              key={metric.description}
+              {...metric}
+              className="min-w-0 wrap-anywhere text-center"
+              numberClassName="font-eigen-serif text-[clamp(2.25rem,8vw,6rem)] leading-none text-white"
+              descriptionClassName="font-eigen-body mt-1 text-xs/tight font-semibold text-white sm:mt-2 sm:text-xl lg:text-2xl"
+            />
+          ))}
         </div>
 
         <div className="mt-10 sm:mt-28">
-            <EigenAISectionHeading>
-              What is <EigenAIWordmark />?
-            </EigenAISectionHeading>
-            <div className="mt-6 grid items-start justify-between gap-6 sm:mt-12 sm:gap-10 md:grid-cols-[minmax(16rem,24rem)_minmax(0,36rem)] lg:gap-16">
-              <GradientPanel className="min-h-64 overflow-hidden sm:min-h-136">
-                <div
-                  aria-hidden="true"
-                  className="min-h-64 rounded-[inherit] sm:min-h-136"
-                />
-              </GradientPanel>
-              <div className="max-w-2xl text-sm/relaxed tracking-[-0.01em] text-white sm:text-lg">
-                <p>
-                  EigenAI is a UTMIST flagship conference introducing students
-                  to the world of AI, ML, software, and emerging technologies.
-                  Through panels and workshops covering both fundamental and
-                  advanced topics, participants gain hands-on experience and
-                  practical insights.
-                </p>
-                <p className="mt-5 sm:mt-7">
-                  This year’s theme is Mapping AI through the Multiverse, which
-                  invites students to journey through the many dimensions of AI,
-                  allowing them to explore the field from multiple perspectives
-                  and hear from professionals across diverse industries. Beyond
-                  technical talks and workshops, students have the opportunity
-                  to build their professional network and connect with industry
-                  leaders, academic professionals, and like-minded peers.
-                </p>
+          <EigenAISectionHeading>
+            What is <EigenAIWordmark />?
+          </EigenAISectionHeading>
+          <div className="mt-6 grid items-start justify-between gap-6 sm:mt-12 sm:gap-10 md:grid-cols-[minmax(16rem,24rem)_minmax(0,36rem)] lg:gap-16">
+            <GradientPanel className="min-h-64 overflow-hidden sm:min-h-136">
+              <div className="relative min-h-64 rounded-[inherit] sm:min-h-136">
+                {content.about.image ? (
+                  <Image
+                    src={content.about.image}
+                    alt={content.about.imageAlt ?? ""}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 384px"
+                    className="object-cover"
+                  />
+                ) : null}
               </div>
+            </GradientPanel>
+            <div className="min-w-0 max-w-2xl wrap-anywhere text-sm/relaxed tracking-[-0.01em] text-white sm:text-lg">
+              {content.about.paragraphs.map((paragraph, index) => (
+                <p
+                  key={index}
+                  className={index > 0 ? "mt-5 sm:mt-7" : undefined}
+                >
+                  {paragraph}
+                </p>
+              ))}
             </div>
+          </div>
         </div>
       </AboutSection>
 
       <SpeakersSection>
-        <KeynoteCard speaker={keynoteSpeaker} />
+        {content.keynote ? (
+          <EigenAISpeakerCard speaker={content.keynote} keynote />
+        ) : null}
+        {!content.keynote && content.speakers.length === 0 ? (
+          <p className="text-center text-white/70">
+            Speakers will be announced soon.
+          </p>
+        ) : null}
         <div className="mt-6 grid gap-x-8 gap-y-6 sm:mt-12 sm:gap-y-12 md:grid-cols-2 lg:grid-cols-3">
-          {speakers.map((speaker, index) => (
-            <SpeakerCard key={`${speaker.name}-${index}`} speaker={speaker} />
+          {content.speakers.map((speaker, index) => (
+            <EigenAISpeakerCard
+              key={`${speaker.name}-${index}`}
+              speaker={speaker}
+            />
           ))}
         </div>
       </SpeakersSection>
 
       <WorkshopsSection>
+        {content.workshops.length === 0 ? (
+          <p className="text-center text-white/70">
+            Workshops will be announced soon.
+          </p>
+        ) : null}
         <div className="space-y-4 sm:space-y-12">
-          {workshops.map((workshop, index) => (
+          {content.workshops.map((workshop, index) => (
             <WorkshopCard
               key={`${workshop.title}-${index}`}
               workshop={workshop}
@@ -731,18 +621,32 @@ export default function EigenAIRedesign() {
       </WorkshopsSection>
 
       <ScheduleSection>
-        <EigenAISchedule />
+        {content.schedule.length > 0 ? (
+          <EigenAISchedule schedule={content.schedule} />
+        ) : (
+          <p className="text-center text-white/70">
+            The schedule will be announced soon.
+          </p>
+        )}
       </ScheduleSection>
 
       <VenueSection>
-        <EigenAIVenue />
+        {content.venue ? (
+          <EigenAIVenue venue={content.venue} />
+        ) : (
+          <p className="text-center text-white/70">
+            The venue will be announced soon.
+          </p>
+        )}
       </VenueSection>
 
       <ClosingSection>
         <p className="font-eigen-body mx-auto max-w-4xl bg-[linear-gradient(90deg,#5edbe7_26.4423%,#fff_55.7692%,#f1dcff_79.3269%)] bg-clip-text text-[clamp(1.75rem,6vw,4rem)] leading-tight font-medium tracking-[0.01em] text-transparent italic">
-          Across the Many
-          <br />
-          Frontiers of AI
+          {content.closingLines.map((line, index) => (
+            <span key={index} className="block wrap-anywhere">
+              {line}
+            </span>
+          ))}
         </p>
         <div className="mt-8 sm:mt-24">
           <EigenAILockup fontSize="clamp(3.5rem, 12vw, 5rem)" />

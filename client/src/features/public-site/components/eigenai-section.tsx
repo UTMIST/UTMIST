@@ -55,7 +55,7 @@ export function EigenAISection({
     <section
       id={id}
       data-testid={testId}
-      className={clsx("relative px-5 sm:px-10", className)}
+      className={clsx("relative scroll-mt-20 px-5 sm:px-10 md:scroll-mt-28", className)}
     >
       <EigenAIContent className={contentClassName}>
         {title ? (

@@ -34,7 +34,9 @@ import { dynamic } from "@/app/(frontend)/eigenai/page";
 describe("EigenAI flag selector", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockGetCurrentUser.mockResolvedValue(null);
+    mockGetCurrentUser.mockImplementation(() => {
+      throw new Error("This public toggle must not load a user profile");
+    });
     process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = "test-maps-key";
   });
 
@@ -52,9 +54,8 @@ describe("EigenAI flag selector", () => {
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Change theme" })).toBeInTheDocument();
     expect(screen.queryByTestId("eigenai-redesign")).not.toBeInTheDocument();
-    expect(mockEvaluateFlag).toHaveBeenCalledWith("Eigen-AI-Redesign", {
-      cohort: "public",
-    });
+    expect(mockEvaluateFlag).toHaveBeenCalledWith("Eigen-AI-Redesign");
+    expect(mockGetCurrentUser).not.toHaveBeenCalled();
   });
 
   it("selects the redesign when the flag is on", async () => {
@@ -63,6 +64,7 @@ describe("EigenAI flag selector", () => {
     render(await EigenAIFlagged());
 
     const redesign = screen.getByTestId("eigenai-redesign");
+    expect(mockGetCurrentUser).not.toHaveBeenCalled();
     expect(redesign).toBeInTheDocument();
     expect(redesign).toHaveClass(
       "font-eigen-body",

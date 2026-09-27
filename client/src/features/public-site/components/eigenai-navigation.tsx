@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import utmistWordmark from "@/assets/logos/utmist-wordmark-white.png";
 import { EigenGlassSurface } from "@/features/public-site/components/eigenai-surfaces";
@@ -17,6 +17,7 @@ const navigationLinks = [
 
 export function EigenNavigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -25,7 +26,10 @@ export function EigenNavigation() {
     document.body.style.overflow = "hidden";
 
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setIsOpen(false);
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        toggleRef.current?.focus();
+      }
     };
 
     document.addEventListener("keydown", closeOnEscape);
@@ -43,7 +47,15 @@ export function EigenNavigation() {
         aria-hidden="true"
         className="pointer-events-none fixed inset-x-0 top-0 hidden h-36 bg-linear-to-b from-[#06002f]/90 via-[#0c0249]/55 to-transparent md:block"
       />
-      <nav aria-label="EigenAI" className="relative z-10 w-full">
+      <nav
+        aria-label="EigenAI"
+        className="relative z-10 w-full"
+        onBlur={(event) => {
+          // This is a disclosure: let Tab leave normally, revealing the page
+          // before focus reaches a link that would be behind the overlay.
+          if (!event.currentTarget.contains(event.relatedTarget)) closeMenu();
+        }}
+      >
         <div
           data-testid="eigenai-mobile-nav-surface"
           className={`relative z-30 w-full md:hidden ${
@@ -79,6 +91,7 @@ export function EigenNavigation() {
             </Link>
 
             <button
+              ref={toggleRef}
               type="button"
               className="relative z-10 flex size-9 items-center justify-center border-0 bg-transparent text-2xl/none text-white"
               aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}

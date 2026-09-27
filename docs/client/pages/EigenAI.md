@@ -16,14 +16,13 @@ there is no flash of the wrong page and the choice is never frozen at build.
 
 `eigenaiFlagged.tsx` is an async server component. The route shell declares
 `export const dynamic = "force-dynamic"` for per-request evaluation; `/eigenai` is
-not statically prerendered. The selector reads the optional current profile with
-`getCurrentUser()` — the page is public, so it never `requireUser()` — and calls:
+not statically prerendered. This is an environment-wide toggle: the selector
+does not query Supabase for a user or profile. It uses the same anonymous flag
+context as the layout, allowing the SDK to share matching
+evaluations within a request:
 
 ```tsx
-const showRedesign = await evaluateFlag(
-  "Eigen-AI-Redesign",
-  contextFromProfile(profile),
-);
+const showRedesign = await evaluateFlag("Eigen-AI-Redesign");
 ```
 
 When enabled, the selector renders `EigenAIRedesign`, which supplies its own
@@ -56,6 +55,38 @@ redeploy. Offline local development uses fixtures, which currently disable the
 redesign.
 See [../flags.md](../flags.md) for setup and verification.
 
+## Content contract and fixtures
+
+`EigenAIRedesign` accepts `content?: EigenAIPageContent`. The types live in
+`features/public-site/types/eigenai.ts`; default content lives in
+`features/public-site/data/eigenai-redesign.ts`. Passing no prop uses the default
+fixture. The contract covers the date
+and location labels, metrics, About paragraphs/image, keynote, speakers,
+workshops, schedule, venue, and closing copy.
+
+The data module exports three review fixtures:
+
+- `eigenAIContent`: the original Figma placeholder presentation.
+- `eigenAIUnannouncedContent`: empty lineup, workshops, schedule, and venue.
+- `eigenAILongContent`: long speaker names, roles, bios, and workshop titles,
+  with optional photos, links, and host names omitted.
+
+For a local preview, pass a fixture explicitly:
+
+```tsx
+<EigenAIRedesign content={eigenAIUnannouncedContent} />
+```
+
+An absent keynote is omitted. Empty sections show announcement placeholders and
+retain their anchor targets. An empty schedule day shows an announcement message.
+Speakers without a photo show decorative initials; a supplied `profileURL`
+makes the name a link. Optional speaker bios wrap below the role. Image sources
+may be static imports or strings; remote image hosts must be allowed by
+`next.config.ts`. Future readers should supply `EigenAISpeaker` objects to the
+same [EigenAISpeakerCard](../components/EigenAISpeakerCard.md) used here.
+
+## Presentation
+
 The redesign is scoped to its `data-testid="eigenai-redesign"` wrapper
 and uses responsive metric, speaker, keynote, workshop, and event-lockup
 components. It reuses the existing EigenAI content, speaker portraits, event
@@ -87,14 +118,14 @@ area so drifting bubbles remain visible beyond the original ring bounds.
 The top-right desktop decoration uses the same full orbit cluster and bubble
 set as the other desktop orbit artwork.
 
-The redesign also includes a two-day schedule for October 3 and 4 from 9:00 AM
-to 5:00 PM. `eigenai-schedule.tsx` owns the typed schedule data and responsive
-layout: each day is a glass panel, shown side by side from the `md` breakpoint
-and stacked on smaller screens. Every time block displays a title and room;
-descriptions are optional so approved details can replace the placeholder copy
+The default fixture includes a two-day schedule for October 3 and 4 with time
+blocks from 9:00 AM through 4:00 PM. `eigenai-schedule.tsx` accepts typed schedule
+data and owns its responsive layout: each day is a glass panel, shown side by
+side from the `md` breakpoint and stacked on smaller screens. Every time block
+displays a title; rooms and descriptions are optional so approved details can replace the placeholder copy
 without changing the component structure.
-The venue section reuses the legacy page's OISE location and Maps Embed API
-place query. `eigenai-venue.tsx` shows the address and an external directions
+The default venue fixture reuses the legacy page's OISE location and Maps Embed
+API place query. `eigenai-venue.tsx` accepts a venue prop and shows an address and directions
 link in all environments. When `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is configured,
 it also renders a lazy-loaded Google Maps preview; without the key, it renders a
 non-blocking fallback instead of taking down the redesign.
@@ -177,10 +208,17 @@ the `/eigenai` promotional link; missing configuration, provider failures, and
 the production-off guard omit it. The link uses the same shared small gradient
 button styling as the Login/Profile action on both desktop and mobile, while
 the client navbar receives only the resolved boolean.
-The `/events` route evaluates that same flag per request and passes the resolved
-boolean to its client page. The featured EigenAI card renders the redesign
-lockup, lambda, rings, and branded background only when it is enabled; otherwise
-it retains the generic featured-card title treatment.
+When the EigenAI promotion is present, the shared navbar uses tighter tablet
+spacing to keep Login/Profile on the same row at the 769px desktop breakpoint.
+It also releases any mobile scroll lock when hidden, including when browser
+Back/Forward returns to EigenAI with the main-site menu still open.
+The wordmark and lockup are imported directly from `@/shared/ui` by both the
+redesign and event card; there are no feature-level re-export wrappers.
+The featured EigenAI card on `/events` always renders the redesign lockup,
+lambda, rings, and indigo background, regardless of the flag. The Events page
+passes the event's branding through directly and does not evaluate the flag;
+event data supplies the branded background. The flag continues to control the
+destination page's redesign and the shared navbar's promotional link.
 On mobile, the event navigation follows the main site's hamburger pattern: its
 white UTMIST event wordmark sits left, the matching hamburger sits right, and a
 left-aligned section link list appears in a dismissible glass menu. A
@@ -192,6 +230,10 @@ the open menu layers above that fade to meet the bar exactly without a gap. Its
 lower corners retain the liquid-glass rounding. Desktop navigation has a
 deeper dark-to-transparent top fade so scrolling content remains secondary
 behind the floating controls.
+Keyboard focus can leave the navigation normally: doing so closes the mobile
+overlay before a page link receives focus. Escape closes the menu and restores
+focus to its toggle. Section scroll margins keep anchor headings below the fixed
+navigation at both mobile and desktop sizes.
 Mobile layouts keep the three headline metrics in one row immediately below a
 full dynamic-viewport hero, center section headings and speaker-card copy, use
 `1.25rem` page gutters and compact section/card spacing, and reduce
@@ -218,6 +260,14 @@ navigation, and footer.
 
 ## Tests
 
+- `client/tests/unit/pages/eigenai-content.test.tsx` — custom content, optional
+  images/links, long copy, unannounced sections, and venue fallback.
+- `client/tests/unit/eigenai-navigation.test.tsx` — keyboard dismissal, focus
+  restoration, and section-link dismissal.
+- `client/tests/unit/event-card.test.tsx` — EigenAI artwork and event-supplied
+  backgrounds, plus generic rendering for other events.
+- `client/tests/unit/pages/events.test.tsx` — EigenAI card branding with the flag
+  on or off, alongside loading and filtering behavior.
 - `client/tests/unit/pages/eigenai-selector.test.tsx` — off → existing, on →
   redesign, default-off → existing (server barrel mocked). Checks that the
   legacy/default-off branches retain standard navigation, footer, and theme

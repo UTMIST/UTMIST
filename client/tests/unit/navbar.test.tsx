@@ -16,6 +16,31 @@ jest.mock('@/shared/ui/theme-toggle', () => ({
 
 import { Navbar } from '@/shared/ui/client';
 
+describe('Navbar mobile scroll lock', () => {
+  afterEach(() => {
+    document.body.style.overflow = '';
+  });
+
+  it.each(['close', 'unmount'])(
+    'restores the previous scroll setting on %s',
+    (action) => {
+      document.body.style.overflow = 'auto';
+      const { unmount } = render(<Navbar showEigenAI />);
+      const toggle = screen.getByRole('button', { name: /☰/ });
+      fireEvent.click(toggle);
+      expect(document.body.style.overflow).toBe('hidden');
+
+      // HideOnEigenAI unmounts this navbar when browser history returns to
+      // /eigenai, even if the user left its mobile menu open.
+      if (action === 'unmount') unmount();
+      else fireEvent.click(toggle);
+
+      expect(document.body.style.overflow).toBe('auto');
+      unmount();
+    },
+  );
+});
+
 describe('Navbar EigenAI promotion', () => {
   it('only renders the redesigned EigenAI link when its flag is on', () => {
     const { rerender } = render(<Navbar />);

@@ -26,11 +26,15 @@ export default function Navbar({
   const { user } = useUser();
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    if (!isOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    // Route changes can unmount this navbar through HideOnEigenAI while the
+    // menu is open, including Back/Forward navigation without a link click.
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
   }, [isOpen]);
 
   useEffect(() => {
@@ -61,7 +65,7 @@ export default function Navbar({
           </div>
         </Link>
 
-        <ul className="nav-links">
+        <ul className={showEigenAI ? "nav-links nav-links-eigenai" : "nav-links"}>
           {showEigenAI ? (
             <li>
               <Button asChild size="sm">

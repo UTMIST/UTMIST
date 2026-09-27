@@ -3,7 +3,6 @@ import Image from "next/image";
 import logo from "../../assets/logos/utmist-logo-small.svg";
 import github from "../../assets/logos/github.svg";
 import linkedin from "../../assets/logos/linkedin.svg";
-// import twitter from "../../assets/logos/x.svg";
 import discord from "../../assets/logos/discord.svg";
 import instagram from "../../assets/logos/instagram.svg";
 import medium from "../../assets/logos/medium.svg";
@@ -46,20 +45,6 @@ export default function Footer() {
                         </a>
                     </div>
                 </li>
-                {/* <li>
-                    <div className="footer-logo-container">
-                        <a href="https://www.facebook.com/UofT.MIST" target="_blank" rel="noopener noreferrer">
-                            <Image src={facebook} alt="UTMIST Logo"/>
-                        </a>
-                    </div>
-                </li> */}
-                {/* <li>
-                    <div className="footer-logo-container">
-                        <a href="https://x.com/utmist1" target="_blank" rel="noopener noreferrer">
-                            <Image src={twitter} alt="UTMIST Logo" />
-                        </a>
-                    </div>
-                </li> */}
                 <li>
                     <div className="footer-logo-container">
                         <a href="https://github.com/UTMIST" target="_blank" rel="noopener noreferrer">

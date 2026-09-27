@@ -14,11 +14,7 @@ import { HeroSection } from "@/shared/ui";
  * Displays upcoming and past events with search and filtering capabilities
  * Features a featured events section with a fixed grid layout
  */
-export default function EventsPage({
-  showEigenAI = false,
-}: {
-  showEigenAI?: boolean;
-}) {
+export default function EventsPage() {
     // State for events data
     const [upcomingEvents, setUpcomingEvents] = useState<UpcomingEvent[]>([]);
     const [pastEvents, setPastEvents] = useState<PastEvent[]>([]);
@@ -194,7 +190,7 @@ export default function EventsPage({
                 titleClassName={event.titleClassName}
                 titleAlignment={event.titleAlignment}
                 className={event.className}
-                branding={showEigenAI ? event.branding : undefined}
+                branding={event.branding}
               />
             ))}
           </div>

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { renderToString } from 'react-dom/server';
 
-import { EigenAIWordmark } from '@/features/public-site/components/eigenai-wordmark';
+import { EigenAIWordmark } from '@/shared/ui';
 
 // Figma inner shadow: 6.2224px offset and blur at a 172.84px font size.
 const shadowEm = 6.2224 / 172.84;

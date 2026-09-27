@@ -103,6 +103,7 @@ guard before the Production dashboard value can control the page.
 ```
 client/src/shared/lib/flags/
   types.ts       # contracts + result types (client-safe; no provider/server imports)
+  catalog.ts     # SDK-free flag metadata; the one provider/discovery registry
   fixtures.ts    # deterministic in-memory flag adapter + beta-preference store
   server.ts      # public evaluator, production guard, authenticated discovery
   provider.ts    # OIDC / SDK-key selection + provider/fixture failure-off wrapper
@@ -256,7 +257,10 @@ Read the existing flag instead of creating a duplicate:
 vercel flags inspect Eigen-AI-Redesign --project client --scope utmist-infrastructure
 ```
 
-The `flags/next` declaration in `definitions.ts` mirrors the dashboard:
+`catalog.ts` holds the metadata that mirrors the dashboard. `definitions.ts`
+builds SDK declarations from that catalog, and `vercel.ts` uses its own-property
+keys as the provider allowlist. Register a new live flag once in the catalog;
+there is no separate `DECLARED_FLAGS` list to update.
 
 | Field | Value |
 | --- | --- |
@@ -340,6 +344,9 @@ and theme control; on selects the redesigned page with its own navigation and
 footer. Offline local development uses fixtures, which currently keep the
 redesign off. Preview deployments use OIDC without a manual SDK key. Production
 remains off.
+The selector does not load a user profile: the live EigenAI flag has no user
+targeting. It uses the same anonymous context as the layout so
+the SDK can reuse evaluations for the same request, flag, and context.
 
 For provider verification, use a Preview deployment or pull Development OIDC
 credentials locally. Clear any Explorer override, and toggle `Eigen-AI-Redesign`

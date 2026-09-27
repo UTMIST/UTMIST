@@ -1,12 +1,7 @@
 import { EigenGlassSurface } from "@/features/public-site/components/eigenai-surfaces";
+import type { EigenAIVenueDetails } from "@/features/public-site/types/eigenai";
 
-const venue = {
-  name: "Ontario Institute for Studies in Education (OISE)",
-  address: "252 Bloor St W, Toronto, ON",
-  query: "OISE, 252 Bloor St W, Toronto, ON",
-};
-
-export function EigenAIVenue() {
+export function EigenAIVenue({ venue }: { venue: EigenAIVenueDetails }) {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(venue.query)}`;
 
@@ -17,7 +12,7 @@ export function EigenAIVenue() {
           <p className="text-xs font-medium tracking-[0.08em] text-[#5edbe7] uppercase sm:text-sm">
             In person
           </p>
-          <h3 className="font-eigen-sans mt-1.5 text-xl/tight font-medium! text-white sm:mt-2 sm:text-3xl">
+          <h3 className="font-eigen-sans mt-1.5 wrap-anywhere text-xl/tight font-medium! text-white sm:mt-2 sm:text-3xl">
             {venue.name}
           </h3>
           <p className="mt-3 text-xs/relaxed text-white/75 sm:mt-4 sm:text-base">
