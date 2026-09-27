@@ -25,7 +25,9 @@ export default function EigenAIPage() {
       </header>
 
       <section className="rounded-2xl border p-6">
-        <h2 className="intro-section-title">OISE</h2>
+        <h2 className="intro-section-title">
+          Ontario Institute for Studies in Education (OISE)
+        </h2>
         <address className="not-italic">
           252 Bloor St W, Toronto, ON M5S 1V6, Canada
         </address>

@@ -31,7 +31,7 @@ const schedule: EigenAIScheduleDay[] = [
       { time: "9:00–9:30", title: "Student registration" },
       {
         time: "9:30–10:15",
-        title: "Opening ceremony, sponsor presentations, and startup intro",
+        title: "Opening Ceremony, sponsor presentations, and startup intro",
         location: "OI G162",
       },
       { time: "10:15–10:30", title: "Buffer" },
@@ -42,7 +42,7 @@ const schedule: EigenAIScheduleDay[] = [
         title: "BiggerBird and Neurotech booths",
         location: "OI 2279",
       },
-      { time: "11:30–11:45", title: "Snacks and buffer" },
+      { time: "11:30–11:45", title: "Snacks and Buffer" },
       {
         time: "11:45–12:30",
         title: "Engineering Project Showcase",
@@ -67,7 +67,7 @@ const schedule: EigenAIScheduleDay[] = [
         location: "OI 2279",
         description: "Name to be announced.",
       },
-      { time: "4:00–5:00", title: "Closing ceremony" },
+      { time: "4:00–5:00", title: "Closing Ceremony" },
     ],
   },
   {
@@ -79,11 +79,10 @@ const schedule: EigenAIScheduleDay[] = [
         title: "Sponsor, speaker, and workshop host registration",
       },
       { time: "9:00–9:30", title: "Student registration" },
-      { time: "9:30–10:00", title: "Opening ceremony" },
+      { time: "9:30–10:00", title: "Opening Ceremony" },
       {
         time: "10:00–11:00",
         title: "Engineering Booth (13–14)",
-        location: "13–14",
       },
       {
         time: "10:00–11:00",
@@ -116,7 +115,7 @@ const schedule: EigenAIScheduleDay[] = [
         description: "Name to be announced.",
       },
       { time: "4:00–4:15", title: "Networking" },
-      { time: "4:15–5:00", title: "Closing ceremony" },
+      { time: "4:15–5:00", title: "Closing Ceremony" },
     ],
   },
 ];
@@ -128,8 +127,8 @@ export const eigenAIContent: EigenAIPageContent = {
   metrics: [],
   about: {
     paragraphs: [
-      "Eigen AI 2026 is a UTMIST event taking place at OISE in Toronto.",
-      "The confirmed programme includes panels, workshops, booths, registration, networking, and ceremonies across both days.",
+      "EigenAI is a UTMIST flagship conference introducing students to the world of AI, ML, software, and emerging technologies. Through panels and workshops covering both fundamental and advanced topics, participants gain hands-on experience and practical insights.",
+      "This year’s theme is Mapping AI through the Multiverse, which invites students to journey through the many dimensions of AI, allowing them to explore the field from multiple perspectives and hear from professionals across diverse industries. Beyond technical talks and workshops, students have the opportunity to build their professional network and connect with industry leaders, academic professionals, and like-minded peers.",
     ],
   },
   keynote: null,
@@ -137,11 +136,11 @@ export const eigenAIContent: EigenAIPageContent = {
   workshops,
   schedule,
   venue: {
-    name: "OISE",
+    name: "Ontario Institute for Studies in Education (OISE)",
     address: "252 Bloor St W, Toronto, ON M5S 1V6, Canada",
     query: "OISE, 252 Bloor St W, Toronto, ON M5S 1V6, Canada",
   },
-  closingLines: ["Eigen AI 2026", "See you at OISE"],
+  closingLines: ["Across the Many", "Frontiers of AI"],
 };
 
 /** Preview an event whose lineup, sessions, and location are not announced. */

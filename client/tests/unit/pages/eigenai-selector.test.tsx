@@ -153,7 +153,7 @@ describe("EigenAI flag selector", () => {
     expect(screen.getByRole("heading", { name: "Venue" })).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
-        name: "OISE",
+        name: "Ontario Institute for Studies in Education (OISE)",
       }),
     ).toHaveClass("text-xl/tight", "sm:text-3xl");
     expect(

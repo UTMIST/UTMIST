@@ -540,9 +540,9 @@ export default function EigenAIRedesign({
             href={content.ticketUrl}
             target="_blank"
             rel="noreferrer"
-            className="mt-6 rounded-full border border-white/30 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10"
+            className="mt-6 rounded-full bg-[linear-gradient(100deg,#5edbe7,#f1dcff)] px-7 py-3 text-base font-bold tracking-[0.04em] text-[#0c0249] uppercase shadow-[0_0_2rem_rgb(94_219_231/0.35)] transition hover:brightness-110"
           >
-            Get tickets
+            Get Tickets
           </Link>
         ) : null}
       </HeroSection>
