@@ -29,7 +29,8 @@ import discordLogo from "@/assets/logos/discord.svg";
 import githubLogo from "@/assets/logos/github.svg";
 import instagramLogo from "@/assets/logos/instagram.svg";
 import linkedinLogo from "@/assets/logos/linkedin.svg";
-// import mediumLogo from "@/assets/logos/medium.svg";
+import mediumLogo from "@/assets/logos/medium.svg";
+import youtubeLogo from "@/assets/logos/youtube.svg";
 // import xLogo from "@/assets/logos/x.svg";
 import ellipseA from "@/assets/eigenai-redesign/ellipse-a.svg";
 import ellipseB from "@/assets/eigenai-redesign/ellipse-b.svg";
@@ -155,6 +156,11 @@ const socialLinks = [
     label: "Instagram",
     icon: instagramLogo,
   },
+  {
+    href: "https://www.youtube.com/@UTMIST",
+    label: "YouTube",
+    icon: youtubeLogo,
+  },
   // {
   //   href: "https://www.facebook.com/UofT.MIST",
   //   label: "Facebook",
@@ -170,11 +176,11 @@ const socialLinks = [
     label: "GitHub",
     icon: githubLogo,
   },
-  // {
-  //   href: "https://utorontomist.medium.com/",
-  //   label: "Medium",
-  //   icon: mediumLogo,
-  // },
+  {
+    href: "https://medium.com/demistify",
+    label: "Medium",
+    icon: mediumLogo,
+  },
 ];
 
 type Speaker = {

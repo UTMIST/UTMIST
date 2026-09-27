@@ -3,11 +3,11 @@ import Image from "next/image";
 import logo from "../../assets/logos/utmist-logo-small.svg";
 import github from "../../assets/logos/github.svg";
 import linkedin from "../../assets/logos/linkedin.svg";
-import twitter from "../../assets/logos/x.svg";
+// import twitter from "../../assets/logos/x.svg";
 import discord from "../../assets/logos/discord.svg";
-import facebook from "../../assets/logos/facebook.svg";
 import instagram from "../../assets/logos/instagram.svg";
 import medium from "../../assets/logos/medium.svg";
+import youtube from "../../assets/logos/youtube.svg";
 
 
 
@@ -39,6 +39,13 @@ export default function Footer() {
                         </a>
                     </div>
                 </li>
+                <li>
+                    <div className="footer-logo-container">
+                        <a href="https://www.youtube.com/@UTMIST" target="_blank" rel="noopener noreferrer" aria-label="UTMIST on YouTube">
+                            <Image src={youtube} alt=""/>
+                        </a>
+                    </div>
+                </li>
                 {/* <li>
                     <div className="footer-logo-container">
                         <a href="https://www.facebook.com/UofT.MIST" target="_blank" rel="noopener noreferrer">
@@ -60,13 +67,13 @@ export default function Footer() {
                         </a>
                     </div>
                 </li>
-                {/* <li>
+                <li>
                     <div className="footer-logo-container">
-                        <a href="https://utorontomist.medium.com/" target="_blank" rel="noopener noreferrer">
-                            <Image src={medium} alt="UTMIST Logo"/>
+                        <a href="https://medium.com/demistify" target="_blank" rel="noopener noreferrer" aria-label="UTMIST on Medium">
+                            <Image src={medium} alt=""/>
                         </a>
                     </div>
-                </li> */}
+                </li>
                 
             </ul>
             

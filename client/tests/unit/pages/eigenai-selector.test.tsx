@@ -330,7 +330,8 @@ describe("EigenAI flag selector", () => {
       // ["Facebook", "https://www.facebook.com/UofT.MIST"],
       // ["X", "https://x.com/utmist1"],
       ["GitHub", "https://github.com/UTMIST"],
-      // ["Medium", "https://utorontomist.medium.com/"],
+      ["YouTube", "https://www.youtube.com/@UTMIST"],
+      ["Medium", "https://medium.com/demistify"],
     ];
     for (const [label, href] of footerLinks) {
       expect(
