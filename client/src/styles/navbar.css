@@ -153,6 +153,11 @@
     gap: 1.25rem;
   }
 
+  /* Fit the additional promotion without wrapping Login onto a second row. */
+  .nav-links.nav-links-eigenai {
+    column-gap: 0.75rem;
+  }
+
   .nav-item {
     font-size: 0.9rem;
   }

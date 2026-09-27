@@ -9,19 +9,28 @@
 // Default-off is guaranteed upstream by `evaluateFlag` (missing config /
 // evaluation failure → `false`), so a failure keeps the existing page.
 
-import { contextFromProfile } from "@/shared/lib";
-import { evaluateFlag, getCurrentUser } from "@/shared/lib/server";
+import { evaluateFlag } from "@/shared/lib/server";
+import { Footer } from "@/shared/ui";
+import { FloatingThemeToggle, Navbar } from "@/shared/ui/client";
 
 import EigenAIPage from "./eigenai";
 import EigenAIRedesign from "./eigenaiRedesign";
 
 export default async function EigenAIFlagged() {
-  // Public page: read the profile if present, but never require sign-in.
-  const profile = await getCurrentUser();
-  const showRedesign = await evaluateFlag(
-    "Eigen-AI-Redesign",
-    contextFromProfile(profile),
-  );
+  // This environment-wide toggle needs no user/profile lookup. Use the same
+  // anonymous context as the layout so SDK evaluations dedupe.
+  const showRedesign = await evaluateFlag("Eigen-AI-Redesign");
 
-  return showRedesign ? <EigenAIRedesign /> : <EigenAIPage />;
+  if (showRedesign) return <EigenAIRedesign />;
+
+  // The frontend layout omits its chrome on /eigenai. Restore the standard
+  // controls for the legacy branch, including default-off provider failures.
+  return (
+    <>
+      <Navbar />
+      <EigenAIPage />
+      <Footer />
+      <FloatingThemeToggle />
+    </>
+  );
 }

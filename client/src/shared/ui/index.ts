@@ -5,6 +5,10 @@
 export * from "./button";
 export * from "./input";
 export * from "./textarea";
+export * from "./eigenai-lockup";
+export * from "./eigenai-wordmark";
+export * from "./eigenai-concentric-rings";
+export * from "./eigenai-lambda-symbol";
 
 export { default as Footer } from "./footer";
 export { default as HeroSection } from "./heroSection";

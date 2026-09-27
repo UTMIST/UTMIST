@@ -27,6 +27,7 @@ export interface FeaturedEvent {
   titleClassName?: string;
   titleAlignment?: 'left' | 'right';
   className?: string;
+  branding?: 'eigenai';
 }
 
 // Mock data
@@ -446,10 +447,11 @@ const featuredEvents: FeaturedEvent[] = [
   {
     title: "EigenAI",
     url: "/eigenai",
-    background: 'linear-gradient(135deg, #e57fe5 0%, #8055e6 50%, #4099ee 100%)',
+    background: 'radial-gradient(circle at 12% 18%, rgba(94, 219, 231, 0.42), transparent 34%), radial-gradient(circle at 86% 78%, rgba(190, 102, 252, 0.38), transparent 40%), linear-gradient(145deg, #06003d 0%, #0c0249 52%, #241071 100%)',
     titleClassName: 'title-large',
     titleAlignment: 'left',
-    className: 'featured-card-large'
+    className: 'featured-card-large',
+    branding: 'eigenai'
   },
   {
     title: "GenAI\nGenesis",

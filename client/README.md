@@ -103,9 +103,16 @@ Vercel, driven by [`.github/workflows/ci.yml`](../.github/workflows/ci.yml).
 Every push to `main` that passes lint, typecheck, test, and build is deployed to
 production automatically.
 
+Eligible pull requests get a Preview after the same checks pass. CI uploads
+the source with `vercel deploy`; Vercel performs the Preview build so its
+Next.js adapter can inject the Toolbar using the project's Preview settings.
+Do not replace this with a GitHub prebuild and `--prebuilt`: that build lacks
+the platform settings needed for automatic Toolbar injection. See the
+[flags guide](../docs/client/flags.md#if-the-toolbar-is-missing).
+
 Environment variables are stored as GitHub Actions secrets for CI and in the
-Vercel project settings for runtime. When adding a new one, it must be added in
-**both** places, plus documented in [`env.example`](env.example).
+Vercel project settings for hosted builds and runtime. When adding a new one,
+it must be added in **both** places, plus documented in [`env.example`](env.example).
 
 Payload deployments require `PAYLOAD_SECRET` and `PAYLOAD_DATABASE_URI`.
 Preview environments must use isolated credentials and data rather than the

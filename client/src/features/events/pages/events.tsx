@@ -190,6 +190,7 @@ export default function EventsPage() {
                 titleClassName={event.titleClassName}
                 titleAlignment={event.titleAlignment}
                 className={event.className}
+                branding={event.branding}
               />
             ))}
           </div>

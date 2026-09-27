@@ -16,6 +16,52 @@ jest.mock('@/shared/ui/theme-toggle', () => ({
 
 import { Navbar } from '@/shared/ui/client';
 
+describe('Navbar mobile scroll lock', () => {
+  afterEach(() => {
+    document.body.style.overflow = '';
+  });
+
+  it.each(['close', 'unmount'])(
+    'restores the previous scroll setting on %s',
+    (action) => {
+      document.body.style.overflow = 'auto';
+      const { unmount } = render(<Navbar showEigenAI />);
+      const toggle = screen.getByRole('button', { name: /☰/ });
+      fireEvent.click(toggle);
+      expect(document.body.style.overflow).toBe('hidden');
+
+      // HideOnEigenAI unmounts this navbar when browser history returns to
+      // /eigenai, even if the user left its mobile menu open.
+      if (action === 'unmount') unmount();
+      else fireEvent.click(toggle);
+
+      expect(document.body.style.overflow).toBe('auto');
+      unmount();
+    },
+  );
+});
+
+describe('Navbar EigenAI promotion', () => {
+  it('only renders the redesigned EigenAI link when its flag is on', () => {
+    const { rerender } = render(<Navbar />);
+    expect(screen.queryByRole('link', { name: 'EigenAI' })).not.toBeInTheDocument();
+
+    rerender(<Navbar showEigenAI />);
+    const eigenAILink = screen.getByRole('link', { name: 'EigenAI' });
+    const loginLink = screen.getByRole('link', { name: 'Login' });
+    expect(eigenAILink).toHaveAttribute('href', '/eigenai');
+    for (const className of [
+      '[background:linear-gradient(-99deg,#6B66E3_0%,#1E19B1_100%)]',
+      'h-8',
+      'px-3',
+      'text-xs',
+    ]) {
+      expect(eigenAILink).toHaveClass(className);
+      expect(loginLink).toHaveClass(className);
+    }
+  });
+});
+
 describe('Navbar — Programs dropdown', () => {
   it('renders a single Programs trigger instead of separate MISTic R&D and MLF items', () => {
     render(<Navbar />);

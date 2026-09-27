@@ -20,7 +20,7 @@ Navbar
 
 ## Usage
 ```tsx
-import Navbar from '@/components/navbar';
+import { Navbar } from '@/shared/ui/client';
 
 function Layout() {
   return (
@@ -35,9 +35,24 @@ function Layout() {
 ## Navigation Links
 - Projects
 - About Us
-- Blog
+- Sponsors
 - Events
 - Careers
+- Programs (MISTic R&D and MLF)
+- EigenAI when `showEigenAI` is true
+
+The server layout resolves `Eigen-AI-Redesign` and passes its boolean as
+`showEigenAI`; the navbar does not evaluate flags in the browser. The optional
+prop defaults to false. Login changes to Profile for a signed-in visitor.
+
+At widths up to 768px, links appear in the mobile menu. The menu locks body
+scrolling while open and restores the previous overflow style on dismissal or
+unmount. Cleanup on unmount matters when browser history returns to EigenAI,
+whose page supplies its own navigation. From 769px through 1024px, enabling the
+EigenAI promotion tightens link spacing so Login/Profile remains on one row.
+
+`client/tests/unit/navbar.test.tsx` covers the promotion, Programs menu, and
+scroll-lock cleanup.
 
 ## Styling
 - Uses Tailwind CSS utility classes for layout
@@ -54,4 +69,4 @@ function Layout() {
 - Custom gradient effects are imported from `gradients.css`
 
 ## File Location
-src/components/navbar.tsx
+`client/src/shared/ui/navbar.tsx`

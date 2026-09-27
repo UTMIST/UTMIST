@@ -14,7 +14,11 @@ const programLinks = [
   { href: "/ml-fundamentals", label: "MLF" },
 ];
 
-export default function Navbar() {
+export default function Navbar({
+  showEigenAI = false,
+}: {
+  showEigenAI?: boolean;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [isProgramsOpen, setIsProgramsOpen] = useState(false);
   const [isMobileProgramsOpen, setIsMobileProgramsOpen] = useState(false);
@@ -22,11 +26,15 @@ export default function Navbar() {
   const { user } = useUser();
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    if (!isOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    // Route changes can unmount this navbar through HideOnEigenAI while the
+    // menu is open, including Back/Forward navigation without a link click.
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
   }, [isOpen]);
 
   useEffect(() => {
@@ -57,7 +65,14 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <ul className="nav-links">
+        <ul className={showEigenAI ? "nav-links nav-links-eigenai" : "nav-links"}>
+          {showEigenAI ? (
+            <li>
+              <Button asChild size="sm">
+                <Link href="/eigenai">EigenAI</Link>
+              </Button>
+            </li>
+          ) : null}
           <li>
             <Link href="/#about-us" className="nav-item">
               About Us
@@ -161,6 +176,15 @@ export default function Navbar() {
               className="mobile-dropdown"
               onClick={(e) => e.stopPropagation()}
             >
+              {showEigenAI ? (
+                <li>
+                  <Button asChild size="sm">
+                    <Link href="/eigenai" onClick={closeMobileMenu}>
+                      EigenAI
+                    </Link>
+                  </Button>
+                </li>
+              ) : null}
               <li>
                 <Link href="/#about-us" onClick={closeMobileMenu}>
                   About Us

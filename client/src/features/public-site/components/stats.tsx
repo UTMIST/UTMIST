@@ -2,12 +2,21 @@
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
-interface StatItemProps {
+export interface StatItemProps {
     number: string;
     description: string;
+    className?: string;
+    numberClassName?: string;
+    descriptionClassName?: string;
 }
 
-function StatItem({ number, description }: StatItemProps) {
+export function StatItem({
+    number,
+    description,
+    className = "stat-item",
+    numberClassName = "stat-number",
+    descriptionClassName = "stat-description",
+}: StatItemProps) {
     const targetNumber = parseInt(number.replace(/\D/g, "")); // e.g., 100 from "100+"
     const [count, setCount] = useState(0);
     const { ref, inView } = useInView({ triggerOnce: true });
@@ -33,12 +42,12 @@ function StatItem({ number, description }: StatItemProps) {
     }, [inView, targetNumber]);
 
     return (
-        <div className="stat-item" ref={ref}>
-            <h2 className="stat-number">
+        <div className={className} ref={ref}>
+            <p className={numberClassName}>
                 {count}
                 {/\+$/.test(number) && "+"}
-            </h2>
-            <p className="stat-description">{description}</p>
+            </p>
+            <p className={descriptionClassName}>{description}</p>
         </div>
     );
 }
