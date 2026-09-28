@@ -45,6 +45,15 @@ when finished to follow the dashboard again.
 
 ### If the Toolbar is missing
 
+For **localhost**, follow [Set up this project](#set-up-this-project) and restart
+`npm run dev` after linking. The frontend layout mounts `@vercel/toolbar/next`
+in development, and `client/next.config.ts` composes its official plugin with
+Payload's config. The plugin reads the gitignored `client/.vercel/project.json`
+created by `vercel link`. An unlinked checkout can still run with fixture flags,
+but has no project-backed Toolbar.
+
+For **Preview**, use the platform's automatic injection:
+
 In Vercel, open **client → Settings → General → Vercel Toolbar** and set
 **Pre-Production Deployments** to **On**. Save, then open a newly built Preview.
 Vercel supplies the Toolbar automatically; this Preview does not need a React
@@ -90,6 +99,22 @@ Follow the commands under [Set up this project](#set-up-this-project) to link
 server. Then use the dashboard's **Development** value for local testing.
 No manual `FLAGS` key is needed. Without Vercel context or provider credentials,
 local development uses fixtures, which currently keep the redesign off.
+
+The local Toolbar appears on frontend pages, including `/eigenai`. Sign in to
+Vercel with access to `utmist-infrastructure/client`, then open **Flags Explorer**
+and override `Eigen-AI-Redesign` to **On**. Apply the override and refresh if
+needed. Clear it to resume the dashboard's Development value. This requires the
+existing Development `FLAGS_SECRET` pulled into `.env.local`; no new secret or
+manual provider key is needed.
+
+Application Toolbar injection is limited to `npm run dev` and is also disabled
+when `VERCEL_ENV=production`. Preview uses Vercel's automatic injection without
+a second Toolbar component, and `npm run build && npm start` does not inject the
+local Toolbar. The production flag guard continues to reject overrides.
+
+The Toolbar prompts for Vercel sign-in in a fresh browser:
+
+![Local EigenAI page with the Vercel Toolbar sign-in menu](../images/vercel-toolbar-local.png)
 
 ### Launch to Production
 
