@@ -37,6 +37,7 @@
     "@tailwindcss/cli": "^4.3.3",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@vercel/flags-core": "1.8.2",
+    "@vercel/toolbar": "0.2.7",
     "aos": "^2.3.4",
     "chart.js": "^4.5.1",
     "class-variance-authority": "^0.7.1",
