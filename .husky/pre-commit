@@ -1,5 +1,5 @@
 if ! cd client; then
-  echo "Pre-commit hook could not enter the client directory."
+  printf '%s\n' "Pre-commit hook could not enter the client directory."
   exit 1
 fi
 
@@ -7,10 +7,10 @@ run_check() {
   name="$1"
   shift
 
-  echo -e "\nRunning pre-commit $name check..."
+  printf '\nRunning pre-commit %s check...\n' "$name"
   if ! "$@"; then
-    echo "Pre-commit blocked: the $name check failed."
-    echo "Fix the issue, then run: $*"
+    printf 'Pre-commit blocked: the %s check failed.\n' "$name"
+    printf 'Fix the issue, then run: %s\n' "$*"
     exit 1
   fi
 }
