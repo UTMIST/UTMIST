@@ -158,6 +158,9 @@ npm run lint && npm run typecheck && npm test
 All three must pass. If lint reports something it can fix itself, `npm run
 lint:fix` will handle it.
 
+`npm install` configures a pre-commit hook that runs these checks automatically
+and blocks the commit if one fails.
+
 Add tests for behaviour you add or fix — see
 [docs/client/Testing.md](docs/client/Testing.md), which includes a template and
 cookbooks for the common cases (mocking Supabase, `next/navigation`, async server
