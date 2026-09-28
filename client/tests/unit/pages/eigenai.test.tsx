@@ -5,11 +5,13 @@ describe('EigenAI existing page', () => {
     const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
     render(<EigenAIPage />);
     expect(screen.getByRole('heading', { name: 'Eigen AI 2026' })).toBeInTheDocument();
-    expect(screen.getByText(/Saturday October 3, 2026 and Sunday October 4, 2026 · EST/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Saturday October 3, 2026 and Sunday October 4, 2026/),
+    ).toBeInTheDocument();
     expect(screen.getByText('252 Bloor St W, Toronto, ON M5S 1V6, Canada')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Get tickets' })).toHaveAttribute(
       'href',
-      'https://www.zeffy.com/en-CA/ticketing/eigenai--2026?utm_source=ig&utm_medium=social&utm_content=link_in_bio',
+      'https://www.zeffy.com/en-CA/ticketing/eigenai--2026',
     );
   });
 

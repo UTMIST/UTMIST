@@ -142,7 +142,13 @@ describe("EigenAI flag selector", () => {
       screen.getByRole("heading", { name: "Workshops" }),
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Schedule" })).toBeInTheDocument();
-    expect(screen.getByTestId("eigenai-schedule")).toHaveClass("grid", "md:grid-cols-2");
+    const schedule = screen.getByTestId("eigenai-schedule");
+    expect(schedule).toHaveClass("grid", "md:grid-cols-2");
+    expect(
+      within(schedule).getByRole("heading", {
+        name: "IEEE Workshop · OI 2212",
+      }),
+    ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /October 3/ })).toHaveClass(
       "text-xl",
       "sm:text-3xl",
@@ -166,7 +172,7 @@ describe("EigenAI flag selector", () => {
       "href",
       expect.stringContaining("google.com/maps/search"),
     );
-    expect(screen.getByText(/Saturday October 3, 2026 and Sunday October 4, 2026/)).toHaveClass(
+    expect(screen.getByText("October 3rd & 4th")).toHaveClass(
       "block",
       "sm:inline",
     );
