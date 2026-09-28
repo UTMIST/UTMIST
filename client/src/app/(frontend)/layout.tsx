@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { VercelToolbar } from "@vercel/toolbar/next";
 import "../globals.css";
 import { Footer } from "@/shared/ui";
 import {
@@ -29,6 +30,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const showEigenAI = await evaluateFlag("Eigen-AI-Redesign");
+  // Vercel injects its own toolbar on Preview deployments.
+  const showLocalToolbar =
+    process.env.NODE_ENV === "development" &&
+    process.env.VERCEL_ENV !== "production";
 
   return (
     <html lang="en" suppressHydrationWarning={true}>
@@ -58,6 +63,7 @@ export default async function RootLayout({
           </HideOnEigenAI>
           <Toaster />
         </ThemeProvider>
+        {showLocalToolbar && <VercelToolbar />}
       </body>
     </html>
   );
