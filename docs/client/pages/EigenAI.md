@@ -122,7 +122,8 @@ The default fixture includes the confirmed two-day schedule for October 3 and 4
 in EST. `eigenai-schedule.tsx` accepts typed schedule data and owns its
 responsive layout: each day is a glass panel, shown side by side from the `md`
 breakpoint and stacked on smaller screens. Every time block displays a title;
-rooms and descriptions are optional. Unresolved workshop names and confirmation
+optional rooms appear inline with that title, while descriptions sit below it.
+Unresolved workshop names and confirmation
 notes are labelled explicitly rather than presented as confirmed details.
 The default venue is OISE at 252 Bloor St W, Toronto, ON M5S 1V6, Canada.
 `eigenai-venue.tsx` accepts a venue prop and shows an address and directions link

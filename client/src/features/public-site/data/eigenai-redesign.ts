@@ -5,7 +5,7 @@ import type {
 } from "@/features/public-site/types/eigenai";
 
 export const eigenAITicketUrl =
-  "https://www.zeffy.com/en-CA/ticketing/eigenai--2026?utm_source=ig&utm_medium=social&utm_content=link_in_bio";
+  "https://www.zeffy.com/en-CA/ticketing/eigenai--2026";
 
 const comingSoonDescription = "Details coming soon.";
 
@@ -121,7 +121,7 @@ const schedule: EigenAIScheduleDay[] = [
 ];
 
 export const eigenAIContent: EigenAIPageContent = {
-  dateLabel: "Saturday October 3, 2026 and Sunday October 4, 2026 · EST",
+  dateLabel: "October 3rd & 4th",
   locationLabel: "OISE",
   ticketUrl: eigenAITicketUrl,
   metrics: [],

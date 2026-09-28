@@ -29,15 +29,15 @@ function ScheduleDay({ date, day, items }: EigenAIScheduleDay) {
               <div className="min-w-0 wrap-anywhere">
                 <h4 className="font-eigen-sans text-base/tight font-medium! text-white sm:text-lg/tight">
                   {item.title}
+                  {item.location ? (
+                    <span className="ml-2 text-[0.6875rem] font-medium tracking-[0.04em] text-[#dfd6ff] uppercase sm:text-xs">
+                      · {item.location}
+                    </span>
+                  ) : null}
                 </h4>
                 {item.description ? (
                   <p className="mt-1.5 text-xs/relaxed text-white/70 sm:mt-2 sm:text-sm/relaxed">
                     {item.description}
-                  </p>
-                ) : null}
-                {item.location ? (
-                  <p className="mt-1.5 text-[0.6875rem] font-medium tracking-[0.04em] text-[#dfd6ff] uppercase sm:mt-2 sm:text-xs">
-                    {item.location}
                   </p>
                 ) : null}
               </div>
