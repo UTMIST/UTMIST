@@ -7,7 +7,6 @@ import logo from "../../assets/logos/utmist-logo-small.svg";
 import { useState, useEffect, useRef } from "react";
 import { useUser } from "@/shared/lib/client";
 import { Button } from "./button";
-import { ThemeToggle } from "./theme-toggle";
 
 const programLinks = [
   { href: "/startups", label: "MISTic R&D" },
@@ -162,12 +161,9 @@ export default function Navbar({
             </div>
           </Link>
 
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <button className="hamburger" onClick={() => setIsOpen(!isOpen)}>
-              ☰
-            </button>
-          </div>
+          <button className="hamburger" onClick={() => setIsOpen(!isOpen)}>
+            ☰
+          </button>
         </div>
 
         {isOpen && (

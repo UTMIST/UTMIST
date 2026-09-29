@@ -48,19 +48,6 @@
     background-color: var(--accent);
 }
 
-.dark .footer-logo-container {
-    background-color: var(--muted);
-    border-color: var(--border);
-}
-
-.dark .footer-logo-container img {
-    filter: invert(1) brightness(1.15);
-}
-
-.dark .footer-logo-container:hover {
-    background-color: var(--accent);
-}
-
 .bug-report-container {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;

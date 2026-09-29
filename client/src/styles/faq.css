@@ -85,7 +85,3 @@ hr.faq-line {
   text-align: center;
   color: var(--foreground);
 }
-
-.dark .faq-tail-section {
-  color: var(--muted-foreground);
-}

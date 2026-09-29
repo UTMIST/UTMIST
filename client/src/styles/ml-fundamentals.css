@@ -266,12 +266,6 @@
     margin: 0 0.5rem;
   }
 
-  .dark .lambda-inner-badge {
-    color: #ffffff;
-    background-image: linear-gradient(#1e1b4b, #1e1b4b),
-      linear-gradient(70deg, #a4a1fa 0%, #4843dd 100%);
-  }
-  
   .lambda-inner-description {
     font-size: 2rem;
     font-weight: 200;

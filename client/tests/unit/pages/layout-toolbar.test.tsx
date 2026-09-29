@@ -14,9 +14,7 @@ jest.mock("@/shared/ui", () => ({ Footer: () => null }));
 jest.mock("@/shared/ui/client", () => ({
   Navbar: () => null,
   ScrollToTop: () => null,
-  FloatingThemeToggle: () => null,
   HideOnEigenAI: ({ children }: { children: ReactNode }) => children,
-  ThemeProvider: ({ children }: { children: ReactNode }) => children,
 }));
 jest.mock("react-hot-toast", () => ({ Toaster: () => null }));
 

@@ -1,7 +1,6 @@
 "use client";
 import "@/styles/ai2.css";
-import { useEffect, useMemo, useState } from "react";
-import { useTheme } from "next-themes";
+import { useState } from "react";
 import { AI2Card } from "@/features/public-site/components/cards/ai2-new-feature-card";
 import PeopleGrid from "@/features/public-site/components/peopleGrid";
 import Image from "next/image";
@@ -39,31 +38,21 @@ interface StepDetail {
   text: string;
 }
 
+const CHRONO_THEME = {
+  primary: "rgba(106, 102, 245, 0.6)",
+  secondary: "#ffffff",
+  titleColor: "#111827",
+  titleColorActive: "#111827",
+  cardBgColor: "#ffffff",
+  cardTitleColor: "#111827",
+  cardSubtitleColor: "#5c5c5c",
+  cardDetailsColor: "#5c5c5c",
+  shadowColor: "rgba(106, 102, 245, 0.6)",
+  glowColor: "rgba(106, 102, 245, 0.6)",
+};
+
 export default function AI2Page() {
   const [activeButton, setActiveButton] = useState<string>("November 2");
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-  const chronoTheme = useMemo(() => {
-    const purple = "rgba(106, 102, 245, 0.6)";
-    const css = mounted ? getComputedStyle(document.documentElement) : null;
-    const v = (name: string, fallback: string) =>
-      css ? css.getPropertyValue(name).trim() || fallback : fallback;
-    return {
-      primary: purple,
-      secondary: v("--background", "#ffffff"),
-      titleColor: v("--foreground", "#111827"),
-      titleColorActive: v("--foreground", "#111827"),
-      cardBgColor: v("--card", "#ffffff"),
-      cardTitleColor: v("--card-foreground", "#111827"),
-      cardSubtitleColor: v("--muted-foreground", "#5c5c5c"),
-      cardDetailsColor: v("--muted-foreground", "#5c5c5c"),
-      shadowColor: purple,
-      glowColor: purple,
-    };
-  }, [mounted, resolvedTheme]);
 
   const handleButtonClick = (buttonId: string): void => {
     setActiveButton(buttonId);
@@ -270,7 +259,7 @@ export default function AI2Page() {
                   cardHeight={45}
                   timelinePointDimension={20}
                   lineWidth={lineWidth}
-                  theme={chronoTheme}
+                  theme={CHRONO_THEME}
                 />
               );
             })()}

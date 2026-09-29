@@ -11,7 +11,7 @@
 
 import { evaluateFlag } from "@/shared/lib/server";
 import { Footer } from "@/shared/ui";
-import { FloatingThemeToggle, Navbar } from "@/shared/ui/client";
+import { Navbar } from "@/shared/ui/client";
 
 import EigenAIPage from "./eigenai";
 import EigenAIRedesign from "./eigenaiRedesign";
@@ -30,7 +30,6 @@ export default async function EigenAIFlagged() {
       <Navbar />
       <EigenAIPage />
       <Footer />
-      <FloatingThemeToggle />
     </>
   );
 }
