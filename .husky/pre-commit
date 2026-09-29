@@ -1,0 +1,20 @@
+if ! cd client; then
+  printf '%s\n' "Pre-commit hook could not enter the client directory."
+  exit 1
+fi
+
+run_check() {
+  name="$1"
+  shift
+
+  printf '\nRunning pre-commit %s check...\n' "$name"
+  if ! "$@"; then
+    printf 'Pre-commit blocked: the %s check failed.\n' "$name"
+    printf 'Fix the issue, then run: %s\n' "$*"
+    exit 1
+  fi
+}
+
+run_check "tests" npm test
+run_check "typecheck" npm run typecheck
+run_check "lint" npm run lint
