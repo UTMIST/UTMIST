@@ -23,4 +23,15 @@ describe('EigenAI existing page', () => {
     expect(screen.getByText('Engineering Project Showcase')).toBeInTheDocument();
     expect(screen.getAllByText('Name to be announced.')).toHaveLength(2);
   });
+
+  it('preserves the flag-off schedule while the redesign content is updated', async () => {
+    const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
+    render(<EigenAIPage />);
+    expect(screen.getByText('Sina Panel')).toBeInTheDocument();
+    expect(screen.getByText('Stripe Panel')).toBeInTheDocument();
+    expect(screen.getByText('1:45–2:45')).toBeInTheDocument();
+    expect(screen.queryByText('1:30–2:30 PM')).not.toBeInTheDocument();
+    expect(screen.queryByText('AI Agents Workshop')).not.toBeInTheDocument();
+    expect(screen.queryByText('Naomi Walch')).not.toBeInTheDocument();
+  });
 });

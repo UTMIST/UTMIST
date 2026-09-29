@@ -146,12 +146,12 @@ describe("EigenAI flag selector", () => {
     expect(schedule).toHaveClass("grid", "md:grid-cols-2");
     expect(
       within(schedule).getByRole("heading", {
-        name: "IEEE Workshop · OI 2212",
+        name: "IEEE Workshop",
       }),
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /October 3/ })).toHaveClass(
-      "text-xl",
-      "sm:text-3xl",
+      "text-lg",
+      "lg:text-xl",
     );
     expect(
       screen.getByRole("heading", { name: /October 4/ }),

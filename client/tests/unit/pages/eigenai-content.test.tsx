@@ -11,6 +11,95 @@ import {
   eigenAIUnannouncedContent,
 } from "@/features/public-site/data/eigenai-redesign";
 
+it("shows one event photo identified as a past conference", () => {
+  render(<EigenAIRedesign />);
+  const about = within(document.getElementById("about")!);
+  expect(about.getAllByRole("img")).toHaveLength(1);
+  expect(
+    about.getByRole("img", {
+      name: "Panelists speaking with students at a past EigenAI conference",
+    }),
+  ).toBeInTheDocument();
+  expect(about.getByText("From a past EigenAI conference.")).toBeInTheDocument();
+});
+
+it("shows only the five guests with supplied headshots", () => {
+  render(<EigenAIRedesign />);
+  const speakers = within(document.getElementById("speakers")!);
+
+  expect(speakers.getAllByRole("heading", { level: 3 })).toHaveLength(5);
+  for (const [name, role] of [
+    ["Adrien Beyk", "Workshop host · Architecting Autonomy"],
+    ["Aryan Yaghoubian", "Panelist · Building Your Path in Tech"],
+    ["Iris Guo", "Panelist · Building Your Path in Tech"],
+    ["Naomi Walch", "Associate · Northside Ventures"],
+    ["Vincent Xue", "Panelist · Northside Ventures"],
+  ]) {
+    const card = speakers.getByRole("heading", { name }).closest("article")!;
+    expect(within(card).getByRole("img", { name: `${name}, ${role}` })).toBeInTheDocument();
+    expect(within(card).getByText(role)).toBeInTheDocument();
+  }
+  expect(speakers.getAllByRole("img")).toHaveLength(5);
+  expect(speakers.queryByText("Keynote Speaker")).not.toBeInTheDocument();
+  expect(speakers.queryByText(/Terry Fu|Michael Guerzhoy|David Liu/)).not.toBeInTheDocument();
+  expect(speakers.queryByText(/@stripe\.com|@gmail\.com|Panorad/)).not.toBeInTheDocument();
+});
+
+it("uses the current schedule's revised times and titles", () => {
+  render(<EigenAIRedesign />);
+  const schedule = within(screen.getByTestId("eigenai-schedule"));
+  for (const [title, time] of [
+    ["Research Workshop", "10:30–11:30 AM"],
+    ["Engineering Project Showcase", "11:30 AM–12:30 PM"],
+    ["Lunch & Networking Session", "12:30–1:00 PM"],
+    ["IEEE Workshop", "2:30–4:30 PM"],
+    ["Architecting Autonomy", "2:30–4:30 PM"],
+    ["Undergrad Research Panel", "10:00–11:00 AM"],
+    ["Stripe Panel", "1:30–2:30 PM"],
+    ["AI Agents Workshop", "2:45–3:45 PM"],
+    ["aUtoronto Presentation", "2:45–3:45 PM"],
+    ["Networking with Panel and Workshop Hosts", "3:45–4:15 PM"],
+  ]) {
+    const session = schedule.getByRole("heading", { name: title }).closest("li")!;
+    expect(within(session).getByText(time)).toBeInTheDocument();
+  }
+  const saturday = schedule.getByRole("heading", { name: /Saturday October 3/ }).closest("article")!;
+  const closing = within(saturday).getByRole("heading", { name: "Closing Ceremony" }).closest("li")!;
+  expect(within(closing).getByText("4:30–5:00 PM")).toBeInTheDocument();
+  expect(schedule.getAllByRole("heading", { name: /2026 · EDT/ })).toHaveLength(2);
+  expect(screen.getByText(/Schedule subject to change/)).toHaveTextContent("Toronto (EDT)");
+  expect(schedule.getByRole("heading", { name: "To Be Announced" })).toBeInTheDocument();
+});
+
+it("lists the six scheduled workshops with hosts and session details", () => {
+  render(<EigenAIRedesign />);
+  const workshops = within(document.getElementById("workshops")!);
+  expect(workshops.getAllByRole("heading", { level: 3 })).toHaveLength(6);
+  const agents = workshops.getByRole("heading", { name: "AI Agents Workshop" }).closest("article")!;
+  expect(within(agents).getByText("UTMIST Academics")).toBeInTheDocument();
+  expect(within(agents).getByText("Sunday, October 4 · 2:45–3:45 PM · OI 2214")).toBeInTheDocument();
+  const adrien = workshops.getByRole("heading", { name: "Architecting Autonomy" }).closest("article")!;
+  expect(within(adrien).getByText("Adrien Beyk")).toBeInTheDocument();
+  expect(within(adrien).getByText("Saturday, October 3 · 2:30–4:30 PM · OI 2212")).toBeInTheDocument();
+  expect(workshops.getByText("Rotman Fintech Association")).toBeInTheDocument();
+  expect(workshops.getByText("Saturday, October 3 · 2:30–4:30 PM · OI G162")).toBeInTheDocument();
+  expect(workshops.queryByText("Details coming soon.")).not.toBeInTheDocument();
+});
+
+it("omits the event photo and caption when no image is supplied", () => {
+  render(
+    <EigenAIRedesign
+      content={{
+        ...eigenAIContent,
+        about: { ...eigenAIContent.about, image: undefined },
+      }}
+    />,
+  );
+
+  expect(screen.queryByText("From a past EigenAI conference.")).not.toBeInTheDocument();
+  expect(screen.queryByRole("figure")).not.toBeInTheDocument();
+});
+
 it("renders unannounced sections without inventing a lineup or venue", () => {
   render(<EigenAIRedesign content={eigenAIUnannouncedContent} />);
 
@@ -27,6 +116,7 @@ it("renders unannounced sections without inventing a lineup or venue", () => {
   expect(
     screen.getByText("The schedule will be announced soon."),
   ).toBeInTheDocument();
+  expect(screen.queryByText(/Schedule subject to change/)).not.toBeInTheDocument();
   expect(
     screen.getByText("The venue will be announced soon."),
   ).toBeInTheDocument();

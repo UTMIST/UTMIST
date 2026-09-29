@@ -1,10 +1,8 @@
 "use client";
 
 import "@/styles/eigenai.css";
-import {
-  eigenAIContent,
-  eigenAITicketUrl,
-} from "@/features/public-site/data/eigenai-redesign";
+import { eigenAITicketUrl } from "@/features/public-site/data/eigenai-redesign";
+import { eigenAILegacySchedule } from "@/features/public-site/data/eigenai-legacy";
 
 export default function EigenAIPage() {
   return (
@@ -46,7 +44,7 @@ export default function EigenAIPage() {
           Schedule
         </h2>
         <div className="grid gap-8 lg:grid-cols-2">
-          {eigenAIContent.schedule.map((day) => (
+          {eigenAILegacySchedule.map((day) => (
             <section key={day.day} className="rounded-2xl border p-5">
               <h3 className="mb-4 text-xl font-semibold">
                 {day.day} · {day.date}

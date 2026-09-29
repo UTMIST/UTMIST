@@ -9,6 +9,8 @@ export interface EigenAISpeaker {
   bio?: string;
   profileURL?: string;
   profileImage?: EigenAIImage;
+  profileImagePosition?: string;
+  profileImageScale?: number;
 }
 
 export interface EigenAIWorkshop {
@@ -51,6 +53,7 @@ export interface EigenAIPageContent {
   speakers: readonly EigenAISpeaker[];
   workshops: readonly EigenAIWorkshop[];
   schedule: readonly EigenAIScheduleDay[];
+  scheduleNotice?: string;
   venue?: EigenAIVenueDetails | null;
   closingLines: readonly string[];
 }

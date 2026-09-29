@@ -360,10 +360,10 @@ function GradientPanel({
 function WorkshopCard({ workshop }: { workshop: EigenAIWorkshop }) {
   return (
     <GradientPanel>
-      <article className="grid min-w-0 p-5 sm:min-h-72 sm:p-10">
+      <article className="min-w-0 p-5 sm:p-6">
         <div className="min-w-0 wrap-anywhere">
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-            <h3 className="font-eigen-sans max-w-3xl text-xl/tight font-medium! text-white sm:text-3xl">
+          <div className="flex flex-wrap items-center gap-3">
+            <h3 className="font-eigen-sans text-lg/tight font-medium! text-white sm:text-xl/tight">
               {workshop.title}
             </h3>
             {workshop.image ? (
@@ -379,11 +379,11 @@ function WorkshopCard({ workshop }: { workshop: EigenAIWorkshop }) {
             ) : null}
           </div>
           {workshop.host ? (
-            <p className="mt-3 text-xs font-medium tracking-[0.01em] text-[#5edbe7] sm:text-base">
+            <p className="mt-2 text-xs font-medium tracking-[0.01em] text-[#5edbe7] sm:text-sm">
               {workshop.host}
             </p>
           ) : null}
-          <p className="mt-3 max-w-3xl text-xs/relaxed font-normal tracking-[-0.01em] text-white sm:mt-6 sm:text-lg">
+          <p className="mt-2 text-xs/relaxed font-normal tracking-[-0.01em] text-white/70 sm:text-sm/relaxed">
             {workshop.description}
           </p>
         </div>
@@ -567,31 +567,31 @@ export default function EigenAIRedesign({
           <EigenAISectionHeading>
             What is <EigenAIWordmark />?
           </EigenAISectionHeading>
-          <div className="mt-6 grid items-start justify-between gap-6 sm:mt-12 sm:gap-10 md:grid-cols-[minmax(16rem,24rem)_minmax(0,36rem)] lg:gap-16">
-            <GradientPanel className="min-h-64 overflow-hidden sm:min-h-136">
-              <div className="relative min-h-64 rounded-[inherit] sm:min-h-136">
-                {content.about.image ? (
+          <div className="mt-6 grid gap-5 text-sm/relaxed tracking-[-0.01em] text-white sm:mt-10 sm:gap-8 sm:text-lg md:grid-cols-2">
+            {content.about.paragraphs.map((paragraph, index) => (
+              <p key={index} className="min-w-0 wrap-anywhere">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+          {content.about.image ? (
+            <figure className="mt-6 sm:mt-8">
+              <GradientPanel className="overflow-hidden">
+                <div className="relative aspect-video sm:aspect-[21/9]">
                   <Image
                     src={content.about.image}
                     alt={content.about.imageAlt ?? ""}
                     fill
-                    sizes="(max-width: 768px) 100vw, 384px"
-                    className="object-cover"
+                    sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1232px) calc(100vw - 80px), 1152px"
+                    className="object-cover object-[50%_65%]"
                   />
-                ) : null}
-              </div>
-            </GradientPanel>
-            <div className="min-w-0 max-w-2xl wrap-anywhere text-sm/relaxed tracking-[-0.01em] text-white sm:text-lg">
-              {content.about.paragraphs.map((paragraph, index) => (
-                <p
-                  key={index}
-                  className={index > 0 ? "mt-5 sm:mt-7" : undefined}
-                >
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </div>
+                </div>
+              </GradientPanel>
+              <figcaption className="mt-3 text-center text-xs text-white/70 sm:text-sm">
+                From a past EigenAI conference.
+              </figcaption>
+            </figure>
+          ) : null}
         </div>
       </AboutSection>
 
@@ -604,7 +604,7 @@ export default function EigenAIRedesign({
             Speakers will be announced soon.
           </p>
         ) : null}
-        <div className="mt-6 grid gap-x-8 gap-y-6 sm:mt-12 sm:gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-2 flex flex-wrap justify-center gap-6 sm:mt-4 [&>div]:w-full sm:[&>div]:w-[calc((100%-1.5rem)/2)] md:[&>div]:w-[calc((100%-3rem)/3)]">
           {content.speakers.map((speaker, index) => (
             <EigenAISpeakerCard
               key={`${speaker.name}-${index}`}
@@ -620,7 +620,7 @@ export default function EigenAIRedesign({
             Workshops will be announced soon.
           </p>
         ) : null}
-        <div className="space-y-4 sm:space-y-12">
+        <div className="grid gap-4 md:grid-cols-2 sm:gap-5">
           {content.workshops.map((workshop, index) => (
             <WorkshopCard
               key={`${workshop.title}-${index}`}
@@ -631,6 +631,11 @@ export default function EigenAIRedesign({
       </WorkshopsSection>
 
       <ScheduleSection>
+        {content.schedule.length > 0 && content.scheduleNotice ? (
+          <p className="mb-4 text-center text-xs text-white/70 sm:mb-6 sm:text-sm">
+            {content.scheduleNotice}
+          </p>
+        ) : null}
         {content.schedule.length > 0 ? (
           <EigenAISchedule schedule={content.schedule} />
         ) : (
