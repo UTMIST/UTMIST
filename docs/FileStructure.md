@@ -66,7 +66,7 @@ export { default } from "@/features/events/pages/events";
 
 The `(payload)` route group is the exception: its generated-compatible route
 files and dedicated root layout mount the CMS without inheriting the public
-navbar, footer, or global theme providers. See
+navbar or footer. See
 [`docs/client/Payload.md`](client/Payload.md).
 
 Route logic, data fetching, and UI for the existing site all live in
@@ -102,7 +102,7 @@ The design system has two entry points, split the same way as `shared/lib`:
   `footer`, `heroSection`. Safe to import from server components; pulls in
   no Supabase or client-only dependencies.
 - `@/shared/ui/client` — client chrome: `navbar`, `select`, `dropdown`,
-  `theme-provider`, `theme-toggle`, `floating-theme-toggle`, `scrollToTop`.
+  `scrollToTop`.
   These are `"use client"` components (navbar reaches Supabase via
   `@/shared/lib/client`).
 

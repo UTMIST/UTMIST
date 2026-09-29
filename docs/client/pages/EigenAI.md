@@ -26,9 +26,9 @@ const showRedesign = await evaluateFlag("Eigen-AI-Redesign");
 ```
 
 When enabled, the selector renders `EigenAIRedesign`, which supplies its own
-navigation and footer. Otherwise it renders `Navbar`, `EigenAIPage`, `Footer`,
-and `FloatingThemeToggle` together, preserving the legacy page's standard site
-controls. The frontend layout omits its copies on `/eigenai` through
+navigation and footer. Otherwise it renders `Navbar`, `EigenAIPage`, and
+`Footer` together, preserving the legacy page's standard site controls. The
+frontend layout omits its copies on `/eigenai` through
 `HideOnEigenAI`, so each variant renders exactly one set of controls.
 
 `evaluateFlag` (from `@/shared/lib/server`) is **default-off**: a missing flag,
@@ -195,8 +195,7 @@ Glass panels use a fully transparent fill, the Figma gradient border, and a
 light backdrop filter approximating the source refraction and dispersion
 without introducing a blue colour tint.
 The route-aware `HideOnEigenAI` wrapper suppresses the frontend layout's shared
-navbar, footer, and floating theme control; the selector restores them only for
-the legacy branch. The redesign supplies
+navbar and footer; the selector restores them only for the legacy branch. The redesign supplies
 its own responsive navigation and footer inside the continuous orbital
 background, using the same liquid-glass surface treatment as the event UI. Its
 links navigate to About, Speakers, Workshops, Schedule, and Venue on the current
@@ -270,7 +269,7 @@ navigation, and footer.
   on or off, alongside loading and filtering behavior.
 - `client/tests/unit/pages/eigenai-selector.test.tsx` — off → existing, on →
   redesign, default-off → existing (server barrel mocked). Checks that the
-  legacy/default-off branches retain standard navigation, footer, and theme
-  controls, and the redesign has only its own chrome.
+  legacy/default-off branches retain standard navigation and footer, and the
+  redesign has only its own chrome.
 - `client/tests/unit/pages/eigenai.test.tsx` — the existing page's own
   render/data/throw assertions (imports the component directly).

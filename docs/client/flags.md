@@ -364,9 +364,9 @@ internal SDK declarations in feature code; that would bypass the public guard.
 `/eigenai` re-exports the server selector in
 `features/public-site/pages/eigenaiFlagged.tsx`. The route shell itself declares
 `dynamic = "force-dynamic"`, so server selection is not frozen at build time.
-Off/missing/error keeps the existing page with its standard navigation, footer,
-and theme control; on selects the redesigned page with its own navigation and
-footer. Offline local development uses fixtures, which currently keep the
+Off/missing/error keeps the existing page with its standard navigation and
+footer; on selects the redesigned page with its own navigation and footer.
+Offline local development uses fixtures, which currently keep the
 redesign off. Preview deployments use OIDC without a manual SDK key. Production
 remains off.
 The selector does not load a user profile: the live EigenAI flag has no user

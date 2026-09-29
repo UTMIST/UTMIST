@@ -109,7 +109,7 @@ Rules of thumb:
   primitives (Button, Input, Textarea, Footer, HeroSection) and pulls in no
   Supabase or other browser-only code — pages that only use primitives need no
   Supabase-related mocks. `@/shared/ui/client` is the chrome barrel (Navbar,
-  select/dropdown, theme components); importing anything from it loads
+  select/dropdown); importing anything from it loads
   navbar.tsx → `@/shared/lib/client` → supabase-js → the ESM-only `isows`
   package, which Jest cannot parse. Tests for pages that import from
   `@/shared/ui/client` must stub that boundary first:

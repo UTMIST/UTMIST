@@ -66,9 +66,9 @@ being changed.
 **Done looks like:** the site behaves exactly as before, and the code is easier
 to work in.
 
-**Real examples:** "Extract a shared useMounted() hook for the next-themes
-hydration guard", "Evaluate set-state-in-effect in ApplicantsPageClient data
-fetch", "Apply form defines a component during render".
+**Real examples:** "Extract duplicated mounted-state handling into a shared
+hook", "Evaluate set-state-in-effect in ApplicantsPageClient data fetch",
+"Apply form defines a component during render".
 
 ### coordination
 

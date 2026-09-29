@@ -14,7 +14,6 @@ The Navbar component is a responsive navigation bar for the UTMIST website, feat
 Navbar
 ├── Logo Section (left)
 ├── Navigation Links (center)
-├── Light/Dark Mode (right)
 └── Login Button (far right)
 ```
 
