@@ -39,8 +39,8 @@ and the embedded-fallback mitigation.
 
 ## Rollout / opt-in
 
-The flag is **always off in production** until launch (#444): the public
-evaluator checks `VERCEL_ENV=production` before provider evaluation or Explorer
+Production follows the **Production dashboard setting**. The public evaluator
+checks `VERCEL_ENV=production` and reads the provider directly, ignoring Explorer
 overrides. Provider authentication uses Vercel's automatic OIDC identity (or an
 optional explicit `FLAGS` SDK key); the separate `FLAGS_SECRET` enables
 authenticated Flags Explorer discovery and
@@ -62,11 +62,11 @@ See [../flags.md](../flags.md) for setup and verification.
 `features/public-site/data/eigenai-redesign.ts`. Passing no prop uses the default
 fixture. The contract covers the date
 and location labels, metrics, About paragraphs/image, keynote, speakers,
-workshops, schedule, venue, and closing copy.
+workshops, schedule and its optional notice, venue, and closing copy.
 
 The data module exports three review fixtures:
 
-- `eigenAIContent`: the original Figma placeholder presentation.
+- `eigenAIContent`: the 2026 event content and existing EigenAI event photography.
 - `eigenAIUnannouncedContent`: empty lineup, workshops, schedule, and venue.
 - `eigenAILongContent`: long speaker names, roles, bios, and workshop titles,
   with optional photos, links, and host names omitted.
@@ -85,11 +85,73 @@ may be static imports or strings; remote image hosts must be allowed by
 `next.config.ts`. Future readers should supply `EigenAISpeaker` objects to the
 same [EigenAISpeakerCard](../components/EigenAISpeakerCard.md) used here.
 
+### 2026 content sources
+
+The redesign content was checked on September 29, 2026 against the
+[EigenAI master sheet](https://docs.google.com/spreadsheets/d/1f6ECrqE1sOGjYU2lR0KKJAMg2JgMZZZGbnEB1S0alj4/edit):
+`01 Overview`, `03 Contributions`, and `06 Partners Guests`. The `05 Event
+Schedule` tab points to the
+[current workshop/panel schedule](https://docs.google.com/document/d/1xP4nbr0664GQG40kwARpMumu47qZHiUWzSHRzO-LJOI/edit),
+which takes precedence over that tab's partially filled draft rows for times
+and rooms. These are manually maintained public content snapshots; the page
+does not fetch private planning documents at runtime.
+The live document's first tab was rechecked on September 29, 2026. Session names
+follow that tab, including Undergrad Research Panel, Stripe Panel, and AI Agents
+Workshop. Adrien's workshop remains Saturday 2:30–4:30 PM in OI 2212; the Sunday
+2:45–3:45 PM AI Agents Workshop in OI 2214 belongs to UTMIST Academics. The
+tentative request for extra engineering booths is not treated as a confirmed
+session. The existing times and rooms were reconfirmed without changes.
+
+The public speaker lineup contains only the five guests with supplied headshots.
+Guests awaiting photos, the research-panel backup, and unconfirmed outreach
+contacts are omitted, along with private contact details, sponsor amounts,
+internal staffing, and logistics notes. No keynote is designated.
+Affiliations describe the listed sessions rather than inventing job titles.
+Adrien Beyk is listed in his own name, following the current schedule's note.
+The organizer subsequently supplied headshots for Adrien Beyk, Aryan Yaghoubian,
+Iris Guo, Naomi Walch, and Vincent Xue. Their accompanying names and affiliations
+take precedence over the sheet: Naomi's name is spelled Walch and her role is
+Associate at Northside Ventures; Vincent is also at Northside Ventures. Aryan
+and Iris are Building Your Path in Tech panelists. The organizer confirmed
+Architecting Autonomy as Adrien's Saturday workshop title; the planning document
+only names its host. This supplied title is used in his speaker card, workshop
+card, and schedule, while Sunday's separate session remains AI Agents Workshop.
+Profile links remain unset until supplied.
+
+The six workshop cards use session titles, hosts, dates, times, and rooms from
+these sources. They use compact text and padding with no fixed minimum height,
+stacking on phones and forming two columns from `md`. Saturday's 1:00–1:30 PM
+block remains explicitly unannounced.
+The schedule notice says it is subject to change. The theme follows the current
+schedule: “Across the Many Frontiers of AI.” No attendance metric is inferred
+from the sheet's capacity goal.
+
+The flag-off page restores the original pre-#456 `pages/eigenai.tsx`: September
+20–21, 2025 copy, the three-image gallery, the Instagram schedule, and the original
+speaker groups and workshops from `data/eigenai.ts`. It does not import the 2026
+redesign data. If the optional Maps key is missing, a directions link replaces
+the embed so switching Off still renders a working page. The Instagram script is
+removed when the page unmounts. Provider errors select this same rollback view.
+
 ## Presentation
+
+The About section uses only `eigenai-conference.webp`, the second photo from the
+previous three-image layout. Introductory paragraphs form two columns from `md`,
+followed by one image spanning the content width. Its frame uses a 16:9 ratio on
+phones and 21:9 from `sm`, with the crop positioned toward the panelists. The
+caption identifies it as a past conference. `about.image` and `about.imageAlt`
+supply the photo and alternative text; omitting the image also omits its frame
+and caption.
+Speaker headshots use `profileImage` and live under
+`src/assets/photos/eigenai-2026/headshots/`; event photos are not used as speaker
+portraits. Optional `profileImagePosition` and `profileImageScale` control the
+framing inside the circular portrait without modifying the supplied file.
+Adrien's portrait uses these to bring his face into view, and image `sizes`
+accounts for the scale so Next.js requests enough resolution.
 
 The redesign is scoped to its `data-testid="eigenai-redesign"` wrapper
 and uses responsive metric, speaker, keynote, workshop, and event-lockup
-components. It reuses the existing EigenAI content, speaker portraits, event
+components. It reuses the existing EigenAI content, event
 photography, UTMIST branding, social assets, and shared button primitive.
 Its named page sections compose the shared `EigenAISection` primitive, which
 owns the common responsive gutters, content width, heading treatment, and
@@ -118,16 +180,41 @@ area so drifting bubbles remain visible beyond the original ring bounds.
 The top-right desktop decoration uses the same full orbit cluster and bubble
 set as the other desktop orbit artwork.
 
-The default fixture includes a two-day schedule for October 3 and 4 with time
-blocks from 9:00 AM through 4:00 PM. `eigenai-schedule.tsx` accepts typed schedule
-data and owns its responsive layout: each day is a glass panel, shown side by
-side from the `md` breakpoint and stacked on smaller screens. Every time block
-displays a title; rooms and descriptions are optional so approved details can replace the placeholder copy
-without changing the component structure.
-The default venue fixture reuses the legacy page's OISE location and Maps Embed
-API place query. `eigenai-venue.tsx` accepts a venue prop and shows an address and directions
-link in all environments. When `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is configured,
-it also renders a lazy-loaded Google Maps preview; without the key, it renders a
+The default content includes the current two-day schedule for October 3 and 4
+in Toronto local time (EDT), with explicit AM/PM labels.
+`eigenai-schedule.tsx` accepts typed schedule data and owns its
+responsive layout: Saturday and Sunday are equal-height columns inside a single
+blue glass timetable from the medium breakpoint, with the days stacked on phones.
+Day headers separate the weekday from the date, with no colored top borders.
+Cyan accents appear on both days' labels and times. The transparent timetable uses
+the original glass panel's light blur, saturation, and contrast to preserve the
+brighter blue backdrop.
+Each session has its own subtle filled card and border, making extended sessions
+read as continuous blocks. Gaps separate cards vertically and horizontally.
+Both day columns share CSS subgrid rows based on the combined start and end times.
+Matching clock times line up across the columns, and longer sessions span the
+intervening rows so each day finishes at the common 5:00 PM boundary. Track
+heights accommodate the text; this is an aligned timetable, not a proportional
+duration chart. `lib/eigenai-schedule.ts` groups sessions, resolves AM/PM ranges,
+and supplies these shared boundaries. Unscheduled labels, empty days, and
+fixtures with other day counts retain the ordinary list layout.
+Sessions with the same time range within a day share one row and one time label,
+and their individual cards appear in equal-width columns. Source order is preserved.
+On narrow screens, simultaneous session columns scroll horizontally within their
+row. These scroll areas are keyboard-focusable and labelled with the day and time.
+The shared time label sits inside the first card; a nested subgrid aligns all
+simultaneous session titles beneath it. Sessions with a room specified display it
+in a small muted label below the title. Sessions without a room omit the label;
+descriptions remain hidden to keep each row concise.
+Compact typography and row spacing keep long titles manageable: session titles
+are 14px on phones, 13px on larger desktops, and 12px in the narrower two-column
+view. Time labels use compact tabular numerals in the matching day's accent color.
+The unassigned Saturday block is labelled “To Be Announced”; the optional
+`scheduleNotice` appears only when schedule days are present.
+The default venue is OISE at 252 Bloor St W, Toronto, ON M5S 1V6, Canada.
+`eigenai-venue.tsx` accepts a venue prop and shows an address and directions link
+in all environments. When `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is configured, it
+also renders a lazy-loaded Google Maps preview; without the key, it renders a
 non-blocking fallback instead of taking down the redesign.
 The reusable `EigenAILockup` component includes the UTMIST logo and accepts one
 responsive `fontSize` value. The logo and conference subtitle are sized and
@@ -203,8 +290,8 @@ page. The UTMIST wordmark remains the route back to the main site, while the
 navigation does not include a separate home or authentication action.
 Outside `/eigenai`, the frontend layout evaluates `Eigen-AI-Redesign` on the
 server and passes the result to the shared navbar. Only an enabled flag renders
-the `/eigenai` promotional link; missing configuration, provider failures, and
-the production-off guard omit it. The link uses the same shared small gradient
+the `/eigenai` promotional link; a disabled flag, missing configuration, and
+provider failures omit it. The link uses the same shared small gradient
 button styling as the Login/Profile action on both desktop and mobile, while
 the client navbar receives only the resolved boolean.
 When the EigenAI promotion is present, the shared navbar uses tighter tablet
@@ -241,35 +328,42 @@ canvas while retaining a prominent lower event lockup. The hero's concentric rin
 groups remain visible on small screens at alternating viewport edges and repeat
 down the full page with stronger contrast; the original Figma coordinate and
 scale resume at `md`.
-Until the final conference lineup is approved, the redesign intentionally uses
-the placeholder speaker names, roles, and workshop copy shown in Figma. Those
-cards reuse existing repository portraits; the canonical EigenAI speaker data
-remains unchanged.
+The 2026 content includes five named guests with headshots and six workshops.
+There are no placeholder speaker cards in the public lineup. Workshop descriptions
+give the available session details without inventing abstracts.
+Speaker cards use a centered wrapping layout: one per row on phones, two from
+`sm`, and three from `md`. Incomplete rows stay centered, giving the five-person
+lineup a balanced three-over-two arrangement on wider screens. The cards have
+compact, content-driven heights and centered names and roles.
 The UTMIST lockups use the exported Figma `White Side 2` artwork rather than a
 typed approximation, preserving the custom letterforms in the hero, EigenAI
 navigation, and footer.
 
 ## Gotchas
 
-- The existing page reads `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` and throws on render
-  if it is unset. Because `/eigenai` is now `force-dynamic`, this throws at
-  request time, not during `next build`.
-- The redesign treats Maps as an enhancement and still renders without the key;
-  the legacy branch continues to require it.
+- Both page variants render their event details without requiring a Maps
+  API key. The redesign treats Maps as an enhancement and shows a directions
+  fallback when the key is absent.
 
 ## Tests
 
 - `client/tests/unit/pages/eigenai-content.test.tsx` — custom content, optional
-  images/links, long copy, unannounced sections, and venue fallback.
+  images/links, long copy, unannounced sections, venue fallback, named guests,
+  the past-event photo, workshop details, and revised schedule times and titles.
 - `client/tests/unit/eigenai-navigation.test.tsx` — keyboard dismissal, focus
   restoration, and section-link dismissal.
+- `client/tests/unit/eigenai-schedule.test.tsx` — shared clock boundaries, noon
+  handling, unscheduled labels, and simultaneous sessions sharing a
+  time row, different days remain separate, and session order is preserved.
 - `client/tests/unit/event-card.test.tsx` — EigenAI artwork and event-supplied
   backgrounds, plus generic rendering for other events.
 - `client/tests/unit/pages/events.test.tsx` — EigenAI card branding with the flag
   on or off, alongside loading and filtering behavior.
 - `client/tests/unit/pages/eigenai-selector.test.tsx` — off → existing, on →
-  redesign, default-off → existing (server barrel mocked). Checks that the
+  redesign, default-off → original 2025 page (only the server barrel mocked).
+  Both pages render with real content. Checks that the
   legacy/default-off branches retain standard navigation and footer, and the
   redesign has only its own chrome.
 - `client/tests/unit/pages/eigenai.test.tsx` — the existing page's own
-  render/data/throw assertions (imports the component directly).
+  original 2025 event details, speaker sections, workshops, and missing-Maps-key
+  fallback (imports the component directly).

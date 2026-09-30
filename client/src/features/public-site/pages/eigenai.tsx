@@ -3,7 +3,7 @@
 import "@/styles/eigenai.css";
 import Image from "next/image";
 import { useEffect } from "react";
-import { 
+import {
     founderPanelSpeakers,
     researchPanelSpeakers,
     keynoteSpeakers,
@@ -20,15 +20,12 @@ import Workshops from "@/features/public-site/components/workshops";
 export default function EigenAIPage() {
     const GoogleMapsAPIKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-    if (!GoogleMapsAPIKey) {
-        throw new Error("Google Maps API key is not defined");
-    }
-
     useEffect(() => {
         const script = document.createElement("script");
         script.async = true;
         script.src = "//www.instagram.com/embed.js";
         document.body.appendChild(script);
+        return () => script.remove();
     }, []);
 
     return (
@@ -60,7 +57,7 @@ export default function EigenAIPage() {
                     </p>
                 </div>
 
-                <iframe
+                {GoogleMapsAPIKey ? <iframe
                     className="rounded-xl md:rounded-2xl shadow-lg w-full lg:w-1/2 max-w-lg aspect-[4/3]"
                     title="Google Maps Location"
                     width="600"
@@ -69,7 +66,16 @@ export default function EigenAIPage() {
                     allowFullScreen
                     referrerPolicy="no-referrer-when-downgrade"
                     src={`https://www.google.com/maps/embed/v1/place?key=${GoogleMapsAPIKey}&q=OISE,252+Bloor+St+W,Toronto+ON`}>
-                </iframe>
+                </iframe> : (
+                    <a
+                        className="rounded-xl border p-6 text-center underline lg:w-1/2"
+                        href="https://www.google.com/maps/search/?api=1&query=OISE%2C252%20Bloor%20St%20W%2CToronto%2C%20ON%20M5S%201V6%2C%20Canada"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        Get directions to OISE
+                    </a>
+                )}
             </section>
 
             {/* Image Gallery */}
@@ -136,7 +142,7 @@ export default function EigenAIPage() {
                     </blockquote>
                 </div>
             </section>
-            
+
             {/* Keynote Speakers Section */}
             <section className="people-section px-4 md:px-8">
                 <h2 className="people-section-title text-2xl md:text-3xl lg:text-4xl">

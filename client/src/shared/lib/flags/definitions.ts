@@ -1,5 +1,5 @@
 // Internal server-only SDK declarations. Feature code uses evaluateFlag through
-// the server barrel so the production guard always runs before overrides.
+// the server barrel so production skips Explorer overrides.
 import {
   createFlagsDiscoveryEndpoint,
   flag,

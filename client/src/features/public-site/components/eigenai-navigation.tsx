@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 import utmistWordmark from "@/assets/logos/utmist-wordmark-white.png";
 import { EigenGlassSurface } from "@/features/public-site/components/eigenai-surfaces";
+import { eigenAITicketUrl } from "@/features/public-site/data/eigenai-redesign";
 
 const navigationLinks = [
   { href: "#about", label: "About" },
@@ -90,17 +91,27 @@ export function EigenNavigation() {
               />
             </Link>
 
-            <button
-              ref={toggleRef}
-              type="button"
-              className="relative z-10 flex size-9 items-center justify-center border-0 bg-transparent text-2xl/none text-white"
-              aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-              aria-expanded={isOpen}
-              aria-controls="eigenai-mobile-menu"
-              onClick={() => setIsOpen((open) => !open)}
-            >
-              <span aria-hidden="true">☰</span>
-            </button>
+            <div className="relative z-10 flex items-center gap-2">
+              <Link
+                href={eigenAITicketUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full bg-[linear-gradient(100deg,#5edbe7,#f1dcff)] px-3 py-2 text-[0.6875rem] font-bold tracking-[0.04em] text-[#0c0249] uppercase"
+              >
+                Get Tickets
+              </Link>
+              <button
+                ref={toggleRef}
+                type="button"
+                className="flex size-9 items-center justify-center border-0 bg-transparent text-2xl/none text-white"
+                aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+                aria-expanded={isOpen}
+                aria-controls="eigenai-mobile-menu"
+                onClick={() => setIsOpen((open) => !open)}
+              >
+                <span aria-hidden="true">☰</span>
+              </button>
+            </div>
           </div>
 
           {isOpen ? (
@@ -168,7 +179,14 @@ export function EigenNavigation() {
             </ul>
           </EigenGlassSurface>
 
-          <div aria-hidden="true" />
+          <Link
+            href={eigenAITicketUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="relative z-10 justify-self-end rounded-full bg-[linear-gradient(100deg,#5edbe7,#f1dcff)] px-5 py-2.5 text-sm font-bold tracking-[0.04em] text-[#0c0249] uppercase transition hover:brightness-110"
+          >
+            Get Tickets
+          </Link>
         </div>
 
         {isOpen ? (

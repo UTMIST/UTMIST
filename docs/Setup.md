@@ -133,6 +133,10 @@ Before pushing, run the three checks CI gates on:
 npm run lint && npm run typecheck && npm test
 ```
 
+Installing the client dependencies also configures a pre-commit hook that runs
+the test suite, typecheck, and lint check. A commit is blocked if any check
+fails.
+
 See [docs/client/Testing.md](client/Testing.md) for how the test suite is
 organized and how to add tests.
 

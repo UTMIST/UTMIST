@@ -110,7 +110,7 @@ manual provider key is needed.
 Application Toolbar injection is limited to `npm run dev` and is also disabled
 when `VERCEL_ENV=production`. Preview uses Vercel's automatic injection without
 a second Toolbar component, and `npm run build && npm start` does not inject the
-local Toolbar. The production flag guard continues to reject overrides.
+local Toolbar. Production evaluation ignores browser overrides.
 
 The Toolbar prompts for Vercel sign-in in a fresh browser:
 
@@ -118,10 +118,10 @@ The Toolbar prompts for Vercel sign-in in a fresh browser:
 
 ### Launch to Production
 
-Production is currently forced **Off** by a code guard in `server.ts`.
-Changing Production to On in the dashboard or setting a browser override cannot
-enable the redesign. Launch requires a reviewed code change to remove that
-guard before the Production dashboard value can control the page.
+Production follows the **Production** dashboard value. `server.ts` evaluates the
+provider directly in production, ignoring browser overrides even when they are
+validly signed. Turning the flag Off restores the original pre-#456 EigenAI page;
+turning it On selects the 2026 redesign. Provider failures still default Off.
 
 ## Where it lives
 
@@ -130,7 +130,7 @@ client/src/shared/lib/flags/
   types.ts       # contracts + result types (client-safe; no provider/server imports)
   catalog.ts     # SDK-free flag metadata; the one provider/discovery registry
   fixtures.ts    # deterministic in-memory flag adapter + beta-preference store
-  server.ts      # public evaluator, production guard, authenticated discovery
+  server.ts      # public evaluator, production override exclusion, authenticated discovery
   provider.ts    # OIDC / SDK-key selection + provider/fixture failure-off wrapper
   vercel.ts      # core client adapter retaining provider freshness metrics
   definitions.ts # internal flags/next declarations + discovery metadata
@@ -138,10 +138,10 @@ client/src/shared/lib/flags/
 
 Exported through the platform barrels (never deep-import these files):
 
-| Import from | What |
-| --- | --- |
-| `@/shared/lib` | client-safe **types** (`Cohort`, `EvaluationContext`, `FlagEvaluator`, `FeatureFlags`, `FlagAdapter`, `BetaPreferenceStore`, `SetPreferenceResult`, `contextFromProfile`) |
-| `@/shared/lib/server` | the **evaluator** (`evaluateFlag`, `getBetaPreference`, `setBetaPreference`) and `getFlagsDiscovery` |
+| Import from           | What                                                                                                                                                                      |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@/shared/lib`        | client-safe **types** (`Cohort`, `EvaluationContext`, `FlagEvaluator`, `FeatureFlags`, `FlagAdapter`, `BetaPreferenceStore`, `SetPreferenceResult`, `contextFromProfile`) |
+| `@/shared/lib/server` | the **evaluator** (`evaluateFlag`, `getBetaPreference`, `setBetaPreference`) and `getFlagsDiscovery`                                                                      |
 
 `flags/server.ts` is server-only. Browser components import only the types/results
 from `@/shared/lib` and receive evaluated booleans as props — they never import the
@@ -164,8 +164,8 @@ multivalue flags. Evaluation defaults **off** (per #286):
 
 Authenticated Explorer overrides are an explicit opt-in for the current browser
 in development/preview, including when no provider key is configured. Provider
-failures themselves never enable a flag. Production returns `false` before
-calling the SDK, even with a valid override. Non-boolean overrides stay off.
+failures themselves never enable a flag. Production uses the provider value and
+ignores Explorer overrides. Non-boolean overrides stay off.
 
 ### Cohorts and unknown users
 
@@ -196,7 +196,7 @@ type SetPreferenceResult =
   | { ok: false; reason: "denied" | "unauthenticated" };
 ```
 
-`denied` is how a user editing *someone else's* preference is rejected;
+`denied` is how a user editing _someone else's_ preference is rejected;
 `unauthenticated` is a write with no actor. Client-facing UI states (loading,
 request failure, signed-out) belong to the opt-in interface
 ([#290](https://github.com/UTMIST/UTMIST/issues/290)), derived from calling these
@@ -216,7 +216,10 @@ import { contextFromProfile } from "@/shared/lib";
 
 export default async function Page() {
   const profile = await requireUser();
-  const showRedesign = await evaluateFlag("someFeature", contextFromProfile(profile));
+  const showRedesign = await evaluateFlag(
+    "someFeature",
+    contextFromProfile(profile),
+  );
   return <FeatureClient showRedesign={showRedesign} />; // client gets a boolean
 }
 ```
@@ -233,12 +236,12 @@ discovery and browser overrides; it does not authenticate provider reads.
 This follows the current [Vercel Flags quickstart](https://vercel.com/docs/flags/vercel-flags/quickstart)
 and the official [Flags SDK skill](https://github.com/vercel/flags/tree/main/skills/flags-sdk).
 
-| Variable | Purpose |
-| --- | --- |
-| Vercel OIDC | Default provider authentication. Supplied at request time on Vercel; `vercel env pull` supplies `VERCEL_OIDC_TOKEN` locally. Let Vercel manage this credential. |
-| `FLAGS` | Optional manual SDK key (`vf_server_...`) or `flags:` connection string, for example outside Vercel or when reading another project's flags. An explicit key takes precedence over OIDC and selects its own flag environment. |
-| `FLAGS_SECRET` | Independent 32-byte base64url encryption key for Explorer discovery and overrides. Never pass this to `createClient`. |
-| `VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING=1` | Prevent build-time definitions from being bundled as a fallback. |
+| Variable                                      | Purpose                                                                                                                                                                                                                       |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Vercel OIDC                                   | Default provider authentication. Supplied at request time on Vercel; `vercel env pull` supplies `VERCEL_OIDC_TOKEN` locally. Let Vercel manage this credential.                                                               |
+| `FLAGS`                                       | Optional manual SDK key (`vf_server_...`) or `flags:` connection string, for example outside Vercel or when reading another project's flags. An explicit key takes precedence over OIDC and selects its own flag environment. |
+| `FLAGS_SECRET`                                | Independent 32-byte base64url encryption key for Explorer discovery and overrides. Never pass this to `createClient`.                                                                                                         |
+| `VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING=1` | Prevent build-time definitions from being bundled as a fallback.                                                                                                                                                              |
 
 Keep credentials server-only. `client/env.example` documents local configuration.
 The retired `FLAGS_KEY_DEV` / `FLAGS_KEY_PREVIEW` variables are not read.
@@ -287,24 +290,26 @@ builds SDK declarations from that catalog, and `vercel.ts` uses its own-property
 keys as the provider allowlist. Register a new live flag once in the catalog;
 there is no separate `DECLARED_FLAGS` list to update.
 
-| Field | Value |
-| --- | --- |
-| Key | `Eigen-AI-Redesign` |
-| Kind | Boolean |
+| Field       | Value                               |
+| ----------- | ----------------------------------- |
+| Key         | `Eigen-AI-Redesign`                 |
+| Kind        | Boolean                             |
 | Description | Toggle the new 2026 EigenAI Website |
-| Variants | `false` (Off), `true` (On) |
-| Default | `false` |
+| Variants    | `false` (Off), `true` (On)          |
+| Default     | `false`                             |
 
 See [Using the EigenAI flag](#using-the-eigenai-flag) for dashboard toggles,
-browser overrides, local testing, and the Production launch restriction.
+browser overrides, local testing, and Production rollout.
 
 ### Evaluation path
 
 `evaluateFlag` in `server.ts` first checks `VERCEL_ENV === "production"` and
-returns `false`. This guard must remain outside the SDK: Explorer overrides
-bypass a flag's `decide` function.
+calls `evaluateProviderFlag` directly. This branch must remain outside the
+Explorer SDK path: browser overrides bypass a flag's `decide` function. The
+production dashboard controls the result, while cookies and `FLAGS_SECRET`
+cannot override it.
 
-When `FLAGS_SECRET` is present, declared flags run through `flags/next`.
+Outside production, when `FLAGS_SECRET` is present, declared flags run through `flags/next`.
 `definitions.ts` declares `Eigen-AI-Redesign` with `defaultValue: false`; its
 `decide` calls `evaluateProviderFlag` with the evaluation context. Before invoking
 the declaration, `server.ts` validates the request's `vercel-flag-overrides`
@@ -356,8 +361,9 @@ not contact the flag provider, expose credentials, or require a site login.
 
 In the Vercel Preview Toolbar, open Flags Explorer and override
 `Eigen-AI-Redesign` for your browser. Clear the override to resume dashboard
-values. A production override cannot enable the redesign. Do not import the
-internal SDK declarations in feature code; that would bypass the public guard.
+values. A production override cannot enable or disable the redesign. Do not import
+the internal SDK declarations in feature code; that would bypass the production
+override exclusion.
 
 ### EigenAI consumer (#447) & rollout
 
@@ -367,8 +373,9 @@ internal SDK declarations in feature code; that would bypass the public guard.
 Off/missing/error keeps the existing page with its standard navigation and
 footer; on selects the redesigned page with its own navigation and footer.
 Offline local development uses fixtures, which currently keep the
-redesign off. Preview deployments use OIDC without a manual SDK key. Production
-remains off.
+redesign off. Preview and Production deployments use OIDC without a manual SDK
+key and follow their respective dashboard values. The flag-off page retains the
+pre-#456 2025 content, photos, speaker groups, workshops, and Instagram schedule.
 The selector does not load a user profile: the live EigenAI flag has no user
 targeting. It uses the same anonymous context as the layout so
 the SDK can reuse evaluations for the same request, flag, and context.
@@ -377,20 +384,21 @@ For provider verification, use a Preview deployment or pull Development OIDC
 credentials locally. Clear any Explorer override, and toggle `Eigen-AI-Redesign`
 on → off → on in that environment's dashboard. The next server evaluation after the provider's
 stream update should follow the value without redeploy. Then verify an Explorer
-override in one browser and the dashboard value in another. Use synthetic data;
-keep Production off until the launch task. Real project credentials and preview
-access are needed to complete this deployment verification.
+override in one browser and the dashboard value in another. Use synthetic data.
+Production uses its dashboard setting and ignores browser overrides; changing
+that setting affects all production visitors. Real project credentials and
+preview access are needed to complete this deployment verification.
 
 ### Troubleshooting
 
-| Symptom | Check |
-| --- | --- |
-| Preview shows the old page while its dashboard flag is On | Clear browser overrides, verify the deployment is linked to `utmist-infrastructure/client`, and check for authentication/provider errors. A missing `FLAGS` variable is normal with OIDC. |
-| Local page ignores dashboard changes | Without pulled OIDC credentials or an explicit SDK key, local development uses fixtures. Pull Development credentials and restart the dev server. |
-| An SDK key reads unexpected values | Explicit `FLAGS` overrides OIDC; its project and flag environment determine which configuration is read. |
-| Toolbar itself is missing | Enable Pre-Production Toolbar, use a fresh Preview built on Vercel, and check browser/session blocking. See [If the Toolbar is missing](#if-the-toolbar-is-missing). |
-| Toolbar cannot discover flags or apply overrides | Check that `FLAGS_SECRET` is configured for that deployment's environment and discovery is accessible. Do not replace it with an SDK key. |
-| Production stays off | Intentional until launch: `server.ts` rejects both dashboard enablement and browser overrides in Production. |
+| Symptom                                                   | Check                                                                                                                                                                                                                                                                                                       |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Preview shows the old page while its dashboard flag is On | Clear browser overrides, verify the deployment is linked to `utmist-infrastructure/client`, and check for authentication/provider errors. A missing `FLAGS` variable is normal with OIDC.                                                                                                                   |
+| Local page ignores dashboard changes                      | Without pulled OIDC credentials or an explicit SDK key, local development uses fixtures. Pull Development credentials and restart the dev server.                                                                                                                                                           |
+| An SDK key reads unexpected values                        | Explicit `FLAGS` overrides OIDC; its project and flag environment determine which configuration is read.                                                                                                                                                                                                    |
+| Toolbar itself is missing                                 | Enable Pre-Production Toolbar, use a fresh Preview built on Vercel, and check browser/session blocking. See [If the Toolbar is missing](#if-the-toolbar-is-missing).                                                                                                                                        |
+| Toolbar cannot discover flags or apply overrides          | Check that `FLAGS_SECRET` is configured for that deployment's environment and discovery is accessible. Do not replace it with an SDK key.                                                                                                                                                                   |
+| Production stays off while its dashboard flag is On       | Verify the deployed commit includes provider evaluation in the production branch of `server.ts`; older versions unconditionally returned false. Then check deployment identity, any explicit `FLAGS` key's environment, and provider freshness/authentication. Browser overrides are ignored in Production. |
 
 The September 2026 regression in #452 came from replacing automatic OIDC with
 a mandatory `FLAGS` check during a merge. Preview had valid Vercel identity and
@@ -427,7 +435,7 @@ Retire a flag and its obsolete implementation after rollout, per
   `@vercel/flags-core` mocked so no key/network is touched.
 - [`tests/unit/flags/flags-env-selection.test.ts`](../../client/tests/unit/flags/flags-env-selection.test.ts)
   — which adapter `evaluateFlag` binds per environment (OIDC on Vercel or with
-  pulled credentials, optional `FLAGS`, production always off, offline → fixtures),
+  pulled credentials, optional `FLAGS`, production provider evaluation, offline → fixtures),
   plus request-only OIDC, explicit-key precedence, ignored retired
   `FLAGS_KEY_DEV` / `FLAGS_KEY_PREVIEW` names, an adapter that
   is built once and reads the key once, and a failed adapter build keeps every
@@ -453,5 +461,6 @@ the real core client. It uses synthetic credentials, a local datafile and stub
 transport, covering real OIDC-authenticated stream evaluation, credential
 separation, invalid/expired proofs and cookies,
 expiry across requests after an override was accepted (on, off and keyless),
-production suppression, unknown/non-boolean overrides, and stale provider reads.
+production provider On/Off with opposite signed overrides ignored,
+unknown/non-boolean overrides, and stale provider reads.
 The core SDK contract tests also remain in place for outage fallback semantics.

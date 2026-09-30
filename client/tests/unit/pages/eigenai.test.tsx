@@ -25,8 +25,14 @@ jest.mock('@/features/public-site/data/eigenai', () => ({
 }));
 
 describe('EigenAI existing page', () => {
+  const originalMapsKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   beforeAll(() => {
     process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = 'test-key';
+  });
+
+  afterAll(() => {
+    if (originalMapsKey === undefined) delete process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+    else process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = originalMapsKey;
   });
 
   it('renders hero, intro, and skill-level sections', async () => {
@@ -34,6 +40,9 @@ describe('EigenAI existing page', () => {
     render(<EigenAIPage />);
     expect(screen.getByRole('heading', { name: 'EigenAI' })).toBeInTheDocument();
     expect(screen.getByText(/What is EigenAI\?/i)).toBeInTheDocument();
+    expect(screen.getByText(/September 20-21, 2025/)).toBeInTheDocument();
+    expect(screen.queryByText(/October 3.*2026/)).not.toBeInTheDocument();
+    expect(screen.queryByText('Architecting Autonomy')).not.toBeInTheDocument();
     expect(
       screen.getByText(/EigenAI is built for AI practitioners of all skill levels/i)
     ).toBeInTheDocument();
@@ -53,14 +62,16 @@ describe('EigenAI existing page', () => {
     expect(screen.getByTestId('workshops')).toBeInTheDocument();
   });
 
-  it('throws an explicit error when the Google Maps API key is missing', async () => {
-    jest.resetModules();
+  it('keeps the old page usable when the Google Maps API key is missing', async () => {
     const previous = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
     delete process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
     const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
-    expect(() => render(<EigenAIPage />)).toThrow(
-      /Google Maps API key is not defined/
+    render(<EigenAIPage />);
+    expect(screen.getByRole('heading', { name: 'EigenAI' })).toBeInTheDocument();
+    expect(screen.queryByTitle('Google Maps Location')).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Get directions to OISE' })).toHaveAttribute(
+      'href', expect.stringContaining('https://www.google.com/maps/search/'),
     );
 
     process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = previous;
