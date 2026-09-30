@@ -8,7 +8,7 @@
 // Provider: Vercel Flags via `@vercel/flags-core`'s `FlagsClient`. Auth uses
 // automatic Vercel OIDC unless an explicit FLAGS SDK key is supplied by
 // flags/provider.ts. OIDC is resolved inside a request, not at construction.
-// The public evaluator keeps production off regardless of authentication.
+// Production follows the provider value; browser overrides are ignored there.
 //
 // The flags/next declaration calls this adapter for provider evaluation. We
 // retain the core client because @flags-sdk/vercel returns only the value and

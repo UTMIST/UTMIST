@@ -19,7 +19,7 @@ const offAdapter: FlagAdapter = { evaluate: async () => undefined };
 // Vercel may supply OIDC through the request rather than process.env. Select
 // the live adapter from deployment context too; let the SDK authenticate when
 // evaluate() runs. FLAGS_SECRET only authenticates Explorer overrides.
-// The public evaluator in server.ts enforces production-off before reaching us.
+// The public evaluator in server.ts skips browser overrides in production.
 function hasVercelContext(): boolean {
   return process.env.VERCEL === "1" || Boolean(
     process.env.VERCEL_ENV || process.env.VERCEL_OIDC_TOKEN,
