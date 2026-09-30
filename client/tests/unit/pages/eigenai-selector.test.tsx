@@ -280,13 +280,16 @@ describe("EigenAI flag selector", () => {
       ),
     ).toBe(true);
     expect(lockups[0]).toHaveStyle({
-      fontSize: "clamp(4rem, 15vw, 10.5rem)",
+      fontSize: "clamp(4.5rem, 15vw, 10.5rem)",
     });
     expect(lockups[1]).toHaveStyle({ fontSize: "clamp(3.5rem, 12vw, 5rem)" });
     const backdrop = screen.getByTestId("eigenai-continuous-backdrop");
     expect(
       within(backdrop).getAllByTestId("eigenai-backdrop-image"),
     ).toHaveLength(13);
+    for (const field of within(backdrop).getAllByTestId("eigenai-backdrop-image")) {
+      expect(field).toHaveClass("opacity-30", "md:opacity-44");
+    }
     const orbitClusters = screen.getAllByTestId("eigenai-orbit-cluster");
     expect(orbitClusters).toHaveLength(5);
     for (const cluster of orbitClusters) {
@@ -308,9 +311,10 @@ describe("EigenAI flag selector", () => {
     const mobileOrbitGroups = screen.getAllByTestId(
       "eigenai-mobile-orbit-group",
     );
-    expect(mobileOrbitGroups).toHaveLength(5);
+    expect(mobileOrbitGroups).toHaveLength(6);
     expect(mobileOrbitGroups.map((group) => group.style.top)).toEqual([
-      "6%",
+      "2%",
+      "7%",
       "30%",
       "54%",
       "76%",
@@ -326,6 +330,14 @@ describe("EigenAI flag selector", () => {
         "[animation-duration:40s]",
         "motion-reduce:animate-none",
       );
+    }
+    const mobileLambdaGroups = screen.getAllByTestId(
+      "eigenai-mobile-lambda-group",
+    );
+    expect(mobileLambdaGroups).toHaveLength(2);
+    for (const group of mobileLambdaGroups) {
+      expect(group).toHaveClass("md:hidden", "[container-type:inline-size]");
+      expect(group.querySelectorAll("img")).toHaveLength(2);
     }
     expect(screen.getByTestId("eigenai-hero")).not.toHaveClass(
       "overflow-hidden",

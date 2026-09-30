@@ -291,7 +291,8 @@ frames into one `1440 × 8192` coordinate plane: blurred cyan, blue, purple, and
 lavender fields cross the former frame boundaries without seams, while each
 orbit keeps its rings, glass symbols, and line details in one logical cluster.
 The hero and workshop lambdas are likewise paired layers in that same backdrop
-instead of section-local elements. Their exported white strokes reproduce the
+instead of section-local elements, with dedicated mobile positions and sizes so
+both remain visible below `md`. Their exported white strokes reproduce the
 Figma treatment: the fine `1.0768px` layer has a `4.3071px` layer blur and the
 heavy `4.3071px` layer has an `18.0897px` layer blur at the `444.352px` source
 width. Container-relative blur units preserve those proportions responsively.
@@ -349,10 +350,12 @@ Mobile layouts keep the three headline metrics in one row immediately below a
 full dynamic-viewport hero, center section headings and speaker-card copy, use
 `1.25rem` page gutters and compact section/card spacing, and reduce
 the type scale and footer footprint. The closing section uses a shorter mobile
-canvas while retaining a prominent lower event lockup. Mobile uses the same
+canvas while retaining a prominent lower event lockup. Mobile reduces the
+background colour-field opacity and saturation to compensate for their tighter
+crop on narrow screens. It uses the same
 animated orbit artwork as desktop, including drifting icon orbs and the slow
-40-second rotation. The five clusters keep the existing alternating edge
-positions and stronger contrast, with staggered delays. Both the rotation and
+40-second rotation. Six clusters keep alternating edge positions, including an
+additional top-left cluster, and stronger contrast, with staggered delays. Both the rotation and
 the SVG's internal drift stop for reduced-motion preferences. The original
 desktop Figma coordinates and scale resume at `md`.
 The 2026 content includes five named guests with headshots and six workshops.

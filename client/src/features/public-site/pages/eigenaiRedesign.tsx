@@ -45,11 +45,33 @@ import lambdaWorkshopFront from "@/assets/eigenai-redesign/lambda-workshop-front
 import techOrbit from "@/assets/eigenai-redesign/tech-orbit.svg";
 
 const mobileOrbitGroups = [
-  { id: "hero-right", left: "88%", top: "6%", width: "min(88vw, 22rem)", delay: "-2s" },
+  { id: "hero-left", left: "2%", top: "2%", width: "min(72vw, 18rem)", delay: "-17s" },
+  { id: "hero-right", left: "88%", top: "7%", width: "min(88vw, 22rem)", delay: "-2s" },
   { id: "about-left", left: "4%", top: "30%", width: "min(82vw, 20rem)", delay: "-5s" },
   { id: "speakers-right", left: "92%", top: "54%", width: "min(86vw, 21rem)", delay: "-13s" },
   { id: "workshops-left", left: "2%", top: "76%", width: "min(82vw, 20rem)", delay: "-8s" },
   { id: "closing-right", left: "88%", top: "94%", width: "min(88vw, 22rem)", delay: "-11s" },
+] as const;
+
+const mobileLambdaGroups = [
+  {
+    id: "hero",
+    back: lambdaHeroBack,
+    front: lambdaHeroFront,
+    left: "3%",
+    top: "8%",
+    width: "min(44vw, 11rem)",
+    backOffset: 4.172,
+  },
+  {
+    id: "workshops",
+    back: lambdaWorkshopBack,
+    front: lambdaWorkshopFront,
+    left: "62%",
+    top: "58%",
+    width: "min(46vw, 12rem)",
+    backOffset: 5.768,
+  },
 ] as const;
 
 const FIGMA_BACKDROP_WIDTH = 1440;
@@ -146,6 +168,23 @@ function MobileOrbitGroups() {
         width={group.id === "closing-right" ? 1113.84 : 951.318}
         floatDelay={group.delay}
         imageClassName="opacity-68 [filter:drop-shadow(0_0_6px_rgb(255_255_255/0.2))_drop-shadow(0_0_20px_rgb(89_224_233/0.2))_saturate(145%)]"
+      />
+    </div>
+  ));
+}
+
+function MobileLambdaGroups() {
+  return mobileLambdaGroups.map((group) => (
+    <div
+      key={group.id}
+      data-testid="eigenai-mobile-lambda-group"
+      className="absolute [container-type:inline-size] md:hidden"
+      style={{ left: group.left, top: group.top, width: group.width }}
+    >
+      <EigenAILambdaSymbol
+        back={group.back}
+        front={group.front}
+        backOffset={group.backOffset}
       />
     </div>
   ));
@@ -293,7 +332,7 @@ function ContinuousBackdrop() {
         <BackdropImage
           key={field.id}
           {...field}
-          className="opacity-44 mix-blend-screen [filter:drop-shadow(0_0_34px_rgb(89_224_233/0.08))_saturate(122%)]"
+          className="opacity-30 mix-blend-screen [filter:saturate(110%)] md:opacity-44 md:[filter:drop-shadow(0_0_34px_rgb(89_224_233/0.08))_saturate(122%)]"
         />
       ))}
 
@@ -320,6 +359,7 @@ function ContinuousBackdrop() {
         floatDelay="-13s"
       />
       <MobileOrbitGroups />
+      <MobileLambdaGroups />
 
       <LambdaCluster
         back={lambdaHeroBack}
@@ -540,7 +580,7 @@ export default function EigenAIRedesign({
       <EigenNavigation />
       <HeroSection>
         <h1 className="sr-only">EigenAI Conference</h1>
-        <EigenAILockup fontSize="clamp(4rem, 15vw, 10.5rem)" showCursor />
+        <EigenAILockup fontSize="clamp(4.5rem, 15vw, 10.5rem)" showCursor />
         <EigenGlassSurface className="mt-8 flex w-fit max-w-[calc(100vw-2.5rem)] items-center justify-center rounded-full px-4 py-3 text-sm/snug tracking-[-0.01em] sm:mt-10 sm:min-h-11 sm:max-w-full sm:px-8 sm:py-2 sm:text-3xl/none">
           <span className="relative z-1 whitespace-nowrap text-center text-white">
             <span>{content.dateLabel}</span>
