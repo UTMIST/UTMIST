@@ -307,20 +307,27 @@ describe("EigenAI flag selector", () => {
       expect(cluster).toHaveClass("[container-type:inline-size]");
     }
     expect(screen.queryByTestId("eigenai-ring-group")).not.toBeInTheDocument();
-    const mobileRingGroups = screen.getAllByTestId(
-      "eigenai-mobile-ring-group",
+    const mobileOrbitGroups = screen.getAllByTestId(
+      "eigenai-mobile-orbit-group",
     );
-    expect(mobileRingGroups).toHaveLength(5);
-    expect(mobileRingGroups.map((group) => group.style.top)).toEqual([
+    expect(mobileOrbitGroups).toHaveLength(5);
+    expect(mobileOrbitGroups.map((group) => group.style.top)).toEqual([
       "6%",
       "30%",
       "54%",
       "76%",
       "94%",
     ]);
-    for (const group of mobileRingGroups) {
+    for (const group of mobileOrbitGroups) {
       expect(group).toHaveClass("md:hidden");
-      expect(group.querySelectorAll("img")).toHaveLength(3);
+      expect(group).toHaveAttribute("aria-hidden", "true");
+      expect(group.querySelectorAll("img")).toHaveLength(1);
+      expect(group.querySelector("img")).toHaveAttribute("alt", "");
+      expect(group.firstElementChild).toHaveClass(
+        "animate-spin",
+        "[animation-duration:40s]",
+        "motion-reduce:animate-none",
+      );
     }
     expect(screen.getByTestId("eigenai-hero")).not.toHaveClass(
       "overflow-hidden",

@@ -1,7 +1,6 @@
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import {
-  EigenAIConcentricRings,
   EigenAILambdaSymbol,
   EigenAILockup,
   EigenAIWordmark,
@@ -45,12 +44,12 @@ import lambdaWorkshopBack from "@/assets/eigenai-redesign/lambda-workshop-back.s
 import lambdaWorkshopFront from "@/assets/eigenai-redesign/lambda-workshop-front.svg";
 import techOrbit from "@/assets/eigenai-redesign/tech-orbit.svg";
 
-const mobileRingGroups = [
-  { id: "hero-right", left: "88%", top: "6%", width: "min(88vw, 22rem)" },
-  { id: "about-left", left: "4%", top: "30%", width: "min(82vw, 20rem)" },
-  { id: "speakers-right", left: "92%", top: "54%", width: "min(86vw, 21rem)" },
-  { id: "workshops-left", left: "2%", top: "76%", width: "min(82vw, 20rem)" },
-  { id: "closing-right", left: "88%", top: "94%", width: "min(88vw, 22rem)" },
+const mobileOrbitGroups = [
+  { id: "hero-right", left: "88%", top: "6%", width: "min(88vw, 22rem)", delay: "-2s" },
+  { id: "about-left", left: "4%", top: "30%", width: "min(82vw, 20rem)", delay: "-5s" },
+  { id: "speakers-right", left: "92%", top: "54%", width: "min(86vw, 21rem)", delay: "-13s" },
+  { id: "workshops-left", left: "2%", top: "76%", width: "min(82vw, 20rem)", delay: "-8s" },
+  { id: "closing-right", left: "88%", top: "94%", width: "min(88vw, 22rem)", delay: "-11s" },
 ] as const;
 
 const FIGMA_BACKDROP_WIDTH = 1440;
@@ -133,18 +132,20 @@ const socialLinks = [
   },
 ];
 
-function MobileConcentricRingGroups() {
-  return mobileRingGroups.map((group) => (
+function MobileOrbitGroups() {
+  return mobileOrbitGroups.map((group) => (
     <div
       key={group.id}
       aria-hidden="true"
-      data-testid="eigenai-mobile-ring-group"
+      data-testid="eigenai-mobile-orbit-group"
       className="absolute aspect-square -translate-x-1/2 -translate-y-1/2 md:hidden"
       style={{ left: group.left, top: group.top, width: group.width }}
     >
-      <EigenAIConcentricRings
-        className="absolute inset-0"
-        ringClassName="opacity-68 [filter:drop-shadow(0_0_6px_rgb(255_255_255/0.2))_drop-shadow(0_0_20px_rgb(89_224_233/0.2))_saturate(145%)]"
+      <OrbitArtwork
+        src={group.id === "closing-right" ? closingOrbit : techOrbit}
+        width={group.id === "closing-right" ? 1113.84 : 951.318}
+        floatDelay={group.delay}
+        imageClassName="opacity-68 [filter:drop-shadow(0_0_6px_rgb(255_255_255/0.2))_drop-shadow(0_0_20px_rgb(89_224_233/0.2))_saturate(145%)]"
       />
     </div>
   ));
@@ -183,6 +184,40 @@ function BackdropImage({
   );
 }
 
+function OrbitArtwork({
+  src,
+  width,
+  floatDelay,
+  imageClassName = "opacity-42 [filter:drop-shadow(0_0_5px_rgb(255_255_255/0.12))_drop-shadow(0_0_18px_rgb(89_224_233/0.12))_saturate(132%)]",
+}: {
+  src: StaticImageData;
+  width: number;
+  floatDelay: string;
+  imageClassName?: string;
+}) {
+  const orbitBleed = 48;
+  const expandedWidth = ((width + orbitBleed * 2) / width) * 100;
+  const bleedOffset = -(orbitBleed / width) * 100;
+
+  return (
+    <div
+      className="relative size-full origin-center animate-spin will-change-transform [animation-duration:40s] motion-reduce:animate-none"
+      style={{ animationDelay: floatDelay }}
+    >
+      <Image
+        src={src}
+        alt=""
+        className={`absolute h-auto max-w-none mix-blend-screen ${imageClassName}`}
+        style={{
+          left: `${bleedOffset}%`,
+          top: `${bleedOffset}%`,
+          width: `${expandedWidth}%`,
+        }}
+      />
+    </div>
+  );
+}
+
 function OrbitCluster({
   src,
   x,
@@ -198,10 +233,6 @@ function OrbitCluster({
   transform?: string;
   floatDelay?: string;
 }) {
-  const orbitBleed = 48;
-  const expandedWidth = ((width + orbitBleed * 2) / width) * 100;
-  const bleedOffset = -(orbitBleed / width) * 100;
-
   return (
     <div
       data-testid="eigenai-orbit-cluster"
@@ -215,21 +246,7 @@ function OrbitCluster({
         transformOrigin: "center",
       }}
     >
-      <div
-        className="relative size-full origin-center animate-spin will-change-transform [animation-duration:40s] motion-reduce:animate-none"
-        style={{ animationDelay: floatDelay }}
-      >
-        <Image
-          src={src}
-          alt=""
-          className="absolute h-auto max-w-none opacity-42 mix-blend-screen [filter:drop-shadow(0_0_5px_rgb(255_255_255/0.12))_drop-shadow(0_0_18px_rgb(89_224_233/0.12))_saturate(132%)]"
-          style={{
-            left: `${bleedOffset}%`,
-            top: `${bleedOffset}%`,
-            width: `${expandedWidth}%`,
-          }}
-        />
-      </div>
+      <OrbitArtwork src={src} width={width} floatDelay={floatDelay} />
     </div>
   );
 }
@@ -302,7 +319,7 @@ function ContinuousBackdrop() {
         width={951.318}
         floatDelay="-13s"
       />
-      <MobileConcentricRingGroups />
+      <MobileOrbitGroups />
 
       <LambdaCluster
         back={lambdaHeroBack}

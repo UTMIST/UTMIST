@@ -350,10 +350,12 @@ Mobile layouts keep the three headline metrics in one row immediately below a
 full dynamic-viewport hero, center section headings and speaker-card copy, use
 `1.25rem` page gutters and compact section/card spacing, and reduce
 the type scale and footer footprint. The closing section uses a shorter mobile
-canvas while retaining a prominent lower event lockup. The hero's concentric ring
-groups remain visible on small screens at alternating viewport edges and repeat
-down the full page with stronger contrast; the original Figma coordinate and
-scale resume at `md`.
+canvas while retaining a prominent lower event lockup. Mobile uses the same
+animated orbit artwork as desktop, including drifting icon orbs and the slow
+40-second rotation. The five clusters keep the existing alternating edge
+positions and stronger contrast, with staggered delays. Both the rotation and
+the SVG's internal drift stop for reduced-motion preferences. The original
+desktop Figma coordinates and scale resume at `md`.
 The 2026 content includes five named guests with headshots and six workshops.
 There are no placeholder speaker cards in the public lineup. Workshop descriptions
 give the available session details without inventing abstracts.
