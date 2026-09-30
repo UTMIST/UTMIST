@@ -401,13 +401,15 @@ function ContinuousBackdrop() {
 function GradientPanel({
   children,
   className = "",
+  radiusClassName = "rounded-4xl sm:rounded-[3.1648rem]",
 }: {
   children: React.ReactNode;
   className?: string;
+  radiusClassName?: string;
 }) {
   return (
     <EigenGlassSurface
-      className={`rounded-4xl sm:rounded-[3.1648rem] ${className}`}
+      className={`${radiusClassName} ${className}`}
     >
       <div className="relative z-1 h-full rounded-[inherit]">{children}</div>
     </EigenGlassSurface>
@@ -416,7 +418,7 @@ function GradientPanel({
 
 function WorkshopCard({ workshop }: { workshop: EigenAIWorkshop }) {
   return (
-    <GradientPanel>
+    <GradientPanel radiusClassName="rounded-3xl">
       <article className="min-w-0 p-5 sm:p-6">
         <div className="min-w-0 wrap-anywhere">
           <div className="flex flex-wrap items-center gap-3">

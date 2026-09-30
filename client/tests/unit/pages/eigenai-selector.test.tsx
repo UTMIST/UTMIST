@@ -185,7 +185,7 @@ describe("EigenAI flag selector", () => {
     expect(schedule).toHaveClass("grid", "md:grid-cols-2");
     expect(
       within(schedule).getByRole("heading", {
-        name: "IEEE Workshop",
+        name: "Edge AI Workshop",
       }),
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /October 3/ })).toHaveClass(
@@ -214,10 +214,10 @@ describe("EigenAI flag selector", () => {
       "whitespace-nowrap",
     );
     expect(
-      screen.getAllByText("IEEE Workshop"),
+      screen.getAllByText("Edge AI Workshop"),
     ).toHaveLength(2);
     expect(
-      screen.getAllByText("IEEE Workshop")[0],
+      screen.getAllByText("Edge AI Workshop")[0],
     ).toHaveClass("font-medium!");
     const contentContainers = screen.getAllByTestId("eigenai-content");
     expect(contentContainers.length).toBeGreaterThanOrEqual(5);

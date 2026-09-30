@@ -118,7 +118,7 @@ which takes precedence over that tab's partially filled draft rows for times
 and rooms. These are manually maintained public content snapshots; the page
 does not fetch private planning documents at runtime.
 The live document's first tab was rechecked on September 29, 2026. Session names
-follow that tab, including Undergrad Research Panel, Stripe Panel, and AI Agents
+follow that tab, including Undergraduate Research Panel, Stripe Panel, and AI Agents
 Workshop. Adrien's workshop remains Saturday 2:30–4:30 PM in OI 2212; the Sunday
 2:45–3:45 PM AI Agents Workshop in OI 2214 belongs to UTMIST Academics. The
 tentative request for extra engineering booths is not treated as a confirmed
@@ -142,7 +142,8 @@ Profile links remain unset until supplied.
 
 The six workshop cards use session titles, hosts, dates, times, and rooms from
 these sources. They use compact text and padding with no fixed minimum height,
-stacking on phones and forming two columns from `md`. Saturday's 1:00–1:30 PM
+stacking on phones and forming two columns from `md`. Speaker and workshop cards
+use the same `rounded-3xl` corner radius as the schedule day panels. Saturday's 1:00–1:30 PM
 block remains explicitly unannounced.
 The schedule notice says it is subject to change. The theme follows the current
 schedule: “Across the Many Frontiers of AI.” No attendance metric is inferred

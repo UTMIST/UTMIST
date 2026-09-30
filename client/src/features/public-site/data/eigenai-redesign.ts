@@ -23,7 +23,7 @@ const comingSoonDescription = "Details coming soon.";
 const speakers: EigenAISpeaker[] = [
   {
     name: "Naomi Walch",
-    role: "Associate · Northside Ventures",
+    role: "Panelist · Northside Ventures",
     profileImage: naomiWalch,
   },
   {
@@ -43,7 +43,7 @@ const speakers: EigenAISpeaker[] = [
   },
   {
     name: "Adrien Beyk",
-    role: "Workshop host · Architecting Autonomy",
+    role: "Workshop Host · Architecting Autonomy",
     profileImage: adrienBeyk,
     profileImagePosition: "50% 20%",
     profileImageScale: 2.25,
@@ -52,7 +52,7 @@ const speakers: EigenAISpeaker[] = [
 
 const workshops: EigenAIWorkshop[] = [
   {
-    title: "Research Workshop",
+    title: "Undergraduate Research Workshop",
     host: "Ruihang Zhang",
     description: "Saturday, October 3 · 10:30–11:30 AM · OI 2212",
   },
@@ -67,8 +67,8 @@ const workshops: EigenAIWorkshop[] = [
     description: "Saturday, October 3 · 2:30–4:30 PM · OI 2212",
   },
   {
-    title: "IEEE Workshop",
-    host: "IEEE",
+    title: "Edge AI Workshop",
+    host: "UofT IEEE",
     description: "Saturday, October 3 · 2:30–4:30 PM · OI G162",
   },
   {
@@ -88,17 +88,16 @@ const schedule: EigenAIScheduleDay[] = [
     day: "Day 1",
     date: "Saturday October 3, 2026 · EDT",
     items: [
-      { time: "8:30–9:00 AM", title: "Registration & Light Refreshments for Sponsors" },
+      { time: "8:30–9:00 AM", title: "Sponsor Registration" },
       { time: "9:00–9:30 AM", title: "Student Registration" },
       {
-        time: "9:30–10:15 AM",
-        title: "Opening Ceremony, Sponsor Acknowledgement & Startup Intro",
+        time: "9:30–10:30 AM",
+        title: "Opening Ceremony",
         location: "OI G162",
       },
-      { time: "10:15–10:30 AM", title: "Buffer Time" },
       {
         time: "10:30–11:30 AM",
-        title: "Research Workshop",
+        title: "Undergraduate Research Workshop",
         location: "OI 2212",
         description: "With Ruihang Zhang.",
       },
@@ -137,7 +136,7 @@ const schedule: EigenAIScheduleDay[] = [
       },
       {
         time: "2:30–4:30 PM",
-        title: "IEEE Workshop",
+        title: "Edge AI Workshop",
         location: "OI G162",
       },
       { time: "4:30–5:00 PM", title: "Closing Ceremony" },
@@ -149,10 +148,10 @@ const schedule: EigenAIScheduleDay[] = [
     items: [
       {
         time: "8:30–9:00 AM",
-        title: "Sponsor, Speaker, and Workshop Host Registration and Refreshments",
+        title: "Sponsor Registration",
       },
       { time: "9:00–9:30 AM", title: "Student Registration" },
-      { time: "9:30–10:00 AM", title: "Opening Ceremony" },
+      { time: "9:30–10:00 AM", title: "Opening Ceremony", location: "OI G162" },
       {
         time: "10:00–11:00 AM",
         title: "Engineering Booth",
@@ -160,7 +159,7 @@ const schedule: EigenAIScheduleDay[] = [
       },
       {
         time: "10:00–11:00 AM",
-        title: "Undergrad Research Panel",
+        title: "Undergraduate Research Panel",
         location: "OI G162",
         description:
           "Hear how undergraduate researchers found their positions, the skills they recommend, and their advice for getting started in AI research. Hosted by UTMIST Academics and Research.",
@@ -192,7 +191,7 @@ const schedule: EigenAIScheduleDay[] = [
       },
       {
         time: "2:45–3:45 PM",
-        title: "aUtoronto Presentation",
+        title: "aUToronto Presentation",
         location: "OI G162",
         description: "Presentation and demo.",
       },
