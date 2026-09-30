@@ -54,6 +54,8 @@ it("keeps unscheduled labels visible without assigning a guessed time", () => {
 it("groups simultaneous sessions under one time label within each day", () => {
   render(<EigenAISchedule schedule={eigenAIContent.schedule} />);
 
+  expect(screen.getAllByTestId("eigenai-schedule-day")).toHaveLength(2);
+
   for (const [titles, time] of [
     [["Research Workshop", "Publicus AI Workshop"], "10:30–11:30 AM"],
     [["Architecting Autonomy", "IEEE Workshop"], "2:30–4:30 PM"],

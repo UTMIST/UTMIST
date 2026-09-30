@@ -12,29 +12,35 @@ function ScheduleDay({ date, day, slots, aligned }: ScheduleDayProps) {
   const datedHeading = date.match(/^(Saturday|Sunday)\s+(.+)$/);
 
   return (
-    <article className={clsx(
-      "min-w-0 [--day-accent:#5edbe7]",
-      aligned && "md:row-span-full md:grid md:grid-rows-subgrid",
-    )}>
-      <header className="mb-3 flex items-center justify-between gap-3 rounded-xl bg-white/5 px-3 py-3 lg:px-4">
-        <h3 className="font-eigen-sans text-lg font-medium! text-white lg:text-xl">
-          {datedHeading ? (
-            <>
-              {datedHeading[1]}
-              <span className="mt-1 block text-xs font-normal text-white/60">
-                {" "}{datedHeading[2]}
-              </span>
-            </>
-          ) : date}
-        </h3>
-        <p className="shrink-0 text-[10px] font-semibold tracking-[0.12em] text-[var(--day-accent)] uppercase">
-          {day}
-        </p>
-      </header>
-      {slots.length === 0 ? (
-        <p className="py-3 text-sm text-white/70">Sessions will be announced soon.</p>
-      ) : null}
-      <ol className={clsx("space-y-2", aligned && "md:contents md:space-y-0")}>
+    <EigenGlassSurface asChild>
+      <article
+        data-testid="eigenai-schedule-day"
+        className={clsx(
+          "min-w-0 rounded-3xl p-3 [--day-accent:#5edbe7] sm:p-4",
+          aligned && "md:row-span-full md:grid md:grid-rows-subgrid",
+        )}
+      >
+        <header className="mb-3 flex items-center justify-between gap-3 rounded-2xl bg-white/8 px-3 py-3.5 lg:px-4">
+          <h3 className="font-eigen-sans text-white">
+            {datedHeading ? (
+              <>
+                <span className="block text-2xl font-bold! tracking-[-0.02em] text-[var(--day-accent)] uppercase lg:text-3xl">
+                  {datedHeading[1]}
+                </span>
+                <span className="mt-1 block text-xs font-medium text-white/75">
+                  {datedHeading[2]}
+                </span>
+              </>
+            ) : date}
+          </h3>
+          <p className="shrink-0 rounded-full border border-[var(--day-accent)]/35 bg-[var(--day-accent)]/10 px-2.5 py-1 text-[10px] font-bold tracking-[0.12em] text-[var(--day-accent)] uppercase">
+            {day}
+          </p>
+        </header>
+        {slots.length === 0 ? (
+          <p className="py-3 text-sm text-white/70">Sessions will be announced soon.</p>
+        ) : null}
+        <ol className={clsx("space-y-2", aligned && "md:contents md:space-y-0")}>
         {slots.map(({ time, sessions, rowStart, rowEnd }) => (
           <li
             key={time}
@@ -94,8 +100,9 @@ function ScheduleDay({ date, day, slots, aligned }: ScheduleDayProps) {
             </div>
           </li>
         ))}
-      </ol>
-    </article>
+        </ol>
+      </article>
+    </EigenGlassSurface>
   );
 }
 
@@ -108,21 +115,19 @@ export function EigenAISchedule({
   const aligned = boundaries.length > 1;
 
   return (
-    <EigenGlassSurface asChild>
-      <div
-        data-testid="eigenai-schedule"
-        className={clsx(
-          "grid gap-6 rounded-3xl p-3 sm:p-4 md:grid-cols-2 md:gap-x-3 lg:gap-x-4",
-          aligned && "md:gap-y-0 md:[grid-template-rows:var(--schedule-rows)]",
-        )}
-        style={aligned ? {
-          "--schedule-rows": `auto repeat(${boundaries.length - 1}, minmax(1rem, auto))`,
-        } as CSSProperties : undefined}
-      >
-        {days.map((day) => (
-          <ScheduleDay key={day.date} {...day} aligned={aligned} />
-        ))}
-      </div>
-    </EigenGlassSurface>
+    <div
+      data-testid="eigenai-schedule"
+      className={clsx(
+        "grid gap-6 md:grid-cols-2 md:gap-x-4",
+        aligned && "md:gap-y-0 md:[grid-template-rows:var(--schedule-rows)]",
+      )}
+      style={aligned ? {
+        "--schedule-rows": `auto repeat(${boundaries.length - 1}, minmax(1rem, auto))`,
+      } as CSSProperties : undefined}
+    >
+      {days.map((day) => (
+        <ScheduleDay key={day.date} {...day} aligned={aligned} />
+      ))}
+    </div>
   );
 }

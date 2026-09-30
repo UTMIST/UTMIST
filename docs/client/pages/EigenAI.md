@@ -161,7 +161,7 @@ The About section uses only `eigenai-conference.webp`, the second photo from the
 previous three-image layout. Introductory paragraphs form two columns from `md`,
 followed by one image spanning the content width. Its frame uses a 16:9 ratio on
 phones and 21:9 from `sm`, with the crop positioned toward the panelists. The
-caption identifies it as a past conference. `about.image` and `about.imageAlt`
+caption identifies it as EigenAI 2024. `about.image` and `about.imageAlt`
 supply the photo and alternative text; omitting the image also omits its frame
 and caption.
 Speaker headshots use `profileImage` and live under
@@ -205,14 +205,13 @@ set as the other desktop orbit artwork.
 The default content includes the current two-day schedule for October 3 and 4
 in Toronto local time (EDT), with explicit AM/PM labels.
 `eigenai-schedule.tsx` accepts typed schedule data and owns its
-responsive layout: Saturday and Sunday are equal-height columns inside a single
-blue glass timetable from the medium breakpoint, with the days stacked on phones.
-The outer timetable reuses `EigenGlassSurface` for the same cyan/white/lavender
-gradient outline as the other event cards. Its `asChild` composition preserves
-the timetable grid without adding a wrapper.
-Day headers separate the weekday from the date, with no colored top borders.
-Cyan accents appear on both days' labels and times. The transparent timetable uses
-the original glass panel's light blur, saturation, and contrast to preserve the
+responsive layout: Saturday and Sunday are separate, equal-height glass panels
+from the medium breakpoint, with the panels stacked on phones. Each panel reuses
+`EigenGlassSurface` for the same cyan/white/lavender gradient outline as the
+other event cards.
+Day headers make the weekday a large cyan uppercase label and place the date
+beneath it. Cyan accents also appear on times. The transparent panels use the
+original glass treatment's light blur, saturation, and contrast to preserve the
 brighter blue backdrop.
 Each session has its own subtle filled card and border, making extended sessions
 read as continuous blocks. Gaps separate cards vertically and horizontally.

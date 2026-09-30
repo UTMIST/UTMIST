@@ -541,11 +541,11 @@ export default function EigenAIRedesign({
       <HeroSection>
         <h1 className="sr-only">EigenAI Conference</h1>
         <EigenAILockup fontSize="clamp(4rem, 15vw, 10.5rem)" showCursor />
-        <EigenGlassSurface className="mt-8 flex w-fit max-w-[min(100%,20rem)] items-center justify-center rounded-3xl px-5 py-3 text-sm/snug tracking-[-0.01em] sm:mt-10 sm:min-h-11 sm:max-w-full sm:rounded-full sm:px-8 sm:py-2 sm:text-3xl/none">
-          <span className="relative z-1 text-center text-white">
-            <span className="block sm:inline">{content.dateLabel}</span>
+        <EigenGlassSurface className="mt-8 flex w-fit max-w-[calc(100vw-2.5rem)] items-center justify-center rounded-full px-4 py-3 text-sm/snug tracking-[-0.01em] sm:mt-10 sm:min-h-11 sm:max-w-full sm:px-8 sm:py-2 sm:text-3xl/none">
+          <span className="relative z-1 whitespace-nowrap text-center text-white">
+            <span>{content.dateLabel}</span>
             {content.locationLabel ? (
-              <span className="mt-0.5 block sm:mt-0 sm:inline">
+              <span>
                 {" "}
                 @ {content.locationLabel}
               </span>
@@ -605,7 +605,7 @@ export default function EigenAIRedesign({
                 </div>
               </GradientPanel>
               <figcaption className="mt-3 text-center text-xs text-white/70 sm:text-sm">
-                From a past EigenAI conference.
+                EigenAI 2024
               </figcaption>
             </figure>
           ) : null}

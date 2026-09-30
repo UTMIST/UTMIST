@@ -11,7 +11,7 @@ import {
   eigenAIUnannouncedContent,
 } from "@/features/public-site/data/eigenai-redesign";
 
-it("shows one event photo identified as a past conference", () => {
+it("shows one event photo identified as EigenAI 2024", () => {
   render(<EigenAIRedesign />);
   const about = within(document.getElementById("about")!);
   expect(about.getAllByRole("img")).toHaveLength(1);
@@ -20,7 +20,7 @@ it("shows one event photo identified as a past conference", () => {
       name: "Panelists speaking with students at a past EigenAI conference",
     }),
   ).toBeInTheDocument();
-  expect(about.getByText("From a past EigenAI conference.")).toBeInTheDocument();
+  expect(about.getByText("EigenAI 2024")).toBeInTheDocument();
 });
 
 it("shows only the five guests with supplied headshots", () => {
@@ -96,7 +96,7 @@ it("omits the event photo and caption when no image is supplied", () => {
     />,
   );
 
-  expect(screen.queryByText("From a past EigenAI conference.")).not.toBeInTheDocument();
+  expect(screen.queryByText("EigenAI 2024")).not.toBeInTheDocument();
   expect(screen.queryByRole("figure")).not.toBeInTheDocument();
 });
 

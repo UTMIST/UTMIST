@@ -189,8 +189,7 @@ describe("EigenAI flag selector", () => {
       }),
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /October 3/ })).toHaveClass(
-      "text-lg",
-      "lg:text-xl",
+      "font-eigen-sans",
     );
     expect(
       screen.getByRole("heading", { name: /October 4/ }),
@@ -211,9 +210,8 @@ describe("EigenAI flag selector", () => {
       "href",
       expect.stringContaining("google.com/maps/search"),
     );
-    expect(screen.getByText("October 3rd & 4th")).toHaveClass(
-      "block",
-      "sm:inline",
+    expect(screen.getByText("October 3rd & 4th").parentElement).toHaveClass(
+      "whitespace-nowrap",
     );
     expect(
       screen.getAllByText("IEEE Workshop"),
