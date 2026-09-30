@@ -23,7 +23,7 @@ jest.mock("react-intersection-observer", () => ({
 import EigenAIFlagged from "@/features/public-site/pages/eigenaiFlagged";
 // `dynamic` is declared on the route segment itself (that's the only place
 // Next.js reads it), so assert it there rather than on the selector module.
-import { dynamic } from "@/app/(frontend)/eigenai/page";
+import { dynamic, generateMetadata } from "@/app/(frontend)/eigenai/page";
 
 describe("EigenAI flag selector", () => {
   beforeEach(() => {
@@ -36,6 +36,48 @@ describe("EigenAI flag selector", () => {
 
   it("renders /eigenai dynamically so the flag is read per request", () => {
     expect(dynamic).toBe("force-dynamic");
+  });
+
+  it("publishes 2026 search and social metadata when the redesign is enabled", async () => {
+    mockEvaluateFlag.mockResolvedValue(true);
+
+    const metadata = await generateMetadata();
+
+    expect(metadata.title).toBe("EigenAI 2026 | UTMIST");
+    expect(metadata.description).toContain("October 3–4, 2026");
+    expect(metadata.description).toContain("OISE, University of Toronto");
+    expect(metadata.alternates?.canonical).toBe("https://www.utmist.ca/eigenai");
+    expect(metadata.openGraph).toMatchObject({
+      type: "website",
+      locale: "en_CA",
+      siteName: "UTMIST",
+      title: metadata.title,
+      description: metadata.description,
+      url: "https://www.utmist.ca/eigenai",
+      images: [expect.objectContaining({
+        url: expect.stringMatching(/^https:\/\/www\.utmist\.ca\//),
+        width: expect.any(Number),
+        height: expect.any(Number),
+        alt: expect.stringContaining("past EigenAI conference"),
+      })],
+    });
+    expect(metadata.twitter).toMatchObject({
+      card: "summary_large_image",
+      title: metadata.title,
+      description: metadata.description,
+      images: metadata.openGraph?.images,
+    });
+    expect(mockEvaluateFlag).toHaveBeenCalledWith("Eigen-AI-Redesign");
+    expect(mockGetCurrentUser).not.toHaveBeenCalled();
+  });
+
+  it("inherits the original metadata after the flag turns off or fails closed", async () => {
+    mockEvaluateFlag.mockResolvedValueOnce(true).mockResolvedValueOnce(false);
+
+    expect((await generateMetadata()).title).toBe("EigenAI 2026 | UTMIST");
+    // An empty override inherits the frontend layout's UTMIST title/description,
+    // with no 2026 social tags attached to the original 2025 page.
+    expect(await generateMetadata()).toEqual({});
   });
 
   it("selects the existing page with standard chrome when the flag is off", async () => {

@@ -7,7 +7,8 @@ there is no flash of the wrong page and the choice is never frozen at build.
 ## Location
 
 - Route shell: `client/src/app/(frontend)/eigenai/page.tsx` — re-exports the
-  selector's `default` and declares `dynamic = "force-dynamic"` itself.
+  selector's `default` and `generateMetadata`, and declares
+  `dynamic = "force-dynamic"` itself.
 - Selector (server): `client/src/features/public-site/pages/eigenaiFlagged.tsx`.
 - Existing page (client): `client/src/features/public-site/pages/eigenai.tsx`.
 - Redesign page: `client/src/features/public-site/pages/eigenaiRedesign.tsx`.
@@ -24,6 +25,10 @@ evaluations within a request:
 ```tsx
 const showRedesign = await evaluateFlag("Eigen-AI-Redesign");
 ```
+
+The selector wraps this lookup in React `cache()` so its metadata and page
+content use the same result within a request, including in production. The
+cache is request-scoped; later requests still evaluate the current flag.
 
 When enabled, the selector renders `EigenAIRedesign`, which supplies its own
 navigation and footer. Otherwise it renders `Navbar`, `EigenAIPage`, `Footer`,
@@ -54,6 +59,23 @@ from `client/`. Subsequent server evaluations follow provider updates without a
 redeploy. Offline local development uses fixtures, which currently disable the
 redesign.
 See [../flags.md](../flags.md) for setup and verification.
+
+## Search and social metadata
+
+With the redesign enabled, `/eigenai` supplies the title `EigenAI 2026 | UTMIST`,
+a description with the October 3–4 dates and OISE venue, and the canonical URL
+`https://www.utmist.ca/eigenai`. Open Graph and Twitter large-image cards share
+that copy and the existing `eigenai-conference.webp` photo, with its dimensions
+and alternative text identifying it as a past conference. All metadata URLs
+use the public production origin, including when viewing a local or preview
+deployment. The imported photo's hashed asset URL updates if the file changes.
+
+When the flag is off or fails closed, `generateMetadata` returns no overrides:
+the original UTMIST title and description are inherited, and no 2026 social
+metadata is published. The page remains dynamic so toggles affect subsequent
+requests. Social platforms may retain previously fetched previews until they
+recrawl the URL. The public `/eigenai` URL is also listed in `public/sitemap.xml`;
+it exists in both flag states.
 
 ## Content contract and fixtures
 
@@ -185,6 +207,9 @@ in Toronto local time (EDT), with explicit AM/PM labels.
 `eigenai-schedule.tsx` accepts typed schedule data and owns its
 responsive layout: Saturday and Sunday are equal-height columns inside a single
 blue glass timetable from the medium breakpoint, with the days stacked on phones.
+The outer timetable reuses `EigenGlassSurface` for the same cyan/white/lavender
+gradient outline as the other event cards. Its `asChild` composition preserves
+the timetable grid without adding a wrapper.
 Day headers separate the weekday from the date, with no colored top borders.
 Cyan accents appear on both days' labels and times. The transparent timetable uses
 the original glass panel's light blur, saturation, and contrast to preserve the
@@ -362,6 +387,7 @@ navigation, and footer.
   on or off, alongside loading and filtering behavior.
 - `client/tests/unit/pages/eigenai-selector.test.tsx` — off → existing, on →
   redesign, default-off → original 2025 page (only the server barrel mocked).
+  Also checks enabled search/social metadata and the flag-off metadata rollback.
   Both pages render with real content. Checks that the
   legacy/default-off branches retain standard navigation, footer, and theme
   controls, and the redesign has only its own chrome.

@@ -1,4 +1,4 @@
-export { default } from "@/features/public-site/pages/eigenaiFlagged";
+export { default, generateMetadata } from "@/features/public-site/pages/eigenaiFlagged";
 
 // Declared here (not re-exported) because Next.js only reads route segment
 // config from the route file, and Turbopack requires it to be a statically

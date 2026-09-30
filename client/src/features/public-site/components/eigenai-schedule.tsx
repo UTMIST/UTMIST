@@ -2,6 +2,7 @@ import clsx from "clsx";
 import type { CSSProperties } from "react";
 import type { EigenAIScheduleDay } from "@/features/public-site/types/eigenai";
 import { buildScheduleTimeline } from "@/features/public-site/lib/eigenai-schedule";
+import { EigenGlassSurface } from "@/features/public-site/components/eigenai-surfaces";
 
 type ScheduleDayProps = ReturnType<typeof buildScheduleTimeline>["days"][number] & {
   aligned: boolean;
@@ -107,19 +108,21 @@ export function EigenAISchedule({
   const aligned = boundaries.length > 1;
 
   return (
-    <div
-      data-testid="eigenai-schedule"
-      className={clsx(
-        "grid gap-6 rounded-3xl border border-white/15 bg-transparent p-3 backdrop-blur-[1.25px] backdrop-saturate-[1.32] backdrop-contrast-110 sm:p-4 md:grid-cols-2 md:gap-x-3 lg:gap-x-4",
-        aligned && "md:gap-y-0 md:[grid-template-rows:var(--schedule-rows)]",
-      )}
-      style={aligned ? {
-        "--schedule-rows": `auto repeat(${boundaries.length - 1}, minmax(1rem, auto))`,
-      } as CSSProperties : undefined}
-    >
-      {days.map((day) => (
-        <ScheduleDay key={day.date} {...day} aligned={aligned} />
-      ))}
-    </div>
+    <EigenGlassSurface asChild>
+      <div
+        data-testid="eigenai-schedule"
+        className={clsx(
+          "grid gap-6 rounded-3xl p-3 sm:p-4 md:grid-cols-2 md:gap-x-3 lg:gap-x-4",
+          aligned && "md:gap-y-0 md:[grid-template-rows:var(--schedule-rows)]",
+        )}
+        style={aligned ? {
+          "--schedule-rows": `auto repeat(${boundaries.length - 1}, minmax(1rem, auto))`,
+        } as CSSProperties : undefined}
+      >
+        {days.map((day) => (
+          <ScheduleDay key={day.date} {...day} aligned={aligned} />
+        ))}
+      </div>
+    </EigenGlassSurface>
   );
 }
