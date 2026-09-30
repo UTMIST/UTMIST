@@ -1,68 +1,37 @@
 import { render, screen } from '@testing-library/react';
 
-jest.mock('@/features/public-site/components/peopleGrid', () => ({
-  __esModule: true,
-  default: ({ people }: { people: Array<{ name: string }> }) => (
-    <div data-testid="people-grid">{people.length}</div>
-  ),
-}));
-
-jest.mock('@/features/public-site/components/lambda', () => ({
-  __esModule: true,
-  default: () => <div data-testid="lambda-section" />,
-}));
-
-jest.mock('@/features/public-site/components/workshops', () => ({
-  __esModule: true,
-  default: () => <div data-testid="workshops" />,
-}));
-
-jest.mock('@/features/public-site/data/eigenai', () => ({
-  founderPanelSpeakers: [{ name: 'Founder A' }],
-  researchPanelSpeakers: [{ name: 'Researcher A' }],
-  keynoteSpeakers: [{ name: 'Keynote A' }],
-  speakerSession: [{ name: 'Speaker A' }, { name: 'Speaker B' }, { name: 'Speaker C' }],
-}));
-
 describe('EigenAI existing page', () => {
-  beforeAll(() => {
-    process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = 'test-key';
-  });
-
-  it('renders hero, intro, and skill-level sections', async () => {
+  it('renders the confirmed event details and ticket link', async () => {
     const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
     render(<EigenAIPage />);
-    expect(screen.getByRole('heading', { name: 'EigenAI' })).toBeInTheDocument();
-    expect(screen.getByText(/What is EigenAI\?/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Eigen AI 2026' })).toBeInTheDocument();
     expect(
-      screen.getByText(/EigenAI is built for AI practitioners of all skill levels/i)
+      screen.getByText(/Saturday October 3, 2026 and Sunday October 4, 2026/),
     ).toBeInTheDocument();
-  });
-
-  it('renders the keynote, panel, and speaker people grids', async () => {
-    const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
-    render(<EigenAIPage />);
-    const grids = screen.getAllByTestId('people-grid');
-    expect(grids.length).toBeGreaterThan(0);
-  });
-
-  it('renders the Lambda and Workshops sections', async () => {
-    const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
-    render(<EigenAIPage />);
-    expect(screen.getByTestId('lambda-section')).toBeInTheDocument();
-    expect(screen.getByTestId('workshops')).toBeInTheDocument();
-  });
-
-  it('throws an explicit error when the Google Maps API key is missing', async () => {
-    jest.resetModules();
-    const previous = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-    delete process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-
-    const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
-    expect(() => render(<EigenAIPage />)).toThrow(
-      /Google Maps API key is not defined/
+    expect(screen.getByText('252 Bloor St W, Toronto, ON M5S 1V6, Canada')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Get tickets' })).toHaveAttribute(
+      'href',
+      'https://www.zeffy.com/en-CA/ticketing/eigenai--2026',
     );
+  });
 
-    process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = previous;
+  it('renders both confirmed day schedules and unresolved labels', async () => {
+    const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
+    render(<EigenAIPage />);
+    expect(screen.getByText(/Day 1 · Saturday October 3, 2026/)).toBeInTheDocument();
+    expect(screen.getByText(/Day 2 · Sunday October 4, 2026/)).toBeInTheDocument();
+    expect(screen.getByText('Engineering Project Showcase')).toBeInTheDocument();
+    expect(screen.getAllByText('Name to be announced.')).toHaveLength(2);
+  });
+
+  it('preserves the flag-off schedule while the redesign content is updated', async () => {
+    const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
+    render(<EigenAIPage />);
+    expect(screen.getByText('Sina Panel')).toBeInTheDocument();
+    expect(screen.getByText('Stripe Panel')).toBeInTheDocument();
+    expect(screen.getByText('1:45–2:45')).toBeInTheDocument();
+    expect(screen.queryByText('1:30–2:30 PM')).not.toBeInTheDocument();
+    expect(screen.queryByText('AI Agents Workshop')).not.toBeInTheDocument();
+    expect(screen.queryByText('Naomi Walch')).not.toBeInTheDocument();
   });
 });

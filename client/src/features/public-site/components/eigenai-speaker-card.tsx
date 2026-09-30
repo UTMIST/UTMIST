@@ -12,6 +12,8 @@ function SpeakerPortrait({
   speaker: EigenAISpeaker;
   keynote: boolean;
 }) {
+  const imageScale = speaker.profileImageScale ?? 1;
+
   return (
     <EigenSpeakerPortrait
       className={
@@ -26,12 +28,12 @@ function SpeakerPortrait({
             src={speaker.profileImage}
             alt={`${speaker.name}, ${speaker.role}`}
             fill
-            sizes={
-              keynote
-                ? "(max-width: 640px) 128px, 208px"
-                : "(max-width: 640px) 128px, 160px"
-            }
+            sizes={`(max-width: 640px) ${128 * imageScale}px, ${(keynote ? 208 : 160) * imageScale}px`}
             className="object-cover"
+            style={{
+              objectPosition: speaker.profileImagePosition,
+              transform: imageScale === 1 ? undefined : `scale(${imageScale})`,
+            }}
           />
         ) : (
           <span aria-hidden="true" className="text-3xl text-white/70">
@@ -67,7 +69,7 @@ export function EigenAISpeakerCard({
         className={
           keynote
             ? "font-eigen-sans mt-1 wrap-anywhere text-xl/tight font-normal! text-white sm:text-3xl"
-            : "font-eigen-sans wrap-anywhere text-lg/tight font-medium! text-white sm:text-2xl"
+            : "font-eigen-sans wrap-anywhere text-lg/tight font-medium! text-white sm:text-xl"
         }
       >
         {speaker.profileURL ? (
@@ -85,7 +87,7 @@ export function EigenAISpeakerCard({
         className={
           keynote
             ? "mt-2 wrap-anywhere text-xs font-normal tracking-[0.01em] text-[#5edbe7] sm:mt-3 sm:text-lg"
-            : "mt-2 text-[0.6875rem] leading-relaxed font-normal tracking-[0.01em] wrap-anywhere text-[#5edbe7] sm:mt-3 sm:text-base"
+            : "mt-2 text-[0.6875rem] leading-relaxed font-normal tracking-[0.01em] wrap-anywhere text-[#5edbe7] sm:text-sm"
         }
       >
         {speaker.role}
@@ -100,7 +102,7 @@ export function EigenAISpeakerCard({
 
   return (
     <EigenGlassSurface
-      className={`rounded-4xl sm:rounded-[3.1648rem] ${keynote ? "sm:min-h-52" : "mt-18 sm:mt-24 sm:min-h-64"}`}
+      className={`rounded-4xl sm:rounded-[3.1648rem] ${keynote ? "sm:min-h-52" : "mt-18 sm:mt-22"}`}
     >
       <div className="relative z-1 h-full rounded-[inherit]">
         {keynote ? (
@@ -111,7 +113,7 @@ export function EigenAISpeakerCard({
             <SpeakerPortrait speaker={speaker} keynote />
           </article>
         ) : (
-          <article className="relative flex min-w-0 flex-col px-5 pb-5 pt-16 text-center sm:min-h-64 sm:px-8 sm:pb-6 sm:pt-20 sm:text-left">
+          <article className="relative flex h-full min-w-0 flex-col px-5 pb-5 pt-16 text-center sm:px-6 sm:pb-6 sm:pt-20">
             <SpeakerPortrait speaker={speaker} keynote={false} />
             {details}
           </article>
