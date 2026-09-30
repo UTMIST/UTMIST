@@ -11,7 +11,7 @@ import {
   eigenAIUnannouncedContent,
 } from "@/features/public-site/data/eigenai-redesign";
 
-it("shows one event photo identified as a past conference", () => {
+it("shows one event photo identified as EigenAI 2024", () => {
   render(<EigenAIRedesign />);
   const about = within(document.getElementById("about")!);
   expect(about.getAllByRole("img")).toHaveLength(1);
@@ -20,7 +20,7 @@ it("shows one event photo identified as a past conference", () => {
       name: "Panelists speaking with students at a past EigenAI conference",
     }),
   ).toBeInTheDocument();
-  expect(about.getByText("From a past EigenAI conference.")).toBeInTheDocument();
+  expect(about.getByText("EigenAI 2024")).toBeInTheDocument();
 });
 
 it("shows only the five guests with supplied headshots", () => {
@@ -29,10 +29,10 @@ it("shows only the five guests with supplied headshots", () => {
 
   expect(speakers.getAllByRole("heading", { level: 3 })).toHaveLength(5);
   for (const [name, role] of [
-    ["Adrien Beyk", "Workshop host · Architecting Autonomy"],
+    ["Adrien Beyk", "Workshop Host · Architecting Autonomy"],
     ["Aryan Yaghoubian", "Panelist · Building Your Path in Tech"],
     ["Iris Guo", "Panelist · Building Your Path in Tech"],
-    ["Naomi Walch", "Associate · Northside Ventures"],
+    ["Naomi Walch", "Panelist · Northside Ventures"],
     ["Vincent Xue", "Panelist · Northside Ventures"],
   ]) {
     const card = speakers.getByRole("heading", { name }).closest("article")!;
@@ -49,15 +49,15 @@ it("uses the current schedule's revised times and titles", () => {
   render(<EigenAIRedesign />);
   const schedule = within(screen.getByTestId("eigenai-schedule"));
   for (const [title, time] of [
-    ["Research Workshop", "10:30–11:30 AM"],
+    ["Undergraduate Research Workshop", "10:30–11:30 AM"],
     ["Engineering Project Showcase", "11:30 AM–12:30 PM"],
     ["Lunch & Networking Session", "12:30–1:00 PM"],
-    ["IEEE Workshop", "2:30–4:30 PM"],
+    ["Edge AI Workshop", "2:30–4:30 PM"],
     ["Architecting Autonomy", "2:30–4:30 PM"],
-    ["Undergrad Research Panel", "10:00–11:00 AM"],
+    ["Undergraduate Research Panel", "10:00–11:00 AM"],
     ["Stripe Panel", "1:30–2:30 PM"],
     ["AI Agents Workshop", "2:45–3:45 PM"],
-    ["aUtoronto Presentation", "2:45–3:45 PM"],
+    ["aUToronto Presentation", "2:45–3:45 PM"],
     ["Networking with Panel and Workshop Hosts", "3:45–4:15 PM"],
   ]) {
     const session = schedule.getByRole("heading", { name: title }).closest("li")!;
@@ -86,6 +86,18 @@ it("lists the six scheduled workshops with hosts and session details", () => {
   expect(workshops.queryByText("Details coming soon.")).not.toBeInTheDocument();
 });
 
+it("matches speaker and workshop card corners to the schedule panels", () => {
+  render(<EigenAIRedesign />);
+
+  const speaker = document.querySelector("#speakers article")!;
+  const workshop = document.querySelector("#workshops article")!;
+  const schedulePanel = screen.getAllByTestId("eigenai-schedule-day")[0];
+
+  expect(speaker.parentElement?.parentElement).toHaveClass("rounded-3xl");
+  expect(workshop.parentElement?.parentElement).toHaveClass("rounded-3xl");
+  expect(schedulePanel).toHaveClass("rounded-3xl");
+});
+
 it("omits the event photo and caption when no image is supplied", () => {
   render(
     <EigenAIRedesign
@@ -96,7 +108,7 @@ it("omits the event photo and caption when no image is supplied", () => {
     />,
   );
 
-  expect(screen.queryByText("From a past EigenAI conference.")).not.toBeInTheDocument();
+  expect(screen.queryByText("EigenAI 2024")).not.toBeInTheDocument();
   expect(screen.queryByRole("figure")).not.toBeInTheDocument();
 });
 

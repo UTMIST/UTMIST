@@ -23,7 +23,7 @@ jest.mock("react-intersection-observer", () => ({
 import EigenAIFlagged from "@/features/public-site/pages/eigenaiFlagged";
 // `dynamic` is declared on the route segment itself (that's the only place
 // Next.js reads it), so assert it there rather than on the selector module.
-import { dynamic } from "@/app/(frontend)/eigenai/page";
+import { dynamic, generateMetadata } from "@/app/(frontend)/eigenai/page";
 
 describe("EigenAI flag selector", () => {
   beforeEach(() => {
@@ -36,6 +36,48 @@ describe("EigenAI flag selector", () => {
 
   it("renders /eigenai dynamically so the flag is read per request", () => {
     expect(dynamic).toBe("force-dynamic");
+  });
+
+  it("publishes 2026 search and social metadata when the redesign is enabled", async () => {
+    mockEvaluateFlag.mockResolvedValue(true);
+
+    const metadata = await generateMetadata();
+
+    expect(metadata.title).toBe("EigenAI 2026 | UTMIST");
+    expect(metadata.description).toContain("October 3–4, 2026");
+    expect(metadata.description).toContain("OISE, University of Toronto");
+    expect(metadata.alternates?.canonical).toBe("https://www.utmist.ca/eigenai");
+    expect(metadata.openGraph).toMatchObject({
+      type: "website",
+      locale: "en_CA",
+      siteName: "UTMIST",
+      title: metadata.title,
+      description: metadata.description,
+      url: "https://www.utmist.ca/eigenai",
+      images: [expect.objectContaining({
+        url: expect.stringMatching(/^https:\/\/www\.utmist\.ca\//),
+        width: expect.any(Number),
+        height: expect.any(Number),
+        alt: expect.stringContaining("past EigenAI conference"),
+      })],
+    });
+    expect(metadata.twitter).toMatchObject({
+      card: "summary_large_image",
+      title: metadata.title,
+      description: metadata.description,
+      images: metadata.openGraph?.images,
+    });
+    expect(mockEvaluateFlag).toHaveBeenCalledWith("Eigen-AI-Redesign");
+    expect(mockGetCurrentUser).not.toHaveBeenCalled();
+  });
+
+  it("inherits the original metadata after the flag turns off or fails closed", async () => {
+    mockEvaluateFlag.mockResolvedValueOnce(true).mockResolvedValueOnce(false);
+
+    expect((await generateMetadata()).title).toBe("EigenAI 2026 | UTMIST");
+    // An empty override inherits the frontend layout's UTMIST title/description,
+    // with no 2026 social tags attached to the original 2025 page.
+    expect(await generateMetadata()).toEqual({});
   });
 
   it("selects the existing page with standard chrome when the flag is off", async () => {
@@ -143,12 +185,11 @@ describe("EigenAI flag selector", () => {
     expect(schedule).toHaveClass("grid", "md:grid-cols-2");
     expect(
       within(schedule).getByRole("heading", {
-        name: "IEEE Workshop",
+        name: "Edge AI Workshop",
       }),
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /October 3/ })).toHaveClass(
-      "text-lg",
-      "lg:text-xl",
+      "font-eigen-sans",
     );
     expect(
       screen.getByRole("heading", { name: /October 4/ }),
@@ -169,15 +210,14 @@ describe("EigenAI flag selector", () => {
       "href",
       expect.stringContaining("google.com/maps/search"),
     );
-    expect(screen.getByText("October 3rd & 4th")).toHaveClass(
-      "block",
-      "sm:inline",
+    expect(screen.getByText("October 3rd & 4th").parentElement).toHaveClass(
+      "whitespace-nowrap",
     );
     expect(
-      screen.getAllByText("IEEE Workshop"),
+      screen.getAllByText("Edge AI Workshop"),
     ).toHaveLength(2);
     expect(
-      screen.getAllByText("IEEE Workshop")[0],
+      screen.getAllByText("Edge AI Workshop")[0],
     ).toHaveClass("font-medium!");
     const contentContainers = screen.getAllByTestId("eigenai-content");
     expect(contentContainers.length).toBeGreaterThanOrEqual(5);
@@ -240,13 +280,16 @@ describe("EigenAI flag selector", () => {
       ),
     ).toBe(true);
     expect(lockups[0]).toHaveStyle({
-      fontSize: "clamp(4rem, 15vw, 10.5rem)",
+      fontSize: "clamp(4.5rem, 15vw, 10.5rem)",
     });
     expect(lockups[1]).toHaveStyle({ fontSize: "clamp(3.5rem, 12vw, 5rem)" });
     const backdrop = screen.getByTestId("eigenai-continuous-backdrop");
     expect(
       within(backdrop).getAllByTestId("eigenai-backdrop-image"),
     ).toHaveLength(13);
+    for (const field of within(backdrop).getAllByTestId("eigenai-backdrop-image")) {
+      expect(field).toHaveClass("opacity-30", "md:opacity-44");
+    }
     const orbitClusters = screen.getAllByTestId("eigenai-orbit-cluster");
     expect(orbitClusters).toHaveLength(5);
     for (const cluster of orbitClusters) {
@@ -265,20 +308,36 @@ describe("EigenAI flag selector", () => {
       expect(cluster).toHaveClass("[container-type:inline-size]");
     }
     expect(screen.queryByTestId("eigenai-ring-group")).not.toBeInTheDocument();
-    const mobileRingGroups = screen.getAllByTestId(
-      "eigenai-mobile-ring-group",
+    const mobileOrbitGroups = screen.getAllByTestId(
+      "eigenai-mobile-orbit-group",
     );
-    expect(mobileRingGroups).toHaveLength(5);
-    expect(mobileRingGroups.map((group) => group.style.top)).toEqual([
-      "6%",
+    expect(mobileOrbitGroups).toHaveLength(6);
+    expect(mobileOrbitGroups.map((group) => group.style.top)).toEqual([
+      "2%",
+      "7%",
       "30%",
       "54%",
       "76%",
       "94%",
     ]);
-    for (const group of mobileRingGroups) {
+    for (const group of mobileOrbitGroups) {
       expect(group).toHaveClass("md:hidden");
-      expect(group.querySelectorAll("img")).toHaveLength(3);
+      expect(group).toHaveAttribute("aria-hidden", "true");
+      expect(group.querySelectorAll("img")).toHaveLength(1);
+      expect(group.querySelector("img")).toHaveAttribute("alt", "");
+      expect(group.firstElementChild).toHaveClass(
+        "animate-spin",
+        "[animation-duration:40s]",
+        "motion-reduce:animate-none",
+      );
+    }
+    const mobileLambdaGroups = screen.getAllByTestId(
+      "eigenai-mobile-lambda-group",
+    );
+    expect(mobileLambdaGroups).toHaveLength(2);
+    for (const group of mobileLambdaGroups) {
+      expect(group).toHaveClass("md:hidden", "[container-type:inline-size]");
+      expect(group.querySelectorAll("img")).toHaveLength(2);
     }
     expect(screen.getByTestId("eigenai-hero")).not.toHaveClass(
       "overflow-hidden",

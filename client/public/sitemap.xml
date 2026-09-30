@@ -21,6 +21,13 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- EigenAI -->
+  <url>
+    <loc>https://www.utmist.ca/eigenai</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- About Us -->
   <url>
     <loc>https://www.utmist.ca/#about-us</loc>

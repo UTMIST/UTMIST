@@ -1,7 +1,6 @@
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import {
-  EigenAIConcentricRings,
   EigenAILambdaSymbol,
   EigenAILockup,
   EigenAIWordmark,
@@ -45,12 +44,34 @@ import lambdaWorkshopBack from "@/assets/eigenai-redesign/lambda-workshop-back.s
 import lambdaWorkshopFront from "@/assets/eigenai-redesign/lambda-workshop-front.svg";
 import techOrbit from "@/assets/eigenai-redesign/tech-orbit.svg";
 
-const mobileRingGroups = [
-  { id: "hero-right", left: "88%", top: "6%", width: "min(88vw, 22rem)" },
-  { id: "about-left", left: "4%", top: "30%", width: "min(82vw, 20rem)" },
-  { id: "speakers-right", left: "92%", top: "54%", width: "min(86vw, 21rem)" },
-  { id: "workshops-left", left: "2%", top: "76%", width: "min(82vw, 20rem)" },
-  { id: "closing-right", left: "88%", top: "94%", width: "min(88vw, 22rem)" },
+const mobileOrbitGroups = [
+  { id: "hero-left", left: "2%", top: "2%", width: "min(72vw, 18rem)", delay: "-17s" },
+  { id: "hero-right", left: "88%", top: "7%", width: "min(88vw, 22rem)", delay: "-2s" },
+  { id: "about-left", left: "4%", top: "30%", width: "min(82vw, 20rem)", delay: "-5s" },
+  { id: "speakers-right", left: "92%", top: "54%", width: "min(86vw, 21rem)", delay: "-13s" },
+  { id: "workshops-left", left: "2%", top: "76%", width: "min(82vw, 20rem)", delay: "-8s" },
+  { id: "closing-right", left: "88%", top: "94%", width: "min(88vw, 22rem)", delay: "-11s" },
+] as const;
+
+const mobileLambdaGroups = [
+  {
+    id: "hero",
+    back: lambdaHeroBack,
+    front: lambdaHeroFront,
+    left: "3%",
+    top: "8%",
+    width: "min(44vw, 11rem)",
+    backOffset: 4.172,
+  },
+  {
+    id: "workshops",
+    back: lambdaWorkshopBack,
+    front: lambdaWorkshopFront,
+    left: "62%",
+    top: "58%",
+    width: "min(46vw, 12rem)",
+    backOffset: 5.768,
+  },
 ] as const;
 
 const FIGMA_BACKDROP_WIDTH = 1440;
@@ -133,18 +154,37 @@ const socialLinks = [
   },
 ];
 
-function MobileConcentricRingGroups() {
-  return mobileRingGroups.map((group) => (
+function MobileOrbitGroups() {
+  return mobileOrbitGroups.map((group) => (
     <div
       key={group.id}
       aria-hidden="true"
-      data-testid="eigenai-mobile-ring-group"
+      data-testid="eigenai-mobile-orbit-group"
       className="absolute aspect-square -translate-x-1/2 -translate-y-1/2 md:hidden"
       style={{ left: group.left, top: group.top, width: group.width }}
     >
-      <EigenAIConcentricRings
-        className="absolute inset-0"
-        ringClassName="opacity-68 [filter:drop-shadow(0_0_6px_rgb(255_255_255/0.2))_drop-shadow(0_0_20px_rgb(89_224_233/0.2))_saturate(145%)]"
+      <OrbitArtwork
+        src={group.id === "closing-right" ? closingOrbit : techOrbit}
+        width={group.id === "closing-right" ? 1113.84 : 951.318}
+        floatDelay={group.delay}
+        imageClassName="opacity-68 [filter:drop-shadow(0_0_6px_rgb(255_255_255/0.2))_drop-shadow(0_0_20px_rgb(89_224_233/0.2))_saturate(145%)]"
+      />
+    </div>
+  ));
+}
+
+function MobileLambdaGroups() {
+  return mobileLambdaGroups.map((group) => (
+    <div
+      key={group.id}
+      data-testid="eigenai-mobile-lambda-group"
+      className="absolute [container-type:inline-size] md:hidden"
+      style={{ left: group.left, top: group.top, width: group.width }}
+    >
+      <EigenAILambdaSymbol
+        back={group.back}
+        front={group.front}
+        backOffset={group.backOffset}
       />
     </div>
   ));
@@ -183,6 +223,40 @@ function BackdropImage({
   );
 }
 
+function OrbitArtwork({
+  src,
+  width,
+  floatDelay,
+  imageClassName = "opacity-42 [filter:drop-shadow(0_0_5px_rgb(255_255_255/0.12))_drop-shadow(0_0_18px_rgb(89_224_233/0.12))_saturate(132%)]",
+}: {
+  src: StaticImageData;
+  width: number;
+  floatDelay: string;
+  imageClassName?: string;
+}) {
+  const orbitBleed = 48;
+  const expandedWidth = ((width + orbitBleed * 2) / width) * 100;
+  const bleedOffset = -(orbitBleed / width) * 100;
+
+  return (
+    <div
+      className="relative size-full origin-center animate-spin will-change-transform [animation-duration:40s] motion-reduce:animate-none"
+      style={{ animationDelay: floatDelay }}
+    >
+      <Image
+        src={src}
+        alt=""
+        className={`absolute h-auto max-w-none mix-blend-screen ${imageClassName}`}
+        style={{
+          left: `${bleedOffset}%`,
+          top: `${bleedOffset}%`,
+          width: `${expandedWidth}%`,
+        }}
+      />
+    </div>
+  );
+}
+
 function OrbitCluster({
   src,
   x,
@@ -198,10 +272,6 @@ function OrbitCluster({
   transform?: string;
   floatDelay?: string;
 }) {
-  const orbitBleed = 48;
-  const expandedWidth = ((width + orbitBleed * 2) / width) * 100;
-  const bleedOffset = -(orbitBleed / width) * 100;
-
   return (
     <div
       data-testid="eigenai-orbit-cluster"
@@ -215,21 +285,7 @@ function OrbitCluster({
         transformOrigin: "center",
       }}
     >
-      <div
-        className="relative size-full origin-center animate-spin will-change-transform [animation-duration:40s] motion-reduce:animate-none"
-        style={{ animationDelay: floatDelay }}
-      >
-        <Image
-          src={src}
-          alt=""
-          className="absolute h-auto max-w-none opacity-42 mix-blend-screen [filter:drop-shadow(0_0_5px_rgb(255_255_255/0.12))_drop-shadow(0_0_18px_rgb(89_224_233/0.12))_saturate(132%)]"
-          style={{
-            left: `${bleedOffset}%`,
-            top: `${bleedOffset}%`,
-            width: `${expandedWidth}%`,
-          }}
-        />
-      </div>
+      <OrbitArtwork src={src} width={width} floatDelay={floatDelay} />
     </div>
   );
 }
@@ -276,7 +332,7 @@ function ContinuousBackdrop() {
         <BackdropImage
           key={field.id}
           {...field}
-          className="opacity-44 mix-blend-screen [filter:drop-shadow(0_0_34px_rgb(89_224_233/0.08))_saturate(122%)]"
+          className="opacity-30 mix-blend-screen [filter:saturate(110%)] md:opacity-44 md:[filter:drop-shadow(0_0_34px_rgb(89_224_233/0.08))_saturate(122%)]"
         />
       ))}
 
@@ -302,7 +358,8 @@ function ContinuousBackdrop() {
         width={951.318}
         floatDelay="-13s"
       />
-      <MobileConcentricRingGroups />
+      <MobileOrbitGroups />
+      <MobileLambdaGroups />
 
       <LambdaCluster
         back={lambdaHeroBack}
@@ -344,13 +401,15 @@ function ContinuousBackdrop() {
 function GradientPanel({
   children,
   className = "",
+  radiusClassName = "rounded-4xl sm:rounded-[3.1648rem]",
 }: {
   children: React.ReactNode;
   className?: string;
+  radiusClassName?: string;
 }) {
   return (
     <EigenGlassSurface
-      className={`rounded-4xl sm:rounded-[3.1648rem] ${className}`}
+      className={`${radiusClassName} ${className}`}
     >
       <div className="relative z-1 h-full rounded-[inherit]">{children}</div>
     </EigenGlassSurface>
@@ -359,7 +418,7 @@ function GradientPanel({
 
 function WorkshopCard({ workshop }: { workshop: EigenAIWorkshop }) {
   return (
-    <GradientPanel>
+    <GradientPanel radiusClassName="rounded-3xl">
       <article className="min-w-0 p-5 sm:p-6">
         <div className="min-w-0 wrap-anywhere">
           <div className="flex flex-wrap items-center gap-3">
@@ -523,12 +582,12 @@ export default function EigenAIRedesign({
       <EigenNavigation />
       <HeroSection>
         <h1 className="sr-only">EigenAI Conference</h1>
-        <EigenAILockup fontSize="clamp(4rem, 15vw, 10.5rem)" showCursor />
-        <EigenGlassSurface className="mt-8 flex w-fit max-w-[min(100%,20rem)] items-center justify-center rounded-3xl px-5 py-3 text-sm/snug tracking-[-0.01em] sm:mt-10 sm:min-h-11 sm:max-w-full sm:rounded-full sm:px-8 sm:py-2 sm:text-3xl/none">
-          <span className="relative z-1 text-center text-white">
-            <span className="block sm:inline">{content.dateLabel}</span>
+        <EigenAILockup fontSize="clamp(4.5rem, 15vw, 10.5rem)" showCursor />
+        <EigenGlassSurface className="mt-8 flex w-fit max-w-[calc(100vw-2.5rem)] items-center justify-center rounded-full px-4 py-3 text-sm/snug tracking-[-0.01em] sm:mt-10 sm:min-h-11 sm:max-w-full sm:px-8 sm:py-2 sm:text-3xl/none">
+          <span className="relative z-1 whitespace-nowrap text-center text-white">
+            <span>{content.dateLabel}</span>
             {content.locationLabel ? (
-              <span className="mt-0.5 block sm:mt-0 sm:inline">
+              <span>
                 {" "}
                 @ {content.locationLabel}
               </span>
@@ -588,7 +647,7 @@ export default function EigenAIRedesign({
                 </div>
               </GradientPanel>
               <figcaption className="mt-3 text-center text-xs text-white/70 sm:text-sm">
-                From a past EigenAI conference.
+                EigenAI 2024
               </figcaption>
             </figure>
           ) : null}

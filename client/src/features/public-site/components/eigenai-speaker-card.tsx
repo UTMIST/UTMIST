@@ -102,7 +102,7 @@ export function EigenAISpeakerCard({
 
   return (
     <EigenGlassSurface
-      className={`rounded-4xl sm:rounded-[3.1648rem] ${keynote ? "sm:min-h-52" : "mt-18 sm:mt-22"}`}
+      className={`rounded-3xl ${keynote ? "sm:min-h-52" : "mt-18 sm:mt-22"}`}
     >
       <div className="relative z-1 h-full rounded-[inherit]">
         {keynote ? (

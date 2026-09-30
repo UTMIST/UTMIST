@@ -7,7 +7,8 @@ there is no flash of the wrong page and the choice is never frozen at build.
 ## Location
 
 - Route shell: `client/src/app/(frontend)/eigenai/page.tsx` — re-exports the
-  selector's `default` and declares `dynamic = "force-dynamic"` itself.
+  selector's `default` and `generateMetadata`, and declares
+  `dynamic = "force-dynamic"` itself.
 - Selector (server): `client/src/features/public-site/pages/eigenaiFlagged.tsx`.
 - Existing page (client): `client/src/features/public-site/pages/eigenai.tsx`.
 - Redesign page: `client/src/features/public-site/pages/eigenaiRedesign.tsx`.
@@ -24,6 +25,10 @@ evaluations within a request:
 ```tsx
 const showRedesign = await evaluateFlag("Eigen-AI-Redesign");
 ```
+
+The selector wraps this lookup in React `cache()` so its metadata and page
+content use the same result within a request, including in production. The
+cache is request-scoped; later requests still evaluate the current flag.
 
 When enabled, the selector renders `EigenAIRedesign`, which supplies its own
 navigation and footer. Otherwise it renders `Navbar`, `EigenAIPage`, `Footer`,
@@ -54,6 +59,23 @@ from `client/`. Subsequent server evaluations follow provider updates without a
 redeploy. Offline local development uses fixtures, which currently disable the
 redesign.
 See [../flags.md](../flags.md) for setup and verification.
+
+## Search and social metadata
+
+With the redesign enabled, `/eigenai` supplies the title `EigenAI 2026 | UTMIST`,
+a description with the October 3–4 dates and OISE venue, and the canonical URL
+`https://www.utmist.ca/eigenai`. Open Graph and Twitter large-image cards share
+that copy and the existing `eigenai-conference.webp` photo, with its dimensions
+and alternative text identifying it as a past conference. All metadata URLs
+use the public production origin, including when viewing a local or preview
+deployment. The imported photo's hashed asset URL updates if the file changes.
+
+When the flag is off or fails closed, `generateMetadata` returns no overrides:
+the original UTMIST title and description are inherited, and no 2026 social
+metadata is published. The page remains dynamic so toggles affect subsequent
+requests. Social platforms may retain previously fetched previews until they
+recrawl the URL. The public `/eigenai` URL is also listed in `public/sitemap.xml`;
+it exists in both flag states.
 
 ## Content contract and fixtures
 
@@ -96,7 +118,7 @@ which takes precedence over that tab's partially filled draft rows for times
 and rooms. These are manually maintained public content snapshots; the page
 does not fetch private planning documents at runtime.
 The live document's first tab was rechecked on September 29, 2026. Session names
-follow that tab, including Undergrad Research Panel, Stripe Panel, and AI Agents
+follow that tab, including Undergraduate Research Panel, Stripe Panel, and AI Agents
 Workshop. Adrien's workshop remains Saturday 2:30–4:30 PM in OI 2212; the Sunday
 2:45–3:45 PM AI Agents Workshop in OI 2214 belongs to UTMIST Academics. The
 tentative request for extra engineering booths is not treated as a confirmed
@@ -120,7 +142,8 @@ Profile links remain unset until supplied.
 
 The six workshop cards use session titles, hosts, dates, times, and rooms from
 these sources. They use compact text and padding with no fixed minimum height,
-stacking on phones and forming two columns from `md`. Saturday's 1:00–1:30 PM
+stacking on phones and forming two columns from `md`. Speaker and workshop cards
+use the same `rounded-3xl` corner radius as the schedule day panels. Saturday's 1:00–1:30 PM
 block remains explicitly unannounced.
 The schedule notice says it is subject to change. The theme follows the current
 schedule: “Across the Many Frontiers of AI.” No attendance metric is inferred
@@ -139,7 +162,7 @@ The About section uses only `eigenai-conference.webp`, the second photo from the
 previous three-image layout. Introductory paragraphs form two columns from `md`,
 followed by one image spanning the content width. Its frame uses a 16:9 ratio on
 phones and 21:9 from `sm`, with the crop positioned toward the panelists. The
-caption identifies it as a past conference. `about.image` and `about.imageAlt`
+caption identifies it as EigenAI 2024. `about.image` and `about.imageAlt`
 supply the photo and alternative text; omitting the image also omits its frame
 and caption.
 Speaker headshots use `profileImage` and live under
@@ -183,11 +206,13 @@ set as the other desktop orbit artwork.
 The default content includes the current two-day schedule for October 3 and 4
 in Toronto local time (EDT), with explicit AM/PM labels.
 `eigenai-schedule.tsx` accepts typed schedule data and owns its
-responsive layout: Saturday and Sunday are equal-height columns inside a single
-blue glass timetable from the medium breakpoint, with the days stacked on phones.
-Day headers separate the weekday from the date, with no colored top borders.
-Cyan accents appear on both days' labels and times. The transparent timetable uses
-the original glass panel's light blur, saturation, and contrast to preserve the
+responsive layout: Saturday and Sunday are separate, equal-height glass panels
+from the medium breakpoint, with the panels stacked on phones. Each panel reuses
+`EigenGlassSurface` for the same cyan/white/lavender gradient outline as the
+other event cards.
+Day headers make the weekday a large cyan uppercase label and place the date
+beneath it. Cyan accents also appear on times. The transparent panels use the
+original glass treatment's light blur, saturation, and contrast to preserve the
 brighter blue backdrop.
 Each session has its own subtle filled card and border, making extended sessions
 read as continuous blocks. Gaps separate cards vertically and horizontally.
@@ -267,7 +292,8 @@ frames into one `1440 × 8192` coordinate plane: blurred cyan, blue, purple, and
 lavender fields cross the former frame boundaries without seams, while each
 orbit keeps its rings, glass symbols, and line details in one logical cluster.
 The hero and workshop lambdas are likewise paired layers in that same backdrop
-instead of section-local elements. Their exported white strokes reproduce the
+instead of section-local elements, with dedicated mobile positions and sizes so
+both remain visible below `md`. Their exported white strokes reproduce the
 Figma treatment: the fine `1.0768px` layer has a `4.3071px` layer blur and the
 heavy `4.3071px` layer has an `18.0897px` layer blur at the `444.352px` source
 width. Container-relative blur units preserve those proportions responsively.
@@ -325,10 +351,14 @@ Mobile layouts keep the three headline metrics in one row immediately below a
 full dynamic-viewport hero, center section headings and speaker-card copy, use
 `1.25rem` page gutters and compact section/card spacing, and reduce
 the type scale and footer footprint. The closing section uses a shorter mobile
-canvas while retaining a prominent lower event lockup. The hero's concentric ring
-groups remain visible on small screens at alternating viewport edges and repeat
-down the full page with stronger contrast; the original Figma coordinate and
-scale resume at `md`.
+canvas while retaining a prominent lower event lockup. Mobile reduces the
+background colour-field opacity and saturation to compensate for their tighter
+crop on narrow screens. It uses the same
+animated orbit artwork as desktop, including drifting icon orbs and the slow
+40-second rotation. Six clusters keep alternating edge positions, including an
+additional top-left cluster, and stronger contrast, with staggered delays. Both the rotation and
+the SVG's internal drift stop for reduced-motion preferences. The original
+desktop Figma coordinates and scale resume at `md`.
 The 2026 content includes five named guests with headshots and six workshops.
 There are no placeholder speaker cards in the public lineup. Workshop descriptions
 give the available session details without inventing abstracts.
@@ -362,6 +392,7 @@ navigation, and footer.
   on or off, alongside loading and filtering behavior.
 - `client/tests/unit/pages/eigenai-selector.test.tsx` — off → existing, on →
   redesign, default-off → original 2025 page (only the server barrel mocked).
+  Also checks enabled search/social metadata and the flag-off metadata rollback.
   Both pages render with real content. Checks that the
   legacy/default-off branches retain standard navigation, footer, and theme
   controls, and the redesign has only its own chrome.

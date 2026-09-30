@@ -12,7 +12,7 @@ it("aligns shared clock times and spans longer sessions across intervening event
   expect(boundaries[0]).toBe(8 * 60 + 30);
   expect(boundaries.at(-1)).toBe(17 * 60);
   expect(slot(saturday, "9:00–9:30 AM").rowStart).toBe(slot(sunday, "9:00–9:30 AM").rowStart);
-  expect(slot(saturday, "9:30–10:15 AM").rowStart).toBe(slot(sunday, "9:30–10:00 AM").rowStart);
+  expect(slot(saturday, "9:30–10:30 AM").rowStart).toBe(slot(sunday, "9:30–10:00 AM").rowStart);
   expect(slot(saturday, "12:30–1:00 PM").rowStart).toBe(slot(sunday, "12:30–1:30 PM").rowStart);
 
   const afternoon = slot(saturday, "2:30–4:30 PM");
@@ -54,12 +54,14 @@ it("keeps unscheduled labels visible without assigning a guessed time", () => {
 it("groups simultaneous sessions under one time label within each day", () => {
   render(<EigenAISchedule schedule={eigenAIContent.schedule} />);
 
+  expect(screen.getAllByTestId("eigenai-schedule-day")).toHaveLength(2);
+
   for (const [titles, time] of [
-    [["Research Workshop", "Publicus AI Workshop"], "10:30–11:30 AM"],
-    [["Architecting Autonomy", "IEEE Workshop"], "2:30–4:30 PM"],
+    [["Undergraduate Research Workshop", "Publicus AI Workshop"], "10:30–11:30 AM"],
+    [["Architecting Autonomy", "Edge AI Workshop"], "2:30–4:30 PM"],
     [[
       "Applying Fintech Concepts and Industry Practices Using AI Agents",
-      "aUtoronto Presentation",
+      "aUToronto Presentation",
       "AI Agents Workshop",
     ], "2:45–3:45 PM"],
   ] as const) {
