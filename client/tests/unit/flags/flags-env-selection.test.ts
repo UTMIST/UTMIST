@@ -1,5 +1,5 @@
 // Vercel deployments use OIDC; explicit FLAGS keys remain supported. Production
-// stays off before either authentication path. Only offline dev uses fixtures.
+// follows the provider while ignoring browser overrides. Only offline dev uses fixtures.
 //
 // The Vercel adapter module is mocked so no SDK is loaded; each case re-imports
 // `flags/server` with fresh modules because the adapter is resolved once per
@@ -56,15 +56,16 @@ describe('flag adapter selection by environment', () => {
     expect(createVercelFlagAdapter).toHaveBeenCalledWith('dev-key');
   });
 
-  it.each<Record<string, string>>([{}, { FLAGS: 'some-key' }, { VERCEL_OIDC_TOKEN: 'production-oidc' }])(
-    'keeps every flag off in production with credentials %j', async (credentials) => {
+  it.each<Record<string, string>>([
+    {}, { FLAGS: 'some-key' }, { VERCEL_OIDC_TOKEN: 'production-oidc' },
+    { FLAGS_SECRET: 'invalid-explorer-secret' },
+  ])(
+    'evaluates the production provider with credentials %j', async (credentials) => {
       setEnv({ VERCEL: '1', VERCEL_ENV: 'production', NODE_ENV: 'production', ...credentials });
       const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
-      // `showDemoBanner` is on in the fixtures, so `false` proves they're not bound.
-      await expect(evaluateFlag('showDemoBanner')).resolves.toBe(false);
-      await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(false);
-      expect(createVercelFlagAdapter).not.toHaveBeenCalled();
+      await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(true);
+      expect(createVercelFlagAdapter).toHaveBeenCalledWith(credentials.FLAGS);
     },
   );
 
@@ -180,13 +181,14 @@ describe('flag adapter selection by environment', () => {
     expect(createVercelFlagAdapter).toHaveBeenCalledTimes(1);
   });
 
-  it('turns an adapter that resolves undefined or rejects into false', async () => {
-    setEnv({ VERCEL_ENV: 'preview' });
+  it.each(['preview', 'production'])('fails off and recovers on %s provider changes', async (environment) => {
+    setEnv({ VERCEL_ENV: environment });
     const evaluate = jest
       .fn()
       .mockResolvedValueOnce(undefined)
       .mockRejectedValueOnce(new Error('OIDC unavailable'))
-      .mockResolvedValueOnce(true);
+      .mockResolvedValueOnce(true)
+      .mockResolvedValueOnce(false);
     jest.doMock('@/shared/lib/flags/vercel', () => ({
       createVercelFlagAdapter: () => ({ evaluate }),
     }));
@@ -196,6 +198,7 @@ describe('flag adapter selection by environment', () => {
     await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(false);
     // A transient evaluation failure does not poison later evaluations.
     await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(true);
+    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(false);
   });
 
   it('passes the anonymous public context when none is given', async () => {

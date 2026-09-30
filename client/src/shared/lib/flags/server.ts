@@ -1,4 +1,4 @@
-// Server-only public flag API. Keep the production guard outside the Flags SDK:
+// Server-only public flag API. Production reads the provider directly because
 // an authenticated Explorer override bypasses a flag's decide function.
 import type { NextRequest } from "next/server";
 
@@ -16,7 +16,9 @@ export async function evaluateFlag(
   name: string,
   ctx: EvaluationContext = { cohort: "public" },
 ): Promise<boolean> {
-  if (process.env.VERCEL_ENV === "production") return false;
+  if (process.env.VERCEL_ENV === "production") {
+    return evaluateProviderFlag(name, ctx);
+  }
 
   try {
     // No Explorer secret is required for provider evaluation or keyless local

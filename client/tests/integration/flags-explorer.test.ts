@@ -227,15 +227,27 @@ it.each([
   await expect(evaluateFlag(flagKey)).resolves.toBe(override);
 });
 
-it.each(['sdk-key', 'oidc'])('keeps production off with %s and a signed on override', async (authentication) => {
+it.each([
+  { authentication: 'sdk-key', enabled: false },
+  { authentication: 'sdk-key', enabled: true },
+  { authentication: 'oidc', enabled: false },
+  { authentication: 'oidc', enabled: true },
+])('honors production $enabled with $authentication despite an opposite signed override', async ({ authentication, enabled }) => {
+  mockClientOptions.datafile = {
+    projectId: 'prj_test',
+    environment: 'production',
+    configUpdatedAt: 1,
+    revision: 1,
+    definitions: { [flagKey]: { variants: [false, true], environments: { production: enabled ? 1 : 0 } } },
+  };
   if (authentication === 'oidc') useOidcProvider();
   mockOidcToken.mockResolvedValue('synthetic-production-oidc');
   process.env.VERCEL_ENV = 'production';
-  setRequest(await encryptOverrides({ [flagKey]: true }, secret));
+  setRequest(await encryptOverrides({ [flagKey]: !enabled }, secret));
   const { evaluateFlag } = await import('@/shared/lib/flags/server');
-  await expect(evaluateFlag(flagKey)).resolves.toBe(false);
-  expect(mockKeys).toEqual([]);
-  expect(mockOidcToken).not.toHaveBeenCalled();
+  await expect(evaluateFlag(flagKey)).resolves.toBe(enabled);
+  expect(mockKeys).toEqual([authentication === 'oidc' ? undefined : 'vf_server_test']);
+  if (authentication === 'oidc') expect(mockOidcToken).toHaveBeenCalled();
 });
 
 it('rejects truthy non-boolean overrides and overrides of undeclared flags', async () => {

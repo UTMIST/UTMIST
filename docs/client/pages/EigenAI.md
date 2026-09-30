@@ -39,8 +39,8 @@ and the embedded-fallback mitigation.
 
 ## Rollout / opt-in
 
-The flag is **always off in production** until launch (#444): the public
-evaluator checks `VERCEL_ENV=production` before provider evaluation or Explorer
+Production follows the **Production dashboard setting**. The public evaluator
+checks `VERCEL_ENV=production` and reads the provider directly, ignoring Explorer
 overrides. Provider authentication uses Vercel's automatic OIDC identity (or an
 optional explicit `FLAGS` SDK key); the separate `FLAGS_SECRET` enables
 authenticated Flags Explorer discovery and
@@ -126,10 +126,12 @@ The schedule notice says it is subject to change. The theme follows the current
 schedule: “Across the Many Frontiers of AI.” No attendance metric is inferred
 from the sheet's capacity goal.
 
-The flag-off page reads `data/eigenai-legacy.ts`, preserving its pre-update
-schedule. Changes to the redesign data therefore stay behind
-`Eigen-AI-Redesign` and do not change the rollback view. The server selector and
-flag configuration are unchanged.
+The flag-off page restores the original pre-#456 `pages/eigenai.tsx`: September
+20–21, 2025 copy, the three-image gallery, the Instagram schedule, and the original
+speaker groups and workshops from `data/eigenai.ts`. It does not import the 2026
+redesign data. If the optional Maps key is missing, a directions link replaces
+the embed so switching Off still renders a working page. The Instagram script is
+removed when the page unmounts. Provider errors select this same rollback view.
 
 ## Presentation
 
@@ -289,8 +291,8 @@ page. The UTMIST wordmark remains the route back to the main site, while the
 navigation does not include a separate home or authentication action.
 Outside `/eigenai`, the frontend layout evaluates `Eigen-AI-Redesign` on the
 server and passes the result to the shared navbar. Only an enabled flag renders
-the `/eigenai` promotional link; missing configuration, provider failures, and
-the production-off guard omit it. The link uses the same shared small gradient
+the `/eigenai` promotional link; a disabled flag, missing configuration, and
+provider failures omit it. The link uses the same shared small gradient
 button styling as the Login/Profile action on both desktop and mobile, while
 the client navbar receives only the resolved boolean.
 When the EigenAI promotion is present, the shared navbar uses tighter tablet
@@ -359,8 +361,10 @@ navigation, and footer.
 - `client/tests/unit/pages/events.test.tsx` — EigenAI card branding with the flag
   on or off, alongside loading and filtering behavior.
 - `client/tests/unit/pages/eigenai-selector.test.tsx` — off → existing, on →
-  redesign, default-off → existing (server barrel mocked). Checks that the
+  redesign, default-off → original 2025 page (only the server barrel mocked).
+  Both pages render with real content. Checks that the
   legacy/default-off branches retain standard navigation, footer, and theme
   controls, and the redesign has only its own chrome.
 - `client/tests/unit/pages/eigenai.test.tsx` — the existing page's own
-  event details and unchanged rollback schedule (imports the component directly).
+  original 2025 event details, speaker sections, workshops, and missing-Maps-key
+  fallback (imports the component directly).
