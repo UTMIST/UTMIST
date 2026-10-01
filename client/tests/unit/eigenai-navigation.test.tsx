@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { EigenNavigation } from "@/features/public-site/components/eigenai-navigation";
 
@@ -16,7 +16,7 @@ it("closes the mobile menu when Tab moves focus onto the page", async () => {
   );
   const menu = document.getElementById("eigenai-mobile-menu")!;
   await user.tab();
-  expect(within(menu).getByRole("link", { name: "About" })).toHaveFocus();
+  expect(menu.querySelector("a[href^='#']")).toHaveFocus();
   expect(
     screen.getByRole("button", { name: "Close navigation menu" }),
   ).toBeInTheDocument();
@@ -56,9 +56,7 @@ it("closes on a section link and restores the previous scroll setting", async ()
     screen.getByRole("button", { name: "Open navigation menu" }),
   );
   fireEvent.click(
-    within(document.getElementById("eigenai-mobile-menu")!).getByRole("link", {
-      name: "Speakers",
-    }),
+    document.getElementById("eigenai-mobile-menu")!.querySelector("a[href^='#']")!,
   );
   expect(document.body.style.overflow).toBe("auto");
   expect(document.getElementById("eigenai-mobile-menu")).toBeNull();

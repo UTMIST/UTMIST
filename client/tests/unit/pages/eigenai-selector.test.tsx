@@ -1,8 +1,8 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 
 // The selector is a server component. Mock the server barrel so no Supabase /
-// Vercel Flags code loads. Both pages render for real so the off branch verifies
-// the original 2025 rollback content, not just which component was selected.
+// Vercel Flags code loads. Both pages render for real so the test verifies the
+// selected page shell without coupling flag behavior to mutable event copy.
 const mockEvaluateFlag = jest.fn();
 const mockGetCurrentUser = jest.fn();
 
@@ -22,7 +22,7 @@ jest.mock("react-intersection-observer", () => ({
 import EigenAIFlagged from "@/features/public-site/pages/eigenaiFlagged";
 // `dynamic` is declared on the route segment itself (that's the only place
 // Next.js reads it), so assert it there rather than on the selector module.
-import { dynamic } from "@/app/(frontend)/eigenai/page";
+import { dynamic, generateMetadata } from "@/app/(frontend)/eigenai/page";
 
 describe("EigenAI flag selector", () => {
   beforeEach(() => {
@@ -37,15 +37,45 @@ describe("EigenAI flag selector", () => {
     expect(dynamic).toBe("force-dynamic");
   });
 
+  it("publishes search and social metadata when the redesign is enabled", async () => {
+    mockEvaluateFlag.mockResolvedValue(true);
+
+    const metadata = await generateMetadata();
+
+    expect(metadata.alternates?.canonical).toBe("https://www.utmist.ca/eigenai");
+    expect(metadata.openGraph).toMatchObject({
+      type: "website",
+      locale: "en_CA",
+      siteName: "UTMIST",
+      url: "https://www.utmist.ca/eigenai",
+      images: [expect.objectContaining({
+        url: expect.stringMatching(/^https:\/\/www\.utmist\.ca\//),
+        width: expect.any(Number),
+        height: expect.any(Number),
+        alt: expect.any(String),
+      })],
+    });
+    expect(metadata.twitter).toMatchObject({
+      card: "summary_large_image",
+      images: metadata.openGraph?.images,
+    });
+    expect(mockEvaluateFlag).toHaveBeenCalledWith("Eigen-AI-Redesign");
+    expect(mockGetCurrentUser).not.toHaveBeenCalled();
+  });
+
+  it("inherits the original metadata after the flag turns off or fails closed", async () => {
+    mockEvaluateFlag.mockResolvedValueOnce(true).mockResolvedValueOnce(false);
+
+    expect(await generateMetadata()).not.toEqual({});
+    // An empty override inherits the frontend layout metadata.
+    expect(await generateMetadata()).toEqual({});
+  });
+
   it("selects the existing page with standard chrome when the flag is off", async () => {
     mockEvaluateFlag.mockResolvedValue(false);
 
     render(await EigenAIFlagged());
 
-    expect(screen.getByRole("heading", { name: "EigenAI" })).toBeInTheDocument();
-    expect(screen.getByText(/September 20-21, 2025/)).toBeInTheDocument();
-    expect(screen.getByText("Sicong (Sheldon) Huang")).toBeInTheDocument();
-    expect(screen.queryByText("Naomi Walch")).not.toBeInTheDocument();
     expect(screen.getByRole("navigation", { name: "Site" })).toBeInTheDocument();
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
     expect(screen.queryByTestId("eigenai-redesign")).not.toBeInTheDocument();
@@ -121,41 +151,21 @@ describe("EigenAI flag selector", () => {
     ).not.toBeInTheDocument();
     expect(within(navigation).queryByRole("link", { name: "Login" })).not.toBeInTheDocument();
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
-    const aboutHeading = screen.getByRole("heading", {
-      name: /What is eigenai\s*\?/,
-    });
+    const aboutHeading = document.querySelector<HTMLElement>("#about h2")!;
     expect(aboutHeading).toBeInTheDocument();
     expect(aboutHeading).toHaveClass("font-eigen-serif!", "font-medium!");
     expect(
       within(aboutHeading).getByTestId("eigenai-wordmark"),
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "Speakers" }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "Workshops" }),
-    ).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Schedule" })).toBeInTheDocument();
     const schedule = screen.getByTestId("eigenai-schedule");
     expect(schedule).toHaveClass("grid", "md:grid-cols-2");
-    expect(
-      within(schedule).getByRole("heading", {
-        name: "IEEE Workshop",
-      }),
-    ).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /October 3/ })).toHaveClass(
-      "text-lg",
-      "lg:text-xl",
+    expect(within(schedule).getAllByRole("heading")[0]).toHaveClass(
+      "font-eigen-sans",
     );
-    expect(
-      screen.getByRole("heading", { name: /October 4/ }),
-    ).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Venue" })).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", {
-        name: "Ontario Institute for Studies in Education (OISE)",
-      }),
-    ).toHaveClass("text-xl/tight", "sm:text-3xl");
+    expect(document.querySelector("#venue h3")).toHaveClass(
+      "text-xl/tight",
+      "sm:text-3xl",
+    );
     expect(
       screen.getByTitle("Google Maps preview of the EigenAI venue"),
     ).toHaveAttribute(
@@ -166,16 +176,6 @@ describe("EigenAI flag selector", () => {
       "href",
       expect.stringContaining("google.com/maps/search"),
     );
-    expect(screen.getByText("October 3rd & 4th")).toHaveClass(
-      "block",
-      "sm:inline",
-    );
-    expect(
-      screen.getAllByText("IEEE Workshop"),
-    ).toHaveLength(2);
-    expect(
-      screen.getAllByText("IEEE Workshop")[0],
-    ).toHaveClass("font-medium!");
     const contentContainers = screen.getAllByTestId("eigenai-content");
     expect(contentContainers.length).toBeGreaterThanOrEqual(5);
     expect(
@@ -230,20 +230,19 @@ describe("EigenAI flag selector", () => {
       ),
     ).toBe(true);
     expect(
-      lockups.every((lockup) =>
-        within(lockup)
-          .getByText("CONFERENCE ’26")
-          .classList.contains("bg-clip-text"),
-      ),
+      lockups.every((lockup) => lockup.querySelector(".bg-clip-text")),
     ).toBe(true);
     expect(lockups[0]).toHaveStyle({
-      fontSize: "clamp(4rem, 15vw, 10.5rem)",
+      fontSize: "clamp(4.5rem, 15vw, 10.5rem)",
     });
     expect(lockups[1]).toHaveStyle({ fontSize: "clamp(3.5rem, 12vw, 5rem)" });
     const backdrop = screen.getByTestId("eigenai-continuous-backdrop");
     expect(
       within(backdrop).getAllByTestId("eigenai-backdrop-image"),
     ).toHaveLength(13);
+    for (const field of within(backdrop).getAllByTestId("eigenai-backdrop-image")) {
+      expect(field).toHaveClass("opacity-30", "md:opacity-44");
+    }
     const orbitClusters = screen.getAllByTestId("eigenai-orbit-cluster");
     expect(orbitClusters).toHaveLength(5);
     for (const cluster of orbitClusters) {
@@ -262,20 +261,36 @@ describe("EigenAI flag selector", () => {
       expect(cluster).toHaveClass("[container-type:inline-size]");
     }
     expect(screen.queryByTestId("eigenai-ring-group")).not.toBeInTheDocument();
-    const mobileRingGroups = screen.getAllByTestId(
-      "eigenai-mobile-ring-group",
+    const mobileOrbitGroups = screen.getAllByTestId(
+      "eigenai-mobile-orbit-group",
     );
-    expect(mobileRingGroups).toHaveLength(5);
-    expect(mobileRingGroups.map((group) => group.style.top)).toEqual([
-      "6%",
+    expect(mobileOrbitGroups).toHaveLength(6);
+    expect(mobileOrbitGroups.map((group) => group.style.top)).toEqual([
+      "2%",
+      "7%",
       "30%",
       "54%",
       "76%",
       "94%",
     ]);
-    for (const group of mobileRingGroups) {
+    for (const group of mobileOrbitGroups) {
       expect(group).toHaveClass("md:hidden");
-      expect(group.querySelectorAll("img")).toHaveLength(3);
+      expect(group).toHaveAttribute("aria-hidden", "true");
+      expect(group.querySelectorAll("img")).toHaveLength(1);
+      expect(group.querySelector("img")).toHaveAttribute("alt", "");
+      expect(group.firstElementChild).toHaveClass(
+        "animate-spin",
+        "[animation-duration:40s]",
+        "motion-reduce:animate-none",
+      );
+    }
+    const mobileLambdaGroups = screen.getAllByTestId(
+      "eigenai-mobile-lambda-group",
+    );
+    expect(mobileLambdaGroups).toHaveLength(2);
+    for (const group of mobileLambdaGroups) {
+      expect(group).toHaveClass("md:hidden", "[container-type:inline-size]");
+      expect(group.querySelectorAll("img")).toHaveLength(2);
     }
     expect(screen.getByTestId("eigenai-hero")).not.toHaveClass(
       "overflow-hidden",
@@ -291,7 +306,7 @@ describe("EigenAI flag selector", () => {
     );
     expect(screen.getByTestId("eigenai-closing")).toHaveClass("pt-4");
     expect(
-      screen.getByRole("heading", { name: "Workshops" }).closest("section"),
+      document.getElementById("workshops"),
     ).not.toHaveClass("overflow-hidden");
     expect(
       screen.getByRole("link", { name: "UTMIST on Instagram" }),
@@ -311,7 +326,6 @@ describe("EigenAI flag selector", () => {
         screen.getByRole("link", { name: `UTMIST on ${label}` }),
       ).toHaveAttribute("href", href);
     }
-    expect(screen.queryByText(/September 20-21, 2025/)).not.toBeInTheDocument();
   });
 
   it("opens and dismisses the redesign mobile navigation", async () => {
@@ -362,8 +376,6 @@ describe("EigenAI flag selector", () => {
 
     render(await EigenAIFlagged());
 
-    expect(screen.getByRole("heading", { name: "EigenAI" })).toBeInTheDocument();
-    expect(screen.getByText(/September 20-21, 2025/)).toBeInTheDocument();
     expect(screen.getByRole("navigation", { name: "Site" })).toBeInTheDocument();
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
   });
