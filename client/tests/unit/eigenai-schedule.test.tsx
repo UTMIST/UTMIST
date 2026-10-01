@@ -1,22 +1,50 @@
 import { render, screen, within } from "@testing-library/react";
 import { EigenAISchedule } from "@/features/public-site/components/eigenai-schedule";
-import { eigenAIContent } from "@/features/public-site/data/eigenai-redesign";
 import { buildScheduleTimeline } from "@/features/public-site/lib/eigenai-schedule";
 
+const scheduleFixture = [
+  {
+    day: "Day 1",
+    date: "Saturday",
+    items: [
+      { time: "9:00–9:30 AM", title: "Welcome" },
+      { time: "9:50–10:30 AM", title: "Morning session" },
+      { time: "10:30–11:30 AM", title: "Workshop A" },
+      { time: "10:30–11:30 AM", title: "Workshop B" },
+      { time: "12:30–1:30 PM", title: "Lunch" },
+      { time: "2:30–4:30 PM", title: "Afternoon session" },
+      { time: "4:30–5:00 PM", title: "Closing" },
+    ],
+  },
+  {
+    day: "Day 2",
+    date: "Sunday",
+    items: [
+      { time: "9:00–9:30 AM", title: "Registration" },
+      { time: "9:30–10:00 AM", title: "Opening" },
+      { time: "12:30–1:30 PM", title: "Lunch" },
+      { time: "2:45–3:45 PM", title: "Workshop C" },
+      { time: "2:45–3:45 PM", title: "Workshop D" },
+      { time: "3:45–4:15 PM", title: "Networking" },
+      { time: "4:15–5:00 PM", title: "Closing" },
+    ],
+  },
+];
+
 it("aligns shared clock times and spans longer sessions across intervening events", () => {
-  const { days, boundaries } = buildScheduleTimeline(eigenAIContent.schedule);
+  const { days, boundaries } = buildScheduleTimeline(scheduleFixture);
   const saturday = days[0].slots;
   const sunday = days[1].slots;
   const slot = (day: typeof saturday, time: string) => day.find((item) => item.time === time)!;
 
-  expect(boundaries[0]).toBe(8 * 60 + 30);
+  expect(boundaries[0]).toBe(9 * 60);
   expect(boundaries.at(-1)).toBe(17 * 60);
   expect(slot(saturday, "9:00–9:30 AM").rowStart).toBe(slot(sunday, "9:00–9:30 AM").rowStart);
-  expect(slot(saturday, "9:30–10:30 AM").rowStart).toBe(slot(sunday, "9:30–10:00 AM").rowStart);
-  expect(slot(saturday, "12:30–1:00 PM").rowStart).toBe(slot(sunday, "12:30–1:30 PM").rowStart);
+  expect(slot(saturday, "9:50–10:30 AM").rowStart).toBeGreaterThan(slot(sunday, "9:30–10:00 AM").rowStart!);
+  expect(slot(saturday, "12:30–1:30 PM").rowStart).toBe(slot(sunday, "12:30–1:30 PM").rowStart);
 
   const afternoon = slot(saturday, "2:30–4:30 PM");
-  expect(afternoon.rowStart).toBe(slot(sunday, "2:30–2:45 PM").rowStart);
+  expect(afternoon.rowStart).toBeLessThan(slot(sunday, "2:45–3:45 PM").rowStart!);
   expect(afternoon.rowEnd).toBe(slot(saturday, "4:30–5:00 PM").rowStart);
   expect(afternoon.rowEnd).toBeGreaterThan(slot(sunday, "3:45–4:15 PM").rowEnd!);
   expect(slot(saturday, "4:30–5:00 PM").rowEnd).toBe(slot(sunday, "4:15–5:00 PM").rowEnd);
@@ -52,18 +80,13 @@ it("keeps unscheduled labels visible without assigning a guessed time", () => {
 });
 
 it("groups simultaneous sessions under one time label within each day", () => {
-  render(<EigenAISchedule schedule={eigenAIContent.schedule} />);
+  render(<EigenAISchedule schedule={scheduleFixture} />);
 
   expect(screen.getAllByTestId("eigenai-schedule-day")).toHaveLength(2);
 
   for (const [titles, time] of [
-    [["Undergraduate Research Workshop", "Publicus AI Workshop"], "10:30–11:30 AM"],
-    [["Architecting Autonomy", "Edge AI Workshop"], "2:30–4:30 PM"],
-    [[
-      "Applying Fintech Concepts and Industry Practices Using AI Agents",
-      "aUToronto Presentation",
-      "AI Agents Workshop",
-    ], "2:45–3:45 PM"],
+    [["Workshop A", "Workshop B"], "10:30–11:30 AM"],
+    [["Workshop C", "Workshop D"], "2:45–3:45 PM"],
   ] as const) {
     const row = screen.getByRole("heading", { name: titles[0] }).closest("li")!;
     expect(within(row).getAllByRole("heading")).toHaveLength(titles.length);

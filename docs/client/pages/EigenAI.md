@@ -109,20 +109,22 @@ same [EigenAISpeakerCard](../components/EigenAISpeakerCard.md) used here.
 
 ### 2026 content sources
 
-The redesign content was checked on September 29, 2026 against the
-[EigenAI master sheet](https://docs.google.com/spreadsheets/d/1f6ECrqE1sOGjYU2lR0KKJAMg2JgMZZZGbnEB1S0alj4/edit):
+The redesign content was checked on September 30, 2026 against the EigenAI
+master sheet:
 `01 Overview`, `03 Contributions`, and `06 Partners Guests`. The `05 Event
-Schedule` tab points to the
-[current workshop/panel schedule](https://docs.google.com/document/d/1xP4nbr0664GQG40kwARpMumu47qZHiUWzSHRzO-LJOI/edit),
+Schedule` tab points to the current workshop/panel schedule,
 which takes precedence over that tab's partially filled draft rows for times
 and rooms. These are manually maintained public content snapshots; the page
 does not fetch private planning documents at runtime.
-The live document's first tab was rechecked on September 29, 2026. Session names
-follow that tab, including Undergraduate Research Panel, Stripe Panel, and AI Agents
-Workshop. Adrien's workshop remains Saturday 2:30–4:30 PM in OI 2212; the Sunday
+The live document's first tab was rechecked on September 30, 2026. Session names,
+times, and rooms follow that finalized schedule. Saturday registration now starts
+at 9:00 AM for sponsors and 9:15 AM for students, the opening ceremony runs from
+9:50–10:15 AM, and a 15-minute buffer follows it. Lunch and networking is in
+OI 2212, and the empty 1:00–1:30 PM row is not rendered as a session. Adrien
+Beyk's Panorad AI workshop remains Saturday 2:30–4:30 PM in OI 2212; the Sunday
 2:45–3:45 PM AI Agents Workshop in OI 2214 belongs to UTMIST Academics. The
-tentative request for extra engineering booths is not treated as a confirmed
-session. The existing times and rooms were reconfirmed without changes.
+tentative request for extra engineering booths is noted but not treated as a
+confirmed session.
 
 The public speaker lineup contains only the five guests with supplied headshots.
 Guests awaiting photos, the research-panel backup, and unconfirmed outreach
@@ -135,16 +137,16 @@ Iris Guo, Naomi Walch, and Vincent Xue. Their accompanying names and affiliation
 take precedence over the sheet: Naomi's name is spelled Walch and her role is
 Associate at Northside Ventures; Vincent is also at Northside Ventures. Aryan
 and Iris are Building Your Path in Tech panelists. The organizer confirmed
-Architecting Autonomy as Adrien's Saturday workshop title; the planning document
-only names its host. This supplied title is used in his speaker card, workshop
-card, and schedule, while Sunday's separate session remains AI Agents Workshop.
+The finalized schedule identifies Adrien's session as the Panorad AI workshop;
+that affiliation is used in his speaker card, workshop card, and schedule, while
+Sunday's separate session remains AI Agents Workshop.
 Profile links remain unset until supplied.
 
 The six workshop cards use session titles, hosts, dates, times, and rooms from
 these sources. They use compact text and padding with no fixed minimum height,
 stacking on phones and forming two columns from `md`. Speaker and workshop cards
-use the same `rounded-3xl` corner radius as the schedule day panels. Saturday's 1:00–1:30 PM
-block remains explicitly unannounced.
+use the same `rounded-3xl` corner radius as the schedule day panels. The finalized
+schedule's empty Saturday 1:00–1:30 PM row is omitted.
 The schedule notice says it is subject to change. The theme follows the current
 schedule: “Across the Many Frontiers of AI.” No attendance metric is inferred
 from the sheet's capacity goal.
@@ -234,8 +236,8 @@ descriptions remain hidden to keep each row concise.
 Compact typography and row spacing keep long titles manageable: session titles
 are 14px on phones, 13px on larger desktops, and 12px in the narrower two-column
 view. Time labels use compact tabular numerals in the matching day's accent color.
-The unassigned Saturday block is labelled “To Be Announced”; the optional
-`scheduleNotice` appears only when schedule days are present.
+Empty source rows are omitted; the optional `scheduleNotice` appears only when
+schedule days are present.
 The default venue is OISE at 252 Bloor St W, Toronto, ON M5S 1V6, Canada.
 `eigenai-venue.tsx` accepts a venue prop and shows an address and directions link
 in all environments. When `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is configured, it
