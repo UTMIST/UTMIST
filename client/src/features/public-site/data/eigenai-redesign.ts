@@ -28,7 +28,7 @@ const speakers: EigenAISpeaker[] = [
   },
   {
     name: "Vincent Xue",
-    role: "Panelist · Northside Ventures",
+    role: "Panelist · Golden Ventures",
     profileImage: vincentXue,
   },
   {
@@ -43,7 +43,7 @@ const speakers: EigenAISpeaker[] = [
   },
   {
     name: "Adrien Beyk",
-    role: "Workshop Host · Architecting Autonomy",
+    role: "Workshop Host · Panorad AI",
     profileImage: adrienBeyk,
     profileImagePosition: "50% 20%",
     profileImageScale: 2.25,
@@ -62,18 +62,18 @@ const workshops: EigenAIWorkshop[] = [
     description: "Saturday, October 3 · 10:30–11:30 AM · OI G162",
   },
   {
-    title: "Architecting Autonomy",
+    title: "Panorad AI Workshop",
     host: "Adrien Beyk",
     description: "Saturday, October 3 · 2:30–4:30 PM · OI 2212",
   },
   {
-    title: "Edge AI Workshop",
-    host: "UofT IEEE",
+    title: "IEEE Workshop",
+    host: "IEEE University of Toronto",
     description: "Saturday, October 3 · 2:30–4:30 PM · OI G162",
   },
   {
     title: "Applying Fintech Concepts and Industry Practices Using AI Agents",
-    host: "Rotman Fintech Association",
+    host: "Rotman Commerce FinTech Assocation",
     description: "Sunday, October 4 · 2:45–3:45 PM · OI 2212",
   },
   {
@@ -88,10 +88,13 @@ const schedule: EigenAIScheduleDay[] = [
     day: "Day 1",
     date: "Saturday October 3, 2026 · EDT",
     items: [
-      { time: "8:30–9:00 AM", title: "Sponsor Registration" },
-      { time: "9:00–9:30 AM", title: "Student Registration" },
       {
-        time: "9:30–10:30 AM",
+        time: "9:00–9:30 AM",
+        title: "Sponsor, Speaker & Workshop Host Registration",
+      },
+      { time: "9:15–9:50 AM", title: "Student Registration" },
+      {
+        time: "9:50–10:30 AM",
         title: "Opening Ceremony",
         location: "OI G162",
       },
@@ -99,7 +102,6 @@ const schedule: EigenAIScheduleDay[] = [
         time: "10:30–11:30 AM",
         title: "Undergraduate Research Workshop",
         location: "OI 2212",
-        description: "With Ruihang Zhang.",
       },
       {
         time: "10:30–11:30 AM",
@@ -110,33 +112,25 @@ const schedule: EigenAIScheduleDay[] = [
         time: "11:30 AM–12:30 PM",
         title: "Engineering Project Showcase",
         location: "OI G162",
-        description: "Presentations from new UTMIST internal projects.",
       },
       {
-        time: "12:30–1:00 PM",
+        time: "12:30–1:30 PM",
         title: "Lunch & Networking Session",
-        location: "OI 2279",
-        description:
-          "Meet sponsors, ArcX2, GenAI Genesis, BiggerBird, and Neurotech.",
-      },
-      {
-        time: "1:00–1:30 PM",
-        title: "To Be Announced",
+        location: "OI 2212",
       },
       {
         time: "1:30–2:30 PM",
-        title: "Building Your Path in Tech",
+        title: "Building Your Path in Tech Panel",
         location: "OI G162",
-        description: "Panel with ArcX2.",
       },
       {
         time: "2:30–4:30 PM",
-        title: "Architecting Autonomy",
+        title: "Panorad AI Workshop",
         location: "OI 2212",
       },
       {
         time: "2:30–4:30 PM",
-        title: "Edge AI Workshop",
+        title: "IEEE Workshop",
         location: "OI G162",
       },
       { time: "4:30–5:00 PM", title: "Closing Ceremony" },
@@ -147,8 +141,8 @@ const schedule: EigenAIScheduleDay[] = [
     date: "Sunday October 4, 2026 · EDT",
     items: [
       {
-        time: "8:30–9:00 AM",
-        title: "Sponsor Registration",
+        time: "9:00–9:30 AM",
+        title: "Sponsor, Speaker & Workshop Host Registration",
       },
       { time: "9:00–9:30 AM", title: "Student Registration" },
       { time: "9:30–10:00 AM", title: "Opening Ceremony", location: "OI G162" },
@@ -159,47 +153,39 @@ const schedule: EigenAIScheduleDay[] = [
       },
       {
         time: "10:00–11:00 AM",
-        title: "Undergraduate Research Panel",
+        title: "Undergraduate Research Panel — UTMIST Academics & Research",
         location: "OI G162",
-        description:
-          "Hear how undergraduate researchers found their positions, the skills they recommend, and their advice for getting started in AI research. Hosted by UTMIST Academics and Research.",
       },
       {
         time: "11:00 AM–12:00 PM",
-        title: "Northside Ventures × Golden Ventures Panel",
+        title: "Northside Ventures and Golden Ventures Panel",
         location: "OI G162",
-        description: "With Naomi Walch and Vincent Xue.",
       },
       { time: "12:00–12:30 PM", title: "Lunch" },
       {
         time: "12:30–1:30 PM",
-        title: "Sponsor, Startup, Research, and Academic Booths",
+        title: "Sponsor, UTMIST Startup, Research & Academic Booths",
         location: "OI 2212",
       },
       {
-        time: "1:30–2:30 PM",
+        time: "1:30–2:45 PM",
         title: "Stripe Panel",
         location: "OI G162",
-        description: "Panel with Faizan Naseer, Owen Christie, and Ryan Gosal.",
       },
-      { time: "2:30–2:45 PM", title: "Snacks & Buffer Time" },
       {
         time: "2:45–3:45 PM",
-        title: "Applying Fintech Concepts and Industry Practices Using AI Agents",
+        title: "Applying Fintech Concepts and Industry Practices Using AI Agents — RCFTA Workshop",
         location: "OI 2212",
-        description: "Workshop with Rotman Fintech Association.",
       },
       {
         time: "2:45–3:45 PM",
         title: "aUToronto Presentation",
         location: "OI G162",
-        description: "Presentation and demo.",
       },
       {
         time: "2:45–3:45 PM",
         title: "AI Agents Workshop",
         location: "OI 2214",
-        description: "Workshop with UTMIST Academics.",
       },
       { time: "3:45–4:15 PM", title: "Networking with Panel and Workshop Hosts" },
       { time: "4:15–5:00 PM", title: "Closing Ceremony" },

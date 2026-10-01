@@ -29,11 +29,11 @@ it("shows only the five guests with supplied headshots", () => {
 
   expect(speakers.getAllByRole("heading", { level: 3 })).toHaveLength(5);
   for (const [name, role] of [
-    ["Adrien Beyk", "Workshop Host · Architecting Autonomy"],
+    ["Adrien Beyk", "Workshop Host · Panorad AI"],
     ["Aryan Yaghoubian", "Panelist · Building Your Path in Tech"],
     ["Iris Guo", "Panelist · Building Your Path in Tech"],
     ["Naomi Walch", "Panelist · Northside Ventures"],
-    ["Vincent Xue", "Panelist · Northside Ventures"],
+    ["Vincent Xue", "Panelist · Golden Ventures"],
   ]) {
     const card = speakers.getByRole("heading", { name }).closest("article")!;
     expect(within(card).getByRole("img", { name: `${name}, ${role}` })).toBeInTheDocument();
@@ -42,7 +42,7 @@ it("shows only the five guests with supplied headshots", () => {
   expect(speakers.getAllByRole("img")).toHaveLength(5);
   expect(speakers.queryByText("Keynote Speaker")).not.toBeInTheDocument();
   expect(speakers.queryByText(/Terry Fu|Michael Guerzhoy|David Liu/)).not.toBeInTheDocument();
-  expect(speakers.queryByText(/@stripe\.com|@gmail\.com|Panorad/)).not.toBeInTheDocument();
+  expect(speakers.queryByText(/@stripe\.com|@gmail\.com/)).not.toBeInTheDocument();
 });
 
 it("uses the current schedule's revised times and titles", () => {
@@ -51,11 +51,11 @@ it("uses the current schedule's revised times and titles", () => {
   for (const [title, time] of [
     ["Undergraduate Research Workshop", "10:30–11:30 AM"],
     ["Engineering Project Showcase", "11:30 AM–12:30 PM"],
-    ["Lunch & Networking Session", "12:30–1:00 PM"],
-    ["Edge AI Workshop", "2:30–4:30 PM"],
-    ["Architecting Autonomy", "2:30–4:30 PM"],
-    ["Undergraduate Research Panel", "10:00–11:00 AM"],
-    ["Stripe Panel", "1:30–2:30 PM"],
+    ["Lunch & Networking Session", "12:30–1:30 PM"],
+    ["IEEE Workshop", "2:30–4:30 PM"],
+    ["Panorad AI Workshop", "2:30–4:30 PM"],
+    ["Undergraduate Research Panel — UTMIST Academics & Research", "10:00–11:00 AM"],
+    ["Stripe Panel", "1:30–2:45 PM"],
     ["AI Agents Workshop", "2:45–3:45 PM"],
     ["aUToronto Presentation", "2:45–3:45 PM"],
     ["Networking with Panel and Workshop Hosts", "3:45–4:15 PM"],
@@ -68,7 +68,19 @@ it("uses the current schedule's revised times and titles", () => {
   expect(within(closing).getByText("4:30–5:00 PM")).toBeInTheDocument();
   expect(schedule.getAllByRole("heading", { name: /2026 · EDT/ })).toHaveLength(2);
   expect(screen.getByText(/Schedule subject to change/)).toHaveTextContent("Toronto (EDT)");
-  expect(schedule.getByRole("heading", { name: "To Be Announced" })).toBeInTheDocument();
+  expect(schedule.queryByRole("heading", { name: "To Be Announced" })).not.toBeInTheDocument();
+  expect(schedule.getByText("9:15–9:50 AM")).toBeInTheDocument();
+  expect(schedule.getByText("9:50–10:30 AM")).toBeInTheDocument();
+
+  const lunch = schedule
+    .getByRole("heading", { name: "Lunch & Networking Session" })
+    .closest("li")!;
+  expect(within(lunch).getByText("OI 2212")).toBeInTheDocument();
+  expect(
+    schedule.getAllByRole("heading", {
+      name: "Sponsor, Speaker & Workshop Host Registration",
+    }),
+  ).toHaveLength(2);
 });
 
 it("lists the six scheduled workshops with hosts and session details", () => {
@@ -78,10 +90,10 @@ it("lists the six scheduled workshops with hosts and session details", () => {
   const agents = workshops.getByRole("heading", { name: "AI Agents Workshop" }).closest("article")!;
   expect(within(agents).getByText("UTMIST Academics")).toBeInTheDocument();
   expect(within(agents).getByText("Sunday, October 4 · 2:45–3:45 PM · OI 2214")).toBeInTheDocument();
-  const adrien = workshops.getByRole("heading", { name: "Architecting Autonomy" }).closest("article")!;
+  const adrien = workshops.getByRole("heading", { name: "Panorad AI Workshop" }).closest("article")!;
   expect(within(adrien).getByText("Adrien Beyk")).toBeInTheDocument();
   expect(within(adrien).getByText("Saturday, October 3 · 2:30–4:30 PM · OI 2212")).toBeInTheDocument();
-  expect(workshops.getByText("Rotman Fintech Association")).toBeInTheDocument();
+  expect(workshops.getByText("Rotman Commerce FinTech Assocation")).toBeInTheDocument();
   expect(workshops.getByText("Saturday, October 3 · 2:30–4:30 PM · OI G162")).toBeInTheDocument();
   expect(workshops.queryByText("Details coming soon.")).not.toBeInTheDocument();
 });

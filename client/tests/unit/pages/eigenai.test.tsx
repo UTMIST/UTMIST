@@ -42,7 +42,7 @@ describe('EigenAI existing page', () => {
     expect(screen.getByText(/What is EigenAI\?/i)).toBeInTheDocument();
     expect(screen.getByText(/September 20-21, 2025/)).toBeInTheDocument();
     expect(screen.queryByText(/October 3.*2026/)).not.toBeInTheDocument();
-    expect(screen.queryByText('Architecting Autonomy')).not.toBeInTheDocument();
+    expect(screen.queryByText(/Panorad AI/)).not.toBeInTheDocument();
     expect(
       screen.getByText(/EigenAI is built for AI practitioners of all skill levels/i)
     ).toBeInTheDocument();
