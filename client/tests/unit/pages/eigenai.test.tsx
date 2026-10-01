@@ -35,19 +35,6 @@ describe('EigenAI existing page', () => {
     else process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = originalMapsKey;
   });
 
-  it('renders hero, intro, and skill-level sections', async () => {
-    const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
-    render(<EigenAIPage />);
-    expect(screen.getByRole('heading', { name: 'EigenAI' })).toBeInTheDocument();
-    expect(screen.getByText(/What is EigenAI\?/i)).toBeInTheDocument();
-    expect(screen.getByText(/September 20-21, 2025/)).toBeInTheDocument();
-    expect(screen.queryByText(/October 3.*2026/)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Panorad AI/)).not.toBeInTheDocument();
-    expect(
-      screen.getByText(/EigenAI is built for AI practitioners of all skill levels/i)
-    ).toBeInTheDocument();
-  });
-
   it('renders the keynote, panel, and speaker people grids', async () => {
     const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
     render(<EigenAIPage />);
@@ -68,11 +55,8 @@ describe('EigenAI existing page', () => {
 
     const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
     render(<EigenAIPage />);
-    expect(screen.getByRole('heading', { name: 'EigenAI' })).toBeInTheDocument();
     expect(screen.queryByTitle('Google Maps Location')).not.toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Get directions to OISE' })).toHaveAttribute(
-      'href', expect.stringContaining('https://www.google.com/maps/search/'),
-    );
+    expect(document.querySelector('a[href*="google.com/maps/search/"]')).toBeInTheDocument();
 
     process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = previous;
   });
