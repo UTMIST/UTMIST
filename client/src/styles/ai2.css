@@ -7,11 +7,6 @@
   background-blend-mode: lighten;
 }
 
-.dark .bg {
-  background-color: rgba(11, 15, 26, 0.72);
-  background-blend-mode: multiply;
-}
-
 .ticket-button {
   font-family: var(--system-font);
   font-weight: 200;
@@ -245,10 +240,6 @@
     background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
   }
 
-  .dark .timeline-section {
-    background: radial-gradient(circle, rgba(21, 26, 39, 0.95) 0%, rgba(21, 26, 39, 0) 80%);
-  }
-
 }
 
 /* ===== Leaderboard ===== */
@@ -411,9 +402,3 @@
     font-size: 1rem;
   }
 }
-
-/* @media (prefers-color-scheme: dark) {
-  .ai2-h1 {
-      text-shadow: 0 0 30px #6a66f5;
-  }
-} */

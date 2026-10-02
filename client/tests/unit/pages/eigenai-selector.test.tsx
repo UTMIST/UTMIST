@@ -13,7 +13,6 @@ jest.mock("@/shared/lib/server", () => ({
 
 jest.mock("@/shared/ui/client", () => ({
   Navbar: () => <nav aria-label="Site">Standard navigation</nav>,
-  FloatingThemeToggle: () => <button>Change theme</button>,
 }));
 
 jest.mock("react-intersection-observer", () => ({
@@ -79,7 +78,6 @@ describe("EigenAI flag selector", () => {
 
     expect(screen.getByRole("navigation", { name: "Site" })).toBeInTheDocument();
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Change theme" })).toBeInTheDocument();
     expect(screen.queryByTestId("eigenai-redesign")).not.toBeInTheDocument();
     expect(mockEvaluateFlag).toHaveBeenCalledWith("Eigen-AI-Redesign");
     expect(mockGetCurrentUser).not.toHaveBeenCalled();
@@ -103,7 +101,6 @@ describe("EigenAI flag selector", () => {
     expect(navigation).toHaveClass("w-full");
     expect(navigation).not.toHaveClass("max-w-6xl");
     expect(screen.queryByRole("navigation", { name: "Site" })).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Change theme" })).not.toBeInTheDocument();
     expect(
       within(navigation).getByRole("button", { name: "Open navigation menu" }),
     ).toHaveAttribute("aria-expanded", "false");
@@ -381,6 +378,5 @@ describe("EigenAI flag selector", () => {
 
     expect(screen.getByRole("navigation", { name: "Site" })).toBeInTheDocument();
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Change theme" })).toBeInTheDocument();
   });
 });

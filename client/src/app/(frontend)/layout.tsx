@@ -6,9 +6,7 @@ import { Footer } from "@/shared/ui";
 import {
   Navbar,
   ScrollToTop,
-  FloatingThemeToggle,
   HideOnEigenAI,
-  ThemeProvider,
 } from "@/shared/ui/client";
 import { Toaster } from "react-hot-toast";
 import { evaluateFlag } from "@/shared/lib/server";
@@ -36,7 +34,7 @@ export default async function RootLayout({
     process.env.VERCEL_ENV !== "production";
 
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html lang="en">
       <head>
         <Script
           src="https://cloud.umami.is/script.js"
@@ -44,25 +42,15 @@ export default async function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <HideOnEigenAI>
-            <Navbar showEigenAI={showEigenAI} />
-          </HideOnEigenAI>
-          {children}
-          <HideOnEigenAI>
-            <Footer />
-          </HideOnEigenAI>
-          <ScrollToTop />
-          <HideOnEigenAI>
-            <FloatingThemeToggle />
-          </HideOnEigenAI>
-          <Toaster />
-        </ThemeProvider>
+        <HideOnEigenAI>
+          <Navbar showEigenAI={showEigenAI} />
+        </HideOnEigenAI>
+        {children}
+        <HideOnEigenAI>
+          <Footer />
+        </HideOnEigenAI>
+        <ScrollToTop />
+        <Toaster />
         {showLocalToolbar && <VercelToolbar />}
       </body>
     </html>

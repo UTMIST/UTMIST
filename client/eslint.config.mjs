@@ -32,9 +32,7 @@ const eslintConfig = [
   },
 
   // react-hooks v7 (new in eslint-config-next 16) added these two rules. They
-  // flag five pre-existing spots that predate this config. `set-state-in-effect`
-  // is a false positive on the `mounted` hydration guard in theme-toggle.tsx,
-  // which is the pattern next-themes documents; the others need a case-by-case
+  // flag pre-existing spots that predate this config. They need a case-by-case
   // look. Kept visible as warnings rather than switched off, so the work stays
   // on the radar without blocking every PR on an unrelated refactor.
   // TODO: triage these, then raise back to "error".

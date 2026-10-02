@@ -5,7 +5,6 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx}", // include all components
     "./src/app/**/*.{js,ts,jsx,tsx}", // if you're using the app directory
   ],
-  darkMode: "class",
   theme: {
     extend: {
       // Your custom colors, spacing, fonts, etc.

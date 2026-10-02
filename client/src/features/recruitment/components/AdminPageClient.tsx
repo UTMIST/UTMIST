@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import type { ReactNode } from "react";
-import { useTheme } from "next-themes";
 import {
   Chart as ChartJS,
   BarElement,
@@ -280,14 +279,8 @@ function TimeSeriesCard({
   series: TimeSeriesPoint[];
   range: string;
 }) {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-  const isDark = mounted && resolvedTheme === "dark";
-  const gridColor = isDark ? "rgba(148, 163, 184, 0.18)" : "#eee";
-  const tickColor = isDark ? "#cbd5e1" : "#1f2937";
+  const gridColor = "#eee";
+  const tickColor = "#1f2937";
 
   if (!series.length) {
     return (

@@ -138,10 +138,10 @@ client/src/shared/lib/flags/
 
 Exported through the platform barrels (never deep-import these files):
 
-| Import from | What |
-| --- | --- |
-| `@/shared/lib` | client-safe **types** (`Cohort`, `EvaluationContext`, `FlagEvaluator`, `FeatureFlags`, `FlagAdapter`, `BetaPreferenceStore`, `SetPreferenceResult`, `contextFromProfile`) |
-| `@/shared/lib/server` | the **evaluator** (`evaluateFlag`, `getBetaPreference`, `setBetaPreference`) and `getFlagsDiscovery` |
+| Import from           | What                                                                                                                                                                      |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@/shared/lib`        | client-safe **types** (`Cohort`, `EvaluationContext`, `FlagEvaluator`, `FeatureFlags`, `FlagAdapter`, `BetaPreferenceStore`, `SetPreferenceResult`, `contextFromProfile`) |
+| `@/shared/lib/server` | the **evaluator** (`evaluateFlag`, `getBetaPreference`, `setBetaPreference`) and `getFlagsDiscovery`                                                                      |
 
 `flags/server.ts` is server-only. Browser components import only the types/results
 from `@/shared/lib` and receive evaluated booleans as props — they never import the
@@ -196,7 +196,7 @@ type SetPreferenceResult =
   | { ok: false; reason: "denied" | "unauthenticated" };
 ```
 
-`denied` is how a user editing *someone else's* preference is rejected;
+`denied` is how a user editing _someone else's_ preference is rejected;
 `unauthenticated` is a write with no actor. Client-facing UI states (loading,
 request failure, signed-out) belong to the opt-in interface
 ([#290](https://github.com/UTMIST/UTMIST/issues/290)), derived from calling these
@@ -216,7 +216,10 @@ import { contextFromProfile } from "@/shared/lib";
 
 export default async function Page() {
   const profile = await requireUser();
-  const showRedesign = await evaluateFlag("someFeature", contextFromProfile(profile));
+  const showRedesign = await evaluateFlag(
+    "someFeature",
+    contextFromProfile(profile),
+  );
   return <FeatureClient showRedesign={showRedesign} />; // client gets a boolean
 }
 ```
@@ -233,12 +236,12 @@ discovery and browser overrides; it does not authenticate provider reads.
 This follows the current [Vercel Flags quickstart](https://vercel.com/docs/flags/vercel-flags/quickstart)
 and the official [Flags SDK skill](https://github.com/vercel/flags/tree/main/skills/flags-sdk).
 
-| Variable | Purpose |
-| --- | --- |
-| Vercel OIDC | Default provider authentication. Supplied at request time on Vercel; `vercel env pull` supplies `VERCEL_OIDC_TOKEN` locally. Let Vercel manage this credential. |
-| `FLAGS` | Optional manual SDK key (`vf_server_...`) or `flags:` connection string, for example outside Vercel or when reading another project's flags. An explicit key takes precedence over OIDC and selects its own flag environment. |
-| `FLAGS_SECRET` | Independent 32-byte base64url encryption key for Explorer discovery and overrides. Never pass this to `createClient`. |
-| `VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING=1` | Prevent build-time definitions from being bundled as a fallback. |
+| Variable                                      | Purpose                                                                                                                                                                                                                       |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Vercel OIDC                                   | Default provider authentication. Supplied at request time on Vercel; `vercel env pull` supplies `VERCEL_OIDC_TOKEN` locally. Let Vercel manage this credential.                                                               |
+| `FLAGS`                                       | Optional manual SDK key (`vf_server_...`) or `flags:` connection string, for example outside Vercel or when reading another project's flags. An explicit key takes precedence over OIDC and selects its own flag environment. |
+| `FLAGS_SECRET`                                | Independent 32-byte base64url encryption key for Explorer discovery and overrides. Never pass this to `createClient`.                                                                                                         |
+| `VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING=1` | Prevent build-time definitions from being bundled as a fallback.                                                                                                                                                              |
 
 Keep credentials server-only. `client/env.example` documents local configuration.
 The retired `FLAGS_KEY_DEV` / `FLAGS_KEY_PREVIEW` variables are not read.
@@ -287,13 +290,13 @@ builds SDK declarations from that catalog, and `vercel.ts` uses its own-property
 keys as the provider allowlist. Register a new live flag once in the catalog;
 there is no separate `DECLARED_FLAGS` list to update.
 
-| Field | Value |
-| --- | --- |
-| Key | `Eigen-AI-Redesign` |
-| Kind | Boolean |
+| Field       | Value                               |
+| ----------- | ----------------------------------- |
+| Key         | `Eigen-AI-Redesign`                 |
+| Kind        | Boolean                             |
 | Description | Toggle the new 2026 EigenAI Website |
-| Variants | `false` (Off), `true` (On) |
-| Default | `false` |
+| Variants    | `false` (Off), `true` (On)          |
+| Default     | `false`                             |
 
 See [Using the EigenAI flag](#using-the-eigenai-flag) for dashboard toggles,
 browser overrides, local testing, and Production rollout.
@@ -367,9 +370,9 @@ override exclusion.
 `/eigenai` re-exports the server selector in
 `features/public-site/pages/eigenaiFlagged.tsx`. The route shell itself declares
 `dynamic = "force-dynamic"`, so server selection is not frozen at build time.
-Off/missing/error keeps the existing page with its standard navigation, footer,
-and theme control; on selects the redesigned page with its own navigation and
-footer. Offline local development uses fixtures, which currently keep the
+Off/missing/error keeps the existing page with its standard navigation and
+footer; on selects the redesigned page with its own navigation and footer.
+Offline local development uses fixtures, which currently keep the
 redesign off. Preview and Production deployments use OIDC without a manual SDK
 key and follow their respective dashboard values. The flag-off page retains the
 pre-#456 2025 content, photos, speaker groups, workshops, and Instagram schedule.
@@ -388,14 +391,14 @@ preview access are needed to complete this deployment verification.
 
 ### Troubleshooting
 
-| Symptom | Check |
-| --- | --- |
-| Preview shows the old page while its dashboard flag is On | Clear browser overrides, verify the deployment is linked to `utmist-infrastructure/client`, and check for authentication/provider errors. A missing `FLAGS` variable is normal with OIDC. |
-| Local page ignores dashboard changes | Without pulled OIDC credentials or an explicit SDK key, local development uses fixtures. Pull Development credentials and restart the dev server. |
-| An SDK key reads unexpected values | Explicit `FLAGS` overrides OIDC; its project and flag environment determine which configuration is read. |
-| Toolbar itself is missing | Enable Pre-Production Toolbar, use a fresh Preview built on Vercel, and check browser/session blocking. See [If the Toolbar is missing](#if-the-toolbar-is-missing). |
-| Toolbar cannot discover flags or apply overrides | Check that `FLAGS_SECRET` is configured for that deployment's environment and discovery is accessible. Do not replace it with an SDK key. |
-| Production stays off while its dashboard flag is On | Verify the deployed commit includes provider evaluation in the production branch of `server.ts`; older versions unconditionally returned false. Then check deployment identity, any explicit `FLAGS` key's environment, and provider freshness/authentication. Browser overrides are ignored in Production. |
+| Symptom                                                   | Check                                                                                                                                                                                                                                                                                                       |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Preview shows the old page while its dashboard flag is On | Clear browser overrides, verify the deployment is linked to `utmist-infrastructure/client`, and check for authentication/provider errors. A missing `FLAGS` variable is normal with OIDC.                                                                                                                   |
+| Local page ignores dashboard changes                      | Without pulled OIDC credentials or an explicit SDK key, local development uses fixtures. Pull Development credentials and restart the dev server.                                                                                                                                                           |
+| An SDK key reads unexpected values                        | Explicit `FLAGS` overrides OIDC; its project and flag environment determine which configuration is read.                                                                                                                                                                                                    |
+| Toolbar itself is missing                                 | Enable Pre-Production Toolbar, use a fresh Preview built on Vercel, and check browser/session blocking. See [If the Toolbar is missing](#if-the-toolbar-is-missing).                                                                                                                                        |
+| Toolbar cannot discover flags or apply overrides          | Check that `FLAGS_SECRET` is configured for that deployment's environment and discovery is accessible. Do not replace it with an SDK key.                                                                                                                                                                   |
+| Production stays off while its dashboard flag is On       | Verify the deployed commit includes provider evaluation in the production branch of `server.ts`; older versions unconditionally returned false. Then check deployment identity, any explicit `FLAGS` key's environment, and provider freshness/authentication. Browser overrides are ignored in Production. |
 
 The September 2026 regression in #452 came from replacing automatic OIDC with
 a mandatory `FLAGS` check during a merge. Preview had valid Vercel identity and

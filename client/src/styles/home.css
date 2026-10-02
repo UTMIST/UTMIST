@@ -318,10 +318,6 @@
   object-fit: contain;
 }
 
-.dark .sponsors-logo a {
-  background-color: rgba(255, 255, 255, 0.92);
-}
-
 @keyframes scrollLeft {
   0% {
     transform: translateX(0%);
@@ -525,18 +521,6 @@
 
 .pink {
   background-color: #e64980;
-}
-
-.dark .purple {
-  background-color: #8b80f0;
-}
-
-.dark .blue {
-  background-color: #5d7ee8;
-}
-
-.dark .pink {
-  background-color: #f06aa1;
 }
 
 .feature-content {

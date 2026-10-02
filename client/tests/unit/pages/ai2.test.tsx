@@ -1,9 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 
-jest.mock('next-themes', () => ({
-  useTheme: () => ({ resolvedTheme: 'light' }),
-}));
-
 jest.mock('react-chrono', () => ({
   Chrono: ({ items }: { items: Array<{ title?: string; cardTitle?: string }> }) => (
     <div data-testid="chrono">
