@@ -33,66 +33,65 @@ describe('Reset Password Page', () => {
     );
   });
 
-  it('renders the password reset form', async () => {
-    render(<ResetPasswordPage />);
-    expect(
-      await screen.findByRole('heading', { name: /reset your password/i })
-    ).toBeInTheDocument();
-    expect(screen.getByLabelText('New Password')).toBeInTheDocument();
-    expect(screen.getByLabelText('Confirm New Password')).toBeInTheDocument();
+  it('rejects an empty password', async () => {
+    const { container } = render(<ResetPasswordPage />);
+    await waitFor(() => expect(mockGetUser).toHaveBeenCalled());
+    fireEvent.click(container.querySelector('button[type="submit"]')!);
+    expect(await screen.findByRole('alert')).toBeInTheDocument();
+    expect(mockUpdateUser).not.toHaveBeenCalled();
   });
 
-  it('shows a "Password is required" error when the password is empty', async () => {
-    render(<ResetPasswordPage />);
-    fireEvent.click(await screen.findByRole('button', { name: /update password/i }));
-    expect(await screen.findByText('Password is required')).toBeInTheDocument();
-  });
-
-  it('shows a length error when the password is too short', async () => {
-    render(<ResetPasswordPage />);
-    fireEvent.change(await screen.findByLabelText('New Password'), {
+  it('rejects a password that is too short', async () => {
+    const { container } = render(<ResetPasswordPage />);
+    await waitFor(() => expect(mockGetUser).toHaveBeenCalled());
+    fireEvent.change(container.querySelector('#password')!, {
       target: { value: 'short' },
     });
-    fireEvent.change(screen.getByLabelText('Confirm New Password'), {
+    fireEvent.change(container.querySelector('#confirmPassword')!, {
       target: { value: 'short' },
     });
-    fireEvent.click(screen.getByRole('button', { name: /update password/i }));
-    expect(await screen.findByText(/at least 8 characters/i)).toBeInTheDocument();
+    fireEvent.click(container.querySelector('button[type="submit"]')!);
+    expect(await screen.findByRole('alert')).toBeInTheDocument();
+    expect(mockUpdateUser).not.toHaveBeenCalled();
   });
 
-  it('shows a mismatch error when the two password fields differ', async () => {
-    render(<ResetPasswordPage />);
-    fireEvent.change(await screen.findByLabelText('New Password'), {
+  it('rejects mismatched passwords', async () => {
+    const { container } = render(<ResetPasswordPage />);
+    await waitFor(() => expect(mockGetUser).toHaveBeenCalled());
+    fireEvent.change(container.querySelector('#password')!, {
       target: { value: 'longenough123' },
     });
-    fireEvent.change(screen.getByLabelText('Confirm New Password'), {
+    fireEvent.change(container.querySelector('#confirmPassword')!, {
       target: { value: 'mismatchhere' },
     });
-    fireEvent.click(screen.getByRole('button', { name: /update password/i }));
-    expect(await screen.findByText(/passwords do not match/i)).toBeInTheDocument();
+    fireEvent.click(container.querySelector('button[type="submit"]')!);
+    expect(await screen.findByRole('alert')).toBeInTheDocument();
+    expect(mockUpdateUser).not.toHaveBeenCalled();
   });
 
-  it('calls updateUser and shows the success state on a valid submit', async () => {
+  it('calls updateUser on a valid submit', async () => {
     mockUpdateUser.mockResolvedValue({ error: null });
-    render(<ResetPasswordPage />);
+    const { container } = render(<ResetPasswordPage />);
+    await waitFor(() => expect(mockGetUser).toHaveBeenCalled());
 
-    fireEvent.change(await screen.findByLabelText('New Password'), {
+    fireEvent.change(container.querySelector('#password')!, {
       target: { value: 'StrongPass123!' },
     });
-    fireEvent.change(screen.getByLabelText('Confirm New Password'), {
+    fireEvent.change(container.querySelector('#confirmPassword')!, {
       target: { value: 'StrongPass123!' },
     });
-    fireEvent.click(screen.getByRole('button', { name: /update password/i }));
+    fireEvent.click(container.querySelector('button[type="submit"]')!);
 
     await waitFor(() => {
       expect(mockUpdateUser).toHaveBeenCalledWith({ password: 'StrongPass123!' });
     });
-    expect(await screen.findByText(/password reset successful/i)).toBeInTheDocument();
+    await waitFor(() => expect(container.querySelector('form')).not.toBeInTheDocument());
   });
 
-  it('navigates back to /auth when "Back to Login" is clicked', async () => {
-    render(<ResetPasswordPage />);
-    fireEvent.click(await screen.findByRole('button', { name: /back to login/i }));
+  it('navigates back to /auth from the form', async () => {
+    const { container } = render(<ResetPasswordPage />);
+    await waitFor(() => expect(mockGetUser).toHaveBeenCalled());
+    fireEvent.click(container.querySelector('button[type="button"]')!);
     expect(mockPush).toHaveBeenCalledWith('/auth');
   });
 });

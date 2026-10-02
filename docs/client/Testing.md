@@ -21,7 +21,7 @@ npm run test:unit         # only tests/unit
 npm run test:integration  # only tests/integration
 
 # subset by path or test name:
-npx jest tests/unit/pages              # all 20 page suites
+npx jest tests/unit/pages              # all page-level behavior suites
 npx jest tests/unit/pages/auth         # one file (path substring match)
 npx jest -t "redirects to /auth"       # by test-name regex
 ```
@@ -65,18 +65,11 @@ import { login } from '@/shared/lib/client';
 Every page test in `tests/unit/pages/` follows this shape:
 
 ```tsx
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 
-// 1. Mock declarations FIRST. jest.mock is hoisted, but for clarity place
-//    every mock above the page import.
-jest.mock('@/shared/ui/heroSection', () => ({
-  __esModule: true,
-  default: ({ title }: { title: string }) => (
-    <div data-testid="hero">{title}</div>
-  ),
-}));
+const mockSave = jest.fn();
 
-// 2. Import the page UNDER TEST after the mocks.
+// Import the page under test after any mocks.
 import MyPage from '@/app/my-route/page';
 
 describe('My Page', () => {
@@ -84,16 +77,25 @@ describe('My Page', () => {
     jest.clearAllMocks();
   });
 
-  it('renders the hero title', () => {
-    render(<MyPage />);
-    expect(screen.getByTestId('hero')).toHaveTextContent('Welcome');
+  it('submits the form data', async () => {
+    const { container } = render(<MyPage onSave={mockSave} />);
+    fireEvent.click(container.querySelector('button[type="submit"]')!);
+    await waitFor(() => expect(mockSave).toHaveBeenCalled());
   });
 });
 ```
 
 Rules of thumb:
 
-- **Mock heavy or leaf components** (carousels, people grids, third-party widgets) so a page test only fails when the page itself breaks. Real, simple sub-components can be left unmocked.
+- **Test behavior, not presentation.** Do not assert exact page copy, headings,
+  labels, CSS classes, colors, spacing, typography, gradients, layout,
+  decorative elements, or snapshots whose purpose is visual/content parity.
+- **Use stable control identity for behavior tests.** Prefer form field IDs,
+  input names, destination URLs, ARIA state such as `aria-expanded`, and
+  purpose-built test IDs on mocked boundaries. Accessible-name queries are
+  appropriate when the accessible name itself is the contract; do not use
+  them merely to locate a control by mutable marketing copy.
+- **Mock heavy or leaf components** (carousels, people grids, third-party widgets) so a page test only fails when the page behavior itself breaks. Real, simple sub-components can be left unmocked.
 - **One `describe` block per page**, named after the page.
 - **`it('does X')` not `it('should do X')`** — match the existing suite's voice.
 - **Mock external IO at the boundary**: `fetch`, Supabase clients, `next/navigation`, route-local `./api/*` modules.
@@ -300,31 +302,46 @@ jest.mock('react-chrono', () => ({
 
 ## Querying conventions
 
-In rough preference order (matches Testing Library's [priority list](https://testing-library.com/docs/queries/about/#priority)):
+Choose queries that express the behavior under test without coupling it to
+mutable copy or styling. Useful options include:
 
-1. `getByRole('heading', { name: /…/i })` — most accessible
-2. `getByLabelText('New Password')` — form fields. Prefer **exact strings** over regex when fields share substrings (e.g., "New Password" vs "Confirm New Password")
-3. `getByPlaceholderText`, `getByText`
-4. `getByTestId` — last resort, useful when mocking child components
+1. Semantic roles and state (`getByRole('alert')`, `aria-expanded`) when the
+   role or state is the behavior being validated.
+2. Stable form attributes (`#email`, `[name="password"]`,
+   `button[type="submit"]`) for interactions whose labels may change.
+3. Stable destinations (`a[href="/profile"]`) for navigation behavior.
+4. `getByTestId` for mocked child boundaries and state that has no suitable
+   semantic selector.
+
+Avoid `getByText`, heading names, placeholders, class selectors, and style
+matchers when they only encode current content or presentation. Fixture values
+may still be asserted when they prove filtering, ordering, or data propagation;
+prefer exposing fixture identity through a mock attribute instead of rendering
+and matching its text.
 
 For asynchronous UI (after `useEffect` fetches), prefer `findBy*` and `waitFor`:
 
 ```tsx
-expect(await screen.findByText(/loaded/i)).toBeInTheDocument();
 await waitFor(() => expect(mockFetch).toHaveBeenCalled());
 ```
 
-## What each kind of page test should cover
+## What page tests should cover
 
-For each page, aim to cover at least:
+Add a page test only when the page has meaningful behavior to protect, such as:
 
-- **Render path** — the page mounts without throwing; key headings/sections appear.
-- **Data binding / props validation** — values from `*.json` fixtures, dynamic params, or props on mocked children show up correctly.
+- **Data handling** — fetched or fixture data is filtered, ordered, transformed,
+  or passed to a boundary correctly.
 - **User interactions** — click, type, submit, toggle. One assertion per interaction is enough.
-- **Async states** — loading, success, error. Use `mockImplementation(() => new Promise(() => {}))` to keep the page in the loading state for assertion.
-- **Edge cases** — empty results, missing/null fields, redirect-when-unauthenticated, validation errors.
+- **Navigation and access control** — redirects, destination URLs, permissions,
+  and authenticated/unauthenticated branches.
+- **Accessibility contracts** — semantic roles, focus management, keyboard
+  behavior, and ARIA state (without pinning mutable label copy).
+- **Async and error behavior** — loading transitions, failures, retries, and
+  empty data only when asserting behavior rather than the wording shown.
 
-Bias toward few high-signal tests per page over exhaustive coverage. Each test should fail for exactly one reason.
+Static pages do not need a test merely to prove their current sections, copy,
+or card counts render. Bias toward few high-signal tests per page over
+exhaustive coverage. Each test should fail for exactly one behavioral reason.
 
 ## Reference: existing examples
 
@@ -332,7 +349,6 @@ When in doubt, copy the closest existing test:
 
 | If your page… | Look at… |
 | --- | --- |
-| is a static server component with sub-cards | [`tests/unit/pages/careers.test.tsx`](../../client/tests/unit/pages/careers.test.tsx), [`sponsors.test.tsx`](../../client/tests/unit/pages/sponsors.test.tsx) |
 | is a client component that fetches on mount | [`blog.test.tsx`](../../client/tests/unit/pages/blog.test.tsx), [`events.test.tsx`](../../client/tests/unit/pages/events.test.tsx) |
 | has a form with validation | [`apply.test.tsx`](../../client/tests/unit/pages/apply.test.tsx), [`reset-password.test.tsx`](../../client/tests/unit/pages/reset-password.test.tsx), [`auth.test.tsx`](../../client/tests/unit/pages/auth.test.tsx) |
 | is auth-gated and redirects | [`dashboard.test.tsx`](../../client/tests/unit/pages/dashboard.test.tsx), [`profile.test.tsx`](../../client/tests/unit/pages/profile.test.tsx) |
@@ -352,7 +368,7 @@ For coverage thresholds, configure them under the `coverageThreshold` key in `je
 ## Troubleshooting
 
 - **`Cannot find module '@/…'`** — `moduleNameMapper` is missing from `jest.config.js`. The `@/` alias must be mapped explicitly; `next/jest` does not auto-map it.
-- **`Found multiple elements`** — your text/role query is too broad. Use exact strings, anchor the regex with `^…$`, or filter with `level`/`name` options on `getByRole`.
-- **`Unable to fire a "change" event - please provide a DOM element`** — your DOM lookup returned `null`. Prefer `container.querySelector('#id')` or `getByLabelText` over `parentElement` chains.
+- **`Found multiple elements`** — use a stable form attribute, destination, ARIA state, or mocked-boundary test ID that identifies the behavior without pinning page copy.
+- **`Unable to fire a "change" event - please provide a DOM element`** — your DOM lookup returned `null`. Prefer `container.querySelector('#id')` or a stable input `name` over text and `parentElement` chains.
 - **`act()` warnings** — wrap state-updating interactions in `await waitFor(...)` or use `findBy*` queries instead of `getBy*`.
 - **A third-party module fails to parse** — it is probably ESM-only. Mock it with `jest.mock('package-name', () => ({ … }))`.

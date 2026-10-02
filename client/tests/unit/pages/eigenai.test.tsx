@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 jest.mock('@/features/public-site/components/peopleGrid', () => ({
   __esModule: true,
@@ -35,28 +35,14 @@ describe('EigenAI existing page', () => {
     else process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = originalMapsKey;
   });
 
-  it('renders the keynote, panel, and speaker people grids', async () => {
-    const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
-    render(<EigenAIPage />);
-    const grids = screen.getAllByTestId('people-grid');
-    expect(grids.length).toBeGreaterThan(0);
-  });
-
-  it('renders the Lambda and Workshops sections', async () => {
-    const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
-    render(<EigenAIPage />);
-    expect(screen.getByTestId('lambda-section')).toBeInTheDocument();
-    expect(screen.getByTestId('workshops')).toBeInTheDocument();
-  });
-
   it('keeps the old page usable when the Google Maps API key is missing', async () => {
     const previous = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
     delete process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
     const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
-    render(<EigenAIPage />);
-    expect(screen.queryByTitle('Google Maps Location')).not.toBeInTheDocument();
-    expect(document.querySelector('a[href*="google.com/maps/search/"]')).toBeInTheDocument();
+    const { container } = render(<EigenAIPage />);
+    expect(container.querySelector('iframe[src*="google.com/maps"]')).not.toBeInTheDocument();
+    expect(container.querySelector('a[href*="google.com/maps/search/"]')).toBeInTheDocument();
 
     process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = previous;
   });

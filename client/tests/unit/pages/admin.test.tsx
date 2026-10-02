@@ -35,9 +35,7 @@ jest.mock('@/features/recruitment/components/AdminPageClient', () => ({
 jest.mock('@/features/recruitment/components/AddCalendly', () => ({
   __esModule: true,
   default: ({ userId, calendly }: { userId: string; calendly: string }) => (
-    <div data-testid="add-calendly">
-      {userId}-{calendly}
-    </div>
+    <div data-testid="add-calendly" data-user-id={userId} data-calendly={calendly} />
   ),
 }));
 
@@ -77,8 +75,10 @@ describe('Admin Page', () => {
     render(node);
 
     expect(screen.getByTestId('admin-client')).toBeInTheDocument();
-    expect(screen.getByTestId('add-calendly')).toHaveTextContent(
-      'u1-https://calendly.com/me'
+    expect(screen.getByTestId('add-calendly')).toHaveAttribute('data-user-id', 'u1');
+    expect(screen.getByTestId('add-calendly')).toHaveAttribute(
+      'data-calendly',
+      'https://calendly.com/me'
     );
   });
 
@@ -92,6 +92,7 @@ describe('Admin Page', () => {
     const node = await AdminPage();
     render(node);
 
-    expect(screen.getByTestId('add-calendly')).toHaveTextContent('u2-');
+    expect(screen.getByTestId('add-calendly')).toHaveAttribute('data-user-id', 'u2');
+    expect(screen.getByTestId('add-calendly')).toHaveAttribute('data-calendly', '');
   });
 });

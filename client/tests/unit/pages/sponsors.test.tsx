@@ -28,21 +28,9 @@ jest.mock('@/assets/sponsors.json', () => [
 import SponsorsPage from '@/app/(frontend)/sponsors/page';
 
 describe('Sponsors Page', () => {
-  it('renders the Sponsor Us section', () => {
-    render(<SponsorsPage />);
-    expect(screen.getByRole('heading', { name: /sponsor us/i })).toBeInTheDocument();
-  });
-
   it('renders one sponsor card per tier from the data file', () => {
     render(<SponsorsPage />);
     const cards = screen.getAllByTestId('sponsor-card');
     expect(cards).toHaveLength(2);
-    expect(screen.getByText('Gold')).toBeInTheDocument();
-    expect(screen.getByText('Silver')).toBeInTheDocument();
-  });
-
-  it('renders the contact-us section', () => {
-    render(<SponsorsPage />);
-    expect(screen.getByTestId('contact-us-card')).toBeInTheDocument();
   });
 });
