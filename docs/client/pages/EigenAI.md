@@ -84,12 +84,12 @@ it exists in both flag states.
 `features/public-site/data/eigenai-redesign.ts`. Passing no prop uses the default
 fixture. The contract covers the date
 and location labels, metrics, About paragraphs/image, keynote, speakers,
-workshops, schedule and its optional notice, venue, and closing copy.
+workshops, schedule and its optional notice, venue, sponsors, and closing copy.
 
 The data module exports three review fixtures:
 
 - `eigenAIContent`: the 2026 event content and existing EigenAI event photography.
-- `eigenAIUnannouncedContent`: empty lineup, workshops, schedule, and venue.
+- `eigenAIUnannouncedContent`: empty lineup, workshops, schedule, venue, and sponsors.
 - `eigenAILongContent`: long speaker names, roles, bios, and workshop titles,
   with optional photos, links, and host names omitted.
 
@@ -126,7 +126,7 @@ Beyk's Panorad AI workshop remains Saturday 2:30–4:30 PM in OI 2212; the Sunda
 tentative request for extra engineering booths is noted but not treated as a
 confirmed session.
 
-The public speaker lineup contains only the five guests with supplied headshots.
+The public speaker lineup contains only guests with supplied headshots.
 Guests awaiting photos, the research-panel backup, and unconfirmed outreach
 contacts are omitted, along with private contact details, sponsor amounts,
 internal staffing, and logistics notes. No keynote is designated.
@@ -159,6 +159,23 @@ the embed so switching Off still renders a working page. The Instagram script is
 removed when the page unmounts. Provider errors select this same rollback view.
 
 ## Presentation
+
+The Sponsors section (`#sponsors`) sits between Venue and the closing copy and
+is the last top-navigation link.
+Each `EigenAISponsor` supplies a `name` (used as the logo's alt text) and a
+`logo`; files live under `src/assets/photos/eigenai-2026/sponsors/`. Logos are
+centred with `object-contain` on 2:1 `rounded-3xl` glass panels, the same
+`GradientPanel` surface and gradient outline as the workshop and speaker cards,
+filled with translucent white (`bg-white/85`) so the mostly dark logos keep
+their original colours and stay legible. Tiles stack on phones and
+wrap two per row from `sm` and four per row from `lg`. Rows are centred, so the
+ten 2026 logos form two rows of four with RCFTA and IEEE centred in a third.
+Logo files are cropped to their artwork so `object-contain` can fill the tile.
+On phones, where each tile spans the full width, larger padding keeps logos
+smaller.
+Square logos are height-limited in the wide tiles; an optional `logoScale`
+resizes one to balance it with the others (Arc x2 and Cognition AI use `1.3`,
+Publicus AI `1.15`, and RCFTA `0.85`). An empty list shows an announcement placeholder.
 
 The About section uses only `eigenai-conference.webp`, the second photo from the
 previous three-image layout. Introductory paragraphs form two columns from `md`,
@@ -360,12 +377,12 @@ animated orbit artwork as desktop, including drifting icon orbs and the slow
 additional top-left cluster, and stronger contrast, with staggered delays. Both the rotation and
 the SVG's internal drift stop for reduced-motion preferences. The original
 desktop Figma coordinates and scale resume at `md`.
-The 2026 content includes five named guests with headshots and six workshops.
+The 2026 content includes guests with headshots and six workshops.
 There are no placeholder speaker cards in the public lineup. Workshop descriptions
 give the available session details without inventing abstracts.
 Speaker cards use a centered wrapping layout: one per row on phones, two from
-`sm`, and three from `md`. Incomplete rows stay centered, giving the five-person
-lineup a balanced three-over-two arrangement on wider screens. The cards have
+`sm`, and three from `md`. Incomplete rows stay centered, so the
+lineup fills three full rows of three on wider screens. The cards have
 compact, content-driven heights and centered names and roles.
 The UTMIST lockups use the exported Figma `White Side 2` artwork rather than a
 typed approximation, preserving the custom letterforms in the hero, EigenAI

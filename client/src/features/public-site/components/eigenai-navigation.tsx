@@ -14,6 +14,7 @@ const navigationLinks = [
   { href: "#workshops", label: "Workshops" },
   { href: "#schedule", label: "Schedule" },
   { href: "#venue", label: "Venue" },
+  { href: "#sponsors", label: "Sponsors" },
 ];
 
 export function EigenNavigation() {
@@ -163,9 +164,9 @@ export function EigenNavigation() {
 
           <EigenGlassSurface
             variant="liquid"
-            className="flex items-center justify-self-center rounded-full px-8 py-3"
+            className="flex items-center justify-self-center rounded-full px-5 py-3 lg:px-8"
           >
-            <ul className="relative z-10 flex items-center gap-5">
+            <ul className="relative z-10 flex items-center gap-3 lg:gap-5">
               {navigationLinks.map((item) => (
                 <li key={item.href}>
                   <Link
