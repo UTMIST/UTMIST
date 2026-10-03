@@ -147,6 +147,9 @@ describe("EigenAI flag selector", () => {
       within(navigation).getByRole("link", { name: "Venue" }),
     ).toHaveAttribute("href", "#venue");
     expect(
+      within(navigation).getByRole("link", { name: "Sponsors" }),
+    ).toHaveAttribute("href", "#sponsors");
+    expect(
       within(navigation).queryByRole("link", { name: "UTMIST Home" }),
     ).not.toBeInTheDocument();
     expect(within(navigation).queryByRole("link", { name: "Login" })).not.toBeInTheDocument();

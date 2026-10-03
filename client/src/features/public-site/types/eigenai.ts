@@ -33,6 +33,12 @@ export interface EigenAIScheduleDay {
   items: readonly EigenAIScheduleItem[];
 }
 
+export interface EigenAISponsor {
+  name: string;
+  logo: EigenAIImage;
+  logoScale?: number;
+}
+
 export interface EigenAIVenueDetails {
   name: string;
   address: string;
@@ -55,5 +61,6 @@ export interface EigenAIPageContent {
   schedule: readonly EigenAIScheduleDay[];
   scheduleNotice?: string;
   venue?: EigenAIVenueDetails | null;
+  sponsors: readonly EigenAISponsor[];
   closingLines: readonly string[];
 }

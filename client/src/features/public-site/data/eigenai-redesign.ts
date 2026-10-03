@@ -5,6 +5,16 @@ import irisGuo from "@/assets/photos/eigenai-2026/headshots/iris-guo.png";
 import naomiWalch from "@/assets/photos/eigenai-2026/headshots/naomi-walch.png";
 import vincentXue from "@/assets/photos/eigenai-2026/headshots/vincent-xue.png";
 import ruihangZhang from "@/assets/photos/eigenai-2026/headshots/ruihang-zhang.png";
+import arcX2Logo from "@/assets/photos/eigenai-2026/sponsors/arc-x2.png";
+import cognitionAILogo from "@/assets/photos/eigenai-2026/sponsors/cognition-ai.png";
+import fateLabsLogo from "@/assets/photos/eigenai-2026/sponsors/fate-labs.png";
+import goldenVenturesLogo from "@/assets/photos/eigenai-2026/sponsors/golden-ventures.png";
+import ieeeLogo from "@/assets/photos/eigenai-2026/sponsors/ieee.png";
+import northsideVenturesLogo from "@/assets/photos/eigenai-2026/sponsors/northside-ventures.png";
+import panoradAILogo from "@/assets/photos/eigenai-2026/sponsors/panorad-ai.png";
+import publicusAILogo from "@/assets/photos/eigenai-2026/sponsors/publicus-ai.png";
+import rcftaLogo from "@/assets/photos/eigenai-2026/sponsors/rcfta.png";
+import stripeLogo from "@/assets/photos/eigenai-2026/sponsors/stripe.png";
 import faizanNaseer from "@/assets/photos/eigenai-2026/headshots/faizan-naseer.png";
 import owenChristie from "@/assets/photos/eigenai-2026/headshots/owen-christie.png";
 import ryanGosal from "@/assets/photos/eigenai-2026/headshots/ryan-gosal.png";
@@ -19,6 +29,7 @@ import type {
   EigenAIPageContent,
   EigenAIScheduleDay,
   EigenAISpeaker,
+  EigenAISponsor,
   EigenAIWorkshop,
 } from "@/features/public-site/types/eigenai";
 
@@ -236,6 +247,19 @@ const schedule: EigenAIScheduleDay[] = [
   },
 ];
 
+const sponsors: EigenAISponsor[] = [
+  { name: "Arc x2", logo: arcX2Logo, logoScale: 1.3 },
+  { name: "Cognition AI", logo: cognitionAILogo, logoScale: 1.3 },
+  { name: "Fate Labs", logo: fateLabsLogo },
+  { name: "Golden Ventures", logo: goldenVenturesLogo },
+  { name: "Northside Ventures", logo: northsideVenturesLogo },
+  { name: "Panorad AI", logo: panoradAILogo },
+  { name: "Publicus AI", logo: publicusAILogo, logoScale: 1.15 },
+  { name: "Stripe", logo: stripeLogo },
+  { name: "RCFTA", logo: rcftaLogo, logoScale: 0.85 },
+  { name: "IEEE", logo: ieeeLogo },
+];
+
 export const eigenAIContent: EigenAIPageContent = {
   dateLabel: "October 3rd & 4th",
   locationLabel: "OISE",
@@ -259,6 +283,7 @@ export const eigenAIContent: EigenAIPageContent = {
     address: "252 Bloor St W, Toronto, ON M5S 1V6, Canada",
     query: "OISE, 252 Bloor St W, Toronto, ON M5S 1V6, Canada",
   },
+  sponsors,
   closingLines: ["Across the Many", "Frontiers of AI"],
 };
 
@@ -274,6 +299,7 @@ export const eigenAIUnannouncedContent: EigenAIPageContent = {
   workshops: [],
   schedule: [],
   venue: null,
+  sponsors: [],
 };
 
 /** Exercise wrapping, missing photos/links, optional hosts, and speaker bios. */
