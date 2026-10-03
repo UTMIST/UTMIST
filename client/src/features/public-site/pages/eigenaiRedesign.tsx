@@ -557,6 +557,14 @@ function VenueSection({ children }: { children: React.ReactNode }) {
   );
 }
 
+function SponsorsSection({ children }: { children: React.ReactNode }) {
+  return (
+    <EigenAISection id="sponsors" title="Thank you to our sponsors & partners!" className="py-8 sm:py-20">
+      {children}
+    </EigenAISection>
+  );
+}
+
 function ClosingSection({ children }: { children: React.ReactNode }) {
   return (
     <EigenAISection
@@ -713,6 +721,40 @@ export default function EigenAIRedesign({
           </p>
         )}
       </VenueSection>
+
+      <SponsorsSection>
+        {content.sponsors.length > 0 ? (
+          <ul
+            data-testid="eigenai-sponsors"
+            className="flex flex-wrap justify-center gap-4 sm:gap-5 [&>li]:w-full sm:[&>li]:w-[calc((100%-1.25rem)/2)] lg:[&>li]:w-[calc((100%-3.75rem)/4)]"
+          >
+            {content.sponsors.map((sponsor) => (
+              <li key={sponsor.name}>
+                <GradientPanel radiusClassName="rounded-3xl">
+                  <div className="relative aspect-[2/1] rounded-[inherit] bg-white/85">
+                    <Image
+                      src={sponsor.logo}
+                      alt={sponsor.name}
+                      fill
+                      sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 1024px) 50vw, 288px"
+                      className="object-contain px-16 py-11 sm:px-7 sm:py-7 lg:px-6 lg:py-6"
+                      style={
+                        sponsor.logoScale
+                          ? { transform: `scale(${sponsor.logoScale})` }
+                          : undefined
+                      }
+                    />
+                  </div>
+                </GradientPanel>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-center text-white/70">
+            Sponsors will be announced soon.
+          </p>
+        )}
+      </SponsorsSection>
 
       <ClosingSection>
         <p className="font-eigen-body mx-auto max-w-4xl bg-[linear-gradient(90deg,#5edbe7_26.4423%,#fff_55.7692%,#f1dcff_79.3269%)] bg-clip-text text-[clamp(1.75rem,6vw,4rem)] leading-tight font-medium tracking-[0.01em] text-transparent italic">
