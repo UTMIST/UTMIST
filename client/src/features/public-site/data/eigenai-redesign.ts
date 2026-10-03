@@ -5,6 +5,16 @@ import irisGuo from "@/assets/photos/eigenai-2026/headshots/iris-guo.png";
 import naomiWalch from "@/assets/photos/eigenai-2026/headshots/naomi-walch.png";
 import vincentXue from "@/assets/photos/eigenai-2026/headshots/vincent-xue.png";
 import ruihangZhang from "@/assets/photos/eigenai-2026/headshots/ruihang-zhang.png";
+import faizanNaseer from "@/assets/photos/eigenai-2026/headshots/faizan-naseer.png";
+import owenChristie from "@/assets/photos/eigenai-2026/headshots/owen-christie.png";
+import ryanGosal from "@/assets/photos/eigenai-2026/headshots/ryan-gosal.png";
+import aaravKohil from "@/assets/photos/eigenai-2026/headshots/aarav-kohil.png";
+import athavanBalakumar from "@/assets/photos/eigenai-2026/headshots/athavan-balakumar.png";
+import dogaBaskan from "@/assets/photos/eigenai-2026/headshots/doga-baskan.png";
+import emaMylvaganam from "@/assets/photos/eigenai-2026/headshots/ema-mylvaganam.png";
+import hasanMalik from "@/assets/photos/eigenai-2026/headshots/hasan-malik.png";
+import vedantHarlaka from "@/assets/photos/eigenai-2026/headshots/vedant-harlaka.png";
+import yoyoLiu from "@/assets/photos/eigenai-2026/headshots/yoyo-liu.png";
 import type {
   EigenAIPageContent,
   EigenAIScheduleDay,
@@ -43,6 +53,21 @@ const speakers: EigenAISpeaker[] = [
     profileImage: aryanYaghoubian,
   },
   {
+    name: "Faizan Naseer",
+    role: "Panelist · Stripe",
+    profileImage: faizanNaseer,
+  },
+  {
+    name: "Owen Christie",
+    role: "Panelist · Stripe",
+    profileImage: owenChristie,
+  },
+  {
+    name: "Ryan Gosal",
+    role: "Panelist · Stripe",
+    profileImage: ryanGosal,
+  },
+  {
     name: "Ruihang Zhang",
     role: "Workshop Host · UofT CS PhD",
     profileImage: ruihangZhang,
@@ -53,6 +78,42 @@ const speakers: EigenAISpeaker[] = [
     profileImage: adrienBeyk,
     profileImagePosition: "50% 20%",
     profileImageScale: 2.25,
+  },
+  {
+    name: "Vedant Harlaka",
+    role: "Workshop Host · IEEE UofT",
+    profileImage: vedantHarlaka,
+    profileImageScale: 1.5,
+  },
+  {
+    name: "Athavan Balakumar",
+    role: "Workshop Host · IEEE UofT",
+    profileImage: athavanBalakumar,
+  },
+  {
+    name: "Ema Mylvaganam",
+    role: "Workshop Host · IEEE UofT",
+    profileImage: emaMylvaganam,
+  },
+  {
+    name: "Aarav Kohil",
+    role: "Panelist · UofT CS",
+    profileImage: aaravKohil,
+  },
+  {
+    name: "Doga Baskan",
+    role: "Panelist · UofT EngSci",
+    profileImage: dogaBaskan,
+  },
+  {
+    name: "Hasan Malik",
+    role: "Panelist · UofT CS",
+    profileImage: hasanMalik,
+  },
+  {
+    name: "Yoyo Liu",
+    role: "Panelist · UofT CS",
+    profileImage: yoyoLiu,
   },
 ];
 
