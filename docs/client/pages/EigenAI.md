@@ -126,7 +126,7 @@ Beyk's Panorad AI workshop remains Saturday 2:30–4:30 PM in OI 2212; the Sunda
 tentative request for extra engineering booths is noted but not treated as a
 confirmed session.
 
-The public speaker lineup contains only the five guests with supplied headshots.
+The public speaker lineup contains only guests with supplied headshots.
 Guests awaiting photos, the research-panel backup, and unconfirmed outreach
 contacts are omitted, along with private contact details, sponsor amounts,
 internal staffing, and logistics notes. No keynote is designated.
@@ -360,12 +360,12 @@ animated orbit artwork as desktop, including drifting icon orbs and the slow
 additional top-left cluster, and stronger contrast, with staggered delays. Both the rotation and
 the SVG's internal drift stop for reduced-motion preferences. The original
 desktop Figma coordinates and scale resume at `md`.
-The 2026 content includes five named guests with headshots and six workshops.
+The 2026 content includes guests with headshots and six workshops.
 There are no placeholder speaker cards in the public lineup. Workshop descriptions
 give the available session details without inventing abstracts.
 Speaker cards use a centered wrapping layout: one per row on phones, two from
-`sm`, and three from `md`. Incomplete rows stay centered, giving the five-person
-lineup a balanced three-over-two arrangement on wider screens. The cards have
+`sm`, and three from `md`. Incomplete rows stay centered, so the
+lineup fills three full rows of three on wider screens. The cards have
 compact, content-driven heights and centered names and roles.
 The UTMIST lockups use the exported Figma `White Side 2` artwork rather than a
 typed approximation, preserving the custom letterforms in the hero, EigenAI
