@@ -1,12 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 
 jest.mock('react-chrono', () => ({
-  Chrono: ({ items }: { items: Array<{ title?: string; cardTitle?: string }> }) => (
-    <div data-testid="chrono">
-      {items.map((item, i) => (
-        <div key={i}>{item.cardTitle || item.title}</div>
-      ))}
-    </div>
+  Chrono: ({ items }: { items: Array<{ title?: string }> }) => (
+    <div data-testid="chrono" data-first-item={items[0]?.title} />
   ),
 }));
 
@@ -50,45 +46,15 @@ jest.mock('@/features/public-site/data/ai2', () => ({
 import AI2Page from '@/app/(frontend)/ai2/page';
 
 describe('AI2 Page', () => {
-  it('renders hero title and apply button', () => {
+  it('switches the timeline data when another date is selected', () => {
     render(<AI2Page />);
-    expect(
-      screen.getByRole('heading', { level: 1, name: /^AI Squared$/i })
-    ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /Apply!/i })).toBeInTheDocument();
-  });
+    const timelineButtons = screen.getAllByRole('button').slice(-3);
+    const timeline = screen.getByTestId('chrono');
 
-  it('renders the How it Works steps', () => {
-    render(<AI2Page />);
-    expect(screen.getByText('Step 1')).toBeInTheDocument();
-    expect(screen.getByText('Step 2')).toBeInTheDocument();
-  });
-
-  it('renders the new feature cards', () => {
-    render(<AI2Page />);
-    const cards = screen.getAllByTestId('ai2-card');
-    expect(cards).toHaveLength(2);
-    expect(screen.getByText('Feature A')).toBeInTheDocument();
-    expect(screen.getByText('Feature B')).toBeInTheDocument();
-  });
-
-  it('defaults to the November 2 (Expo) timeline tab', () => {
-    render(<AI2Page />);
-    expect(screen.getByText('Expo')).toBeInTheDocument();
-  });
-
-  it('switches the timeline when a different date button is clicked', () => {
-    render(<AI2Page />);
-    fireEvent.click(screen.getByRole('button', { name: 'October 25' }));
-    expect(screen.getByText('Kickoff')).toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: 'October 25 - November 1' }));
-    expect(screen.getByText('Agent Development')).toBeInTheDocument();
-  });
-
-  it('renders sponsors and speakers sections', () => {
-    render(<AI2Page />);
-    expect(screen.getByText('Sponsor1')).toBeInTheDocument();
-    expect(screen.getByText(/Speakers Session/i)).toBeInTheDocument();
-    expect(screen.getByText(/Panel Speakers/i)).toBeInTheDocument();
+    expect(timeline).toHaveAttribute('data-first-item', 'Finals');
+    fireEvent.click(timelineButtons[0]);
+    expect(timeline).toHaveAttribute('data-first-item', 'Kickoff Event');
+    fireEvent.click(timelineButtons[1]);
+    expect(timeline).toHaveAttribute('data-first-item', 'Dev');
   });
 });

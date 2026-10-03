@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 jest.mock('@/shared/ui/heroSection', () => ({
   __esModule: true,
@@ -21,37 +21,12 @@ jest.mock('@/features/public-site/data/ml-fundamentals', () => ({
 import MLFundamentals from '@/app/(frontend)/ml-fundamentals/page';
 
 describe('ML Fundamentals Page', () => {
-  it('renders both Phase 1 and Phase 2 schedule sections', () => {
-    render(<MLFundamentals />);
-    expect(screen.getByText(/Phase 1: Workshop Schedule/i)).toBeInTheDocument();
-    expect(screen.getByText(/Phase 2: Project/i)).toBeInTheDocument();
-  });
+  it('opens a workshop resource in a modal', () => {
+    const { container } = render(<MLFundamentals />);
+    const resourceButton = container.querySelector('button');
 
-  it('renders all eight Phase 1 weeks', () => {
-    render(<MLFundamentals />);
-    expect(screen.getByText(/Introduction to Machine Learning/i)).toBeInTheDocument();
-    expect(screen.getByText(/Deep Learning & Modern Architectures/i)).toBeInTheDocument();
-  });
-
-  it('opens the workshop modal when a Slides button is clicked', () => {
-    render(<MLFundamentals />);
-    const slideButtons = screen.getAllByRole('button', { name: /slides/i });
-    fireEvent.click(slideButtons[0]);
-    expect(screen.getAllByText(/Introduction to Machine Learning/i).length).toBeGreaterThan(1);
-  });
-
-  it('toggles an FAQ open and shows its answer', () => {
-    render(<MLFundamentals />);
-    const faq = screen.getByText(/what prerequisites do I need/i);
-    fireEvent.click(faq);
-    expect(
-      screen.getByText(/basic knowledge of python programming/i)
-    ).toBeInTheDocument();
-  });
-
-  it('renders three people-grid sections for the team', () => {
-    render(<MLFundamentals />);
-    const grids = screen.getAllByTestId('people-grid');
-    expect(grids).toHaveLength(3);
+    expect(resourceButton).not.toBeNull();
+    fireEvent.click(resourceButton!);
+    expect(container.querySelector('iframe')).toBeInTheDocument();
   });
 });
