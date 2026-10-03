@@ -330,7 +330,7 @@ The route-aware `HideOnEigenAI` wrapper suppresses the frontend layout's shared
 navbar and footer; the selector restores them only for the legacy branch. The redesign supplies
 its own responsive navigation and footer inside the continuous orbital
 background, using the same liquid-glass surface treatment as the event UI. Its
-links navigate to About, Speakers, Workshops, Schedule, and Venue on the current
+links navigate to About, Speakers, Workshops, Schedule, Venue, and Sponsors on the current
 page. The UTMIST wordmark remains the route back to the main site, while the
 navigation does not include a separate home or authentication action.
 Outside `/eigenai`, the frontend layout evaluates `Eigen-AI-Redesign` on the
@@ -360,7 +360,9 @@ control at the far right. A short gradient below the fixed bar lets content fade
 the open menu layers above that fade to meet the bar exactly without a gap. Its
 lower corners retain the liquid-glass rounding. Desktop navigation has a
 deeper dark-to-transparent top fade so scrolling content remains secondary
-behind the floating controls.
+behind the floating controls. From `md` to `lg`, tighter link gaps and pill padding
+leave room for the ticket button on a single line, including at 768px. The ticket
+label does not wrap; wider desktop spacing resumes at `lg`.
 Keyboard focus can leave the navigation normally: doing so closes the mobile
 overlay before a page link receives focus. Escape closes the menu and restores
 focus to its toggle. Section scroll margins keep anchor headings below the fixed

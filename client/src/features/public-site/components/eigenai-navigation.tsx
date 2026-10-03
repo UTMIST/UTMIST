@@ -164,9 +164,9 @@ export function EigenNavigation() {
 
           <EigenGlassSurface
             variant="liquid"
-            className="flex items-center justify-self-center rounded-full px-5 py-3 lg:px-8"
+            className="flex items-center justify-self-center rounded-full px-3 py-3 lg:px-8"
           >
-            <ul className="relative z-10 flex items-center gap-3 lg:gap-5">
+            <ul className="relative z-10 flex items-center gap-2 lg:gap-5">
               {navigationLinks.map((item) => (
                 <li key={item.href}>
                   <Link
@@ -184,7 +184,7 @@ export function EigenNavigation() {
             href={eigenAITicketUrl}
             target="_blank"
             rel="noreferrer"
-            className="relative z-10 justify-self-end rounded-full bg-[linear-gradient(100deg,#5edbe7,#f1dcff)] px-5 py-2.5 text-sm font-bold tracking-[0.04em] text-[#0c0249] uppercase transition hover:brightness-110"
+            className="relative z-10 justify-self-end whitespace-nowrap rounded-full bg-[linear-gradient(100deg,#5edbe7,#f1dcff)] px-5 py-2.5 text-sm font-bold tracking-[0.04em] text-[#0c0249] uppercase transition hover:brightness-110"
           >
             Get Tickets
           </Link>
