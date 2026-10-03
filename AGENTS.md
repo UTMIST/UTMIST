@@ -69,6 +69,8 @@ it. ([client/README.md](client/README.md#deployment))
 - New behaviour gets tests; [docs/client/Testing.md](docs/client/Testing.md)
   has a template and cookbooks (mocking Supabase, `next/navigation`, async
   server components).
+- Do not add tests for static content or visual styling. Tests must protect
+  behaviour; content and presentation changes should not require test updates.
 - A new page or component gets a matching note under
   [docs/client/](docs/client/). If a change makes an existing doc wrong,
   fix the doc in the same PR.
