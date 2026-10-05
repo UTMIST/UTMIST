@@ -103,6 +103,11 @@ Vercel, driven by [`.github/workflows/ci.yml`](../.github/workflows/ci.yml).
 Every push to `main` that passes lint, typecheck, test, and build is deployed to
 production automatically.
 
+The same `build` check validates merge-group commits targeting `main`.
+Queue validation does not deploy; production deployment follows the merge.
+Enable queue enforcement only after the workflow support lands, following the
+[rollout guide](../CONTRIBUTING.md#merge-queue-on-main).
+
 Eligible pull requests get a Preview after the same checks pass. CI uploads
 the source with `vercel deploy`; Vercel performs the Preview build so its
 Next.js adapter can inject the Toolbar using the project's Preview settings.

@@ -30,6 +30,11 @@ All three checks must pass before a push. CI additionally runs `next build`;
 a missing env var or a prerender error fails there even when the three local
 checks pass. ([CONTRIBUTING.md](CONTRIBUTING.md#before-you-push))
 
+Required checks on `main` must also run on `merge_group` events and check out
+the event's ref so they test the queued changes. Queue enforcement is a
+separate GitHub setting; follow the
+[rollout guide](CONTRIBUTING.md#merge-queue-on-main) before enabling it.
+
 ## Import boundaries (ESLint-enforced, fail CI)
 
 ([docs/ZONES.md](docs/ZONES.md#shared-conventions))
