@@ -30,6 +30,11 @@ All three checks must pass before a push. CI additionally runs `next build`;
 a missing env var or a prerender error fails there even when the three local
 checks pass. ([CONTRIBUTING.md](CONTRIBUTING.md#before-you-push))
 
+Required checks on `main` must also run on `merge_group` events and check out
+the event's ref so they test the queued changes. Queue enforcement is a
+separate GitHub setting; follow the
+[rollout guide](CONTRIBUTING.md#merge-queue-on-main) before enabling it.
+
 ## Import boundaries (ESLint-enforced, fail CI)
 
 ([docs/ZONES.md](docs/ZONES.md#shared-conventions))
@@ -69,6 +74,8 @@ it. ([client/README.md](client/README.md#deployment))
 - New behaviour gets tests; [docs/client/Testing.md](docs/client/Testing.md)
   has a template and cookbooks (mocking Supabase, `next/navigation`, async
   server components).
+- Do not add tests for static content or visual styling. Tests must protect
+  behaviour; content and presentation changes should not require test updates.
 - A new page or component gets a matching note under
   [docs/client/](docs/client/). If a change makes an existing doc wrong,
   fix the doc in the same PR.

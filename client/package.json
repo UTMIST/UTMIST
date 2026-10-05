@@ -49,7 +49,7 @@
     "googleapis": "^156.0.0",
     "graphql": "^16.8.1",
     "keen-slider": "^6.8.6",
-    "next": "^16.3.1",
+    "next": "^16.3.8",
     "payload": "^3.89.0",
     "qrcode.react": "^4.2.0",
     "react": "^19.2.8",
@@ -69,9 +69,9 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.3.3",
-    "@testing-library/jest-dom": "^7.0.0",
-    "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^14.6.3",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
     "@types/jest": "^30.0.0",
     "@types/node": "20.17.57",
     "@types/react": "19.2.18",
@@ -80,12 +80,12 @@
     "eslint": "^9",
     "eslint-config-next": "^16.0.7",
     "husky": "^9.1.7",
-    "jest": "^30.4.2",
-    "jest-environment-jsdom": "^30.4.1",
+    "jest": "^30.5.2",
+    "jest-environment-jsdom": "^30.5.2",
     "lucide-react": "^0.511.0",
     "postcss": "^8.5.26",
     "tailwindcss": "^4.1.6",
-    "ts-jest": "^29.4.12",
+    "ts-jest": "^29.4.14",
     "typescript": "5.8.3"
   }
 }
