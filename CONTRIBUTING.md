@@ -180,7 +180,9 @@ changed, why, the issue it closes, and screenshots for anything visual.
 
 ### What CI checks
 
-Every PR runs [`.github/workflows/ci.yml`](.github/workflows/ci.yml):
+Every PR runs [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Its
+required `build` job also runs on pushes to `main` and on merge-group commits
+targeting `main`:
 
 | Step | Fails when |
 | --- | --- |
@@ -205,7 +207,63 @@ Receiving review: it is fine to push back. If a suggestion seems wrong, say so
 and explain why — that conversation is the point. Do not silently apply a change
 you believe is incorrect.
 
-Once approved, a maintainer merges. Delete your branch afterward.
+Once approved and checks pass, a maintainer merges through the
+[merge queue](#merge-queue-on-main) when enforcement is enabled. Delete your
+branch after the PR lands.
+
+### Merge queue on `main`
+
+CI supports GitHub's native merge queue, following the same setup as
+[Misty](https://github.com/UTMIST/Misty/pull/254). Web targets `main` directly;
+there is no staging branch. Queue enforcement is configured separately in
+GitHub, so merging the workflow change does not enable it automatically.
+
+Once enabled, get the required approval and green PR checks, then use
+**Merge when ready** to enter the queue. GitHub tests your changes with the
+latest `main` and any PRs ahead of yours. If the required check fails or times
+out, GitHub removes the PR from the queue; inspect the failure, fix it, and
+requeue. A successful merge triggers the normal production deployment.
+
+**Operator rollout:**
+
+1. Merge the workflow support through the existing PR process and confirm
+   that CI on `main` passes before enabling queue enforcement.
+2. In GitHub **Settings → Rules → Rulesets**, add an active branch ruleset
+   named **Main merge queue**, targeting exactly `refs/heads/main`, with
+   **Require merge queue** and no bypass actors. Keep the existing branch
+   protection and `main branch protection` ruleset. Use these initial settings,
+   matching Misty's queue except for the merge method:
+
+   | Setting | Initial value |
+   | --- | --- |
+   | Merge method | Squash (preserves web's required linear history) |
+   | Build concurrency | 1 |
+   | Minimum / maximum PRs per merge | 1 / 1 |
+   | Wait time for the minimum group size | 1 minute |
+   | Only merge non-failing pull requests | Enabled |
+   | Status check timeout | 30 minutes; increase if CI runs approach it |
+
+3. Preserve the required `build` check from GitHub Actions, one approving
+   review, linear history, and the existing protections against force pushes,
+   deletion, and admin bypass. Turn off **Require branches to be up to date
+   before merging** in the existing branch protection once the queue is
+   active; the queue tests against the latest `main` instead.
+4. Queue a small approved PR. Confirm `build` runs and succeeds on the
+   `merge_group` commit before the PR lands, then verify the production
+   deployment. Queue validation runs lint, typecheck, tests, and the Next.js
+   build. The Preview job runs only for eligible PR events, and production
+   deployment runs only after a push to `main`.
+
+`build` is the required status check; do not require `preview` or `deploy`
+for queued commits. Any future required check must also report on
+`merge_group`, without path filters that could leave it waiting indefinitely.
+Keep checkout on the event's ref so CI tests the combined changes.
+
+To roll back, restore **Require branches to be up to date before merging**
+and disable the **Main merge queue** ruleset, retaining the required checks,
+reviews, and other branch protections. The `merge_group` trigger can stay.
+See GitHub's [merge queue documentation](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue)
+for queue settings and failure handling.
 
 ## Dependency updates
 
