@@ -57,9 +57,8 @@ const eslintConfig = [
 // rule matches the *resolved file path*, so alias and relative imports are
 // enforced identically.
 //
-// src/middleware.ts is intentionally outside every zone block below: it
-// deep-imports supabase middleware via a relative path to keep the heavy
-// server barrel out of the edge bundle.
+// src/middleware.ts is outside the feature/app zone blocks below. It runs on
+// Node.js and imports the shared server barrel for Supabase and flag evaluation.
 const CLIENT_ROOT = import.meta.dirname;
 
 // Derived from the filesystem so a newly added src/features/<zone>/ directory

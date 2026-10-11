@@ -1,6 +1,8 @@
 import config from "@payload-config";
 import { NotFoundPage } from "@payloadcms/next/views";
 
+import { requireCmsAccess } from "@/shared/lib/server";
+
 import { importMap } from "../importMap.js";
 
 type Args = {
@@ -8,6 +10,7 @@ type Args = {
   searchParams: Promise<Record<string, string | string[]>>;
 };
 
-export default function NotFound({ params, searchParams }: Args) {
+export default async function NotFound({ params, searchParams }: Args) {
+  await requireCmsAccess();
   return NotFoundPage({ config, importMap, params, searchParams });
 }

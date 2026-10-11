@@ -50,12 +50,12 @@ describe('vercelFlagAdapter', () => {
     expect(mockEvaluate).not.toHaveBeenCalled();
   });
 
-  it('evaluates a known flag with a false default — on', async () => {
+  it.each(['Eigen-AI-Redesign', 'CMS-Access'])('evaluates %s with a false default — on', async (key) => {
     mockEvaluate.mockResolvedValue(evaluation(true, 'HIT'));
     await expect(
-      vercelFlagAdapter.evaluate('Eigen-AI-Redesign', anonymous),
+      vercelFlagAdapter.evaluate(key, anonymous),
     ).resolves.toBe(true);
-    expect(mockEvaluate).toHaveBeenCalledWith('Eigen-AI-Redesign', false);
+    expect(mockEvaluate).toHaveBeenCalledWith(key, false);
   });
 
   it('evaluates a known flag — off', async () => {

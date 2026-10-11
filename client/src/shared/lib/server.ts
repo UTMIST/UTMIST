@@ -3,3 +3,4 @@ export { createClient } from "./supabase/server";
 export { updateSession } from "./supabase/middleware";
 export * from "./auth/guards";
 export * from "./flags/server";
+export { requireCmsAccess, withCmsAccess } from "./flags/cms";

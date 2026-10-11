@@ -37,7 +37,6 @@ jest.mock('@vercel/flags-core', () => {
   };
 });
 
-const EIGEN = 'Eigen-AI-Redesign';
 const anonymous: EvaluationContext = { cohort: 'public' };
 
 /**
@@ -59,7 +58,7 @@ function datafile(
     environment,
     configUpdatedAt: 1,
     revision: 1,
-    definitions: definition ? { [EIGEN]: definition } : {},
+    definitions: definition ? { 'Eigen-AI-Redesign': definition, 'CMS-Access': definition } : {},
   };
 }
 
@@ -86,7 +85,7 @@ afterEach(async () => {
   jest.restoreAllMocks();
 });
 
-describe('Vercel adapter × real @vercel/flags-core', () => {
+describe.each(['Eigen-AI-Redesign', 'CMS-Access'])('%s × real @vercel/flags-core', (EIGEN) => {
   describe('fresh reads', () => {
     it('is on when the environment serves the `true` variant', async () => {
       const adapter = buildStepAdapter({
@@ -185,6 +184,6 @@ describe('Vercel adapter × real @vercel/flags-core', () => {
       environments: { development: 1 },
     });
     // Defined in the datafile but not declared in the adapter → still unknown.
-    await expect(adapter.evaluate('CMS-Access', anonymous)).resolves.toBeUndefined();
+    await expect(adapter.evaluate('undeclared-flag', anonymous)).resolves.toBeUndefined();
   });
 });

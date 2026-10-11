@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import config from "@payload-config";
 import { generatePageMetadata, RootPage } from "@payloadcms/next/views";
 
+import { requireCmsAccess } from "@/shared/lib/server";
+
 import { importMap } from "../importMap.js";
 
 type Args = {
@@ -10,12 +12,15 @@ type Args = {
   searchParams: Promise<Record<string, string | string[]>>;
 };
 
-export const generateMetadata = ({
+export const generateMetadata = async ({
   params,
   searchParams,
-}: Args): Promise<Metadata> =>
-  generatePageMetadata({ config, params, searchParams });
+}: Args): Promise<Metadata> => {
+  await requireCmsAccess();
+  return generatePageMetadata({ config, params, searchParams });
+};
 
-export default function Page({ params, searchParams }: Args) {
+export default async function Page({ params, searchParams }: Args) {
+  await requireCmsAccess();
   return RootPage({ config, importMap, params, searchParams });
 }

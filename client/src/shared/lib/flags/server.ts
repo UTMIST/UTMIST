@@ -15,6 +15,7 @@ const betaStore: BetaPreferenceStore = fixtureBetaStore;
 export async function evaluateFlag(
   name: string,
   ctx: EvaluationContext = { cohort: "public" },
+  request?: NextRequest,
 ): Promise<boolean> {
   if (process.env.VERCEL_ENV === "production") {
     return evaluateProviderFlag(name, ctx);
@@ -29,8 +30,10 @@ export async function evaluateFlag(
         ? flagDefinitions[name]
         : undefined;
       if (definition) {
-        const { cookies } = await import("next/headers");
-        const cookie = (await cookies()).get("vercel-flag-overrides")?.value;
+        // Middleware has an explicit request rather than App Router's cookie
+        // context. Use it for both expiry validation and SDK evaluation.
+        const requestCookies = request?.cookies ?? (await (await import("next/headers")).cookies());
+        const cookie = requestCookies.get("vercel-flag-overrides")?.value;
         if (cookie) {
           const { decryptOverrides, reportValue } = await import("flags");
           // flags@4.3.1 caches its last decrypted cookie across requests without
@@ -41,7 +44,7 @@ export async function evaluateFlag(
             return value;
           }
         }
-        return (await definition.run({ identify: ctx })) === true;
+        return (await definition.run({ identify: ctx, request })) === true;
       }
     }
     return await evaluateProviderFlag(name, ctx);

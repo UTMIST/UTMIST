@@ -13,6 +13,38 @@ for member identity and preferences.
 Everything here works with **no provider** — the fixtures are in-memory and
 deterministic — so server/client examples and the opt-in UI can be built now.
 
+## CMS availability
+
+`CMS-Access` gates the Payload CMS pages, metadata, server actions, REST API,
+GraphQL endpoint and playground through this same evaluator. It defaults Off;
+local fixtures can opt in for development. Production follows the dashboard and ignores
+browser overrides. See [Payload availability](Payload.md#availability-flag-443)
+for the inspected dashboard settings, owner, local opt-in and rollout checks.
+
+## Local flags without Vercel access
+
+Vercel access is optional for local development. Without provider credentials
+or Vercel context, `npm run dev` uses `DEFAULT_FLAGS` in
+[`fixtures.ts`](../../client/src/shared/lib/flags/fixtures.ts). Both real flags
+are registered there and default Off:
+
+```ts
+"Eigen-AI-Redesign": { enabled: false },
+"CMS-Access": { enabled: false },
+```
+
+Set the flag you want to test to `enabled: true` in your local checkout and
+restart the dev server. Use `/eigenai` for the redesign or `/cms` for Payload
+(which still needs its local Postgres and Payload environment variables).
+Restore the entries to `false` before committing.
+
+Leave `FLAGS`, `VERCEL_OIDC_TOKEN`, `VERCEL`, and `VERCEL_ENV` unset locally to
+select fixtures; check both `.env` and any previously pulled `.env.local`.
+Clear any Toolbar override when testing fixture values. No `FLAGS_SECRET`,
+Vercel account, or new environment variable is required for fixture evaluation.
+Vercel deployments use the live provider, and standalone production runs keep
+flags Off without provider credentials, regardless of local fixture edits.
+
 ## Using the EigenAI flag
 
 **Do I need to set `FLAGS`? No, not for this Vercel project.** Leave it unset:
@@ -151,7 +183,9 @@ evaluator or the provider.
 
 ### Flags are boolean
 
-`evaluateFlag(name, ctx?)` returns `Promise<boolean>`. There are no variant or
+`evaluateFlag(name, ctx?, request?)` returns `Promise<boolean>`. Middleware may
+pass a `NextRequest` as the third argument; other callers use the implicit
+App Router request context. There are no variant or
 multivalue flags. Evaluation defaults **off** (per #286):
 
 - an unknown flag name → `false`;
@@ -310,7 +344,7 @@ production dashboard controls the result, while cookies and `FLAGS_SECRET`
 cannot override it.
 
 Outside production, when `FLAGS_SECRET` is present, declared flags run through `flags/next`.
-`definitions.ts` declares `Eigen-AI-Redesign` with `defaultValue: false`; its
+`definitions.ts` declares catalog flags with `defaultValue: false`; each
 `decide` calls `evaluateProviderFlag` with the evaluation context. Before invoking
 the declaration, `server.ts` validates the request's `vercel-flag-overrides`
 cookie with the SDK's `decryptOverrides` helper on every evaluation. This is
@@ -323,6 +357,11 @@ Valid development/preview overrides affect only that request/browser. The SDK
 memoizes flag evaluation per request, never globally across visitors. Without
 an Explorer secret, evaluation calls the provider wrapper directly and ignores
 override cookies.
+
+When middleware supplies an explicit request, both override expiry validation
+and the SDK's `definition.run` read that request's cookies instead of
+`next/headers`. The CMS 404 rewrite uses this same path, so a valid local/Preview
+override can enable CMS access without changing how production flags are read.
 
 `provider.ts` selects the live adapter when `FLAGS`, `VERCEL_OIDC_TOKEN`,
 `VERCEL=1`, or `VERCEL_ENV` is present. An explicit nonempty `FLAGS` key is passed
