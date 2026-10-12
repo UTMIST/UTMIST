@@ -15,8 +15,11 @@ components. Keep these route trees separate: importing the frontend layout,
 even conditionally, bundles its global CSS into enabled CMS pages and overrides
 Payload's dashboard styles. Both Payload components independently check the
 flag before invoking Payload, so bypassing the rewrite or disabling access
-between evaluations still fails closed. Server-action POSTs stay in the Payload
-tree and recheck their own gate.
+between evaluations still fails closed. Disabled CMS POSTs receive an uncached
+JSON 404 directly from middleware before Next.js dispatches an action. This
+covers Payload's built-in language action as well as our guarded server-function
+callback, including form submissions without a `Next-Action` header. Enabled
+POSTs continue into the Payload tree; the callback retains its own flag check.
 
 The fallback renders the frontend layout, including its normal EigenAI flag
 evaluation, and never invokes Payload. CMS API handlers continue to return

@@ -37,7 +37,11 @@ Offline fixtures default Off and support an explicit local opt-in.
 This uses the existing [shared flag architecture](flags.md), rather than a
 Payload-specific provider. `requireCmsAccess` and `withCmsAccess` are exported
 through `@/shared/lib/server`. The layout, page, metadata, not-found render,
-and every server-action invocation check before invoking Payload. REST methods
+and server-function callback check before invoking Payload. Middleware checks
+CMS page POSTs before Next.js dispatches any action, including Payload's built-in
+`switchLanguageServerAction`, which does not call our guarded callback. Disabled
+POSTs return an uncached JSON 404 even with an existing editor cookie or without
+a `Next-Action` header. REST methods
 (`GET`, `HEAD`, `POST`, `DELETE`, `PATCH`, `PUT`, `OPTIONS`), GraphQL
 (`POST`, `OPTIONS`), and playground (`GET`, `HEAD`) use the same evaluator.
 Off returns the [default UTMIST 404 page](NotFound.md) for CMS and playground page requests
@@ -102,6 +106,7 @@ overrides, keep the deployment unchanged, and:
    unauthenticated write still fails through Payload's collection permissions.
 3. Leave that editor open and set Off. Record propagation time; repeat direct
    API requests with the same session and submit an action from the open editor.
+   Also try switching the editor's language to exercise Payload's built-in action.
    Expect unavailable responses and no successful action. Confirm API responses
    remain `no-store`, and compare the deployment ID to prove no redeploy occurred.
 4. Check `/`, `/eigenai`, and Supabase sign-in/profile flows throughout.
@@ -118,6 +123,14 @@ synthetic editor cookie; API responses were `no-store`. Public pages rendered
 and the existing Supabase-protected paths still redirected signed-out visitors
 to `/auth`. This verifies the disabled runtime without a CMS database, while
 enabled delegation and collection permissions are covered by automated tests.
+
+Run `npm run test:cms-actions` manually after `npm run build`. It invokes the
+real compiled Payload language action with the same synthetic editor cookie
+across Off → On → Off: Off must return `404`/`no-store` without setting
+`payload-lng`, and On must actually set `payload-lng=fr`. This supplements the
+Jest layout mocks so an unguarded built-in action cannot be hidden by them.
+The test uses signed local overrides and an unreachable synthetic database;
+it does not verify live Vercel propagation or require Development keys.
 
 ## Database isolation
 

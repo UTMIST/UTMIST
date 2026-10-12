@@ -41,6 +41,30 @@ client/tests/
 
 Tests are discovered by the pattern `tests/**/*.(test|spec).(js|jsx|ts|tsx)` (see `jest.config.js`). New page tests must go in `tests/unit/pages/`.
 
+### Payload server-action runtime regression
+
+After `npm run build`, run `npm run test:cms-actions` manually from `client/`.
+This check is not part of CI. Node 24 executes the TypeScript test in
+`runtime-tests/cms-server-actions.test.ts` against a temporary local production
+server; Jest does not discover this separate suite.
+
+This test reads the build's action manifest and submits the real Payload
+`switchLanguageServerAction`. It uses the current action ID/encryption key and
+the Next.js closure wire format to encode the captured cookie prefix. An enabled
+control must set `payload-lng=fr`, so a stale action ID or invalid payload cannot
+make the disabled assertions pass accidentally. Off → On → Off uses one build
+and the same synthetic editor cookie. Disabled POSTs must return `404` with
+`no-store` and leave the language cookie unchanged, including form POSTs without
+the `Next-Action` header.
+
+The server uses synthetic configuration, signed local flag overrides and an
+unreachable database. The action request includes Next's forwarding header to
+skip rendering the database-backed editor after dispatch. No Payload layout or
+action is mocked, no Vercel flag is changed, and the server stops after the test.
+Update the closure helper if a Next/Payload upgrade changes the protocol; the
+enabled control will catch that change. Live Vercel propagation still requires
+separate testing with Development/Preview access.
+
 ## Globals already mocked for you
 
 [`jest.setup.js`](../../client/jest.setup.js) auto-applies these to every test:

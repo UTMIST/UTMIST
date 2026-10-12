@@ -8,16 +8,23 @@ export async function middleware(request: NextRequest) {
     pathname === "/cms-graphql-playground";
 
   if (
-    isCmsPage && (request.method === "GET" || request.method === "HEAD") &&
+    isCmsPage && ["GET", "HEAD", "POST"].includes(request.method) &&
     !(await evaluateFlag("CMS-Access", { cohort: "public" }, request))
   ) {
-    // Keep frontend CSS out of Payload's route tree. This frontend page always
-    // calls notFound(), while the browser keeps its original CMS URL.
-    const url = request.nextUrl.clone();
-    url.pathname = "/cms-unavailable";
-    const response = NextResponse.rewrite(url, {
-      request: { headers: request.headers },
-    });
+    let response: NextResponse;
+    if (request.method === "POST") {
+      // Payload also exposes built-in actions outside our guarded callback.
+      // Stop all CMS POSTs before Next dispatches either action mechanism.
+      response = NextResponse.json({ error: "Not Found" }, { status: 404 });
+    } else {
+      // Keep frontend CSS out of Payload's route tree. This frontend page always
+      // calls notFound(), while the browser keeps its original CMS URL.
+      const url = request.nextUrl.clone();
+      url.pathname = "/cms-unavailable";
+      response = NextResponse.rewrite(url, {
+        request: { headers: request.headers },
+      });
+    }
     for (const cookie of sessionResponse.cookies.getAll()) {
       response.cookies.set(cookie);
     }

@@ -97,6 +97,49 @@ describe("CMS page routing", () => {
     },
   );
 
+  it.each(cmsPaths)("rejects disabled POST %s before any action dispatch", async (path) => {
+    const request = new NextRequest(`http://localhost${path}`, {
+      method: "POST",
+      headers: {
+        "Next-Action": "payload-built-in-action",
+        cookie: "payload-token=existing-editor-session; payload-lng=en",
+      },
+      body: '["synthetic-bound-arguments","fr"]',
+    });
+    const response = await middleware(request);
+    expect(response.status).toBe(404);
+    expect(await response.json()).toEqual({ error: "Not Found" });
+    expect(response.headers.get("Cache-Control")).toBe("no-store");
+    expect(response.headers.has("x-middleware-rewrite")).toBe(false);
+    expect(response.cookies.has("payload-lng")).toBe(false);
+    for (const mock of payloadMocks) expect(mock).not.toHaveBeenCalled();
+  });
+
+  it("rejects a form action without a Next-Action header and preserves refreshed Supabase cookies", async () => {
+    const sessionResponse = NextResponse.next();
+    sessionResponse.cookies.set("synthetic-session", "refreshed", { httpOnly: true, path: "/" });
+    mockUpdateSession.mockResolvedValue(sessionResponse);
+    const form = new FormData();
+    form.set("$ACTION_ID_payload-built-in-action", "");
+    const response = await middleware(new NextRequest("http://localhost/cms", {
+      method: "POST", body: form,
+    }));
+    expect(response.status).toBe(404);
+    expect(response.cookies.get("synthetic-session")).toMatchObject({ value: "refreshed", httpOnly: true });
+    expect(response.cookies.get("payload-lng")).toBeUndefined();
+  });
+
+  it("passes enabled POSTs through and rejects them again after disablement", async () => {
+    const sessionResponse = NextResponse.next();
+    mockUpdateSession.mockResolvedValue(sessionResponse);
+    for (const enabled of [false, true, false]) {
+      flagResult(enabled);
+      const response = await middleware(new NextRequest("http://localhost/cms", { method: "POST" }));
+      if (enabled) expect(response).toBe(sessionResponse);
+      else expect(response.status).toBe(404);
+    }
+  });
+
   it("keeps refreshed Supabase cookies and RSC request headers in the rewrite", async () => {
     const sessionResponse = NextResponse.next();
     sessionResponse.cookies.set("synthetic-session", "refreshed", { httpOnly: true, path: "/" });
@@ -126,16 +169,18 @@ describe("CMS page routing", () => {
     flagResult(value, String(cacheStatus), String(reason));
     expect((await middleware(new NextRequest("http://localhost/cms"))).headers.get("x-middleware-rewrite"))
       .toBe("http://localhost/cms-unavailable");
+    expect((await middleware(new NextRequest("http://localhost/cms", { method: "POST" }))).status).toBe(404);
   });
 
   it("rewrites pages to the frontend 404 when the provider rejects", async () => {
     mockEvaluate.mockRejectedValue(new Error("provider disconnected"));
     expect((await middleware(new NextRequest("http://localhost/cms"))).headers.get("x-middleware-rewrite"))
       .toBe("http://localhost/cms-unavailable");
+    expect((await middleware(new NextRequest("http://localhost/cms", { method: "POST" }))).status).toBe(404);
   });
 
   it.each([
-    { path: "/cms", method: "POST" },
+    { path: "/cms-api/proofs", method: "POST" },
     { path: "/cms-api/proofs", method: "GET" },
     { path: "/cms-api/playground", method: "GET" },
     { path: "/dashboard", method: "GET" },
