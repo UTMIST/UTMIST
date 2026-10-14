@@ -92,7 +92,9 @@ in App Router route handlers under
 
 Payload is embedded in this same Next.js application and has its own root route
 group, editor authentication, and Postgres schema. The editor dashboard is at
-`/cms`; its API is at `/cms-api`. The proof collection is intentionally not
+`/cms`; its API is at `/cms-api`. Every CMS entry point requires the server-side
+`CMS-Access` flag (default Off), including server actions from an open editor.
+Payload still controls editor authentication when enabled. The proof collection is intentionally not
 connected to a public page yet. See
 [`docs/client/Payload.md`](../docs/client/Payload.md) for setup, isolation, and
 generated-file details.

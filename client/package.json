@@ -18,6 +18,7 @@
     "test:coverage": "jest --coverage",
     "test:unit": "jest tests/unit",
     "test:integration": "jest tests/integration",
+    "test:cms-actions": "node --test runtime-tests/cms-server-actions.test.ts",
     "payload:db:start": "docker compose -f compose.payload.yml up -d --wait",
     "payload:db:stop": "docker compose -f compose.payload.yml down",
     "payload:generate-types": "payload generate:types",

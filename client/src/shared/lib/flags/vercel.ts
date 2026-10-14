@@ -38,7 +38,7 @@ import type { FlagAdapter } from "./types";
 export function createVercelFlagAdapter(sdkKey?: string): FlagAdapter {
   const client = createClient(sdkKey);
 
-  // EigenAI is an environment-level on/off, so no per-user targeting context is
+  // EigenAI and CMS access are environment-level on/off flags, so no per-user targeting context is
   // threaded yet; cohort targeting (#289) is added later by passing entities to
   // `client.evaluate`. The signature omits the `ctx` argument (a shorter method
   // still satisfies the `FlagAdapter` interface) because it is not consumed.

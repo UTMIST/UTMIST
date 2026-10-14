@@ -26,6 +26,10 @@ describe('evaluateFlag (fixture-backed)', () => {
     await expect(evaluateFlag('does-not-exist', member)).resolves.toBe(false);
   });
 
+  it('keeps CMS access off without a live provider or an explicit local opt-in', async () => {
+    await expect(evaluateFlag('CMS-Access')).resolves.toBe(false);
+  });
+
   it('returns the seeded value for a known, disabled flag', async () => {
     await expect(evaluateFlag('disabledExample', member)).resolves.toBe(false);
   });

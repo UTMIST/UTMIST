@@ -1,5 +1,6 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
+import type { AccessArgs } from "payload";
 
 import { PayloadUsers } from "@/cms/collections/PayloadUsers";
 import { Proofs } from "@/cms/collections/Proofs";
@@ -55,5 +56,16 @@ describe("Payload CMS foundation", () => {
         }),
       ]),
     );
+  });
+
+  it.each([null, { id: "synthetic-editor" }])("retains collection permissions for user %j", async (user) => {
+    const args = { req: { user } } as AccessArgs;
+    for (const operation of ["create", "read", "update", "delete"] as const) {
+      expect(await PayloadUsers.access?.[operation]?.(args)).toBe(Boolean(user));
+    }
+    for (const operation of ["create", "update", "delete"] as const) {
+      expect(await Proofs.access?.[operation]?.(args)).toBe(Boolean(user));
+    }
+    expect(await Proofs.access?.read?.(args)).toBe(true);
   });
 });

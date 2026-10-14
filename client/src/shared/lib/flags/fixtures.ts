@@ -6,9 +6,9 @@
 // with no provider. They hold state in memory only — no network, no database —
 // and are seeded with fixed data so behaviour is reproducible in tests.
 //
-// These fixtures must never become the production source: they are wired in
-// `./server` as the current binding and are meant to be replaced there, not
-// imported directly by feature code.
+// `./provider` selects these only for local/test runs without Vercel context
+// or provider credentials. Production never uses them. Feature code calls the
+// shared server evaluator rather than importing fixtures directly.
 
 import type {
   BetaPreferenceStore,
@@ -33,13 +33,14 @@ const COHORT_RANK: Record<Cohort, number> = {
 };
 
 /**
- * Default seed of synthetic flags. Names are illustrative — real flag keys are
- * introduced by consuming tasks. `betaFeature` is member-gated so tests can
- * exercise the unknown-user path.
+ * Local flag defaults. For credential-free development, change a real flag's
+ * `enabled` value and restart the dev server; restore false before committing.
+ * `betaFeature` is member-gated so tests can exercise the unknown-user path.
  */
 const DEFAULT_FLAGS: Readonly<Record<string, FixtureFlag>> = {
   showDemoBanner: { enabled: true },
   "Eigen-AI-Redesign": { enabled: false },
+  "CMS-Access": { enabled: false },
   betaFeature: { enabled: true, minCohort: "member" },
   disabledExample: { enabled: false },
 };
@@ -68,7 +69,7 @@ export function createFixtureFlagAdapter(
   };
 }
 
-/** Shared default fixture flag adapter (bound in `./server`). */
+/** Shared default fixture flag adapter (selected in `./provider`). */
 export const fixtureFlagAdapter: FlagAdapter = createFixtureFlagAdapter();
 
 /**

@@ -170,6 +170,46 @@ it('applies an authenticated override only to the request that carries it', asyn
   await expect(evaluateFlag(flagKey)).resolves.toBe(true);
 });
 
+it('reads middleware overrides from the explicit request rather than App Router cookies', async () => {
+  delete process.env.FLAGS;
+  delete process.env.VERCEL_ENV;
+  const { evaluateFlag } = await import('@/shared/lib/flags/server');
+  // Leave the mocked App Router request without an override. Middleware must
+  // evaluate the cookie on its own request and never borrow another context.
+  setRequest();
+  const cookie = await encryptOverrides({ 'CMS-Access': true }, secret);
+  const request = new NextRequest('http://localhost/cms', {
+    headers: { cookie: `vercel-flag-overrides=${cookie}` },
+  });
+  await expect(evaluateFlag('CMS-Access', { cohort: 'public' }, request)).resolves.toBe(true);
+  setRequest(cookie);
+  await expect(evaluateFlag('CMS-Access', { cohort: 'public' }, new NextRequest('http://localhost/cms'))).resolves.toBe(false);
+});
+
+it('ignores invalid and expired middleware overrides', async () => {
+  const { evaluateFlag } = await import('@/shared/lib/flags/server');
+  for (const cookie of [
+    'invalid-cookie',
+    await encryptOverrides({ [flagKey]: false }, otherSecret),
+    await encryptOverrides({ [flagKey]: false }, secret, '-1s'),
+  ]) {
+    const request = new NextRequest('http://localhost/cms', {
+      headers: { cookie: `vercel-flag-overrides=${cookie}` },
+    });
+    await expect(evaluateFlag(flagKey, { cohort: 'public' }, request)).resolves.toBe(true);
+  }
+});
+
+it('ignores signed middleware overrides in Production', async () => {
+  process.env.VERCEL_ENV = 'production';
+  const { evaluateFlag } = await import('@/shared/lib/flags/server');
+  const cookie = await encryptOverrides({ 'CMS-Access': true }, secret);
+  const request = new NextRequest('http://localhost/cms', {
+    headers: { cookie: `vercel-flag-overrides=${cookie}` },
+  });
+  await expect(evaluateFlag('CMS-Access', { cohort: 'public' }, request)).resolves.toBe(false);
+});
+
 it('allows a signed opt-in without provider credentials and leaves other requests off', async () => {
   delete process.env.FLAGS;
   delete process.env.VERCEL_ENV;
@@ -178,6 +218,26 @@ it('allows a signed opt-in without provider credentials and leaves other request
   await expect(evaluateFlag(flagKey)).resolves.toBe(true);
   setRequest();
   await expect(evaluateFlag(flagKey)).resolves.toBe(false);
+});
+
+it('allows local CMS opt-in only with an authenticated Explorer override', async () => {
+  delete process.env.FLAGS;
+  delete process.env.VERCEL_ENV;
+  const { evaluateFlag } = await import('@/shared/lib/flags/server');
+  await expect(evaluateFlag('CMS-Access')).resolves.toBe(false);
+  setRequest(await encryptOverrides({ 'CMS-Access': true }, otherSecret));
+  await expect(evaluateFlag('CMS-Access')).resolves.toBe(false);
+  setRequest(await encryptOverrides({ 'CMS-Access': true }, secret));
+  await expect(evaluateFlag('CMS-Access')).resolves.toBe(true);
+  setRequest();
+  await expect(evaluateFlag('CMS-Access')).resolves.toBe(false);
+});
+
+it('keeps CMS closed in Production when a signed override tries to enable a missing definition', async () => {
+  process.env.VERCEL_ENV = 'production';
+  setRequest(await encryptOverrides({ 'CMS-Access': true }, secret));
+  const { evaluateFlag } = await import('@/shared/lib/flags/server');
+  await expect(evaluateFlag('CMS-Access')).resolves.toBe(false);
 });
 
 it('ignores malformed, wrong-secret and expired overrides and uses the provider', async () => {
@@ -270,7 +330,11 @@ it('returns discovery metadata only with a valid access proof and never contacts
   expect(response.headers.get('cache-control')).toBe('no-store');
   expect(response.headers.get('x-flags-sdk-version')).toBeTruthy();
   expect(await response.json()).toMatchObject({
-    definitions: { [flagKey]: {
+    definitions: { 'CMS-Access': {
+      description: 'Access to the UTMIST CMS controls',
+      defaultValue: false,
+      options: [{ value: false, label: 'Off' }, { value: true, label: 'On' }],
+    }, [flagKey]: {
       description: 'Toggle the new 2026 EigenAI Website',
       defaultValue: false,
       options: [{ value: false, label: 'Off' }, { value: true, label: 'On' }],
