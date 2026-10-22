@@ -5,6 +5,7 @@ import { buildConfig } from "payload";
 
 import { PayloadUsers } from "./src/cms/collections/PayloadUsers.ts";
 import { Proofs } from "./src/cms/collections/Proofs.ts";
+import { ContentSections } from "./src/cms/collections/ContentSections.ts";
 import {
   PAYLOAD_DATABASE_SCHEMA,
   PAYLOAD_ROUTES,
@@ -27,7 +28,7 @@ export default buildConfig({
     },
     user: PayloadUsers.slug,
   },
-  collections: [PayloadUsers, Proofs],
+  collections: [PayloadUsers, Proofs, ContentSections],
   db: postgresAdapter({
     pool: {
       connectionString: process.env.PAYLOAD_DATABASE_URI ?? "",
