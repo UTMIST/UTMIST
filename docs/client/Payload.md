@@ -1,14 +1,18 @@
 # Payload CMS
 
 Payload 3 is embedded in the existing Next.js application. It provides a
-local content dashboard and API, but no public UTMIST page reads from it yet.
-That separation is intentional for the foundation work in issue #345.
+local content dashboard and API. Issue #346 connects the homepage introduction
+and statistics to a reusable typed reader during explicitly enabled local
+development. See the [content reader recipe](ContentReader.md) to create the
+`home-impact` record and verify an edit. Hosted source configuration remains
+in #495; deployed pages continue using their existing static content.
 
 This implementation records the choices requested by
 [the integration decision task (#344)](https://github.com/UTMIST/UTMIST/issues/344):
 Payload is embedded in `client/`, deploys with the existing Vercel app, uses a
 dedicated Postgres schema and editor user collection, and proves the runtime
-through the `proofs` collection without selecting a public render surface yet.
+through the `proofs` collection. The `content-sections` collection now supplies
+the local homepage example.
 
 ## Routes
 
@@ -66,7 +70,12 @@ values, and stale cached definitions deny access. Keep the existing
 definitions cannot become a fallback.
 
 When enabled, Payload's editor authentication and collection permissions still
-apply. `Proofs.access.read` currently permits anonymous reads, including drafts.
+apply. `Proofs.access.read` permits anonymous reads, including drafts; it is
+the original foundation smoke-test collection. `content-sections` exposes only
+published records to anonymous/non-editor readers. Only authenticated
+`cms-users` editors may create, update, or delete content sections; they may
+also read drafts. The public reader always uses anonymous access, even when
+the visitor has an editor cookie. See [read and write policy](ContentReader.md#read-and-write-policy).
 The availability flag does not restrict those reads to Angela or other editors.
 Keep Production Off while the foundation is unfinished. Enable Development or
 Preview only for intended testing with synthetic data. No verified per-person
@@ -219,9 +228,10 @@ empty database, Payload creates its schema and prompts you to create the first
 editor. The dashboard then exposes the `CMS proofs` collection with required
 `title`, `message`, and `status` fields.
 
-No seed is required: proof records are synthetic and can be created directly
-in the dashboard. Do not connect this collection to public content pages until
-the shared content contract and isolated preview tasks are ready.
+No seed is required: records can be created directly in the dashboard. Use
+synthetic values in `Content Sections` with key `home-impact` for the homepage
+proof, following the [edit recipe](ContentReader.md#local-edit-proof). The
+original `CMS proofs` collection is not used by public content readers.
 
 ## Generated files and commands
 
