@@ -4,7 +4,8 @@ import utmistLogo from "@/assets/logos/utmist-logo-large.svg";
 import execPhoto from "@/assets/photos/eigenai-exec-photo.webp";
 import copresPhoto from "@/assets/photos/eigenai-copres-speech.webp";
 import Sponsors from "@/features/public-site/components/sponsors";
-import Statistics from "@/features/public-site/components/stats";
+import OrganizationImpact from "@/features/public-site/components/organization-impact";
+import { readHomeImpact } from "@/features/public-site/lib/home-impact";
 import Events from "@/features/public-site/components/events";
 import ValueProps from "@/features/public-site/components/valueprops";
 import StartupsSection from "@/features/public-site/components/startupsSection";
@@ -12,7 +13,8 @@ import FAQ from "@/features/public-site/components/faq";
 import { Button } from "@/shared/ui";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const impact = await readHomeImpact();
   return (
     <main>
       {/*Hero Section */}
@@ -47,13 +49,7 @@ export default function Home() {
       <Sponsors />
 
       {/*Statistics Section */}
-      <div className="flex flex-col gap-8 justify-center items-center my-16">
-        <p className="text-4xl font-bold text-center max-w-3xl text-[var(--foreground)] px-8 md:px-0">
-          UTMIST is North America&apos;s largest student-led organization for
-          Artificial Intelligence and Machine Learning
-        </p>
-        <Statistics />
-      </div>
+      <OrganizationImpact content={impact} />
 
       {/*Who We Are / Mission Section */}
       <section id="about-us">

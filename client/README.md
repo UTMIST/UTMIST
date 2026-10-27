@@ -94,8 +94,11 @@ Payload is embedded in this same Next.js application and has its own root route
 group, editor authentication, and Postgres schema. The editor dashboard is at
 `/cms`; its API is at `/cms-api`. Every CMS entry point requires the server-side
 `CMS-Access` flag (default Off), including server actions from an open editor.
-Payload still controls editor authentication when enabled. The proof collection is intentionally not
-connected to a public page yet. See
+Payload still controls editor authentication when enabled. During explicitly
+enabled local development, the homepage introduction and statistics read the
+published `home-impact` content section through a shared typed reader. Deployed
+pages keep their existing static source pending hosted configuration in #495.
+See the [reader and edit recipe](../docs/client/ContentReader.md) and
 [`docs/client/Payload.md`](../docs/client/Payload.md) for setup, isolation, and
 generated-file details.
 

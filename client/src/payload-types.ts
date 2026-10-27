@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     'cms-users': CmsUser;
     proofs: Proof;
+    'content-sections': ContentSection;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +79,7 @@ export interface Config {
   collectionsSelect: {
     'cms-users': CmsUsersSelect<false> | CmsUsersSelect<true>;
     proofs: ProofsSelect<false> | ProofsSelect<true>;
+    'content-sections': ContentSectionsSelect<false> | ContentSectionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -156,6 +158,32 @@ export interface Proof {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-sections".
+ */
+export interface ContentSection {
+  id: number;
+  /**
+   * Stable identifier used by code, e.g. home-impact. Do not rename a connected section.
+   */
+  key: string;
+  heading: string;
+  description?: string | null;
+  /**
+   * Required for home-impact; rows display in this order.
+   */
+  statistics?:
+    | {
+        number: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  status: 'draft' | 'published';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -185,6 +213,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'proofs';
         value: number | Proof;
+      } | null)
+    | ({
+        relationTo: 'content-sections';
+        value: number | ContentSection;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -257,6 +289,25 @@ export interface CmsUsersSelect<T extends boolean = true> {
 export interface ProofsSelect<T extends boolean = true> {
   title?: T;
   message?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-sections_select".
+ */
+export interface ContentSectionsSelect<T extends boolean = true> {
+  key?: T;
+  heading?: T;
+  description?: T;
+  statistics?:
+    | T
+    | {
+        number?: T;
+        description?: T;
+        id?: T;
+      };
   status?: T;
   updatedAt?: T;
   createdAt?: T;
