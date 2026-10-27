@@ -1,81 +1,48 @@
 # EigenAI page
 
-`/eigenai` is a public event page served behind the `Eigen-AI-Redesign` Vercel
-feature flag (#447). Which page a visitor sees is chosen **on the server**, so
-there is no flash of the wrong page and the choice is never frozen at build.
+`/eigenai` always serves the launched 2026 event page. Its content, search/social
+metadata, and main-site navigation link do not depend on a feature flag or
+provider availability.
 
 ## Location
 
 - Route shell: `client/src/app/(frontend)/eigenai/page.tsx` — re-exports the
-  selector's `default` and `generateMetadata`, and declares
-  `dynamic = "force-dynamic"` itself.
-- Selector (server): `client/src/features/public-site/pages/eigenaiFlagged.tsx`.
-- Existing page (client): `client/src/features/public-site/pages/eigenai.tsx`.
-- Redesign page: `client/src/features/public-site/pages/eigenaiRedesign.tsx`.
+  feature page and static `metadata`.
+- Feature entry: `client/src/features/public-site/pages/eigenai.tsx` — defines
+  metadata and re-exports the launched page.
+- Presentation: `client/src/features/public-site/pages/eigenaiRedesign.tsx`.
 
-## How the selection works
+The page supplies its own navigation and footer. The frontend layout suppresses
+its standard controls through `HideOnEigenAI`, leaving one set of controls.
+Neither the page nor the layout evaluates the retired `Eigen-AI-Redesign` flag.
+The route no longer forces dynamic rendering for flag evaluation and can be
+prerendered with its local content.
 
-`eigenaiFlagged.tsx` is an async server component. The route shell declares
-`export const dynamic = "force-dynamic"` for per-request evaluation; `/eigenai` is
-not statically prerendered. This is an environment-wide toggle: the selector
-does not query Supabase for a user or profile. It uses the same anonymous flag
-context as the layout, allowing the SDK to share matching
-evaluations within a request:
+## Rollout retirement
 
-```tsx
-const showRedesign = await evaluateFlag("Eigen-AI-Redesign");
-```
+The rollout completed under [#444](https://github.com/UTMIST/UTMIST/issues/444).
+The legacy 2025 page and selector were removed in
+[#499](https://github.com/UTMIST/UTMIST/issues/499). Local development and previews
+show the same presentation as production without enabling a flag. CMS retains
+its separate `CMS-Access` gate; see [../flags.md](../flags.md).
 
-The selector wraps this lookup in React `cache()` so its metadata and page
-content use the same result within a request, including in production. The
-cache is request-scoped; later requests still evaluate the current flag.
-
-When enabled, the selector renders `EigenAIRedesign`, which supplies its own
-navigation and footer. Otherwise it renders `Navbar`, `EigenAIPage`, and
-`Footer` together, preserving the legacy page's standard site controls. The
-frontend layout omits its copies on `/eigenai` through
-`HideOnEigenAI`, so each variant renders exactly one set of controls.
-
-`evaluateFlag` (from `@/shared/lib/server`) is **default-off**: a missing flag,
-missing configuration, or an evaluation failure returns `false`, so anything but
-an explicit "on" keeps the existing page. See
-[../flags.md](../flags.md) for the flag runtime, OIDC authentication,
-and the embedded-fallback mitigation.
-
-## Rollout / opt-in
-
-Production follows the **Production dashboard setting**. The public evaluator
-checks `VERCEL_ENV=production` and reads the provider directly, ignoring Explorer
-overrides. Provider authentication uses Vercel's automatic OIDC identity (or an
-optional explicit `FLAGS` SDK key); the separate `FLAGS_SECRET` enables
-authenticated Flags Explorer discovery and
-browser overrides. In development/preview, an Explorer override takes
-precedence for that browser; clear it to test dashboard toggles.
-
-To preview the redesign, turn `Eigen-AI-Redesign` **ON** in the Preview Vercel
-dashboard. Deployments authenticate automatically without a manual `FLAGS` key.
-For live local Development values, link the project and run `vercel env pull`
-from `client/`. Subsequent server evaluations follow provider updates without a
-redeploy. Offline local development uses fixtures, which currently disable the
-redesign.
-See [../flags.md](../flags.md) for setup and verification.
+Keep the remote EigenAI flag available until this replacement is deployed and
+verified: older deployments still consume it. After retirement, rolling back
+the page requires a code deployment rather than a flag toggle.
 
 ## Search and social metadata
 
-With the redesign enabled, `/eigenai` supplies the title `EigenAI 2026 | UTMIST`,
-a description with the October 3–4 dates and OISE venue, and the canonical URL
+`/eigenai` supplies the title `EigenAI 2026 | UTMIST`, a description with the
+October 3–4 dates and OISE venue, and the canonical URL
 `https://www.utmist.ca/eigenai`. Open Graph and Twitter large-image cards share
 that copy and the existing `eigenai-conference.webp` photo, with its dimensions
 and alternative text identifying it as a past conference. All metadata URLs
-use the public production origin, including when viewing a local or preview
-deployment. The imported photo's hashed asset URL updates if the file changes.
+use the public production origin, including on local and preview deployments.
+The imported photo's hashed asset URL updates if the file changes.
 
-When the flag is off or fails closed, `generateMetadata` returns no overrides:
-the original UTMIST title and description are inherited, and no 2026 social
-metadata is published. The page remains dynamic so toggles affect subsequent
-requests. Social platforms may retain previously fetched previews until they
-recrawl the URL. The public `/eigenai` URL is also listed in `public/sitemap.xml`;
-it exists in both flag states.
+Metadata is unconditional. Social platforms may retain previously fetched
+previews until they recrawl the URL. The public URL is also listed in
+`public/sitemap.xml`.
 
 ## Content contract and fixtures
 
@@ -150,13 +117,6 @@ schedule's empty Saturday 1:00–1:30 PM row is omitted.
 The schedule notice says it is subject to change. The theme follows the current
 schedule: “Across the Many Frontiers of AI.” No attendance metric is inferred
 from the sheet's capacity goal.
-
-The flag-off page restores the original pre-#456 `pages/eigenai.tsx`: September
-20–21, 2025 copy, the three-image gallery, the Instagram schedule, and the original
-speaker groups and workshops from `data/eigenai.ts`. It does not import the 2026
-redesign data. If the optional Maps key is missing, a directions link replaces
-the embed so switching Off still renders a working page. The Instagram script is
-removed when the page unmounts. Provider errors select this same rollback view.
 
 ## Presentation
 
@@ -327,29 +287,24 @@ Glass panels use a fully transparent fill, the Figma gradient border, and a
 light backdrop filter approximating the source refraction and dispersion
 without introducing a blue colour tint.
 The route-aware `HideOnEigenAI` wrapper suppresses the frontend layout's shared
-navbar and footer; the selector restores them only for the legacy branch. The redesign supplies
+navbar and footer. The page supplies
 its own responsive navigation and footer inside the continuous orbital
 background, using the same liquid-glass surface treatment as the event UI. Its
 links navigate to About, Speakers, Workshops, Schedule, Venue, and Sponsors on the current
 page. The UTMIST wordmark remains the route back to the main site, while the
 navigation does not include a separate home or authentication action.
-Outside `/eigenai`, the frontend layout evaluates `Eigen-AI-Redesign` on the
-server and passes the result to the shared navbar. Only an enabled flag renders
-the `/eigenai` promotional link; a disabled flag, missing configuration, and
-provider failures omit it. The link uses the same shared small gradient
-button styling as the Login/Profile action on both desktop and mobile, while
-the client navbar receives only the resolved boolean.
-When the EigenAI promotion is present, the shared navbar uses tighter tablet
-spacing to keep Login/Profile on the same row at the 769px desktop breakpoint.
+Outside `/eigenai`, the shared navbar always includes the `/eigenai` link.
+The link uses the same shared small gradient button styling as the Login/Profile
+action on desktop and mobile. The navbar uses tighter tablet spacing to keep
+Login/Profile on the same row at the 769px desktop breakpoint.
 It also releases any mobile scroll lock when hidden, including when browser
 Back/Forward returns to EigenAI with the main-site menu still open.
 The wordmark and lockup are imported directly from `@/shared/ui` by both the
 redesign and event card; there are no feature-level re-export wrappers.
 The featured EigenAI card on `/events` always renders the redesign lockup,
-lambda, rings, and indigo background, regardless of the flag. The Events page
+lambda, rings, and indigo background. The Events page
 passes the event's branding through directly and does not evaluate the flag;
-event data supplies the branded background. The flag continues to control the
-destination page's redesign and the shared navbar's promotional link.
+event data supplies the branded background.
 On mobile, the event navigation follows the main site's hamburger pattern: its
 white UTMIST event wordmark sits left, the matching hamburger sits right, and a
 left-aligned section link list appears in a dismissible glass menu. A
@@ -392,30 +347,21 @@ navigation, and footer.
 
 ## Gotchas
 
-- Both page variants render their event details without requiring a Maps
-  API key. The redesign treats Maps as an enhancement and shows a directions
-  fallback when the key is absent.
+- The page treats Maps as an enhancement and shows a directions fallback when
+  the API key is absent.
+- `peopleGrid.tsx` and `styles/eigenai.css` remain shared with AI2 and MLF; they
+  are not legacy-only assets.
 
 ## Tests
 
-- `client/tests/unit/pages/eigenai-content.test.tsx` — custom content, optional
-  images/links, long copy, unannounced sections, venue fallback, named guests,
-  the past-event photo, workshop details, and revised schedule times and titles.
+- `client/tests/unit/pages/eigenai.test.tsx` — the route remains interactive
+  without a flag provider or Maps key, including mobile-menu dismissal.
 - `client/tests/unit/eigenai-navigation.test.tsx` — keyboard dismissal, focus
   restoration, and section-link dismissal.
-- `client/tests/unit/eigenai-schedule.test.tsx` — shared clock boundaries, noon
-  handling, unscheduled labels, and simultaneous sessions sharing a
-  time row, different days remain separate, and session order is preserved.
-- `client/tests/unit/event-card.test.tsx` — EigenAI artwork and event-supplied
-  backgrounds, plus generic rendering for other events.
-- `client/tests/unit/pages/events.test.tsx` — EigenAI card branding with the flag
-  on or off, alongside loading and filtering behavior.
-- `client/tests/unit/pages/eigenai-selector.test.tsx` — off → existing, on →
-  redesign, default-off → original 2025 page (only the server barrel mocked).
-  Also checks enabled search/social metadata and the flag-off metadata rollback.
-  Both pages render with real content. Checks that the
-  legacy/default-off branches retain standard navigation and footer, and the
-  redesign has only its own chrome.
-- `client/tests/unit/pages/eigenai.test.tsx` — the existing page's own
-  original 2025 event details, speaker sections, workshops, and missing-Maps-key
-  fallback (imports the component directly).
+- `client/tests/unit/eigenai-schedule.test.tsx` — shared clock boundaries,
+  unscheduled labels, and simultaneous sessions grouped by day and time.
+- `client/tests/unit/pages/hide-on-eigenai.test.tsx` — layout chrome suppression.
+- `client/tests/unit/navbar.test.tsx` — main-site menu behavior and scroll-lock
+  cleanup when navigating to EigenAI.
+- `client/tests/integration/flags-explorer.test.ts` — the retired flag is absent
+  from discovery and old signed overrides cannot restore it.

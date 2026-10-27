@@ -13,11 +13,7 @@ const programLinks = [
   { href: "/ml-fundamentals", label: "MLF" },
 ];
 
-export default function Navbar({
-  showEigenAI = false,
-}: {
-  showEigenAI?: boolean;
-}) {
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isProgramsOpen, setIsProgramsOpen] = useState(false);
   const [isMobileProgramsOpen, setIsMobileProgramsOpen] = useState(false);
@@ -64,14 +60,12 @@ export default function Navbar({
           </div>
         </Link>
 
-        <ul className={showEigenAI ? "nav-links nav-links-eigenai" : "nav-links"}>
-          {showEigenAI ? (
-            <li>
-              <Button asChild size="sm">
-                <Link href="/eigenai">EigenAI</Link>
-              </Button>
-            </li>
-          ) : null}
+        <ul className="nav-links nav-links-eigenai">
+          <li>
+            <Button asChild size="sm">
+              <Link href="/eigenai">EigenAI</Link>
+            </Button>
+          </li>
           <li>
             <Link href="/#about-us" className="nav-item">
               About Us
@@ -172,15 +166,13 @@ export default function Navbar({
               className="mobile-dropdown"
               onClick={(e) => e.stopPropagation()}
             >
-              {showEigenAI ? (
-                <li>
-                  <Button asChild size="sm">
-                    <Link href="/eigenai" onClick={closeMobileMenu}>
-                      EigenAI
-                    </Link>
-                  </Button>
-                </li>
-              ) : null}
+              <li>
+                <Button asChild size="sm">
+                  <Link href="/eigenai" onClick={closeMobileMenu}>
+                    EigenAI
+                  </Link>
+                </Button>
+              </li>
               <li>
                 <Link href="/#about-us" onClick={closeMobileMenu}>
                   About Us

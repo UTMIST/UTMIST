@@ -44,7 +44,7 @@ describe('flag adapter selection by environment', () => {
     setEnv({ VERCEL_ENV: 'preview', NODE_ENV: 'production', FLAGS: 'preview-key' });
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
-    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(true);
+    await expect(evaluateFlag('CMS-Access')).resolves.toBe(true);
     expect(createVercelFlagAdapter).toHaveBeenCalledWith('preview-key');
   });
 
@@ -52,7 +52,7 @@ describe('flag adapter selection by environment', () => {
     setEnv({ FLAGS: 'dev-key' });
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
-    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(true);
+    await expect(evaluateFlag('CMS-Access')).resolves.toBe(true);
     expect(createVercelFlagAdapter).toHaveBeenCalledWith('dev-key');
   });
 
@@ -64,7 +64,7 @@ describe('flag adapter selection by environment', () => {
       setEnv({ VERCEL: '1', VERCEL_ENV: 'production', NODE_ENV: 'production', ...credentials });
       const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
-      await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(true);
+      await expect(evaluateFlag('CMS-Access')).resolves.toBe(true);
       expect(createVercelFlagAdapter).toHaveBeenCalledWith(credentials.FLAGS);
     },
   );
@@ -74,7 +74,7 @@ describe('flag adapter selection by environment', () => {
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
     await expect(evaluateFlag('showDemoBanner')).resolves.toBe(true);
-    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(false);
+    await expect(evaluateFlag('CMS-Access')).resolves.toBe(false);
     expect(createVercelFlagAdapter).not.toHaveBeenCalled();
   });
 
@@ -83,7 +83,7 @@ describe('flag adapter selection by environment', () => {
       setEnv({ VERCEL_ENV: environment, NODE_ENV: 'production' });
       const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
-      await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(true);
+      await expect(evaluateFlag('CMS-Access')).resolves.toBe(true);
       expect(createVercelFlagAdapter).toHaveBeenCalledWith(undefined);
     },
   );
@@ -92,7 +92,7 @@ describe('flag adapter selection by environment', () => {
     setEnv({ VERCEL: '1', NODE_ENV: 'production' });
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
-    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(true);
+    await expect(evaluateFlag('CMS-Access')).resolves.toBe(true);
     expect(createVercelFlagAdapter).toHaveBeenCalledWith(undefined);
   });
 
@@ -100,7 +100,7 @@ describe('flag adapter selection by environment', () => {
     setEnv({ VERCEL_OIDC_TOKEN: 'local-oidc' });
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
-    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(true);
+    await expect(evaluateFlag('CMS-Access')).resolves.toBe(true);
     expect(createVercelFlagAdapter).toHaveBeenCalledWith(undefined);
   });
 
@@ -108,7 +108,7 @@ describe('flag adapter selection by environment', () => {
     setEnv({ VERCEL_ENV: 'preview', VERCEL_OIDC_TOKEN: 'oidc', FLAGS: 'preview-key' });
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
-    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(true);
+    await expect(evaluateFlag('CMS-Access')).resolves.toBe(true);
     expect(createVercelFlagAdapter).toHaveBeenCalledWith('preview-key');
   });
 
@@ -119,7 +119,7 @@ describe('flag adapter selection by environment', () => {
     setEnv({ FLAGS_KEY_DEV: 'dev-key', FLAGS_KEY_PREVIEW: 'preview-key' });
     const { createVercelFlagAdapter, evaluateFlag } = await loadServer();
 
-    await evaluateFlag('Eigen-AI-Redesign');
+    await evaluateFlag('CMS-Access');
     expect(createVercelFlagAdapter).not.toHaveBeenCalled();
   });
 
@@ -127,7 +127,7 @@ describe('flag adapter selection by environment', () => {
     setEnv({ VERCEL_ENV: 'preview', NODE_ENV: 'production', FLAGS: '' });
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
-    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(true);
+    await expect(evaluateFlag('CMS-Access')).resolves.toBe(true);
     expect(createVercelFlagAdapter).toHaveBeenCalledWith(undefined);
   });
 
@@ -144,10 +144,10 @@ describe('flag adapter selection by environment', () => {
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
     const results = await Promise.all(
-      Array.from({ length: 20 }, () => evaluateFlag('Eigen-AI-Redesign')),
+      Array.from({ length: 20 }, () => evaluateFlag('CMS-Access')),
     );
     expect(results.every(Boolean)).toBe(true);
-    await evaluateFlag('Eigen-AI-Redesign');
+    await evaluateFlag('CMS-Access');
     expect(createVercelFlagAdapter).toHaveBeenCalledTimes(1);
     expect(createVercelFlagAdapter).toHaveBeenCalledWith(undefined);
   });
@@ -156,9 +156,9 @@ describe('flag adapter selection by environment', () => {
     setEnv({ FLAGS: 'dev-key' });
     const { evaluateFlag, createVercelFlagAdapter } = await loadServer();
 
-    await evaluateFlag('Eigen-AI-Redesign');
+    await evaluateFlag('CMS-Access');
     process.env.FLAGS = 'rotated-key';
-    await evaluateFlag('Eigen-AI-Redesign');
+    await evaluateFlag('CMS-Access');
     expect(createVercelFlagAdapter).toHaveBeenCalledTimes(1);
     expect(createVercelFlagAdapter).toHaveBeenCalledWith('dev-key');
   });
@@ -174,8 +174,8 @@ describe('flag adapter selection by environment', () => {
     jest.doMock('@/shared/lib/flags/vercel', () => ({ createVercelFlagAdapter }));
     const { evaluateFlag } = await import('@/shared/lib/flags/server');
 
-    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(false);
-    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(false);
+    await expect(evaluateFlag('CMS-Access')).resolves.toBe(false);
+    await expect(evaluateFlag('CMS-Access')).resolves.toBe(false);
     // Fixtures are not a fallback for a broken live adapter.
     await expect(evaluateFlag('showDemoBanner')).resolves.toBe(false);
     expect(createVercelFlagAdapter).toHaveBeenCalledTimes(1);
@@ -194,11 +194,11 @@ describe('flag adapter selection by environment', () => {
     }));
     const { evaluateFlag } = await import('@/shared/lib/flags/server');
 
-    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(false);
-    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(false);
+    await expect(evaluateFlag('CMS-Access')).resolves.toBe(false);
+    await expect(evaluateFlag('CMS-Access')).resolves.toBe(false);
     // A transient evaluation failure does not poison later evaluations.
-    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(true);
-    await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(false);
+    await expect(evaluateFlag('CMS-Access')).resolves.toBe(true);
+    await expect(evaluateFlag('CMS-Access')).resolves.toBe(false);
   });
 
   it('passes the anonymous public context when none is given', async () => {
@@ -209,7 +209,7 @@ describe('flag adapter selection by environment', () => {
     }));
     const { evaluateFlag } = await import('@/shared/lib/flags/server');
 
-    await evaluateFlag('Eigen-AI-Redesign');
-    expect(evaluate).toHaveBeenCalledWith('Eigen-AI-Redesign', { cohort: 'public' });
+    await evaluateFlag('CMS-Access');
+    expect(evaluate).toHaveBeenCalledWith('CMS-Access', { cohort: 'public' });
   });
 });

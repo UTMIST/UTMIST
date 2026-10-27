@@ -15,7 +15,7 @@ describe('Navbar mobile scroll lock', () => {
     'restores the previous scroll setting on %s',
     (action) => {
       document.body.style.overflow = 'auto';
-      const { container, unmount } = render(<Navbar showEigenAI />);
+      const { container, unmount } = render(<Navbar />);
       const buttons = container.querySelectorAll('button');
       const toggle = buttons[buttons.length - 1];
       fireEvent.click(toggle);
@@ -31,12 +31,14 @@ describe('Navbar mobile scroll lock', () => {
 });
 
 describe('Navbar EigenAI promotion', () => {
-  it('only renders the redesigned EigenAI link when its flag is on', () => {
-    const { container, rerender } = render(<Navbar />);
-    expect(container.querySelector('a[href="/eigenai"]')).not.toBeInTheDocument();
+  it('closes the mobile menu when navigating to EigenAI', () => {
+    const { container } = render(<Navbar />);
+    fireEvent.click(container.querySelector('.hamburger')!);
+    expect(document.body.style.overflow).toBe('hidden');
 
-    rerender(<Navbar showEigenAI />);
-    expect(container.querySelector('a[href="/eigenai"]')).toBeInTheDocument();
+    fireEvent.click(container.querySelector('.mobile-navbar a[href="/eigenai"]')!);
+    expect(document.body.style.overflow).not.toBe('hidden');
+    expect(container.querySelector('.mobile-navbar a[href="/eigenai"]')).toBeNull();
   });
 });
 

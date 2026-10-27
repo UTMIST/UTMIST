@@ -58,7 +58,7 @@ function datafile(
     environment,
     configUpdatedAt: 1,
     revision: 1,
-    definitions: definition ? { 'Eigen-AI-Redesign': definition, 'CMS-Access': definition } : {},
+    definitions: definition ? { 'CMS-Access': definition } : {},
   };
 }
 
@@ -85,14 +85,14 @@ afterEach(async () => {
   jest.restoreAllMocks();
 });
 
-describe.each(['Eigen-AI-Redesign', 'CMS-Access'])('%s × real @vercel/flags-core', (EIGEN) => {
+describe.each(['CMS-Access'])('%s × real @vercel/flags-core', (FLAG_KEY) => {
   describe('fresh reads', () => {
     it('is on when the environment serves the `true` variant', async () => {
       const adapter = buildStepAdapter({
         variants: [false, true],
         environments: { development: 1, preview: 0, production: 0 },
       });
-      await expect(adapter.evaluate(EIGEN, anonymous)).resolves.toBe(true);
+      await expect(adapter.evaluate(FLAG_KEY, anonymous)).resolves.toBe(true);
     });
 
     it('is off when the environment serves the `false` variant', async () => {
@@ -100,7 +100,7 @@ describe.each(['Eigen-AI-Redesign', 'CMS-Access'])('%s × real @vercel/flags-cor
         variants: [false, true],
         environments: { development: 0 },
       });
-      await expect(adapter.evaluate(EIGEN, anonymous)).resolves.toBe(false);
+      await expect(adapter.evaluate(FLAG_KEY, anonymous)).resolves.toBe(false);
     });
 
     it('evaluates the environment the datafile is for, not another one', async () => {
@@ -109,10 +109,10 @@ describe.each(['Eigen-AI-Redesign', 'CMS-Access'])('%s × real @vercel/flags-cor
         environments: { development: 1, preview: 0, production: 0 },
       };
       await expect(
-        buildStepAdapter(definition, 'preview').evaluate(EIGEN, anonymous),
+        buildStepAdapter(definition, 'preview').evaluate(FLAG_KEY, anonymous),
       ).resolves.toBe(false);
       await expect(
-        buildStepAdapter(definition, 'production').evaluate(EIGEN, anonymous),
+        buildStepAdapter(definition, 'production').evaluate(FLAG_KEY, anonymous),
       ).resolves.toBe(false);
     });
 
@@ -124,14 +124,14 @@ describe.each(['Eigen-AI-Redesign', 'CMS-Access'])('%s × real @vercel/flags-cor
         },
         'preview',
       );
-      await expect(adapter.evaluate(EIGEN, anonymous)).resolves.toBe(true);
+      await expect(adapter.evaluate(FLAG_KEY, anonymous)).resolves.toBe(true);
     });
   });
 
   describe('failure-off', () => {
     it('is off when the declared flag has no definition (real FLAG_NOT_FOUND)', async () => {
       const adapter = buildStepAdapter(undefined);
-      await expect(adapter.evaluate(EIGEN, anonymous)).resolves.toBe(false);
+      await expect(adapter.evaluate(FLAG_KEY, anonymous)).resolves.toBe(false);
     });
 
     it('is off when the flag has no config for this environment', async () => {
@@ -139,7 +139,7 @@ describe.each(['Eigen-AI-Redesign', 'CMS-Access'])('%s × real @vercel/flags-cor
         variants: [false, true],
         environments: { production: 1 },
       });
-      await expect(adapter.evaluate(EIGEN, anonymous)).resolves.toBe(false);
+      await expect(adapter.evaluate(FLAG_KEY, anonymous)).resolves.toBe(false);
     });
 
     it('is off when the served variant is truthy but not boolean `true`', async () => {
@@ -148,7 +148,7 @@ describe.each(['Eigen-AI-Redesign', 'CMS-Access'])('%s × real @vercel/flags-cor
           variants: [false, variant],
           environments: { development: 1 },
         });
-        await expect(adapter.evaluate(EIGEN, anonymous)).resolves.toBe(false);
+        await expect(adapter.evaluate(FLAG_KEY, anonymous)).resolves.toBe(false);
       }
     });
 
@@ -162,7 +162,7 @@ describe.each(['Eigen-AI-Redesign', 'CMS-Access'])('%s × real @vercel/flags-cor
         polling: false,
         datafile: datafile({ variants: [false, true], environments: { development: 1 } }),
       });
-      await expect(adapter.evaluate(EIGEN, anonymous)).resolves.toBe(false);
+      await expect(adapter.evaluate(FLAG_KEY, anonymous)).resolves.toBe(false);
     });
 
     // No stream, no provided datafile, and no bundled definitions (embedding is
@@ -174,7 +174,7 @@ describe.each(['Eigen-AI-Redesign', 'CMS-Access'])('%s × real @vercel/flags-cor
         stream: { initTimeoutMs: 50 },
         polling: false,
       });
-      await expect(adapter.evaluate(EIGEN, anonymous)).resolves.toBe(false);
+      await expect(adapter.evaluate(FLAG_KEY, anonymous)).resolves.toBe(false);
     });
   });
 

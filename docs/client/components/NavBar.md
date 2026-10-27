@@ -38,17 +38,17 @@ function Layout() {
 - Events
 - Careers
 - Programs (MISTic R&D and MLF)
-- EigenAI when `showEigenAI` is true
+- EigenAI
 
-The server layout resolves `Eigen-AI-Redesign` and passes its boolean as
-`showEigenAI`; the navbar does not evaluate flags in the browser. The optional
-prop defaults to false. Login changes to Profile for a signed-in visitor.
+The EigenAI link is always available after rollout retirement. The navbar has
+no flag prop or provider dependency. Login changes to Profile for a signed-in
+visitor.
 
 At widths up to 768px, links appear in the mobile menu. The menu locks body
 scrolling while open and restores the previous overflow style on dismissal or
 unmount. Cleanup on unmount matters when browser history returns to EigenAI,
-whose page supplies its own navigation. From 769px through 1024px, enabling the
-EigenAI promotion tightens link spacing so Login/Profile remains on one row.
+whose page supplies its own navigation. From 769px through 1024px, tighter link
+spacing keeps EigenAI and Login/Profile on one row.
 
 `client/tests/unit/navbar.test.tsx` covers the promotion, Programs menu, and
 scroll-lock cleanup.

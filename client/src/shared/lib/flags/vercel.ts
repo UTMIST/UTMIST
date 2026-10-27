@@ -30,7 +30,7 @@ import type { FlagAdapter } from "./types";
  * server instance has cached definitions, `@vercel/flags-core` keeps serving
  * them after the provider stream disconnects, tagged `cacheStatus: "STALE"`,
  * instead of throwing; without this check a warmed instance would keep the
- * redesign on through an outage. (`VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING=1`
+ * flag on through an outage. (`VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING=1`
  * separately keeps a build-time snapshot out of the bundle; it does not affect
  * this runtime cache.) A rejection propagates for the `./provider` wrapper to
  * turn into `false`.
@@ -38,7 +38,7 @@ import type { FlagAdapter } from "./types";
 export function createVercelFlagAdapter(sdkKey?: string): FlagAdapter {
   const client = createClient(sdkKey);
 
-  // EigenAI and CMS access are environment-level on/off flags, so no per-user targeting context is
+  // CMS access is an environment-level on/off flag, so no per-user targeting context is
   // threaded yet; cohort targeting (#289) is added later by passing entities to
   // `client.evaluate`. The signature omits the `ctx` argument (a shorter method
   // still satisfies the `FlagAdapter` interface) because it is not consumed.

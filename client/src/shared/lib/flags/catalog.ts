@@ -10,13 +10,4 @@ export const flagCatalog = {
       { value: true, label: "On" },
     ],
   },
-  "Eigen-AI-Redesign": {
-    description: "Toggle the new 2026 EigenAI Website",
-    origin: "https://vercel.com/utmist-infrastructure/client/flag/Eigen-AI-Redesign",
-    defaultValue: false,
-    options: [
-      { value: false, label: "Off" },
-      { value: true, label: "On" },
-    ],
-  },
 };

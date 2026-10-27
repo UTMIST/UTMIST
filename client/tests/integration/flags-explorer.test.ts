@@ -37,10 +37,10 @@ jest.mock('@vercel/flags-core', () => {
 const originalEnv = process.env;
 const secret = Buffer.alloc(32, 7).toString('base64url');
 const otherSecret = Buffer.alloc(32, 8).toString('base64url');
-const flagKey = 'Eigen-AI-Redesign';
+const flagKey = 'CMS-Access';
 
 function setRequest(cookie?: string) {
-  mockRequest = new NextRequest('http://localhost/eigenai', {
+  mockRequest = new NextRequest('http://localhost/cms', {
     headers: cookie ? { cookie: `vercel-flag-overrides=${cookie}` } : {},
   });
 }
@@ -202,6 +202,11 @@ it('ignores invalid and expired middleware overrides', async () => {
 
 it('ignores signed middleware overrides in Production', async () => {
   process.env.VERCEL_ENV = 'production';
+  mockClientOptions.datafile = {
+    ...mockClientOptions.datafile!,
+    environment: 'production',
+    definitions: { [flagKey]: { variants: [false, true], environments: { production: 0 } } },
+  };
   const { evaluateFlag } = await import('@/shared/lib/flags/server');
   const cookie = await encryptOverrides({ 'CMS-Access': true }, secret);
   const request = new NextRequest('http://localhost/cms', {
@@ -235,6 +240,7 @@ it('allows local CMS opt-in only with an authenticated Explorer override', async
 
 it('keeps CMS closed in Production when a signed override tries to enable a missing definition', async () => {
   process.env.VERCEL_ENV = 'production';
+  mockClientOptions.datafile = { ...mockClientOptions.datafile!, definitions: {} };
   setRequest(await encryptOverrides({ 'CMS-Access': true }, secret));
   const { evaluateFlag } = await import('@/shared/lib/flags/server');
   await expect(evaluateFlag('CMS-Access')).resolves.toBe(false);
@@ -329,17 +335,15 @@ it('returns discovery metadata only with a valid access proof and never contacts
   expect(response.status).toBe(200);
   expect(response.headers.get('cache-control')).toBe('no-store');
   expect(response.headers.get('x-flags-sdk-version')).toBeTruthy();
-  expect(await response.json()).toMatchObject({
-    definitions: { 'CMS-Access': {
+  const body = await response.json();
+  expect(body).toMatchObject({
+    definitions: { [flagKey]: {
       description: 'Access to the UTMIST CMS controls',
-      defaultValue: false,
-      options: [{ value: false, label: 'Off' }, { value: true, label: 'On' }],
-    }, [flagKey]: {
-      description: 'Toggle the new 2026 EigenAI Website',
       defaultValue: false,
       options: [{ value: false, label: 'Off' }, { value: true, label: 'On' }],
     } },
   });
+  expect(body.definitions).not.toHaveProperty('Eigen-AI-Redesign');
   expect(mockKeys).toEqual([]);
 });
 
@@ -391,4 +395,11 @@ it('redacts unexpected discovery errors that could contain credentials', async (
     jest.dontMock('@/shared/lib/flags/definitions');
     error.mockRestore();
   }
+});
+
+// Old signed cookies must not restore a retired declaration.
+it('ignores a signed override for the retired EigenAI flag', async () => {
+  setRequest(await encryptOverrides({ 'Eigen-AI-Redesign': true }, secret));
+  const { evaluateFlag } = await import('@/shared/lib/flags/server');
+  await expect(evaluateFlag('Eigen-AI-Redesign')).resolves.toBe(false);
 });

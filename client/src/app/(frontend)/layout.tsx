@@ -9,7 +9,6 @@ import {
   HideOnEigenAI,
 } from "@/shared/ui/client";
 import { Toaster } from "react-hot-toast";
-import { evaluateFlag } from "@/shared/lib/server";
 
 //Metadata for the page
 export const metadata: Metadata = {
@@ -22,12 +21,11 @@ export const metadata: Metadata = {
 
 // Root layout for the application
 // This layout wraps around all pages and includes the Navbar and Footer
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const showEigenAI = await evaluateFlag("Eigen-AI-Redesign");
   // Vercel injects its own toolbar on Preview deployments.
   const showLocalToolbar =
     process.env.NODE_ENV === "development" &&
@@ -43,7 +41,7 @@ export default async function RootLayout({
       </head>
       <body className="antialiased">
         <HideOnEigenAI>
-          <Navbar showEigenAI={showEigenAI} />
+          <Navbar />
         </HideOnEigenAI>
         {children}
         <HideOnEigenAI>

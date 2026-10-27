@@ -50,7 +50,7 @@ describe('vercelFlagAdapter', () => {
     expect(mockEvaluate).not.toHaveBeenCalled();
   });
 
-  it.each(['Eigen-AI-Redesign', 'CMS-Access'])('evaluates %s with a false default — on', async (key) => {
+  it.each(['CMS-Access'])('evaluates %s with a false default — on', async (key) => {
     mockEvaluate.mockResolvedValue(evaluation(true, 'HIT'));
     await expect(
       vercelFlagAdapter.evaluate(key, anonymous),
@@ -61,14 +61,14 @@ describe('vercelFlagAdapter', () => {
   it('evaluates a known flag — off', async () => {
     mockEvaluate.mockResolvedValue(evaluation(false, 'HIT'));
     await expect(
-      vercelFlagAdapter.evaluate('Eigen-AI-Redesign', anonymous),
+      vercelFlagAdapter.evaluate('CMS-Access', anonymous),
     ).resolves.toBe(false);
   });
 
   it('treats a first, freshly fetched read (MISS) as fresh', async () => {
     mockEvaluate.mockResolvedValue(evaluation(true, 'MISS'));
     await expect(
-      vercelFlagAdapter.evaluate('Eigen-AI-Redesign', anonymous),
+      vercelFlagAdapter.evaluate('CMS-Access', anonymous),
     ).resolves.toBe(true);
   });
 
@@ -81,7 +81,7 @@ describe('vercelFlagAdapter', () => {
       variantId: null,
     });
     await expect(
-      vercelFlagAdapter.evaluate('Eigen-AI-Redesign', anonymous),
+      vercelFlagAdapter.evaluate('CMS-Access', anonymous),
     ).resolves.toBe(false);
   });
 
@@ -93,7 +93,7 @@ describe('vercelFlagAdapter', () => {
       variantId: null,
     });
     await expect(
-      vercelFlagAdapter.evaluate('Eigen-AI-Redesign', anonymous),
+      vercelFlagAdapter.evaluate('CMS-Access', anonymous),
     ).resolves.toBe(false);
   });
 
@@ -101,7 +101,7 @@ describe('vercelFlagAdapter', () => {
     for (const value of ['true', 1, {}, null, undefined]) {
       mockEvaluate.mockResolvedValueOnce({ ...evaluation(true, 'HIT'), value });
       await expect(
-        vercelFlagAdapter.evaluate('Eigen-AI-Redesign', anonymous),
+        vercelFlagAdapter.evaluate('CMS-Access', anonymous),
       ).resolves.toBe(false);
     }
   });
@@ -111,12 +111,12 @@ describe('vercelFlagAdapter', () => {
   it('uses the value when the result carries no metrics', async () => {
     mockEvaluate.mockResolvedValue({ value: true, reason: 'fallthrough', variantId: null });
     await expect(
-      vercelFlagAdapter.evaluate('Eigen-AI-Redesign', anonymous),
+      vercelFlagAdapter.evaluate('CMS-Access', anonymous),
     ).resolves.toBe(true);
   });
 
   it('looks flag names up exactly (no case or whitespace folding)', async () => {
-    for (const name of ['eigen-ai-redesign', ' Eigen-AI-Redesign', 'Eigen-AI-Redesign ']) {
+    for (const name of ['cms-access', ' CMS-Access', 'CMS-Access ']) {
       await expect(vercelFlagAdapter.evaluate(name, anonymous)).resolves.toBeUndefined();
     }
     expect(mockEvaluate).not.toHaveBeenCalled();
@@ -130,7 +130,7 @@ describe('vercelFlagAdapter', () => {
   it('propagates a rejection for the evaluator wrapper to turn into default-off', async () => {
     mockEvaluate.mockRejectedValue(new Error('provider unavailable'));
     await expect(
-      vercelFlagAdapter.evaluate('Eigen-AI-Redesign', anonymous),
+      vercelFlagAdapter.evaluate('CMS-Access', anonymous),
     ).rejects.toThrow('provider unavailable');
   });
 
@@ -140,17 +140,17 @@ describe('vercelFlagAdapter', () => {
   it('goes off when a warmed enabled definition turns stale, and recovers on reconnect', async () => {
     mockEvaluate.mockResolvedValueOnce(evaluation(true, 'HIT'));
     await expect(
-      vercelFlagAdapter.evaluate('Eigen-AI-Redesign', anonymous),
+      vercelFlagAdapter.evaluate('CMS-Access', anonymous),
     ).resolves.toBe(true);
 
     mockEvaluate.mockResolvedValueOnce(evaluation(true, 'STALE'));
     await expect(
-      vercelFlagAdapter.evaluate('Eigen-AI-Redesign', anonymous),
+      vercelFlagAdapter.evaluate('CMS-Access', anonymous),
     ).resolves.toBe(false);
 
     mockEvaluate.mockResolvedValueOnce(evaluation(true, 'HIT'));
     await expect(
-      vercelFlagAdapter.evaluate('Eigen-AI-Redesign', anonymous),
+      vercelFlagAdapter.evaluate('CMS-Access', anonymous),
     ).resolves.toBe(true);
   });
 });
