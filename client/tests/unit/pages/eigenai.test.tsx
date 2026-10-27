@@ -1,49 +1,39 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render, screen } from "@testing-library/react";
 
-jest.mock('@/features/public-site/components/peopleGrid', () => ({
-  __esModule: true,
-  default: ({ people }: { people: Array<{ name: string }> }) => (
-    <div data-testid="people-grid">{people.length}</div>
-  ),
+jest.mock("@/shared/lib/server", () => ({
+  evaluateFlag: () => { throw new Error("Flag provider unavailable"); },
+  getCurrentUser: () => { throw new Error("Public page must not load a profile"); },
 }));
 
-jest.mock('@/features/public-site/components/lambda', () => ({
-  __esModule: true,
-  default: () => <div data-testid="lambda-section" />,
+jest.mock("react-intersection-observer", () => ({
+  useInView: () => ({ ref: jest.fn(), inView: false }),
 }));
 
-jest.mock('@/features/public-site/components/workshops', () => ({
-  __esModule: true,
-  default: () => <div data-testid="workshops" />,
-}));
+import EigenAIPage from "@/app/(frontend)/eigenai/page";
 
-jest.mock('@/features/public-site/data/eigenai', () => ({
-  founderPanelSpeakers: [{ name: 'Founder A' }],
-  researchPanelSpeakers: [{ name: 'Researcher A' }],
-  keynoteSpeakers: [{ name: 'Keynote A' }],
-  speakerSession: [{ name: 'Speaker A' }, { name: 'Speaker B' }, { name: 'Speaker C' }],
-}));
+it("keeps the launched page interactive without a flag provider or Maps key", () => {
+  const mapsKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  delete process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-describe('EigenAI existing page', () => {
-  const originalMapsKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-  beforeAll(() => {
-    process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = 'test-key';
-  });
-
-  afterAll(() => {
-    if (originalMapsKey === undefined) delete process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-    else process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = originalMapsKey;
-  });
-
-  it('keeps the old page usable when the Google Maps API key is missing', async () => {
-    const previous = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-    delete process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-
-    const { default: EigenAIPage } = await import('@/features/public-site/pages/eigenai');
+  try {
     const { container } = render(<EigenAIPage />);
-    expect(container.querySelector('iframe[src*="google.com/maps"]')).not.toBeInTheDocument();
+    expect(screen.getByTestId("eigenai-redesign")).toBeInTheDocument();
+    expect(container.querySelector('iframe[src*="google.com/maps"]')).toBeNull();
     expect(container.querySelector('a[href*="google.com/maps/search/"]')).toBeInTheDocument();
 
-    process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = previous;
-  });
+    const toggle = container.querySelector<HTMLButtonElement>(
+      'button[aria-controls="eigenai-mobile-menu"]',
+    )!;
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    expect(document.body.style.overflow).toBe("hidden");
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(document.getElementById("eigenai-mobile-menu")).toBeNull();
+    expect(document.body.style.overflow).not.toBe("hidden");
+  } finally {
+    if (mapsKey === undefined) delete process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+    else process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = mapsKey;
+  }
 });

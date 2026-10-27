@@ -25,18 +25,17 @@ for the inspected dashboard settings, owner, local opt-in and rollout checks.
 
 Vercel access is optional for local development. Without provider credentials
 or Vercel context, `npm run dev` uses `DEFAULT_FLAGS` in
-[`fixtures.ts`](../../client/src/shared/lib/flags/fixtures.ts). Both real flags
-are registered there and default Off:
+[`fixtures.ts`](../../client/src/shared/lib/flags/fixtures.ts). The CMS flag is
+registered there and defaults Off:
 
 ```ts
-"Eigen-AI-Redesign": { enabled: false },
 "CMS-Access": { enabled: false },
 ```
 
 Set the flag you want to test to `enabled: true` in your local checkout and
-restart the dev server. Use `/eigenai` for the redesign or `/cms` for Payload
-(which still needs its local Postgres and Payload environment variables).
-Restore the entries to `false` before committing.
+restart the dev server. Use `/cms` for Payload,
+which still needs its local Postgres and Payload environment variables.
+Restore the entry to `false` before committing.
 
 Leave `FLAGS`, `VERCEL_OIDC_TOKEN`, `VERCEL`, and `VERCEL_ENV` unset locally to
 select fixtures; check both `.env` and any previously pulled `.env.local`.
@@ -45,7 +44,7 @@ Vercel account, or new environment variable is required for fixture evaluation.
 Vercel deployments use the live provider, and standalone production runs keep
 flags Off without provider credentials, regardless of local fixture edits.
 
-## Using the EigenAI flag
+## Using the CMS flag
 
 **Do I need to set `FLAGS`? No, not for this Vercel project.** Leave it unset:
 Vercel supplies OIDC automatically so the application can read dashboard values.
@@ -55,10 +54,13 @@ Neither credential changes when you toggle the feature.
 
 ### Change what everyone sees on Preview
 
-1. Open [Eigen-AI-Redesign in the Vercel dashboard](https://vercel.com/utmist-infrastructure/client/flag/Eigen-AI-Redesign).
-2. Change the **Preview** value: **On** shows the redesign; **Off** shows the
-   existing EigenAI page.
-3. Open `/eigenai` on the latest Preview deployment linked in the PR's preview
+Use an isolated Preview with synthetic CMS data and verified access protection,
+following [the hosted CMS acceptance task](https://github.com/UTMIST/UTMIST/issues/495).
+
+1. Open [CMS-Access in the Vercel dashboard](https://vercel.com/utmist-infrastructure/client/flag/CMS-Access).
+2. Change the **Preview** value: **On** makes CMS entry points available; **Off**
+   returns 404. Editor authentication remains required when enabled.
+3. Open `/cms` on the isolated Preview deployment linked in the PR's preview
    comment. Clear any Toolbar override and refresh the page.
 
 Dashboard changes take effect on subsequent server evaluations after the SDK
@@ -68,11 +70,12 @@ a browser override follows the Preview value.
 ### Test a different value in your browser
 
 Open the Preview's **Vercel Toolbar → Flags Explorer** and override
-`Eigen-AI-Redesign` to **On** or **Off**. The override applies only to that
+`CMS-Access` to **On** or **Off**. The override applies only to that
 browser; it does not change the dashboard value for other visitors.
 
 For example, leave Preview **Off** and override **On** in your browser to review
-the redesign while everyone else sees the existing page. **Clear the override**
+CMS availability while other browsers continue to receive 404. This does not
+bypass editor authentication or authorize access to production data. **Clear the override**
 when finished to follow the dashboard again.
 
 ### If the Toolbar is missing
@@ -130,12 +133,12 @@ Follow the commands under [Set up this project](#set-up-this-project) to link
 `client/`, pull Development credentials into `.env.local`, and start the dev
 server. Then use the dashboard's **Development** value for local testing.
 No manual `FLAGS` key is needed. Without Vercel context or provider credentials,
-local development uses fixtures, which currently keep the redesign off.
+local development uses fixtures, which keep CMS access off.
 
 The local Toolbar appears on frontend pages, including `/eigenai`. Sign in to
 Vercel with access to `utmist-infrastructure/client`, then open **Flags Explorer**
-and override `Eigen-AI-Redesign` to **On**. Apply the override and refresh if
-needed. Clear it to resume the dashboard's Development value. This requires the
+and override `CMS-Access` to **On**. Then open `/cms` to exercise its
+availability gate with the local database. Clear it to resume the dashboard's Development value. This requires the
 existing Development `FLAGS_SECRET` pulled into `.env.local`; no new secret or
 manual provider key is needed.
 
@@ -152,8 +155,10 @@ The Toolbar prompts for Vercel sign-in in a fresh browser:
 
 Production follows the **Production** dashboard value. `server.ts` evaluates the
 provider directly in production, ignoring browser overrides even when they are
-validly signed. Turning the flag Off restores the original pre-#456 EigenAI page;
-turning it On selects the 2026 redesign. Provider failures still default Off.
+validly signed. Turning `CMS-Access` Off returns 404 for CMS entry points;
+turning it On permits the editor authentication flow. Provider failures default
+Off. Keep production CMS access Off while hosted acceptance is unfinished;
+follow [Payload availability](Payload.md#availability-flag-443).
 
 ## Where it lives
 
@@ -283,7 +288,7 @@ The retired `FLAGS_KEY_DEV` / `FLAGS_KEY_PREVIEW` variables are not read.
 ### Set up this project
 
 The project is **`utmist-infrastructure/client`**. The `flags` package, server
-declaration, discovery endpoint and `/eigenai` consumer are already installed.
+declaration, discovery endpoint and CMS consumers are already installed.
 Vercel provides the Toolbar on protected preview deployments; use its Flags
 Explorer to inspect and override this flag.
 
@@ -306,17 +311,17 @@ Preview `FLAGS_SECRET` in Vercel's environment settings. Flags Explorer setup
 creates separate secrets per environment; do not rotate them during routine
 setup. Redeploy after changing environment variables or authentication code.
 
-The CI build does not need flag credentials: `/eigenai` and discovery evaluate
+The CI build does not need flag credentials: CMS access and discovery evaluate
 at request time. The deployed function receives its identity and environment
 settings from Vercel. All CI builds disable definition embedding. A build-step
 environment variable does not configure the deployed function's runtime.
 
-### EigenAI flag definition and example
+### CMS flag definition and example
 
 Read the existing flag instead of creating a duplicate:
 
 ```bash
-vercel flags inspect Eigen-AI-Redesign --project client --scope utmist-infrastructure
+vercel flags inspect CMS-Access --project client --scope utmist-infrastructure
 ```
 
 `catalog.ts` holds the metadata that mirrors the dashboard. `definitions.ts`
@@ -324,15 +329,15 @@ builds SDK declarations from that catalog, and `vercel.ts` uses its own-property
 keys as the provider allowlist. Register a new live flag once in the catalog;
 there is no separate `DECLARED_FLAGS` list to update.
 
-| Field       | Value                               |
-| ----------- | ----------------------------------- |
-| Key         | `Eigen-AI-Redesign`                 |
-| Kind        | Boolean                             |
-| Description | Toggle the new 2026 EigenAI Website |
-| Variants    | `false` (Off), `true` (On)          |
-| Default     | `false`                             |
+| Field | Value |
+| --- | --- |
+| Key | `CMS-Access` |
+| Kind | Boolean |
+| Description | Access to the UTMIST CMS controls |
+| Variants | `false` (Off), `true` (On) |
+| Default | `false` |
 
-See [Using the EigenAI flag](#using-the-eigenai-flag) for dashboard toggles,
+See [Using the CMS flag](#using-the-cms-flag) for dashboard toggles,
 browser overrides, local testing, and Production rollout.
 
 ### Evaluation path
@@ -399,40 +404,29 @@ missing/invalid proofs or missing/malformed secrets return `401`. Discovery does
 not contact the flag provider, expose credentials, or require a site login.
 
 In the Vercel Preview Toolbar, open Flags Explorer and override
-`Eigen-AI-Redesign` for your browser. Clear the override to resume dashboard
-values. A production override cannot enable or disable the redesign. Do not import
+`CMS-Access` for your browser. Clear the override to resume dashboard
+values. A production override cannot enable or disable CMS access. Do not import
 the internal SDK declarations in feature code; that would bypass the production
 override exclusion.
 
-### EigenAI consumer (#447) & rollout
+### Retired EigenAI rollout
 
-`/eigenai` re-exports the server selector in
-`features/public-site/pages/eigenaiFlagged.tsx`. The route shell itself declares
-`dynamic = "force-dynamic"`, so server selection is not frozen at build time.
-Off/missing/error keeps the existing page with its standard navigation and
-footer; on selects the redesigned page with its own navigation and footer.
-Offline local development uses fixtures, which currently keep the
-redesign off. Preview and Production deployments use OIDC without a manual SDK
-key and follow their respective dashboard values. The flag-off page retains the
-pre-#456 2025 content, photos, speaker groups, workshops, and Instagram schedule.
-The selector does not load a user profile: the live EigenAI flag has no user
-targeting. It uses the same anonymous context as the layout so
-the SDK can reuse evaluations for the same request, flag, and context.
+The completed EigenAI rollout no longer uses a flag. `/eigenai` always serves
+its launched page and metadata, and the main-site navbar always includes its
+link. `Eigen-AI-Redesign` is absent from the application catalog, fixtures, and
+Flags Explorer discovery. Old override cookies cannot reintroduce it.
+See [EigenAI](pages/EigenAI.md) for the page entry point and retained components.
 
-For provider verification, use a Preview deployment or pull Development OIDC
-credentials locally. Clear any Explorer override, and toggle `Eigen-AI-Redesign`
-on → off → on in that environment's dashboard. The next server evaluation after the provider's
-stream update should follow the value without redeploy. Then verify an Explorer
-override in one browser and the dashboard value in another. Use synthetic data.
-Production uses its dashboard setting and ignores browser overrides; changing
-that setting affects all production visitors. Real project credentials and
-preview access are needed to complete this deployment verification.
+Keep the remote flag intact until the replacement deployment is verified;
+older production/preview deployments still use it. Remote archival is separate
+from the code-removal PR. `CMS-Access`, the provider, credentials, and Toolbar
+remain in use.
 
 ### Troubleshooting
 
 | Symptom                                                   | Check                                                                                                                                                                                                                                                                                                       |
 | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Preview shows the old page while its dashboard flag is On | Clear browser overrides, verify the deployment is linked to `utmist-infrastructure/client`, and check for authentication/provider errors. A missing `FLAGS` variable is normal with OIDC.                                                                                                                   |
+| Isolated Preview returns CMS 404 while its flag is On | Clear browser overrides, verify the deployment is linked to `utmist-infrastructure/client`, and check for authentication/provider errors. A missing `FLAGS` variable is normal with OIDC.                                                                                                                   |
 | Local page ignores dashboard changes                      | Without pulled OIDC credentials or an explicit SDK key, local development uses fixtures. Pull Development credentials and restart the dev server.                                                                                                                                                           |
 | An SDK key reads unexpected values                        | Explicit `FLAGS` overrides OIDC; its project and flag environment determine which configuration is read.                                                                                                                                                                                                    |
 | Toolbar itself is missing                                 | Enable Pre-Production Toolbar, use a fresh Preview built on Vercel, and check browser/session blocking. See [If the Toolbar is missing](#if-the-toolbar-is-missing).                                                                                                                                        |
@@ -448,7 +442,6 @@ disable a Vercel deployment before the SDK attempts authentication.
 Because the exported function signatures don't change, consumers
 ([#287](https://github.com/UTMIST/UTMIST/issues/287),
 [#443](https://github.com/UTMIST/UTMIST/issues/443) CMS,
-[#447](https://github.com/UTMIST/UTMIST/issues/447) EigenAI,
 [#290](https://github.com/UTMIST/UTMIST/issues/290) opt-in UI) don't change when
 the real adapters land. All flag consumers reuse this **one** shared evaluator —
 do not introduce a separate flag system per feature.
@@ -485,9 +478,6 @@ Retire a flag and its obsolete implementation after rollout, per
   Checks the assumptions the mocked test makes (the real `FLAG_NOT_FOUND` shape,
   runtime reads without a live stream tagged `STALE`, environment `reuse`,
   non-boolean variants) so an SDK bump that breaks failure-off fails here.
-- [`tests/unit/pages/eigenai-selector.test.tsx`](../../client/tests/unit/pages/eigenai-selector.test.tsx)
-  — the `/eigenai` selector picks existing vs. redesign for off/on and stays on
-  the existing page for default-off.
 
 These double as the runnable "examples can be built without the provider" proof.
 Import the flags modules directly (not the `@/shared/lib/server` barrel, which

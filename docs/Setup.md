@@ -154,11 +154,10 @@ Switch to Node 24 (see [Prerequisites](#nodejs-24)) and re-run.
 [step 2](#2-configure-environment-variables). Restart the dev server after
 editing it — Next only reads env files at startup.
 
-**`Google Maps API key is not defined`**
+**EigenAI shows a directions link instead of an embedded map**
 
-`NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is unset. Only `/eigenai` breaks under
-`npm run dev` when the legacy variant is selected. The redesign remains usable
-and replaces its embedded preview with a directions link until the key is set.
+`NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is optional. When it is unset, `/eigenai`
+remains usable and shows a directions link in place of the embedded map.
 
 **`Error: cannot connect to Postgres` when opening `/cms`**
 

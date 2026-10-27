@@ -7,9 +7,6 @@ jest.mock("@vercel/toolbar/next", () => ({
   VercelToolbar: () => <div data-testid="vercel-toolbar" />,
 }));
 jest.mock("next/script", () => ({ __esModule: true, default: () => null }));
-jest.mock("@/shared/lib/server", () => ({
-  evaluateFlag: jest.fn().mockResolvedValue(false),
-}));
 jest.mock("@/shared/ui", () => ({ Footer: () => null }));
 jest.mock("@/shared/ui/client", () => ({
   Navbar: () => null,
@@ -41,7 +38,7 @@ describe("frontend toolbar visibility", () => {
     else delete process.env.VERCEL_ENV;
 
     const markup = renderToStaticMarkup(
-      await RootLayout({ children: <main>Page content</main> }),
+      RootLayout({ children: <main>Page content</main> }),
     );
 
     expect(markup).toContain("Page content");
