@@ -100,3 +100,15 @@ workflow fails CI on drift. ([docs/ZONES.md](docs/ZONES.md#keeping-the-zone-list
   say why, not what.
 - Keep PRs inside one zone where possible, link the issue with
   `Closes #<n>`, and never force-push once review has started.
+
+## Board and acceptance
+
+- Use native **Blocked by** dependencies; do not parse issue-body references or
+  recreate a blocked label. Dependencies and ready never move progress Status.
+- Closing-linked PRs drive development/review; `on hold` is an explicit pause.
+  `Closes #<n>` is only for full issue scope. Use a plain reference for partial
+  delivery and retain unfinished hosted acceptance in an open issue.
+- Automation reports and deployment evidence do not prove final acceptance or
+  authorize closing an epic. See [.github/PROJECT-BOARD.md](.github/PROJECT-BOARD.md).
+- Automation changes run `node --test .github/scripts/*.test.cjs` from the repo
+  root in addition to the client gates and taxonomy check.
