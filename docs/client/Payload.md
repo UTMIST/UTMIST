@@ -1,11 +1,13 @@
 # Payload CMS
 
 Payload 3 is embedded in the existing Next.js application. It provides a
-local content dashboard and API. Issue #346 connects the homepage introduction
+content dashboard and API backed by Postgres. Issue #346 connects the homepage introduction
 and statistics to a reusable typed reader during explicitly enabled local
 development. See the [content reader recipe](ContentReader.md) to create the
-`home-impact` record and verify an edit. Hosted source configuration remains
-in #495; deployed pages continue using their existing static content.
+`home-impact` record and verify an edit. The CMS database connection now uses
+the existing UTMIST Supabase project. Hosted homepage source selection and
+Preview acceptance remain in #495; deployed pages continue using their
+existing static content.
 
 This implementation records the choices requested by
 [the integration decision task (#344)](https://github.com/UTMIST/UTMIST/issues/344):
@@ -141,18 +143,73 @@ Jest layout mocks so an unguarded built-in action cannot be hidden by them.
 The test uses signed local overrides and an unreachable synthetic database;
 it does not verify live Vercel propagation or require Development keys.
 
-## Database isolation
+## Database connection
 
-For issue #345, `PAYLOAD_DATABASE_URI` points to a standalone local Postgres
-database. It does not point to Supabase. The adapter is additionally fixed to
-the dedicated `payload` schema, so all CMS tables and development migrations
-remain isolated from the application's Supabase `public` schema.
+The hosted CMS uses the existing **UTMIST Website** Supabase project
+(`gqqgsvhzonratwkmjiji`), as explicitly chosen for this rollout. No additional
+Supabase project, database branch, or paid add-on is needed. Local development
+still defaults to the standalone Compose database described below.
 
-Development mode uses Payload's schema push workflow. Treat this local
-database as disposable and never substitute a production database URI.
-Connecting Payload to a hosted database, running hosted migrations, and adding
-hosted proof data are deliberately deferred to the isolated-environment
-verification task.
+Payload connects directly through its Postgres adapter, not through the
+Supabase browser API. The adapter is fixed to the `payload` schema. The
+`utmist_payload` login owns that schema and its tables, has no application
+table grants in `public`, `auth`, or `storage`, and has no superuser, role
+creation, database creation, or RLS bypass privileges. Supabase's `postgres`
+operator can administer the CMS role; the CMS role is not a member of
+`postgres`. The schema is not exposed through the Supabase Data API, and
+`anon`, `authenticated`, and `service_role` have no schema access.
+
+The connection uses the project's IPv4 session pooler at
+`aws-0-us-east-2.pooler.supabase.com:5432`, database `postgres`, and username
+`utmist_payload.gqqgsvhzonratwkmjiji`. Each Payload process uses at most three
+connections, with a ten-second connection timeout and twenty-second idle
+timeout. Supabase connections verify the certificate and hostname against
+the public Supabase Root 2021 CA bundled in `src/cms/supabase-ca.ts`.
+URI SSL options cannot disable this verification. The certificate expires
+April 26, 2031; update it from Supabase when its trust chain changes. See
+[Supabase TLS configuration](https://supabase.com/docs/guides/platform/ssl-enforcement).
+
+Production credentials are configured in Vercel and GitHub Actions. Vercel's
+Preview environment uses the same database URI and a distinct `PAYLOAD_SECRET`.
+**All Previews share the same CMS records and editor accounts as Production.**
+A separate signing secret separates sessions, not data. This project deploys
+through CI without a Vercel Git integration, so branch-scoped environment
+variables are unavailable. CI creates Previews only for eligible same-repository
+PRs, excluding forks and Dependabot. Use synthetic records for verification
+and remove them afterwards. Development does not receive hosted credentials.
+This shared-database choice does not satisfy #495's original isolated-preview
+acceptance criteria; source selection and the remaining rollout verification
+still need their own work.
+
+`CMS-Access` remains a separate availability gate. Connecting the database
+does not enable the dashboard or change deployed homepage content. Keep
+Production Off until an intended editor is bootstrapped through a controlled
+server-side operation; do not publicly expose an empty CMS's first-user form.
+
+### Hosted migrations
+
+Hosted connections never use Payload's automatic development schema push,
+even under `npm run dev`. Schema push is enabled only in standalone development
+against a loopback Postgres URI without query parameters. Builds and requests
+do not run migrations or create databases.
+
+The checked-in initial migration under `client/src/cms/migrations/` creates
+only `payload` objects. The schema and its owning login must already exist.
+Apply reviewed migrations explicitly using the CMS login, before deploying
+code that needs them. With Node 24, from `client/`, using an ignored,
+access-controlled env file containing `PAYLOAD_DATABASE_URI` and `PAYLOAD_SECRET`:
+
+```bash
+NODE_ENV=production node --env-file=.env.payload-hosted.local node_modules/payload/bin.js migrate:status
+NODE_ENV=production node --env-file=.env.payload-hosted.local node_modules/payload/bin.js migrate
+```
+
+That custom env file is not automatically loaded by `npm run dev`. Do not
+commit it. Never run `migrate:fresh`, `migrate:reset`, or schema push against
+the shared database. For subsequent collection changes, generate a migration
+with `npm run payload:migrate:create -- descriptive_name`, review its SQL,
+and test it in disposable local Postgres first. Keep migration argument
+imports type-only for Node 24's TypeScript runtime.
 
 ## Local setup
 
@@ -245,7 +302,6 @@ npm run payload:generate-types
 npm run payload:generate-importmap
 ```
 
-The local Compose credentials are only for issue #345. A future hosted proof
-must configure both Payload variables in the applicable GitHub Actions and
-Vercel environments, use a different secret, and target an approved isolated
-database or database branch.
+Compose credentials are development-only. Hosted environments use the scoped
+Supabase login and environment-specific signing secrets described in
+[Database connection](#database-connection).

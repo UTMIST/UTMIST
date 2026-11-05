@@ -125,8 +125,11 @@ Vercel project settings for hosted builds and runtime. When adding a new one,
 it must be added in **both** places, plus documented in [`env.example`](env.example).
 
 Payload deployments require `PAYLOAD_SECRET` and `PAYLOAD_DATABASE_URI`.
-Preview environments must use isolated credentials and data rather than the
-production CMS database.
+The hosted CMS uses the existing Supabase project's dedicated `payload`
+schema and scoped database login. Preview deployments share those CMS records
+with Production, using a separate signing secret. Development keeps its local
+Compose database. Apply reviewed Payload migrations before deploying schema
+changes. See [database setup and migrations](../docs/client/Payload.md#database-connection).
 
 Supabase redirect URLs need to list the production origin alongside
 `http://localhost:3000`, or auth callbacks will fail in production only.
