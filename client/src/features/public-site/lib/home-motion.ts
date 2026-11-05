@@ -9,8 +9,6 @@ export const homeMotion = {
   viewportMargin: "0px 0px -48px 0px",
   // Wait until the copy is comfortably in view, then fill across a longer scroll range.
   highlightOffsets: ["start 0.75", "center 0.3"],
-  // The hero is already on screen at load; fill during the first 30vh of scrolling.
-  heroHighlightOffsets: ["start start", "start -0.3"],
   waveStepMs: 220,
   waveLineMs: 800,
   waveSpreadMs: 1100,

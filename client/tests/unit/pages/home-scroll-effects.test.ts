@@ -34,7 +34,7 @@ beforeEach(() => {
     return stopHighlight;
   });
   root = document.createElement("main");
-  root.innerHTML = '<section class="home-hero"><p><span class="home-hero-highlight">Hero highlight</span></p></section><div data-home-reveal id="above">Visible content</div><div data-home-reveal id="below"><a href="/events">Events</a></div><h2>Heading <span class="home-selection">highlight</span></h2><div class="home-community-statement"><p><span class="home-selection">Statement highlight</span></p></div>';
+  root.innerHTML = '<div data-home-reveal id="above">Visible content</div><div data-home-reveal id="below"><a href="/events">Events</a></div><h2>Heading <span class="home-selection">highlight</span></h2><div class="home-community-statement"><p><span class="home-selection">Statement highlight</span></p></div>';
   document.body.append(root);
   above = root.querySelector<HTMLElement>("#above")!;
   below = root.querySelector<HTMLElement>("#below")!;
@@ -58,7 +58,7 @@ it("keeps visible content visible, reveals offscreen content once, and cleans up
   expect(below).toHaveAttribute("data-home-reveal-state", "complete");
   dispose();
   expect(stopReveal).toHaveBeenCalledTimes(1);
-  expect(stopHighlight).toHaveBeenCalledTimes(3);
+  expect(stopHighlight).toHaveBeenCalledTimes(2);
   expect(preference.removeEventListener).toHaveBeenCalledWith("change", preferenceChanged);
   expect(below).not.toHaveAttribute("data-home-reveal-state");
   // Strict Mode's effect cleanup/setup must not disable all future reveals.
@@ -78,27 +78,23 @@ it("reveals a focused link immediately even before its entrance animation", () =
 
 it("advances every highlight independently without unwinding on reverse scroll", () => {
   const dispose = createHomeScrollEffects(root);
-  const hero = root.querySelector<HTMLElement>(".home-hero-highlight")!;
   const heading = root.querySelector<HTMLElement>("h2 .home-selection")!;
   const statement = root.querySelector<HTMLElement>(".home-community-statement .home-selection")!;
-  highlights.get(root.querySelector(".home-hero")!)!(0.8);
   highlights.get(root.querySelector("h2")!)!(0.3);
   highlights.get(root.querySelector(".home-community-statement")!)!(0.6);
-  expect(hero.style.getPropertyValue("--home-selection-progress")).toBe("0.8");
   expect(heading.style.getPropertyValue("--home-selection-progress")).toBe("0.3");
   expect(statement.style.getPropertyValue("--home-selection-progress")).toBe("0.6");
   highlights.forEach((update) => update(0.1));
   expect(heading.style.getPropertyValue("--home-selection-progress")).toBe("0.3");
-  expect(hero.style.getPropertyValue("--home-selection-progress")).toBe("0.8");
   expect(statement.style.getPropertyValue("--home-selection-progress")).toBe("0.6");
   highlights.get(root.querySelector("h2")!)!(0.5);
   expect(heading.style.getPropertyValue("--home-selection-progress")).toBe("0.5");
   highlights.forEach((update) => { update(1); update(0); });
-  for (const element of [hero, heading, statement]) {
+  for (const element of [heading, statement]) {
     expect(element.style.getPropertyValue("--home-selection-progress")).toBe("1");
   }
   dispose();
-  for (const element of [hero, heading, statement]) {
+  for (const element of [heading, statement]) {
     expect(element.style.getPropertyValue("--home-selection-progress")).toBe("");
   }
 });
@@ -111,7 +107,7 @@ it("cancels pending motion and restores all full highlights when reduced motion 
   preference.matches = true;
   preferenceChanged();
   expect(below).not.toHaveAttribute("data-home-reveal-state");
-  for (const element of root.querySelectorAll<HTMLElement>(".home-selection, .home-hero-highlight")) {
+  for (const element of root.querySelectorAll<HTMLElement>(".home-selection")) {
     expect(element.style.getPropertyValue("--home-selection-progress")).toBe("");
   }
   expect(stopReveal).toHaveBeenCalled();
@@ -120,7 +116,7 @@ it("cancels pending motion and restores all full highlights when reduced motion 
   preferenceChanged();
   expect(below).toHaveAttribute("data-home-reveal-state", "complete");
   highlights.forEach((update) => update(0.1));
-  for (const element of root.querySelectorAll<HTMLElement>(".home-selection, .home-hero-highlight")) {
+  for (const element of root.querySelectorAll<HTMLElement>(".home-selection")) {
     expect(element.style.getPropertyValue("--home-selection-progress")).toBe("1");
   }
   dispose();

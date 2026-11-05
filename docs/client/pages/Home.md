@@ -79,7 +79,6 @@ Sponsor logos and event wordmarks retain their own brand artwork.
 | Body text | `home-body` | 16px, 1.625 line height |
 | Supporting text | `home-meta` | 14px, 20px line height |
 | Compact caption | `home-caption` | 12px, 16px line height |
-| Tile label | `home-ui-label` | 14 / 16 / 16px, 600 weight |
 
 The shared breakpoints are 640px and 1024px. The hero title, statistic numbers
 and community display composition remain distinct display roles. Highlighted
@@ -91,7 +90,7 @@ indigo. Community text, selection handles, guides and toolbar accents share it.
 The hero uses the `home-dark` colour context: white text, softened white body
 copy and lilac labels. About's introduction and impact content use a white
 surface, dark headings, muted body copy, indigo labels and light-tone CTAs.
-Below the impact dashboard, the mission uses the original `#15026a` purple in a full-width
+Below the impact dashboard, the mission uses `#15026a` purple in a full-width
 `home-mission` band with white text, lilac accents and a dark-tone CTA. Its palette
 is scoped to that band. Fine indigo borders and a subtle interior tint define the impact dashboard.
 MISTic R&D retains its separate tinted treatment.
@@ -136,9 +135,9 @@ the purple mission band, which has one shared gap of padding on each edge.
 Ambient motion follows elapsed time even at lower frame rates. Pointer tracking
 uses a gentle exponential ease without a travel-speed cap: it starts responding
 immediately and follows most of the cursor's movement within about two seconds,
-including at 10fps. Only long frame gaps
-are capped to avoid jumps. Resuming resets the frame clock so time
-spent paused or offscreen does not advance the animation.
+including at 10fps. Pointer smoothing caps long frame gaps to avoid jumps;
+ambient motion continues to follow elapsed time. Resuming resets the frame clock
+so time spent paused or offscreen does not advance the animation.
 Listeners, observers, and GPU resources are released on unmount.
 
 The sponsor mosaic sorts names alphabetically and leaves deliberate empty
@@ -156,8 +155,9 @@ rail and Community impact title bar frame three columns from 768px upward and tw
 smaller screens. The dashboard is centered and capped at 896px, with compact
 card padding and 30 / 36px statistic numbers. Individual white tiles use the shared
 flat `CardLink`: indigo borders, rounded corners and accent hover/focus fill.
-Each metric shows its icon, number and a single 14px label. Its complete source
-description remains in the link's accessible name; repeated visible captions are removed.
+Each metric shows its icon, number and a single 14px medium-weight label.
+The link's accessible name starts with its visible number and title, followed
+by the complete source description.
 The dashboard resets text and keyboard focus to the light-surface palette.
 The smaller `home-card-heading` title and 16px introduction are centered above the
 frame. The introductory projects action lives in Who We Are; the dashboard has
@@ -190,9 +190,9 @@ copy lives in `homeRedesignContent`; the legacy layout retains `homeContent`.
 Mission copy introduces the opportunities without repeating the heading, and
 sits directly on the background, aligned with the introduction's left edge. Mission and
 impact rows use the shared `--ui-section-gap`.
-The diagram uses the original `#3730c6` blue-purple capsules, white labels,
+The diagram uses `#3730c6` blue-purple capsules, white labels,
 lilac icons and fine lilac connections on the mission's deep purple background.
-Cyan-to-lilac edges and cyan travelling waves restore its luminous treatment.
+Cyan-to-lilac edges and cyan travelling waves highlight the connections.
 Connection midpoints carry short lilac dashes with small cyan junction dots.
 These decorative details track each responsive path layout, stay a fixed pixel
 size and sit behind the pills without intercepting input or adding motion.
@@ -201,8 +201,8 @@ wave pulses only a soft exterior glow, with no second stroke or inset highlight.
 Keyboard focus thickens the same edge to 3px with an overlapping cyan outline,
 so the opaque fill reaches a single continuous border in every state.
 Capsules are 56px high, with 13px regular-weight,
-single-line labels and 16px icons. Width follows the label, retaining the graph's
-varied silhouettes while providing more vertical space than the original 48px nodes.
+single-line labels and 16px icons. Width follows the label, giving the graph
+varied silhouettes.
 Brighter active nodes, a cyan ring and travelling cyan waves provide emphasis
 on interaction. The
 network's twelve buttons preview connections on hover/focus and pin a selection

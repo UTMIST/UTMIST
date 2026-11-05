@@ -16,7 +16,5 @@ including in the hero. The dark tone uses white text, a transparent fill and
 muted lilac outline. Each tone uses the shared focus and hover tokens.
 
 All homepage pill CTAs use this component without section colour overrides.
-The former `light`, `arrow` and `variant` props are replaced by `tone`; alternate
-arrow/link shapes were unused and are no longer separate visual variants.
 `className` is for layout. Keep action labels in sentence case and check wrapping
 at the smallest supported viewport. Use `Button` or `IconButton` for state changes.

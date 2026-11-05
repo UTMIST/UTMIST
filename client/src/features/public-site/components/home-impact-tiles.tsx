@@ -72,7 +72,13 @@ export default function HomeImpactTiles({ impact }: { impact: HomeImpactContent 
                   return (
                     <li data-home-reveal key={stat.description} className="min-w-0">
                       {presentation ? (
-                        <CardLink href={presentation.href} aria-label={`${stat.number} ${stat.description}`} className={`home-impact-tile ${tileClass}`}>{content}</CardLink>
+                        <CardLink
+                          href={presentation.href}
+                          aria-label={`${stat.number} ${presentation.title}: ${stat.description}`}
+                          className={`home-impact-tile ${tileClass}`}
+                        >
+                          {content}
+                        </CardLink>
                       ) : (
                         <div className={`rounded-xl border border-[var(--border-brand)] bg-white ${tileClass}`}>{content}</div>
                       )}

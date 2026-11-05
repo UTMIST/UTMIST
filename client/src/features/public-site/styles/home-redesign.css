@@ -47,15 +47,12 @@ html:has(.home-redesign) { position: relative; }
   @apply text-xs font-normal leading-4;
   color: var(--home-copy-color);
 }
-.home-ui-label {
-  @apply text-sm font-semibold leading-5 sm:text-base sm:leading-6;
-}
 .home-dark {
   --home-copy-color: rgb(255 255 255 / 85%);
   --home-accent-color: var(--home-lilac);
   color: white;
 }
-/* Restore the original mission palette inside its own full-width band. */
+/* Keep the mission palette scoped to its full-width band. */
 .home-mission {
   --home-ink: #15026a;
   --home-discipline-fill: #3730c6;
@@ -100,8 +97,7 @@ html:has(.home-redesign) { position: relative; }
   background: radial-gradient(ellipse at 50% 42%, rgb(0 0 0 / 45%), rgb(0 0 0 / 14%) 55%, transparent 80%);
 }
 
-.home-selection,
-.home-hero-highlight {
+.home-selection {
   --home-highlight-fill: color-mix(in srgb, var(--home-selection) 20%, transparent);
   position: relative;
   font-weight: 700;
@@ -111,9 +107,6 @@ html:has(.home-redesign) { position: relative; }
   background-size: calc(var(--home-selection-progress, 1) * 100%) 100%;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
-}
-
-.home-selection {
   border-inline: 2px solid var(--home-selection);
   padding-inline: 0.06em;
 }
@@ -152,20 +145,6 @@ html:has(.home-redesign) { position: relative; }
   .home-hero-backdrop:has(canvas[data-ready="true"]) + .home-hero-motion-toggle {
     display: inline-flex;
   }
-}
-
-.home-hero-highlight {
-  --home-highlight-fill: color-mix(in srgb, var(--home-selection) 65%, transparent);
-}
-.home-hero-highlight::after {
-  content: "";
-  position: absolute;
-  right: -4px;
-  bottom: -6px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--home-selection);
 }
 
 .home-stat-number {
@@ -508,7 +487,7 @@ html:has(.home-redesign) { position: relative; }
 
 @media (prefers-reduced-motion: reduce) {
   html:has(.home-redesign) { scroll-behavior: auto; }
-  .home-selection, .home-hero-highlight { background-size: 100% 100%; }
+  .home-selection { background-size: 100% 100%; }
   .home-redesign *, .home-redesign *::before, .home-redesign *::after {
     animation: none !important;
     transition: none !important;

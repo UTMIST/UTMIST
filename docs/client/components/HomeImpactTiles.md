@@ -19,8 +19,8 @@ the dashboard content from its white frame.
 The dashboard is centered at a maximum width of 896px, with a 48px title bar and
 a 56px decorative rail. Cards use 12 / 16px padding, 14px medium-weight labels
 and 30 / 36px numbers. A small icon/arrow row sits above each number; the label
-appears once underneath it. The full source description is retained in each
-link's accessible name instead of repeated as a visible caption.
+appears once underneath it. Each link's accessible name starts with the visible
+number and title for voice navigation, followed by the full source description.
 The frame extends 32px beyond an overflow crop flush with the purple mission
 band's top edge. There is no gap between that crop and the purple background,
 so the band visually cuts off the dashboard. Only extra frame padding is clipped:
@@ -41,8 +41,9 @@ description as an unlinked tile.
 
 `home-scroll-effects` supplies entrance motion. The flat cards use shared focus
 outlines and hover tokens, respecting reduced motion. Behaviour tests in
-`client/tests/unit/home-impact-tiles.test.tsx` cover reordered CMS values and
-unknown statistics; layout and colour are checked in the browser.
+`client/tests/unit/home-impact-tiles.test.tsx` cover reordered CMS values,
+unknown statistics and visible labels in accessible names; layout and colour
+are checked in the browser.
 
 The [desktop transition](../assets/home-redesign/purple-cleanup/dashboard-to-mission-desktop.png)
 and [mobile transition](../assets/home-redesign/purple-cleanup/dashboard-to-mission-mobile.png)

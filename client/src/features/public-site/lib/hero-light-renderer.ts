@@ -96,8 +96,7 @@ export function createHeroLightRenderer(canvas: HTMLCanvasElement, hero: HTMLEle
     // Keep ambient motion in real time even when the browser delivers fewer frames.
     elapsed += elapsedDelta;
     const delta = Math.min(elapsedDelta, 0.25);
-    // Follow with a gentle lag, at both high and low frame rates.
-    // Stacking a slow travel cap with a slow strength fade made hover look inert.
+    // Exponential easing keeps cursor tracking responsive across frame rates.
     const ease = 1 - Math.exp(-delta * 1.2);
     currentX += (targetX - currentX) * ease;
     currentY += (targetY - currentY) * ease;

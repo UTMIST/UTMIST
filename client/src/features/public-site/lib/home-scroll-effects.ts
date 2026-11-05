@@ -8,7 +8,7 @@ export function createHomeScrollEffects(root: HTMLElement) {
   const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
   const targets = Array.from(root.querySelectorAll<HTMLElement>("[data-home-reveal]"));
   const groups = Array.from(root.querySelectorAll<HTMLElement>("[data-home-stagger]"));
-  const highlights = Array.from(root.querySelectorAll<HTMLElement>(".home-selection, .home-hero-highlight"));
+  const highlights = Array.from(root.querySelectorAll<HTMLElement>(".home-selection"));
   const highlightProgress = new WeakMap<HTMLElement, number>();
   const finished = new WeakSet<HTMLElement>();
   let stopEffects = () => {};
@@ -76,10 +76,8 @@ export function createHomeScrollEffects(root: HTMLElement) {
     root.addEventListener("focusin", focus);
 
     const stopHighlights = highlights.map((highlight) => {
-      const hero = highlight.closest<HTMLElement>(".home-hero");
       // Track a stable block so inline wrapping and reveal transforms don't alter progress.
-      const target = hero
-        ?? highlight.closest<HTMLElement>(".home-community-statement")
+      const target = highlight.closest<HTMLElement>(".home-community-statement")
         ?? highlight.closest<HTMLElement>("h1, h2, h3, p")
         ?? highlight;
       highlight.style.setProperty("--home-selection-progress", String(highlightProgress.get(highlight) ?? 0));
@@ -88,7 +86,7 @@ export function createHomeScrollEffects(root: HTMLElement) {
         const furthest = Math.max(highlightProgress.get(highlight) ?? 0, progress);
         highlightProgress.set(highlight, furthest);
         highlight.style.setProperty("--home-selection-progress", String(furthest));
-      }, { target, offset: [...(hero ? homeMotion.heroHighlightOffsets : homeMotion.highlightOffsets)] });
+      }, { target, offset: [...homeMotion.highlightOffsets] });
     });
 
     stopEffects = () => {
