@@ -220,8 +220,9 @@ The default venue is OISE at 252 Bloor St W, Toronto, ON M5S 1V6, Canada.
 in all environments. When `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is configured, it
 also renders a lazy-loaded Google Maps preview; without the key, it renders a
 non-blocking fallback instead of taking down the redesign.
-The reusable `EigenAILockup` component includes the UTMIST logo and accepts one
-responsive `fontSize` value. The logo and conference subtitle are sized and
+The reusable `EigenAILockup` component includes the UTMIST logo and accepts a
+responsive `fontSize` and optional `caption`. Its default caption is edition-neutral;
+this page passes `content.lockupCaption` from its event data. The logo and conference subtitle are sized and
 positioned proportionally with `em` units, so every lockup size preserves the
 same relationship between all three elements. Its glass text treatment comes
 from the parallel `EigenAIWordmark` component, which can also appear inline in

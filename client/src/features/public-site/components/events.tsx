@@ -12,9 +12,9 @@ export default function Events() {
       </h1>
 
       <div className="flex flex-col gap-6 px-4 max-w-4xl mx-auto">
-        {homeEvents.map((event, index) => (
+        {homeEvents.map((event) => (
           <EventCard
-            key={index}
+            key={event.id}
             title={event.title}
             description={event.description}
             url={event.url}

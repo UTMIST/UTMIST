@@ -46,6 +46,7 @@ export interface EigenAIVenueDetails {
 }
 
 export interface EigenAIPageContent {
+  lockupCaption?: string;
   dateLabel: string;
   locationLabel?: string;
   ticketUrl?: string;

@@ -590,7 +590,7 @@ export default function EigenAIRedesign({
       <EigenNavigation />
       <HeroSection>
         <h1 className="sr-only">EigenAI Conference</h1>
-        <EigenAILockup fontSize="clamp(4.5rem, 15vw, 10.5rem)" showCursor />
+        <EigenAILockup fontSize="clamp(4.5rem, 15vw, 10.5rem)" caption={content.lockupCaption} showCursor />
         <EigenGlassSurface className="mt-8 flex w-fit max-w-[calc(100vw-2.5rem)] items-center justify-center rounded-full px-4 py-3 text-sm/snug tracking-[-0.01em] sm:mt-10 sm:min-h-11 sm:max-w-full sm:px-8 sm:py-2 sm:text-3xl/none">
           <span className="relative z-1 whitespace-nowrap text-center text-white">
             <span>{content.dateLabel}</span>
@@ -765,7 +765,7 @@ export default function EigenAIRedesign({
           ))}
         </p>
         <div className="mt-8 sm:mt-24">
-          <EigenAILockup fontSize="clamp(3.5rem, 12vw, 5rem)" />
+          <EigenAILockup fontSize="clamp(3.5rem, 12vw, 5rem)" caption={content.lockupCaption} />
         </div>
       </ClosingSection>
 

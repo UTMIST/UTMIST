@@ -1,12 +1,12 @@
 import Image from "next/image";
 
-/** Live text with the decorative editor overlay from Figma 25:1038. */
+/** Selectable community copy with a decorative editor overlay. */
 export default function HomeCommunityStatement() {
   return (
-    <div className="home-community-statement" data-figma-node="25:1038">
+    <div className="home-community-statement">
       <div className="home-community-composition">
         <div className="home-community-meta" aria-hidden="true">
-          <span className="home-community-version">Sample copy | Version 1/2</span>
+          <span className="home-community-caption">Our community, in focus</span>
           <div className="home-community-notes">
             <span className="home-community-note">
               <Image src="/home-redesign/community/review.svg" alt="" width={12.3983} height={12.3983} />
@@ -14,7 +14,7 @@ export default function HomeCommunityStatement() {
             </span>
             <span className="home-community-note">
               <Image src="/home-redesign/community/calendar.svg" alt="" width={8.79878} height={10.0257} />
-              27 October 26
+              Student-led
             </span>
           </div>
         </div>

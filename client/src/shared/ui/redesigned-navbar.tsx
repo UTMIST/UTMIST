@@ -103,12 +103,12 @@ function Navigation({ isHome, signedIn }: { isHome: boolean; signedIn: boolean }
                       {label}<ChevronDown size={13} aria-hidden="true" />
                     </Link>
                   ) : (
-                    <button type="button" data-dropdown-toggle aria-expanded={dropdown === label}
+                    <Button type="button" variant="ghost" size="sm" data-dropdown-toggle aria-expanded={dropdown === label}
                       aria-controls={`${label.toLowerCase()}-navigation-dropdown`}
                       onClick={() => setDropdown((current) => current === label ? null : label)}
-                      className="flex min-h-11 cursor-pointer items-center justify-center gap-1 rounded-full px-3 text-base tracking-tight hover:bg-white/15 lg:px-2 lg:text-sm xl:px-3 xl:text-base">
+                      className="flex h-auto min-h-11 items-center justify-center gap-1 rounded-full px-3 text-base font-normal tracking-tight text-white hover:scale-100 hover:bg-white/15 [&_svg]:size-[13px] lg:px-2 lg:text-sm xl:px-3 xl:text-base">
                       {label}<ChevronDown size={13} aria-hidden="true" />
-                    </button>
+                    </Button>
                   )}
                   <div id={`${label.toLowerCase()}-navigation-dropdown`} hidden={dropdown !== label}
                     className="w-full pt-2 lg:absolute lg:right-0 lg:top-full lg:w-44">

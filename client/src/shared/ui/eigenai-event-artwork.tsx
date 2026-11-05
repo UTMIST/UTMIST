@@ -6,7 +6,7 @@ import { EigenAIConcentricRings } from "./eigenai-concentric-rings";
 import { EigenAILambdaSymbol } from "./eigenai-lambda-symbol";
 import { EigenAILockup } from "./eigenai-lockup";
 
-/** Shared decorative Conference ’26 artwork; the containing card supplies its accessible title. */
+/** Shared conference artwork; the containing card supplies its accessible title. */
 export function EigenAIEventArtwork({ fontSize = "clamp(3.5rem, 9vw, 7.5rem)" }: { fontSize?: CSSProperties["fontSize"] }) {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 isolate overflow-hidden [container-type:inline-size]"
@@ -18,7 +18,7 @@ export function EigenAIEventArtwork({ fontSize = "clamp(3.5rem, 9vw, 7.5rem)" }:
         className="absolute top-[-58%] right-[-18%] z-20 w-[min(72%,34rem)] max-md:top-[-65%] max-md:right-[-24%] max-md:w-[78%]"
         ringClassName="opacity-68 [filter:drop-shadow(0_0_6px_rgb(255_255_255/0.2))_drop-shadow(0_0_20px_rgb(89_224_233/0.2))_saturate(145%)]" />
       <div className="absolute inset-0 z-30 flex items-center justify-center">
-        <EigenAILockup className="relative mx-auto" fontSize={fontSize} />
+        <EigenAILockup className="relative mx-auto" fontSize={fontSize} caption="CONFERENCE" />
       </div>
     </div>
   );

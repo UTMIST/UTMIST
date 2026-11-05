@@ -12,12 +12,14 @@ export type EigenAILockupProps = {
   fontSize: CSSProperties["fontSize"];
   className?: string;
   showCursor?: boolean;
+  caption?: string;
 };
 
 export function EigenAILockup({
   fontSize,
   className = "",
   showCursor = false,
+  caption = "CONFERENCE",
 }: EigenAILockupProps) {
   return (
     <div
@@ -43,7 +45,7 @@ export function EigenAILockup({
         className="font-eigen-body col-start-2 mt-[-3em] w-full bg-clip-text text-right text-[0.153em] leading-none font-normal tracking-[0.22em] whitespace-nowrap text-transparent [text-shadow:0_0.036em_0.036em_#fff,0_0_0.65em_rgb(94_219_231/0.28)]"
         style={{ backgroundImage: eigenAIColorMesh }}
       >
-        CONFERENCE ’26
+        {caption}
       </p>
     </div>
   );

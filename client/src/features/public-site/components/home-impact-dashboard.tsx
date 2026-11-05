@@ -17,9 +17,9 @@ const sidebarIcons = ["folder", "upload", "bookmark", "calendar", "people"];
 
 export default function HomeImpactDashboard({ impact }: { impact: HomeImpactContent }) {
   return (
-    <section aria-labelledby="impact-heading" className="mt-12 sm:mt-20 md:mt-24" data-figma-node="25:1478">
+    <section aria-labelledby="impact-heading" className="mt-12 sm:mt-20 md:mt-24">
       <h2 data-home-reveal id="impact-heading" className="mb-9 text-[clamp(2rem,3vw,3rem)] leading-tight tracking-[-0.05em] md:mb-10">
-        Our footprint this <span className="home-selection">year</span>
+        Our footprint so <span className="home-selection">far</span>
       </h2>
       <div className="home-impact-crop relative overflow-hidden rounded-t-xl">
         <div className="home-impact-dashboard -mb-20 grid grid-cols-1 overflow-hidden rounded-xl border border-black/25 bg-[var(--accent)]/20 pb-28 sm:grid-cols-[64px_minmax(0,1fr)] lg:grid-cols-[80px_minmax(0,1fr)]">

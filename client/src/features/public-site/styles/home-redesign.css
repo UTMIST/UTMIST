@@ -3,7 +3,7 @@
 /* Give Motion's document scroll measurement a positioned container. */
 html:has(.home-redesign) { position: relative; }
 
-/* General-page hero and Frames 93 → 94 → 95 with the site's existing content. */
+/* Scoped homepage palette and presentation. */
 .home-redesign {
   --home-ink: #15026a;
   --home-blue: #020fff;
@@ -145,7 +145,7 @@ html:has(.home-redesign) { position: relative; }
   .home-sponsor-tile:is(:hover, :focus-visible) { transform: none; }
 }
 
-/* Figma 25:1038: scale the editor composition as a unit without rasterizing text. */
+/* Scale the editor composition as a unit while keeping text selectable. */
 .home-community-statement {
   container-type: inline-size;
   width: 100%;
@@ -172,7 +172,7 @@ html:has(.home-redesign) { position: relative; }
   pointer-events: none;
   user-select: none;
 }
-.home-community-version { font-size: 0.304em; color: rgb(0 0 0 / 40%); }
+.home-community-caption { font-size: 0.304em; color: rgb(0 0 0 / 40%); }
 .home-community-notes { display: flex; gap: 0.127em; }
 .home-community-note {
   display: flex;
@@ -228,7 +228,7 @@ html:has(.home-redesign) { position: relative; }
 .home-community-refine { width: 3.513em; gap: 0.17em; border: 2px solid #370dfb; }
 .home-community-refine span { font-size: 0.304em; }
 
-/* Figma fades the glyphs horizontally while the selection remains crisp. */
+/* Fade the glyphs horizontally while keeping the selection crisp. */
 .home-community-text,
 .home-community-selected-text {
   background-clip: text;
@@ -291,7 +291,7 @@ html:has(.home-redesign) { position: relative; }
   }
 }
 
-/* The dashboard extends beyond the section, as in Figma Frame 93. */
+/* Crop only the decorative bottom of the dashboard. */
 .home-impact-crop::after {
   content: "";
   position: absolute;

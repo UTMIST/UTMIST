@@ -16,7 +16,7 @@ Each item enters independently, so long grids still reveal as you scroll on phon
 All selection-style highlights (`.home-selection` and `.home-hero-highlight`)
 fill from left to right on scroll down and unwind on scroll up. The hero's
 “University of Toronto” fills during the first 30vh of scrolling. The dashboard's
-“year,” the events heading's “flagship,” and the community statement's selected
+“far,” the events heading's “flagship,” and the community statement's selected
 phrase share the same viewport timing: from their heading or statement reaching
 85% of the viewport to its midpoint reaching 55%. Each highlight tracks its own
 progress through the common controller and offsets in `home-motion.ts`.

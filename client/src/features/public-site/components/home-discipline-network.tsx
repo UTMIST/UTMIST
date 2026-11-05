@@ -164,7 +164,7 @@ export default function HomeDisciplineNetwork() {
         }
       }}>
       <p id={instructionsId} className="sr-only">Select a discipline to send a highlight through the network. Select it again or press Escape to clear the selection.</p>
-      <div className="home-discipline-canvas" data-figma-node="25:1782">
+      <div className="home-discipline-canvas">
         {(["desktop", "mobile"] as const).map((layout) => (
           <svg key={layout} className={`home-discipline-lines home-discipline-lines-${layout}`} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             {paths.map((path) => (

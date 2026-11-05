@@ -1,71 +1,37 @@
-# Navbar Component Documentation
+# Navbar
 
-## Overview
-The Navbar component is a responsive navigation bar for the UTMIST website, featuring the organization's logo, main navigation links, and a login button.
+`Navbar`, exported from `@/shared/ui/client`, selects the legacy or redesigned
+navigation through its `redesignEnabled` prop. The frontend layout supplies the
+server-evaluated `Web-Redesign` decision. The EigenAI route family has its own
+navigation. Login links to `/auth`; signed-in visitors see Profile instead.
 
-## Dependencies
-- `next/image`
-- `navbar.css`
-- `gradients.css`
-- SVG logo asset
-
-## Structure
-```
-Navbar
-├── Logo Section (left)
-├── Navigation Links (center)
-└── Login Button (far right)
-```
-
-## Usage
 ```tsx
-import { Navbar } from '@/shared/ui/client';
+import { Navbar } from "@/shared/ui/client";
 
-function Layout() {
-  return (
-    <div>
-      <Navbar />
-      {/* Page content */}
-    </div>
-  );
-}
+<Navbar redesignEnabled={redesignEnabled} />
 ```
 
-## Navigation Links
-- Projects
-- About Us
-- Sponsors
-- Events
-- Careers
-- Programs (MISTic R&D and MLF)
-- EigenAI
+## Redesigned navigation
 
-The EigenAI link is always available after rollout retirement. The navbar has
-no flag prop or provider dependency. Login changes to Profile for a signed-in
-visitor.
+`shared/ui/redesigned-navbar.tsx` overlays the homepage and uses a dark background
+on other routes. Equal outer grid columns keep desktop links centered between
+the logo and account action. Below the desktop breakpoint, a shared `Button`
+opens a scrollable disclosure; Login/Profile remains inside that disclosure.
 
-At widths up to 768px, links appear in the mobile menu. The menu locks body
-scrolling while open and restores the previous overflow style on dismissal or
-unmount. Cleanup on unmount matters when browser history returns to EigenAI,
-whose page supplies its own navigation. From 769px through 1024px, tighter link
-spacing keeps EigenAI and Login/Profile on one row.
+Events and its chevron are one link to `/events`. Hover, keyboard focus, or
+ArrowDown reveals EigenAI. On touch, the first tap reveals the submenu and the
+next follows Events. Programs uses a shared `Button` to reveal MISTic R&D and MLF.
+Only one submenu opens at a time. Escape closes the submenu and restores its
+trigger's focus, or closes the main disclosure and focuses the menu toggle.
+Navigation and pathname changes dismiss open menus.
 
-`client/tests/unit/navbar.test.tsx` covers the promotion, Programs menu, and
-scroll-lock cleanup.
+## Legacy navigation
 
-## Styling
-- Uses Tailwind CSS utility classes for layout
-- Custom CSS classes:
-  - `navbar-container`: Main container styles
-  - `navbar-logo-text`: Gradient text effect for logo
-  - `nav-item`: Navigation link styles
-  - `nav-button`: Login button styles
+The legacy navbar keeps its original layout and direct EigenAI link. Its mobile
+menu locks body scrolling while open, restoring the previous overflow on
+close or unmount. Programs supports hover and click disclosure.
 
-## Notes
-- Logo dimensions are fixed at 32x32 pixels
-- Navigation links use relative paths
-- Layout is horizontally distributed using flexbox
-- Custom gradient effects are imported from `gradients.css`
-
-## File Location
-`client/src/shared/ui/navbar.tsx`
+Tests in `navbar.test.tsx` and `pages/redesigned-navbar.test.tsx` cover both
+layouts, destinations, authentication state, menu interactions, route changes,
+and focus/scroll cleanup. Keep menu controls native buttons and destinations
+links, and preserve their accessible names and expanded states.

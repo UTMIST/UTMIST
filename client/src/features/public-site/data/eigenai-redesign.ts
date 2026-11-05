@@ -261,6 +261,7 @@ const sponsors: EigenAISponsor[] = [
 ];
 
 export const eigenAIContent: EigenAIPageContent = {
+  lockupCaption: "CONFERENCE ’26",
   dateLabel: "October 3rd & 4th",
   locationLabel: "OISE",
   ticketUrl: eigenAITicketUrl,
