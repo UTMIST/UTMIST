@@ -26,7 +26,7 @@ export default function Footer({ variant = "legacy" }: { variant?: "legacy" | "s
         <Image src={logo} alt="UTMIST Logo" width={32} height={32} />
         <span className="navbar-logo-text">UTMIST</span>
       </div>
-      <ul className="footer-socials flex items-center space-x-4">
+      <ul className="footer-socials">
         {socials.map(({ name, href, icon }) => (
           <li key={name}>
             {variant === "standard" ? (

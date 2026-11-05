@@ -5,10 +5,11 @@ import modalMark from "@/assets/logos/modal-mark.png";
 import { CardLink } from "@/shared/ui";
 import { homeSponsors } from "@/features/public-site/data/home-sponsors";
 
-// Leave deliberate gaps between logos rather than filling the grid sequentially.
+// Desktop and tablet layouts leave deliberate gaps between logos.
 const slots = [0, 2, 4, 6, 9, 10, 13, 15, 17, 19, 20, 22, 24, 26, 28, 31, 33, 35, 37];
-const mobileSlots = [0, 2, 4, 5, 7, 9, 10, 12, 14, 15, 17, 18, 20, 21, 23, 25, 26, 28, 29];
-const mobileEmptySlots = Array.from({ length: 30 }, (_, index) => index).filter((index) => !mobileSlots.includes(index));
+// Larger phone tiles keep wordmarks readable; center the final sponsor.
+const mobileSlots = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19];
+const mobileEmptySlots = Array.from({ length: 21 }, (_, index) => index).filter((index) => !mobileSlots.includes(index));
 
 type LogoArtwork = {
   ratio: number;
@@ -52,26 +53,26 @@ export default function SponsorMosaic() {
 
   return (
     <div data-home-stagger="diagonal" className="home-sponsor-mosaic" role="group" aria-label="Our sponsors">
-      <div className="grid grid-cols-5 gap-2 sm:grid-cols-7 lg:grid-cols-8">
+      <div className="grid grid-cols-3 gap-2 sm:grid-cols-7 lg:grid-cols-8">
         {Array.from({ length: cellCount }, (_, index) => {
           const sponsor = sponsorsByCell.get(index);
           const mobileCell = sponsor ? mobileSlots[arrangedSponsors.indexOf(sponsor)] : mobileEmptySlots[emptyCell++];
           const position = mobileCell === undefined ? undefined : {
-            "--sponsor-column": mobileCell % 5 + 1,
-            "--sponsor-row": Math.floor(mobileCell / 5) + 1,
+            "--sponsor-column": mobileCell % 3 + 1,
+            "--sponsor-row": Math.floor(mobileCell / 3) + 1,
           } as CSSProperties;
           if (!sponsor) {
-            return <div key={index} aria-hidden="true" style={position} className={`home-sponsor-cell aspect-square ${mobileCell === undefined ? "hidden sm:block" : ""}`} />;
+            return <div key={index} aria-hidden="true" style={position} className={`home-sponsor-cell aspect-[4/3] sm:aspect-square ${mobileCell === undefined ? "hidden sm:block" : ""}`} />;
           }
           const artwork = logoArtwork[sponsor.alt] ?? { ratio: 2 };
           const [left, top, width, height] = artwork.bounds ?? [0, 0, 1, 1];
           const visibleRatio = artwork.ratio * width / height;
           return (
             <CardLink variant="raised" data-home-reveal key={sponsor.link} href={sponsor.link} style={position}
-              className="home-sponsor-cell home-sponsor-tile relative flex aspect-square min-w-0 items-center justify-center">
+              className="home-sponsor-cell home-sponsor-tile relative flex aspect-[4/3] min-w-0 items-center justify-center sm:aspect-square">
                 <span className="relative block overflow-hidden" style={{ aspectRatio: visibleRatio, width: `${Math.min(82, 58 * visibleRatio)}%` }}>
                   <Image src={artwork.src ?? sponsor.src} alt={sponsor.alt} width={300} height={Math.round(300 / artwork.ratio)}
-                    sizes="(min-width: 1024px) 80px, (min-width: 640px) 14vw, 20vw"
+                    sizes="(min-width: 1024px) 80px, (min-width: 640px) 14vw, 33vw"
                     className="absolute max-w-none"
                     style={{ width: `${100 / width}%`, height: `${100 / height}%`, left: `${-100 * left / width}%`, top: `${-100 * top / height}%` }} />
                 </span>

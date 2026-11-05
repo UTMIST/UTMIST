@@ -4,7 +4,7 @@ import HomeImpactTiles from "@/features/public-site/components/home-impact-tiles
 import { homeImpactContent } from "@/features/public-site/data/home-impact";
 
 it("keeps each statistic linked to its destination when CMS rows are reordered", () => {
-  const destinations = ["/careers", "/projects", "/sponsors", "/ml-fundamentals", "/blog", "/projects"];
+  const destinations = ["/careers", "/projects", "/sponsors", "/ml-fundamentals", "https://medium.com/demistify", "/projects"];
   const statistics = homeImpactContent.statistics.map((stat, index) => ({ ...stat, number: String(101 + index) }));
   const view = render(<HomeImpactTiles impact={{ ...homeImpactContent, statistics }} />);
 

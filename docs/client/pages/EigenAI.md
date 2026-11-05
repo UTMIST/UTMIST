@@ -9,7 +9,7 @@ provider availability.
 - Route shell: `client/src/app/(frontend)/eigenai/page.tsx` — re-exports the
   feature page and static `metadata`.
 - Feature entry: `client/src/features/public-site/pages/eigenai.tsx` — defines
-  metadata and re-exports the launched page.
+  metadata and renders the launched view through a route-compatible, no-prop wrapper.
 - Presentation: `client/src/features/public-site/pages/eigenaiRedesign.tsx`.
 
 The page supplies its own navigation and footer. The frontend layout suppresses

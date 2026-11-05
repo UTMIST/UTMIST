@@ -163,6 +163,7 @@ html:has(.home-redesign) { position: relative; }
 
 /* Scale the editor composition as a unit while keeping text selectable. */
 .home-community-statement {
+  display: none;
   container-type: inline-size;
   width: 100%;
   max-width: 689.396px;
@@ -204,16 +205,38 @@ html:has(.home-redesign) { position: relative; }
 }
 .home-community-note img { max-width: 1.29em; max-height: 1.29em; }
 .home-community-copy { position: relative; }
-.home-community-guide {
+.home-community-stream {
+  --home-stream-width: calc((100vw - 100cqw) / 2 + 2rem);
   position: absolute;
-  top: 2.917em;
+  top: 3.65em;
+  /* Span the side gutter and overscan the viewport edge, tapering into the copy. */
+  width: var(--home-stream-width);
   max-width: none;
+  height: 5em;
+  fill: var(--secondary);
   pointer-events: none;
-  width: 100%;
-  border-top: 1px dashed color-mix(in srgb, var(--secondary) 45%, transparent);
 }
-.home-community-guide-left { right: 100%; }
-.home-community-guide-right { left: 100%; }
+.home-community-stream-left {
+  right: calc(100% + 0.15em);
+  transform: translateY(-55%);
+}
+.home-community-stream-right {
+  left: calc(100% + 0.15em);
+  transform: translateY(-55%) scaleX(-1);
+}
+
+.home-community-misty {
+  position: absolute;
+  top: 3.85em;
+  right: calc(100% + clamp(3rem, (100vw - 100cqw) * 0.09, 7rem));
+  width: clamp(6rem, (100vw - 100cqw) * 0.3, 15rem);
+  height: auto;
+  max-width: none;
+  transform: translateY(-88%) rotate(12deg);
+  transform-origin: 50% 88%;
+  pointer-events: none;
+  user-select: none;
+}
 
 .home-community-toolbar {
   position: absolute;
@@ -286,20 +309,14 @@ html:has(.home-redesign) { position: relative; }
   );
 }
 
-@media (max-width: 639px) {
-  /* Reflow the live copy on phones instead of shrinking an entire desktop editor. */
-  .home-community-statement { width: calc(100% - 16px); }
-  .home-community-composition { font-size: clamp(1.75rem, 7.8vw, 2.5rem); transform: rotate(2deg); }
-  .home-community-meta,
-  .home-community-toolbar,
-  .home-community-guide { display: none; }
-  .home-community-text { line-height: 1.18; }
-  .home-community-line,
-  .home-community-selection { display: inline; width: auto; white-space: normal; }
-  .home-community-text,
-  .home-community-selected-text {
-    background-image: linear-gradient(95deg, color-mix(in srgb, var(--secondary) 72%, white), var(--secondary) 35%, var(--secondary) 75%, color-mix(in srgb, var(--secondary) 72%, white));
-  }
+@media (min-width: 1280px) {
+  /* The full editor and its side artwork need room beside the 689px copy. */
+  .home-community-statement { display: block; }
+}
+
+@media (width < 1280px) {
+  /* Replace the hidden composition with the normal gap between content blocks. */
+  .home-community-statement + .ui-section-heading { margin-top: var(--ui-section-gap); }
 }
 
 @media (forced-colors: active) {
@@ -422,7 +439,7 @@ html:has(.home-redesign) { position: relative; }
 .home-discipline-button[data-active="true"] svg { color: currentColor; }
 .home-discipline-wave-node {
   position: absolute;
-  /* Follow the button's border box; this layer casts light without another stroke. */
+  /* Light the filled capsule and its halo without adding another stroke. */
   inset: -2px;
   border-radius: inherit;
 }
@@ -430,13 +447,17 @@ html:has(.home-redesign) { position: relative; }
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: 0 0 18px color-mix(in srgb, var(--home-cyan) 35%, transparent);
+  background: linear-gradient(115deg, color-mix(in srgb, var(--home-cyan) 16%, transparent), color-mix(in srgb, var(--home-lilac) 12%, transparent));
+  box-shadow: 0 0 18px color-mix(in srgb, var(--home-cyan) 35%, transparent), inset 0 0 12px color-mix(in srgb, var(--home-cyan) 12%, transparent);
   opacity: .5;
   animation: discipline-pill-spread var(--home-wave-spread, 1100ms) var(--home-motion-ease, ease-out) var(--wave-delay) both;
 }
 @keyframes discipline-pill-spread {
   0% { opacity: 0; }
-  35% { opacity: 1; }
+  35% {
+    opacity: 1;
+    box-shadow: 0 0 26px color-mix(in srgb, var(--home-cyan) 55%, transparent), inset 0 0 12px color-mix(in srgb, var(--home-cyan) 20%, transparent);
+  }
   100% { opacity: .5; }
 }
 .home-discipline-network .home-discipline-button:focus-visible {
@@ -468,14 +489,25 @@ html:has(.home-redesign) { position: relative; }
   }
 }
 
-/* Full discipline names remain on one line without shrinking the type. */
+/* Wrap full names into two columns instead of a screen-long single column. */
 @container (max-width: 440px) {
-  .home-discipline-canvas { height: 816px; }
+  .home-discipline-canvas { height: 480px; }
   .home-discipline-lines-mobile { display: none; }
   .home-discipline-lines-narrow { display: block; }
   .home-discipline-button {
     left: var(--discipline-narrow-x);
     top: var(--discipline-narrow-y);
+    width: calc(50% - 12px);
+    height: 64px;
+    min-height: 64px;
+    gap: 6px;
+    padding: 8px;
+    white-space: normal;
+    line-height: 18px;
+  }
+  .home-discipline-button > span:last-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .home-discipline-connection-detail {
     left: var(--connection-narrow-x);

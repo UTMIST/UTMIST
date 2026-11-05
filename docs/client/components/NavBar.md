@@ -19,6 +19,8 @@ the logo and account action. The shared
 [ContentContainer](ContentContainer.md) aligns it with homepage section gutters.
 Below the desktop breakpoint, a shared dark-tone `IconButton`
 opens a scrollable disclosure; Login/Profile remains inside that disclosure.
+Login/Profile matches the navigation labels' responsive type size and letter
+spacing, and its desktop height includes the pill's two 1px borders.
 
 The desktop pill, Login/Profile button, mobile disclosure, and dropdown borders
 derive `--nav-edge` from the shared neutral `--gray1` token. The outlines stay

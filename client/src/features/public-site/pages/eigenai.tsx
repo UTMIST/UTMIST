@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import conferencePhoto from "@/assets/photos/eigenai-conference.webp";
+import EigenAIRedesign from "@/features/public-site/pages/eigenaiRedesign";
 
-export { default } from "@/features/public-site/pages/eigenaiRedesign";
+// Keep the view's optional content prop outside Next.js's route-page contract.
+export default function EigenAIPage() {
+  return <EigenAIRedesign />;
+}
 
 const title = "EigenAI 2026 | UTMIST";
 const description =

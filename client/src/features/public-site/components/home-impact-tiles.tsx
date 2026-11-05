@@ -10,7 +10,7 @@ const statisticPresentation = {
   "AI/ML projects completed": { title: "AI/ML Projects", icon: Code2, href: "/projects" },
   "industry partners and collaborations": { title: "Industry Partners", icon: BriefcaseBusiness, href: "/sponsors" },
   "academic workshops conducted": { title: "Academic Workshops", icon: GraduationCap, href: "/ml-fundamentals" },
-  "articles and notebooks published": { title: "Articles & Notebooks", icon: BookOpen, href: "/blog" },
+  "articles and notebooks published": { title: "Articles & Notebooks", icon: BookOpen, href: "https://medium.com/demistify" },
   "papers published in top-tier conferences": { title: "Research Papers", icon: FlaskConical, href: "/projects" },
 } satisfies Record<string, { title: string; icon: typeof Users; href: string }>;
 

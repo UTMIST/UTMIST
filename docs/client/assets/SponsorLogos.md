@@ -27,5 +27,7 @@ the shared sponsor data for the legacy layout.
 Bounds crop excess file padding for display without stretching the artwork.
 When adding a sponsor, check its scale beside wide and tall logos, its hover and
 focus contrast, alphabetical ordering, and its position at each breakpoint.
-Retain the unpainted empty cells for spacing. Only occupied cells have a visible
+Phone tiles use three columns and a 4:3 frame to enlarge wordmarks; the final
+sponsor is centered. Retain the unpainted empty cells for spacing on tablets
+and desktops, where tiles stay square. Only occupied cells have a visible
 tile surface; hover and keyboard focus add the light accent fill and indigo edge.

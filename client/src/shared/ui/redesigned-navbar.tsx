@@ -125,7 +125,7 @@ function Navigation({ isHome, signedIn }: { isHome: boolean; signedIn: boolean }
                   className="flex min-h-11 items-center rounded-full px-3 py-2.5 text-base tracking-tight lg:py-2 hover:bg-white/15 lg:px-2 lg:text-sm xl:px-3 xl:text-base">{label}</Link>
               ))}
             </div>
-            <Button asChild variant="outline" size="lg" className="h-11 min-w-24 rounded-full border-[var(--nav-edge)] bg-white/20 px-6 text-base font-normal text-white backdrop-blur-xl hover:scale-100 hover:border-white hover:bg-white/30 lg:justify-self-end">
+            <Button asChild variant="outline" size="lg" className="h-11 min-w-24 rounded-full border-[var(--nav-edge)] bg-white/20 px-6 text-base font-normal tracking-tight text-white backdrop-blur-xl hover:scale-100 hover:border-white hover:bg-white/30 lg:h-[calc(--spacing(11)+2px)] lg:justify-self-end lg:text-sm xl:text-base">
               <Link href={signedIn ? "/profile" : "/auth"} onClick={closeMenus}>{signedIn ? "Profile" : "Login"}</Link>
             </Button>
           </div>

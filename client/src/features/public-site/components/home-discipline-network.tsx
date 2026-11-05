@@ -41,7 +41,7 @@ const connections: ReadonlyArray<readonly [DisciplineId, DisciplineId]> = [
 const positions = new Map(disciplines.map((discipline, index) => [discipline.id, {
   desktop: { x: discipline.x, y: discipline.y },
   mobile: { x: index % 2 === 0 ? 25 : 75, y: (Math.floor(index / 2) + 0.5) * 100 / 6 },
-  narrow: { x: index % 2 === 0 ? 40 : 60, y: (index + 0.5) * 100 / disciplines.length },
+  narrow: { x: index % 2 === 0 ? 25 : 75, y: (Math.floor(index / 2) + 0.5) * 100 / 6 },
 }]));
 
 function connectionPath(from: { x: number; y: number }, to: { x: number; y: number }) {
@@ -139,7 +139,9 @@ function networkReducer(state: NetworkState, action: NetworkAction): NetworkStat
     next.focused = null;
   }
   const active = next.hovered ?? next.focused ?? next.selected;
-  if (active && active !== (state.hovered ?? state.focused ?? state.selected)) {
+  // Pinning an already-previewed pill should flash again on click/Enter/Space.
+  const pinned = action.type === "select" && next.selected === action.id;
+  if (active && (active !== (state.hovered ?? state.focused ?? state.selected) || pinned)) {
     next.waveOrigin = active;
     next.waveSequence += 1;
   }

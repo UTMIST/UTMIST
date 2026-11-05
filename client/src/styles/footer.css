@@ -19,13 +19,10 @@
     display: flex;
     align-items: center;
     justify-content: center; 
-    margin-top: 1rem;
-    margin-bottom: 0.9rem; 
-    width: 36px; 
-    height: 36px; 
+    width: 44px;
+    height: 44px;
     padding: 0;
     background-color: var(--muted); 
-    border: 1px solid var(--border);
     border-radius: 50%;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
@@ -36,6 +33,8 @@
     justify-content: center;
     width: 100%;
     height: 100%;
+    border: 1px solid var(--border);
+    border-radius: inherit;
 }
 
 .footer-logo-container img {
@@ -54,6 +53,11 @@
 }
 
 .bug-report-link {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    padding-inline: 12px;
+    border-radius: 999px;
     font-size: 0.75rem;
     color: var(--muted-foreground);
     text-decoration: none;
@@ -67,32 +71,27 @@
 .footer-line {
     width: 90%;
     height: 5px;
-    background: var(--gradient-line-1), var(--gradient-line-2); /* Set the color of the line */
-    margin: 0.5rem 0; /* Optional: Add some margin for spacing */
+    background: var(--gradient-line-1), var(--gradient-line-2);
+    margin: 0.5rem 0;
 }
 
-/* The component owns its standard appearance; legacy pages keep their layout. */
+/* Both appearances keep touch targets usable on narrow phones. */
 .footer-container[data-appearance="standard"] {
     padding-block: calc(var(--ui-section-gap) / 2);
     font-family: var(--font-eigen-body);
 }
-.footer-container[data-appearance="standard"] .footer-socials {
+.footer-container .footer-socials {
     display: grid;
     grid-template-columns: repeat(6, 44px);
     gap: 8px;
     margin-block: 20px 12px;
 }
-.footer-container[data-appearance="standard"] .footer-socials > li { margin: 0; }
+.footer-container .footer-socials > li { margin: 0; }
 .footer-container[data-appearance="standard"] .bug-report-link {
-    display: inline-flex;
-    min-height: 44px;
-    align-items: center;
-    padding-inline: 12px;
-    border-radius: 999px;
     font-size: 14px;
 }
 @media (max-width: 359px) {
-    .footer-container[data-appearance="standard"] .footer-socials {
+    .footer-container .footer-socials {
         grid-template-columns: repeat(3, 44px);
         gap: 12px;
     }

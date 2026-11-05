@@ -109,7 +109,7 @@ export default async function RedesignedHome() {
           title={<>Ready to build<br />the future?</>} description={homeContent.startups}>
           <PillLink href="/startups">Learn more</PillLink>
         </SectionIntro>
-        <div data-home-stagger="row" className="grid grid-cols-2 gap-x-6 gap-y-9">
+        <div data-home-stagger="row" className="grid grid-cols-1 gap-x-6 gap-y-9 min-[375px]:grid-cols-2">
           {[
             ["Funding", "Access to capital and investment opportunities to scale your AI startup"],
             ["Users", "Connect with early adopters and build your user base through our network"],

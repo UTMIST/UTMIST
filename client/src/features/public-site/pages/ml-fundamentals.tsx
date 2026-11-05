@@ -412,19 +412,19 @@ function ScheduleSection({ weekData, onOpenModal }: ScheduleSectionProps) {
               <div className="flex gap-2 mt-4">
                 <button 
                   onClick={() => onOpenModal(week.weekNumber, 'slides')}
-                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                  className="min-h-11 flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Slides
                 </button>
                 <button 
                   onClick={() => onOpenModal(week.weekNumber, 'recording')}
-                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                  className="min-h-11 flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Recording
                 </button>
                 <button 
                   onClick={() => onOpenModal(week.weekNumber, 'code')}
-                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                  className="min-h-11 flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Code
                 </button>
@@ -467,14 +467,14 @@ function ProjectsSection({ weekData, onOpenModal }: ProjectsSectionProps) {
               <div className="flex gap-2 mt-4">
                 <button 
                   onClick={() => onOpenModal(week.weekNumber, 'slides', true)}
-                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                  className="min-h-11 flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Slides
                 </button>
                 {week.hasRecording !== false && (
                   <button 
                     onClick={() => onOpenModal(week.weekNumber, 'recording', true)}
-                    className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                    className="min-h-11 flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                   >
                     Recording
                   </button>
@@ -482,7 +482,7 @@ function ProjectsSection({ weekData, onOpenModal }: ProjectsSectionProps) {
                 {week.hasCode !== false && (
                   <button 
                     onClick={() => onOpenModal(week.weekNumber, 'code', true)}
-                    className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                    className="min-h-11 flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                   >
                     Code
                   </button>

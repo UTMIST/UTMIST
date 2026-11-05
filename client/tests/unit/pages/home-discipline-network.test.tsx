@@ -56,6 +56,26 @@ it("previews connections without changing a pinned selection and toggles it off 
   expect(first).toHaveAttribute("data-active", "false");
 });
 
+it("restarts the flash when pinning a hovered pill while preserving button focus", async () => {
+  const user = userEvent.setup();
+  render(<HomeDisciplineNetwork />);
+  const business = screen.getByRole("button", { name: "Business" });
+
+  await user.hover(business);
+  const previewGlow = business.querySelector(".home-discipline-wave-glow");
+  expect(previewGlow).not.toBeNull();
+  await user.click(business);
+
+  // Remounting the decoration restarts its CSS flash; the control stays mounted.
+  expect(business.querySelector(".home-discipline-wave-glow")).not.toBe(previewGlow);
+  expect(business).toHaveFocus();
+  expect(business).toHaveAttribute("aria-pressed", "true");
+  const pinnedGlow = business.querySelector(".home-discipline-wave-glow");
+  await user.click(business);
+  expect(business).toHaveAttribute("aria-pressed", "false");
+  expect(business.querySelector(".home-discipline-wave-glow")).toBe(pinnedGlow);
+});
+
 it("plays an entrance wave without selecting a discipline, then releases it", () => {
   jest.useFakeTimers();
   render(<HomeDisciplineNetwork />);

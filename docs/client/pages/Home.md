@@ -16,7 +16,7 @@ defaults Off and fails closed; refresh after changing its value. See
 | `data/home-sponsors.ts` | Sponsor logos and destinations |
 | `data/home-faq.ts` | Questions and answers shared by both layouts |
 | `lib/home-impact.ts` | Typed impact introduction and statistics |
-| `components/home-impact-tiles.tsx` | Linked statistic tiles in a complete dashboard frame inside the white About section |
+| `components/home-impact-tiles.tsx` | Linked statistic tiles in a dashboard frame cropped at the mission section |
 | `pages/home-redesign.tsx` | Section composition and homepage-specific marketing copy |
 
 The impact reader supplies the hero's first three statistics and all impact
@@ -86,7 +86,7 @@ words use 700 weight. FAQ questions use 16 / 18 / 18px at 500 weight.
 
 White sections use `--foreground`, `--muted-foreground`, and UTMIST's
 `--secondary` indigo (`#1e19b1`). Borders and soft accents derive from that
-indigo. Community text, selection handles, guides and toolbar accents share it.
+indigo. Community text, selection handles, streams and toolbar accents share it.
 The hero uses the `home-dark` colour context: white text, softened white body
 copy and lilac labels. About's introduction and impact content use a white
 surface, dark headings, muted body copy, indigo labels and light-tone CTAs.
@@ -141,7 +141,10 @@ so time spent paused or offscreen does not advance the animation.
 Listeners, observers, and GPU resources are released on unmount.
 
 The sponsor mosaic sorts names alphabetically and leaves deliberate empty
-cells. It uses eight columns on desktop, seven on tablets, and five on phones.
+cells on tablets and desktops. It uses eight columns on desktop, seven on tablets,
+and three on phones. Phone tiles use a wider 4:3 frame and center the final logo,
+so wordmarks remain readable without adding rows of empty cells. Tablet and desktop
+tiles remain square.
 Occupied tiles use white backgrounds, indigo borders and soft shadows; logos are not
 recoloured. Modal uses its official standalone symbol. Artwork bounds remove
 excess file padding without changing aspect
@@ -173,7 +176,7 @@ a full-tile Next.js link:
 | AI/ML Projects | `/projects` |
 | Industry Partners | `/sponsors` |
 | Academic Workshops | `/ml-fundamentals` |
-| Articles & Notebooks | `/blog` |
+| Articles & Notebooks | [DeMISTify on Medium](https://medium.com/demistify) (opens in a new tab) |
 | Research Papers | `/projects` (the existing projects and research catalogue) |
 
 Unknown CMS statistics keep their generic icon and full description without an
@@ -197,25 +200,38 @@ Connection midpoints carry short lilac dashes with small cyan junction dots.
 These decorative details track each responsive path layout, stay a fixed pixel
 size and sit behind the pills without intercepting input or adding motion.
 Each pill has one 2px border. Active pills turn that border cyan; the travelling
-wave pulses only a soft exterior glow, with no second stroke or inset highlight.
+wave flashes a cyan/lilac tint across the filled capsule and blooms its soft halo,
+then settles back. A blurred inner light adds brightness without a second stroke.
+Pinning a hovered or focused pill restarts the flash on click, Enter or Space.
 Keyboard focus thickens the same edge to 3px with an overlapping cyan outline,
 so the opaque fill reaches a single continuous border in every state.
-Capsules are 56px high, with 13px regular-weight,
-single-line labels and 16px icons. Width follows the label, giving the graph
-varied silhouettes.
+Capsules use 13px regular-weight labels and 16px icons. Above a 440px container
+width they are 56px high, with single-line labels and widths that follow the label,
+giving the graph varied silhouettes.
 Brighter active nodes, a cyan ring and travelling cyan waves provide emphasis
 on interaction. The
 network's twelve buttons preview connections on hover/focus and pin a selection
 on click, Enter, or Space. Selecting the same pill or pressing Escape clears it.
 `aria-pressed` exposes the pinned state. At or below a 620px container width the
 network uses two columns and six rows in a 528px canvas; the wider canvas is 400px
-high. At or below 440px, nodes stagger vertically in an 816px canvas so full names
-stay on one line at the same font size. Each layout has matching connection and
+high. At or below 440px, the two-column layout uses a compact 480px canvas with
+64px-high buttons. Full names wrap within each button at the same font size;
+no discipline is hidden or abbreviated. Each layout has matching connection and
 wave paths; the buttons, focus order and selected state are shared across layouts.
 
+MISTic R&D's four benefit descriptions stack below 375px so narrow phones have
+comfortable reading widths; larger screens retain the two-column benefit grid.
+
 The community statement is selectable HTML with decorative editor annotations,
-edge fading, and selection handles. Its composition scales on tablets and
-reflows on phones, where small annotations are hidden. Decorative layers are
+edge fading, and selection handles. Clean indigo streaks enter from both viewport
+edges and taper toward the highlighted phrase. Their 5em height adds dark colour
+without crossing the text. A lighter trailing stroke follows each streak;
+both follow the composition's tilt and scale to the side gutters.
+Misty rides the left streak with an indigo paintbrush, scaling with the side gutter.
+The current generated illustration is a temporary stand-in to replace with approved artwork.
+The entire community composition is hidden below 1280px, where the text, editor
+annotations and side artwork become cramped. The events introduction then leads
+directly into flagship events with the standard section gap. Decorative layers are
 excluded from keyboard navigation and the accessibility tree. Forced-colour
 mode restores system text colours.
 
@@ -251,6 +267,8 @@ is the visual reference. Local exports live under `public/home-redesign/` and
 `public/redesign/`. Photos come from existing site assets, except the CUCAI image
 from its [official gallery](https://cucai.ca/) ([source](https://cucai.ca/gallery3.png)).
 The page renders live components rather than screenshots of controls or text.
+The [Misty illustration notes](../assets/home-redesign/misty-painting.md) record
+the reference, generation prompt, and transparent asset used on the left community streak.
 
 [Desktop](../assets/home-redesign/desktop.jpg) and
 [mobile](../assets/home-redesign/mobile.jpg) captures show completed motion states.

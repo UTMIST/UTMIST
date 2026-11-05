@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-/** Selectable community copy with a decorative editor overlay. */
+/** Desktop community copy with decorative editor controls and paint streaks. */
 export default function HomeCommunityStatement() {
   return (
     <div className="home-community-statement">
@@ -20,8 +20,25 @@ export default function HomeCommunityStatement() {
         </div>
 
         <div className="home-community-copy">
-          <span aria-hidden="true" className="home-community-guide home-community-guide-left" />
-          <span aria-hidden="true" className="home-community-guide home-community-guide-right" />
+          {(["left", "right"] as const).map(side => (
+            <svg key={side} aria-hidden="true" focusable="false" viewBox="0 0 600 160" preserveAspectRatio="none"
+              className={`home-community-stream home-community-stream-${side}`}>
+              <path d="M0 18C90 0 178 26 260 66C340 104 416 100 478 89C530 80 568 82 600 88C558 93 540 109 488 122C407 144 343 152 254 130C165 107 93 95 0 116Z" />
+              <path opacity=".3" d="M0 131C135 106 196 146 275 149C340 151 407 131 458 125C376 154 338 166 265 159C165 149 95 133 0 147Z" />
+            </svg>
+          ))}
+
+          {/* TODO: Replace this generated stand-in with approved Misty artwork. See docs/client/assets/home-redesign/misty-painting.md. */}
+          <Image
+            src="/home-redesign/community/misty-painting.png"
+            alt=""
+            aria-hidden="true"
+            width={1254}
+            height={1254}
+            sizes="(min-width: 1490px) 240px, (min-width: 1280px) calc(30vw - 207px), 1px"
+            className="home-community-misty"
+            draggable={false}
+          />
 
           <div className="home-community-toolbar" aria-hidden="true">
             <span className="home-community-tool home-community-tool-icon">
