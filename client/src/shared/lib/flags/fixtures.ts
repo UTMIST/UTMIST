@@ -40,6 +40,7 @@ const COHORT_RANK: Record<Cohort, number> = {
 const DEFAULT_FLAGS: Readonly<Record<string, FixtureFlag>> = {
   showDemoBanner: { enabled: true },
   "CMS-Access": { enabled: false },
+  "Web-Redesign": { enabled: false },
   betaFeature: { enabled: true, minCohort: "member" },
   disabledExample: { enabled: false },
 };

@@ -9,6 +9,9 @@ export * from "./eigenai-lockup";
 export * from "./eigenai-wordmark";
 export * from "./eigenai-concentric-rings";
 export * from "./eigenai-lambda-symbol";
+export * from "./eigenai-event-artwork";
 
 export { default as Footer } from "./footer";
 export { default as HeroSection } from "./heroSection";
+
+export { PillLink } from "./pill-link";

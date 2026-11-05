@@ -15,6 +15,10 @@ jest.mock("@/shared/ui/client", () => ({
 }));
 jest.mock("react-hot-toast", () => ({ Toaster: () => null }));
 
+jest.mock("@/shared/lib/server", () => ({
+  isWebRedesignEnabled: async () => false,
+}));
+
 import RootLayout from "@/app/(frontend)/layout";
 
 const originalEnv = process.env;
@@ -38,7 +42,7 @@ describe("frontend toolbar visibility", () => {
     else delete process.env.VERCEL_ENV;
 
     const markup = renderToStaticMarkup(
-      RootLayout({ children: <main>Page content</main> }),
+      await RootLayout({ children: <main>Page content</main> }),
     );
 
     expect(markup).toContain("Page content");

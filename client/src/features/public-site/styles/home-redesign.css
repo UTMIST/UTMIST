@@ -1,0 +1,431 @@
+@import "@fontsource/instrument-sans/latin-600.css";
+
+/* General-page hero and Frames 93 → 94 → 95 with the site's existing content. */
+.home-redesign {
+  --home-ink: #15026a;
+  --home-blue: #020fff;
+  --home-selection: #0095ff;
+  --home-lilac: #a7acff;
+  --home-cyan: #59e0e9;
+  --home-discipline-fill: #3730c6;
+  font-family: "Instrument Sans", var(--system-font);
+  color: #080808;
+  background: var(--background);
+}
+
+.home-redesign :is(h1, h2, h3) {
+  font-family: inherit;
+  font-weight: 500;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.home-redesign :is(a, button, summary):focus-visible {
+  outline: 3px solid var(--home-selection);
+  outline-offset: 5px;
+}
+
+.home-selection {
+  position: relative;
+  background: rgb(0 149 255 / 20%);
+  border-inline: 2px solid var(--home-selection);
+  padding-inline: 0.06em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.home-selection::before,
+.home-selection::after {
+  content: "";
+  position: absolute;
+  width: 0.38em;
+  height: 0.38em;
+  border-radius: 50%;
+  background: var(--home-selection);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 12%);
+}
+.home-selection::before { left: -0.23em; top: -0.25em; }
+.home-selection::after { right: -0.23em; bottom: -0.25em; }
+
+.home-hero-canvas {
+  opacity: 0;
+}
+
+.home-hero-canvas[data-ready="true"] {
+  opacity: 1;
+}
+
+.home-hero-motion-toggle {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .home-hero-backdrop:has(canvas[data-ready="true"]) + .home-hero-motion-toggle {
+    display: inline-flex;
+  }
+}
+
+.home-hero-highlight {
+  position: relative;
+  background: rgb(120 158 255 / 65%);
+}
+.home-hero-highlight::after {
+  content: "";
+  position: absolute;
+  right: -4px;
+  bottom: -6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--home-selection);
+}
+
+.home-stat-number {
+  color: var(--home-lilac);
+  background: linear-gradient(25deg, var(--home-lilac), white 75%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.home-sponsor-fade {
+  mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+@media (max-width: 639px) {
+  .home-sponsor-cell {
+    grid-column: var(--sponsor-column);
+    grid-row: var(--sponsor-row);
+  }
+}
+
+.home-sponsor-tile {
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+.home-sponsor-tile:is(:hover, :focus-visible) {
+  z-index: 1;
+  transform: translateY(-3px);
+  border-color: var(--secondary);
+  box-shadow: 0 5px 12px rgb(30 25 177 / 20%);
+}
+.home-sponsor-tile[data-tone="dark"]:is(:hover, :focus-visible) {
+  border-color: var(--home-cyan);
+  box-shadow: inset 0 0 0 1px var(--home-cyan), 0 5px 12px rgb(30 25 177 / 30%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-sponsor-tile:is(:hover, :focus-visible) { transform: none; }
+}
+
+/* Figma 25:1038: scale the editor composition as a unit without rasterizing text. */
+.home-community-statement {
+  container-type: inline-size;
+  width: 100%;
+  max-width: 689.396px;
+  margin: 64px auto 112px;
+}
+
+.home-community-composition {
+  position: relative;
+  font-size: 6.87015cqw;
+  transform: rotate(4deg);
+  /* Rotate around the centered layout box so the composition cannot drift sideways. */
+  transform-origin: center;
+}
+
+.home-community-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  height: 0.507em;
+  margin-bottom: 0.422em;
+  padding-left: 0.15em;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+.home-community-version { font-size: 0.304em; color: rgb(0 0 0 / 40%); }
+.home-community-notes { display: flex; gap: 0.127em; }
+.home-community-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.42em;
+  padding: 0.52em 0.65em;
+  border: 0.4px solid transparent;
+  border-radius: 0.54em;
+  background: linear-gradient(white, white) padding-box, linear-gradient(110deg, #f35a18, var(--home-blue)) border-box;
+  font-size: 0.203em;
+  line-height: 1;
+}
+.home-community-note img { max-width: 1.29em; max-height: 1.29em; }
+.home-community-copy { position: relative; }
+.home-community-guide {
+  position: absolute;
+  top: 2.917em;
+  max-width: none;
+  pointer-events: none;
+}
+.home-community-guide-left { right: 100%; }
+.home-community-guide-right { left: 100%; }
+
+.home-community-toolbar {
+  position: absolute;
+  z-index: 2;
+  top: 1.45em;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.0845em;
+  pointer-events: none;
+  user-select: none;
+}
+.home-community-tool {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 0.735em;
+  border-radius: 0.66em;
+  background: white;
+  box-shadow: 0 1.6px 1.6px rgb(0 0 0 / 25%), 0 1.6px 1.6px rgb(0 0 0 / 25%);
+  white-space: nowrap;
+}
+.home-community-tool-icon { width: 0.844em; }
+.home-community-tool-icon img,
+.home-community-refine img { max-width: 0.334em; max-height: 0.334em; }
+.home-community-formatting { justify-content: space-evenly; width: 3.217em; }
+.home-community-formatting :is(b, i, u, span) { font-size: 0.304em; }
+.home-community-formatting u { text-underline-offset: 0.2em; }
+.home-community-formatting img { width: 0.00844em; height: 0.317em; }
+.home-community-refine { width: 3.513em; gap: 0.17em; border: 2px solid #370dfb; }
+.home-community-refine span { font-size: 0.304em; }
+
+/* Figma fades the glyphs horizontally while the selection remains crisp. */
+.home-community-text,
+.home-community-selected-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.home-community-text {
+  font-weight: 600;
+  line-height: 1.03907;
+  letter-spacing: 0;
+  background-image: linear-gradient(
+    91.173deg,
+    rgb(197 191 255 / 6%) 1.966%,
+    #1f00ff 32.569%,
+    #4817f8 63.675%,
+    rgb(169 174 255 / 0%) 93.706%
+  );
+}
+
+.home-community-line { display: block; white-space: nowrap; }
+.home-community-selection {
+  display: block;
+  width: max-content;
+  margin-inline: -0.06em;
+  white-space: nowrap;
+}
+
+.home-community-selected-text {
+  background-image: linear-gradient(
+    91.173deg,
+    #c5bfff 1.966%,
+    #1f00ff 32.569%,
+    #4817f8 63.675%,
+    #a9aeff 93.706%
+  );
+}
+
+@media (max-width: 639px) {
+  /* Reflow the live copy on phones instead of shrinking an entire desktop editor. */
+  .home-community-statement { width: calc(100% - 16px); margin-block: 40px 56px; }
+  .home-community-composition { font-size: clamp(1.75rem, 7.8vw, 2.5rem); transform: rotate(2deg); }
+  .home-community-meta,
+  .home-community-toolbar,
+  .home-community-guide { display: none; }
+  .home-community-text { line-height: 1.18; }
+  .home-community-line,
+  .home-community-selection { display: inline; width: auto; white-space: normal; }
+  .home-community-text,
+  .home-community-selected-text {
+    background-image: linear-gradient(95deg, color-mix(in srgb, var(--secondary) 72%, white), var(--secondary) 35%, var(--secondary) 75%, color-mix(in srgb, var(--secondary) 72%, white));
+  }
+}
+
+@media (forced-colors: active) {
+  .home-community-text,
+  .home-community-selected-text {
+    background-image: none;
+    color: CanvasText;
+  }
+}
+
+/* The dashboard extends beyond the section, as in Figma Frame 93. */
+.home-impact-crop::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 12px;
+  pointer-events: none;
+  background: linear-gradient(transparent, rgb(0 0 0 / 12%));
+}
+
+@media (min-width: 1024px) {
+  .home-stat-marker::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    width: 5px;
+    height: 5px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 7px white;
+  }
+  .home-stat-marker::after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 1.5rem;
+    width: 1px;
+    height: 2.5rem;
+    background: var(--gradient-line-2);
+  }
+}
+
+.home-discipline-network {
+  container-type: inline-size;
+}
+
+.home-discipline-canvas {
+  position: relative;
+  height: 380px;
+}
+
+.home-discipline-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  pointer-events: none;
+}
+
+.home-discipline-lines-mobile { display: none; }
+.home-discipline-wave {
+  opacity: 0;
+  transition: opacity 1200ms ease-out;
+  pointer-events: none;
+}
+.home-discipline-network[data-wave-active="true"] .home-discipline-wave {
+  opacity: 1;
+  transition-duration: 180ms;
+}
+.home-discipline-lines path {
+  stroke: rgb(0 0 0 / 45%);
+  stroke-width: 1;
+}
+.home-discipline-lines .home-discipline-wave-line {
+  stroke: var(--home-cyan);
+  /* Scale the normalized dash with its path so it draws as one continuous line. */
+  stroke-width: .25;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  opacity: .45;
+  animation: discipline-line-spread 800ms ease-out var(--wave-delay) both;
+}
+
+@keyframes discipline-line-spread {
+  0% { stroke-dashoffset: 1; opacity: 0; }
+  28% { stroke-dashoffset: 0; opacity: .95; }
+  100% { stroke-dashoffset: 0; opacity: .45; }
+}
+
+.home-discipline-button {
+  position: absolute;
+  left: var(--discipline-x);
+  top: var(--discipline-y);
+  transform: translate(-50%, -50%);
+  max-width: 31%;
+  background:
+    linear-gradient(var(--home-discipline-fill), var(--home-discipline-fill)) padding-box,
+    linear-gradient(115deg, var(--home-cyan), var(--home-lilac), var(--home-blue)) border-box;
+  transition: box-shadow 1200ms ease-out, filter 1200ms ease-out;
+}
+.home-discipline-button svg { color: var(--home-lilac); }
+.home-discipline-wave-node {
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+}
+.home-discipline-wave-glow {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--home-cyan);
+  border-radius: inherit;
+  background: linear-gradient(115deg, rgb(89 224 233 / 16%), rgb(141 119 255 / 12%));
+  box-shadow: 0 0 18px rgb(89 224 233 / 35%), inset 0 0 12px rgb(89 224 233 / 12%);
+  opacity: .5;
+  animation: discipline-pill-spread 1100ms ease-out var(--wave-delay) both;
+}
+@keyframes discipline-pill-spread {
+  0% { opacity: 0; transform: scale(.97); }
+  35% { opacity: 1; transform: scale(1.035); }
+  100% { opacity: .5; transform: scale(1); }
+}
+.home-discipline-button[data-active="true"] {
+  z-index: 1;
+  transition-duration: 180ms;
+  filter: brightness(1.2);
+  box-shadow: 0 0 0 2px var(--home-cyan), 0 6px 20px rgb(2 15 255 / 25%);
+}
+
+@container (max-width: 620px) {
+  .home-discipline-canvas { height: 480px; }
+  .home-discipline-lines-desktop { display: none; }
+  .home-discipline-lines-mobile { display: block; }
+  .home-discipline-button {
+    left: var(--discipline-mobile-x);
+    top: var(--discipline-mobile-y);
+    width: calc(50% - 14px);
+    max-width: none;
+    min-height: 48px;
+    padding: 10px 8px;
+    white-space: normal;
+    line-height: 1.2;
+    font-size: 13px;
+  }
+}
+
+@container (max-width: 340px) {
+  .home-discipline-button { font-size: 12px; gap: 5px; }
+}
+
+/* The shared footer keeps its legacy appearance when the redesign is disabled. */
+.home-redesign ~ .footer-container { padding-block: 40px; }
+.home-redesign ~ .footer-container ul {
+  display: grid;
+  grid-template-columns: repeat(6, 46px);
+  gap: 8px;
+  margin-block: 20px 12px;
+}
+.home-redesign ~ .footer-container ul > li { margin: 0; }
+.home-redesign ~ .footer-container .footer-logo-container { width: 46px; height: 46px; margin: 0; }
+.home-redesign ~ .footer-container .bug-report-link { display: inline-flex; min-height: 44px; align-items: center; padding-inline: 12px; font-size: 14px; }
+.home-redesign ~ .footer-container a:focus-visible { outline: 3px solid var(--secondary); outline-offset: 4px; border-radius: 4px; }
+.home-redesign ~ .scroll-to-top { width: 44px; height: 44px; right: 16px; bottom: 16px; }
+.home-redesign ~ .scroll-to-top:focus-visible { outline: 3px solid var(--secondary); outline-offset: 4px; }
+@media (max-width: 359px) {
+  .home-redesign ~ .footer-container ul { grid-template-columns: repeat(3, 46px); gap: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.home-redesign) { scroll-behavior: auto; }
+  .home-redesign *, .home-redesign *::before, .home-redesign *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

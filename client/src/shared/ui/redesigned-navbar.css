@@ -1,0 +1,12 @@
+/* Glass navigation from Figma's general page (Desktop - 2). */
+.redesigned-navbar {
+  --nav-ink: #15026a;
+  --nav-edge: #59e0e9;
+}
+.redesigned-navbar :is(a, button, summary):focus-visible {
+  outline: 3px solid white;
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .redesigned-navbar * { transition: none !important; }
+}

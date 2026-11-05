@@ -3,6 +3,7 @@ import Script from "next/script";
 import { VercelToolbar } from "@vercel/toolbar/next";
 import "../globals.css";
 import { Footer } from "@/shared/ui";
+import { isWebRedesignEnabled } from "@/shared/lib/server";
 import {
   Navbar,
   ScrollToTop,
@@ -21,11 +22,12 @@ export const metadata: Metadata = {
 
 // Root layout for the application
 // This layout wraps around all pages and includes the Navbar and Footer
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const redesignEnabled = await isWebRedesignEnabled();
   // Vercel injects its own toolbar on Preview deployments.
   const showLocalToolbar =
     process.env.NODE_ENV === "development" &&
@@ -41,7 +43,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <HideOnEigenAI>
-          <Navbar />
+          <Navbar redesignEnabled={redesignEnabled} />
         </HideOnEigenAI>
         {children}
         <HideOnEigenAI>

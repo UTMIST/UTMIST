@@ -13,6 +13,30 @@ for member identity and preferences.
 Everything here works with **no provider** — the fixtures are in-memory and
 deterministic — so server/client examples and the opt-in UI can be built now.
 
+## Website redesign
+
+[`Web-Redesign`](https://vercel.com/utmist-infrastructure/client/flag/Web-Redesign)
+controls the redesigned homepage and the shared glass navbar together. It is
+registered in `catalog.ts` and `fixtures.ts`, defaults Off, and was created in
+`utmist-infrastructure/client` with Development, Preview and Production all Off.
+The initial `Homepage-Redesign` flag was archived in favor of this single flag.
+
+- **Off:** current homepage and current shared navbar.
+- **On:** homepage with the general-page hero layout in blue plus Frames 93–95,
+  using existing site content, and the new shared navbar on other frontend pages. EigenAI continues
+  to use its dedicated navigation.
+
+Use **Vercel Toolbar → Flags Explorer → Web-Redesign → On** on a Preview to review
+it in one browser without changing the default for other visitors. Refresh after
+changing the override; clear it to follow the dashboard again. For credential-free
+local development, temporarily set the `Web-Redesign` fixture to `enabled: true`,
+restart `npm run dev`, and restore `false` before committing. No new env var is
+required. Production ignores browser overrides and fails closed to the old site.
+
+The server helper `isWebRedesignEnabled()` is exported from `@/shared/lib/server`.
+Its request-scoped decision is shared by the frontend layout and homepage.
+See [Home page](pages/Home.md) for component ownership and content sources.
+
 ## CMS availability
 
 `CMS-Access` gates the Payload CMS pages, metadata, server actions, REST API,

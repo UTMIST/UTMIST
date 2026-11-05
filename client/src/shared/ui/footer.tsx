@@ -19,22 +19,22 @@ export default function Footer() {
         </div>            <ul className="flex items-center space-x-4">
                 <li>
                     <div className="footer-logo-container">
-                        <a href="https://discord.com/invite/88mSPw8" target="_blank" rel="noopener noreferrer">
-                            <Image src={discord} alt="UTMIST Logo" />
+                        <a href="https://discord.com/invite/88mSPw8" target="_blank" rel="noopener noreferrer" aria-label="UTMIST on Discord">
+                            <Image src={discord} alt="" />
                         </a>
                     </div>
                 </li>
                 <li>
                     <div className="footer-logo-container">
-                        <a href="https://www.linkedin.com/company/utmist/" target="_blank" rel="noopener noreferrer">
-                            <Image src={linkedin} alt="UTMIST Logo" />
+                        <a href="https://www.linkedin.com/company/utmist/" target="_blank" rel="noopener noreferrer" aria-label="UTMIST on LinkedIn">
+                            <Image src={linkedin} alt="" />
                         </a>
                     </div>
                 </li>
                 <li>
                     <div className="footer-logo-container">
-                        <a href="https://www.instagram.com/uoft_utmist/" target="_blank" rel="noopener noreferrer">
-                            <Image src={instagram} alt="UTMIST Logo" />
+                        <a href="https://www.instagram.com/uoft_utmist/" target="_blank" rel="noopener noreferrer" aria-label="UTMIST on Instagram">
+                            <Image src={instagram} alt="" />
                         </a>
                     </div>
                 </li>
@@ -47,8 +47,8 @@ export default function Footer() {
                 </li>
                 <li>
                     <div className="footer-logo-container">
-                        <a href="https://github.com/UTMIST" target="_blank" rel="noopener noreferrer">
-                            <Image src={github} alt="UTMIST Logo"  />
+                        <a href="https://github.com/UTMIST" target="_blank" rel="noopener noreferrer" aria-label="UTMIST on GitHub">
+                            <Image src={github} alt=""  />
                         </a>
                     </div>
                 </li>
