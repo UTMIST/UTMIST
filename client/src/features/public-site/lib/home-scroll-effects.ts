@@ -9,12 +9,16 @@ export function createHomeScrollEffects(root: HTMLElement) {
   const targets = Array.from(root.querySelectorAll<HTMLElement>("[data-home-reveal]"));
   const groups = Array.from(root.querySelectorAll<HTMLElement>("[data-home-stagger]"));
   const highlights = Array.from(root.querySelectorAll<HTMLElement>(".home-selection, .home-hero-highlight"));
+  const highlightProgress = new WeakMap<HTMLElement, number>();
   const finished = new WeakSet<HTMLElement>();
   let stopEffects = () => {};
 
   function setup() {
     stopEffects();
-    if (preference.matches) return;
+    if (preference.matches) {
+      highlights.forEach((highlight) => highlightProgress.set(highlight, 1));
+      return;
+    }
 
     // Already-visible content (including restored scroll positions) never flashes out.
     const pending = targets.filter((element) => {
@@ -78,8 +82,12 @@ export function createHomeScrollEffects(root: HTMLElement) {
         ?? highlight.closest<HTMLElement>(".home-community-statement")
         ?? highlight.closest<HTMLElement>("h1, h2, h3, p")
         ?? highlight;
+      highlight.style.setProperty("--home-selection-progress", String(highlightProgress.get(highlight) ?? 0));
       return scroll((progress: number) => {
-        highlight.style.setProperty("--home-selection-progress", String(progress));
+        // Keep the furthest fill reached, including across motion preference changes.
+        const furthest = Math.max(highlightProgress.get(highlight) ?? 0, progress);
+        highlightProgress.set(highlight, furthest);
+        highlight.style.setProperty("--home-selection-progress", String(furthest));
       }, { target, offset: [...(hero ? homeMotion.heroHighlightOffsets : homeMotion.highlightOffsets)] });
     });
 

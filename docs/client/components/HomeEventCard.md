@@ -14,3 +14,6 @@ The parent owns the responsive grid and supplies `event.id` as the React key.
 The card participates in the shared scroll reveal and aligns its footer with
 neighbouring cards. Test content association and navigation behavior when
 changing its data contract.
+
+The surface uses shared `CardLink variant="flat"`; categories use `Badge`.
+Card border, fill and title feedback match on hover and keyboard focus.

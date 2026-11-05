@@ -1,60 +1,24 @@
-# Footer Component Documentation
+# Footer
 
-## Overview
+`Footer` is a server-safe primitive exported from `@/shared/ui`. Its two
+appearances are `variant="legacy"` (default) and `variant="standard"`.
 
-The Footer component is a reusable React component that displays the UTMIST logo and social media links. It's designed to be used at the bottom of pages across the UTMIST website.
+The standard variant uses the shared `IconButton` in link mode for its six
+social destinations, circular focus outlines, 44px targets, Instrument Sans
+and a responsive social grid. Its vertical padding is half the shared section
+gap, keeping the distance from FAQ content consistent with other sections. The legacy variant keeps the previous layout.
+Both preserve external URLs, accessible labels and `noopener noreferrer`.
+All footer styles are owned by the component and `styles/footer.css`.
 
-## Props
+`SiteFooter`, exported from `@/shared/ui/client`, selects the standard appearance
+only when the frontend layout's `redesignEnabled` decision is true **and** the
+current pathname is `/`. It re-evaluates on client navigation. `HideOnEigenAI`
+still controls visibility on the EigenAI route family. No homepage sibling CSS
+reaches into the footer.
 
-This component doesn't accept any props.
+`ScrollToTop` uses the same flag/path decision for its standard `IconButton` and
+retains the legacy appearance elsewhere. Both versions support keyboard
+activation and request instant scrolling when reduced motion is enabled.
 
-## Structure
-
-- Main container with class `footer-container`
-- UTMIST logo section with organization name
-- Social media links section
-- Decorative line element
-
-## Social Media Integration
-
-Includes links to:
-
-- Discord
-- LinkedIn
-- Instagram
-- YouTube
-- GitHub
-- Medium
-
-## Usage Example
-
-```tsx
-import Footer from "@/components/footer";
-
-function Page() {
-  return (
-    <div>
-      {/* Your page content */}
-      <Footer />
-    </div>
-  );
-}
-```
-
-## Styling
-
-- Uses CSS modules from `footer.css`
-- Utilizes Tailwind CSS utility classes
-- Images are optimized using Next.js `Image` component
-
-## Dependencies
-
-- next/image
-- SVG logo assets
-- footer.css styles
-
-## Notes
-
-- Social links open the organization's corresponding external profile in a new tab.
-- Logo container has fixed dimensions for consistent sizing
-- Uses UTMIST's brand gradient for the logo text
+Tests cover flag/path selection, route changes and scroll behavior. Appearance
+and circular focus outlines are verified in the browser.

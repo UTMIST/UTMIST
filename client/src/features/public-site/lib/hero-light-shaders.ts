@@ -36,25 +36,28 @@ void main() {
   refracted.y += pow(rib, 2.0) * 0.035;
 
   vec2 cursor = (u_pointer - 0.5) * vec2(aspect, 1.0);
-  vec2 primary = vec2(0.36 + sin(u_time * 0.06) * 0.18, -0.27 + sin(u_time * 0.075) * 0.2);
-  vec2 secondary = vec2(-0.63 + cos(u_time * 0.05) * 0.1, 0.35 + sin(u_time * 0.065) * 0.12);
-  primary = mix(primary, cursor, u_pointerStrength * 0.9);
-  secondary = mix(secondary, cursor + vec2(-0.5, 0.32), u_pointerStrength * 0.65);
+  vec2 middle = vec2(sin(u_time * 0.06) * 0.18, sin(u_time * 0.075) * 0.12);
+  middle = mix(middle, cursor, u_pointerStrength * 0.85);
+  // Three parallel light bands span the viewport and keep their spacing on hover.
+  vec2 spacing = vec2(aspect * 0.3, -0.32);
+  float beamLength = max(0.92, aspect * 0.6);
 
-  float illumination = light(refracted, primary, vec2(0.92, 0.29));
-  illumination += light(refracted, secondary, vec2(0.62, 0.25)) * 0.65;
-  illumination += light(refracted, primary + vec2(0.25, -0.27), vec2(1.0, 0.5)) * 0.25;
+  float illumination = light(refracted, middle + spacing, vec2(beamLength, 0.27));
+  illumination += light(refracted, middle, vec2(beamLength, 0.25)) * 0.8;
+  illumination += light(refracted, middle - spacing, vec2(beamLength, 0.25)) * 0.75;
   float flute = 0.28 + 0.72 * pow(1.0 - rib, 0.55);
   float seam = (1.0 - smoothstep(0.0, 0.018, rib)) * 0.1;
-  float intensity = illumination * (flute + seam);
+  float intensity = illumination * (flute + seam) * 0.7;
 
   vec3 color = vec3(0.003, 0.006, 0.022);
   color += vec3(0.012, 0.065, 0.95) * pow(intensity, 0.82);
   color += vec3(0.13, 0.49, 0.42) * pow(intensity, 3.0);
-  // Stable fine grain avoids flickering as the light moves behind the glass.
+  // Grain stays in screen coordinates; stretching an edge noise sample makes streaks.
   float noise = grain(gl_FragCoord.xy) - 0.5;
-  color += noise * (0.028 + 0.13 * sqrt(intensity));
-  color *= 1.0 - 0.22 * smoothstep(0.35, 0.9, length(uv - 0.5));
+  float grainAmount = 0.028 + 0.13 * sqrt(intensity);
+  float vignette = 1.0 - 0.22 * smoothstep(0.35, 0.9, length(uv - 0.5));
+
+  color = (color + noise * grainAmount) * vignette;
   gl_FragColor = vec4(max(color, 0.0), 1.0);
 }
 `;

@@ -8,7 +8,8 @@ export type HeroLightRenderer = {
 /** Owns GPU resources and pointer/animation work, without rerendering React. */
 export function createHeroLightRenderer(canvas: HTMLCanvasElement, hero: HTMLElement): HeroLightRenderer | null {
   const gl = canvas.getContext("webgl", {
-    alpha: false, antialias: false, depth: false, stencil: false, powerPreference: "low-power",
+    alpha: false,
+    antialias: false, depth: false, stencil: false, powerPreference: "low-power",
   });
   if (!gl) return null;
 
@@ -55,6 +56,7 @@ export function createHeroLightRenderer(canvas: HTMLCanvasElement, hero: HTMLEle
   const time = gl.getUniformLocation(program, "u_time");
   const pointer = gl.getUniformLocation(program, "u_pointer");
   const strength = gl.getUniformLocation(program, "u_pointerStrength");
+  const backdrop = canvas.parentElement!;
   const maxViewport = gl.getParameter(gl.MAX_VIEWPORT_DIMS) as Int32Array;
   const maxRenderSize = gl.getParameter(gl.MAX_RENDERBUFFER_SIZE) as number;
 
@@ -89,19 +91,18 @@ export function createHeroLightRenderer(canvas: HTMLCanvasElement, hero: HTMLEle
   function animate(now: number) {
     frame = 0;
     if (!canAnimate()) return;
-    const delta = previousTime ? Math.min((now - previousTime) / 1000, 0.05) : 0;
+    const elapsedDelta = previousTime ? (now - previousTime) / 1000 : 0;
     previousTime = now;
-    elapsed += delta;
-    // Ease slowly and cap travel speed, even when the cursor crosses the screen.
-    const ease = 1 - Math.exp(-delta * 1.1);
-    const dx = (targetX - currentX) * ease;
-    const dy = (targetY - currentY) * ease;
-    const distance = Math.hypot(dx, dy);
-    const travel = Math.min(1, (delta * 0.18) / Math.max(distance, 0.00001));
-    currentX += dx * travel;
-    currentY += dy * travel;
-    // Entering/leaving the hero blends between cursor and ambient paths gently.
-    currentStrength += (targetStrength - currentStrength) * (1 - Math.exp(-delta * 0.65));
+    // Keep ambient motion in real time even when the browser delivers fewer frames.
+    elapsed += elapsedDelta;
+    const delta = Math.min(elapsedDelta, 0.25);
+    // Follow with a gentle lag, at both high and low frame rates.
+    // Stacking a slow travel cap with a slow strength fade made hover look inert.
+    const ease = 1 - Math.exp(-delta * 1.2);
+    currentX += (targetX - currentX) * ease;
+    currentY += (targetY - currentY) * ease;
+    const strengthRate = targetStrength ? 1.5 : 1.25;
+    currentStrength += (targetStrength - currentStrength) * (1 - Math.exp(-delta * strengthRate));
     draw();
     frame = requestAnimationFrame(animate);
   }
@@ -131,12 +132,22 @@ export function createHeroLightRenderer(canvas: HTMLCanvasElement, hero: HTMLEle
   function onPointerMove(event: PointerEvent) {
     if (event.pointerType === "touch" || motionReduced || paused) return;
     const rect = hero.getBoundingClientRect();
-    targetX = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
-    targetY = 1 - Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+    // Hit-test geometry, not the event target: the navbar sits outside the hero.
+    if (rect.width <= 0 || rect.height <= 0 || x < 0 || x > 1 || y < 0 || y > 1) {
+      targetStrength = 0;
+      return;
+    }
+    targetX = x;
+    targetY = 1 - y;
     targetStrength = 1;
   }
   function onPointerLeave() {
     targetStrength = 0;
+  }
+  function onPointerOut(event: PointerEvent) {
+    if (!event.relatedTarget) onPointerLeave();
   }
   function onMotionChange(event: MediaQueryListEvent) {
     motionReduced = event.matches;
@@ -160,9 +171,13 @@ export function createHeroLightRenderer(canvas: HTMLCanvasElement, hero: HTMLEle
     syncAnimation();
   });
   resizeObserver.observe(hero);
-  intersectionObserver.observe(hero);
-  hero.addEventListener("pointermove", onPointerMove, { passive: true });
-  hero.addEventListener("pointerleave", onPointerLeave);
+  resizeObserver.observe(backdrop);
+  intersectionObserver.observe(backdrop);
+  // Capture observes overlay input without intercepting clicks or menu behavior.
+  document.addEventListener("pointermove", onPointerMove, { passive: true, capture: true });
+  document.addEventListener("pointerout", onPointerOut, { passive: true, capture: true });
+  window.addEventListener("blur", onPointerLeave);
+  window.addEventListener("scroll", onPointerLeave, { passive: true });
   canvas.addEventListener("webglcontextlost", onContextLost);
   reducedMotion.addEventListener("change", onMotionChange);
   window.addEventListener("resize", resize);
@@ -180,8 +195,10 @@ export function createHeroLightRenderer(canvas: HTMLCanvasElement, hero: HTMLEle
       cancelAnimationFrame(frame);
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
-      hero.removeEventListener("pointermove", onPointerMove);
-      hero.removeEventListener("pointerleave", onPointerLeave);
+      document.removeEventListener("pointermove", onPointerMove, true);
+      document.removeEventListener("pointerout", onPointerOut, true);
+      window.removeEventListener("blur", onPointerLeave);
+      window.removeEventListener("scroll", onPointerLeave);
       canvas.removeEventListener("webglcontextlost", onContextLost);
       reducedMotion.removeEventListener("change", onMotionChange);
       window.removeEventListener("resize", resize);

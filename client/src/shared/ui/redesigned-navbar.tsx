@@ -8,6 +8,8 @@ import { ChevronDown, Menu, X } from "lucide-react";
 
 import { useUser } from "@/shared/lib/client";
 import { Button } from "./button";
+import { IconButton } from "./icon-button";
+import { ContentContainer } from "./content-container";
 import "./redesigned-navbar.css";
 
 type NavigationItem = { label: string } & (
@@ -49,33 +51,34 @@ function Navigation({ isHome, signedIn }: { isHome: boolean; signedIn: boolean }
   }
 
   return (
-    <header className={`redesigned-navbar z-30 font-eigen-body text-white ${isHome ? "absolute inset-x-0 top-0" : "relative bg-[var(--nav-ink)]"}`}>
+    <header data-ui-tone="dark" className={`ui-surface redesigned-navbar z-30 font-eigen-body text-white ${isHome ? "absolute inset-x-0 top-0" : "relative bg-[var(--nav-ink)]"}`}>
       {/* One grid positions all three desktop items; equal side columns keep the pill centered. */}
-      <nav ref={navigation} aria-label="Main navigation" className="relative mx-auto flex w-full max-w-[1440px] items-center justify-between gap-6 px-5 py-5 md:px-10 md:py-6 lg:grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] xl:px-14 xl:py-7"
-        onBlur={(event) => {
-          // Collapsing a sibling submenu during pointer focus moves the next
-          // mobile tap target before click. Close after activation or leaving nav.
-          if (!event.currentTarget.contains(event.relatedTarget)) setDropdown(null);
-        }}
-        onKeyDown={(event) => {
-          if (event.key === "Escape") {
-            if (dropdown) {
-              navigation.current?.querySelector<HTMLElement>("[data-dropdown-toggle][aria-expanded=true]")?.focus();
-              setDropdown(null);
-            } else {
-              setOpen(false);
-              toggle.current?.focus();
+      <ContentContainer asChild>
+        <nav ref={navigation} aria-label="Main navigation" className="relative flex items-center justify-between gap-6 py-5 md:py-6 lg:grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] xl:py-7"
+          onBlur={(event) => {
+            // Collapsing a sibling submenu during pointer focus moves the next
+            // mobile tap target before click. Close after activation or leaving nav.
+            if (!event.currentTarget.contains(event.relatedTarget)) setDropdown(null);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              if (dropdown) {
+                navigation.current?.querySelector<HTMLElement>("[data-dropdown-toggle][aria-expanded=true]")?.focus();
+                setDropdown(null);
+              } else {
+                setOpen(false);
+                toggle.current?.focus();
+              }
             }
-          }
-      }}>
+          }}>
           <Link href="/" onClick={closeMenus} className="flex min-h-11 shrink-0 items-center justify-self-start rounded" aria-label="UTMIST home">
             <Image src="/home-redesign/utmist-wordmark.png" alt="UTMIST" width={255} height={78} priority className="h-auto w-32 md:w-36 lg:w-40" />
           </Link>
-          <Button ref={toggle} type="button" variant="outline" size="icon" aria-controls="redesigned-navigation-links" aria-expanded={open}
+          <IconButton ref={toggle} tone="dark" aria-controls="redesigned-navigation-links" aria-expanded={open}
             aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}
-            className="size-11 rounded-full border-[var(--nav-edge)] bg-white/10 text-white hover:scale-100 lg:hidden">
+            className="lg:hidden">
             {open ? <X size={20} /> : <Menu size={20} />}
-          </Button>
+          </IconButton>
           <div id="redesigned-navigation-links"
             className={`${open ? "flex" : "hidden"} absolute inset-x-5 top-full max-h-[calc(100svh-7rem)] flex-col gap-4 overflow-y-auto rounded-3xl border border-[var(--nav-edge)] bg-[var(--nav-ink)] p-5 shadow-xl lg:contents`}>
             <div className="redesigned-navbar-links flex flex-col gap-1 lg:min-h-11 lg:w-[min(56vw,620px)] lg:flex-row lg:items-center lg:justify-between lg:gap-0 lg:rounded-full lg:border lg:border-[var(--nav-edge)] lg:bg-white/20 lg:px-4 lg:backdrop-blur-xl xl:px-6">
@@ -126,7 +129,8 @@ function Navigation({ isHome, signedIn }: { isHome: boolean; signedIn: boolean }
               <Link href={signedIn ? "/profile" : "/auth"} onClick={closeMenus}>{signedIn ? "Profile" : "Login"}</Link>
             </Button>
           </div>
-      </nav>
+        </nav>
+      </ContentContainer>
     </header>
   );
 }

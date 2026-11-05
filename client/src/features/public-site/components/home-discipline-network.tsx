@@ -41,6 +41,7 @@ const connections: ReadonlyArray<readonly [DisciplineId, DisciplineId]> = [
 const positions = new Map(disciplines.map((discipline, index) => [discipline.id, {
   desktop: { x: discipline.x, y: discipline.y },
   mobile: { x: index % 2 === 0 ? 25 : 75, y: (Math.floor(index / 2) + 0.5) * 100 / 6 },
+  narrow: { x: index % 2 === 0 ? 40 : 60, y: (index + 0.5) * 100 / disciplines.length },
 }]));
 
 function connectionPath(from: { x: number; y: number }, to: { x: number; y: number }) {
@@ -58,6 +59,24 @@ const paths = connections.map(([from, to]) => ({
   to,
   desktop: connectionPath(positions.get(from)!.desktop, positions.get(to)!.desktop),
   mobile: connectionPath(positions.get(from)!.mobile, positions.get(to)!.mobile),
+  narrow: connectionPath(positions.get(from)!.narrow, positions.get(to)!.narrow),
+}));
+
+// Each path has a straight midpoint. Keep circuit details in CSS pixels so
+// their dots stay round when the SVG changes aspect ratio between layouts.
+const connectionDetails = connections.map(([from, to]) => ({
+  key: `${from}-${to}`,
+  style: Object.fromEntries((["desktop", "mobile", "narrow"] as const).flatMap(layout => {
+    const a = positions.get(from)![layout];
+    const b = positions.get(to)![layout];
+    const horizontal = a.y === b.y;
+    return [
+      [`--connection-${layout}-x`, `${(a.x + b.x) / 2}%`],
+      [`--connection-${layout}-y`, `${(a.y + b.y) / 2}%`],
+      [`--connection-${layout}-width`, horizontal ? "22px" : "2px"],
+      [`--connection-${layout}-height`, horizontal ? "2px" : "22px"],
+    ];
+  })) as CSSProperties,
 }));
 
 // A wave follows graph distance, including branches and cycles, from any pill.
@@ -84,6 +103,7 @@ const waves = new Map(disciplines.map(({ id }) => {
         delay: distances.get(from)! * waveStepMs,
         desktop: connectionPath(positions.get(from)!.desktop, positions.get(to)!.desktop),
         mobile: connectionPath(positions.get(from)!.mobile, positions.get(to)!.mobile),
+        narrow: connectionPath(positions.get(from)!.narrow, positions.get(to)!.narrow),
       };
     }),
   }];
@@ -165,7 +185,7 @@ export default function HomeDisciplineNetwork() {
       }}>
       <p id={instructionsId} className="sr-only">Select a discipline to send a highlight through the network. Select it again or press Escape to clear the selection.</p>
       <div className="home-discipline-canvas">
-        {(["desktop", "mobile"] as const).map((layout) => (
+        {(["desktop", "mobile", "narrow"] as const).map((layout) => (
           <svg key={layout} className={`home-discipline-lines home-discipline-lines-${layout}`} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             {paths.map((path) => (
               <path key={`${path.from}-${path.to}`} d={path[layout]} vectorEffect="non-scaling-stroke" />
@@ -182,6 +202,9 @@ export default function HomeDisciplineNetwork() {
             ) : null}
           </svg>
         ))}
+        {connectionDetails.map(detail => (
+          <span key={detail.key} className="home-discipline-connection-detail" style={detail.style} aria-hidden="true" />
+        ))}
         {disciplines.map(({ id, label, icon: Icon, x, y }, index) => {
           const distance = wave?.distances.get(id);
           const position = {
@@ -189,10 +212,12 @@ export default function HomeDisciplineNetwork() {
             "--discipline-y": `${y}%`,
             "--discipline-mobile-x": `${index % 2 === 0 ? 25 : 75}%`,
             "--discipline-mobile-y": `${(Math.floor(index / 2) + 0.5) * 100 / 6}%`,
+            "--discipline-narrow-x": `${positions.get(id)!.narrow.x}%`,
+            "--discipline-narrow-y": `${positions.get(id)!.narrow.y}%`,
           } as CSSProperties;
           return (
             <Button key={id} type="button" variant="outline" size="sm" style={position}
-              className="home-discipline-button m-0 h-auto min-h-12 gap-2 rounded-full border-[1.5px] border-transparent px-4 py-3 text-xs font-normal text-white hover:scale-100 hover:border-transparent"
+              className="home-discipline-button m-0 h-14 min-h-14 gap-2 rounded-full border-2 px-4 py-3 text-[13px] font-normal leading-5 text-white hover:scale-100"
               aria-pressed={selected === id} data-active={active === id}
               onPointerEnter={(event) => { if (event.pointerType !== "touch") dispatch({ type: "hover", id }); }}
               onPointerLeave={() => dispatch({ type: "hover", id: null })}
@@ -205,7 +230,7 @@ export default function HomeDisciplineNetwork() {
                     style={{ "--wave-delay": `${distance * waveStepMs}ms` } as CSSProperties} />
                 </span>
               ) : null}
-              <Icon aria-hidden="true" strokeWidth={1.2} />
+              <Icon aria-hidden="true" strokeWidth={1.25} />
               <span>{label}</span>
             </Button>
           );

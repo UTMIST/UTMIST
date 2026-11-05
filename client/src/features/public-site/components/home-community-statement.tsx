@@ -20,8 +20,8 @@ export default function HomeCommunityStatement() {
         </div>
 
         <div className="home-community-copy">
-          <Image aria-hidden="true" className="home-community-guide home-community-guide-left" src="/home-redesign/community/guide.svg" alt="" width={725} height={2} />
-          <Image aria-hidden="true" className="home-community-guide home-community-guide-right" src="/home-redesign/community/guide-right.svg" alt="" width={725} height={2} />
+          <span aria-hidden="true" className="home-community-guide home-community-guide-left" />
+          <span aria-hidden="true" className="home-community-guide home-community-guide-right" />
 
           <div className="home-community-toolbar" aria-hidden="true">
             <span className="home-community-tool home-community-tool-icon">

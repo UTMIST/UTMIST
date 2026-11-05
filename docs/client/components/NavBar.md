@@ -15,8 +15,15 @@ import { Navbar } from "@/shared/ui/client";
 
 `shared/ui/redesigned-navbar.tsx` overlays the homepage and uses a dark background
 on other routes. Equal outer grid columns keep desktop links centered between
-the logo and account action. Below the desktop breakpoint, a shared `Button`
+the logo and account action. The shared
+[ContentContainer](ContentContainer.md) aligns it with homepage section gutters.
+Below the desktop breakpoint, a shared dark-tone `IconButton`
 opens a scrollable disclosure; Login/Profile remains inside that disclosure.
+
+The desktop pill, Login/Profile button, mobile disclosure, and dropdown borders
+derive `--nav-edge` from the shared neutral `--gray1` token. The outlines stay
+gray independently of the page's accent color. EigenAI supplies its own
+navigation and palette.
 
 Events and its chevron are one link to `/events`. Hover, keyboard focus, or
 ArrowDown reveals EigenAI. On touch, the first tap reveals the submenu and the
@@ -35,3 +42,6 @@ Tests in `navbar.test.tsx` and `pages/redesigned-navbar.test.tsx` cover both
 layouts, destinations, authentication state, menu interactions, route changes,
 and focus/scroll cleanup. Keep menu controls native buttons and destinations
 links, and preserve their accessible names and expanded states.
+
+Navigation uses the shared dark-surface palette and focus tokens. Its menu
+control has a 44px target and a 20px icon, owned by `IconButton`.

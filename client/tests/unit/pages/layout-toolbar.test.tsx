@@ -10,6 +10,7 @@ jest.mock("next/script", () => ({ __esModule: true, default: () => null }));
 jest.mock("@/shared/ui", () => ({ Footer: () => null }));
 jest.mock("@/shared/ui/client", () => ({
   Navbar: () => null,
+  SiteFooter: () => null,
   ScrollToTop: () => null,
   HideOnEigenAI: ({ children }: { children: ReactNode }) => children,
 }));

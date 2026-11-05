@@ -3,6 +3,12 @@
 // dependencies (no supabase, no radix popovers, no lucide).
 // Interactive chrome lives in ./client (import from "@/shared/ui/client").
 export * from "./button";
+export * from "./content-container";
+export * from "./card-link";
+export * from "./icon-button";
+export * from "./badge";
+export * from "./section";
+export * from "./section-intro";
 export * from "./input";
 export * from "./textarea";
 export * from "./eigenai-lockup";

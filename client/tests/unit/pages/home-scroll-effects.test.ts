@@ -76,7 +76,7 @@ it("reveals a focused link immediately even before its entrance animation", () =
   dispose();
 });
 
-it("scrubs every highlight independently in both scroll directions", () => {
+it("advances every highlight independently without unwinding on reverse scroll", () => {
   const dispose = createHomeScrollEffects(root);
   const hero = root.querySelector<HTMLElement>(".home-hero-highlight")!;
   const heading = root.querySelector<HTMLElement>("h2 .home-selection")!;
@@ -87,9 +87,16 @@ it("scrubs every highlight independently in both scroll directions", () => {
   expect(hero.style.getPropertyValue("--home-selection-progress")).toBe("0.8");
   expect(heading.style.getPropertyValue("--home-selection-progress")).toBe("0.3");
   expect(statement.style.getPropertyValue("--home-selection-progress")).toBe("0.6");
-  highlights.get(root.querySelector("h2")!)!(0.1);
-  expect(heading.style.getPropertyValue("--home-selection-progress")).toBe("0.1");
+  highlights.forEach((update) => update(0.1));
+  expect(heading.style.getPropertyValue("--home-selection-progress")).toBe("0.3");
   expect(hero.style.getPropertyValue("--home-selection-progress")).toBe("0.8");
+  expect(statement.style.getPropertyValue("--home-selection-progress")).toBe("0.6");
+  highlights.get(root.querySelector("h2")!)!(0.5);
+  expect(heading.style.getPropertyValue("--home-selection-progress")).toBe("0.5");
+  highlights.forEach((update) => { update(1); update(0); });
+  for (const element of [hero, heading, statement]) {
+    expect(element.style.getPropertyValue("--home-selection-progress")).toBe("1");
+  }
   dispose();
   for (const element of [hero, heading, statement]) {
     expect(element.style.getPropertyValue("--home-selection-progress")).toBe("");
@@ -112,6 +119,10 @@ it("cancels pending motion and restores all full highlights when reduced motion 
   preference.matches = false;
   preferenceChanged();
   expect(below).toHaveAttribute("data-home-reveal-state", "complete");
+  highlights.forEach((update) => update(0.1));
+  for (const element of root.querySelectorAll<HTMLElement>(".home-selection, .home-hero-highlight")) {
+    expect(element.style.getPropertyValue("--home-selection-progress")).toBe("1");
+  }
   dispose();
 });
 

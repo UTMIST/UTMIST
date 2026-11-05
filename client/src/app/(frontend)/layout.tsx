@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { VercelToolbar } from "@vercel/toolbar/next";
 import "../globals.css";
-import { Footer } from "@/shared/ui";
 import { isWebRedesignEnabled } from "@/shared/lib/server";
 import {
   Navbar,
+  SiteFooter,
   ScrollToTop,
   HideOnEigenAI,
 } from "@/shared/ui/client";
@@ -47,9 +47,9 @@ export default async function RootLayout({
         </HideOnEigenAI>
         {children}
         <HideOnEigenAI>
-          <Footer />
+          <SiteFooter redesignEnabled={redesignEnabled} />
         </HideOnEigenAI>
-        <ScrollToTop />
+        <ScrollToTop redesignEnabled={redesignEnabled} />
         <Toaster />
         {showLocalToolbar && <VercelToolbar />}
       </body>

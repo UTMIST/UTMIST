@@ -70,3 +70,30 @@
     background: var(--gradient-line-1), var(--gradient-line-2); /* Set the color of the line */
     margin: 0.5rem 0; /* Optional: Add some margin for spacing */
 }
+
+/* The component owns its standard appearance; legacy pages keep their layout. */
+.footer-container[data-appearance="standard"] {
+    padding-block: calc(var(--ui-section-gap) / 2);
+    font-family: var(--font-eigen-body);
+}
+.footer-container[data-appearance="standard"] .footer-socials {
+    display: grid;
+    grid-template-columns: repeat(6, 44px);
+    gap: 8px;
+    margin-block: 20px 12px;
+}
+.footer-container[data-appearance="standard"] .footer-socials > li { margin: 0; }
+.footer-container[data-appearance="standard"] .bug-report-link {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    padding-inline: 12px;
+    border-radius: 999px;
+    font-size: 14px;
+}
+@media (max-width: 359px) {
+    .footer-container[data-appearance="standard"] .footer-socials {
+        grid-template-columns: repeat(3, 44px);
+        gap: 12px;
+    }
+}

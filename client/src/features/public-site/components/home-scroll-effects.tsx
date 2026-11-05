@@ -22,5 +22,5 @@ export default function HomeScrollEffects({ children }: { children: ReactNode })
     if (root.current) return createHomeScrollEffects(root.current);
   }, []);
 
-  return <main ref={root} className="home-redesign" data-homepage="redesign" style={motionVariables}>{children}</main>;
+  return <main ref={root} className="home-redesign ui-surface" data-ui-tone="light" data-homepage="redesign" style={motionVariables}>{children}</main>;
 }
