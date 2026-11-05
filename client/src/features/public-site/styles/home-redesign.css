@@ -421,7 +421,7 @@ html:has(.home-redesign) { position: relative; }
     width: calc(50% - 14px);
     max-width: none;
     min-height: 48px;
-    padding: 10px 8px;
+    padding: 6px 8px;
     white-space: normal;
     line-height: 1.2;
     font-size: 13px;

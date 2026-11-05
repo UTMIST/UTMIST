@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, CalendarDays } from "lucide-react";
 
-import { Button, EigenAIEventArtwork, PillLink } from "@/shared/ui";
+import { EigenAIEventArtwork, PillLink } from "@/shared/ui";
 import { homeContent } from "@/features/public-site/data/home-content";
 import { homeEvents } from "@/features/public-site/data/home-events";
 import { homeFaq } from "@/features/public-site/data/home-faq";
@@ -37,10 +37,8 @@ export default async function RedesignedHome() {
             </h1>
             <p className="mx-auto mt-6 max-w-[340px] text-base leading-relaxed text-white/95 lg:mt-7 lg:max-w-[320px] lg:text-[15px] lg:leading-[1.4]">Where students learn, build, research,<br className="hidden sm:block" /> and lead at the <span className="home-hero-highlight">University of Toronto.</span></p>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-              <Button asChild variant="outline" size="lg" className="h-11 gap-3 rounded-full border-[var(--home-cyan)] bg-white/15 px-5 text-sm font-normal text-white hover:scale-100 hover:border-white">
-                <Link href="/careers">Join Us <ArrowRight size={16} aria-hidden="true" /></Link>
-              </Button>
-              <Link href="mailto:utorontomist@gmail.com" className="flex min-h-11 items-center gap-2 rounded-full px-3 text-sm hover:underline hover:underline-offset-4">Contact Us <ArrowUpRight size={16} aria-hidden="true" /></Link>
+              <PillLink href="/careers" light arrow="plain" className="border-[var(--home-cyan)] bg-white/15">Join Us</PillLink>
+              <Link href="mailto:utorontomist@gmail.com" className="flex h-12 min-h-12 items-center gap-3 rounded-full px-4 text-base leading-5 hover:underline hover:underline-offset-4">Contact Us <ArrowUpRight size={16} aria-hidden="true" /></Link>
             </div>
           </div>
           <dl className="home-hero-statistics mx-auto grid w-full max-w-[640px] grid-cols-3 gap-4 lg:col-start-1 lg:row-start-1 lg:max-w-none lg:grid-cols-1 lg:gap-7 lg:self-end">
@@ -61,7 +59,7 @@ export default async function RedesignedHome() {
             <p className="mb-4 text-base xl:text-lg">Our Sponsors</p>
             <h2 id="sponsor-heading" className="text-[clamp(2rem,3vw,3rem)] leading-[1.06] tracking-[-0.045em]">Scaling machine intelligence, <span className="text-secondary underline decoration-1 underline-offset-[0.12em]">together</span></h2>
             <p className="mb-7 mt-5 text-base leading-relaxed sm:mt-6 sm:text-lg xl:text-xl">We work with leading companies and startups to deliver hands-on projects, events, mentorship, and career pathways for our community</p>
-            <PillLink href="/sponsors" size="lg">Learn more</PillLink>
+            <PillLink href="/sponsors">Learn more</PillLink>
           </div>
           <SponsorMosaic />
         </div>

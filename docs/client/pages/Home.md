@@ -33,7 +33,7 @@ date range and growth percentages are omitted. Unknown CMS statistics retain
 their full descriptions and receive a generic icon.
 The panel extends below an overflow crop with a subtle bottom shadow and meets
 the next dark section directly. All statistics and the CMS introduction remain
-above the crop. Cards reflow to two columns on tablets and one on phones.
+above the crop. Cards reflow to two columns on tablets and phones.
 
 `readHomeImpact()` supplies the impact introduction and all six statistics to both versions.
 During explicitly opted-in local development it reads the published
@@ -45,7 +45,7 @@ than silently falling back. See the [reader recipe](../ContentReader.md).
 The `features/public-site/data/home-{content,sponsors,events,faq}.ts` modules
 hold shared site content. Editing sponsors, events or FAQ updates both versions.
 `components/sponsor-mosaic.tsx` lays out the sponsor logos in a wide, sparse grid:
-10 columns on desktop, seven on tablets and four on phones. Empty cells are
+10 columns on desktop, seven on tablets and five on phones. Empty cells are
 white with a subtle border. Sponsor tiles use two consistent backgrounds: light
 periwinkle and indigo blue, selected for each original logo's contrast. Logos sit
 directly on their tiles, with no additional backing panels. Bright wordmarks
@@ -64,7 +64,7 @@ Sponsor tiles lift with a shadow on hover and keyboard focus. Dark tiles keep
 their opaque indigo background and gain a cyan inner border, so the hover state
 remains distinct without changing logo contrast. Reduced motion disables lift.
 The adjacent sponsor copy uses a responsive 32–48px heading, 18–20px supporting
-text and the large `PillLink` variant. Its desktop alignment accounts for the
+text and the shared `PillLink`. Its desktop alignment accounts for the
 empty fade row so the copy centers beside the populated grid.
 All sponsors remain linked; Modal uses its official light wordmark
 from [Modal's brand assets](https://modal.com/brand), stored in `assets/logos/modal.png`.
@@ -93,13 +93,14 @@ or imported from the homepage feature:
   follows Events. Programs reveals MISTic R&D and MLF on hover or button press.
   Only one submenu opens at a time; Escape closes it and restores focus.
 - `PillLink`, exported from `@/shared/ui`, composes the existing `Button` with
-  Next's `Link` and an arrow. Its `light` option works on dark sections; `size="lg"`
-  gives the sponsor section a larger label and arrow without changing other CTAs.
-  The light option follows Frame 94 (`25:1737`): a compact translucent pill,
-  fine white border, 15px label and 24px blue arrow circle. Its small visual
-  height has an extended pointer target; on phones the pill itself is at least
-  44px tall. The circle and arrow are the original
-  local Figma SVGs in `public/redesign/`, rendered at their exported dimensions.
+  Next's `Link` and an arrow. All homepage CTAs use a 48px height, 16px label,
+  12px gap and 16px arrow on both phones and desktops. Circular-arrow actions
+  share a 36px circle, 20px leading padding and 5px trailing padding. Widths fit
+  their labels; no extra invisible hit area is needed. The `light` option keeps
+  Frame 94's translucent fill and white border on dark sections. Figma's local
+  circle/arrow SVGs in `public/redesign/` scale to the shared dimensions.
+  The hero reuses `PillLink` with `arrow="plain"` and its glass colors; its contact
+  link matches the same height, label size and 16px horizontal padding.
 - The About photo has no UTMIST call overlay. The mission network is implemented
   by `components/home-discipline-network.tsx`, using twelve real shared `Button`
   components, Lucide icons and SVG connections to recreate Figma `25:1782`.
@@ -147,7 +148,8 @@ preferences and preserves the underlying server-rendered content and layout.
   of the frame still disappears into the following section as in Figma.
 - Phone body copy uses 16px text with relaxed leading and 20px page gutters.
   The mission card loses its inset border on phones so its copy aligns with
-  the section. Network labels wrap inside larger two-column pill rows.
+  the section. Network labels wrap inside two-column pill rows with padding
+  that keeps both one-line and two-line labels at the shared 48px height.
 - Event cards share a flex layout that aligns their footer links across each
   desktop row. FAQ rows and phone CTAs have at least 44px touch targets.
 - Homepage footer styles are scoped to the redesign: larger social targets,
@@ -162,6 +164,11 @@ value into a static build. The layout is retained during client navigation;
 refresh the page after changing a dashboard value or browser override.
 
 ## Assets and checks
+
+Review captures of the approved layout: [desktop](../assets/home-redesign/desktop.jpg)
+and [mobile](../assets/home-redesign/mobile.jpg). These use reduced motion to
+show completed entrance and text-selection states; the live page retains its
+scroll and pointer interactions.
 
 `public/home-redesign/hero-background.webp` is a compressed copy of Frame 96's
 background image. `utmist-wordmark.png` is the supplied general-page navbar
