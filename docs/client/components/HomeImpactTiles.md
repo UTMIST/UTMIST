@@ -16,8 +16,8 @@ acting as a filter. The frame, rail and title bar use the sponsor tiles' white
 surface and indigo borders. A very light accent tint behind the cards separates
 the dashboard content from its white frame.
 
-The dashboard is centered at a maximum width of 896px, with a 48px title bar and
-a 56px decorative rail. Cards use 12 / 16px padding, 14px medium-weight labels
+The dashboard is centered at a maximum width of 896px, with a title bar at least
+48px high and a 56px decorative rail. Cards use 12 / 16px padding, 14px medium-weight labels
 and 30 / 36px numbers. A small icon/arrow row sits above each number; the label
 appears once underneath it. Each link's accessible name starts with the visible
 number and title for voice navigation, followed by the full source description.
@@ -45,6 +45,6 @@ outlines and hover tokens, respecting reduced motion. Behaviour tests in
 unknown statistics and visible labels in accessible names; layout and colour
 are checked in the browser.
 
-The [desktop transition](../assets/home-redesign/purple-cleanup/dashboard-to-mission-desktop.png)
-and [mobile transition](../assets/home-redesign/purple-cleanup/dashboard-to-mission-mobile.png)
+The [desktop homepage](../assets/home-redesign/desktop.jpg)
+and [mobile homepage](../assets/home-redesign/mobile.jpg) captures
 show the dashboard crop meeting the purple mission band without a gap.

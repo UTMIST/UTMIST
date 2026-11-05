@@ -1,9 +1,8 @@
 // src/shared/lib/flags/vercel.ts — real Vercel Flags adapter (server-only).
 //
-// This is the live `FlagAdapter` that #287/#447 promised: it implements the
-// same interface as the fixtures (`./fixtures`), so `flags/provider.ts` selects it
-// without any consuming code changing. It is server-only and reached only
-// through `@/shared/lib/server`; browser code imports types from `@/shared/lib`.
+// Implements the same FlagAdapter contract as the fixtures (`./fixtures`).
+// `flags/provider.ts` selects the adapter. Feature code accesses it through
+// `@/shared/lib/server`; browser code imports types from `@/shared/lib`.
 //
 // Provider: Vercel Flags via `@vercel/flags-core`'s `FlagsClient`. Auth uses
 // automatic Vercel OIDC unless an explicit FLAGS SDK key is supplied by
@@ -38,10 +37,8 @@ import type { FlagAdapter } from "./types";
 export function createVercelFlagAdapter(sdkKey?: string): FlagAdapter {
   const client = createClient(sdkKey);
 
-  // CMS access is an environment-level on/off flag, so no per-user targeting context is
-  // threaded yet; cohort targeting (#289) is added later by passing entities to
-  // `client.evaluate`. The signature omits the `ctx` argument (a shorter method
-  // still satisfies the `FlagAdapter` interface) because it is not consumed.
+  // Provider flags are evaluated at environment scope. No per-user entities are
+  // sent to Vercel, so this adapter does not consume the interface's context.
   return {
     async evaluate(name: string) {
       if (!Object.hasOwn(flagCatalog, name)) return undefined;

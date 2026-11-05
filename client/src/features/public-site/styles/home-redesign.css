@@ -489,7 +489,7 @@ html:has(.home-redesign) { position: relative; }
   }
 }
 
-/* Wrap full names into two columns instead of a screen-long single column. */
+/* Compact two-column layout with wrapped discipline names. */
 @container (max-width: 440px) {
   .home-discipline-canvas { height: 480px; }
   .home-discipline-lines-mobile { display: none; }

@@ -1,6 +1,6 @@
 # EigenAI page
 
-`/eigenai` always serves the launched 2026 event page. Its content, search/social
+`/eigenai` serves the published event page. Its content, search/social
 metadata, and main-site navigation link do not depend on a feature flag or
 provider availability.
 
@@ -15,34 +15,24 @@ provider availability.
 The page supplies its own navigation and footer. The frontend layout suppresses
 its standard controls through `HideOnEigenAI`, leaving one set of controls.
 Neither the page nor the layout evaluates the retired `Eigen-AI-Redesign` flag.
-The route no longer forces dynamic rendering for flag evaluation and can be
-prerendered with its local content.
+The feature view uses local content without evaluating a rollout flag.
 
-## Rollout retirement
+## Route selection
 
-The rollout completed under [#444](https://github.com/UTMIST/UTMIST/issues/444).
-The legacy 2025 page and selector were removed in
-[#499](https://github.com/UTMIST/UTMIST/issues/499). Local development and previews
-show the same presentation as production without enabling a flag. CMS retains
-its separate `CMS-Access` gate; see [../flags.md](../flags.md).
-
-Keep the remote EigenAI flag available until this replacement is deployed and
-verified: older deployments still consume it. After retirement, rolling back
-the page requires a code deployment rather than a flag toggle.
+The EigenAI route renders its event view unconditionally. Neither the homepage's
+`Web-Redesign` flag nor a flag-provider failure changes that selection.
+Changing the presentation requires a code change; CMS availability is controlled
+separately by `CMS-Access`. See [flag configuration](../flags.md).
 
 ## Search and social metadata
 
-`/eigenai` supplies the title `EigenAI 2026 | UTMIST`, a description with the
-October 3–4 dates and OISE venue, and the canonical URL
-`https://www.utmist.ca/eigenai`. Open Graph and Twitter large-image cards share
-that copy and the existing `eigenai-conference.webp` photo, with its dimensions
-and alternative text identifying it as a past conference. All metadata URLs
-use the public production origin, including on local and preview deployments.
-The imported photo's hashed asset URL updates if the file changes.
+The feature entry defines the title, description, canonical URL, Open Graph
+fields, and Twitter card. Keep these aligned with the event content when changing
+an edition. Social cards use `eigenai-conference.webp`, with its dimensions and
+alternative text. The imported photo's hashed asset URL changes with the asset.
 
-Metadata is unconditional. Social platforms may retain previously fetched
-previews until they recrawl the URL. The public URL is also listed in
-`public/sitemap.xml`.
+Metadata uses the public production origin in every environment and does not
+depend on a feature flag. The route is also listed in `public/sitemap.xml`.
 
 ## Content contract and fixtures
 
@@ -74,49 +64,23 @@ may be static imports or strings; remote image hosts must be allowed by
 `next.config.ts`. Future readers should supply `EigenAISpeaker` objects to the
 same [EigenAISpeakerCard](../components/EigenAISpeakerCard.md) used here.
 
-### 2026 content sources
+### Content sources and maintenance
 
-The redesign content was checked on September 30, 2026 against the EigenAI
-master sheet:
-`01 Overview`, `03 Contributions`, and `06 Partners Guests`. The `05 Event
-Schedule` tab points to the current workshop/panel schedule,
-which takes precedence over that tab's partially filled draft rows for times
-and rooms. These are manually maintained public content snapshots; the page
-does not fetch private planning documents at runtime.
-The live document's first tab was rechecked on September 30, 2026. Session names,
-times, and rooms follow that finalized schedule. Saturday registration now starts
-at 9:00 AM for sponsors and 9:15 AM for students, the opening ceremony runs from
-9:50–10:15 AM, and a 15-minute buffer follows it. Lunch and networking is in
-OI 2212, and the empty 1:00–1:30 PM row is not rendered as a session. Adrien
-Beyk's Panorad AI workshop remains Saturday 2:30–4:30 PM in OI 2212; the Sunday
-2:45–3:45 PM AI Agents Workshop in OI 2214 belongs to UTMIST Academics. The
-tentative request for extra engineering booths is noted but not treated as a
-confirmed session.
+`data/eigenai-redesign.ts` is the maintained public content snapshot. Its event
+details come from the organizer's master sheet and linked workshop/panel schedule;
+organizer-supplied names, affiliations, and portraits supplement those sources.
+The page does not fetch planning documents at runtime.
 
-The public speaker lineup contains only guests with supplied headshots.
-Guests awaiting photos, the research-panel backup, and unconfirmed outreach
-contacts are omitted, along with private contact details, sponsor amounts,
-internal staffing, and logistics notes. No keynote is designated.
-Affiliations describe the listed sessions rather than inventing job titles.
-Adrien Beyk is listed in his own name, following the current schedule's note.
-The organizer subsequently supplied headshots for Adrien Beyk, Aryan Yaghoubian,
-Iris Guo, Naomi Walch, and Vincent Xue. Their accompanying names and affiliations
-take precedence over the sheet: Naomi's name is spelled Walch and her role is
-Associate at Northside Ventures; Vincent is also at Northside Ventures. Aryan
-and Iris are Building Your Path in Tech panelists. The organizer confirmed
-The finalized schedule identifies Adrien's session as the Panorad AI workshop;
-that affiliation is used in his speaker card, workshop card, and schedule, while
-Sunday's separate session remains AI Agents Workshop.
-Profile links remain unset until supplied.
+When updating the event, confirm the public schedule and speaker information
+with the organizers. Keep dates, times, rooms, workshop hosts, and page metadata
+consistent. Use confirmed public information only; omit private contact details,
+sponsor amounts, staffing notes, and unconfirmed outreach. Do not infer attendance
+from venue capacity or create profile links that have not been supplied.
 
-The six workshop cards use session titles, hosts, dates, times, and rooms from
-these sources. They use compact text and padding with no fixed minimum height,
-stacking on phones and forming two columns from `md`. Speaker and workshop cards
-use the same `rounded-3xl` corner radius as the schedule day panels. The finalized
-schedule's empty Saturday 1:00–1:30 PM row is omitted.
-The schedule notice says it is subject to change. The theme follows the current
-schedule: “Across the Many Frontiers of AI.” No attendance metric is inferred
-from the sheet's capacity goal.
+Workshop cards render supplied session details in a content-sized layout, stacking
+on phones and using two columns from `md`. Their `rounded-3xl` corners match
+speaker cards and schedule panels. Schedule notices and the event theme are
+content fields; update the data rather than duplicating them in presentation code.
 
 ## Presentation
 
@@ -128,8 +92,7 @@ centred with `object-contain` on 2:1 `rounded-3xl` glass panels, the same
 `GradientPanel` surface and gradient outline as the workshop and speaker cards,
 filled with translucent white (`bg-white/85`) so the mostly dark logos keep
 their original colours and stay legible. Tiles stack on phones and
-wrap two per row from `sm` and four per row from `lg`. Rows are centred, so the
-ten 2026 logos form two rows of four with RCFTA and IEEE centred in a third.
+wrap two per row from `sm` and four per row from `lg`. Incomplete rows are centred.
 Logo files are cropped to their artwork so `object-contain` can fill the tile.
 On phones, where each tile spans the full width, larger padding keeps logos
 smaller.
@@ -137,9 +100,8 @@ Square logos are height-limited in the wide tiles; an optional `logoScale`
 resizes one to balance it with the others (Arc x2 and Cognition AI use `1.3`,
 Publicus AI `1.15`, and RCFTA `0.85`). An empty list shows an announcement placeholder.
 
-The About section uses only `eigenai-conference.webp`, the second photo from the
-previous three-image layout. Introductory paragraphs form two columns from `md`,
-followed by one image spanning the content width. Its frame uses a 16:9 ratio on
+The About section uses `eigenai-conference.webp`. Introductory paragraphs form two
+columns from `md`, followed by one image spanning the content width. Its frame uses a 16:9 ratio on
 phones and 21:9 from `sm`, with the crop positioned toward the panelists. The
 caption identifies it as EigenAI 2024. `about.image` and `about.imageAlt`
 supply the photo and alternative text; omitting the image also omits its frame
@@ -182,7 +144,7 @@ area so drifting bubbles remain visible beyond the original ring bounds.
 The top-right desktop decoration uses the same full orbit cluster and bubble
 set as the other desktop orbit artwork.
 
-The default content includes the current two-day schedule for October 3 and 4
+The default content defines a two-day schedule
 in Toronto local time (EDT), with explicit AM/PM labels.
 `eigenai-schedule.tsx` accepts typed schedule data and owns its
 responsive layout: Saturday and Sunday are separate, equal-height glass panels
@@ -335,12 +297,11 @@ animated orbit artwork as desktop, including drifting icon orbs and the slow
 additional top-left cluster, and stronger contrast, with staggered delays. Both the rotation and
 the SVG's internal drift stop for reduced-motion preferences. The original
 desktop Figma coordinates and scale resume at `md`.
-The 2026 content includes guests with headshots and six workshops.
+The public content supplies the speaker lineup and workshop list.
 There are no placeholder speaker cards in the public lineup. Workshop descriptions
 give the available session details without inventing abstracts.
 Speaker cards use a centered wrapping layout: one per row on phones, two from
-`sm`, and three from `md`. Incomplete rows stay centered, so the
-lineup fills three full rows of three on wider screens. The cards have
+`sm`, and three from `md`. Incomplete rows stay centered. The cards have
 compact, content-driven heights and centered names and roles.
 The UTMIST lockups use the exported Figma `White Side 2` artwork rather than a
 typed approximation, preserving the custom letterforms in the hero, EigenAI

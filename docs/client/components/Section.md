@@ -15,7 +15,8 @@ for consistent reading width and gutters.
 Tinted sections add a soft accent surface and block borders. `contentClassName`
 sets inner layout; `className` applies to the outer section. Pass its ID and
 accessible heading association through normal section attributes. The hero
-retains its specialized full-height layout; About uses this standard section.
+retains its specialized full-height layout. About composes `ContentContainer`
+and its mission band directly while using the shared spacing token.
 
 Each section contributes half the shared gap as top and bottom padding, so
 adjacent content blocks are separated by exactly one gap (plus any border).

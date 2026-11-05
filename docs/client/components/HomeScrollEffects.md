@@ -34,8 +34,10 @@ static colour accents and do not participate in the highlight animation.
 The network plays one introductory wave on entry without selecting a discipline.
 Hover, focus, tap and Escape immediately take precedence; its slow fade is retained.
 
-All content is visible in the server HTML. Only offscreen elements are prepared for
-entrance after hydration; content at a restored scroll position stays visible.
+Content is server-rendered and needs no JavaScript to appear. Responsive CSS
+hides the desktop community composition below 1280px. Only offscreen reveal
+targets are prepared for entrance after hydration; content at a restored scroll
+position stays visible.
 Keyboard focus completes an entrance immediately. Completed reveals do not replay.
 Reduced motion shows the finished layout and skips autoplay, including when the
 preference changes while the page is open. Cleanup cancels observers, scroll

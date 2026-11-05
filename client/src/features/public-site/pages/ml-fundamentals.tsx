@@ -615,7 +615,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
     2: "https://youtu.be/Ntxq5_Ysdlg?si=S5zsWXgPV_mZjy9z"
   };
 
-  // YouTube video URLs for each week's recordings (you'll need to replace these with actual video URLs)
+  // Published recordings indexed by workshop week.
   const youtubeVideoUrls: Record<number, string> = {
     1: "https://youtu.be/h1DxLpXvPbo", 
     2: "https://youtu.be/ccwnTixGaCI", 
@@ -627,7 +627,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
     8: "https://youtu.be/-9EKr_rmkI4", 
   };
 
-  // weekNumber is now passed as a prop
+  // Select resources for the requested phase and week.
   const pdfUrl = isSampleProject ? sampleProjectPdfUrl : (isPhase2 ? phase2PdfUrls[weekNumber] : pdfUrls[weekNumber]);
   const youtubeVideoUrl = isPhase2 ? phase2YoutubeVideoUrls[weekNumber] : youtubeVideoUrls[weekNumber];
   

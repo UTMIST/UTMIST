@@ -11,7 +11,7 @@ import {
 } from "@/shared/ui/client";
 import { Toaster } from "react-hot-toast";
 
-//Metadata for the page
+// Default metadata for frontend routes; individual pages can override it.
 export const metadata: Metadata = {
   title: "UTMIST",
     icons: {
@@ -20,8 +20,7 @@ export const metadata: Metadata = {
   description: "University of Toronto Machine Intelligence Student Team",
 };
 
-// Root layout for the application
-// This layout wraps around all pages and includes the Navbar and Footer
+// Frontend shell; EigenAI supplies its own navigation and footer.
 export default async function RootLayout({
   children,
 }: Readonly<{

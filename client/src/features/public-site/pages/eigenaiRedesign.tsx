@@ -24,13 +24,11 @@ import { EigenGlassSurface } from "@/features/public-site/components/eigenai-sur
 import { StatItem } from "@/features/public-site/components/stats";
 import utmistWordmark from "@/assets/logos/utmist-wordmark-white.png";
 import discordLogo from "@/assets/logos/discord.svg";
-// import facebookLogo from "@/assets/logos/facebook.svg";
 import githubLogo from "@/assets/logos/github.svg";
 import instagramLogo from "@/assets/logos/instagram.svg";
 import linkedinLogo from "@/assets/logos/linkedin.svg";
 import mediumLogo from "@/assets/logos/medium.svg";
 import youtubeLogo from "@/assets/logos/youtube.svg";
-// import xLogo from "@/assets/logos/x.svg";
 import ellipseA from "@/assets/eigenai-redesign/ellipse-a.svg";
 import ellipseB from "@/assets/eigenai-redesign/ellipse-b.svg";
 import ellipseC from "@/assets/eigenai-redesign/ellipse-c.svg";
@@ -132,16 +130,6 @@ const socialLinks = [
     label: "YouTube",
     icon: youtubeLogo,
   },
-  // {
-  //   href: "https://www.facebook.com/UofT.MIST",
-  //   label: "Facebook",
-  //   icon: facebookLogo,
-  // },
-  // {
-  //   href: "https://x.com/utmist1",
-  //   label: "X",
-  //   icon: xLogo,
-  // },
   {
     href: "https://github.com/UTMIST",
     label: "GitHub",

@@ -54,8 +54,8 @@ Import primitives through `@/shared/ui` and interactive shell components through
 - [Badge](../components/Badge.md) has light/dark tones for categories and photo captions.
 - [Footer](../components/Footer.md) owns its legacy/standard variants. The client
   shell selects the standard footer only on the flagged homepage.
-- Every standardized pattern has at most two visual variants, selected by props.
-  Keep layout classes at call sites and visual treatments in the library.
+- Use each primitive's documented variant or tone props. Keep layout classes
+  at call sites and visual treatments in the library.
 - `EigenAIEventArtwork` is shared with the Events page.
 - Event cards remain single links; FAQs use native `details`/`summary` elements.
   Decorative tile icons and editor annotations are not separate interactive controls.
@@ -80,7 +80,7 @@ Sponsor logos and event wordmarks retain their own brand artwork.
 | Supporting text | `home-meta` | 14px, 20px line height |
 | Compact caption | `home-caption` | 12px, 16px line height |
 
-The shared breakpoints are 640px and 1024px. The hero title, statistic numbers
+The typography breakpoints are 640px and 1024px. The hero title, statistic numbers
 and community display composition remain distinct display roles. Highlighted
 words use 700 weight. FAQ questions use 16 / 18 / 18px at 500 weight.
 
@@ -228,7 +228,7 @@ edges and taper toward the highlighted phrase. Their 5em height adds dark colour
 without crossing the text. A lighter trailing stroke follows each streak;
 both follow the composition's tilt and scale to the side gutters.
 Misty rides the left streak with an indigo paintbrush, scaling with the side gutter.
-The current generated illustration is a temporary stand-in to replace with approved artwork.
+The generated illustration is a temporary stand-in to replace with approved artwork.
 The entire community composition is hidden below 1280px, where the text, editor
 annotations and side artwork become cramped. The events introduction then leads
 directly into flagship events with the standard section gap. Decorative layers are
@@ -268,17 +268,12 @@ is the visual reference. Local exports live under `public/home-redesign/` and
 from its [official gallery](https://cucai.ca/) ([source](https://cucai.ca/gallery3.png)).
 The page renders live components rather than screenshots of controls or text.
 The [Misty illustration notes](../assets/home-redesign/misty-painting.md) record
-the reference, generation prompt, and transparent asset used on the left community streak.
+the asset's source and replacement requirements.
 
-[Desktop](../assets/home-redesign/desktop.jpg) and
-[mobile](../assets/home-redesign/mobile.jpg) captures show completed motion states.
-The [About comparison](../assets/home-redesign/purple-cleanup/index.html)
-compares the previous About/impact layout with the resized photo, simpler cards
-and clearer hierarchy above the purple mission band.
-It includes matching before/after captures at 1440px and an after capture at 390px,
-taken from the local page with completed scroll highlights. It supports side-by-side
-and slider comparisons; the [local homepage](http://localhost:3000/#about-us)
-demonstrates the live interactions.
+[Desktop (1440px)](../assets/home-redesign/desktop.jpg) and
+[mobile (390px)](../assets/home-redesign/mobile.jpg) captures show completed motion states.
+Refresh these captures when the layout changes. Older comparison assets are design
+history, not the reference for the maintained implementation.
 When changing layout, check narrow phones through wide desktop for overflow,
 centering, wrapping, contrast, and touch targets. Verify keyboard navigation,
 menu dismissal, network selection, animation pause, reduced motion, and both

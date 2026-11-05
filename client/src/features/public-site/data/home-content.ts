@@ -1,4 +1,4 @@
-/** Copy shared by the current and redesigned homepages. */
+/** Copy shared by the legacy and redesigned homepages. */
 export const homeContent = {
   title: "Clear The MIST",
   subtitle: "University of Toronto Machine Intelligence Student Team",
