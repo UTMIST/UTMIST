@@ -1,9 +1,11 @@
 "use client";
 
-import { useId, useReducer, type CSSProperties } from "react";
+import { useEffect, useId, useReducer, useRef, type CSSProperties } from "react";
+import { inView } from "framer-motion";
 import { BookMarked, BrainCircuit, Cog, Globe2, MapPinned, Network, Puzzle } from "lucide-react";
 
 import { Button } from "@/shared/ui";
+import { homeMotion } from "@/features/public-site/lib/home-motion";
 
 const disciplines = [
   { id: "math", label: "Math", icon: BrainCircuit, x: 10, y: 12 },
@@ -60,7 +62,7 @@ const paths = connections.map(([from, to]) => ({
 
 // A wave follows graph distance, including branches and cycles, from any pill.
 // Precompute once; CSS handles the stagger without timers or per-frame renders.
-const waveStepMs = 220;
+const waveStepMs = homeMotion.waveStepMs;
 const waves = new Map(disciplines.map(({ id }) => {
   const distances = new Map<DisciplineId, number>([[id, 0]]);
   const queue: DisciplineId[] = [id];
@@ -88,6 +90,7 @@ const waves = new Map(disciplines.map(({ id }) => {
 }));
 
 type NetworkState = {
+  intro: boolean;
   selected: DisciplineId | null;
   hovered: DisciplineId | null;
   focused: DisciplineId | null;
@@ -97,12 +100,17 @@ type NetworkState = {
 type NetworkAction =
   | { type: "hover" | "focus"; id: DisciplineId | null }
   | { type: "select"; id: DisciplineId }
-  | { type: "clear" };
+  | { type: "clear" | "intro" | "intro-end" };
 
-const initialState: NetworkState = { selected: null, hovered: null, focused: null, waveOrigin: null, waveSequence: 0 };
+const initialState: NetworkState = { intro: false, selected: null, hovered: null, focused: null, waveOrigin: null, waveSequence: 0 };
 
 function networkReducer(state: NetworkState, action: NetworkAction): NetworkState {
-  const next = { ...state };
+  if (action.type === "intro") {
+    // An entrance wave must never replace a user's preview or pinned selection.
+    return state.waveOrigin ? state : { ...state, intro: true, waveOrigin: "math", waveSequence: state.waveSequence + 1 };
+  }
+  if (action.type === "intro-end") return { ...state, intro: false };
+  const next = { ...state, intro: false };
   if (action.type === "hover") next.hovered = action.id;
   if (action.type === "focus") next.focused = action.id;
   if (action.type === "select" || action.type === "clear") {
@@ -122,12 +130,34 @@ function networkReducer(state: NetworkState, action: NetworkAction): NetworkStat
 
 export default function HomeDisciplineNetwork() {
   const instructionsId = useId();
-  const [{ selected, hovered, focused, waveOrigin, waveSequence }, dispatch] = useReducer(networkReducer, initialState);
+  const root = useRef<HTMLDivElement>(null);
+  const [{ intro, selected, hovered, focused, waveOrigin, waveSequence }, dispatch] = useReducer(networkReducer, initialState);
   const active = hovered ?? focused ?? selected;
   const wave = waveOrigin ? waves.get(waveOrigin) : null;
 
+  useEffect(() => {
+    const element = root.current;
+    if (!element || !("IntersectionObserver" in window)) return;
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (preference.matches) return;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const stop = inView(element, () => {
+      dispatch({ type: "intro" });
+      const lastHop = Math.max(...waves.get("math")!.distances.values());
+      timer = setTimeout(() => dispatch({ type: "intro-end" }), lastHop * waveStepMs + homeMotion.waveSpreadMs);
+    }, { margin: homeMotion.viewportMargin });
+    const reduce = () => {
+      if (!preference.matches) return;
+      stop();
+      clearTimeout(timer);
+      dispatch({ type: "intro-end" });
+    };
+    preference.addEventListener("change", reduce);
+    return () => { stop(); clearTimeout(timer); preference.removeEventListener("change", reduce); };
+  }, []);
+
   return (
-    <div className="home-discipline-network min-w-0" role="group" aria-label="Explore our community’s disciplines" aria-describedby={instructionsId} data-wave-active={Boolean(active)}
+    <div ref={root} className="home-discipline-network min-w-0" role="group" aria-label="Explore our community’s disciplines" aria-describedby={instructionsId} data-wave-active={Boolean(active) || intro} data-wave-intro={intro}
       onKeyDown={(event) => {
         if (event.key === "Escape") {
           dispatch({ type: "clear" });

@@ -128,6 +128,11 @@ or imported from the homepage feature:
 
 ## Responsive layout
 
+The redesign shares one [scroll-motion system](../components/HomeScrollEffects.md)
+for section entrances, staggered cards and sponsor tiles, the community text
+selection, and the network's introductory wave. Motion respects reduced-motion
+preferences and preserves the underlying server-rendered content and layout.
+
 - Below 1024px the hero headline wraps naturally, with the brain icon kept next
   to “Machine.” The three hero statistics are centered below the actions in a
   bounded row, with each number centered over its label. Desktop retains the

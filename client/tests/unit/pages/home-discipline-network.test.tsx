@@ -1,7 +1,25 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { inView } from "framer-motion";
 
 import HomeDisciplineNetwork from "@/features/public-site/components/home-discipline-network";
+
+jest.mock("framer-motion", () => ({ inView: jest.fn() }));
+
+let enter: () => void;
+let reduced: boolean;
+const stop = jest.fn();
+beforeEach(() => {
+  reduced = false;
+  jest.clearAllMocks();
+  Object.defineProperty(window, "IntersectionObserver", { configurable: true, value: jest.fn() });
+  Object.defineProperty(window, "matchMedia", { configurable: true, value: () => ({ matches: reduced, addEventListener: jest.fn(), removeEventListener: jest.fn() }) });
+  jest.mocked(inView).mockImplementation((element, callback) => {
+    enter = () => { callback(element as Element, {} as IntersectionObserverEntry); };
+    return stop;
+  });
+});
+afterEach(() => { jest.useRealTimers(); });
 
 it("supports keyboard selection, switching disciplines and clearing with Escape", async () => {
   const user = userEvent.setup();
@@ -36,4 +54,41 @@ it("previews connections without changing a pinned selection and toggles it off 
   await user.click(first);
   expect(screen.queryByRole("button", { pressed: true })).not.toBeInTheDocument();
   expect(first).toHaveAttribute("data-active", "false");
+});
+
+it("plays an entrance wave without selecting a discipline, then releases it", () => {
+  jest.useFakeTimers();
+  render(<HomeDisciplineNetwork />);
+  const network = screen.getByRole("group");
+  act(() => enter());
+  expect(network).toHaveAttribute("data-wave-intro", "true");
+  expect(screen.queryByRole("button", { pressed: true })).not.toBeInTheDocument();
+  act(() => jest.runAllTimers());
+  expect(network).toHaveAttribute("data-wave-active", "false");
+  act(() => enter());
+  expect(network).toHaveAttribute("data-wave-intro", "false");
+});
+
+it("lets user selection supersede the entrance wave and survive its timer", () => {
+  jest.useFakeTimers();
+  const { unmount } = render(<HomeDisciplineNetwork />);
+  act(() => enter());
+  const physics = screen.getByRole("button", { name: "Physics" });
+  fireEvent.click(physics);
+  expect(screen.getByRole("group")).toHaveAttribute("data-wave-intro", "false");
+  act(() => jest.runAllTimers());
+  expect(physics).toHaveAttribute("aria-pressed", "true");
+  expect(screen.getByRole("group")).toHaveAttribute("data-wave-active", "true");
+  unmount();
+  expect(stop).toHaveBeenCalled();
+  expect(jest.getTimerCount()).toBe(0);
+});
+
+it("skips autoplay for reduced motion while keeping selection interactive", () => {
+  reduced = true;
+  render(<HomeDisciplineNetwork />);
+  expect(inView).not.toHaveBeenCalled();
+  const physics = screen.getByRole("button", { name: "Physics" });
+  fireEvent.click(physics);
+  expect(physics).toHaveAttribute("aria-pressed", "true");
 });

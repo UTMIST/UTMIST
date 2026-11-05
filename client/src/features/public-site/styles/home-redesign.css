@@ -1,5 +1,8 @@
 @import "@fontsource/instrument-sans/latin-600.css";
 
+/* Give Motion's document scroll measurement a positioned container. */
+html:has(.home-redesign) { position: relative; }
+
 /* General-page hero and Frames 93 → 94 → 95 with the site's existing content. */
 .home-redesign {
   --home-ink: #15026a;
@@ -25,13 +28,40 @@
   outline-offset: 5px;
 }
 
-.home-selection {
+/* Entrance motion uses translate so it composes with existing hover transforms. */
+@media (prefers-reduced-motion: no-preference) {
+  .home-redesign { --home-reveal-distance: var(--home-reveal-mobile-distance); }
+  .home-redesign [data-home-reveal-state="waiting"] {
+    opacity: 0;
+    translate: 0 var(--home-reveal-distance);
+  }
+  .home-redesign [data-home-reveal-state="entering"] {
+    animation: home-scroll-reveal var(--home-reveal-duration) var(--home-motion-ease) var(--home-reveal-delay, 0ms) both;
+  }
+}
+@media (min-width: 640px) and (prefers-reduced-motion: no-preference) {
+  .home-redesign { --home-reveal-distance: var(--home-reveal-desktop-distance); }
+}
+@keyframes home-scroll-reveal {
+  from { opacity: 0; translate: 0 var(--home-reveal-distance); }
+  to { opacity: 1; translate: 0 0; }
+}
+
+.home-selection,
+.home-hero-highlight {
+  --home-highlight-fill: rgb(0 149 255 / 20%);
   position: relative;
-  background: rgb(0 149 255 / 20%);
-  border-inline: 2px solid var(--home-selection);
-  padding-inline: 0.06em;
+  background-color: transparent;
+  background-image: linear-gradient(var(--home-highlight-fill), var(--home-highlight-fill));
+  background-repeat: no-repeat;
+  background-size: calc(var(--home-selection-progress, 1) * 100%) 100%;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
+}
+
+.home-selection {
+  border-inline: 2px solid var(--home-selection);
+  padding-inline: 0.06em;
 }
 
 .home-selection::before,
@@ -66,8 +96,7 @@
 }
 
 .home-hero-highlight {
-  position: relative;
-  background: rgb(120 158 255 / 65%);
+  --home-highlight-fill: rgb(120 158 255 / 65%);
 }
 .home-hero-highlight::after {
   content: "";
@@ -316,7 +345,7 @@
 .home-discipline-lines-mobile { display: none; }
 .home-discipline-wave {
   opacity: 0;
-  transition: opacity 1200ms ease-out;
+  transition: opacity var(--home-wave-fade, 1200ms) var(--home-motion-ease, ease-out);
   pointer-events: none;
 }
 .home-discipline-network[data-wave-active="true"] .home-discipline-wave {
@@ -334,7 +363,7 @@
   stroke-linecap: round;
   stroke-dasharray: 1;
   opacity: .45;
-  animation: discipline-line-spread 800ms ease-out var(--wave-delay) both;
+  animation: discipline-line-spread var(--home-wave-line, 800ms) var(--home-motion-ease, ease-out) var(--wave-delay) both;
 }
 
 @keyframes discipline-line-spread {
@@ -352,7 +381,7 @@
   background:
     linear-gradient(var(--home-discipline-fill), var(--home-discipline-fill)) padding-box,
     linear-gradient(115deg, var(--home-cyan), var(--home-lilac), var(--home-blue)) border-box;
-  transition: box-shadow 1200ms ease-out, filter 1200ms ease-out;
+  transition: box-shadow var(--home-wave-fade, 1200ms) var(--home-motion-ease, ease-out), filter var(--home-wave-fade, 1200ms) var(--home-motion-ease, ease-out);
 }
 .home-discipline-button svg { color: var(--home-lilac); }
 .home-discipline-wave-node {
@@ -368,7 +397,7 @@
   background: linear-gradient(115deg, rgb(89 224 233 / 16%), rgb(141 119 255 / 12%));
   box-shadow: 0 0 18px rgb(89 224 233 / 35%), inset 0 0 12px rgb(89 224 233 / 12%);
   opacity: .5;
-  animation: discipline-pill-spread 1100ms ease-out var(--wave-delay) both;
+  animation: discipline-pill-spread var(--home-wave-spread, 1100ms) var(--home-motion-ease, ease-out) var(--wave-delay) both;
 }
 @keyframes discipline-pill-spread {
   0% { opacity: 0; transform: scale(.97); }
@@ -423,6 +452,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   html:has(.home-redesign) { scroll-behavior: auto; }
+  .home-selection, .home-hero-highlight { background-size: 100% 100%; }
   .home-redesign *, .home-redesign *::before, .home-redesign *::after {
     animation: none !important;
     transition: none !important;

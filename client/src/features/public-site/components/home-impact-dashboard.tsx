@@ -18,7 +18,7 @@ const sidebarIcons = ["folder", "upload", "bookmark", "calendar", "people"];
 export default function HomeImpactDashboard({ impact }: { impact: HomeImpactContent }) {
   return (
     <section aria-labelledby="impact-heading" className="mt-12 sm:mt-20 md:mt-24" data-figma-node="25:1478">
-      <h2 id="impact-heading" className="mb-9 text-[clamp(2rem,3vw,3rem)] leading-tight tracking-[-0.05em] md:mb-10">
+      <h2 data-home-reveal id="impact-heading" className="mb-9 text-[clamp(2rem,3vw,3rem)] leading-tight tracking-[-0.05em] md:mb-10">
         Our footprint this <span className="home-selection">year</span>
       </h2>
       <div className="home-impact-crop relative overflow-hidden rounded-t-xl">
@@ -46,12 +46,12 @@ export default function HomeImpactDashboard({ impact }: { impact: HomeImpactCont
             </div>
             <div className="px-3 pt-5 sm:px-5 lg:px-6 lg:pt-6">
               <h3 className="mb-4 text-base lg:text-lg">Overview</h3>
-              <dl className="home-impact-cards grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 lg:gap-6">
+              <dl data-home-stagger="row" className="home-impact-cards grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 lg:gap-6">
                 {impact.statistics.map((stat) => {
                   const presentation = statisticPresentation[stat.description as keyof typeof statisticPresentation];
                   const Icon = presentation?.icon ?? Users;
                   return (
-                    <div key={stat.description} className="flex min-w-0 flex-col overflow-hidden rounded-[5px] border border-black/65 bg-white">
+                    <div data-home-reveal key={stat.description} className="flex min-w-0 flex-col overflow-hidden rounded-[5px] border border-black/65 bg-white">
                       <dt className="flex flex-col items-start gap-2 px-3 pt-3 sm:flex-row sm:items-center sm:px-4 sm:pt-4 lg:gap-3 lg:px-5">
                         <span className="flex size-8 shrink-0 items-center justify-center rounded border border-black/25 bg-gradient-to-b from-muted to-black/[0.06] sm:size-11">
                           <Icon size={23} strokeWidth={1.25} aria-hidden="true" className="size-5 sm:size-[23px]" />

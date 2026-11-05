@@ -49,7 +49,7 @@ export default function SponsorMosaic() {
   let emptyCell = 0;
 
   return (
-    <div className="home-sponsor-mosaic" role="group" aria-label="Our sponsors">
+    <div data-home-stagger="diagonal" className="home-sponsor-mosaic" role="group" aria-label="Our sponsors">
       <div className="grid grid-cols-5 gap-1.5 sm:grid-cols-7 lg:grid-cols-10">
         {Array.from({ length: cellCount }, (_, index) => {
           const sponsor = sponsorsByCell.get(index);
@@ -59,14 +59,14 @@ export default function SponsorMosaic() {
             "--sponsor-row": Math.floor(mobileCell / 5) + 1,
           } as CSSProperties;
           if (!sponsor) {
-            return <div key={index} aria-hidden="true" style={position} className={`home-sponsor-cell aspect-square rounded border border-border/70 bg-white ${mobileCell === undefined ? "hidden sm:block" : ""}`} />;
+            return <div data-home-reveal key={index} aria-hidden="true" style={position} className={`home-sponsor-cell aspect-square rounded border border-border/70 bg-white ${mobileCell === undefined ? "hidden sm:block" : ""}`} />;
           }
           const artwork = logoArtwork[sponsor.alt] ?? { ratio: 2 };
           const isDark = artwork.dark;
           const [left, top, width, height] = artwork.bounds ?? [0, 0, 1, 1];
           const visibleRatio = artwork.ratio * width / height;
           return (
-            <a key={sponsor.link} href={sponsor.link} target="_blank" rel="noopener noreferrer" data-tone={isDark ? "dark" : "light"} style={position}
+            <a data-home-reveal key={sponsor.link} href={sponsor.link} target="_blank" rel="noopener noreferrer" data-tone={isDark ? "dark" : "light"} style={position}
               className={`home-sponsor-cell home-sponsor-tile relative flex aspect-square min-w-0 items-center justify-center rounded border border-secondary/20 shadow-sm ${isDark ? "bg-secondary" : "bg-[var(--accent)]"}`}>
                 <span className="relative block overflow-hidden" style={{ aspectRatio: visibleRatio, width: `${Math.min(82, 58 * visibleRatio)}%` }}>
                   <Image src={sponsor.src} alt={sponsor.alt} width={300} height={Math.round(300 / artwork.ratio)}
@@ -77,12 +77,12 @@ export default function SponsorMosaic() {
             </a>
           );
         })}
-        <div aria-hidden="true" className="hidden aspect-square rounded border border-border/70 bg-white sm:block lg:hidden" />
-        <div aria-hidden="true" className="hidden aspect-square rounded border border-border/70 bg-white sm:block lg:hidden" />
+        <div data-home-reveal aria-hidden="true" className="hidden aspect-square rounded border border-border/70 bg-white sm:block lg:hidden" />
+        <div data-home-reveal aria-hidden="true" className="hidden aspect-square rounded border border-border/70 bg-white sm:block lg:hidden" />
       </div>
       <div aria-hidden="true" className="home-sponsor-fade mt-1.5 grid grid-cols-5 gap-1.5 sm:grid-cols-7 lg:grid-cols-10">
         {Array.from({ length: 10 }, (_, index) => (
-          <div key={index} className={`aspect-square rounded border border-border/70 bg-white ${index >= 7 ? "hidden lg:block" : index >= 5 ? "hidden sm:block" : ""}`} />
+          <div data-home-reveal key={index} className={`aspect-square rounded border border-border/70 bg-white ${index >= 7 ? "hidden lg:block" : index >= 5 ? "hidden sm:block" : ""}`} />
         ))}
       </div>
     </div>
