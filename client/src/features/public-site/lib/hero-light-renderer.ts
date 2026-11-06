@@ -1,12 +1,23 @@
 import { heroFragmentShader, heroVertexShader } from "@/features/public-site/lib/hero-light-shaders";
 
+type RGB = readonly [number, number, number];
+export type HeroLightPalette = { base: RGB; light: RGB; highlight: RGB };
+
+export const heroLightPalettes = {
+  home: { base: [0.003, 0.006, 0.022], light: [0.012, 0.065, 0.95], highlight: [0.13, 0.49, 0.42] },
+  // F2F's mint (#52ddac) and teal (#008787), normalized for WebGL.
+  f2f: { base: [0, 0.008, 0.008], light: [82 / 255, 221 / 255, 172 / 255], highlight: [0, 135 / 255, 135 / 255] },
+} as const satisfies Record<string, HeroLightPalette>;
+
+export type HeroLightTheme = keyof typeof heroLightPalettes;
+
 export type HeroLightRenderer = {
   setPaused: (paused: boolean) => void;
   dispose: () => void;
 };
 
 /** Owns GPU resources and pointer/animation work, without rerendering React. */
-export function createHeroLightRenderer(canvas: HTMLCanvasElement, hero: HTMLElement): HeroLightRenderer | null {
+export function createHeroLightRenderer(canvas: HTMLCanvasElement, hero: HTMLElement, palette: HeroLightPalette = heroLightPalettes.home): HeroLightRenderer | null {
   const gl = canvas.getContext("webgl", {
     alpha: false,
     antialias: false, depth: false, stencil: false, powerPreference: "low-power",
@@ -56,6 +67,9 @@ export function createHeroLightRenderer(canvas: HTMLCanvasElement, hero: HTMLEle
   const time = gl.getUniformLocation(program, "u_time");
   const pointer = gl.getUniformLocation(program, "u_pointer");
   const strength = gl.getUniformLocation(program, "u_pointerStrength");
+  gl.uniform3f(gl.getUniformLocation(program, "u_baseColor"), ...palette.base);
+  gl.uniform3f(gl.getUniformLocation(program, "u_lightColor"), ...palette.light);
+  gl.uniform3f(gl.getUniformLocation(program, "u_highlightColor"), ...palette.highlight);
   const backdrop = canvas.parentElement!;
   const maxViewport = gl.getParameter(gl.MAX_VIEWPORT_DIMS) as Int32Array;
   const maxRenderSize = gl.getParameter(gl.MAX_RENDERBUFFER_SIZE) as number;

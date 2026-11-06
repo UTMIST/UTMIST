@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Academics design comparison · #504</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px; font: 16px/1.5 system-ui, sans-serif; color: #172b28; background: #eff6f3; }
+  h1 { margin: 0 0 8px; font-size: 24px; }
+  a { color: #00685c; }
+  nav { display: flex; flex-wrap: wrap; gap: 20px; margin: 20px 0; }
+  .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+  figure { margin: 0; min-width: 0; }
+  figcaption { padding: 12px; background: white; font-weight: 600; }
+  img { display: block; width: 100%; height: auto; }
+  @media (max-width: 600px) { body { padding: 12px; } .comparison { gap: 8px; } figcaption { padding: 8px; font-size: 13px; } }
+</style>
+<h1>Academics design comparison · #504</h1>
+<p><a href="https://www.figma.com/design/NO6Ltgze2CTZucVxSdBwVf/utmist-website?node-id=22-102">Figma frame 22:102</a> and the local implementation of <code>/ml-fundamentals</code> with <code>Web-Redesign</code> On.</p>
+<p>The implementation uses the homepage's shared hero layout and animated glass in F2F mint and teal, shared navigation and pill actions, and the standard shared footer. It labels sample content, preserves the 2025 archive, and expands cards to fit their content. Screenshots show the reduced-motion still frame.</p>
+<nav aria-label="Review screenshots">
+  <a href="desktop.jpg">Desktop (1440px)</a>
+  <a href="tablet.jpg">Tablet (768px)</a>
+  <a href="mobile.jpg">Mobile (375px)</a>
+  <a href="small-mobile.jpg">Small mobile (320px)</a>
+  <a href="legacy-desktop.jpg">Flag Off</a>
+</nav>
+<div class="comparison">
+  <figure><figcaption>Figma reference</figcaption><a href="figma-desktop.png"><img src="figma-desktop.png" alt="Figma Academics desktop reference"></a></figure>
+  <figure><figcaption>Implementation · flag On</figcaption><a href="desktop.jpg"><img src="desktop.jpg" alt="Academics implementation at 1440 pixels"></a></figure>
+</div>
+</html>

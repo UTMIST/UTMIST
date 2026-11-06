@@ -13,8 +13,9 @@ import { Navbar } from "@/shared/ui/client";
 
 ## Redesigned navigation
 
-`shared/ui/redesigned-navbar.tsx` overlays the homepage and uses a dark background
-on other routes. Equal outer grid columns keep desktop links centered between
+`shared/ui/redesigned-navbar.tsx` overlays the homepage and Academics heroes and
+uses a dark background on other routes. The same logo size, gutters, typography,
+links, and controls apply to both pages. Equal outer grid columns keep desktop links centered between
 the logo and account action. The shared
 [ContentContainer](ContentContainer.md) aligns it with homepage section gutters.
 Below the desktop breakpoint, a shared dark-tone `IconButton`
@@ -29,10 +30,14 @@ navigation and palette.
 
 Events and its chevron are one link to `/events`. Hover, keyboard focus, or
 ArrowDown reveals EigenAI. On touch, the first tap reveals the submenu and the
-next follows Events. Programs uses a shared `Button` to reveal MISTic R&D and MLF.
+next follows Events. Programs uses a shared `Button` to reveal MISTic R&D and Foundations to Frontiers.
 Only one submenu opens at a time. Escape closes the submenu and restores its
 trigger's focus, or closes the main disclosure and focuses the menu toggle.
-Navigation and pathname changes dismiss open menus.
+Navigation and pathname changes dismiss open menus. The navbar stays mounted in
+the shared frontend layout during client navigation; it is not keyed by pathname.
+A guarded route-state reset closes disclosures before paint, including on browser
+Back/Forward. Route and authentication updates may rerender React without replacing
+the navbar DOM or reloading its logo.
 
 ## Legacy navigation
 

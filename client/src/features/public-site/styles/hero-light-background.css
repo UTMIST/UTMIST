@@ -1,0 +1,21 @@
+/* Both the live glass and fallback stop at the containing hero's edge. */
+.hero-light-backdrop:has(canvas[data-ready="true"]) > img { visibility: hidden; }
+
+/* Keep the reading area calm over both the shader and its image fallback. */
+.hero-light-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(ellipse at 50% 42%, rgb(0 0 0 / 45%), rgb(0 0 0 / 14%) 55%, transparent 80%);
+}
+
+.hero-light-canvas { opacity: 0; }
+.hero-light-canvas[data-ready="true"] { opacity: 1; }
+.hero-light-motion-toggle { display: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-light-backdrop:has(canvas[data-ready="true"]) + .hero-light-motion-toggle {
+    display: inline-flex;
+  }
+}

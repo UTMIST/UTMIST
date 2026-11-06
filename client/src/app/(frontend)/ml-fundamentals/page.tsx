@@ -1,1 +1,1 @@
-export { default } from "@/features/public-site/pages/ml-fundamentals";
+export { default } from "@/features/public-site/pages/academics";

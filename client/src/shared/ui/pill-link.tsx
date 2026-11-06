@@ -9,6 +9,7 @@ interface PillLinkProps {
   href: string;
   children: ReactNode;
   tone?: "light" | "dark";
+  direction?: "right" | "down";
   className?: string;
 }
 
@@ -17,6 +18,7 @@ export function PillLink({
   href,
   children,
   tone = "light",
+  direction = "right",
   className,
 }: PillLinkProps) {
   return (
@@ -30,8 +32,8 @@ export function PillLink({
       )}>
       <Link href={href}>
         {children}
-        <span aria-hidden="true" className="relative flex size-10 shrink-0 items-center justify-center rounded-full bg-secondary">
-          <Image src="/redesign/cta-arrow.svg" alt="" width={20} height={20} className="size-5" />
+        <span aria-hidden="true" className="relative flex size-10 shrink-0 items-center justify-center rounded-full bg-[var(--pill-link-accent,var(--secondary))]">
+          <Image src="/redesign/cta-arrow.svg" alt="" width={20} height={20} className={cn("size-5", direction === "down" && "rotate-90")} />
         </span>
       </Link>
     </Button>

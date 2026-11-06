@@ -107,11 +107,15 @@ Sections appear in this order: hero, About (white introduction, white impact
 dashboard, purple mission band), sponsors, events, startups, and FAQ. Each About block
 uses `ContentContainer` to maintain the shared horizontal alignment.
 
-The blue hero fills at least `100svh`. The full University of Toronto Machine
+The shared `PublicSiteHero` fills at least `100dvh`. It owns the same responsive
+container, centered reading column, heading scale, and CTA spacing on the homepage
+and Academics. The homepage supplies its blue theme, copy, and statistics aside.
+The full University of Toronto Machine
 Intelligence Student Team name is the primary heading, with the club's scale
 claim above it. Statistics sit beside the centered copy on desktop and below it
-on smaller screens. `home-hero-background.tsx` owns the
-pause control and canvas; `hero-light-renderer.ts` owns WebGL resources. Three
+on smaller screens. The reusable `hero-light-background.tsx` owns the
+pause control and canvas, using its default blue `home` theme;
+`hero-light-renderer.ts` owns WebGL resources and accepts a color palette. Three
 parallel diagonal light bands span the viewport and follow mouse/pen movement
 gently, retaining their spacing while the vertical ribs remain fixed. A dark
 overlay keeps the reading area calm; the canvas retains native pixel density.
