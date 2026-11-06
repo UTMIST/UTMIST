@@ -84,15 +84,14 @@ Preview only for intended testing with synthetic data. No verified per-person
 targeting is implemented; the evaluator uses anonymous server context and does
 not accept identity claims from request bodies or cookies.
 
-### Dashboard configuration verified on October 10, 2026
+### Dashboard configuration
 
-The existing flag has no targeting rules or environment reuse. Development and
-Preview are paused with both paused outcome and fallthrough set to **On**;
-Production is paused with both outcomes **Off**. “Paused” alone does not mean
-Off: the provider serves the configured paused outcome. These dashboard values
-were inspected, not changed by this implementation. They override the code's
-fallback default while provider evaluation is healthy. Review them before
-deploying; use Off outside deliberate CMS testing.
+Check the target environment's flag value, paused outcome, fallthrough, targeting
+rules, and environment reuse before testing. A paused flag still serves its
+configured paused outcome; paused does not imply Off. Provider values override
+the code's fallback default while evaluation is healthy. Use Off outside deliberate
+CMS testing, and record environment-specific verification in the relevant issue
+or PR rather than hard-coding a dashboard snapshot here.
 
 Vercel deployments use request-time OIDC with the existing core adapter; no
 manual `FLAGS` key or new environment variable is required. `FLAGS_SECRET`

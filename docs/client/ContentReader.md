@@ -134,24 +134,15 @@ return <OrganizationImpact content={result.content} />;
 6. Restore any edited flag fixture to false before committing. Stop the
    disposable local database with `npm run payload:db:stop` when finished.
 
-### Local verification on October 22, 2026
+### Verification expectations
 
-Verified on Node 24.21.0 using a separate synthetic database inside the
-standalone Compose Postgres service and a signed local `CMS-Access` override.
-The existing development database's editor accounts were left untouched.
-The real Payload REST API authenticated a synthetic editor, created the
-published section (`201`), and saved changed intro/statistics plus an added
-row (`200`). Consecutive homepage HTTP requests rendered the new values
-without a rebuild or restart. Anonymous and invalid-token POST/PATCH/DELETE
-requests all returned `403` with `Cache-Control: no-store`.
-
-After changing the record to draft, anonymous collection reads returned no
-records while an authenticated editor read it successfully. The opted-in
-homepage reported missing published content (`500`) and did not render the
-draft. Republishing restored the section; omitting the local flag override
-returned the deliberate original homepage source. These were real HTTP,
-Payload adapter, and Postgres checks; browser animation is covered separately
-by component tests.
+Run the edit proof with synthetic records in an isolated database. Check that
+published changes appear on the next homepage request without rebuilding, that
+anonymous and invalid-token mutations are rejected, and that draft content is
+unavailable to the public reader. Republishing should restore the local page;
+disabling local CMS access should select the static source. Record run-specific
+evidence in the relevant issue or PR instead of treating a previous run as proof
+of the current deployment.
 
 ## Proposing feature fields
 

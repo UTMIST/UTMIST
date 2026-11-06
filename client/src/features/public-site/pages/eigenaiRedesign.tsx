@@ -24,13 +24,11 @@ import { EigenGlassSurface } from "@/features/public-site/components/eigenai-sur
 import { StatItem } from "@/features/public-site/components/stats";
 import utmistWordmark from "@/assets/logos/utmist-wordmark-white.png";
 import discordLogo from "@/assets/logos/discord.svg";
-// import facebookLogo from "@/assets/logos/facebook.svg";
 import githubLogo from "@/assets/logos/github.svg";
 import instagramLogo from "@/assets/logos/instagram.svg";
 import linkedinLogo from "@/assets/logos/linkedin.svg";
 import mediumLogo from "@/assets/logos/medium.svg";
 import youtubeLogo from "@/assets/logos/youtube.svg";
-// import xLogo from "@/assets/logos/x.svg";
 import ellipseA from "@/assets/eigenai-redesign/ellipse-a.svg";
 import ellipseB from "@/assets/eigenai-redesign/ellipse-b.svg";
 import ellipseC from "@/assets/eigenai-redesign/ellipse-c.svg";
@@ -132,16 +130,6 @@ const socialLinks = [
     label: "YouTube",
     icon: youtubeLogo,
   },
-  // {
-  //   href: "https://www.facebook.com/UofT.MIST",
-  //   label: "Facebook",
-  //   icon: facebookLogo,
-  // },
-  // {
-  //   href: "https://x.com/utmist1",
-  //   label: "X",
-  //   icon: xLogo,
-  // },
   {
     href: "https://github.com/UTMIST",
     label: "GitHub",
@@ -590,7 +578,7 @@ export default function EigenAIRedesign({
       <EigenNavigation />
       <HeroSection>
         <h1 className="sr-only">EigenAI Conference</h1>
-        <EigenAILockup fontSize="clamp(4.5rem, 15vw, 10.5rem)" showCursor />
+        <EigenAILockup fontSize="clamp(4.5rem, 15vw, 10.5rem)" caption={content.lockupCaption} showCursor />
         <EigenGlassSurface className="mt-8 flex w-fit max-w-[calc(100vw-2.5rem)] items-center justify-center rounded-full px-4 py-3 text-sm/snug tracking-[-0.01em] sm:mt-10 sm:min-h-11 sm:max-w-full sm:px-8 sm:py-2 sm:text-3xl/none">
           <span className="relative z-1 whitespace-nowrap text-center text-white">
             <span>{content.dateLabel}</span>
@@ -765,7 +753,7 @@ export default function EigenAIRedesign({
           ))}
         </p>
         <div className="mt-8 sm:mt-24">
-          <EigenAILockup fontSize="clamp(3.5rem, 12vw, 5rem)" />
+          <EigenAILockup fontSize="clamp(3.5rem, 12vw, 5rem)" caption={content.lockupCaption} />
         </div>
       </ClosingSection>
 

@@ -2,15 +2,16 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { VercelToolbar } from "@vercel/toolbar/next";
 import "../globals.css";
-import { Footer } from "@/shared/ui";
+import { isWebRedesignEnabled } from "@/shared/lib/server";
 import {
   Navbar,
+  SiteFooter,
   ScrollToTop,
   HideOnEigenAI,
 } from "@/shared/ui/client";
 import { Toaster } from "react-hot-toast";
 
-//Metadata for the page
+// Default metadata for frontend routes; individual pages can override it.
 export const metadata: Metadata = {
   title: "UTMIST",
     icons: {
@@ -19,13 +20,13 @@ export const metadata: Metadata = {
   description: "University of Toronto Machine Intelligence Student Team",
 };
 
-// Root layout for the application
-// This layout wraps around all pages and includes the Navbar and Footer
-export default function RootLayout({
+// Frontend shell; EigenAI supplies its own navigation and footer.
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const redesignEnabled = await isWebRedesignEnabled();
   // Vercel injects its own toolbar on Preview deployments.
   const showLocalToolbar =
     process.env.NODE_ENV === "development" &&
@@ -41,13 +42,13 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <HideOnEigenAI>
-          <Navbar />
+          <Navbar redesignEnabled={redesignEnabled} />
         </HideOnEigenAI>
         {children}
         <HideOnEigenAI>
-          <Footer />
+          <SiteFooter redesignEnabled={redesignEnabled} />
         </HideOnEigenAI>
-        <ScrollToTop />
+        <ScrollToTop redesignEnabled={redesignEnabled} />
         <Toaster />
         {showLocalToolbar && <VercelToolbar />}
       </body>

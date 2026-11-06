@@ -1,0 +1,528 @@
+@import "@fontsource/instrument-sans/latin-600.css";
+@import "@fontsource/instrument-sans/latin-700.css";
+@reference "tailwindcss";
+
+/* Give Motion's document scroll measurement a positioned container. */
+html:has(.home-redesign) { position: relative; }
+
+/* Scoped homepage palette and presentation. */
+.home-redesign {
+  --home-ink: var(--brand-ink);
+  --home-blue: var(--secondary);
+  --home-selection: var(--secondary);
+  --home-lilac: var(--brand-lilac);
+  --home-cyan: var(--brand-cyan);
+  --home-copy-color: var(--muted-foreground);
+  --home-accent-color: var(--secondary);
+  --border: var(--border-brand);
+  font-family: "Instrument Sans", var(--system-font);
+  color: var(--foreground);
+  background: var(--background);
+}
+
+.home-redesign :is(h1, h2, h3) {
+  font-family: inherit;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+.home-redesign h1 { font-weight: 500; }
+
+/* Shared type roles keep every section on the same scale. */
+.home-redesign .home-card-heading {
+  @apply text-xl font-semibold leading-tight tracking-[-0.025em] sm:text-2xl;
+}
+/* Quiet inline emphasis inherits its text weight; standout phrases use the scroll highlight. */
+.home-accent {
+  color: var(--home-accent-color);
+}
+.home-body {
+  @apply text-base font-normal leading-relaxed;
+  color: var(--home-copy-color);
+}
+.home-meta {
+  @apply text-sm font-normal leading-5;
+  color: var(--home-copy-color);
+}
+.home-caption {
+  @apply text-xs font-normal leading-4;
+  color: var(--home-copy-color);
+}
+.home-dark {
+  --home-copy-color: rgb(255 255 255 / 85%);
+  --home-accent-color: var(--home-lilac);
+  color: white;
+}
+/* Keep the mission palette scoped to its full-width band. */
+.home-mission {
+  --home-ink: #15026a;
+  --home-discipline-fill: #3730c6;
+  background: var(--home-ink);
+}
+.home-faq-question {
+  @apply text-base font-medium leading-relaxed sm:text-lg;
+}
+.home-impact-number {
+  @apply text-3xl font-medium leading-none tracking-[-0.04em] sm:text-4xl;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Entrance motion uses translate so it composes with existing hover transforms. */
+@media (prefers-reduced-motion: no-preference) {
+  .home-redesign { --home-reveal-distance: var(--home-reveal-mobile-distance); }
+  .home-redesign [data-home-reveal-state="waiting"] {
+    opacity: 0;
+    translate: 0 var(--home-reveal-distance);
+  }
+  .home-redesign [data-home-reveal-state="entering"] {
+    animation: home-scroll-reveal var(--home-reveal-duration) var(--home-motion-ease) var(--home-reveal-delay, 0ms) both;
+  }
+}
+@media (min-width: 640px) and (prefers-reduced-motion: no-preference) {
+  .home-redesign { --home-reveal-distance: var(--home-reveal-desktop-distance); }
+}
+@keyframes home-scroll-reveal {
+  from { opacity: 0; translate: 0 var(--home-reveal-distance); }
+  to { opacity: 1; translate: 0 0; }
+}
+
+/* Both the live glass and fallback stop at the hero's edge. */
+.home-hero-backdrop:has(canvas[data-ready="true"]) > img { visibility: hidden; }
+
+/* Keep the reading area calm over both the live shader and its image fallback. */
+.home-hero-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(ellipse at 50% 42%, rgb(0 0 0 / 45%), rgb(0 0 0 / 14%) 55%, transparent 80%);
+}
+
+.home-selection {
+  --home-highlight-fill: color-mix(in srgb, var(--home-selection) 20%, transparent);
+  position: relative;
+  font-weight: 700;
+  background-color: transparent;
+  background-image: linear-gradient(var(--home-highlight-fill), var(--home-highlight-fill));
+  background-repeat: no-repeat;
+  background-size: calc(var(--home-selection-progress, 1) * 100%) 100%;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  border-inline: 2px solid var(--home-selection);
+  padding-inline: 0.06em;
+}
+
+/* Keep the fill and selection handles visible on dark surfaces. */
+.home-dark .home-selection {
+  --home-selection: var(--home-lilac);
+}
+
+.home-selection::before,
+.home-selection::after {
+  content: "";
+  position: absolute;
+  width: 0.38em;
+  height: 0.38em;
+  border-radius: 50%;
+  background: var(--home-selection);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 12%);
+}
+.home-selection::before { left: -0.23em; top: -0.25em; }
+.home-selection::after { right: -0.23em; bottom: -0.25em; }
+
+.home-hero-canvas {
+  opacity: 0;
+}
+
+.home-hero-canvas[data-ready="true"] {
+  opacity: 1;
+}
+
+.home-hero-motion-toggle {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .home-hero-backdrop:has(canvas[data-ready="true"]) + .home-hero-motion-toggle {
+    display: inline-flex;
+  }
+}
+
+.home-stat-number {
+  color: var(--home-lilac);
+  background: linear-gradient(25deg, var(--home-lilac), white 75%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (max-width: 639px) {
+  .home-sponsor-cell {
+    grid-column: var(--sponsor-column);
+    grid-row: var(--sponsor-row);
+  }
+}
+
+/* Scale the editor composition as a unit while keeping text selectable. */
+.home-community-statement {
+  display: none;
+  container-type: inline-size;
+  width: 100%;
+  max-width: 689.396px;
+  margin: var(--ui-section-gap) auto;
+}
+
+.home-community-composition {
+  position: relative;
+  font-size: 6.87015cqw;
+  transform: rotate(4deg);
+  /* Rotate around the centered layout box so the composition cannot drift sideways. */
+  transform-origin: center;
+}
+
+.home-community-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  height: 0.507em;
+  margin-bottom: 0.422em;
+  padding-left: 0.15em;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+.home-community-caption { font-size: 0.304em; color: var(--muted-foreground); }
+.home-community-notes { display: flex; gap: 0.127em; }
+.home-community-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.42em;
+  padding: 0.52em 0.65em;
+  border: 1px solid var(--border);
+  border-radius: 0.54em;
+  background: var(--background);
+  font-size: 0.203em;
+  line-height: 1;
+}
+.home-community-note img { max-width: 1.29em; max-height: 1.29em; }
+.home-community-copy { position: relative; }
+.home-community-stream {
+  --home-stream-width: calc((100vw - 100cqw) / 2 + 2rem);
+  position: absolute;
+  top: 3.65em;
+  /* Span the side gutter and overscan the viewport edge, tapering into the copy. */
+  width: var(--home-stream-width);
+  max-width: none;
+  height: 5em;
+  fill: var(--secondary);
+  pointer-events: none;
+}
+.home-community-stream-left {
+  right: calc(100% + 0.15em);
+  transform: translateY(-55%);
+}
+.home-community-stream-right {
+  left: calc(100% + 0.15em);
+  transform: translateY(-55%) scaleX(-1);
+}
+
+.home-community-misty {
+  position: absolute;
+  top: 4.05em;
+  right: calc(100% + clamp(3rem, (100vw - 100cqw) * 0.09, 7rem));
+  width: clamp(7rem, (100vw - 100cqw) * 0.345, 17.25rem);
+  height: auto;
+  max-width: none;
+  transform: translateY(-88%) rotate(-8deg);
+  transform-origin: 50% 88%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.home-community-toolbar {
+  position: absolute;
+  z-index: 2;
+  top: 1.45em;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.0845em;
+  pointer-events: none;
+  user-select: none;
+}
+.home-community-tool {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 0.735em;
+  border-radius: 0.66em;
+  background: white;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--secondary) 12%, transparent);
+  white-space: nowrap;
+}
+.home-community-tool-icon { width: 0.844em; }
+.home-community-tool-icon img,
+.home-community-refine img { max-width: 0.334em; max-height: 0.334em; }
+.home-community-formatting { justify-content: space-evenly; width: 3.217em; }
+.home-community-formatting :is(b, i, u, span) { font-size: 0.304em; }
+.home-community-formatting u { text-underline-offset: 0.2em; }
+.home-community-formatting img { width: 0.00844em; height: 0.317em; }
+.home-community-refine { width: 3.513em; gap: 0.17em; border-color: var(--secondary); }
+.home-community-refine span { font-size: 0.304em; }
+
+/* Fade the glyphs horizontally while keeping the selection crisp. */
+.home-community-text,
+.home-community-selected-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.home-community-text {
+  font-weight: 600;
+  line-height: 1.03907;
+  letter-spacing: 0;
+  background-image: linear-gradient(
+    91.173deg,
+    color-mix(in srgb, var(--secondary) 6%, transparent) 1.966%,
+    var(--secondary) 32.569%,
+    var(--secondary) 63.675%,
+    transparent 93.706%
+  );
+}
+
+.home-community-line { display: block; white-space: nowrap; }
+.home-community-selection {
+  display: block;
+  width: max-content;
+  margin-inline: -0.06em;
+  white-space: nowrap;
+}
+
+.home-community-selected-text {
+  background-image: linear-gradient(
+    91.173deg,
+    var(--home-lilac) 1.966%,
+    var(--secondary) 32.569%,
+    var(--secondary) 63.675%,
+    var(--home-lilac) 93.706%
+  );
+}
+
+@media (min-width: 1280px) {
+  /* The full editor and its side artwork need room beside the 689px copy. */
+  .home-community-statement { display: block; }
+}
+
+@media (width < 1280px) {
+  /* Replace the hidden composition with the normal gap between content blocks. */
+  .home-community-statement + .ui-section-heading { margin-top: var(--ui-section-gap); }
+}
+
+@media (forced-colors: active) {
+  .home-community-text,
+  .home-community-selected-text {
+    background-image: none;
+    color: CanvasText;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-stat-marker::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    width: 5px;
+    height: 5px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 7px white;
+  }
+  .home-stat-marker::after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 1.5rem;
+    width: 1px;
+    height: 2.5rem;
+    background: var(--gradient-line-2);
+  }
+}
+
+.home-discipline-network {
+  container-type: inline-size;
+}
+
+.home-discipline-canvas {
+  position: relative;
+  height: 400px;
+}
+
+.home-discipline-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  pointer-events: none;
+}
+
+.home-discipline-lines-mobile,
+.home-discipline-lines-narrow { display: none; }
+.home-discipline-connection-detail {
+  position: absolute;
+  left: var(--connection-desktop-x);
+  top: var(--connection-desktop-y);
+  width: var(--connection-desktop-width);
+  height: var(--connection-desktop-height);
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--home-lilac) 65%, transparent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--home-cyan) 20%, transparent);
+  pointer-events: none;
+}
+.home-discipline-connection-detail::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--home-cyan);
+  border-radius: 50%;
+  background: var(--home-ink);
+}
+.home-discipline-wave {
+  opacity: 0;
+  transition: opacity var(--home-wave-fade, 1200ms) var(--home-motion-ease, ease-out);
+  pointer-events: none;
+}
+.home-discipline-network[data-wave-active="true"] .home-discipline-wave {
+  opacity: 1;
+  transition-duration: 180ms;
+}
+.home-discipline-lines path {
+  stroke: color-mix(in srgb, var(--home-lilac) 26%, transparent);
+  stroke-width: 1;
+}
+.home-discipline-lines .home-discipline-wave-line {
+  stroke: var(--home-cyan);
+  /* Scale the normalized dash with its path so it draws as one continuous line. */
+  stroke-width: .25;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  opacity: .45;
+  animation: discipline-line-spread var(--home-wave-line, 800ms) var(--home-motion-ease, ease-out) var(--wave-delay) both;
+}
+
+@keyframes discipline-line-spread {
+  0% { stroke-dashoffset: 1; opacity: 0; }
+  28% { stroke-dashoffset: 0; opacity: .95; }
+  100% { stroke-dashoffset: 0; opacity: .45; }
+}
+
+.home-discipline-button {
+  position: absolute;
+  left: var(--discipline-x);
+  top: var(--discipline-y);
+  transform: translate(-50%, -50%);
+  border-color: transparent;
+  background:
+    linear-gradient(var(--home-discipline-fill), var(--home-discipline-fill)) padding-box,
+    linear-gradient(115deg, var(--home-cyan), var(--home-lilac), var(--home-blue)) border-box;
+  transition: box-shadow var(--home-wave-fade, 1200ms) var(--home-motion-ease, ease-out),
+    filter 180ms ease;
+}
+.home-discipline-button svg { color: var(--home-lilac); }
+.home-discipline-button[data-active="true"] svg { color: currentColor; }
+.home-discipline-wave-node {
+  position: absolute;
+  /* Light the filled capsule and its halo without adding another stroke. */
+  inset: -2px;
+  border-radius: inherit;
+}
+.home-discipline-wave-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(115deg, color-mix(in srgb, var(--home-cyan) 16%, transparent), color-mix(in srgb, var(--home-lilac) 12%, transparent));
+  box-shadow: 0 0 18px color-mix(in srgb, var(--home-cyan) 35%, transparent), inset 0 0 12px color-mix(in srgb, var(--home-cyan) 12%, transparent);
+  opacity: .5;
+  animation: discipline-pill-spread var(--home-wave-spread, 1100ms) var(--home-motion-ease, ease-out) var(--wave-delay) both;
+}
+@keyframes discipline-pill-spread {
+  0% { opacity: 0; }
+  35% {
+    opacity: 1;
+    box-shadow: 0 0 26px color-mix(in srgb, var(--home-cyan) 55%, transparent), inset 0 0 12px color-mix(in srgb, var(--home-cyan) 20%, transparent);
+  }
+  100% { opacity: .5; }
+}
+.home-discipline-network .home-discipline-button:focus-visible {
+  /* A thicker version of the same edge, not a separate concentric focus ring. */
+  outline: 3px solid var(--home-cyan);
+  outline-offset: -2px;
+}
+.home-discipline-button[data-active="true"] {
+  z-index: 1;
+  transition-duration: 180ms;
+  filter: brightness(1.15);
+  border-color: var(--home-cyan);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--home-cyan) 35%, transparent), 0 6px 20px color-mix(in srgb, var(--home-blue) 25%, transparent);
+}
+
+@container (max-width: 620px) {
+  .home-discipline-canvas { height: 528px; }
+  .home-discipline-lines-desktop { display: none; }
+  .home-discipline-lines-mobile { display: block; }
+  .home-discipline-button {
+    left: var(--discipline-mobile-x);
+    top: var(--discipline-mobile-y);
+  }
+  .home-discipline-connection-detail {
+    left: var(--connection-mobile-x);
+    top: var(--connection-mobile-y);
+    width: var(--connection-mobile-width);
+    height: var(--connection-mobile-height);
+  }
+}
+
+/* Compact two-column layout with wrapped discipline names. */
+@container (max-width: 440px) {
+  .home-discipline-canvas { height: 480px; }
+  .home-discipline-lines-mobile { display: none; }
+  .home-discipline-lines-narrow { display: block; }
+  .home-discipline-button {
+    left: var(--discipline-narrow-x);
+    top: var(--discipline-narrow-y);
+    width: calc(50% - 12px);
+    height: 64px;
+    min-height: 64px;
+    gap: 6px;
+    padding: 8px;
+    white-space: normal;
+    line-height: 18px;
+  }
+  .home-discipline-button > span:last-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .home-discipline-connection-detail {
+    left: var(--connection-narrow-x);
+    top: var(--connection-narrow-y);
+    width: var(--connection-narrow-width);
+    height: var(--connection-narrow-height);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.home-redesign) { scroll-behavior: auto; }
+  .home-selection { background-size: 100% 100%; }
+  .home-redesign *, .home-redesign *::before, .home-redesign *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

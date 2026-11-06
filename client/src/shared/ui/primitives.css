@@ -1,0 +1,55 @@
+@reference "tailwindcss";
+
+/* Surface context is inherited, and resets inside light cards on dark sections. */
+[data-ui-tone="light"] {
+  --ui-focus-color: var(--focus-on-light);
+  --ui-copy-color: var(--muted-foreground);
+  --ui-accent-color: var(--secondary);
+}
+[data-ui-tone="dark"] {
+  --ui-focus-color: var(--focus-on-dark);
+  --ui-copy-color: rgb(255 255 255 / 85%);
+  --ui-accent-color: var(--brand-lilac);
+}
+.ui-focus:focus-visible,
+.ui-surface :is(a, button, summary):focus-visible {
+  outline: 3px solid var(--ui-focus-color);
+  outline-offset: 4px;
+}
+
+.ui-section-heading {
+  @apply text-[2rem] font-semibold leading-[1.15] tracking-[-0.035em] sm:text-4xl lg:text-[2.5rem];
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+.ui-section-label {
+  @apply text-sm font-semibold leading-5;
+  color: var(--ui-accent-color);
+}
+.ui-section-copy {
+  @apply text-base font-normal leading-relaxed sm:text-lg;
+  color: var(--ui-copy-color);
+}
+
+.ui-card-link {
+  transition: transform var(--ui-transition-duration) var(--ui-transition-ease),
+    border-color var(--ui-transition-duration) var(--ui-transition-ease),
+    background-color var(--ui-transition-duration) var(--ui-transition-ease),
+    box-shadow var(--ui-transition-duration) var(--ui-transition-ease);
+}
+.ui-card-link[data-variant="raised"] {
+  box-shadow: 0 5px 16px color-mix(in srgb, var(--secondary) 8%, transparent);
+}
+.ui-card-link:is(:hover, :focus-visible) {
+  border-color: var(--secondary);
+  background-color: var(--surface-hover);
+}
+.ui-card-link[data-variant="raised"]:is(:hover, :focus-visible) {
+  z-index: 1;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--secondary) 18%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-card-link { transition: none; }
+  .ui-card-link[data-variant="raised"]:is(:hover, :focus-visible) { transform: none; }
+}

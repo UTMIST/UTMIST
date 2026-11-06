@@ -313,7 +313,9 @@ Match the surrounding code. Beyond that:
   [`client/env.example`](client/env.example), and add it to both GitHub Actions
   secrets and the Vercel project settings.
 - **Documentation:** if you add a page or component, add a matching note under
-  [docs/client/](docs/client/).
+  [docs/client/](docs/client/). Keep setup docs focused on current behavior and
+  repeatable instructions. Record dated test results and one-off verification
+  logs in the related issue or PR.
 
 ## Questions
 

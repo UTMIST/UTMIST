@@ -73,6 +73,11 @@ access to the shared credentials.
 
 `.env` is gitignored. Never commit it.
 
+Hosted local development uses the shared **testing** Supabase branch, also
+used by Vercel previews. Production credentials are reserved for Production.
+See [environment setup](client/Environments.md) for the target identities,
+Development env pull, synthetic accounts, and optional local Compose setup.
+
 ### Google Maps venue preview
 
 Ask a web team lead for the shared development value of

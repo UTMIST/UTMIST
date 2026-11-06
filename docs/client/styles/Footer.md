@@ -6,7 +6,7 @@
 - Flex column layout
 - Centered content
 - Light padding
-- White text color
+- Foreground token text color
 
 ### Logo Styles (`.footer-logo`)
 - 1.25rem font size
@@ -14,11 +14,12 @@
 - Small bottom margin
 
 ### Logo Container (`.footer-logo-container`)
-- Circular background (--gray3)
-- Fixed dimensions: 35x35px
+- Circular background (`--muted`)
+- Fixed dimensions: 44x44px, with the border on the link so the full target is clickable
 - Centered content
-- Padding: 0.5rem
-- Margin adjustments
+- No internal padding; icons remain 20x20px
+- Social grid uses six columns, or three below 359px, in both footer variants
+- Bug-report links have a minimum height of 44px
 
 ### Decorative Line (`.footer-line`)
 - 90% width
@@ -30,7 +31,9 @@
 
 ## Dependencies
 - CSS variables:
-  - `--gray3`
+  - `--muted`
+  - `--border`
+  - `--foreground`
   - `--gradient-line-1`
   - `--gradient-line-2`
 

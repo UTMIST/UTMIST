@@ -228,6 +228,7 @@
 .contact-input,
 .contact-textarea {
   width: 100%;
+  min-height: 44px;
   color: var(--foreground);
   background-color: var(--background);
   padding: 0.5rem 0.75rem; /* px-3 py-2 */
@@ -250,9 +251,10 @@
 }
 
 .contact-submit {
-  background: var(--gradient-b2); /* indigo-600 */
+  min-height: 44px;
+  background: var(--gradient-b2);
   color: #ffffff;
-  font-weight: 200; /* font-medium */
+  font-weight: 200;
   padding: 0.3rem 1.5rem; /* py-2 px-6 */
   border-radius: 0.5rem; /* rounded-md */
   border: none;

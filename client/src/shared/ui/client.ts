@@ -10,3 +10,5 @@ export * from "./dropdown";
 export { default as Navbar } from "./navbar";
 export { HideOnEigenAI } from "./hide-on-eigenai";
 export { default as ScrollToTop } from "./scrollToTop";
+
+export { SiteFooter } from "./site-footer";
