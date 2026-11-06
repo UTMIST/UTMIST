@@ -12,7 +12,7 @@ function Divider() {
 export default function AcademicsRedesign() {
   return (
     <main className="academics-page ui-surface bg-white font-eigen-body text-black" data-academics="redesign">
-      <section className="relative flex min-h-[640px] items-center justify-center py-40 text-center text-white lg:min-h-[739px]" aria-labelledby="academics-title" data-ui-tone="dark">
+      <section className="relative flex min-h-dvh items-center justify-center py-40 text-center text-white" aria-labelledby="academics-title" data-ui-tone="dark">
         <Image src="/academics-redesign/hero.png" alt="" fill preload sizes="100vw" className="object-cover" />
         <ContentContainer className="relative max-w-[1240px] lg:translate-y-12">
           <p className="mb-4 text-lg leading-snug sm:text-[22px]">UTMIST Academics Department</p>

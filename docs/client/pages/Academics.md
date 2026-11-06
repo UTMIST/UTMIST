@@ -9,6 +9,10 @@ hero, program introduction, kick-off card, five workshop topics, FAQs, team,
 and footer. There are no mobile/tablet frames on that canvas; smaller layouts
 adapt the desktop hierarchy into stacked sections and wrapping grids.
 
+The hero fills at least the current viewport height (`100dvh`) and can grow
+with its content on short screens. The page uses the standard shared site
+footer, including the existing platform icons, instead of the Figma footer.
+
 | Route | Ownership and behavior |
 | --- | --- |
 | `/ml-fundamentals` | #504: F2F redesign when `Web-Redesign` is On; original MLF page when Off or evaluation fails. |
@@ -40,7 +44,8 @@ It does not change board assignments or constitute rollout acceptance.
   treatments. Shared `Button`, `ContentContainer`, focus styles, and typography
   are reused; Inter medium is self-hosted for the Figma display headings.
 - The shared redesigned navbar presents the archive link on the Academics route.
-  `SiteFooter` selects the Academics variant only on that route with the flag On.
+  `SiteFooter` selects the standard shared footer on that route with the flag On,
+  matching the redesigned homepage.
   Both return to the legacy shell when the flag is Off. Other page navigation
   retains its existing destinations.
 
@@ -60,8 +65,8 @@ URLs are download sources only and are never used at runtime.
 
 | Figma layer(s) | Local asset / slot |
 | --- | --- |
-| `25:127`, `48:138` | `hero.png`, `footer.png`: exports of the background artwork layers, not screenshots of the UI |
-| `22:111`, `48:134` | Existing `/home-redesign/utmist-wordmark.png`: identical asset reused in the navbar and footer |
+| `25:127` | `hero.png`: export of the background artwork layer, not a screenshot of the UI |
+| `22:111` | Existing `/home-redesign/utmist-wordmark.png`: identical asset reused in the navbar |
 | `25:1902` | `workshop.png`: workshop photo, preserving the frame's crop |
 | `31:1903` | `intro-decoration.svg`: small introduction decoration |
 | `44:2717`, `44:2718` | `cta-circle.svg`, `cta-arrow.svg`: Explore action |
@@ -72,7 +77,6 @@ URLs are download sources only and are never used at runtime.
 | FAQ disclosure layers | `faq-divider.svg`, `faq-open.svg`, `faq-closed.svg` |
 | `44:4110` and repeated team layers | `team-placeholder.png`: Figma sample portrait, decorative because it is not a real team profile |
 | `44:4122`, `48:44` | `director-star.svg`: director badges |
-| `48:145` and repeated footer layers | `social-placeholder.png`: repeated Figma sample social artwork; accessible link labels identify the real destinations |
 
 The [Figma reference](../assets/academics-redesign/figma-desktop.png) is a review
 artifact only. The [comparison gallery](../assets/academics-redesign/index.html)
