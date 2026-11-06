@@ -117,12 +117,6 @@ Finish the rollout in this order:
    Record the tested deployment IDs and finish #374 only after the transition
    and historical-access cleanup are complete.
 
-The November 6, 2026 setup verified testing API reads, a synthetic Auth login
-and profile, and CMS create/read/update/delete with rollback. Production
-rejected testing API reads/writes and sessions with HTTP 401, and the testing
-CMS password with PostgreSQL `28P01`. Synthetic auth/profile records were
-removed. No Production application records were queried or changed.
-
 The maintainer approved persistent Micro compute for this branch. It is billed
 hourly while running, including when idle; see [Supabase branch pricing](https://supabase.com/docs/guides/platform/manage-your-usage/branching).
 Evidence and remaining work belong to [#374](https://github.com/UTMIST/UTMIST/issues/374).
