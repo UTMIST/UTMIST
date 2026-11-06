@@ -145,10 +145,11 @@ it does not verify live Vercel propagation or require Development keys.
 
 ## Database connection
 
-The hosted CMS uses the existing **UTMIST Website** Supabase project
-(`gqqgsvhzonratwkmjiji`), as explicitly chosen for this rollout. No additional
-Supabase project, database branch, or paid add-on is needed. Local development
-still defaults to the standalone Compose database described below.
+The hosted CMS uses the existing **UTMIST Website** Supabase project.
+Production uses `gqqgsvhzonratwkmjiji`; Preview and Development use its persistent
+`testing` branch, `lrbvknlviodxhhuautfi`. The maintainer approved the branch's
+Micro compute cost in #374. Local development can use either that shared
+testing database or the standalone Compose database described below.
 
 Payload connects directly through its Postgres adapter, not through the
 Supabase browser API. The adapter is fixed to the `payload` schema. The
@@ -161,7 +162,7 @@ operator can administer the CMS role; the CMS role is not a member of
 
 The connection uses the project's IPv4 session pooler at
 `aws-0-us-east-2.pooler.supabase.com:5432`, database `postgres`, and username
-`utmist_payload.gqqgsvhzonratwkmjiji`. Each Payload process uses at most three
+`utmist_payload.<project-ref>` for the selected environment. Each Payload process uses at most three
 connections, with a ten-second connection timeout and twenty-second idle
 timeout. Supabase connections verify the certificate and hostname against
 the public Supabase Root 2021 CA bundled in `src/cms/supabase-ca.ts`.
@@ -169,17 +170,18 @@ URI SSL options cannot disable this verification. The certificate expires
 April 26, 2031; update it from Supabase when its trust chain changes. See
 [Supabase TLS configuration](https://supabase.com/docs/guides/platform/ssl-enforcement).
 
-Production credentials are configured in Vercel and GitHub Actions. Vercel's
-Preview environment uses the same database URI and a distinct `PAYLOAD_SECRET`.
-**All Previews share the same CMS records and editor accounts as Production.**
-A separate signing secret separates sessions, not data. This project deploys
-through CI without a Vercel Git integration, so branch-scoped environment
-variables are unavailable. CI creates Previews only for eligible same-repository
-PRs, excluding forks and Dependabot. Use synthetic records for verification
-and remove them afterwards. Development does not receive hosted credentials.
-This shared-database choice does not satisfy #495's original isolated-preview
-acceptance criteria; source selection and the remaining rollout verification
-still need their own work.
+Vercel Production has its own database URI and signing secret. Preview and
+Development share testing credentials, CMS records, and editor accounts;
+they do not share Production's database or signing secret. Development values
+can be pulled by authorized developers from `utmist-infrastructure/client`.
+Use synthetic records and remove only records created by your test.
+
+GitHub's Preview and Production environment secrets are provisioned, but the
+CI workflow switch and historical-preview cleanup remain tracked in #374.
+Existing deployments retain their old credentials until refreshed or retired.
+CI creates Previews only for eligible same-repository PRs, excluding forks and
+Dependabot. The hosted editor walkthrough and source selection remain in #495;
+creating the testing branch alone does not complete that acceptance gate.
 
 `CMS-Access` remains a separate availability gate. Connecting the database
 does not enable the dashboard or change deployed homepage content. Keep
