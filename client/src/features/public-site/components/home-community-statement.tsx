@@ -28,14 +28,13 @@ export default function HomeCommunityStatement() {
             </svg>
           ))}
 
-          {/* TODO: Replace this generated stand-in with approved Misty artwork. See docs/client/assets/home-redesign/misty-painting.md. */}
           <Image
-            src="/home-redesign/community/misty-painting.png"
+            src="/home-redesign/community/misty-painting.svg"
             alt=""
             aria-hidden="true"
-            width={1254}
-            height={1254}
-            sizes="(min-width: 1490px) 240px, (min-width: 1280px) calc(30vw - 207px), 1px"
+            width={2048}
+            height={2048}
+            sizes="(min-width: 1490px) 276px, (min-width: 1280px) calc(34.5vw - 238px), 1px"
             className="home-community-misty"
             draggable={false}
           />

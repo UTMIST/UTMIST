@@ -1,13 +1,11 @@
 # Misty painting the community streak
 
-Asset: `client/public/home-redesign/community/misty-painting.png`.
+Asset: `client/public/home-redesign/community/misty-painting.svg`.
 
-**Temporary stand-in:** replace this generated illustration with approved Misty
-artwork before final design sign-off.
-
-The image was generated with the built-in imagegen tool from the supplied Misty
-character reference. It is a transparent 1254 × 1254 PNG, separate from the SVG
-paint streak rendered by `HomeCommunityStatement`.
+The image is a vector trace (VTracer) of the Misty painting illustration. It is
+a transparent 2048 × 2048 SVG, separate from the SVG paint streak rendered by
+`HomeCommunityStatement`. After tracing, the eye outline was smoothed and the
+grey anti-aliasing fragments around the eye and nose were removed.
 
 Replacement artwork should preserve the left-side painting pose and indigo brush,
 with a transparent background and enough detail to read at the displayed size.

@@ -227,12 +227,12 @@ html:has(.home-redesign) { position: relative; }
 
 .home-community-misty {
   position: absolute;
-  top: 3.85em;
+  top: 4.05em;
   right: calc(100% + clamp(3rem, (100vw - 100cqw) * 0.09, 7rem));
-  width: clamp(6rem, (100vw - 100cqw) * 0.3, 15rem);
+  width: clamp(7rem, (100vw - 100cqw) * 0.345, 17.25rem);
   height: auto;
   max-width: none;
-  transform: translateY(-88%) rotate(12deg);
+  transform: translateY(-88%) rotate(-8deg);
   transform-origin: 50% 88%;
   pointer-events: none;
   user-select: none;
