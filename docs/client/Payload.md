@@ -4,7 +4,7 @@ Payload 3 is embedded in the existing Next.js application. It provides a
 content dashboard and API backed by Postgres. Issue #346 connects the homepage introduction
 and statistics to a reusable typed reader during explicitly enabled local
 development. See the [content reader recipe](ContentReader.md) to create the
-`home-impact` record and verify an edit. The CMS database connection now uses
+`home-impact` record and verify an edit. The CMS database connection uses
 the existing UTMIST Supabase project. Hosted homepage source selection and
 Preview acceptance remain in #495; deployed pages continue using their
 existing static content.
@@ -146,9 +146,9 @@ it does not verify live Vercel propagation or require Development keys.
 
 The hosted CMS uses the existing **UTMIST Website** Supabase project.
 Production uses `gqqgsvhzonratwkmjiji`; Preview and Development use its persistent
-`testing` branch, `lrbvknlviodxhhuautfi`. The maintainer approved the branch's
-Micro compute cost in #374. Local development can use either that shared
-testing database or the standalone Compose database described below.
+`testing` branch, `lrbvknlviodxhhuautfi`. Local development can use either that
+shared testing database or the standalone Compose database described below.
+See [environment setup](Environments.md) for credentials and compute billing.
 
 Payload connects directly through its Postgres adapter, not through the
 Supabase browser API. The adapter is fixed to the `payload` schema. The
@@ -165,8 +165,8 @@ The connection uses the project's IPv4 session pooler at
 connections, with a ten-second connection timeout and twenty-second idle
 timeout. Supabase connections verify the certificate and hostname against
 the public Supabase Root 2021 CA bundled in `src/cms/supabase-ca.ts`.
-URI SSL options cannot disable this verification. The certificate expires
-April 26, 2031; update it from Supabase when its trust chain changes. See
+URI SSL options cannot disable this verification. Refresh the bundled CA when
+Supabase's trust chain changes or before the certificate expires. See
 [Supabase TLS configuration](https://supabase.com/docs/guides/platform/ssl-enforcement).
 
 Vercel Production has its own database URI and signing secret. Preview and
@@ -175,12 +175,12 @@ they do not share Production's database or signing secret. Development values
 can be pulled by authorized developers from `utmist-infrastructure/client`.
 Use synthetic records and remove only records created by your test.
 
-GitHub's Preview and Production environment secrets are provisioned, but the
-CI workflow switch and historical-preview cleanup remain tracked in #374.
-Existing deployments retain their old credentials until refreshed or retired.
-CI creates Previews only for eligible same-repository PRs, excluding forks and
-Dependabot. The hosted editor walkthrough and source selection remain in #495;
-creating the testing branch alone does not complete that acceptance gate.
+GitHub CI builds use Preview environment secrets. Production deployments use
+Production environment secrets restricted to `main`. CI creates Previews only
+for eligible same-repository PRs, excluding forks and Dependabot. See the
+[environment guide](Environments.md#ci-guard-and-rollout) for target checks and
+the procedure for refreshing deployments after credential changes. The hosted
+editor walkthrough and source selection are covered by #495.
 
 `CMS-Access` remains a separate availability gate. Connecting the database
 does not enable the dashboard or change deployed homepage content. Keep

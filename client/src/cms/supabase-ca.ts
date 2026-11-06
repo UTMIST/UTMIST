@@ -1,5 +1,5 @@
 /**
- * Public Supabase Root 2021 CA (expires 2031-04-26), not a secret.
+ * Public Supabase Root 2021 CA, not a secret.
  * Source: https://supabase-downloads.s3-ap-southeast-1.amazonaws.com/prod/ssl/prod-ca-2021.crt
  * SHA-256: 807025ad50d4ed219d2c9c7d299c004f824eb00cf7f65afef607d07b72e6cafa
  * Bundled so serverless deployments can verify TLS without a local certificate file.

@@ -3,7 +3,7 @@
 Issue [#346](https://github.com/UTMIST/UTMIST/issues/346) uses the homepage
 introduction and statistics as the local editable example. The reader owns
 Payload access; feature components receive validated props and import no CMS
-runtime. The CMS can now use the existing Supabase database; see
+runtime. The CMS uses the existing Supabase project; see
 [database connection](Payload.md#database-connection). Hosted homepage source
 selection and preview acceptance remain in #495.
 
