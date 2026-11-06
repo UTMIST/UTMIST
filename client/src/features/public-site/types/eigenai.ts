@@ -2,7 +2,7 @@ import type { StaticImageData } from "next/image";
 
 export type EigenAIImage = StaticImageData | string;
 
-// Shared presentation contract for the redesign and future content readers.
+// Typed content contract for the EigenAI presentation.
 export interface EigenAISpeaker {
   name: string;
   role: string;
@@ -46,6 +46,7 @@ export interface EigenAIVenueDetails {
 }
 
 export interface EigenAIPageContent {
+  lockupCaption?: string;
   dateLabel: string;
   locationLabel?: string;
   ticketUrl?: string;

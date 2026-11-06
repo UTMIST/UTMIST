@@ -1,0 +1,8 @@
+/* Keep glass navigation borders neutral across page accent colors. */
+.redesigned-navbar {
+  --nav-ink: var(--brand-ink);
+  --nav-edge: var(--gray1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .redesigned-navbar * { transition: none !important; }
+}

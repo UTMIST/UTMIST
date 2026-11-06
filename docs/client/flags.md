@@ -13,6 +13,29 @@ for member identity and preferences.
 Everything here works with **no provider** — the fixtures are in-memory and
 deterministic — so server/client examples and the opt-in UI can be built now.
 
+## Website redesign
+
+[`Web-Redesign`](https://vercel.com/utmist-infrastructure/client/flag/Web-Redesign)
+controls the redesigned homepage and the shared glass navbar together. It is
+registered in `catalog.ts` and `fixtures.ts` with a code default of Off. Provider
+values are managed in `utmist-infrastructure/client`; inspect the intended
+environment before changing rollout settings.
+
+- **Off:** legacy homepage and shared navbar.
+- **On:** blue homepage redesign and shared glass navbar on frontend pages.
+  EigenAI uses its dedicated navigation in either state.
+
+Use **Vercel Toolbar → Flags Explorer → Web-Redesign → On** on a Preview to review
+it in one browser without changing the default for other visitors. Refresh after
+changing the override; clear it to follow the dashboard again. For credential-free
+local development, temporarily set the `Web-Redesign` fixture to `enabled: true`,
+restart `npm run dev`, and restore `false` before committing. No new env var is
+required. Production ignores browser overrides and fails closed to the old site.
+
+The server helper `isWebRedesignEnabled()` is exported from `@/shared/lib/server`.
+Its request-scoped decision is shared by the frontend layout and homepage.
+See [Home page](pages/Home.md) for component ownership and content sources.
+
 ## CMS availability
 
 `CMS-Access` gates the Payload CMS pages, metadata, server actions, REST API,
@@ -433,7 +456,7 @@ remain in use.
 | Toolbar cannot discover flags or apply overrides          | Check that `FLAGS_SECRET` is configured for that deployment's environment and discovery is accessible. Do not replace it with an SDK key.                                                                                                                                                                   |
 | Production stays off while its dashboard flag is On       | Verify the deployed commit includes provider evaluation in the production branch of `server.ts`; older versions unconditionally returned false. Then check deployment identity, any explicit `FLAGS` key's environment, and provider freshness/authentication. Browser overrides are ignored in Production. |
 
-The September 2026 regression in #452 came from replacing automatic OIDC with
+The regression documented in #452 came from replacing automatic OIDC with
 a mandatory `FLAGS` check during a merge. Preview had valid Vercel identity and
 an Explorer secret, but provider evaluation was skipped. Keep the OIDC regression
 tests when changing provider selection; missing manual credentials must not
