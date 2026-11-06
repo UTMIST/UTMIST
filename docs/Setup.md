@@ -73,6 +73,11 @@ access to the shared credentials.
 
 `.env` is gitignored. Never commit it.
 
+Vercel's Development settings currently point to the same Supabase application
+project as Production. A Development env pull does not provide an isolated
+test database. Read the [environment audit](client/EnvironmentAudit.md) for
+verified targets, credential sources, and the open isolation work in #374.
+
 ### Google Maps venue preview
 
 Ask a web team lead for the shared development value of
