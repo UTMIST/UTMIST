@@ -10,7 +10,10 @@ and footer. There are no mobile/tablet frames on that canvas; smaller layouts
 adapt the desktop hierarchy into stacked sections and wrapping grids.
 
 The hero fills at least the current viewport height (`100dvh`) and can grow
-with its content on short screens. The page uses the standard shared site
+with its content on short screens. It reuses the homepage's animated glass
+background with the F2F mint/teal palette, a pause control, and a still frame for
+reduced motion. The original Figma artwork is the fallback when WebGL is
+unavailable. The page uses the standard shared site
 footer, including the existing platform icons, instead of the Figma footer.
 
 | Route | Ownership and behavior |
@@ -31,6 +34,10 @@ It does not change board assignments or constitute rollout acceptance.
   and default-Off fixture are reused.
 - `pages/academics-redesign.tsx` renders the Figma sections as server components.
   FAQ disclosure uses native `details`/`summary`, with the first answer open.
+- `components/hero-light-background.tsx` is the reusable client background used
+  by the homepage and Academics. Academics selects its `f2f` theme; pointer
+  tracking, pause, offscreen suspension, and GPU cleanup use the same renderer.
+  See [HeroLightBackground](../components/HeroLightBackground.md).
 - `components/academic-session-card.tsx` accepts an `AcademicSession`. Each
   optional resource URL is independent; a missing URL renders an unavailable
   label, never a fake link or a link to a different session. Published resources
@@ -65,7 +72,7 @@ URLs are download sources only and are never used at runtime.
 
 | Figma layer(s) | Local asset / slot |
 | --- | --- |
-| `25:127` | `hero.png`: export of the background artwork layer, not a screenshot of the UI |
+| `25:127` | `hero.png`: local fallback for the animated background, exported from the artwork layer |
 | `22:111` | Existing `/home-redesign/utmist-wordmark.png`: identical asset reused in the navbar |
 | `25:1902` | `workshop.png`: workshop photo, preserving the frame's crop |
 | `31:1903` | `intro-decoration.svg`: small introduction decoration |

@@ -12,6 +12,9 @@ uniform vec2 u_resolution;
 uniform float u_time;
 uniform vec2 u_pointer;
 uniform float u_pointerStrength;
+uniform vec3 u_baseColor;
+uniform vec3 u_lightColor;
+uniform vec3 u_highlightColor;
 
 float grain(vec2 p) {
   return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
@@ -49,9 +52,9 @@ void main() {
   float seam = (1.0 - smoothstep(0.0, 0.018, rib)) * 0.1;
   float intensity = illumination * (flute + seam) * 0.7;
 
-  vec3 color = vec3(0.003, 0.006, 0.022);
-  color += vec3(0.012, 0.065, 0.95) * pow(intensity, 0.82);
-  color += vec3(0.13, 0.49, 0.42) * pow(intensity, 3.0);
+  vec3 color = u_baseColor;
+  color += u_lightColor * pow(intensity, 0.82);
+  color += u_highlightColor * pow(intensity, 3.0);
   // Grain stays in screen coordinates; stretching an edge noise sample makes streaks.
   float noise = grain(gl_FragCoord.xy) - 0.5;
   float grainAmount = 0.028 + 0.13 * sqrt(intensity);

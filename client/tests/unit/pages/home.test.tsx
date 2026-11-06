@@ -7,6 +7,7 @@ const syntheticImpact = {
 
 const mockRedesignEnabled = jest.fn();
 jest.mock('@/features/public-site/lib/hero-light-renderer', () => ({
+  ...jest.requireActual('@/features/public-site/lib/hero-light-renderer'),
   createHeroLightRenderer: () => null,
 }));
 jest.mock('@/shared/lib/server', () => ({

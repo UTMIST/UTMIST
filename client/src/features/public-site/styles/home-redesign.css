@@ -85,18 +85,6 @@ html:has(.home-redesign) { position: relative; }
   to { opacity: 1; translate: 0 0; }
 }
 
-/* Both the live glass and fallback stop at the hero's edge. */
-.home-hero-backdrop:has(canvas[data-ready="true"]) > img { visibility: hidden; }
-
-/* Keep the reading area calm over both the live shader and its image fallback. */
-.home-hero-backdrop::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: radial-gradient(ellipse at 50% 42%, rgb(0 0 0 / 45%), rgb(0 0 0 / 14%) 55%, transparent 80%);
-}
-
 .home-selection {
   --home-highlight-fill: color-mix(in srgb, var(--home-selection) 20%, transparent);
   position: relative;
@@ -128,24 +116,6 @@ html:has(.home-redesign) { position: relative; }
 }
 .home-selection::before { left: -0.23em; top: -0.25em; }
 .home-selection::after { right: -0.23em; bottom: -0.25em; }
-
-.home-hero-canvas {
-  opacity: 0;
-}
-
-.home-hero-canvas[data-ready="true"] {
-  opacity: 1;
-}
-
-.home-hero-motion-toggle {
-  display: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .home-hero-backdrop:has(canvas[data-ready="true"]) + .home-hero-motion-toggle {
-    display: inline-flex;
-  }
-}
 
 .home-stat-number {
   color: var(--home-lilac);

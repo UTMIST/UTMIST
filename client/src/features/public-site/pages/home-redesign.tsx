@@ -5,7 +5,7 @@ import { homeContent, homeRedesignContent } from "@/features/public-site/data/ho
 import { homeEvents } from "@/features/public-site/data/home-events";
 import { homeFaq } from "@/features/public-site/data/home-faq";
 import { readHomeImpact } from "@/features/public-site/lib/home-impact";
-import HomeHeroBackground from "@/features/public-site/components/home-hero-background";
+import HeroLightBackground from "@/features/public-site/components/hero-light-background";
 import HomeImpactTiles from "@/features/public-site/components/home-impact-tiles";
 import HomeDisciplineNetwork from "@/features/public-site/components/home-discipline-network";
 import HomeEventCard from "@/features/public-site/components/home-event-card";
@@ -23,7 +23,7 @@ export default async function RedesignedHome() {
     <HomeScrollEffects>
       <a href="#home-content" className="sr-only z-50 rounded-full bg-white px-5 py-3 text-secondary focus:not-sr-only focus:fixed focus:left-6 focus:top-6">Skip to content</a>
       <section data-ui-tone="dark" aria-labelledby="home-heading" className="home-hero home-dark relative isolate min-h-svh overflow-hidden bg-black">
-        <HomeHeroBackground />
+        <HeroLightBackground />
         <ContentContainer className="grid min-h-svh content-center gap-10 pb-16 pt-28 sm:gap-12 sm:pb-20 sm:pt-32 lg:grid-cols-[minmax(140px,1fr)_minmax(0,760px)_minmax(140px,1fr)] lg:content-stretch lg:items-center lg:gap-8 lg:pb-14 lg:pt-28">
           <div id="home-content" className="mx-auto w-full max-w-[760px] text-center lg:col-start-2 lg:row-start-1">
             <p className="home-body mx-auto mb-5 max-w-xl">

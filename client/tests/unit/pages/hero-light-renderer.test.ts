@@ -46,6 +46,15 @@ beforeEach(() => {
 
 afterEach(() => { renderer?.dispose(); hero.remove(); jest.restoreAllMocks(); });
 
+it("passes a caller's palette to the GPU for each renderer instance", () => {
+  renderer?.dispose();
+  const palette = { base: [0.1, 0.2, 0.3], light: [0.4, 0.5, 0.6], highlight: [0.7, 0.8, 0.9] } as const;
+  renderer = createHeroLightRenderer(hero.querySelector("canvas")!, hero, palette);
+  expect(uniforms.get("u_baseColor")).toEqual(palette.base);
+  expect(uniforms.get("u_lightColor")).toEqual(palette.light);
+  expect(uniforms.get("u_highlightColor")).toEqual(palette.highlight);
+});
+
 function movePointer(pointerType = "mouse", target: EventTarget = hero, clientX = 950, clientY = 290) {
   const event = new MouseEvent("pointermove", { clientX, clientY, bubbles: true });
   Object.defineProperty(event, "pointerType", { value: pointerType });

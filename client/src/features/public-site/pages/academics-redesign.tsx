@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button, ContentContainer } from "@/shared/ui";
 import { AcademicSessionCard } from "@/features/public-site/components/academic-session-card";
+import HeroLightBackground from "@/features/public-site/components/hero-light-background";
 import { academicTopics, academicsArchivePath, academicsFaqs, academicsPreviewTeam, kickoffSession } from "@/features/public-site/data/academics";
 import "@/styles/academics.css";
 
@@ -12,8 +13,8 @@ function Divider() {
 export default function AcademicsRedesign() {
   return (
     <main className="academics-page ui-surface bg-white font-eigen-body text-black" data-academics="redesign">
-      <section className="relative flex min-h-dvh items-center justify-center py-40 text-center text-white" aria-labelledby="academics-title" data-ui-tone="dark">
-        <Image src="/academics-redesign/hero.png" alt="" fill preload sizes="100vw" className="object-cover" />
+      <section className="relative isolate flex min-h-dvh items-center justify-center overflow-hidden bg-black py-40 text-center text-white" aria-labelledby="academics-title" data-ui-tone="dark">
+        <HeroLightBackground theme="f2f" />
         <ContentContainer className="relative max-w-[1240px] lg:translate-y-12">
           <p className="mb-4 text-lg leading-snug sm:text-[22px]">UTMIST Academics Department</p>
           <h1 id="academics-title" className="mx-auto max-w-[1090px] text-[clamp(2.6rem,5.56vw,5rem)] font-medium leading-[0.98] tracking-[-0.04em]">
