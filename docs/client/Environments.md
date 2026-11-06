@@ -60,6 +60,14 @@ from schema definitions only. Its three Storage buckets and nine policies
 were recreated without copying files. Payload's initial migration
 `20261105_212538_initial_payload` created the CMS tables under its scoped role.
 
+Supabase's initial schema replay referenced `utmist_payload` before that custom
+role existed. After provisioning the role and applying the schema explicitly,
+the application/Payload schema was compared with Production and the matching
+Supabase baseline `20261106002045` was recorded as applied in testing. For a
+future branch, provision a separate CMS password and role before retrying a
+schema replay that references it. Never copy Production's role password, and
+never mark a migration applied without verifying that its schema is present.
+
 Use synthetic accounts and records in testing. Production users, resumes,
 editor accounts, and content are not test fixtures. For a test login, a
 testing-project administrator can use Auth → Users → Add user, choose a fake
