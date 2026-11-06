@@ -13,6 +13,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Preview environment secrets point to the shared Supabase testing branch.
+    environment: Preview
     env:
       VERCEL_FLAGS_DISABLE_DEFINITION_EMBEDDING: "1"
 
@@ -51,6 +53,9 @@ jobs:
       - name: Test
         run: npm test
 
+      - name: Test database target guard
+        run: node --test ../scripts/verify-database-target.test.mjs
+
       # Dependabot and fork PRs cannot read this repo's secrets (Dependabot runs
       # against a separate secret store, forks against none), so these come out
       # empty there. Pages that throw on a missing value rather than degrading
@@ -66,7 +71,9 @@ jobs:
       # cookies), and the Maps key is read to build a client-side embed URL.
       # Real secrets still win wherever they are readable.
       - name: Build
-        run: npm run build
+        run: |
+          node ../scripts/verify-database-target.mjs ci
+          npm run build
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key' }}
@@ -177,6 +184,9 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
+    # The GitHub Production environment is restricted to main and owns the
+    # production database secrets; PR builds use the Preview environment.
+    environment: Production
 
     # Same pinning as the preview job; see the comment there.
     env:
@@ -205,7 +215,9 @@ jobs:
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          node ../scripts/verify-database-target.mjs production
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
