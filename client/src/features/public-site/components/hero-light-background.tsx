@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 
 import { IconButton } from "@/shared/ui";
-import { createHeroLightRenderer, heroLightPalettes, type HeroLightRenderer } from "@/features/public-site/lib/hero-light-renderer";
+import { createHeroLightRenderer, heroLightPalettes, type HeroLightRenderer, type HeroLightTheme } from "@/features/public-site/lib/hero-light-renderer";
 import "@/features/public-site/styles/hero-light-background.css";
 
 const fallbackImages = {
@@ -14,7 +14,7 @@ const fallbackImages = {
 };
 
 /** Only the backdrop moves; the hero's content stays stationary. */
-export default function HeroLightBackground({ theme = "home" }: { theme?: keyof typeof heroLightPalettes }) {
+export default function HeroLightBackground({ theme = "home" }: { theme?: HeroLightTheme }) {
   const [paused, setPaused] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<HeroLightRenderer | null>(null);

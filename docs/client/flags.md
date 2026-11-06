@@ -23,8 +23,8 @@ environment before changing rollout settings.
 
 - **Off:** legacy homepage, MLF page, and shared navbar.
 - **On:** blue homepage redesign, Foundations to Frontiers at `/ml-fundamentals`,
-  and shared glass navbar on frontend pages. Academics has its own hero navigation
-  and uses the standard shared footer; its Past years links open the preserved
+  and shared glass navbar on frontend pages. Academics uses the same navigation
+  and standard shared footer as the homepage; its Past years links open the preserved
   `/ml-fundamentals/2025` archive.
   EigenAI uses its dedicated navigation in either state.
 

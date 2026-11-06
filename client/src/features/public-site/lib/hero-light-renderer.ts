@@ -9,6 +9,8 @@ export const heroLightPalettes = {
   f2f: { base: [0, 0.008, 0.008], light: [82 / 255, 221 / 255, 172 / 255], highlight: [0, 135 / 255, 135 / 255] },
 } as const satisfies Record<string, HeroLightPalette>;
 
+export type HeroLightTheme = keyof typeof heroLightPalettes;
+
 export type HeroLightRenderer = {
   setPaused: (paused: boolean) => void;
   dispose: () => void;

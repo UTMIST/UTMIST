@@ -5,7 +5,7 @@ import { homeContent, homeRedesignContent } from "@/features/public-site/data/ho
 import { homeEvents } from "@/features/public-site/data/home-events";
 import { homeFaq } from "@/features/public-site/data/home-faq";
 import { readHomeImpact } from "@/features/public-site/lib/home-impact";
-import HeroLightBackground from "@/features/public-site/components/hero-light-background";
+import PublicSiteHero from "@/features/public-site/components/public-site-hero";
 import HomeImpactTiles from "@/features/public-site/components/home-impact-tiles";
 import HomeDisciplineNetwork from "@/features/public-site/components/home-discipline-network";
 import HomeEventCard from "@/features/public-site/components/home-event-card";
@@ -22,26 +22,21 @@ export default async function RedesignedHome() {
   return (
     <HomeScrollEffects>
       <a href="#home-content" className="sr-only z-50 rounded-full bg-white px-5 py-3 text-secondary focus:not-sr-only focus:fixed focus:left-6 focus:top-6">Skip to content</a>
-      <section data-ui-tone="dark" aria-labelledby="home-heading" className="home-hero home-dark relative isolate min-h-svh overflow-hidden bg-black">
-        <HeroLightBackground />
-        <ContentContainer className="grid min-h-svh content-center gap-10 pb-16 pt-28 sm:gap-12 sm:pb-20 sm:pt-32 lg:grid-cols-[minmax(140px,1fr)_minmax(0,760px)_minmax(140px,1fr)] lg:content-stretch lg:items-center lg:gap-8 lg:pb-14 lg:pt-28">
-          <div id="home-content" className="mx-auto w-full max-w-[760px] text-center lg:col-start-2 lg:row-start-1">
-            <p className="home-body mx-auto mb-5 max-w-xl">
-              North America’s Largest Undergraduate Machine Learning Club
-            </p>
-            <h1 id="home-heading" className="font-medium text-[clamp(2rem,8.5vw,3.75rem)] leading-[1.05] tracking-[-0.045em] lg:text-[clamp(3rem,4.5vw,4.5rem)]">
-              <span className="block">University of Toronto</span>{" "}
-              <span className="block">Machine Intelligence</span>{" "}
-              <span className="block">Student Team</span>
-            </h1>
-            <p className="ui-section-copy mx-auto mt-7 max-w-md">
-              Where students learn, build, research,<br className="hidden sm:block" /> and lead at the <span className="home-accent">University of Toronto.</span>
-            </p>
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-              <PillLink href="/careers" tone="dark">Join us</PillLink>
-              <PillLink href="mailto:utorontomist@gmail.com" tone="dark">Contact us</PillLink>
-            </div>
-          </div>
+      <PublicSiteHero headingId="home-heading" contentId="home-content" className="home-hero home-dark"
+        eyebrow="North America’s Largest Undergraduate Machine Learning Club"
+        title={<>
+          <span className="block">University of Toronto</span>{" "}
+          <span className="block">Machine Intelligence</span>{" "}
+          <span className="block">Student Team</span>
+        </>}
+        description={<>
+          Where students learn, build, research,<br className="hidden sm:block" /> and lead at the <span className="home-accent">University of Toronto.</span>
+        </>}
+        actions={<>
+          <PillLink href="/careers" tone="dark">Join us</PillLink>
+          <PillLink href="mailto:utorontomist@gmail.com" tone="dark">Contact us</PillLink>
+        </>}
+        aside={
           <dl className="home-hero-statistics mx-auto grid w-full max-w-[640px] grid-cols-3 gap-4 lg:col-start-1 lg:row-start-1 lg:max-w-none lg:grid-cols-1 lg:gap-7 lg:self-end">
             {impact.statistics.slice(0, 3).map((stat) => (
               <div key={stat.description} className="home-stat-marker relative flex flex-col items-center text-center lg:max-w-[190px] lg:items-start lg:pl-6 lg:text-left">
@@ -50,8 +45,8 @@ export default async function RedesignedHome() {
               </div>
             ))}
           </dl>
-        </ContentContainer>
-      </section>
+        }
+      />
 
       <section id="about-us" aria-labelledby="about-heading" data-ui-tone="light" className="home-about overflow-hidden bg-background pt-[var(--ui-section-gap)]">
         <ContentContainer className="home-about-intro grid items-center gap-10 lg:grid-cols-2 lg:gap-20">

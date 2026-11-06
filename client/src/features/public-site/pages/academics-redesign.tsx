@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Button, ContentContainer } from "@/shared/ui";
+import { ContentContainer, PillLink } from "@/shared/ui";
 import { AcademicSessionCard } from "@/features/public-site/components/academic-session-card";
-import HeroLightBackground from "@/features/public-site/components/hero-light-background";
+import PublicSiteHero from "@/features/public-site/components/public-site-hero";
 import { academicTopics, academicsArchivePath, academicsFaqs, academicsPreviewTeam, kickoffSession } from "@/features/public-site/data/academics";
 import "@/styles/academics.css";
 
@@ -13,26 +13,14 @@ function Divider() {
 export default function AcademicsRedesign() {
   return (
     <main className="academics-page ui-surface bg-white font-eigen-body text-black" data-academics="redesign">
-      <section className="relative isolate flex min-h-dvh items-center justify-center overflow-hidden bg-black py-40 text-center text-white" aria-labelledby="academics-title" data-ui-tone="dark">
-        <HeroLightBackground theme="f2f" />
-        <ContentContainer className="relative max-w-[1240px] lg:translate-y-12">
-          <p className="mb-4 text-lg leading-snug sm:text-[22px]">UTMIST Academics Department</p>
-          <h1 id="academics-title" className="mx-auto max-w-[1090px] text-[clamp(2.6rem,5.56vw,5rem)] font-medium leading-[0.98] tracking-[-0.04em]">
-            Machine Learning<br className="hidden sm:block" /> Fundamentals to Frontiers
-          </h1>
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-            <Button asChild variant="outline" className="h-14 gap-5 rounded-full border-[var(--brand-cyan)] bg-white/20 py-2 pl-6 pr-3 text-lg font-normal text-white hover:scale-100 hover:bg-white/30 sm:text-[22px]">
-              <a href="#program">Explore the program
-                <span className="relative inline-flex size-[33px] items-center justify-center" aria-hidden="true">
-                  <Image src="/academics-redesign/cta-circle.svg" alt="" width={33} height={33} className="absolute" />
-                  <Image src="/academics-redesign/cta-arrow.svg" alt="" width={11.6717} height={12.4} className="relative rotate-90" />
-                </span>
-              </a>
-            </Button>
-            <Link href={academicsArchivePath} className="rounded px-2 py-3 text-lg hover:underline sm:text-[22px]">Past years <span aria-hidden="true">↗</span></Link>
-          </div>
-        </ContentContainer>
-      </section>
+      <PublicSiteHero headingId="academics-title" theme="f2f"
+        eyebrow="UTMIST Academics Department"
+        title={<>Machine Learning<br className="hidden sm:block" /> Fundamentals to Frontiers</>}
+        actions={<>
+          <PillLink href="#program" tone="dark" direction="down">Explore the program</PillLink>
+          <PillLink href={academicsArchivePath} tone="dark">Past years</PillLink>
+        </>}
+      />
 
       <section id="program" aria-labelledby="program-heading" className="scroll-mt-8 py-24 lg:pb-18 lg:pt-28">
         <ContentContainer className="max-w-[1100px]">

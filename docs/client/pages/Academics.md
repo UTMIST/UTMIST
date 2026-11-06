@@ -10,7 +10,9 @@ and footer. There are no mobile/tablet frames on that canvas; smaller layouts
 adapt the desktop hierarchy into stacked sections and wrapping grids.
 
 The hero fills at least the current viewport height (`100dvh`) and can grow
-with its content on short screens. It reuses the homepage's animated glass
+with its content on short screens. `PublicSiteHero` gives it the same responsive
+container, centered reading column, type scale, and CTA spacing as the homepage.
+Both actions use shared `PillLink` components. It reuses the homepage's animated glass
 background with the F2F mint/teal palette, a pause control, and a still frame for
 reduced motion. The original Figma artwork is the fallback when WebGL is
 unavailable. The page uses the standard shared site
@@ -34,6 +36,8 @@ It does not change board assignments or constitute rollout acceptance.
   and default-Off fixture are reused.
 - `pages/academics-redesign.tsx` renders the Figma sections as server components.
   FAQ disclosure uses native `details`/`summary`, with the first answer open.
+- `components/public-site-hero.tsx` owns hero geometry shared with the homepage.
+  See [PublicSiteHero](../components/PublicSiteHero.md).
 - `components/hero-light-background.tsx` is the reusable client background used
   by the homepage and Academics. Academics selects its `f2f` theme; pointer
   tracking, pause, offscreen suspension, and GPU cleanup use the same renderer.
@@ -48,9 +52,11 @@ It does not change board assignments or constitute rollout acceptance.
   content and real resource URLs before rollout; publishing/backend integration
   remains separate from this UI work.
 - `styles/academics.css` scopes the Figma mint/teal palette and card/timeline
-  treatments. Shared `Button`, `ContentContainer`, focus styles, and typography
-  are reused; Inter medium is self-hosted for the Figma display headings.
-- The shared redesigned navbar presents the archive link on the Academics route.
+  treatments. Shared `PillLink`, `ContentContainer`, focus styles, and typography
+  are reused; Inter medium is self-hosted for workshop headings. The hero uses
+  the same Instrument Sans typography as the homepage.
+- The shared redesigned navbar keeps the same links and dimensions on both pages
+  and stays mounted during client navigation. Past years remains in the hero and FAQ.
   `SiteFooter` selects the standard shared footer on that route with the flag On,
   matching the redesigned homepage.
   Both return to the legacy shell when the flag is Off. Other page navigation
@@ -58,7 +64,7 @@ It does not change board assignments or constitute rollout acceptance.
 
 ## Destinations
 
-The hero's Explore link scrolls to `#program`. Past years in the hero, navbar,
+The hero's Explore link scrolls to `#program`. Past years in the hero,
 preview note, and FAQ goes to `/ml-fundamentals/2025`. Programs continues to
 offer `/startups` and `/ml-fundamentals`; existing About, Projects, Events,
 EigenAI, Sponsors, Login/Profile, and footer social destinations are preserved.
@@ -76,7 +82,6 @@ URLs are download sources only and are never used at runtime.
 | `22:111` | Existing `/home-redesign/utmist-wordmark.png`: identical asset reused in the navbar |
 | `25:1902` | `workshop.png`: workshop photo, preserving the frame's crop |
 | `31:1903` | `intro-decoration.svg`: small introduction decoration |
-| `44:2717`, `44:2718` | `cta-circle.svg`, `cta-arrow.svg`: Explore action |
 | `44:3099`, `48:1002` | `timeline-start.svg`, `timeline-line.svg`: workshop sequence |
 | `48:487` and repeated card layers | `location.png`: session location |
 | Repeated resource-pill layers | `slides-pill.svg`, `recording-pill.svg`, `code-pill.svg` |

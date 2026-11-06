@@ -9,8 +9,9 @@
   --ui-focus-color: var(--academic-deep);
 }
 .academics-page [data-ui-tone="dark"] { --ui-focus-color: var(--brand-cyan); }
+.academics-page [data-public-site-hero] { --pill-link-accent: var(--academic-teal); }
 .academics-page :is(h1, h2, h3, h4) { font-family: inherit; font-weight: 500; }
-.academics-page :is(h1, h4), .academic-topic h3 { font-family: "Inter", var(--system-font); }
+.academics-page h4, .academic-topic h3 { font-family: "Inter", var(--system-font); }
 .academic-square {
   width: 70px;
   height: 68px;
