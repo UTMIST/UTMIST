@@ -112,3 +112,16 @@ it("closes the mobile menu on route changes", () => {
   rerender(<Navbar redesignEnabled />);
   expect(screen.getByRole("button", { name: "Open menu" })).toHaveAttribute("aria-expanded", "false");
 });
+
+it("shows the academics archive destination only in the flagged academics navigation", () => {
+  mockPathname = "/ml-fundamentals";
+  const { container, rerender } = render(<Navbar redesignEnabled />);
+  const archiveLink = () => container.querySelector('a[href="/ml-fundamentals/2025"]');
+  expect(archiveLink()).toBeInTheDocument();
+  rerender(<Navbar redesignEnabled={false} />);
+  expect(archiveLink()).not.toBeInTheDocument();
+  mockPathname = "/projects";
+  rerender(<Navbar redesignEnabled />);
+  expect(archiveLink()).not.toBeInTheDocument();
+  expect(container.querySelector('a[href="/careers"]')).toBeInTheDocument();
+});

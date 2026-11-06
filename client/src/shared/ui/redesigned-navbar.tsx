@@ -25,7 +25,7 @@ const links: NavigationItem[] = [
   ] },
   { label: "Programs", children: [
     { href: "/startups", label: "MISTic R&D" },
-    { href: "/ml-fundamentals", label: "MLF" },
+    { href: "/ml-fundamentals", label: "Foundations to Frontiers" },
   ] },
   { href: "/sponsors", label: "Sponsors" },
   { href: "/careers", label: "Careers" },
@@ -35,15 +35,18 @@ export default function RedesignedNavbar() {
   const { user } = useUser();
   const pathname = usePathname();
   // Keying by pathname closes a menu after Back/Forward navigation as well.
-  return <Navigation key={pathname} isHome={pathname === "/"} signedIn={Boolean(user)} />;
+  return <Navigation key={pathname} isHome={pathname === "/"} isAcademics={pathname === "/ml-fundamentals"} signedIn={Boolean(user)} />;
 }
 
-function Navigation({ isHome, signedIn }: { isHome: boolean; signedIn: boolean }) {
+function Navigation({ isHome, isAcademics, signedIn }: { isHome: boolean; isAcademics: boolean; signedIn: boolean }) {
   const [open, setOpen] = useState(false);
   const [dropdown, setDropdown] = useState<string | null>(null);
   const toggle = useRef<HTMLButtonElement>(null);
   const navigation = useRef<HTMLElement>(null);
   const touchNavigation = useRef(false);
+  const pageLinks = isAcademics
+    ? links.map((item) => item.href === "/careers" ? { href: "/ml-fundamentals/2025", label: "Past Years" } : item)
+    : links;
 
   function closeMenus() {
     setOpen(false);
@@ -51,7 +54,7 @@ function Navigation({ isHome, signedIn }: { isHome: boolean; signedIn: boolean }
   }
 
   return (
-    <header data-ui-tone="dark" className={`ui-surface redesigned-navbar z-30 font-eigen-body text-white ${isHome ? "absolute inset-x-0 top-0" : "relative bg-[var(--nav-ink)]"}`}>
+    <header data-ui-tone="dark" data-navigation={isAcademics ? "academics" : "standard"} className={`ui-surface redesigned-navbar z-30 font-eigen-body text-white ${isHome || isAcademics ? "absolute inset-x-0 top-0" : "relative bg-[var(--nav-ink)]"}`}>
       {/* One grid positions all three desktop items; equal side columns keep the pill centered. */}
       <ContentContainer asChild>
         <nav ref={navigation} aria-label="Main navigation" className="relative flex items-center justify-between gap-6 py-5 md:py-6 lg:grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] xl:py-7"
@@ -82,7 +85,7 @@ function Navigation({ isHome, signedIn }: { isHome: boolean; signedIn: boolean }
           <div id="redesigned-navigation-links"
             className={`${open ? "flex" : "hidden"} absolute inset-x-5 top-full max-h-[calc(100svh-7rem)] flex-col gap-4 overflow-y-auto rounded-3xl border border-[var(--nav-edge)] bg-[var(--nav-ink)] p-5 shadow-xl lg:contents`}>
             <div className="redesigned-navbar-links flex flex-col gap-1 lg:min-h-11 lg:w-[min(56vw,620px)] lg:flex-row lg:items-center lg:justify-between lg:gap-0 lg:rounded-full lg:border lg:border-[var(--nav-edge)] lg:bg-white/20 lg:px-4 lg:backdrop-blur-xl xl:px-6">
-              {links.map(({ href, label, children }) => children ? (
+              {pageLinks.map(({ href, label, children }) => children ? (
                 <div key={label} className="relative flex flex-wrap items-center lg:flex-nowrap"
                   onPointerEnter={(event) => { if (event.pointerType !== "touch") setDropdown(label); }}
                   onPointerLeave={(event) => {
@@ -115,7 +118,7 @@ function Navigation({ isHome, signedIn }: { isHome: boolean; signedIn: boolean }
                   )}
                   <div id={`${label.toLowerCase()}-navigation-dropdown`} hidden={dropdown !== label}
                     className="w-full pt-2 lg:absolute lg:right-0 lg:top-full lg:w-44">
-                    <div className="flex flex-col rounded-2xl border border-[var(--nav-edge)]/50 bg-[var(--nav-ink)] p-2 lg:shadow-xl">
+                    <div className="flex flex-col rounded-2xl border border-[var(--nav-edge)]/50 bg-[var(--nav-ink)] p-2 lg:min-w-52 lg:shadow-xl">
                       {children.map((link) => <Link key={link.href} href={link.href} onClick={closeMenus} className="rounded-lg px-3 py-3 text-sm hover:bg-white/15">{link.label}</Link>)}
                     </div>
                   </div>

@@ -16,13 +16,15 @@ deterministic — so server/client examples and the opt-in UI can be built now.
 ## Website redesign
 
 [`Web-Redesign`](https://vercel.com/utmist-infrastructure/client/flag/Web-Redesign)
-controls the redesigned homepage and the shared glass navbar together. It is
+controls the redesigned homepage, Academics page, and shared glass navbar together. It is
 registered in `catalog.ts` and `fixtures.ts` with a code default of Off. Provider
 values are managed in `utmist-infrastructure/client`; inspect the intended
 environment before changing rollout settings.
 
-- **Off:** legacy homepage and shared navbar.
-- **On:** blue homepage redesign and shared glass navbar on frontend pages.
+- **Off:** legacy homepage, MLF page, and shared navbar.
+- **On:** blue homepage redesign, Foundations to Frontiers at `/ml-fundamentals`,
+  and shared glass navbar on frontend pages. Academics has its own hero navigation
+  and footer; its Past years links open the preserved `/ml-fundamentals/2025` archive.
   EigenAI uses its dedicated navigation in either state.
 
 Use **Vercel Toolbar → Flags Explorer → Web-Redesign → On** on a Preview to review
@@ -33,8 +35,10 @@ restart `npm run dev`, and restore `false` before committing. No new env var is
 required. Production ignores browser overrides and fails closed to the old site.
 
 The server helper `isWebRedesignEnabled()` is exported from `@/shared/lib/server`.
-Its request-scoped decision is shared by the frontend layout and homepage.
-See [Home page](pages/Home.md) for component ownership and content sources.
+Its request-scoped decision is shared by the frontend layout, homepage, and
+Academics page. The helper also fails Off if its evaluator rejects.
+See [Home page](pages/Home.md) and [Academics](pages/Academics.md) for component
+ownership and content sources.
 
 ## CMS availability
 

@@ -3,6 +3,23 @@
   --nav-ink: var(--brand-ink);
   --nav-edge: var(--gray1);
 }
+.redesigned-navbar[data-navigation="academics"] {
+  --nav-ink: #002121;
+  --nav-edge: var(--brand-cyan);
+  --ui-focus-color: var(--brand-cyan);
+}
+@media (min-width: 1280px) {
+  .redesigned-navbar[data-navigation="academics"] > nav {
+    max-width: 1440px;
+    padding: 51px 56px;
+    grid-template-columns: 204px minmax(0, 1fr) 117px;
+    gap: 4rem;
+  }
+  .redesigned-navbar[data-navigation="academics"] > nav > a img { width: 204px; }
+  .redesigned-navbar[data-navigation="academics"] .redesigned-navbar-links { width: 100%; min-height: 55px; }
+  .redesigned-navbar[data-navigation="academics"] .redesigned-navbar-links > :is(a, div) > :is(a, button),
+  .redesigned-navbar[data-navigation="academics"] .redesigned-navbar-links > a { font-size: 18px; }
+}
 @media (prefers-reduced-motion: reduce) {
   .redesigned-navbar * { transition: none !important; }
 }

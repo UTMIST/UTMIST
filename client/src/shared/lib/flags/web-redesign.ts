@@ -9,5 +9,9 @@ import { evaluateFlag } from "./server";
 export const isWebRedesignEnabled = cache(async (): Promise<boolean> => {
   // Dashboard changes must take effect without rebuilding a static homepage.
   await connection();
-  return evaluateFlag("Web-Redesign");
+  try {
+    return await evaluateFlag("Web-Redesign");
+  } catch {
+    return false;
+  }
 });
