@@ -26,26 +26,47 @@ beforeEach(() => {
 afterEach(() => { process.env = originalEnv; });
 
 describe("home impact content source", () => {
-  it.each(["production", "test"] as const)("keeps the existing deployed content in %s without selecting a fixture adapter", async (env) => {
+  it.each(["production", "test"] as const)("keeps the existing content in %s without selecting the CMS adapter", async (env) => {
     process.env = { ...process.env, NODE_ENV: env };
     expect(await readHomeImpact()).toBe(homeImpactContent);
     expect(mockEvaluate).not.toHaveBeenCalled();
+    expect(mockConnection).not.toHaveBeenCalled();
     expect(mockRead).not.toHaveBeenCalled();
   });
 
-  it("does not opt into local content on a Vercel deployment", async () => {
+  it("keeps Vercel Development on static content", async () => {
     process.env.VERCEL_ENV = "development";
     expect(await readHomeImpact()).toBe(homeImpactContent);
+    expect(mockEvaluate).not.toHaveBeenCalled();
+    expect(mockConnection).not.toHaveBeenCalled();
     expect(mockRead).not.toHaveBeenCalled();
   });
 
-  it("keeps the original content while the local availability flag is Off", async () => {
+  it("never selects CMS content on Vercel Production", async () => {
+    process.env = { ...process.env, NODE_ENV: "production", VERCEL: "1", VERCEL_ENV: "production" };
+    expect(await readHomeImpact()).toBe(homeImpactContent);
+    expect(mockEvaluate).not.toHaveBeenCalled();
+    expect(mockConnection).not.toHaveBeenCalled();
+    expect(mockRead).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    { name: "local development", env: { NODE_ENV: "development" } },
+    { name: "Vercel Preview", env: { NODE_ENV: "production", VERCEL: "1", VERCEL_ENV: "preview" } },
+  ] as const)("keeps the original content while CMS access is Off in $name", async ({ env }) => {
+    process.env = { ...process.env, ...env };
     mockEvaluate.mockResolvedValue(false);
     expect(await readHomeImpact()).toBe(homeImpactContent);
+    expect(mockConnection).toHaveBeenCalled();
+    expect(mockEvaluate).toHaveBeenCalledWith("CMS-Access");
     expect(mockRead).not.toHaveBeenCalled();
   });
 
-  it("makes opted-in reads dynamic and passes edited content through", async () => {
+  it.each([
+    { name: "local development", env: { NODE_ENV: "development" } },
+    { name: "Vercel Preview", env: { NODE_ENV: "production", VERCEL: "1", VERCEL_ENV: "preview" } },
+  ] as const)("makes opted-in reads dynamic and passes edited content through in $name", async ({ env }) => {
+    process.env = { ...process.env, ...env };
     const edited = { ...homeImpactContent, heading: "Synthetic local edit" };
     mockRead.mockResolvedValue({ status: "found", content: edited });
     expect(await readHomeImpact()).toBe(edited);

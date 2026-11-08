@@ -4,8 +4,9 @@ Issue [#346](https://github.com/UTMIST/UTMIST/issues/346) uses the homepage
 introduction and statistics as the local editable example. The reader owns
 Payload access; feature components receive validated props and import no CMS
 runtime. The CMS uses the existing Supabase project; see
-[database connection](Payload.md#database-connection). Hosted homepage source
-selection and preview acceptance remain in #495.
+[database connection](Payload.md#database-connection). Issue #495 enables the
+same reader on protected Vercel Preview deployments while Production remains
+on static content.
 
 ## Collection fields
 
@@ -79,14 +80,21 @@ not push an update into an already open tab; reload `/` to see the change.
 
 ## Source selection and offline example
 
-The homepage selects Payload only when `NODE_ENV=development`, no `VERCEL` or
-`VERCEL_ENV` context exists, and `CMS-Access` evaluates On. Local live provider
-credentials and signed browser overrides remain supported. No new environment
-variable or flag is introduced. With local access Off, and in deployed/build
-runs, the homepage deliberately keeps its original static source. This is
-explicit source selection until #495, not a failed-read fallback. Once local
-CMS mode is selected, missing, invalid, or unavailable content raises an error;
-it never substitutes the original content or an offline fixture.
+The homepage selects Payload in either of two environments: credential-free
+local development with no Vercel context, or a Vercel Preview deployment. In
+both cases `CMS-Access` must evaluate On. Local live provider credentials and
+signed browser overrides remain supported. No new environment variable or flag
+is introduced. Vercel Production, Vercel Development, test runs, and standalone
+production builds always keep the original static source. This ensures that
+enabling the foundation flag cannot change Production homepage content.
+
+Eligible local and Preview requests call Next's `connection()` before flag
+evaluation. The flag is therefore re-evaluated on each homepage request, and a
+published CMS edit appears after a reload without a rebuild or redeploy. With
+access Off the same dynamic request deliberately returns the original static
+content without opening a Payload database connection. Once CMS mode is
+selected, missing, invalid, or unavailable content raises an error; it never
+substitutes the original content or an offline fixture.
 
 The small offline example reuses the original hard-coded content with the same
 typed contract. It requires no database and is never chosen automatically:
@@ -143,6 +151,40 @@ unavailable to the public reader. Republishing should restore the local page;
 disabling local CMS access should select the static source. Record run-specific
 evidence in the relevant issue or PR instead of treating a previous run as proof
 of the current deployment.
+
+## Hosted Preview edit proof
+
+Use a single protected Preview deployment backed by the testing target in
+[Environments](Environments.md). Do not copy or reveal either secret value.
+
+1. Confirm the deployment is a non-Production Vercel Preview and Deployment
+   Protection requires an authorized team session. Record its deployment ID,
+   commit SHA, and the testing target `lrbvknlviodxhhuautfi`.
+2. In Vercel project settings, confirm `PAYLOAD_DATABASE_URI` and
+   `PAYLOAD_SECRET` are separate Preview Secrets. The database URI must use the
+   scoped `utmist_payload.lrbvknlviodxhhuautfi` login. Production has distinct
+   secret entries and remains untouched.
+3. Set the effective Preview `CMS-Access` value Off. Clear browser overrides,
+   then verify `/cms` and CMS API writes return 404. Reload `/` and verify the
+   original static impact content remains available.
+4. Set the effective Preview value On without redeploying. Authenticate a
+   synthetic `cms-users` editor, publish a synthetic `home-impact` Content
+   Section, and reload `/`. Edit its heading/statistics and reload again. Both
+   saved versions must appear through the real reader on the next request with
+   the same deployment ID and commit SHA.
+5. Sign out or use a clean protected browser session. Anonymous and invalid-token
+   POST/PATCH/DELETE requests to `/cms-api/content-sections` must return 401/403
+   and leave the record unchanged. Anonymous reads return only Published
+   records; changing the section to Draft removes it from public API and reader
+   results while the editor can still read it.
+6. With the editor session still open, set Preview access Off. Repeat the CMS
+   page, API, and editor-action requests; all must be unavailable and uncached.
+   Reload `/` and verify it returns to static content. Leave Preview Off after
+   the proof and remove only the synthetic records and editor created for it.
+
+Record propagation timings and response summaries in issue #495 or its PR.
+Do not put credentials, editor tokens, cookies, or one-off verification logs in
+this repository.
 
 ## Proposing feature fields
 
