@@ -212,6 +212,13 @@ with `npm run payload:migrate:create -- descriptive_name`, review its SQL,
 and test it in disposable local Postgres first. Keep migration argument
 imports type-only for Node 24's TypeScript runtime.
 
+## Page content
+
+The `pages` collection groups sections into a single editable page record.
+Its homepage seed, field map, media rules, and local migration procedure are
+documented in [Page content](PageContent.md). Public pages retain their current
+sources until a page adapter connects them to the collection.
+
 ## Local setup
 
 ### Prerequisites
