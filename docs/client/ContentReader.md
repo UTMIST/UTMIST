@@ -48,20 +48,27 @@ creation is denied by the existing editor collection permissions.
 ## Reader usage
 
 Universal schemas, types and `createFixtureContentReader` are exported from
-`@/shared/lib`. The real adapter is server-only and exported from
-`@/shared/lib/server`. For example, inside a server component/feature loader:
+`@/shared/lib`. Feature loaders use the server-only `readCmsContent` helper from
+`@/shared/lib/server` so environment selection, dynamic rendering, flag
+evaluation, fallback behavior, and Payload failures stay consistent:
 
 ```ts
-import { payloadContentReader } from "@/shared/lib/server";
-import { homeImpactDefinition } from "@/features/public-site/data/home-impact";
+import { readCmsContent } from "@/shared/lib/server";
+import {
+  homeImpactContent,
+  homeImpactDefinition,
+} from "@/features/public-site/data/home-impact";
 
-const result = await payloadContentReader.read(homeImpactDefinition);
-if (result.status === "found") {
-  // result.content has the schema's inferred type, including required statistics.
-  return result.content;
-}
-// Decide explicitly how this feature presents a missing or failed read.
+return readCmsContent({
+  definition: homeImpactDefinition,
+  fallback: homeImpactContent,
+});
 ```
+
+Do not repeat `CMS-Access`, `VERCEL_ENV`, or `connection()` checks in feature
+loaders. A feature owns only its typed definition, static fallback, and a thin
+binding such as `readHomeImpact`. The lower-level `payloadContentReader` remains
+the shared adapter behind this policy and is tested independently.
 
 Every definition has a stable `key` and a Zod runtime `schema`.
 `ContentReader.read<T>` returns one of:
@@ -73,28 +80,29 @@ Every definition has a stable `key` and a Zod runtime `schema`.
 
 Invalid identifiers stop before database access. The adapter lazily initializes
 Payload and queries its real Postgres adapter on every read. No content is
-cached between reads; only Payload's connection pool is reused. Consumers must
-also avoid a static route cache: the opted-in local homepage calls Next's
-`connection()` before reading, so a reload makes a fresh request. Saving does
-not push an update into an already open tab; reload `/` to see the change.
+cached between reads; only Payload's connection pool is reused. `readCmsContent`
+opts eligible requests out of the static route cache before evaluating the flag,
+so a reload makes a fresh request. Saving does not push an update into an already
+open tab; reload the consuming page to see the change.
 
 ## Source selection and offline example
 
-The homepage selects Payload in either of two environments: credential-free
-local development with no Vercel context, or a Vercel Preview deployment. In
-both cases `CMS-Access` must evaluate On. Local live provider credentials and
-signed browser overrides remain supported. No new environment variable or flag
-is introduced. Vercel Production, Vercel Development, test runs, and standalone
-production builds always keep the original static source. This ensures that
-enabling the foundation flag cannot change Production homepage content.
+The shared helper selects Payload in either of two environments:
+credential-free local development with no Vercel context, or a Vercel Preview
+deployment. In both cases `CMS-Access` must evaluate On. Local live provider
+credentials and signed browser overrides remain supported. No new environment
+variable or flag is introduced. Vercel Production, Vercel Development, test
+runs, and standalone production builds always keep each feature's static
+fallback. This ensures that enabling the foundation flag cannot change
+Production content.
 
 Eligible local and Preview requests call Next's `connection()` before flag
-evaluation. The flag is therefore re-evaluated on each homepage request, and a
+evaluation. The flag is therefore re-evaluated on each consuming request, and a
 published CMS edit appears after a reload without a rebuild or redeploy. With
-access Off the same dynamic request deliberately returns the original static
-content without opening a Payload database connection. Once CMS mode is
+access Off the same dynamic request deliberately returns the feature's static
+fallback without opening a Payload database connection. Once CMS mode is
 selected, missing, invalid, or unavailable content raises an error; it never
-substitutes the original content or an offline fixture.
+substitutes the fallback or an offline fixture.
 
 The small offline example reuses the original hard-coded content with the same
 typed contract. It requires no database and is never chosen automatically:
@@ -188,16 +196,18 @@ this repository.
 
 ## Proposing feature fields
 
-Start with a feature-owned definition and stable key, extending
-`contentSectionSchema` to require the fields that feature needs. A different
-section with these fields uses the same reader unchanged. Keep its presentational
-component independent of the source. Propose any additional collection fields
+Start with a feature-owned definition, static fallback, and stable key,
+extending `contentSectionSchema` to require the fields that feature needs. Bind
+them through `readCmsContent`; do not add another environment or flag policy. A
+different section with these fields uses the same reader unchanged. Keep its
+presentational component independent of the source. Propose any additional collection fields
 with the platform/design-system owners, add runtime validation to the feature
 definition, regenerate Payload types, and include access/reader behavior tests
 and a recipe update. Feature-specific collections and department permission
 rules remain in W2/W3/W4; do not invent a generic schema framework here.
 
-Tests in `content-reader.test.ts`, `content-sections-access.test.ts`,
-`home-impact.test.ts`, and the homepage suite cover the contract, access rules,
-local opt-in, error handling, refresh reads, and data propagation. Run the three
-CI gates and `npm run build` from `client/`.
+Tests in `content-reader.test.ts`, `cms-content.test.ts`,
+`content-sections-access.test.ts`, `home-impact.test.ts`, and the homepage suite
+cover the adapter contract, shared source policy, access rules, local/Preview
+opt-in, error handling, refresh reads, and data propagation. Run the three CI
+gates and `npm run build` from `client/`.
