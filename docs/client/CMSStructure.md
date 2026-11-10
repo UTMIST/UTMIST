@@ -1,72 +1,80 @@
 # CMS content structure
 
-The CMS organizes public site content around one record per page, with fixed
-editing sections and shared collections for reusable content. Editors manage
-copy, images, links, and the order of lists within approved layouts. Developers
-maintain the layouts, components, and presentation rules.
+This is the developer reference for the CMS migration: what content belongs
+where, which records each page uses, and how editors manage and publish it.
+Editors change content within developer-approved page layouts.
 
-This is the agreed target for the site content migration. Collections,
-migrations, and public readers are delivered in separate implementation PRs.
-See [Payload setup](Payload.md) and [the content reader](ContentReader.md) for
-the existing runtime and source-selection behavior.
+This is the target structure for the migration. Implementation is tracked in
+[#512](https://github.com/UTMIST/UTMIST/issues/512) and
+[#513](https://github.com/UTMIST/UTMIST/issues/513).
 
-## Where content belongs
+For the running CMS, see [setup and migrations](Payload.md) and
+[public content reads](ContentReader.md).
 
-Use the content's ownership and reuse to choose its home:
+## Content placement rules
 
-| Content | Store it in | Examples |
+- **Create collections for existing needs.** Add one when records need
+  independent management or reuse. Repeating fields alone do not justify a
+  collection; keep nested lists on their page until that need exists.
+- **Keep page-specific content on the page.** This includes copy, section
+  headings, calls to action, FAQs, and search/sharing metadata.
+- **Store shared facts once.** Pages select shared records through
+  relationships and own the selection order. They do not copy those records'
+  fields into their own content.
+- **Keep context with the reference.** A record's role on a particular page
+  or event belongs alongside that reference.
+- **Keep site-wide content in Site settings.** Layouts, styling, animations,
+  and application behavior stay in code.
+
+## Collections and navigation
+
+The table defines the target admin groups, labels, and identifiers. Check the
+source inventory in #512 before adding fields or creating each collection.
+
+| Admin group | Entry and identifier | What it stores |
 | --- | --- | --- |
-| Copy used by one page | That page's record | Hero, section introductions, CTAs, FAQs, page metadata |
-| Records managed independently or used in several places | A shared collection | Events, sponsors, projects, people |
-| Content shared across the website | Site settings | Contact details, social links, navigation and footer content |
+| Website | Pages — `pages` | Page copy, fixed sections, metadata, and selections of shared records |
+| Website | Site settings — `site-settings` global | One record for shared contact details, social links, navigation labels/links, and footer content |
+| Content | Events — `events` | Dates, venue, description, registration link, speakers, sponsors, schedule, and recap resources; event/edition rules still need agreement below |
+| Content | Projects — `projects` | Name, description, category, image, repository, and destination links |
+| Content | Article links — `posts` | Listings that link to external articles, currently sourced from [posts.json](../../client/src/assets/posts.json). No hosted article body or individual article route. |
+| Content | Sponsors and Partners — `partners` | Organization name, logo, and website. Sponsorship tier stays with the page/event placement. |
+| Content | People — `people` | Public name, photo, bio, and profile links. Program/event roles stay with the relevant roster. |
+| Content | Careers — `careers` | Internal opening, department, description, application link, and opening/closing information |
+| Content | Startup listings — `startups` | Company names, descriptions, and logos currently embedded in the [Startups page](../../client/src/features/public-site/pages/startups.tsx). No individual startup route. |
+| Assets | Media — `media` | Shared images/documents and descriptive metadata |
+| Administration | CMS users — `cms-users` | Editor accounts and access configuration |
 
-A page owns which records it features and their display order. The referenced
-records own their facts. Home's Events section, for example, stores its heading
-and an ordered selection of events; each event owns its title, dates, venue,
-and registration link. Publishing a change to the event updates every place
-that references it, without copying the same fields into each page.
+## Page records
 
-Keep context-specific information on the relationship. A sponsor's tier may
-differ between events, and a person's role may differ between programs. Store
-the organization or person once, then keep the tier or role alongside the
-reference in the relevant page or event. Sponsorship packages advertised on
-the Sponsors page remain page content, separate from actual sponsor placements.
+Create one record in Pages for each route below. Its form contains the fields
+needed by that page's approved layout.
 
-## Collections and editor navigation
+| Page | Route | Content owned by the page |
+| --- | --- | --- |
+| Home | `/` | Hero, about, impact, mission, community copy, startup benefits, FAQ, and featured selections |
+| Departments | `/departments` | Department copy and public team rosters |
+| Sponsors | `/sponsors` | Introduction, advertised sponsorship packages, contact CTA, and sponsor selections |
+| Projects | `/projects` | Introduction and project listing configuration |
+| Blog | `/blog` | Introduction and featured/recent/archive selections from Article links |
+| Startups | `/startups` | Program copy, gallery, startup selections, and partner selections |
+| Careers | `/careers` | Introduction and opening-list configuration |
+| Events | `/events` | Introduction and event-list configuration |
+| AI² | `/ai2` | Program copy and fields for its approved template |
+| EigenAI | `/eigenai` | Conference-page copy and a reference to its event edition |
+| ML Fundamentals | `/ml-fundamentals` | Program copy, curriculum, resource lists, FAQs, and team rosters |
 
-Use the following grouping and order for the editor navigation. Collection
-slugs are stable identifiers for the public readers; labels describe the
-content in language editors recognize.
+### Editing rules
 
-| Group | Editor label | Collection or global | Content it owns |
-| --- | --- | --- | --- |
-| Website | Pages | `pages` | Page-specific copy, metadata, fixed sections, and featured-record selections |
-| Website | Site settings | `site-settings` global | Shared contact, social, navigation, and footer content |
-| Content | Events | `events` | Dates, venue, description, registration links, speakers, schedule, and recap resources |
-| Content | Projects | `projects` | Name, description, category, image, repository, and destination links |
-| Content | Posts | `posts` | Article listing title, author, date, image, summary, and external article URL |
-| Content | Sponsors and Partners | `partners` | Organization name, logo, and website |
-| Content | People | `people` | Public name, photo, bio, and profile links |
-| Content | Careers | `careers` | Internal openings, department, description, application link, and opening/closing information |
-| Content | Startups | `startups` | Startup profiles and cohort information |
-| Assets | Media | `media` | Shared images and documents with descriptive metadata |
-| Administration | CMS users | `cms-users` | Editor accounts and the access configuration agreed by the team |
+- Developers control route mapping, page identifiers, and template assignment.
+- Editors work in fixed, named groups or tabs. Section order is defined by the
+  template; editors can reorder entries within its lists.
+- Each required section appears exactly once. Drafts may be incomplete;
+  publishing validates the required fields and structure.
+- Keep AI², EigenAI, and ML Fundamentals under Pages with their own forms.
+  The shared collections supply the records those forms reference.
 
-Pages contains Home, Departments, Sponsors, Projects, Blog, Startups, Careers,
-Events, and the program pages. A listing page holds its introduction and
-selection rules; its entries come from the corresponding collection.
-
-Site settings is a single record, which fits a [Payload global](https://payloadcms.com/docs/configuration/globals).
-Navigation content covers labels, destinations, and ordering; authentication
-behavior and route protection remain application logic.
-
-## Fixed page editing
-
-Each page has a stable identifier and an approved template. Developers control
-the route mapping and template assignment. Editors work within that template's
-named groups or tabs, rather than choosing arbitrary layout blocks.
-
-For Home, the editing form is:
+### Example: Home editor
 
 ```text
 Pages → Home
@@ -81,101 +89,87 @@ Pages → Home
   Search and sharing metadata
 ```
 
-Each required section appears exactly once. Editors can add and reorder FAQ
-entries, benefits, or featured records within a section. The template fixes
-section order and prevents duplicate or missing required sections at publish
-time. Drafts may be incomplete while an editor works. Colors, typography,
-spacing, animations, and component selection stay in code.
+### Example: sponsor content
 
-Use [Payload groups](https://payloadcms.com/docs/fields/group) and
-[tabs](https://payloadcms.com/docs/fields/tabs) to organize the form, and
-[relationships](https://payloadcms.com/docs/fields/relationship) to select shared
-records. A page remains one editing entry even when it references several
-collections.
+| Information | Where it belongs |
+| --- | --- |
+| Organization name, logo, website | Sponsors and Partners record |
+| Which sponsors Home shows, and in what order | Home's Sponsors section |
+| A sponsor's tier for an EigenAI edition | Sponsor reference on that event |
+| Price and benefits of an advertised sponsorship package | Sponsors page |
 
-### Program pages
+## Publishing rules
 
-AI², EigenAI, and ML Fundamentals remain under Pages, each with a form suited
-to its approved layout. EigenAI references its conference event, which owns
-the dates, venue, schedule, and speaker selections. ML Fundamentals initially
-keeps its curriculum and resource lists inside its page.
+- Use native drafts and versions for publishable content:
+  **Save Draft → Preview → Publish**.
+- Saving a draft retains the last published version. Draft preview requires
+  editor access; public readers use published content even for signed-in editors.
+- Publish required shared records before a page that references them.
+  Validate required fields and references before publishing. Publishing the
+  page does not publish its referenced drafts.
+- Publishing a shared record affects every page that references it.
+  Restoring a page version does not restore those shared records.
+- When CMS reads are selected, missing required page content fails explicitly.
+  Readers must not silently substitute static content or fixtures. Optional
+  lists may be empty where the layout supports it.
+- The shared reader controls environment eligibility and `CMS-Access` source
+  selection. Publishing a record does not enable CMS reads in Production.
 
-Promote nested content to a collection when it needs independent management
-or reuse. A schedule entry, FAQ, or curriculum week does not need its own
-collection simply because it repeats. New content types must come from actual
-site needs; research papers or podcasts do not become collections merely
-because a future page could use them.
+Unpublishing/deletion behavior for shared references is an open decision below.
 
-## Media and links
+## Media rules
 
-Use the media library for reusable images and documents. Keep default alt text
-and descriptive metadata with the asset, with contextual alt text or captions
-on a placement when needed. Editorial image selection belongs in the CMS;
-decorative effects and component-specific rendering remain in code.
+- Store shared assets and default descriptions in Media. Keep contextual
+  captions or alt text with the page/event placement when needed.
+- Keep existing repository assets until upload storage, delivery, validation,
+  and access are implemented. Resource lists can continue linking to external
+  slides, PDFs, videos, and articles.
+- Validate links and asset references. Editors should not need repository
+  paths or arbitrary HTML.
 
-Existing repository assets can remain in place until their media migration is
-implemented. Upload storage, delivery, file validation, and access must be
-configured before editors replace those assets through the CMS. Public media
-does not include resumes or other private application files.
+## Access rules
 
-Resource lists can link to existing slides, PDFs, videos, repositories, or
-external articles. A linked PDF does not require a separate Papers collection.
-Validate destinations and file references; editors should not need to enter
-repository paths or arbitrary HTML.
+- Public collections contain content intended for publication. Internal notes
+  and private data require separate access controls; website visibility alone
+  does not control API access.
+- Navigation groups do not grant permissions. `CMS-Access` controls availability;
+  editor roles and publishing authority belong to #514.
+- Public People records are separate from editor and member accounts.
+- Applicant data, private files, registration processing, and other operational
+  data stay in the existing application systems. Careers supplies public
+  listings; recruitment handles applications.
 
-## Drafts and publishing
+## Decisions still needed
 
-Use [Payload drafts and versions](https://payloadcms.com/docs/versions/drafts)
-consistently for publishable content. The intended workflow is **Save Draft →
-Preview → Publish**. Saving edits retains the last published version until an
-editor publishes the replacement. Previewing drafts requires editor access;
-public readers use published content even when the visitor has an editor session.
+These details must be agreed before implementing the affected collections or
+readers. The table records open questions, not additional settled requirements.
 
-Publishing a page does not publish its referenced drafts. Publish required
-shared records before publishing a page that needs them. Publishing a shared
-record affects every page referencing it, including pages with no new edits.
-Pages and referenced records are separate publication units, so a page version
-does not provide an atomic release or rollback of all its shared content.
+| Decision | What needs to be settled | Track in |
+| --- | --- | --- |
+| Events and program cards | Home currently features ongoing initiatives and external conferences. Decide how those cards relate to dated events, how editions are retained, and what an unannounced edition displays. | #512 / #513 |
+| Unpublished or deleted references | Set a common rule for unavailable list entries and required single references, including whether unpublishing/deleting an in-use record is blocked or warned. | #513 |
+| Page forms and record controls | Define how one Pages collection supplies each fixed form, and how page creation, deletion, and identifier changes are restricted. | #512 / #514 |
+| Media lifecycle | Define draft behavior, file replacement, and deletion of assets used by published content. | #512 / #514 |
+| Editor permissions | Agree collection/field access, draft visibility, and who can publish shared records that affect other pages. | #514 |
 
-Validate required sections, fields, and references before publication. Required
-missing content must produce an explicit failure when CMS reads are selected;
-it must not silently substitute fixtures or static content. Optional lists may
-be empty where the approved layout supports that state. Define the handling of
-unpublished or deleted references in each public reader.
+## Implementation and handoff
 
-## Access and application data
+| Work | Responsibility |
+| --- | --- |
+| [#512 — Collection setup](https://github.com/UTMIST/UTMIST/issues/512) | Inventory sources, review fields/relationships, add collections, and provide migrations and seeds that preserve editorial changes |
+| [#513 — Content transfer](https://github.com/UTMIST/UTMIST/issues/513) | Connect and verify pages in small batches, replace duplicated content with references, and organize the editor navigation |
+| [#514 — Editor access](https://github.com/UTMIST/UTMIST/issues/514) | Agree, implement, and verify permissions |
+| [#515 — Publishing handoff](https://github.com/UTMIST/UTMIST/issues/515) | Verify owner workflows and record the production rollout decision |
 
-Editor roles, collection permissions, and publishing authority are agreed and
-implemented through [editor access control](https://github.com/UTMIST/UTMIST/issues/514).
-Navigation groups organize work; they do not grant access. A public People
-record is not an editor account or a Supabase member identity.
+Retain original content until its replacement is verified. Move `proofs` and
+superseded `content-sections` out of normal editor navigation after their
+consumers migrate; changing navigation does not imply deleting records.
+Keep rollout evidence and progress updates in the issues and PRs.
 
-Applicant records, applications, registrations, member accounts, and other
-operational data remain in their existing application systems. Careers owns
-the public opening; recruitment owns the application process. Events owns
-public event content; registration processing remains feature backend logic.
+## Payload references
 
-The `CMS-Access` availability flag remains separate from editor authorization.
-Follow the shared reader's environment policy and the [publishing handoff](https://github.com/UTMIST/UTMIST/issues/515)
-for production rollout. Publishing a document does not itself enable CMS reads
-in Production.
-
-## Applying the structure
-
-The [collection setup](https://github.com/UTMIST/UTMIST/issues/512) inventory maps
-current source files and public surfaces to this structure, including Careers
-and Events. Review the actual fields, relationships, and media rules before
-creating collections and seeds. Keep seeds repeatable without overwriting
-editorial changes, and use checked-in migrations for schema changes.
-
-The [content transfer](https://github.com/UTMIST/UTMIST/issues/513) connects and
-verifies one page or small batch at a time, using the shared typed reader and
-the agreed editor navigation. During transfer, replace embedded copies of
-shared records with relationships. Retain original content until its consumer
-has moved and the replacement has been verified.
-
-Move `proofs` and any superseded `content-sections` records out of normal editor
-navigation after their consumers have migrated. Preserve data deliberately;
-reorganizing navigation does not imply deleting records. Record implementation
-progress, rollout results, and acceptance evidence in the relevant issues and
-PRs.
+- [Groups](https://payloadcms.com/docs/fields/group) and [tabs](https://payloadcms.com/docs/fields/tabs) for editing forms
+- [Relationships](https://payloadcms.com/docs/fields/relationship) for shared records
+- [Globals](https://payloadcms.com/docs/configuration/globals) for Site settings
+- [Drafts and versions](https://payloadcms.com/docs/versions/drafts) for publishing
+- [Field access](https://payloadcms.com/docs/access-control/fields) for API visibility
