@@ -2,7 +2,7 @@ import type { AccessArgs, Payload } from "payload";
 
 import { Pages } from "@/cms/collections/Pages";
 import { validateContentLink } from "@/cms/page-fields";
-import { assertLocalSeedTarget, seedHomePage } from "@/cms/seeds/seed-home";
+import { assertLocalSeedTarget, assertTestingSeedTarget, seedHomePage } from "@/cms/seeds/seed-home";
 
 describe("page content permissions", () => {
   it.each([null, { id: 1, collection: "members" }])("restricts non-editors to published pages: %j", async (user) => {
@@ -10,7 +10,7 @@ describe("page content permissions", () => {
     for (const operation of ["create", "update", "delete"] as const) {
       expect(await Pages.access?.[operation]?.(args)).toBe(false);
     }
-    expect(await Pages.access?.read?.(args)).toEqual({ status: { equals: "published" } });
+    expect(await Pages.access?.read?.(args)).toEqual({ _status: { equals: "published" } });
   });
 
   it("allows CMS editors to manage pages and read drafts", async () => {
@@ -36,7 +36,7 @@ describe("homepage seed", () => {
     const create = jest.fn().mockResolvedValue({});
     await expect(seedHomePage({ find, create } as unknown as Payload)).resolves.toBe("created");
     expect(create).toHaveBeenCalledWith(expect.objectContaining({
-      collection: "pages", data: expect.objectContaining({ slug: "home", status: "draft" }),
+      collection: "pages", data: expect.objectContaining({ slug: "home", _status: "draft" }),
     }));
   });
 
@@ -48,6 +48,19 @@ describe("homepage seed", () => {
       where: { slug: { equals: "home" } }, overrideAccess: true,
     }));
     expect(create).not.toHaveBeenCalled();
+  });
+
+  it("carries forward published impact edits when creating the page", async () => {
+    const find = jest.fn().mockResolvedValueOnce({ docs: [] }).mockResolvedValueOnce({ docs: [{
+      heading: "Existing CMS heading", description: "Existing CMS description",
+      statistics: [{ number: "12+", description: "Existing statistic" }],
+    }] });
+    const create = jest.fn();
+    await seedHomePage({ find, create } as unknown as Payload);
+    expect(create.mock.calls[0][0].data.sections).toContainEqual(expect.objectContaining({
+      blockType: "impact", heading: "Existing CMS heading", description: "Existing CMS description",
+      statistics: [{ number: "12+", description: "Existing statistic" }],
+    }));
   });
 
   it("propagates database failures instead of reporting a successful seed", async () => {
@@ -67,5 +80,16 @@ describe("homepage seed", () => {
   });
   it("refuses hosted invocations even with a loopback target", () => {
     expect(() => assertLocalSeedTarget("postgresql://payload@localhost/payload", "1")).toThrow();
+  });
+
+  it("allows an explicit testing import only with the scoped testing CMS login", () => {
+    const uri = "postgresql://utmist_payload.lrbvknlviodxhhuautfi:synthetic@aws-0-us-east-2.pooler.supabase.com:5432/postgres";
+    expect(() => assertTestingSeedTarget(uri, undefined)).not.toThrow();
+    for (const rejected of [
+      uri.replace("lrbvknlviodxhhuautfi", "gqqgsvhzonratwkmjiji"),
+      uri.replace("utmist_payload.", "postgres."),
+      uri + "?host=elsewhere.example.com", uri.replace(":5432", ":6543"),
+    ]) expect(() => assertTestingSeedTarget(rejected, undefined)).toThrow();
+    expect(() => assertTestingSeedTarget(uri, "1")).toThrow();
   });
 });

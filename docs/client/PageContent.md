@@ -1,118 +1,123 @@
-# Page content in Payload
+# Homepage content
 
-The `pages` collection groups each page into one record. `home` contains the
-redesigned homepage's sections, including its repeating event cards, sponsors,
-statistics, benefits, and FAQ entries. Editors open **Pages → Home** to work
-on them together. Payload's native blocks provide structured section forms;
-there is no custom page builder or public route generator.
+The redesigned homepage reads one `pages` document with slug `home` through
+Angela’s shared `readCmsContent` policy. Open **Pages → Home** in `/cms`.
 
-This is the homepage slice of [collection setup #512](https://github.com/UTMIST/UTMIST/issues/512).
-The collection map below is proposed for review before merge. The remaining
-site inventory, including careers and the events pages, still belongs to #512.
-[Transfer #513](https://github.com/UTMIST/UTMIST/issues/513) owns connecting
-records to public pages and deciding the final admin navigation and order.
+## Source selection
 
-## Content map
-
-The record has `title` (editor label), unique kebab-case `slug`, ordered
-`sections`, and `status` (`draft` or `published`). The seed's slug is `home`.
-Paths below are relative to `client/src/features/public-site/`. The public-site
-zone owns the homepage sources; department editing permissions are not assigned
-by this schema.
-
-| Section type | Fields | Existing source |
+| Environment | CMS-Access Off | CMS-Access On |
 | --- | --- | --- |
-| `hero` | `eyebrow`, `heading`, `description`, `links[] { label, href }` | `pages/home-redesign.tsx`, `data/home-content.ts` |
-| `about` | `eyebrow`, `heading`, `description`, `cta { label, href }`, `image`, `imageAlt`, `caption` | Same homepage and copy files |
-| `impact` | `heading`, `statistics[] { number, description }` | `data/home-impact.ts` |
-| `mission` | `eyebrow`, `heading`, `description`, `cta` | Homepage and copy files |
-| `sponsors` | `eyebrow`, `heading`, `description`, `cta`, `items[] { asset, alt, href }` | Homepage and `data/home-sponsors.ts` |
-| `events` | `eyebrow`, `heading`, `description`, `communityStatement`, `listHeading`, `items[] { key, title, description, category, href, artwork, imageAlt }` | Homepage, `data/home-events.ts`, `components/home-community-statement.tsx` |
-| `startups` | `eyebrow`, `heading`, `description`, `cta`, `benefits[] { title, description }` | Homepage and copy files |
-| `faq` | `eyebrow`, `heading`, `items[] { question, answer }` | Homepage and `data/home-faq.ts` |
+| Standalone local development | Static homepage | Published Home page |
+| Protected Vercel Preview | Static homepage | Published Home page |
+| Production, Vercel Development, tests, standalone production | Static homepage | Static homepage |
 
-Sections are embedded in their page record. This slice has no relationships
-to other collections. The homepage event cards are promotional content, not
-the events calendar or registration records. If a later inventory identifies
-shared event or sponsor records, review that relationship before transferring
-those pages; avoid maintaining multiple editable copies of the same entity.
+`Web-Redesign` still selects the page layout. The redesigned layout consumes
+all eight page sections. The legacy layout consumes the same page’s impact
+section; its remaining sections retain their existing static sources.
+`content-sections/home-impact` is no longer a homepage source. Existing records
+are retained. When creating Home, the import carries forward the published
+impact heading, description and statistics before saving the page as a draft.
+Review those values before publishing. Existing Home records are never overwritten.
 
-The seed is a reviewed snapshot of the current public sources in
-`client/src/cms/seeds/home.ts`. Public components continue to use their existing
-data. Refresh the seed from those sources if content changes before the first
-import. Once a record exists, the seed deliberately preserves it.
+Missing, invalid, or unavailable CMS content raises an explicit error when
+CMS is selected. It never silently substitutes static content. Eligible
+requests are dynamic, so published edits appear after a reload without a
+rebuild or redeploy. Production stays static under the shared policy.
+
+## Collection and field map
+
+| Section | Editable content |
+| --- | --- |
+| Hero | Eyebrow, heading, description, links |
+| About | Eyebrow, heading, description, CTA, photo alt text and caption |
+| Impact | Heading, optional description and ordered statistics |
+| Mission | Eyebrow, heading, description and CTA |
+| Sponsors | Intro, CTA and ordered logo assets, alt text and links |
+| Events | Intro, community statement, list heading and event cards |
+| Startups | Intro, CTA and benefits |
+| FAQ | Intro and questions/answers |
+
+The `home` document must contain exactly one of each section before publishing.
+The same runtime schema validates public reads. Section order in the editor
+does not change the page layout; presentation stays in code. Drafts may be
+incomplete while an editor works. Array entries use Payload’s row identities;
+editors do not maintain React keys.
+
+The shared schema is `client/src/shared/lib/content/home-page.ts`. The static
+fallback and seed both use `features/public-site/data/home-page.json`, so there
+is no separate seed snapshot to refresh. Other pages, including the careers
+and events pages, remain under the remaining #512/#513 inventory.
 
 ## Media and presentation
 
-Media fields select existing repository assets by stable keys. They do not
-accept arbitrary file paths, remote images, or uploads:
+Media selects bundled repository assets using stable identifiers. Sponsor
+crops and overrides use asset keys, so changing alt text cannot alter the crop.
+Event artwork keys select the existing EigenAI, CUCAI, AI Squared and GenAI
+assets. The About photo remains fixed in code; its alt text and caption are
+editable. Unknown assets and unsafe links fail validation.
 
-- `team-eigenai`: `client/src/assets/photos/eigenai-exec-photo.webp`.
-- Event keys `eigenai`, `cucai`, `ai2`, and `genai-genesis` select the existing
-  artwork definitions in `data/home-events.ts`. Rendering, sizing, and crops
-  remain in code.
-- Sponsor keys in `client/src/cms/page-assets.ts` correspond to the lowercase
-  filename stems of the imports in `data/home-sponsors.ts`. The Modal mosaic
-  uses its existing `modal-mark.png` override. Alt text is editable independently
-  of the asset identity.
+Copy remains plain text. Heading and community-copy line breaks are supported;
+existing emphasis treatments stay in React. No arbitrary HTML, file paths,
+remote images, new uploads, or PDF storage is introduced. Colors, effects,
+icons, crops and layout remain presentation concerns.
 
-No PDF field or storage adapter is needed for the current homepage. New media
-uploads need an explicit storage and access design. CSS, icons, decorative
-editor controls, line wrapping, animation, graph coordinates, and logo crop
-values stay in components rather than becoming editorial fields. Links accept
-site-relative paths, HTTPS URLs, and email links.
+## Publication and permissions
 
-## Access and publication
+Pages uses Payload’s native drafts and versions. **Save Draft** retains the
+last published page; **Publish** replaces it. **Unpublish** removes it from
+public reads, so a CMS-enabled homepage then shows the explicit missing-content
+failure. Review the page before publishing; editor login does not make the
+public website display drafts.
 
-Only authenticated `cms-users` can create, update, or delete pages and read
-drafts. Anonymous callers can read published records only. Local API callers
-must use `overrideAccess: false` when acting for a visitor; the seed is an
-operator-only exception and is not exposed through an application endpoint.
-Applicant records and Supabase member authentication are outside this collection.
+Only authenticated `cms-users` can write pages, read drafts, or read version
+history. Anonymous reads filter `_status: published`. The public adapter uses
+`draft: false`, `overrideAccess: false`, and no user, request, or editor cookie.
+The `CMS-Access` gate additionally protects the editor, REST, GraphQL and
+server actions. Supabase membership is not CMS editor authorization.
 
-The status field follows the existing `content-sections` workflow: editing a
-published record updates that record directly. It does not maintain a separate
-unpublished revision. Set it to Draft before editing content that must be hidden
-from anonymous reads. Draft/Published applies to the entire page record.
+## Initial content and migrations
 
-Creating or publishing a page record does not connect it to the public site.
-The existing static homepage and `home-impact` reader remain unchanged, including
-their feature flags. The transfer needs a typed page adapter using the shared
-reader contract, a safe mapping from asset keys to bundled images, and explicit
-missing/error behavior when CMS is selected. Schema setup does not enable
-Production CMS access or settle the separate editor-role issue.
+Use Node 24. Apply checked-in migrations before importing, following
+[Payload’s migration procedure](Payload.md#hosted-migrations). The page-drafts
+migration preserves the old status value by renaming its column. It adds
+version tables and removes unused fields. The previous page migration remains
+in history so an existing local page database can be upgraded.
 
-## Migrate and seed locally
-
-Use Node 24 and the disposable local database described in [Payload](Payload.md).
-The database role must own the `payload` schema. Apply checked-in migrations
-before seeding; the seed command disables development schema push.
-
-From `client/`, with the local credentials in an ignored env file:
+For a disposable local database, from `client/`:
 
 ```bash
 NODE_ENV=production node --env-file=.env.payload.local node_modules/payload/bin.js migrate
-node --env-file=.env.payload.local src/cms/seeds/run-home.ts
+NODE_ENV=production node --env-file=.env.payload.local src/cms/seeds/run-home.ts
 ```
 
-If the variables are already exported, use `npm run payload:seed:home`.
-The command requires a standalone loopback Postgres URI without query parameters
-and refuses Vercel and remote hosts. It creates one draft `home` record, skips
-an existing record regardless of status, and reports errors without overwriting
-content. It creates no editor accounts. Use the existing authenticated CMS
-setup to inspect **Pages → Home** at `/cms`.
+With exported variables, `npm run payload:seed:home` does the same import.
+It creates Home as a draft, never overwrites an existing Home record, and
+creates no editor accounts. Review and publish it through `/cms`.
 
-The page migration is checked in under `client/src/cms/migrations/` and changes
-only the `payload` schema. Hosted migrations and importing the reviewed content
-into the shared testing database remain explicit operator steps; no request,
-build, or seed command automatically applies them. Follow the hosted migration
-procedure in [Payload](Payload.md) after schema review. This local seed command
-is intentionally not a production import tool.
+The default command accepts only standalone loopback Postgres. An explicit
+operator import into the shared testing database uses:
+
+```bash
+NODE_ENV=production node --env-file=.env.payload-testing.local src/cms/seeds/run-home.ts --testing
+```
+
+`--testing` accepts only the scoped `utmist_payload.lrbvknlviodxhhuautfi`
+login on the documented session pooler. Production, unscoped admin logins,
+host overrides and deployed invocations are rejected. Secrets stay in ignored
+environment files. The command never migrates or publishes automatically.
+Hosted changes must use testing first; Production is a separate rollout.
 
 ## Verification
 
-Run lint, typecheck, and the Jest suite from `client/`. The page tests cover
-editor/public access, link validation, seed preservation and failure handling,
-and seed target restrictions. Use disposable Postgres to verify the generated
-migration, real Payload creation/validation, draft visibility, anonymous write
-denial, seed reruns, and migration rollback/reapply before deploying the schema.
+Publish Home in a disposable database. Enable both flags locally, edit the
+hero and another section, publish, and reload `/`: both changes should appear
+without a restart. Save a newer draft and verify the previously published
+copy remains visible, including while signed in as an editor. Publishing
+missing/duplicate sections must fail. Anonymous writes, draft reads and
+version-history reads must be denied. Turning CMS access Off restores the
+static fallback. See the PR for run-specific evidence and screenshots.
+
+`home-page.test.ts` covers source selection, publication query options, fresh
+reads, schema failures and structural validation. `cms-pages.test.ts` covers
+editor permissions, links and import guards. The homepage rendering tests
+exercise edited copy, destinations and media labels.

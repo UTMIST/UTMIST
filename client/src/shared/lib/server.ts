@@ -6,3 +6,4 @@ export * from "./flags/server";
 export { isWebRedesignEnabled } from "./flags/web-redesign";
 export { requireCmsAccess, withCmsAccess } from "./flags/cms";
 export { readCmsContent } from "./content/cms";
+export { payloadPageReader } from "./content/payload";

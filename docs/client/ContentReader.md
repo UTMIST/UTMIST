@@ -1,213 +1,86 @@
 # Typed CMS content reader
 
-Issue [#346](https://github.com/UTMIST/UTMIST/issues/346) uses the homepage
-introduction and statistics as the local editable example. The reader owns
-Payload access; feature components receive validated props and import no CMS
-runtime. The CMS uses the existing Supabase project; see
-[database connection](Payload.md#database-connection). Issue #495 enables the
-same reader on protected Vercel Preview deployments while Production remains
-on static content.
+The shared reader owns published Payload access and source selection. Feature
+loaders provide a typed definition and a static fallback. Components receive
+validated content and import no Payload runtime.
 
-## Collection fields
+## Shared policy
 
-`content-sections` is registered in `client/payload.config.ts`.
+`readCmsContent` from `@/shared/lib/server` selects CMS only in standalone
+local development or Vercel Preview, with `CMS-Access` On. Production, Vercel
+Development, tests and standalone production always use the supplied static
+fallback. Eligible requests call `connection()` before evaluating the flag,
+so published edits and flag changes are observed after a reload without a
+rebuild. Flag Off never opens a Payload connection.
 
-| Field | Contract |
-| --- | --- |
-| `key` | Required unique lowercase kebab-case identifier, e.g. `home-impact`; independent of visible copy |
-| `heading` | Required text; the reader rejects blank/whitespace-only values |
-| `description` | Optional supporting text; absent, empty, or null becomes `undefined` |
-| `statistics` | Optional ordered array of `{ number, description }`; required and nonempty for the homepage |
-| `statistics[].number` | Text containing 1–9 digits, optionally ending in `+` |
-| `statistics[].description` | Required nonempty text |
-| `status` | Required `draft` (default) or `published` |
-
-Payload also supplies IDs and timestamps; feature schemas strip that metadata.
-An omitted/null statistics array becomes `undefined` in the base schema.
-
-## Read and write policy
-
-Only authenticated users from Payload's `cms-users` collection may write.
-Supabase membership and a claimed `role: admin` do not grant editor access.
-These collection rules apply to REST, GraphQL and Local API callers using
-`overrideAccess: false`. Payload's trusted Local API defaults to bypassing
-access, so the shared public adapter explicitly disables that bypass and
-never passes a request, editor user, or browser cookie.
-
-Editors can read all section records. Public readers can read published
-records only. This proof uses a single `status` field, not Payload versioned
-drafts: switching a published record to draft removes it from public reads;
-there is no retained last-published version. The homepage reader queries only
-published content even when the browser is signed into `/cms`.
-
-All CMS endpoints still require the existing `CMS-Access` gate. It controls
-availability, while collection rules control permissions. Bootstrap the first
-editor only in your isolated local database; subsequent anonymous account
-creation is denied by the existing editor collection permissions.
-
-## Reader usage
-
-Universal schemas, types and `createFixtureContentReader` are exported from
-`@/shared/lib`. Feature loaders use the server-only `readCmsContent` helper from
-`@/shared/lib/server` so environment selection, dynamic rendering, flag
-evaluation, fallback behavior, and Payload failures stay consistent:
+Once selected, missing, invalid or unavailable CMS content raises an explicit
+error. There is no automatic fixture fallback. Provider failures fail the
+availability flag closed. Feature loaders must not duplicate this policy.
 
 ```ts
-import { readCmsContent } from "@/shared/lib/server";
-import {
-  homeImpactContent,
-  homeImpactDefinition,
-} from "@/features/public-site/data/home-impact";
+import { readCmsContent, payloadPageReader } from "@/shared/lib/server";
+import { homePageContent, homePageDefinition } from "@/features/public-site/data/home-page";
 
 return readCmsContent({
-  definition: homeImpactDefinition,
-  fallback: homeImpactContent,
+  definition: homePageDefinition,
+  fallback: homePageContent,
+  reader: payloadPageReader,
 });
 ```
 
-Do not repeat `CMS-Access`, `VERCEL_ENV`, or `connection()` checks in feature
-loaders. A feature owns only its typed definition, static fallback, and a thin
-binding such as `readHomeImpact`. The lower-level `payloadContentReader` remains
-the shared adapter behind this policy and is tested independently.
+The optional reader selects the collection adapter, not a new environment or
+flag policy. Omit it for `content-sections`. Use `payloadPageReader` for Pages.
+Both return the same `ContentReader` result contract and initialize Payload
+lazily. Only the Payload connection pool is reused; content is queried anew.
 
-Every definition has a stable `key` and a Zod runtime `schema`.
-`ContentReader.read<T>` returns one of:
+## Collections and access
 
-- `{ status: "found", content: T }` — validated content only.
-- `{ status: "missing" }` — no published record with that identifier.
-- `{ status: "error", reason }` — `invalid-key`, `invalid-content`, or
-  `unavailable`. Raw documents, database errors, and secrets are never returned.
+| Adapter | Identifier | Published filter |
+| --- | --- | --- |
+| Default section reader | `content-sections.key` | `status: published` |
+| `payloadPageReader` | `pages.slug` | `_status: published`, `draft: false` |
 
-Invalid identifiers stop before database access. The adapter lazily initializes
-Payload and queries its real Postgres adapter on every read. No content is
-cached between reads; only Payload's connection pool is reused. `readCmsContent`
-opts eligible requests out of the static route cache before evaluating the flag,
-so a reload makes a fresh request. Saving does not push an update into an already
-open tab; reload the consuming page to see the change.
+Both use `overrideAccess: false`, depth zero, and no request, user or editor
+cookie. Editor sessions cannot influence public page reads. The separate
+`CMS-Access` endpoint gate protects REST, GraphQL and editor actions; the
+collection access rules continue to enforce permissions when that gate is On.
 
-## Source selection and offline example
+Pages has native versions/drafts. Saving a draft retains the last published
+page. Section records retain their original single-status workflow; changing
+a section to Draft removes it from public reads. Their schema supports heading,
+optional description, and optional statistics. Feature schemas can require
+additional fields. The homepage now uses Pages; `home-impact` section records
+are retained for review and no longer consumed by either homepage layout.
 
-The shared helper selects Payload in either of two environments:
-credential-free local development with no Vercel context, or a Vercel Preview
-deployment. In both cases `CMS-Access` must evaluate On. Local live provider
-credentials and signed browser overrides remain supported. No new environment
-variable or flag is introduced. Vercel Production, Vercel Development, test
-runs, and standalone production builds always keep each feature's static
-fallback. This ensures that enabling the foundation flag cannot change
-Production content.
+## Validation contract
 
-Eligible local and Preview requests call Next's `connection()` before flag
-evaluation. The flag is therefore re-evaluated on each consuming request, and a
-published CMS edit appears after a reload without a rebuild or redeploy. With
-access Off the same dynamic request deliberately returns the feature's static
-fallback without opening a Payload database connection. Once CMS mode is
-selected, missing, invalid, or unavailable content raises an error; it never
-substitutes the fallback or an offline fixture.
+A `ContentDefinition<T>` has a stable lowercase kebab-case `key` and a Zod
+schema. `ContentReader.read` returns:
 
-The small offline example reuses the original hard-coded content with the same
-typed contract. It requires no database and is never chosen automatically:
+- `found` with validated content, stripped of unused database metadata;
+- `missing` when no published document matches;
+- `error` with `invalid-key`, `invalid-content`, or `unavailable`.
 
-```tsx
-import { createFixtureContentReader } from "@/shared/lib";
-import OrganizationImpact from "@/features/public-site/components/organization-impact";
-import { homeImpactContent, homeImpactDefinition } from "@/features/public-site/data/home-impact";
+Invalid identifiers stop before database access. Errors never reveal raw
+records, database messages or credentials. Schemas validate structured content
+before it reaches presentation components. The homepage schema additionally
+requires exactly one of every required section and restricts links and assets.
 
-const reader = createFixtureContentReader([
-  { key: homeImpactDefinition.key, status: "published", ...homeImpactContent },
-]);
-const result = await reader.read(homeImpactDefinition);
-if (result.status !== "found") throw new Error("Invalid offline example");
-return <OrganizationImpact content={result.content} />;
-```
+`createFixtureContentReader` remains available from `@/shared/lib` for explicit
+offline examples and tests. It is never selected automatically by runtime code.
 
-## Local edit proof
+## End-to-end verification
 
-1. Follow [Payload local setup](Payload.md#local-setup): Node 24, standalone
-   Compose Postgres, local `PAYLOAD_SECRET` and `PAYLOAD_DATABASE_URI`. Use only
-   development credentials and synthetic content. Keep Vercel deployment
-   context variables unset. Enable `CMS-Access` using the documented fixture
-   opt-in or a signed local override.
-2. Run `npm run dev`. Open `/cms`, create the first local editor if needed,
-   then create a **Content Section** with key `home-impact`, a synthetic heading,
-   at least one statistic (e.g. number `7+`, description `Synthetic projects`),
-   and status **Published**. Optional description can be left empty.
-3. Open `/` in a tab with the same local opt-in. The intro and statistics
-   display the CMS values. Edit the heading, change the statistic to `12+`,
-   add/reorder a row, and save. Reload `/`; the changed values come through the
-   real reader without a source edit, content PR, rebuild, or server restart.
-4. Sign out of the CMS. Without an editor token, POST to
-   `/cms-api/content-sections`, PATCH/DELETE a record's
-   `/cms-api/content-sections/<id>`, and try an invalid editor token. With
-   `CMS-Access` still On, expect 401/403 and no mutation. If using signed flag
-   overrides, include the same override cookie in each direct request; without
-   it the gate correctly returns 404 before Payload runs.
-5. Mark the record Draft as an editor. Anonymous GET
-   `/cms-api/content-sections?where[key][equals]=home-impact` returns no records;
-   an editor can still read it. Reloading the local homepage now surfaces
-   missing content rather than displaying the draft or fixture. Publish it
-   again to restore the local example. With access Off all CMS requests return
-   404 and the homepage uses its deliberate original source.
-6. Restore any edited flag fixture to false before committing. Stop the
-   disposable local database with `npm run payload:db:stop` when finished.
+Follow [the homepage edit proof](PageContent.md#verification) locally, then on
+one protected Preview backed by the [testing target](Environments.md). Apply
+reviewed migrations explicitly and import Home as a draft. Review and publish
+it using a testing CMS editor. With `CMS-Access` and `Web-Redesign` enabled for
+the test browser, publish edits and reload the same deployment. Save a newer
+draft and confirm that both anonymous and signed-in website visits still show
+the last published copy. Check denied anonymous mutations and version reads.
+Disable the browser override afterwards; do not change Production flags.
 
-### Verification expectations
-
-Run the edit proof with synthetic records in an isolated database. Check that
-published changes appear on the next homepage request without rebuilding, that
-anonymous and invalid-token mutations are rejected, and that draft content is
-unavailable to the public reader. Republishing should restore the local page;
-disabling local CMS access should select the static source. Record run-specific
-evidence in the relevant issue or PR instead of treating a previous run as proof
-of the current deployment.
-
-## Hosted Preview edit proof
-
-Use a single protected Preview deployment backed by the testing target in
-[Environments](Environments.md). Do not copy or reveal either secret value.
-
-1. Confirm the deployment is a non-Production Vercel Preview and Deployment
-   Protection requires an authorized team session. Record its deployment ID,
-   commit SHA, and the testing target `lrbvknlviodxhhuautfi`.
-2. In Vercel project settings, confirm `PAYLOAD_DATABASE_URI` and
-   `PAYLOAD_SECRET` are separate Preview Secrets. The database URI must use the
-   scoped `utmist_payload.lrbvknlviodxhhuautfi` login. Production has distinct
-   secret entries and remains untouched.
-3. Set the effective Preview `CMS-Access` value Off. Clear browser overrides,
-   then verify `/cms` and CMS API writes return 404. Reload `/` and verify the
-   original static impact content remains available.
-4. Set the effective Preview value On without redeploying. Authenticate a
-   synthetic `cms-users` editor, publish a synthetic `home-impact` Content
-   Section, and reload `/`. Edit its heading/statistics and reload again. Both
-   saved versions must appear through the real reader on the next request with
-   the same deployment ID and commit SHA.
-5. Sign out or use a clean protected browser session. Anonymous and invalid-token
-   POST/PATCH/DELETE requests to `/cms-api/content-sections` must return 401/403
-   and leave the record unchanged. Anonymous reads return only Published
-   records; changing the section to Draft removes it from public API and reader
-   results while the editor can still read it.
-6. With the editor session still open, set Preview access Off. Repeat the CMS
-   page, API, and editor-action requests; all must be unavailable and uncached.
-   Reload `/` and verify it returns to static content. Leave Preview Off after
-   the proof and remove only the synthetic records and editor created for it.
-
-Record propagation timings and response summaries in issue #495 or its PR.
-Do not put credentials, editor tokens, cookies, or one-off verification logs in
-this repository.
-
-## Proposing feature fields
-
-Start with a feature-owned definition, static fallback, and stable key,
-extending `contentSectionSchema` to require the fields that feature needs. Bind
-them through `readCmsContent`; do not add another environment or flag policy. A
-different section with these fields uses the same reader unchanged. Keep its
-presentational component independent of the source. Propose any additional collection fields
-with the platform/design-system owners, add runtime validation to the feature
-definition, regenerate Payload types, and include access/reader behavior tests
-and a recipe update. Feature-specific collections and department permission
-rules remain in W2/W3/W4; do not invent a generic schema framework here.
-
-Tests in `content-reader.test.ts`, `cms-content.test.ts`,
-`content-sections-access.test.ts`, `home-impact.test.ts`, and the homepage suite
-cover the adapter contract, shared source policy, access rules, local/Preview
-opt-in, error handling, refresh reads, and data propagation. Run the three CI
-gates and `npm run build` from `client/`.
+Record deployment SHA, tested actions and results in the PR or issue. Do not
+commit tokens, credentials, dated logs, or screenshot binaries. Tests cover
+the shared policy, both collection adapters, schema errors, and propagation
+through the homepage components.

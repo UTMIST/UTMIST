@@ -1,16 +1,12 @@
-import type { RequiredDataFromCollectionSlug } from "payload";
-
-/** Initial public copy for an empty CMS; seeding never overwrites editorial changes. */
-export const homePageSeed = {
+{
   "title": "Home",
   "slug": "home",
-  "status": "draft",
   "sections": [
     {
       "blockType": "hero",
       "eyebrow": "North America’s Largest Undergraduate Machine Learning Club",
-      "heading": "University of Toronto Machine Intelligence Student Team",
-      "description": "Where students learn, build, research, and lead at the University of Toronto.",
+      "heading": "University of Toronto\nMachine Intelligence\nStudent Team",
+      "description": "Where students learn, build, research,\nand lead at the University of Toronto.",
       "links": [
         {
           "label": "Join us",
@@ -31,7 +27,6 @@ export const homePageSeed = {
         "label": "Our projects",
         "href": "/projects"
       },
-      "image": "team-eigenai",
       "imageAlt": "UTMIST student team at EigenAI",
       "caption": "The UTMIST team at EigenAI"
     },
@@ -185,53 +180,53 @@ export const homePageSeed = {
     {
       "blockType": "events",
       "eyebrow": "Our events",
-      "heading": "A full year of events, built entirely by @utmist",
+      "heading": "A full year of events, built\nentirely by @utmist",
       "description": "From EigenAI in the fall to GenAI Genesis in the spring, UTMIST runs a full calendar of workshops, hackathons, and conferences, built by students, for students, all year long.",
-      "communityStatement": "We're a community of 500+ students turning curiosity into capability — through hands-on projects, research, workshops and conferences that prepare the next generation of AI/ML leaders.",
+      "communityStatement": "We're a community of 500+\nstudents turning curiosity into\ncapability — through hands-on\nprojects, research, workshops\nand conferences that prepare\nthe next generation of AI/ML\nleaders.",
       "listHeading": "Our flagship events",
       "items": [
         {
-          "key": "eigenai",
           "title": "EigenAI",
           "description": "A student-led AI conference featuring hands-on workshops, expert talks, and diverse perspectives across fields like fintech, healthcare, and robotics.",
           "category": "AI conference",
           "href": "/eigenai",
           "artwork": "eigenai",
-          "imageAlt": ""
+          "imageAlt": "",
+          "id": "1"
         },
         {
-          "key": "cucai",
           "title": "CUCAI",
           "description": "CUCAI (Canadian Undergraduate Conference on AI) is a national conference that showcases undergraduate AI research and connects students with industry leaders through workshops, and networking.",
           "category": "AI conference",
           "href": "https://cucai.ca",
           "artwork": "cucai",
-          "imageAlt": "Speaker beside the CUCAI conference banner"
+          "imageAlt": "Speaker beside the CUCAI conference banner",
+          "id": "2"
         },
         {
-          "key": "ai2",
           "title": "AI Squared",
           "description": "AI Squared is a machine learning tournament hosted by UTMIST where students build AI agents to compete in a 2D platform fighting game while gaining hands-on experience and mentorship.",
           "category": "Machine learning tournament",
           "href": "https://www.utmist.ca/ai2",
           "artwork": "ai2",
-          "imageAlt": ""
+          "imageAlt": "",
+          "id": "3"
         },
         {
-          "key": "genai-genesis",
           "title": "GenAI",
           "description": "GenAI Genesis is Canada's largest AI hackathon, uniting over 700 participants to develop generative AI solutions addressing the U.N Sustainable Development Goals, powered by UTMIST and Google Developers",
           "category": "AI hackathon",
           "href": "https://genaigenesis.ca",
           "artwork": "genai-genesis",
-          "imageAlt": "GenAI Genesis group photo"
+          "imageAlt": "GenAI Genesis group photo",
+          "id": "4"
         }
       ]
     },
     {
       "blockType": "startups",
       "eyebrow": "MISTic R&D",
-      "heading": "Ready to build the future?",
+      "heading": "Ready to build\nthe future?",
       "description": "Building an AI startup? Join MISTic R&D, the incubator where ambitious founders find funding, users, cofounders, and an unstoppable community of builders. Let's turn your idea into impact.",
       "cta": {
         "label": "Learn more",
@@ -284,4 +279,4 @@ export const homePageSeed = {
       ]
     }
   ]
-} satisfies RequiredDataFromCollectionSlug<"pages">;
+}

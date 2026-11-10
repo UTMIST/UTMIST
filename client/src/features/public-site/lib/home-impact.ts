@@ -1,12 +1,7 @@
 import "server-only";
+import { readHomePage } from "@/features/public-site/lib/home-page";
 
-import { readCmsContent } from "@/shared/lib/server";
-import { homeImpactContent, homeImpactDefinition } from "@/features/public-site/data/home-impact";
-
-/** Bind the homepage definition and fallback to the shared CMS source policy. */
+/** Both homepage variants use the page's impact section, with one publication workflow. */
 export async function readHomeImpact() {
-  return readCmsContent({
-    definition: homeImpactDefinition,
-    fallback: homeImpactContent,
-  });
+  return (await readHomePage()).impact;
 }

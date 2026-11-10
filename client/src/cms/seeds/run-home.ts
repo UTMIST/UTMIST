@@ -1,11 +1,15 @@
 import { getPayload } from "payload";
 
-import { assertLocalSeedTarget, seedHomePage } from "./seed-home.ts";
+import { assertLocalSeedTarget, assertTestingSeedTarget, seedHomePage } from "./seed-home.ts";
 
-assertLocalSeedTarget(process.env.PAYLOAD_DATABASE_URI, process.env.VERCEL);
+const args = process.argv.slice(2);
+if (args.some(arg => arg !== "--testing")) throw new Error("Usage: payload:seed:home [--testing]");
+const assertTarget = args.includes("--testing") ? assertTestingSeedTarget : assertLocalSeedTarget;
+assertTarget(process.env.PAYLOAD_DATABASE_URI, process.env.VERCEL);
 
-// Use reviewed migrations even when the invoking shell is in development mode.
-Object.assign(process.env, { NODE_ENV: "production" });
+if (process.env.NODE_ENV !== "production") {
+  throw new Error("Run with NODE_ENV=production so seeding uses reviewed migrations.");
+}
 const { default: config } = await import("../../../payload.config.ts");
 const payload = await getPayload({ config });
 try {

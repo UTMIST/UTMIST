@@ -186,7 +186,7 @@ export interface ContentSection {
   createdAt: string;
 }
 /**
- * Keep a page’s content together. Pages are prepared here before being connected to the website.
+ * Edit the homepage together. Publish to update the CMS-enabled Preview; Save Draft keeps the published page live.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
@@ -221,7 +221,6 @@ export interface Page {
           href: string;
           id?: string | null;
         };
-        image: 'team-eigenai';
         imageAlt: string;
         caption: string;
         id?: string | null;
@@ -230,6 +229,7 @@ export interface Page {
       }
     | {
         heading: string;
+        description?: string | null;
         statistics: {
           number: string;
           description: string;
@@ -297,7 +297,6 @@ export interface Page {
         communityStatement: string;
         listHeading: string;
         items: {
-          key: string;
           title: string;
           description: string;
           category: string;
@@ -344,9 +343,9 @@ export interface Page {
         blockType: 'faq';
       }
   )[];
-  status: 'draft' | 'published';
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -522,7 +521,6 @@ export interface PagesSelect<T extends boolean = true> {
                     href?: T;
                     id?: T;
                   };
-              image?: T;
               imageAlt?: T;
               caption?: T;
               id?: T;
@@ -532,6 +530,7 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               heading?: T;
+              description?: T;
               statistics?:
                 | T
                 | {
@@ -593,7 +592,6 @@ export interface PagesSelect<T extends boolean = true> {
               items?:
                 | T
                 | {
-                    key?: T;
                     title?: T;
                     description?: T;
                     category?: T;
@@ -644,9 +642,9 @@ export interface PagesSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
-  status?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

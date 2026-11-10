@@ -2,6 +2,7 @@ import type { Access, Block, CollectionConfig } from "payload";
 
 import { ctaField, introFields, linkFields, textField, validateContentLink } from "../page-fields.ts";
 import { sponsorAssetOptions } from "../page-assets.ts";
+import { homePageSchema } from "../../shared/lib/content/home-page.ts";
 
 const isEditor: Access = ({ req }) => req.user?.collection === "cms-users";
 
@@ -9,7 +10,7 @@ const blocks: Block[] = [
   {
     slug: "hero",
     fields: [
-      textField("eyebrow"), textField("heading"), textField("description", true),
+      textField("eyebrow"), textField("heading", true), textField("description", true),
       { name: "links", type: "array", required: true, minRows: 1, fields: linkFields },
     ],
   },
@@ -17,7 +18,6 @@ const blocks: Block[] = [
     slug: "about",
     fields: [
       ...introFields, ctaField,
-      { name: "image", type: "select", required: true, options: [{ label: "UTMIST team at EigenAI", value: "team-eigenai" }] },
       textField("imageAlt"), textField("caption"),
     ],
   },
@@ -25,6 +25,7 @@ const blocks: Block[] = [
     slug: "impact",
     fields: [
       textField("heading"),
+      { name: "description", type: "textarea" },
       {
         name: "statistics", type: "array", required: true, minRows: 1,
         fields: [
@@ -45,7 +46,7 @@ const blocks: Block[] = [
       {
         name: "items", type: "array", required: true, minRows: 1,
         fields: [
-          { name: "asset", type: "select", required: true, options: sponsorAssetOptions },
+          { name: "asset", type: "select", required: true, options: [...sponsorAssetOptions] },
           textField("alt"),
           { name: "href", type: "text", required: true, validate: validateContentLink },
         ],
@@ -59,7 +60,7 @@ const blocks: Block[] = [
       {
         name: "items", type: "array", required: true, minRows: 1,
         fields: [
-          textField("key"), textField("title"), textField("description", true), textField("category"),
+          textField("title"), textField("description", true), textField("category"),
           { name: "href", type: "text", required: true, validate: validateContentLink },
           {
             name: "artwork", type: "select", required: true,
@@ -96,14 +97,16 @@ export const Pages: CollectionConfig = {
   slug: "pages",
   admin: {
     useAsTitle: "title",
-    defaultColumns: ["title", "slug", "status"],
-    description: "Keep a page’s content together. Pages are prepared here before being connected to the website.",
+    defaultColumns: ["title", "slug", "_status"],
+    description: "Edit the homepage together. Publish to update the CMS-enabled Preview; Save Draft keeps the published page live.",
   },
+  versions: { drafts: true },
   access: {
     create: isEditor,
     update: isEditor,
     delete: isEditor,
-    read: ({ req }) => req.user?.collection === "cms-users" || { status: { equals: "published" } },
+    readVersions: isEditor,
+    read: ({ req }) => req.user?.collection === "cms-users" || { _status: { equals: "published" } },
   },
   fields: [
     textField("title"),
@@ -115,10 +118,11 @@ export const Pages: CollectionConfig = {
     {
       name: "sections", type: "blocks", required: true, minRows: 1, blocks,
       admin: { initCollapsed: true },
-    },
-    {
-      name: "status", type: "select", required: true, defaultValue: "draft",
-      options: [{ label: "Draft", value: "draft" }, { label: "Published", value: "published" }],
+      validate: (value, { data }) => {
+        if (!data || !("slug" in data) || data.slug !== "home") return true;
+        const result = homePageSchema.safeParse({ sections: value });
+        return result.success || result.error.issues.map(issue => issue.message).join("; ");
+      },
     },
   ],
 };
