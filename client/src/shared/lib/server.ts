@@ -5,5 +5,4 @@ export * from "./auth/guards";
 export * from "./flags/server";
 export { isWebRedesignEnabled } from "./flags/web-redesign";
 export { requireCmsAccess, withCmsAccess } from "./flags/cms";
-export { payloadContentReader } from "./content/payload";
-export { contentOrThrow } from "./content/reader";
+export { readCmsContent } from "./content/cms";
