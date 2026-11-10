@@ -1,24 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { AcademicsContent } from "@/shared/lib";
 import { ContentContainer, PillLink } from "@/shared/ui";
 import { AcademicSessionCard } from "@/features/public-site/components/academic-session-card";
 import PublicSiteHero from "@/features/public-site/components/public-site-hero";
-import { academicTopics, academicsArchivePath, academicsFaqs, academicsPreviewTeam, kickoffSession } from "@/features/public-site/data/academics";
+import { academicsArchivePath } from "@/features/public-site/data/academics";
 import "@/styles/academics.css";
 
 function Divider() {
   return <Image src="/academics-redesign/divider.svg" alt="" width={633} height={1} className="mx-auto max-w-[70%]" />;
 }
 
-export default function AcademicsRedesign() {
+export default function AcademicsRedesign({ content }: { content: AcademicsContent }) {
   return (
-    <main className="academics-page ui-surface bg-white font-eigen-body text-black" data-academics="redesign">
+    <main className="academics-page ui-surface bg-white font-eigen-body text-black [overflow-wrap:anywhere]" data-academics="redesign">
       <PublicSiteHero headingId="academics-title" theme="f2f"
-        eyebrow="UTMIST Academics Department"
-        title={<>Machine Learning<br className="hidden sm:block" /> Fundamentals to Frontiers</>}
+        eyebrow={content.hero.eyebrow}
+        title={<>{content.hero.title}<br className="hidden sm:block" /> {content.hero.titleContinuation}</>}
         actions={<>
-          <PillLink href="#program" tone="dark" direction="down">Explore the program</PillLink>
-          <PillLink href={academicsArchivePath} tone="dark">Past years</PillLink>
+          <PillLink href="#program" tone="dark" direction="down">{content.hero.exploreLabel}</PillLink>
+          <PillLink href={academicsArchivePath} tone="dark">{content.hero.archiveLabel}</PillLink>
         </>}
       />
 
@@ -27,16 +28,16 @@ export default function AcademicsRedesign() {
           <div className="grid items-center gap-16 md:grid-cols-2 md:gap-14">
             <div className="relative">
               <Image src="/academics-redesign/intro-decoration.svg" alt="" width={32} height={32} className="absolute -top-14 -left-3" />
-              <h2 id="program-heading" className="mb-7 text-[32px] font-medium leading-tight tracking-tight">Learn. Build. Explore.</h2>
+              <h2 id="program-heading" className="mb-7 text-[32px] font-medium leading-tight tracking-tight">{content.introduction.heading}</h2>
               <div className="max-w-[459px] space-y-6 text-lg leading-[1.25] lg:text-xl">
-                <p>Foundations to Frontiers (F2F) is UTMIST’s flagship AI/ML program for students of all skill levels, offering a choose-your-own-adventure learning experience from foundational concepts to cutting-edge implementations.</p>
-                <p><strong>Foundations Track:</strong> Build your understanding of core concepts, math, and ML fundamentals.<br /><strong>Frontiers Track:</strong> Skip the basics and dive straight into advanced, hands-on implementations.</p>
+                <p>{content.introduction.description}</p>
+                <p><strong>Foundations Track:</strong> {content.introduction.foundationsDescription}<br /><strong>Frontiers Track:</strong> {content.introduction.frontiersDescription}</p>
               </div>
             </div>
             <div className="academic-collage relative mx-auto w-full max-w-[459px] pt-24 pb-10">
               <div aria-hidden="true" className="academic-square absolute top-0 right-[30%] bg-[var(--academic-mint)]" />
               <div className="relative aspect-[459/270] overflow-hidden rounded-[20px]">
-                <Image src="/academics-redesign/workshop.png" alt="Students learning together at a UTMIST machine learning workshop" width={459} height={613} sizes="(max-width: 767px) 90vw, 459px" className="academic-workshop-photo absolute left-0 w-full max-w-none" />
+                <Image src={content.introduction.image} alt={content.introduction.imageAlt} fill sizes="(max-width: 767px) 90vw, 459px" className="object-cover object-[50%_82%]" />
               </div>
               <div className="academic-code absolute top-6 -left-3 z-10 w-[383px] max-w-[calc(100%+12px)] rounded-2xl bg-[var(--academic-code)] px-5 py-5 text-white shadow-lg lg:-left-24">
                 <span className="absolute right-3 top-2 text-[10px] text-white/70" aria-hidden="true">py</span>
@@ -58,13 +59,13 @@ export default function AcademicsRedesign() {
         <ContentContainer className="max-w-[1100px]">
           <div className="grid items-start gap-10 pb-20 md:grid-cols-[300px_1fr] md:gap-12 xl:gap-[175px]">
             <div className="md:col-start-2 md:row-start-1">
-              <h2 id="workshops-heading" className="mb-7 text-[32px] font-medium leading-tight tracking-tight">Workshops at a Glance</h2>
-              <p className="text-lg leading-[1.25] lg:text-xl">In Semester 1, each topic begins with a joint lecture, followed by your choice of a Foundations track to build core concepts and mathematical understanding, or a Frontiers track to explore advanced, hands-on applications. In Semester 2, put your knowledge into practice through workshops on research opportunities, production-ready projects, industry ML careers, and more.</p>
-              <p className="mt-5 text-sm leading-relaxed text-[var(--academic-deep)]" role="note">Design preview: session dates, descriptions, and team profiles are sample content. Learning resources are coming soon. <Link href={academicsArchivePath} className="underline underline-offset-4">Visit the 2025 archive for published materials.</Link></p>
+              <h2 id="workshops-heading" className="mb-7 text-[32px] font-medium leading-tight tracking-tight">{content.workshops.heading}</h2>
+              <p className="text-lg leading-[1.25] lg:text-xl">{content.workshops.description}</p>
+              {content.workshops.notice && <p className="mt-5 text-sm leading-relaxed text-[var(--academic-deep)]" role="note">{content.workshops.notice} <Link href={academicsArchivePath} className="underline underline-offset-4">Visit the 2025 archive for published materials.</Link></p>}
             </div>
             <div className="relative mx-auto flex w-full max-w-[360px] flex-col self-stretch md:col-start-1 md:row-start-1 md:max-w-[300px] xl:translate-x-7">
               <h3 className="sr-only">Program kick-off</h3>
-              <AcademicSessionCard session={kickoffSession} />
+              <AcademicSessionCard session={content.kickoff} />
               <div aria-hidden="true" className="academic-kickoff-connector relative left-3.5 hidden flex-1 md:block xl:-left-[60px]">
                 <Image src="/academics-redesign/timeline-start.svg" alt="" width={197.996} height={114.131} className="absolute left-0 top-0" />
               </div>
@@ -75,8 +76,8 @@ export default function AcademicsRedesign() {
           <div aria-hidden="true" className="academic-timeline-line absolute top-7 bottom-7 hidden md:block">
             <Image src="/academics-redesign/timeline-line.svg" alt="" width={1749} height={2} className="absolute left-0 top-0 origin-top-left rotate-90 max-w-none" />
           </div>
-          {academicTopics.map((topic, index) => (
-            <section key={topic.id} aria-labelledby={`${topic.id}-heading`} className="academic-topic py-7" data-level={index}>
+          {content.topics.map((topic, index) => (
+            <section key={topic.id} aria-labelledby={`${topic.id}-heading`} className="academic-topic py-7" data-level={Math.min(index, 4)}>
               <ContentContainer className="relative max-w-[1040px]">
                 <div className="academic-topic-marker academic-square absolute top-0 hidden md:block" aria-hidden="true" />
                 <p className="mb-1 text-base leading-tight lg:text-xl">{topic.label}</p>
@@ -92,9 +93,9 @@ export default function AcademicsRedesign() {
 
       <section aria-labelledby="academics-faq-heading" className="py-24 lg:py-32">
         <ContentContainer className="max-w-[1100px]">
-          <h2 id="academics-faq-heading" className="mb-10 text-[32px] font-medium tracking-tight">FAQs</h2>
+          <h2 id="academics-faq-heading" className="mb-10 text-[32px] font-medium tracking-tight">{content.faqHeading}</h2>
           <div className="space-y-4">
-            {academicsFaqs.map((faq, index) => <details key={faq.id} id={`faq-${faq.id}`} open={index === 0} className="academic-faq group rounded-[10px] border border-black/40">
+            {content.faqs.map((faq, index) => <details key={faq.id} id={`faq-${faq.id}`} open={index === 0} className="academic-faq group rounded-[10px] border border-black/40">
               <summary className="relative flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 rounded-[10px] px-5 py-4 text-lg leading-snug lg:text-xl">
                 {faq.question}
                 <span aria-hidden="true" className="relative flex size-5 shrink-0 items-center justify-center">
@@ -116,13 +117,13 @@ export default function AcademicsRedesign() {
 
       <section aria-labelledby="academics-team-heading" className="pt-20 pb-28 lg:pt-24 lg:pb-36">
         <ContentContainer className="max-w-[1100px]">
-          <h2 id="academics-team-heading" className="mb-4 text-[32px] font-medium tracking-tight">Meet the Team</h2>
-          <p className="mb-12 text-sm text-[var(--academic-deep)]">Sample profiles for design preview. The program team will be announced here.</p>
-          <ul className="grid grid-cols-2 gap-x-5 gap-y-14 lg:grid-cols-4">
-            {academicsPreviewTeam.map((person) => <li key={person.id} className="relative rounded-[10px] border border-black/40 bg-white">
+          <h2 id="academics-team-heading" className="mb-4 text-[32px] font-medium tracking-tight">{content.teamHeading}</h2>
+          {content.teamNotice && <p className="mb-12 text-sm text-[var(--academic-deep)]">{content.teamNotice}</p>}
+          <ul className="mt-12 grid grid-cols-2 gap-x-5 gap-y-14 lg:grid-cols-4">
+            {content.team.map((person) => <li key={person.id} className="relative rounded-[10px] border border-black/40 bg-white">
               <div className="academic-person-photo relative h-[171px] rounded-t-[9px]">
-                <Image src="/academics-redesign/team-placeholder.png" alt="" width={179} height={196} sizes="179px" className="absolute bottom-0 left-1/2 h-auto w-[179px] max-w-full -translate-x-1/2" />
-                {person.role === "Program Director" && <span className="absolute right-2 top-2 flex size-10 items-center justify-center rounded border border-black/40 bg-[var(--academic-mint)]/80" aria-hidden="true">
+                <Image src={person.image ?? "/academics-redesign/team-placeholder.png"} alt="" width={179} height={196} sizes="179px" className={`absolute bottom-0 left-1/2 w-[179px] max-w-full -translate-x-1/2 ${person.image ? "h-[196px] object-cover object-top" : "h-auto"}`} />
+                {person.isDirector && <span className="absolute right-2 top-2 flex size-10 items-center justify-center rounded border border-black/40 bg-[var(--academic-mint)]/80" aria-hidden="true">
                   <Image src="/academics-redesign/director-star.svg" alt="" width={24.7275} height={23.5172} />
                 </span>}
               </div>

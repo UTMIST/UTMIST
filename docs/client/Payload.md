@@ -6,6 +6,8 @@ and statistics to a reusable typed reader during explicitly enabled local
 development. See the [content reader recipe](ContentReader.md) to create the
 `home-impact` record and verify an edit. Hosted source configuration remains
 in #495; deployed pages continue using their existing static content.
+The [Academics integration](AcademicsCMS.md) follows that local source policy
+with its own structured `academics-pages` collection and versioned drafts.
 
 This implementation records the choices requested by
 [the integration decision task (#344)](https://github.com/UTMIST/UTMIST/issues/344):
@@ -74,7 +76,10 @@ apply. `Proofs.access.read` permits anonymous reads, including drafts; it is
 the original foundation smoke-test collection. `content-sections` exposes only
 published records to anonymous/non-editor readers. Only authenticated
 `cms-users` editors may create, update, or delete content sections; they may
-also read drafts. The public reader always uses anonymous access, even when
+also read drafts. The `academics-pages` collection restricts writes and version
+history to `cms-users`, exposes published content to anonymous readers, and
+retains the last published record while a newer draft is saved. Public readers
+always use anonymous access, even when
 the visitor has an editor cookie. See [read and write policy](ContentReader.md#read-and-write-policy).
 The availability flag does not restrict those reads to Angela or other editors.
 Keep Production Off while the foundation is unfinished. Enable Development or

@@ -34,7 +34,7 @@ It does not change board assignments or constitute rollout acceptance.
   the existing `evaluateFlag("Web-Redesign")` and caches one decision per request
   for page and layout consistency. The existing catalog, Explorer integration,
   and default-Off fixture are reused.
-- `pages/academics-redesign.tsx` renders the Figma sections as server components.
+- `pages/academics-redesign.tsx` renders validated `AcademicsContent` props as server components.
   FAQ disclosure uses native `details`/`summary`, with the first answer open.
 - `components/public-site-hero.tsx` owns hero geometry shared with the homepage.
   See [PublicSiteHero](../components/PublicSiteHero.md).
@@ -49,8 +49,10 @@ It does not change board assignments or constitute rollout acceptance.
 - `data/academics.ts` contains typed design-preview fixtures. Dates, descriptions,
   names, and team portraits are samples, visibly marked on the page. These are
   not a confirmed 2026 schedule or team roster. Replace them with approved
-  content and real resource URLs before rollout; publishing/backend integration
-  remains separate from this UI work.
+  content and real resource URLs before rollout. `lib/academics.ts` selects the
+  real Payload reader during opted-in local development, following the existing
+  homepage source policy. See [Academics CMS](../AcademicsCMS.md) for fields,
+  drafts/publishing, permissions and local setup. Hosted activation remains #495.
 - `styles/academics.css` scopes the Figma mint/teal palette and card/timeline
   treatments. Shared `PillLink`, `ContentContainer`, focus styles, and typography
   are reused; Inter medium is self-hosted for workshop headings. The hero uses
@@ -73,7 +75,8 @@ Phase 2 sessions, sample projects, slides, recordings, code, and FAQs.
 
 ## Assets and review
 
-All artwork is local under `client/public/academics-redesign/`. Figma temporary
+Default artwork is local under `client/public/academics-redesign/`. Editors can
+replace content photos with supported public Supabase image URLs. Figma temporary
 URLs are download sources only and are never used at runtime.
 
 | Figma layer(s) | Local asset / slot |

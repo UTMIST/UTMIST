@@ -4,6 +4,8 @@ Issue [#346](https://github.com/UTMIST/UTMIST/issues/346) uses the homepage
 introduction and statistics as the local editable example. The reader owns
 Payload access; feature components receive validated props and import no CMS
 runtime. Hosted source selection and preview acceptance remain in #495.
+[Academics](AcademicsCMS.md) reuses the reader result contract with its own
+structured collection and published-only adapter.
 
 ## Collection fields
 

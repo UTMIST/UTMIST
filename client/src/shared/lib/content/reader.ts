@@ -1,4 +1,4 @@
-import { contentKeySchema } from "./types";
+import { contentKeySchema } from "./types.ts";
 import type { ContentReader, ContentResult } from "./types";
 
 /** Share validation and result semantics between the real and fixture adapters. */

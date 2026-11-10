@@ -1,18 +1,9 @@
+import { academicsContentSchema, type AcademicSession, type AcademicsContent } from "@/shared/lib";
+export type { AcademicSession } from "@/shared/lib";
+
 export const academicsArchivePath = "/ml-fundamentals/2025";
 
 export type LearningResource = "slides" | "recording" | "code";
-
-export interface AcademicSession {
-  id: string;
-  title: string;
-  track: "Foundations" | "Frontiers";
-  description: string;
-  date: string;
-  dateTime?: string;
-  time: string;
-  location: string;
-  resources: Partial<Record<LearningResource, string>>;
-}
 
 // Design-preview content, not a published schedule. Replace this fixture with
 // confirmed content through the same interface before approving a rollout.
@@ -87,4 +78,38 @@ export const academicsPreviewTeam = [
   "Program Director", "Program Director",
   "Academics Team", "Academics Team", "Academics Team", "Academics Team",
   "Technical Writing Team", "Technical Writing Team",
-].map((role, index) => ({ id: `preview-person-${index}`, name: "Bobby Lastname", role }));
+].map((role, index) => ({ id: `preview-person-${index}`, name: "Bobby Lastname", role, isDirector: role === "Program Director" }));
+
+
+export const academicsDefinition = { key: "f2f", schema: academicsContentSchema };
+
+/** Deliberate design-preview source while CMS is disabled; never an error fallback. */
+export const academicsContent: AcademicsContent = {
+  hero: {
+    eyebrow: "UTMIST Academics Department",
+    title: "Machine Learning",
+    titleContinuation: "Fundamentals to Frontiers",
+    exploreLabel: "Explore the program",
+    archiveLabel: "Past years",
+  },
+  introduction: {
+    heading: "Learn. Build. Explore.",
+    description: "Foundations to Frontiers (F2F) is UTMIST’s flagship AI/ML program for students of all skill levels, offering a choose-your-own-adventure learning experience from foundational concepts to cutting-edge implementations.",
+    foundationsDescription: "Build your understanding of core concepts, math, and ML fundamentals.",
+    frontiersDescription: "Skip the basics and dive straight into advanced, hands-on implementations.",
+    image: "/academics-redesign/workshop.png",
+    imageAlt: "Students learning together at a UTMIST machine learning workshop",
+  },
+  workshops: {
+    heading: "Workshops at a Glance",
+    description: "In Semester 1, each topic begins with a joint lecture, followed by your choice of a Foundations track to build core concepts and mathematical understanding, or a Frontiers track to explore advanced, hands-on applications. In Semester 2, put your knowledge into practice through workshops on research opportunities, production-ready projects, industry ML careers, and more.",
+    notice: "Design preview: session dates, descriptions, and team profiles are sample content. Learning resources are coming soon.",
+  },
+  kickoff: kickoffSession,
+  topics: academicTopics,
+  faqHeading: "FAQs",
+  faqs: academicsFaqs,
+  teamHeading: "Meet the Team",
+  teamNotice: "Sample profiles for design preview. The program team will be announced here.",
+  team: academicsPreviewTeam,
+};
