@@ -62,12 +62,6 @@ it("redacts database errors without returning static content", async () => {
   await expect(readHomePage()).rejects.toThrow("CMS content unavailable");
 });
 
-it("accepts reordered sections but rejects missing and duplicate sections", () => {
-  expect(homePageSchema.safeParse({ sections: [...document.sections].reverse() }).success).toBe(true);
-  expect(homePageSchema.safeParse({ sections: document.sections.slice(1) }).success).toBe(false);
-  expect(homePageSchema.safeParse({ sections: [...document.sections, document.sections[0]] }).success).toBe(false);
-});
-
 it("rejects unsafe links and unknown assets before rendering", () => {
   for (const changed of [
     { ...homePageContent.sponsors, items: [{ asset: "unknown", alt: "Logo", href: "/" }] },
@@ -78,10 +72,39 @@ it("rejects unsafe links and unknown assets before rendering", () => {
   }
 });
 
-it("uses the same section contract at the publish boundary", async () => {
+describe("homepage publication structure", () => {
   const field = Pages.fields.find(field => "name" in field && field.name === "sections");
   if (!field || field.type !== "blocks" || !field.validate) throw new Error("Missing section validation");
-  const args = { data: { slug: "home" } } as unknown as Parameters<typeof field.validate>[1];
-  expect(await field.validate(document.sections, args)).toBe(true);
-  expect(await field.validate(document.sections.slice(1), args)).toContain("exactly one hero");
+  const validate = field.validate;
+  const args = { data: { slug: "home", _status: "published" } } as unknown as Parameters<typeof validate>[1];
+  const requiredSections = ["hero", "about", "impact", "mission", "sponsors", "events", "startups", "faq"] as const;
+
+  it.each(["original", "reversed"])("accepts a complete homepage in %s section order", async order => {
+    const sections = order === "original" ? document.sections : [...document.sections].reverse();
+    expect(await validate(sections, args)).toBe(true);
+    expect(homePageSchema.safeParse({ sections }).success).toBe(true);
+  });
+
+  it.each(requiredSections)("rejects publishing or reading Home without its %s section", async type => {
+    const sections = document.sections.filter(section => section.blockType !== type);
+    expect(await validate(sections, args)).toContain(`exactly one ${type}`);
+    expect(homePageSchema.safeParse({ sections }).success).toBe(false);
+  });
+
+  it.each(requiredSections)("rejects publishing or reading Home with a duplicate %s section", async type => {
+    const sections = [...document.sections, ...document.sections.filter(section => section.blockType === type)];
+    expect(await validate(sections, args)).toContain(`exactly one ${type}`);
+    expect(homePageSchema.safeParse({ sections }).success).toBe(false);
+  });
+
+  it("rejects an empty homepage", async () => {
+    expect(await validate([], args)).not.toBe(true);
+    expect(homePageSchema.safeParse({ sections: [] }).success).toBe(false);
+  });
+
+  it("does not impose the homepage section set on other pages", async () => {
+    expect(await validate(document.sections.slice(0, 1), {
+      ...args, data: { slug: "events", _status: "published" },
+    })).toBe(true);
+  });
 });
