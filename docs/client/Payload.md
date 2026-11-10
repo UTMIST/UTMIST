@@ -1,13 +1,13 @@
 # Payload CMS
 
 Payload 3 is embedded in the existing Next.js application. It provides a
-content dashboard and API backed by Postgres. Issue #346 connects the homepage introduction
-and statistics to a reusable typed reader during explicitly enabled local
-development. See the [content reader recipe](ContentReader.md) to create the
-`home-impact` record and verify an edit. The CMS database connection uses
-the existing UTMIST Supabase project. Hosted homepage source selection and
-Preview acceptance remain in #495; deployed pages continue using their
-existing static content.
+content dashboard and API backed by Postgres. Issue #346 connects the homepage
+introduction and statistics to a reusable typed reader during explicitly
+enabled local development. Issue #495 extends that source selection to Vercel
+Preview only. See the [content reader recipe](ContentReader.md) to create the
+`home-impact` record and verify an edit. The CMS database connection uses the
+existing UTMIST Supabase project. Production continues using the existing
+static content regardless of the CMS flag.
 
 This implementation records the choices requested by
 [the integration decision task (#344)](https://github.com/UTMIST/UTMIST/issues/344):
@@ -180,12 +180,15 @@ Production environment secrets restricted to `main`. CI creates Previews only
 for eligible same-repository PRs, excluding forks and Dependabot. See the
 [environment guide](Environments.md#ci-guard-and-rollout) for target checks and
 the procedure for refreshing deployments after credential changes. The hosted
-editor walkthrough and source selection are covered by #495.
+editor walkthrough and source selection are documented in the
+[hosted Preview edit proof](ContentReader.md#hosted-preview-edit-proof).
 
-`CMS-Access` remains a separate availability gate. Connecting the database
-does not enable the dashboard or change deployed homepage content. Keep
-Production Off until an intended editor is bootstrapped through a controlled
-server-side operation; do not publicly expose an empty CMS's first-user form.
+`CMS-Access` remains a separate availability gate. Connecting the database does
+not enable the dashboard. In Preview, enabling the flag also opts the homepage
+into the hosted content reader; Production always keeps static homepage content.
+Keep Production Off until an intended editor is bootstrapped through a
+controlled server-side operation; do not publicly expose an empty CMS's
+first-user form.
 
 ### Hosted migrations
 
