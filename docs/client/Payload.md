@@ -1,5 +1,9 @@
 # Payload CMS
 
+See [CMS content structure](CMSStructure.md) for the agreed page templates,
+shared collections, editor organization, and publishing model that guide the
+site content migration.
+
 Payload 3 is embedded in the existing Next.js application. It provides a
 content dashboard and API backed by Postgres. Issue #346 connects the homepage
 introduction and statistics to a reusable typed reader during explicitly
