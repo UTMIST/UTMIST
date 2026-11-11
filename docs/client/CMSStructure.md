@@ -5,8 +5,9 @@ where, which records each page uses, and how editors manage and publish it.
 Editors change content within developer-approved page layouts.
 
 This is the target structure for the migration. Implementation is tracked in
-[#512](https://github.com/UTMIST/UTMIST/issues/512) and
-[#513](https://github.com/UTMIST/UTMIST/issues/513).
+[#512][collections] and [#513][transfer]. The rules and tables define content
+ownership and editing behavior; examples illustrate those rules. Resolve the
+[open decisions](#decisions-still-needed) before implementing the affected parts.
 
 For the running CMS, see [setup and migrations](Payload.md) and
 [public content reads](ContentReader.md).
@@ -28,14 +29,15 @@ For the running CMS, see [setup and migrations](Payload.md) and
 
 ## Collections and navigation
 
-The table defines the target admin groups, labels, and identifiers. Check the
-source inventory in #512 before adding fields or creating each collection.
+The table defines the target admin groups, labels, identifiers, and content
+ownership. Review the source inventory in [#512][collections] to define each
+collection's fields, types, and validation before implementing it.
 
 | Admin group | Entry and identifier | What it stores |
 | --- | --- | --- |
 | Website | Pages — `pages` | Page copy, fixed sections, metadata, and selections of shared records |
 | Website | Site settings — `site-settings` global | One record for shared contact details, social links, navigation labels/links, and footer content |
-| Content | Events — `events` | Dates, venue, description, registration link, speakers, sponsors, schedule, and recap resources; event/edition rules still need agreement below |
+| Content | Events — `events` | Dates, venue, description, registration link, speakers, sponsors, schedule, and recap resources; [event/edition rules remain open](#decisions-still-needed) |
 | Content | Projects — `projects` | Name, description, category, image, repository, and destination links |
 | Content | Article links — `posts` | Listings that link to external articles, currently sourced from [posts.json](../../client/src/assets/posts.json). No hosted article body or individual article route. |
 | Content | Sponsors and Partners — `partners` | Organization name, logo, and website. Sponsorship tier stays with the page/event placement. |
@@ -115,7 +117,8 @@ Pages → Home
 - The shared reader controls environment eligibility and `CMS-Access` source
   selection. Publishing a record does not enable CMS reads in Production.
 
-Unpublishing/deletion behavior for shared references is an open decision below.
+Unpublishing/deletion behavior for shared references is an
+[open decision](#decisions-still-needed).
 
 ## Media rules
 
@@ -133,7 +136,7 @@ Unpublishing/deletion behavior for shared references is an open decision below.
   and private data require separate access controls; website visibility alone
   does not control API access.
 - Navigation groups do not grant permissions. `CMS-Access` controls availability;
-  editor roles and publishing authority belong to #514.
+  editor roles and publishing authority belong to [#514][access].
 - Public People records are separate from editor and member accounts.
 - Applicant data, private files, registration processing, and other operational
   data stay in the existing application systems. Careers supplies public
@@ -146,19 +149,19 @@ readers. The table records open questions, not additional settled requirements.
 
 | Decision | What needs to be settled | Track in |
 | --- | --- | --- |
-| Events and program cards | Home currently features ongoing initiatives and external conferences. Decide how those cards relate to dated events, how editions are retained, and what an unannounced edition displays. | #512 / #513 |
-| Unpublished or deleted references | Set a common rule for unavailable list entries and required single references, including whether unpublishing/deleting an in-use record is blocked or warned. | #513 |
-| Page forms and record controls | Define how one Pages collection supplies each fixed form, and how page creation, deletion, and identifier changes are restricted. | #512 / #514 |
-| Media lifecycle | Define draft behavior, file replacement, and deletion of assets used by published content. | #512 / #514 |
-| Editor permissions | Agree collection/field access, draft visibility, and who can publish shared records that affect other pages. | #514 |
+| Events and program cards | Home currently features ongoing initiatives and external conferences. Decide how those cards relate to dated events, how editions are retained, and what an unannounced edition displays. | [#512][collections], [#513][transfer] |
+| Unpublished or deleted references | Set a common rule for unavailable list entries and required single references, including whether unpublishing/deleting an in-use record is blocked or warned. | [#513][transfer] |
+| Page forms and record controls | Define how one Pages collection supplies each fixed form, and how page creation, deletion, and identifier changes are restricted. | [#512][collections], [#514][access] |
+| Media lifecycle | Define draft behavior, file replacement, and deletion of assets used by published content. | [#512][collections], [#514][access] |
+| Editor permissions | Agree collection/field access, draft visibility, and who can publish shared records that affect other pages. | [#514][access] |
 
 ## Implementation and handoff
 
 | Work | Responsibility |
 | --- | --- |
-| [#512 — Collection setup](https://github.com/UTMIST/UTMIST/issues/512) | Inventory sources, review fields/relationships, add collections, and provide migrations and seeds that preserve editorial changes |
-| [#513 — Content transfer](https://github.com/UTMIST/UTMIST/issues/513) | Connect and verify pages in small batches, replace duplicated content with references, and organize the editor navigation |
-| [#514 — Editor access](https://github.com/UTMIST/UTMIST/issues/514) | Agree, implement, and verify permissions |
+| [#512 — Collection setup][collections] | Inventory sources, review fields/relationships, add collections, and provide migrations and seeds that preserve editorial changes |
+| [#513 — Content transfer][transfer] | Connect and verify pages in small batches, replace duplicated content with references, and organize the editor navigation |
+| [#514 — Editor access][access] | Agree, implement, and verify permissions |
 | [#515 — Publishing handoff](https://github.com/UTMIST/UTMIST/issues/515) | Verify owner workflows and record the production rollout decision |
 
 Retain original content until its replacement is verified. Move `proofs` and
@@ -173,3 +176,7 @@ Keep rollout evidence and progress updates in the issues and PRs.
 - [Globals](https://payloadcms.com/docs/configuration/globals) for Site settings
 - [Drafts and versions](https://payloadcms.com/docs/versions/drafts) for publishing
 - [Field access](https://payloadcms.com/docs/access-control/fields) for API visibility
+
+[collections]: https://github.com/UTMIST/UTMIST/issues/512
+[transfer]: https://github.com/UTMIST/UTMIST/issues/513
+[access]: https://github.com/UTMIST/UTMIST/issues/514
