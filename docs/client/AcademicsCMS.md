@@ -54,8 +54,8 @@ Runtime validation strips CMS metadata before components receive content.
 
 ## Source selection and local setup
 
-Hosted source acceptance remains [#495](https://github.com/UTMIST/UTMIST/issues/495).
-Academics follows the homepage policy: Payload supplies content only in local
+The homepage supports hosted Preview through the shared content reader.
+Academics still requires separate hosted acceptance: Payload supplies content only in local
 `NODE_ENV=development`, without `VERCEL`/`VERCEL_ENV`, when `CMS-Access` is On.
 `Web-Redesign` must also be On to render F2F. Build/hosted runs and disabled CMS
 access deliberately use static design-preview content. Flag defaults remain
@@ -84,10 +84,14 @@ do not edit them by hand. The universal barrel uses explicit `.ts` exports so
 Payload's native Node 24 CLI and Next share validators without CMS importing
 feature components.
 
-Local schema changes use the existing Payload development schema-push workflow.
-Hosted database migration and source configuration belong with isolated
-environment acceptance; do not run development schema push against a hosted
-database. This integration does not activate Production CMS access.
+Disposable local development databases use Payload's schema-push workflow.
+Builds and hosted environments require explicit migrations. The checked-in
+`academics_pages` migration follows the initial Payload migration and adds the
+Academics tables, draft history and document-lock relationship. Apply it using
+the [hosted migration procedure](Payload.md#hosted-migrations) before using this
+collection on a hosted CMS; never run development schema push there. The
+migration does not import content or enable hosted Academics reads. Production
+CMS access remains disabled.
 
 ## Verification
 

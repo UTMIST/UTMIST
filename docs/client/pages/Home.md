@@ -21,9 +21,9 @@ defaults Off and fails closed; refresh after changing its value. See
 
 The impact reader supplies the hero's first three statistics and all impact
 tiles from the same data. Values describe cumulative community impact. It reads
-Payload only in explicitly enabled local development; deployed runs use the
-static source. Once local CMS mode is selected, missing or invalid content raises
-an error. See the [content reader contract](../ContentReader.md).
+Payload in explicitly enabled local development and Vercel Preview; Production
+always uses the static source. Once CMS mode is selected, missing or invalid
+content raises an error. See the [content reader contract](../ContentReader.md).
 
 Keep content separate from presentation. Event artwork and categories belong to
 event records, not array positions or titles. Use stable event IDs as React keys.

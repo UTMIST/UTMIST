@@ -21,6 +21,9 @@
     "test:cms-actions": "node --test runtime-tests/cms-server-actions.test.ts",
     "payload:db:start": "docker compose -f compose.payload.yml up -d --wait",
     "payload:db:stop": "docker compose -f compose.payload.yml down",
+    "payload:migrate": "payload migrate",
+    "payload:migrate:create": "payload migrate:create",
+    "payload:migrate:status": "payload migrate:status",
     "payload:generate-types": "payload generate:types",
     "payload:generate-importmap": "payload generate:importmap"
   },

@@ -7,10 +7,8 @@ import { PayloadUsers } from "./src/cms/collections/PayloadUsers.ts";
 import { Proofs } from "./src/cms/collections/Proofs.ts";
 import { ContentSections } from "./src/cms/collections/ContentSections.ts";
 import { AcademicsPages } from "./src/cms/collections/AcademicsPages.ts";
-import {
-  PAYLOAD_DATABASE_SCHEMA,
-  PAYLOAD_ROUTES,
-} from "./src/cms/config.ts";
+import { PAYLOAD_ROUTES } from "./src/cms/config.ts";
+import { payloadDatabaseOptions } from "./src/cms/database.ts";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -31,10 +29,8 @@ export default buildConfig({
   },
   collections: [PayloadUsers, Proofs, ContentSections, AcademicsPages],
   db: postgresAdapter({
-    pool: {
-      connectionString: process.env.PAYLOAD_DATABASE_URI ?? "",
-    },
-    schemaName: PAYLOAD_DATABASE_SCHEMA,
+    ...payloadDatabaseOptions(process.env.PAYLOAD_DATABASE_URI ?? ""),
+    migrationDir: path.resolve(dirname, "src/cms/migrations"),
   }),
   routes: PAYLOAD_ROUTES,
   secret: process.env.PAYLOAD_SECRET ?? "",

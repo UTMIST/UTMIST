@@ -50,9 +50,9 @@ It does not change board assignments or constitute rollout acceptance.
   names, and team portraits are samples, visibly marked on the page. These are
   not a confirmed 2026 schedule or team roster. Replace them with approved
   content and real resource URLs before rollout. `lib/academics.ts` selects the
-  real Payload reader during opted-in local development, following the existing
-  homepage source policy. See [Academics CMS](../AcademicsCMS.md) for fields,
-  drafts/publishing, permissions and local setup. Hosted activation remains #495.
+  real Payload reader during opted-in local development. See
+  [Academics CMS](../AcademicsCMS.md) for fields, drafts/publishing, permissions
+  and local setup. Hosted activation requires separate acceptance.
 - `styles/academics.css` scopes the Figma mint/teal palette and card/timeline
   treatments. Shared `PillLink`, `ContentContainer`, focus styles, and typography
   are reused; Inter medium is self-hosted for workshop headings. The hero uses

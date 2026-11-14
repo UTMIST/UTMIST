@@ -2,3 +2,6 @@
 venv/
 __pycache__/
 node_modules
+
+# Local Supabase CLI connection metadata
+supabase/.temp/
