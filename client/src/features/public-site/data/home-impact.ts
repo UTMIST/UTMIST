@@ -1,3 +1,4 @@
+import { homePageContent } from "@/features/public-site/data/home-page";
 import { z } from "zod";
 
 import { contentSectionSchema, statisticSchema } from "@/shared/lib";
@@ -9,15 +10,5 @@ export const homeImpactDefinition = {
 
 export type HomeImpactContent = z.infer<typeof homeImpactDefinition.schema>;
 
-/** Existing deployed content; also reused explicitly in offline examples/tests. */
-export const homeImpactContent: HomeImpactContent = {
-  heading: "UTMIST is North America's largest student-led organization for Artificial Intelligence and Machine Learning",
-  statistics: [
-    { number: "500+", description: "developers across all teams and departments" },
-    { number: "50+", description: "AI/ML projects completed" },
-    { number: "20+", description: "industry partners and collaborations" },
-    { number: "50+", description: "academic workshops conducted" },
-    { number: "50+", description: "articles and notebooks published" },
-    { number: "10+", description: "papers published in top-tier conferences" },
-  ],
-};
+/** Static content also used by the legacy homepage and explicit offline examples. */
+export const homeImpactContent: HomeImpactContent = homeImpactDefinition.schema.parse(homePageContent.impact);

@@ -1,6 +1,7 @@
 /** @jest-environment node */
 import { contentOrThrow } from "@/shared/lib/content/reader";
 import { createFixtureContentReader } from "@/shared/lib";
+import { homePageContent, homePageDefinition } from "@/features/public-site/data/home-page";
 import { homeImpactContent, homeImpactDefinition } from "@/features/public-site/data/home-impact";
 import { readHomeImpact } from "@/features/public-site/lib/home-impact";
 
@@ -12,18 +13,19 @@ jest.mock("@/shared/lib/server", () => ({
 
 beforeEach(() => {
   jest.clearAllMocks();
-  mockReadCmsContent.mockResolvedValue(homeImpactContent);
+  mockReadCmsContent.mockResolvedValue(homePageContent);
 });
 
 describe("home impact content source", () => {
   it("binds its definition and fallback to the shared CMS source", async () => {
     const edited = { ...homeImpactContent, heading: "Synthetic hosted edit" };
-    mockReadCmsContent.mockResolvedValue(edited);
+    mockReadCmsContent.mockResolvedValue({ ...homePageContent, impact: edited });
 
     await expect(readHomeImpact()).resolves.toBe(edited);
     expect(mockReadCmsContent).toHaveBeenCalledWith({
-      definition: homeImpactDefinition,
-      fallback: homeImpactContent,
+      definition: homePageDefinition,
+      fallback: homePageContent,
+      reader: undefined,
     });
   });
 

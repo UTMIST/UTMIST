@@ -4,21 +4,20 @@ See [CMS content structure](CMSStructure.md) for the agreed page templates,
 shared collections, editor organization, and publishing model that guide the
 site content migration.
 
-Payload 3 is embedded in the existing Next.js application. It provides a
-content dashboard and API backed by Postgres. Issue #346 connects the homepage
-introduction and statistics to a reusable typed reader during explicitly
-enabled local development. Issue #495 extends that source selection to Vercel
-Preview only. See the [content reader recipe](ContentReader.md) to create the
-`home-impact` record and verify an edit. The CMS database connection uses the
-existing UTMIST Supabase project. Production continues using the existing
-static content regardless of the CMS flag.
+Payload 3 is embedded in the existing Next.js application, with its editor and
+API backed by the existing Supabase project. The redesigned homepage consumes
+one published **Pages → Home** record in opted-in local development and
+protected Vercel Preview. The legacy homepage uses that same page’s impact
+section. See [homepage content](PageContent.md) for the schema, import and
+publish workflow, and [the content reader](ContentReader.md) for source policy.
+Production continues using static content regardless of the CMS flag.
 
 This implementation records the choices requested by
 [the integration decision task (#344)](https://github.com/UTMIST/UTMIST/issues/344):
 Payload is embedded in `client/`, deploys with the existing Vercel app, uses a
 dedicated Postgres schema and editor user collection, and proves the runtime
-through the `proofs` collection. The `content-sections` collection now supplies
-the local homepage example.
+through the `proofs` collection. The `content-sections` collection remains available for section-shaped content;
+the homepage now uses `pages`.
 
 ## Routes
 
@@ -129,15 +128,6 @@ Local automated tests exercise the gate transitions and real SDK fallback
 behavior without credentials. A live isolated Preview timing measurement is
 still required; automated tests do not establish provider propagation latency.
 
-For #443, local verification on Node 24.21.0 passed lint, typecheck, the full
-test suite and the production build using the locked Linux dependencies. HTTP
-checks against that build used a deliberately unreachable synthetic database:
-all CMS pages and supported API methods returned 404, including requests with a
-synthetic editor cookie; API responses were `no-store`. Public pages rendered
-and the existing Supabase-protected paths still redirected signed-out visitors
-to `/auth`. This verifies the disabled runtime without a CMS database, while
-enabled delegation and collection permissions are covered by automated tests.
-
 Run `npm run test:cms-actions` manually after `npm run build`. It invokes the
 real compiled Payload language action with the same synthetic editor cookie
 across Off → On → Off: Off must return `404`/`no-store` without setting
@@ -219,6 +209,14 @@ with `npm run payload:migrate:create -- descriptive_name`, review its SQL,
 and test it in disposable local Postgres first. Keep migration argument
 imports type-only for Node 24's TypeScript runtime.
 
+## Page content
+
+The `pages` collection groups sections into a single editable page record.
+The redesigned homepage reads its published Home document when CMS access is
+enabled in Preview or standalone development. The legacy homepage reads the
+same document's impact section. The import, field map, media rules and
+migration procedure are documented in [Page content](PageContent.md).
+
 ## Local setup
 
 ### Prerequisites
@@ -293,10 +291,10 @@ empty database, Payload creates its schema and prompts you to create the first
 editor. The dashboard then exposes the `CMS proofs` collection with required
 `title`, `message`, and `status` fields.
 
-No seed is required: records can be created directly in the dashboard. Use
-synthetic values in `Content Sections` with key `home-impact` for the homepage
-proof, following the [edit recipe](ContentReader.md#local-edit-proof). The
-original `CMS proofs` collection is not used by public content readers.
+Records can be created directly in the dashboard. For the homepage, use the
+[Home import and publish recipe](PageContent.md#initial-content-and-migrations),
+then verify published edits using the shared reader. The original `CMS proofs`
+collection is not used by public content readers.
 
 ## Generated files and commands
 

@@ -6,6 +6,7 @@ import { buildConfig } from "payload";
 import { PayloadUsers } from "./src/cms/collections/PayloadUsers.ts";
 import { Proofs } from "./src/cms/collections/Proofs.ts";
 import { ContentSections } from "./src/cms/collections/ContentSections.ts";
+import { Pages } from "./src/cms/collections/Pages.ts";
 import { PAYLOAD_ROUTES } from "./src/cms/config.ts";
 import { payloadDatabaseOptions } from "./src/cms/database.ts";
 
@@ -26,7 +27,7 @@ export default buildConfig({
     },
     user: PayloadUsers.slug,
   },
-  collections: [PayloadUsers, Proofs, ContentSections],
+  collections: [PayloadUsers, Proofs, ContentSections, Pages],
   db: postgresAdapter({
     ...payloadDatabaseOptions(process.env.PAYLOAD_DATABASE_URI ?? ""),
     migrationDir: path.resolve(dirname, "src/cms/migrations"),

@@ -24,6 +24,7 @@
     "payload:migrate": "payload migrate",
     "payload:migrate:create": "payload migrate:create",
     "payload:migrate:status": "payload migrate:status",
+    "payload:seed:home": "NODE_ENV=production node src/cms/seeds/run-home.ts",
     "payload:generate-types": "payload generate:types",
     "payload:generate-importmap": "payload generate:importmap"
   },

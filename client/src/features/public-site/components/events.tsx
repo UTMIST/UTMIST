@@ -1,4 +1,3 @@
-"use client";
 import { homeContent } from "@/features/public-site/data/home-content";
 import EventCard from "@/features/public-site/components/cards/events-card";
 import { homeEvents } from "@/features/public-site/data/home-events";

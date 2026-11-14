@@ -70,6 +70,7 @@ export interface Config {
     'cms-users': CmsUser;
     proofs: Proof;
     'content-sections': ContentSection;
+    pages: Page;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +81,7 @@ export interface Config {
     'cms-users': CmsUsersSelect<false> | CmsUsersSelect<true>;
     proofs: ProofsSelect<false> | ProofsSelect<true>;
     'content-sections': ContentSectionsSelect<false> | ContentSectionsSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -184,6 +186,168 @@ export interface ContentSection {
   createdAt: string;
 }
 /**
+ * Edit the homepage together. Publish to update the CMS-enabled Preview; Save Draft keeps the published page live.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  /**
+   * Stable page identifier, e.g. home. Coordinate changes with the page adapter.
+   */
+  slug: string;
+  sections: (
+    | {
+        eyebrow: string;
+        heading: string;
+        description: string;
+        links: {
+          label: string;
+          href: string;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'hero';
+      }
+    | {
+        eyebrow: string;
+        heading: string;
+        description: string;
+        cta: {
+          label: string;
+          href: string;
+          id?: string | null;
+        };
+        imageAlt: string;
+        caption: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'about';
+      }
+    | {
+        heading: string;
+        description?: string | null;
+        statistics: {
+          number: string;
+          description: string;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'impact';
+      }
+    | {
+        eyebrow: string;
+        heading: string;
+        description: string;
+        cta: {
+          label: string;
+          href: string;
+          id?: string | null;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'mission';
+      }
+    | {
+        eyebrow: string;
+        heading: string;
+        description: string;
+        cta: {
+          label: string;
+          href: string;
+          id?: string | null;
+        };
+        items: {
+          asset:
+            | 'amd'
+            | 'modal'
+            | 'qualcomm'
+            | 'vector'
+            | 'google-cloud'
+            | 'cohere'
+            | 'jarvis'
+            | 'rotman'
+            | 'tenstorrent'
+            | 'aerocoustics-transparent'
+            | 'wombo'
+            | 'google'
+            | 'pwc-transparent'
+            | 'rbc'
+            | 'edgeai'
+            | 'cgi'
+            | 'cpsif'
+            | 'engsoc'
+            | 'compsci';
+          alt: string;
+          href: string;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'sponsors';
+      }
+    | {
+        eyebrow: string;
+        heading: string;
+        description: string;
+        communityStatement: string;
+        listHeading: string;
+        items: {
+          title: string;
+          description: string;
+          category: string;
+          href: string;
+          artwork: 'eigenai' | 'cucai' | 'ai2' | 'genai-genesis';
+          /**
+           * Leave empty for decorative artwork.
+           */
+          imageAlt?: string | null;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'events';
+      }
+    | {
+        eyebrow: string;
+        heading: string;
+        description: string;
+        cta: {
+          label: string;
+          href: string;
+          id?: string | null;
+        };
+        benefits: {
+          title: string;
+          description: string;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'startups';
+      }
+    | {
+        eyebrow: string;
+        heading: string;
+        items: {
+          question: string;
+          answer: string;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'faq';
+      }
+  )[];
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -218,6 +382,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'content-sections';
         value: number | ContentSection;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -313,6 +481,170 @@ export interface ContentSectionsSelect<T extends boolean = true> {
   status?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  sections?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              description?: T;
+              links?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        about?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              description?: T;
+              cta?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              imageAlt?: T;
+              caption?: T;
+              id?: T;
+              blockName?: T;
+            };
+        impact?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              statistics?:
+                | T
+                | {
+                    number?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        mission?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              description?: T;
+              cta?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        sponsors?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              description?: T;
+              cta?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              items?:
+                | T
+                | {
+                    asset?: T;
+                    alt?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        events?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              description?: T;
+              communityStatement?: T;
+              listHeading?: T;
+              items?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    category?: T;
+                    href?: T;
+                    artwork?: T;
+                    imageAlt?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        startups?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              description?: T;
+              cta?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              benefits?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        faq?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              items?:
+                | T
+                | {
+                    question?: T;
+                    answer?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -9,8 +9,9 @@ elsewhere within the public-site feature with different props; both the static
 source and the Payload source render through the same components. They retain
 the homepage's existing typography, spacing, and statistic classes.
 
-The homepage server loader in `features/public-site/lib/home-impact.ts` binds
-its definition and fallback to the shared `readCmsContent` source policy.
+The homepage server loader in `features/public-site/lib/home-impact.ts` selects
+impact from the same `readHomePage` result as the redesigned homepage. That
+loader uses the shared `readCmsContent` source policy.
 [ContentReader.md](../ContentReader.md) documents the local/Preview source,
 offline example, permissions, and refresh behavior. The leaf `StatItem` remains
 a client component for its count-up animation; content access stays on the

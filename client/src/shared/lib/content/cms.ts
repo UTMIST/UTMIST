@@ -5,11 +5,12 @@ import { connection } from "next/server";
 import { evaluateFlag } from "../flags/server";
 import { payloadContentReader } from "./payload";
 import { contentOrThrow } from "./reader";
-import type { ContentDefinition } from "./types";
+import type { ContentDefinition, ContentReader } from "./types";
 
 interface CmsContentOptions<T> {
   definition: ContentDefinition<T>;
   fallback: T;
+  reader?: ContentReader;
 }
 
 /**
@@ -23,6 +24,7 @@ interface CmsContentOptions<T> {
 export async function readCmsContent<T>({
   definition,
   fallback,
+  reader = payloadContentReader,
 }: CmsContentOptions<T>): Promise<T> {
   const isLocalDevelopment =
     process.env.NODE_ENV === "development" &&
@@ -35,5 +37,5 @@ export async function readCmsContent<T>({
   await connection();
   if (!(await evaluateFlag("CMS-Access"))) return fallback;
 
-  return contentOrThrow(await payloadContentReader.read(definition));
+  return contentOrThrow(await reader.read(definition));
 }
