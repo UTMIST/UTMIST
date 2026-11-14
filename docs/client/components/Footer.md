@@ -15,11 +15,11 @@ All footer styles are owned by the component and `styles/footer.css`.
 
 `SiteFooter`, exported from `@/shared/ui/client`, selects the standard appearance
 only when the frontend layout's `redesignEnabled` decision is true **and** the
-current pathname is `/`. It re-evaluates on client navigation. `HideOnEigenAI`
+current pathname is `/` or `/ml-fundamentals`. It re-evaluates on client navigation. `HideOnEigenAI`
 still controls visibility on the EigenAI route family. No homepage sibling CSS
 reaches into the footer.
 
-`ScrollToTop` uses the same flag/path decision for its standard `IconButton` and
+`ScrollToTop` uses the standard `IconButton` on the flagged homepage and
 retains the legacy appearance elsewhere. Both versions support keyboard
 activation and request instant scrolling when reduced motion is enabled.
 

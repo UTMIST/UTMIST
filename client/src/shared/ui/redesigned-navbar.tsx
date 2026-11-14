@@ -25,7 +25,7 @@ const links: NavigationItem[] = [
   ] },
   { label: "Programs", children: [
     { href: "/startups", label: "MISTic R&D" },
-    { href: "/ml-fundamentals", label: "MLF" },
+    { href: "/ml-fundamentals", label: "Foundations to Frontiers" },
   ] },
   { href: "/sponsors", label: "Sponsors" },
   { href: "/careers", label: "Careers" },
@@ -34,16 +34,22 @@ const links: NavigationItem[] = [
 export default function RedesignedNavbar() {
   const { user } = useUser();
   const pathname = usePathname();
-  // Keying by pathname closes a menu after Back/Forward navigation as well.
-  return <Navigation key={pathname} isHome={pathname === "/"} signedIn={Boolean(user)} />;
-}
-
-function Navigation({ isHome, signedIn }: { isHome: boolean; signedIn: boolean }) {
+  const signedIn = Boolean(user);
+  const overlaysHero = pathname === "/" || pathname === "/ml-fundamentals";
+  const [menuPathname, setMenuPathname] = useState(pathname);
   const [open, setOpen] = useState(false);
   const [dropdown, setDropdown] = useState<string | null>(null);
   const toggle = useRef<HTMLButtonElement>(null);
   const navigation = useRef<HTMLElement>(null);
   const touchNavigation = useRef(false);
+
+  // Reset route-local disclosure state before paint, without remounting the
+  // shared navbar. This also handles browser Back/Forward without link clicks.
+  if (menuPathname !== pathname) {
+    setMenuPathname(pathname);
+    setOpen(false);
+    setDropdown(null);
+  }
 
   function closeMenus() {
     setOpen(false);
@@ -51,7 +57,7 @@ function Navigation({ isHome, signedIn }: { isHome: boolean; signedIn: boolean }
   }
 
   return (
-    <header data-ui-tone="dark" className={`ui-surface redesigned-navbar z-30 font-eigen-body text-white ${isHome ? "absolute inset-x-0 top-0" : "relative bg-[var(--nav-ink)]"}`}>
+    <header data-ui-tone="dark" data-navigation="standard" className={`ui-surface redesigned-navbar z-30 font-eigen-body text-white ${overlaysHero ? "absolute inset-x-0 top-0" : "relative bg-[var(--nav-ink)]"}`}>
       {/* One grid positions all three desktop items; equal side columns keep the pill centered. */}
       <ContentContainer asChild>
         <nav ref={navigation} aria-label="Main navigation" className="relative flex items-center justify-between gap-6 py-5 md:py-6 lg:grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] xl:py-7"
@@ -115,7 +121,7 @@ function Navigation({ isHome, signedIn }: { isHome: boolean; signedIn: boolean }
                   )}
                   <div id={`${label.toLowerCase()}-navigation-dropdown`} hidden={dropdown !== label}
                     className="w-full pt-2 lg:absolute lg:right-0 lg:top-full lg:w-44">
-                    <div className="flex flex-col rounded-2xl border border-[var(--nav-edge)]/50 bg-[var(--nav-ink)] p-2 lg:shadow-xl">
+                    <div className="flex flex-col rounded-2xl border border-[var(--nav-edge)]/50 bg-[var(--nav-ink)] p-2 lg:min-w-52 lg:shadow-xl">
                       {children.map((link) => <Link key={link.href} href={link.href} onClick={closeMenus} className="rounded-lg px-3 py-3 text-sm hover:bg-white/15">{link.label}</Link>)}
                     </div>
                   </div>

@@ -13,6 +13,10 @@ Preview only. See the [content reader recipe](ContentReader.md) to create the
 existing UTMIST Supabase project. Production continues using the existing
 static content regardless of the CMS flag.
 
+The [Academics integration](AcademicsCMS.md) adds a structured `academics-pages`
+collection with versioned drafts. Its public content source remains local-only
+pending separate hosted acceptance.
+
 This implementation records the choices requested by
 [the integration decision task (#344)](https://github.com/UTMIST/UTMIST/issues/344):
 Payload is embedded in `client/`, deploys with the existing Vercel app, uses a
@@ -80,7 +84,10 @@ apply. `Proofs.access.read` permits anonymous reads, including drafts; it is
 the original foundation smoke-test collection. `content-sections` exposes only
 published records to anonymous/non-editor readers. Only authenticated
 `cms-users` editors may create, update, or delete content sections; they may
-also read drafts. The public reader always uses anonymous access, even when
+also read drafts. The `academics-pages` collection restricts writes and version
+history to `cms-users`, exposes published content to anonymous readers, and
+retains the last published record while a newer draft is saved. Public readers
+always use anonymous access, even when
 the visitor has an editor cookie. See [read and write policy](ContentReader.md#read-and-write-policy).
 The availability flag does not restrict those reads to Angela or other editors.
 Keep Production Off while the foundation is unfinished. Enable Development or

@@ -3,8 +3,10 @@
 import { usePathname } from "next/navigation";
 import Footer from "./footer";
 
-/** Keep the redesigned footer scoped to the flagged homepage, including navigation. */
+/** Route-specific footers follow the same flag decision as their page. */
 export function SiteFooter({ redesignEnabled = false }: { redesignEnabled?: boolean }) {
   const pathname = usePathname();
-  return <Footer variant={redesignEnabled && pathname === "/" ? "standard" : "legacy"} />;
+  const variant = redesignEnabled && (pathname === "/" || pathname === "/ml-fundamentals")
+    ? "standard" : "legacy";
+  return <Footer variant={variant} />;
 }

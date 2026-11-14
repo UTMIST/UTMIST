@@ -31,6 +31,7 @@
     "@fontsource/dm-sans": "^5.3.0",
     "@fontsource/dm-serif-display": "^5.3.0",
     "@fontsource/instrument-sans": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
     "@heroicons/react": "^2.2.0",
     "@payloadcms/db-postgres": "^3.90.2",
     "@payloadcms/next": "^3.90.2",

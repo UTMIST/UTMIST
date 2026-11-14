@@ -8,6 +8,10 @@ runtime. The CMS uses the existing Supabase project; see
 same reader on protected Vercel Preview deployments while Production remains
 on static content.
 
+[Academics](AcademicsCMS.md) reuses the reader result contract with its own
+structured collection and published-only adapter. Its public source selection
+remains local-only pending separate hosted acceptance.
+
 ## Collection fields
 
 `content-sections` is registered in `client/payload.config.ts`.

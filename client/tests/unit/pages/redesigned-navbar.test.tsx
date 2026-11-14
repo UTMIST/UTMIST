@@ -105,10 +105,33 @@ it("links signed-out visitors to login and members to their profile", () => {
   expect(screen.getByRole("link", { name: "Profile" })).toHaveAttribute("href", "/profile");
 });
 
-it("closes the mobile menu on route changes", () => {
+it("keeps the navbar mounted while closing disclosures on route changes and history navigation", () => {
   const { rerender } = render(<Navbar redesignEnabled />);
-  fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
-  mockPathname = "/events";
+  const navigation = screen.getByRole("navigation", { name: "Main navigation" });
+  const logo = screen.getByRole("link", { name: "UTMIST home" });
+  const toggle = screen.getByRole("button", { name: "Open menu" });
+  const programs = screen.getByRole("button", { name: "Programs" });
+
+  for (const pathname of ["/ml-fundamentals", "/", "/projects", "/", "/ml-fundamentals"]) {
+    fireEvent.click(toggle);
+    fireEvent.click(programs);
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    expect(programs).toHaveAttribute("aria-expanded", "true");
+    mockPathname = pathname;
+    rerender(<Navbar redesignEnabled />);
+    expect(screen.getByRole("navigation", { name: "Main navigation" })).toBe(navigation);
+    expect(screen.getByRole("link", { name: "UTMIST home" })).toBe(logo);
+    expect(screen.getByRole("button", { name: "Open menu" })).toBe(toggle);
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(programs).toHaveAttribute("aria-expanded", "false");
+  }
+});
+
+it("keeps the same global navigation destinations on home and academics", () => {
+  const { container, rerender } = render(<Navbar redesignEnabled />);
+  const destinations = () => [...container.querySelectorAll("nav a")].map((link) => link.getAttribute("href"));
+  const homeDestinations = destinations();
+  mockPathname = "/ml-fundamentals";
   rerender(<Navbar redesignEnabled />);
-  expect(screen.getByRole("button", { name: "Open menu" })).toHaveAttribute("aria-expanded", "false");
+  expect(destinations()).toEqual(homeDestinations);
 });

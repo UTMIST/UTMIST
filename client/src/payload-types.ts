@@ -70,6 +70,7 @@ export interface Config {
     'cms-users': CmsUser;
     proofs: Proof;
     'content-sections': ContentSection;
+    'academics-pages': AcademicsPage;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +81,7 @@ export interface Config {
     'cms-users': CmsUsersSelect<false> | CmsUsersSelect<true>;
     proofs: ProofsSelect<false> | ProofsSelect<true>;
     'content-sections': ContentSectionsSelect<false> | ContentSectionsSelect<true>;
+    'academics-pages': AcademicsPagesSelect<false> | AcademicsPagesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -184,6 +186,135 @@ export interface ContentSection {
   createdAt: string;
 }
 /**
+ * Manage F2F copy, workshops, FAQs and team profiles. Save Draft keeps the published page unchanged; Publish makes your changes available.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "academics-pages".
+ */
+export interface AcademicsPage {
+  id: number;
+  /**
+   * Connects this document to /ml-fundamentals. Only one F2F document is needed.
+   */
+  key: 'f2f';
+  hero: {
+    eyebrow: string;
+    title: string;
+    titleContinuation: string;
+    exploreLabel: string;
+    archiveLabel: string;
+  };
+  introduction: {
+    heading: string;
+    description: string;
+    foundationsDescription: string;
+    frontiersDescription: string;
+    /**
+     * Local image path or public Supabase Storage URL; this CMS does not upload files.
+     */
+    image: string;
+    imageAlt: string;
+  };
+  workshops: {
+    heading: string;
+    description: string;
+    notice?: string | null;
+  };
+  kickoff: {
+    title: string;
+    track: 'Foundations' | 'Frontiers';
+    description: string;
+    /**
+     * For example: October 13, 2026, or Date to be announced.
+     */
+    date: string;
+    /**
+     * Optional YYYY-MM-DD; clear this when the date is unconfirmed.
+     */
+    dateTime?: string | null;
+    time: string;
+    location: string;
+    resources?: {
+      /**
+       * Site path or HTTPS URL. Leave empty when unavailable.
+       */
+      slides?: string | null;
+      /**
+       * Site path or HTTPS URL. Leave empty when unavailable.
+       */
+      recording?: string | null;
+      /**
+       * Site path or HTTPS URL. Leave empty when unavailable.
+       */
+      code?: string | null;
+    };
+  };
+  /**
+   * Drag topics and sessions into their display order.
+   */
+  topics: {
+    label: string;
+    title: string;
+    sessions: {
+      title: string;
+      track: 'Foundations' | 'Frontiers';
+      description: string;
+      /**
+       * For example: October 13, 2026, or Date to be announced.
+       */
+      date: string;
+      /**
+       * Optional YYYY-MM-DD; clear this when the date is unconfirmed.
+       */
+      dateTime?: string | null;
+      time: string;
+      location: string;
+      resources?: {
+        /**
+         * Site path or HTTPS URL. Leave empty when unavailable.
+         */
+        slides?: string | null;
+        /**
+         * Site path or HTTPS URL. Leave empty when unavailable.
+         */
+        recording?: string | null;
+        /**
+         * Site path or HTTPS URL. Leave empty when unavailable.
+         */
+        code?: string | null;
+      };
+      id?: string | null;
+    }[];
+    id?: string | null;
+  }[];
+  faqHeading: string;
+  faqs: {
+    question: string;
+    answer: string;
+    /**
+     * Site path or HTTPS URL. Leave empty when unavailable.
+     */
+    href?: string | null;
+    linkLabel?: string | null;
+    id?: string | null;
+  }[];
+  teamHeading: string;
+  teamNotice?: string | null;
+  team: {
+    name: string;
+    role: string;
+    /**
+     * Local image path or public Supabase Storage URL. Empty uses the placeholder portrait.
+     */
+    image?: string | null;
+    isDirector?: boolean | null;
+    id?: string | null;
+  }[];
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -218,6 +349,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'content-sections';
         value: number | ContentSection;
+      } | null)
+    | ({
+        relationTo: 'academics-pages';
+        value: number | AcademicsPage;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -313,6 +448,107 @@ export interface ContentSectionsSelect<T extends boolean = true> {
   status?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "academics-pages_select".
+ */
+export interface AcademicsPagesSelect<T extends boolean = true> {
+  key?: T;
+  hero?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        titleContinuation?: T;
+        exploreLabel?: T;
+        archiveLabel?: T;
+      };
+  introduction?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        foundationsDescription?: T;
+        frontiersDescription?: T;
+        image?: T;
+        imageAlt?: T;
+      };
+  workshops?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        notice?: T;
+      };
+  kickoff?:
+    | T
+    | {
+        title?: T;
+        track?: T;
+        description?: T;
+        date?: T;
+        dateTime?: T;
+        time?: T;
+        location?: T;
+        resources?:
+          | T
+          | {
+              slides?: T;
+              recording?: T;
+              code?: T;
+            };
+      };
+  topics?:
+    | T
+    | {
+        label?: T;
+        title?: T;
+        sessions?:
+          | T
+          | {
+              title?: T;
+              track?: T;
+              description?: T;
+              date?: T;
+              dateTime?: T;
+              time?: T;
+              location?: T;
+              resources?:
+                | T
+                | {
+                    slides?: T;
+                    recording?: T;
+                    code?: T;
+                  };
+              id?: T;
+            };
+        id?: T;
+      };
+  faqHeading?: T;
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        href?: T;
+        linkLabel?: T;
+        id?: T;
+      };
+  teamHeading?: T;
+  teamNotice?: T;
+  team?:
+    | T
+    | {
+        name?: T;
+        role?: T;
+        image?: T;
+        isDirector?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
