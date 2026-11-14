@@ -79,6 +79,9 @@ it. ([client/README.md](client/README.md#deployment))
 - A new page or component gets a matching note under
   [docs/client/](docs/client/). If a change makes an existing doc wrong,
   fix the doc in the same PR.
+- Keep setup docs and code comments focused on current behavior, rationale,
+  and repeatable instructions. Put rollout history, dated test results, and
+  one-off verification logs in the related issue or PR.
 
 ## Taxonomy files
 

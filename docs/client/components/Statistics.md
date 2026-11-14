@@ -1,62 +1,30 @@
-# Statistics Component Documentation
+# Statistics
 
-## Overview
-A React component that displays UTMIST's key statistics in a grid layout. Contains a reusable `StatItem` sub-component for individual statistics.
+`features/public-site/components/stats.tsx` exports `Statistics` (default) and
+`StatItem`. It contains no hard-coded content or CMS access.
 
-## Components
+`Statistics` accepts `items: readonly Statistic[]`, preserves the supplied row
+order, and renders a `stats-grid` of `StatItem` children. Import the universal
+`Statistic` type from `@/shared/lib`. Each item has `number: string` and
+`description: string`. The CMS contract allows an integer of up to nine digits
+and an optional trailing `+`.
 
-### `StatItem`
-A presentational component that renders a single statistic.
-
-#### Props
-| Prop | Type | Description |
-|------|------|-------------|
-| `number` | `string` | The numerical value to display (e.g., "100+") |
-| `description` | `string` | Descriptive text for the statistic |
-
-#### Usage
 ```tsx
-<StatItem 
-    number="100+" 
-    description="developers across all teams"
-/>
+import Statistics from "@/features/public-site/components/stats";
+
+<Statistics items={[{ number: "7+", description: "Synthetic projects" }]} />
 ```
 
-### `Statistics`
-The main component that renders a grid of statistics.
+`StatItem` accepts `number`, `description`, and optional `className`,
+`numberClassName`, and `descriptionClassName`. The existing EigenAI consumer
+continues to use those customization props independently of the homepage.
+It counts up over 1500ms once in view, retaining a trailing `+`, and cancels
+pending animation frames when its target changes or it unmounts.
 
-## Current Statistics
-- Developers count
-- AI/ML projects completed
-- Industry partnerships
-- Academic workshops
-- Published articles/notebooks
-- Conference papers
-
-## Example Usage
-```tsx
-import Statistics from '@/components/stats';
-
-function Page() {
-  return (
-    <div>
-      <Statistics />
-    </div>
-  );
-}
-```
-
-## Required CSS Classes
-- `stats-grid`: Grid container for statistics
-- `stat-item`: Container for individual stat
-- `stat-number`: Styling for the numerical value
-- `stat-description`: Styling for the description text
-
-## File Location
-stats.tsx
-
-## Notes
-- Uses TypeScript for type safety
-- Grid layout for responsive design
-- Modular architecture with reusable components
-- Currently renders 6 statistics items
+Existing CSS classes are `stats-grid`, `stat-item`, `stat-number`, and
+`stat-description`. An outer `div` preserves the original grid's compact,
+centered width inside the homepage flex layout. Keep this wrapper: placing the
+100%-wide grid directly in that layout spreads the columns across the section.
+The wrapper replaces the original nested `main` without changing its layout.
+The [organization section](OrganizationImpact.md) supplies homepage content;
+[ContentReader.md](../ContentReader.md) explains its data source.

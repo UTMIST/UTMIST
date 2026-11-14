@@ -412,19 +412,19 @@ function ScheduleSection({ weekData, onOpenModal }: ScheduleSectionProps) {
               <div className="flex gap-2 mt-4">
                 <button 
                   onClick={() => onOpenModal(week.weekNumber, 'slides')}
-                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                  className="min-h-11 flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Slides
                 </button>
                 <button 
                   onClick={() => onOpenModal(week.weekNumber, 'recording')}
-                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                  className="min-h-11 flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Recording
                 </button>
                 <button 
                   onClick={() => onOpenModal(week.weekNumber, 'code')}
-                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                  className="min-h-11 flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Code
                 </button>
@@ -467,14 +467,14 @@ function ProjectsSection({ weekData, onOpenModal }: ProjectsSectionProps) {
               <div className="flex gap-2 mt-4">
                 <button 
                   onClick={() => onOpenModal(week.weekNumber, 'slides', true)}
-                  className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                  className="min-h-11 flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                 >
                   Slides
                 </button>
                 {week.hasRecording !== false && (
                   <button 
                     onClick={() => onOpenModal(week.weekNumber, 'recording', true)}
-                    className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                    className="min-h-11 flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                   >
                     Recording
                   </button>
@@ -482,7 +482,7 @@ function ProjectsSection({ weekData, onOpenModal }: ProjectsSectionProps) {
                 {week.hasCode !== false && (
                   <button 
                     onClick={() => onOpenModal(week.weekNumber, 'code', true)}
-                    className="flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
+                    className="min-h-11 flex-1 bg-indigo-700 text-white text-xs py-2 px-3 rounded-lg font-medium hover:bg-indigo-800 transition-colors"
                   >
                     Code
                   </button>
@@ -615,7 +615,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
     2: "https://youtu.be/Ntxq5_Ysdlg?si=S5zsWXgPV_mZjy9z"
   };
 
-  // YouTube video URLs for each week's recordings (you'll need to replace these with actual video URLs)
+  // Published recordings indexed by workshop week.
   const youtubeVideoUrls: Record<number, string> = {
     1: "https://youtu.be/h1DxLpXvPbo", 
     2: "https://youtu.be/ccwnTixGaCI", 
@@ -627,7 +627,7 @@ function WorkshopModal({ isOpen, isAnimating, modalContent, modalType, weekNumbe
     8: "https://youtu.be/-9EKr_rmkI4", 
   };
 
-  // weekNumber is now passed as a prop
+  // Select resources for the requested phase and week.
   const pdfUrl = isSampleProject ? sampleProjectPdfUrl : (isPhase2 ? phase2PdfUrls[weekNumber] : pdfUrls[weekNumber]);
   const youtubeVideoUrl = isPhase2 ? phase2YoutubeVideoUrls[weekNumber] : youtubeVideoUrls[weekNumber];
   

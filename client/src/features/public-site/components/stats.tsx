@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import type { Statistic } from "@/shared/lib";
 
 export interface StatItemProps {
     number: string;
@@ -27,6 +28,7 @@ export function StatItem({
         const duration = 1500;
         const startTime = performance.now();
 
+        let frame: number;
         const animate = (currentTime: number) => {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
@@ -34,11 +36,12 @@ export function StatItem({
             setCount(currentCount);
 
             if (progress < 1) {
-                requestAnimationFrame(animate);
+                frame = requestAnimationFrame(animate);
             }
         };
 
-        requestAnimationFrame(animate);
+        frame = requestAnimationFrame(animate);
+        return () => cancelAnimationFrame(frame);
     }, [inView, targetNumber]);
 
     return (
@@ -52,35 +55,12 @@ export function StatItem({
     );
 }
 
-export default function Statistics() {
+export default function Statistics({ items }: { items: readonly Statistic[] }) {
     return (
-        <main>
+        <div>
             <div className="stats-grid">
-                <StatItem 
-                    number="500+" 
-                    description="developers across all teams and departments"
-                />
-                <StatItem 
-                    number="50+" 
-                    description="AI/ML projects completed"
-                />
-                <StatItem 
-                    number="20+" 
-                    description="industry partners and collaborations"
-                />
-                <StatItem 
-                    number="50+" 
-                    description="academic workshops conducted"
-                />
-                <StatItem 
-                    number="50+" 
-                    description="articles and notebooks published"
-                />
-                <StatItem 
-                    number="10+" 
-                    description="papers published in top-tier conferences"
-                />
+                {items.map((item, index) => <StatItem key={index} {...item} />)}
             </div>
-        </main>
+        </div>
     );
 }

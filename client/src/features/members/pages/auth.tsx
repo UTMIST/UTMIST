@@ -360,7 +360,7 @@ export default function AuthPage() {
                       setShowResendConfirmation(false);
                       setShowForgotPassword(false);
                     }}
-                    className="font-medium text-[var(--secondary)] hover:opacity-80 transition-opacity"
+                    className="inline-flex min-h-11 min-w-11 items-center justify-center px-1 align-middle font-medium text-[var(--secondary)] hover:opacity-80 transition-opacity"
                   >
                     Create an account
                   </button>
@@ -376,7 +376,7 @@ export default function AuthPage() {
                       setShowResendConfirmation(false);
                       setShowForgotPassword(false);
                     }}
-                    className="font-medium text-[var(--secondary)] hover:opacity-80 transition-opacity"
+                    className="inline-flex min-h-11 min-w-11 items-center justify-center px-1 align-middle font-medium text-[var(--secondary)] hover:opacity-80 transition-opacity"
                   >
                     Log in
                   </button>
@@ -396,7 +396,7 @@ export default function AuthPage() {
                   <button
                     onClick={handleResendConfirmation}
                     disabled={resendingConfirmation || !formData.email}
-                    className="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="inline-flex min-h-11 items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {resendingConfirmation
                       ? "Sending..."
@@ -484,7 +484,7 @@ export default function AuthPage() {
                   <button
                     type="button"
                     onClick={() => setShowForgotPassword(true)}
-                    className="text-sm text-[var(--secondary)] hover:opacity-80 transition-opacity"
+                    className="inline-flex min-h-11 items-center px-1 text-sm text-[var(--secondary)] hover:opacity-80 transition-opacity"
                   >
                     Forgot your password?
                   </button>
@@ -500,14 +500,14 @@ export default function AuthPage() {
                     type="button"
                     onClick={handleForgotPassword}
                     disabled={sendingPasswordReset || !formData.email}
-                    className="inline-flex items-center px-3 py-2 border border-blue-600 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed mr-2"
+                    className="inline-flex min-h-11 items-center px-3 py-2 border border-blue-600 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed mr-2"
                   >
                     {sendingPasswordReset ? "Sending..." : "Send Reset Link"}
                   </button>
                   <button
                     type="button"
                     onClick={() => setShowForgotPassword(false)}
-                    className="text-sm font-medium text-blue-800 hover:text-blue-950"
+                    className="inline-flex min-h-11 min-w-11 items-center justify-center px-1 text-sm font-medium text-blue-800 hover:text-blue-950"
                   >
                     Cancel
                   </button>

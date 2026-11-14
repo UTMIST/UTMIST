@@ -10,10 +10,15 @@ jest.mock("next/script", () => ({ __esModule: true, default: () => null }));
 jest.mock("@/shared/ui", () => ({ Footer: () => null }));
 jest.mock("@/shared/ui/client", () => ({
   Navbar: () => null,
+  SiteFooter: () => null,
   ScrollToTop: () => null,
   HideOnEigenAI: ({ children }: { children: ReactNode }) => children,
 }));
 jest.mock("react-hot-toast", () => ({ Toaster: () => null }));
+
+jest.mock("@/shared/lib/server", () => ({
+  isWebRedesignEnabled: async () => false,
+}));
 
 import RootLayout from "@/app/(frontend)/layout";
 
@@ -38,7 +43,7 @@ describe("frontend toolbar visibility", () => {
     else delete process.env.VERCEL_ENV;
 
     const markup = renderToStaticMarkup(
-      RootLayout({ children: <main>Page content</main> }),
+      await RootLayout({ children: <main>Page content</main> }),
     );
 
     expect(markup).toContain("Page content");

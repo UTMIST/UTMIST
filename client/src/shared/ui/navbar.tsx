@@ -7,13 +7,18 @@ import logo from "../../assets/logos/utmist-logo-small.svg";
 import { useState, useEffect, useRef } from "react";
 import { useUser } from "@/shared/lib/client";
 import { Button } from "./button";
+import RedesignedNavbar from "./redesigned-navbar";
 
 const programLinks = [
   { href: "/startups", label: "MISTic R&D" },
   { href: "/ml-fundamentals", label: "MLF" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ redesignEnabled = false }: { redesignEnabled?: boolean }) {
+  return redesignEnabled ? <RedesignedNavbar /> : <LegacyNavbar />;
+}
+
+function LegacyNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isProgramsOpen, setIsProgramsOpen] = useState(false);
   const [isMobileProgramsOpen, setIsMobileProgramsOpen] = useState(false);

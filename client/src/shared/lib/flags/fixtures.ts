@@ -1,14 +1,9 @@
-// src/shared/lib/flags/fixtures.ts — deterministic synthetic adapters.
+// Deterministic, in-memory implementations of FlagAdapter and BetaPreferenceStore.
+// Fixed synthetic seeds make examples and tests reproducible without a network
+// or database. Preference writes live only for the lifetime of the process.
 //
-// These satisfy the same interfaces (`FlagAdapter`, `BetaPreferenceStore`) as
-// the real adapters shipped later by #287/#447 (Vercel Flags) and #289
-// (Supabase), so server/client examples and the opt-in UI (#290) can be built
-// with no provider. They hold state in memory only — no network, no database —
-// and are seeded with fixed data so behaviour is reproducible in tests.
-//
-// `./provider` selects these only for local/test runs without Vercel context
-// or provider credentials. Production never uses them. Feature code calls the
-// shared server evaluator rather than importing fixtures directly.
+// `./provider` selects the flag fixture only without Vercel context or provider
+// credentials. Feature code uses the shared server API, not these fixtures directly.
 
 import type {
   BetaPreferenceStore,
@@ -40,6 +35,7 @@ const COHORT_RANK: Record<Cohort, number> = {
 const DEFAULT_FLAGS: Readonly<Record<string, FixtureFlag>> = {
   showDemoBanner: { enabled: true },
   "CMS-Access": { enabled: false },
+  "Web-Redesign": { enabled: false },
   betaFeature: { enabled: true, minCohort: "member" },
   disabledExample: { enabled: false },
 };
@@ -75,7 +71,6 @@ export const fixtureFlagAdapter: FlagAdapter = createFixtureFlagAdapter();
  * Default seed of beta preferences, keyed by user id:
  * - `user-opted-in`  → opted in.
  * - `user-opted-out` → opted out.
- * - `user-admin`     → admin (may edit any preference).
  * Any other id has no stored preference (`get` → `null`).
  */
 const DEFAULT_PREFERENCES: Readonly<Record<string, boolean>> = {
@@ -90,8 +85,8 @@ const DEFAULT_ADMIN_IDS: readonly string[] = ["user-admin"];
  * Build a deterministic in-memory `BetaPreferenceStore` with fresh state, so
  * tests do not leak writes between cases.
  *
- * Authorization mirrors the real contract (#289): a member may only edit their
- * own preference (`actorId === targetUserId`) unless they are an admin. An
+ * A member may only edit their own preference (`actorId === targetUserId`)
+ * unless they are an admin. An
  * absent actor is `unauthenticated`; any other cross-user write is `denied`.
  */
 export function createFixtureBetaStore(

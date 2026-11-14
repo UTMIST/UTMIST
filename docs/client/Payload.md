@@ -1,14 +1,24 @@
 # Payload CMS
 
+See [CMS content structure](CMSStructure.md) for the agreed page templates,
+shared collections, editor organization, and publishing model that guide the
+site content migration.
+
 Payload 3 is embedded in the existing Next.js application. It provides a
-local content dashboard and API, but no public UTMIST page reads from it yet.
-That separation is intentional for the foundation work in issue #345.
+content dashboard and API backed by Postgres. Issue #346 connects the homepage
+introduction and statistics to a reusable typed reader during explicitly
+enabled local development. Issue #495 extends that source selection to Vercel
+Preview only. See the [content reader recipe](ContentReader.md) to create the
+`home-impact` record and verify an edit. The CMS database connection uses the
+existing UTMIST Supabase project. Production continues using the existing
+static content regardless of the CMS flag.
 
 This implementation records the choices requested by
 [the integration decision task (#344)](https://github.com/UTMIST/UTMIST/issues/344):
 Payload is embedded in `client/`, deploys with the existing Vercel app, uses a
 dedicated Postgres schema and editor user collection, and proves the runtime
-through the `proofs` collection without selecting a public render surface yet.
+through the `proofs` collection. The `content-sections` collection now supplies
+the local homepage example.
 
 ## Routes
 
@@ -66,22 +76,26 @@ values, and stale cached definitions deny access. Keep the existing
 definitions cannot become a fallback.
 
 When enabled, Payload's editor authentication and collection permissions still
-apply. `Proofs.access.read` currently permits anonymous reads, including drafts.
+apply. `Proofs.access.read` permits anonymous reads, including drafts; it is
+the original foundation smoke-test collection. `content-sections` exposes only
+published records to anonymous/non-editor readers. Only authenticated
+`cms-users` editors may create, update, or delete content sections; they may
+also read drafts. The public reader always uses anonymous access, even when
+the visitor has an editor cookie. See [read and write policy](ContentReader.md#read-and-write-policy).
 The availability flag does not restrict those reads to Angela or other editors.
 Keep Production Off while the foundation is unfinished. Enable Development or
 Preview only for intended testing with synthetic data. No verified per-person
 targeting is implemented; the evaluator uses anonymous server context and does
 not accept identity claims from request bodies or cookies.
 
-### Dashboard configuration verified on October 10, 2026
+### Dashboard configuration
 
-The existing flag has no targeting rules or environment reuse. Development and
-Preview are paused with both paused outcome and fallthrough set to **On**;
-Production is paused with both outcomes **Off**. “Paused” alone does not mean
-Off: the provider serves the configured paused outcome. These dashboard values
-were inspected, not changed by this implementation. They override the code's
-fallback default while provider evaluation is healthy. Review them before
-deploying; use Off outside deliberate CMS testing.
+Check the target environment's flag value, paused outcome, fallthrough, targeting
+rules, and environment reuse before testing. A paused flag still serves its
+configured paused outcome; paused does not imply Off. Provider values override
+the code's fallback default while evaluation is healthy. Use Off outside deliberate
+CMS testing, and record environment-specific verification in the relevant issue
+or PR rather than hard-coding a dashboard snapshot here.
 
 Vercel deployments use request-time OIDC with the existing core adapter; no
 manual `FLAGS` key or new environment variable is required. `FLAGS_SECRET`
@@ -132,18 +146,78 @@ Jest layout mocks so an unguarded built-in action cannot be hidden by them.
 The test uses signed local overrides and an unreachable synthetic database;
 it does not verify live Vercel propagation or require Development keys.
 
-## Database isolation
+## Database connection
 
-For issue #345, `PAYLOAD_DATABASE_URI` points to a standalone local Postgres
-database. It does not point to Supabase. The adapter is additionally fixed to
-the dedicated `payload` schema, so all CMS tables and development migrations
-remain isolated from the application's Supabase `public` schema.
+The hosted CMS uses the existing **UTMIST Website** Supabase project.
+Production uses `gqqgsvhzonratwkmjiji`; Preview and Development use its persistent
+`testing` branch, `lrbvknlviodxhhuautfi`. Local development can use either that
+shared testing database or the standalone Compose database described below.
+See [environment setup](Environments.md) for credentials and compute billing.
 
-Development mode uses Payload's schema push workflow. Treat this local
-database as disposable and never substitute a production database URI.
-Connecting Payload to a hosted database, running hosted migrations, and adding
-hosted proof data are deliberately deferred to the isolated-environment
-verification task.
+Payload connects directly through its Postgres adapter, not through the
+Supabase browser API. The adapter is fixed to the `payload` schema. The
+`utmist_payload` login owns that schema and its tables, has no application
+table grants in `public`, `auth`, or `storage`, and has no superuser, role
+creation, database creation, or RLS bypass privileges. Supabase's `postgres`
+operator can administer the CMS role; the CMS role is not a member of
+`postgres`. The schema is not exposed through the Supabase Data API, and
+`anon`, `authenticated`, and `service_role` have no schema access.
+
+The connection uses the project's IPv4 session pooler at
+`aws-0-us-east-2.pooler.supabase.com:5432`, database `postgres`, and username
+`utmist_payload.<project-ref>` for the selected environment. Each Payload process uses at most three
+connections, with a ten-second connection timeout and twenty-second idle
+timeout. Supabase connections verify the certificate and hostname against
+the public Supabase Root 2021 CA bundled in `src/cms/supabase-ca.ts`.
+URI SSL options cannot disable this verification. Refresh the bundled CA when
+Supabase's trust chain changes or before the certificate expires. See
+[Supabase TLS configuration](https://supabase.com/docs/guides/platform/ssl-enforcement).
+
+Vercel Production has its own database URI and signing secret. Preview and
+Development share testing credentials, CMS records, and editor accounts;
+they do not share Production's database or signing secret. Development values
+can be pulled by authorized developers from `utmist-infrastructure/client`.
+Use synthetic records and remove only records created by your test.
+
+GitHub CI builds use Preview environment secrets. Production deployments use
+Production environment secrets restricted to `main`. CI creates Previews only
+for eligible same-repository PRs, excluding forks and Dependabot. See the
+[environment guide](Environments.md#ci-guard-and-rollout) for target checks and
+the procedure for refreshing deployments after credential changes. The hosted
+editor walkthrough and source selection are documented in the
+[hosted Preview edit proof](ContentReader.md#hosted-preview-edit-proof).
+
+`CMS-Access` remains a separate availability gate. Connecting the database does
+not enable the dashboard. In Preview, enabling the flag also opts the homepage
+into the hosted content reader; Production always keeps static homepage content.
+Keep Production Off until an intended editor is bootstrapped through a
+controlled server-side operation; do not publicly expose an empty CMS's
+first-user form.
+
+### Hosted migrations
+
+Hosted connections never use Payload's automatic development schema push,
+even under `npm run dev`. Schema push is enabled only in standalone development
+against a loopback Postgres URI without query parameters. Builds and requests
+do not run migrations or create databases.
+
+The checked-in initial migration under `client/src/cms/migrations/` creates
+only `payload` objects. The schema and its owning login must already exist.
+Apply reviewed migrations explicitly using the CMS login, before deploying
+code that needs them. With Node 24, from `client/`, using an ignored,
+access-controlled env file containing `PAYLOAD_DATABASE_URI` and `PAYLOAD_SECRET`:
+
+```bash
+NODE_ENV=production node --env-file=.env.payload-hosted.local node_modules/payload/bin.js migrate:status
+NODE_ENV=production node --env-file=.env.payload-hosted.local node_modules/payload/bin.js migrate
+```
+
+That custom env file is not automatically loaded by `npm run dev`. Do not
+commit it. Never run `migrate:fresh`, `migrate:reset`, or schema push against
+the shared database. For subsequent collection changes, generate a migration
+with `npm run payload:migrate:create -- descriptive_name`, review its SQL,
+and test it in disposable local Postgres first. Keep migration argument
+imports type-only for Node 24's TypeScript runtime.
 
 ## Local setup
 
@@ -219,9 +293,10 @@ empty database, Payload creates its schema and prompts you to create the first
 editor. The dashboard then exposes the `CMS proofs` collection with required
 `title`, `message`, and `status` fields.
 
-No seed is required: proof records are synthetic and can be created directly
-in the dashboard. Do not connect this collection to public content pages until
-the shared content contract and isolated preview tasks are ready.
+No seed is required: records can be created directly in the dashboard. Use
+synthetic values in `Content Sections` with key `home-impact` for the homepage
+proof, following the [edit recipe](ContentReader.md#local-edit-proof). The
+original `CMS proofs` collection is not used by public content readers.
 
 ## Generated files and commands
 
@@ -235,7 +310,6 @@ npm run payload:generate-types
 npm run payload:generate-importmap
 ```
 
-The local Compose credentials are only for issue #345. A future hosted proof
-must configure both Payload variables in the applicable GitHub Actions and
-Vercel environments, use a different secret, and target an approved isolated
-database or database branch.
+Compose credentials are development-only. Hosted environments use the scoped
+Supabase login and environment-specific signing secrets described in
+[Database connection](#database-connection).

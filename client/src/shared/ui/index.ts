@@ -3,12 +3,21 @@
 // dependencies (no supabase, no radix popovers, no lucide).
 // Interactive chrome lives in ./client (import from "@/shared/ui/client").
 export * from "./button";
+export * from "./content-container";
+export * from "./card-link";
+export * from "./icon-button";
+export * from "./badge";
+export * from "./section";
+export * from "./section-intro";
 export * from "./input";
 export * from "./textarea";
 export * from "./eigenai-lockup";
 export * from "./eigenai-wordmark";
 export * from "./eigenai-concentric-rings";
 export * from "./eigenai-lambda-symbol";
+export * from "./eigenai-event-artwork";
 
 export { default as Footer } from "./footer";
 export { default as HeroSection } from "./heroSection";
+
+export { PillLink } from "./pill-link";
