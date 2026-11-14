@@ -86,6 +86,12 @@ the labels you'll filter by: `area`, priority (`P0` to `P3`), and `ready`.
 Blocked work is not a label — filter it out with `-is:blocked`, which GitHub
 computes from the dependency graph itself.
 
+The board follows explicitly linked PRs through development and review. Use
+`on hold` for a deliberate pause. `Closes #123` means the PR completes the whole
+issue; use `Part of #123` while separate acceptance remains. Weekly automation
+reports flag review queues, holds and epic acceptance candidates for human review.
+See the [automation runbook](../.github/PROJECT-BOARD.md).
+
 Two conventions on top of that:
 
 - **Default to work that lands in your own zones.** Issues aren't labeled by
