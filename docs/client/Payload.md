@@ -1,5 +1,9 @@
 # Payload CMS
 
+See [CMS content structure](CMSStructure.md) for the agreed page templates,
+shared collections, editor organization, and publishing model that guide the
+site content migration.
+
 Payload 3 is embedded in the existing Next.js application, with its editor and
 API backed by the existing Supabase project. The redesigned homepage consumes
 one published **Pages → Home** record in opted-in local development and
