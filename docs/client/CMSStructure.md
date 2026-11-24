@@ -30,8 +30,8 @@ For the running CMS, see [setup and migrations](Payload.md) and
 ## Collections and navigation
 
 The table defines the target admin groups, labels, identifiers, and content
-ownership. Review the source inventory in [#512][collections] to define each
-collection's fields, types, and validation before implementing it.
+ownership. The implemented fields, relationships, source inventory, and seed
+procedure are recorded in [CMS collections and seed](CMSCollections.md).
 
 | Admin group | Entry and identifier | What it stores |
 | --- | --- | --- |
