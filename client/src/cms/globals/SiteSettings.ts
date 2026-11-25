@@ -1,7 +1,10 @@
 import type { GlobalConfig } from "payload";
 
 import { isCmsEditor, publishedOrCmsEditor } from "../access.ts";
-import { validateHttpUrl } from "../fields.ts";
+import {
+  validateRequiredHttpUrl,
+  validateRequiredSiteUrl,
+} from "../fields.ts";
 
 export const SiteSettings: GlobalConfig = {
   slug: "site-settings",
@@ -22,9 +25,7 @@ export const SiteSettings: GlobalConfig = {
           name: "href",
           type: "text",
           required: true,
-          validate: (value: unknown) =>
-            (typeof value === "string" && value.startsWith("/")) ||
-            validateHttpUrl(value),
+          validate: validateRequiredSiteUrl,
         },
       ],
     },
@@ -37,7 +38,7 @@ export const SiteSettings: GlobalConfig = {
           name: "url",
           type: "text",
           required: true,
-          validate: validateHttpUrl,
+          validate: validateRequiredHttpUrl,
         },
       ],
     },

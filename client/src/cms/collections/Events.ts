@@ -1,7 +1,12 @@
 import type { CollectionConfig } from "payload";
 
 import { isCmsEditor, publishedOrCmsEditor } from "../access.ts";
-import { validateHttpUrl, validateSlug } from "../fields.ts";
+import {
+  validateHttpUrl,
+  validateRequiredHttpUrl,
+  validateSiteUrl,
+  validateSlug,
+} from "../fields.ts";
 
 export const Events: CollectionConfig = {
   slug: "events",
@@ -49,6 +54,7 @@ export const Events: CollectionConfig = {
     },
     { name: "venue", type: "text" },
     { name: "registrationUrl", type: "text", validate: validateHttpUrl },
+    { name: "destinationUrl", type: "text", validate: validateSiteUrl },
     { name: "instructor", type: "text" },
     {
       name: "tags",
@@ -69,7 +75,7 @@ export const Events: CollectionConfig = {
           name: "url",
           type: "text",
           required: true,
-          validate: validateHttpUrl,
+          validate: validateRequiredHttpUrl,
         },
       ],
     },

@@ -1,4 +1,5 @@
 import {
+  featuredEventSeedData,
   pageSeedData,
   partnerSeedData,
   personSeedData,
@@ -31,10 +32,12 @@ export interface SeedPayload {
     overrideAccess: true;
     where: Record<string, { equals: unknown }>;
   }): Promise<{ docs: Array<{ id: number | string }> }>;
-  findGlobal(args: {
+  findGlobalVersions(args: {
+    limit: 1;
     overrideAccess: true;
+    pagination: false;
     slug: "site-settings";
-  }): Promise<Record<string, unknown>>;
+  }): Promise<{ docs: unknown[] }>;
   updateGlobal(args: {
     data: Record<string, unknown>;
     draft: false;
@@ -237,8 +240,35 @@ export async function seedPublicContent(payload: SeedPayload): Promise<SeedResul
     );
   }
 
+  const featuredEventIds: Array<number | string> = [];
+  for (const event of featuredEventSeedData) {
+    const id = await createIfMissing(
+      payload,
+      "events",
+      "slug",
+      {
+        title: event.title,
+        slug: slugify(event.title),
+        kind: "program",
+        summary: event.summary,
+        destinationUrl: event.destinationUrl,
+      },
+      result,
+    );
+    featuredEventIds.push(id);
+  }
+
   for (const page of pageSeedData) {
-    await createIfMissing(payload, "pages", "slug", { ...page }, result);
+    await createIfMissing(
+      payload,
+      "pages",
+      "slug",
+      {
+        ...page,
+        ...(page.slug === "events" ? { featuredEvents: featuredEventIds } : {}),
+      },
+      result,
+    );
   }
 
   await createIfMissing(
@@ -254,11 +284,13 @@ export async function seedPublicContent(payload: SeedPayload): Promise<SeedResul
     result,
   );
 
-  const settings = await payload.findGlobal({
+  const settingsVersions = await payload.findGlobalVersions({
+    limit: 1,
     overrideAccess: true,
+    pagination: false,
     slug: "site-settings",
   });
-  if (settings.contactEmail) {
+  if (settingsVersions.docs.length > 0) {
     result.skipped += 1;
   } else {
     await payload.updateGlobal({

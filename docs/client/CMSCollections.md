@@ -43,7 +43,7 @@ editor-organization work.
 | Slug | Stable identity | Fields and relationships |
 | --- | --- | --- |
 | `pages` | `slug`, one record per fixed `template` | Title, introduction, FAQ, SEO metadata, sponsorship packages, and ordered selections of events, projects, posts, careers, startups, partners, and people |
-| `events` | `slug` | Kind, summary, machine dates or a legacy display date, venue, registration, instructor, tags, learning goals, resources, schedule; speaker role and sponsor tier stay on the relationship |
+| `events` | `slug` | Kind, summary, machine dates or a legacy display date, venue, registration and card destination links, instructor, tags, learning goals, resources, schedule; speaker role and sponsor tier stay on the relationship |
 | `projects` | `slug` | Name, description, category, image, repository URL, destination URL |
 | `posts` | external URL and `slug` | External article title, author byline, publication date, image; no hosted body |
 | `partners` | `slug` | Organization name, website, logo; tiers and placement stay on page/event relationships |
@@ -94,10 +94,11 @@ is absent. Re-running it reports existing records and never overwrites editor
 changes. It does not delete records and never reads `applicants.json`.
 
 The seed currently transfers the structured collection sources, page
-introductions, Home FAQ/impact content, startup/partner/person identities, and
-site settings. Page-specific long-form sections remain in code and stay the
-public source of truth until the content-transfer work connects and verifies
-each template.
+introductions, Home FAQ/impact content, startup/partner/person identities, the
+four Events page featured cards and their ordered page relationship, and site
+settings. Page-specific long-form sections remain in code and stay the public
+source of truth until the content-transfer work connects and verifies each
+template.
 
 When testing against shared Development or Preview, use synthetic records and
 do not run the seed unless the environment owner has explicitly approved that

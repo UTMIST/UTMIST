@@ -301,6 +301,7 @@ export interface Event {
   dateLabel?: string | null;
   venue?: string | null;
   registrationUrl?: string | null;
+  destinationUrl?: string | null;
   instructor?: string | null;
   tags?:
     | {
@@ -705,6 +706,7 @@ export interface EventsSelect<T extends boolean = true> {
   dateLabel?: T;
   venue?: T;
   registrationUrl?: T;
+  destinationUrl?: T;
   instructor?: T;
   tags?:
     | T

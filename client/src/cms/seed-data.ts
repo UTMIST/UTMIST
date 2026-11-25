@@ -3,6 +3,7 @@ import postsJson from "../assets/posts.json" with { type: "json" };
 import projects from "../assets/projects.json" with { type: "json" };
 import sponsorshipPackages from "../assets/sponsors.json" with { type: "json" };
 import {
+  featuredEvents,
   pastEvents,
   upcomingEvents,
 } from "../features/events/api/events.ts";
@@ -34,6 +35,25 @@ export const seedSourceData = {
   projects,
   sponsorshipPackages,
 };
+
+const featuredEventSummaries: Record<string, string> = {
+  "AI Squared":
+    "A machine-learning tournament where students build AI agents and learn from mentors.",
+  EigenAI: "UTMIST's flagship conference for AI and emerging technology.",
+  "GenAI Genesis":
+    "Canada's largest AI hackathon, bringing students together to build generative AI solutions.",
+  "Project Showcase": "A showcase of projects built by UTMIST teams.",
+};
+
+export const featuredEventSeedData = featuredEvents.map((event) => {
+  const title = event.title.replace(/\n/g, " ");
+
+  return {
+    title,
+    summary: featuredEventSummaries[title],
+    destinationUrl: event.url,
+  };
+});
 
 export const startupSeedData = [
   {

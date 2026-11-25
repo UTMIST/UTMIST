@@ -1,7 +1,7 @@
 import type { CollectionConfig } from "payload";
 
 import { isCmsEditor, publishedOrCmsEditor } from "../access.ts";
-import { validateHttpUrl, validateSlug } from "../fields.ts";
+import { validateRequiredHttpUrl, validateSlug } from "../fields.ts";
 
 export const Careers: CollectionConfig = {
   slug: "careers",
@@ -33,7 +33,7 @@ export const Careers: CollectionConfig = {
       name: "applicationUrl",
       type: "text",
       required: true,
-      validate: validateHttpUrl,
+      validate: validateRequiredHttpUrl,
     },
     { name: "opensAt", type: "date" },
     { name: "closesAt", type: "date" },

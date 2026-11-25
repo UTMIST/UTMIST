@@ -13,9 +13,10 @@ type StoredRecord = {
   data: Record<string, unknown>;
 };
 
-const createFakePayload = () => {
+const createFakePayload = (initialGlobalVersions: unknown[] = []) => {
   const records: StoredRecord[] = [];
   let settings: Record<string, unknown> = {};
+  const globalVersions = [...initialGlobalVersions];
 
   const payload: SeedPayload = {
     async create({ collection, data }) {
@@ -31,16 +32,22 @@ const createFakePayload = () => {
       );
       return { docs: match ? [{ id: records.indexOf(match) + 1 }] : [] };
     },
-    async findGlobal() {
-      return settings;
+    async findGlobalVersions() {
+      return { docs: globalVersions.slice(0, 1) };
     },
     async updateGlobal({ data }) {
       settings = data;
+      globalVersions.unshift({ version: data });
       return data;
     },
   };
 
-  return { payload, records, getSettings: () => settings };
+  return {
+    payload,
+    records,
+    getGlobalVersions: () => globalVersions,
+    getSettings: () => settings,
+  };
 };
 
 describe("Payload public content seed", () => {
@@ -71,6 +78,24 @@ describe("Payload public content seed", () => {
     expect(fake.records.some(({ collection }) => collection === "events")).toBe(
       true,
     );
+    const featuredEventSlugs = [
+      "eigenai",
+      "genai-genesis",
+      "ai-squared",
+      "project-showcase",
+    ];
+    const featuredEventIds = fake.records.flatMap((record, index) =>
+      record.collection === "events" &&
+      featuredEventSlugs.includes(String(record.data.slug))
+        ? [index + 1]
+        : [],
+    );
+    const eventsPage = fake.records.find(
+      ({ collection, data }) =>
+        collection === "pages" && data.slug === "events",
+    );
+    expect(featuredEventIds).toHaveLength(4);
+    expect(eventsPage?.data.featuredEvents).toEqual(featuredEventIds);
     const eventResources = fake.records
       .filter(({ collection }) => collection === "events")
       .flatMap(({ data }) =>
@@ -86,6 +111,23 @@ describe("Payload public content seed", () => {
       contactEmail: "utorontomist@gmail.com",
       _status: "published",
     });
+  });
+
+  it("preserves a draft-only Site Settings version", async () => {
+    const existingDraft = {
+      version: {
+        _status: "draft",
+        footerText: "Editor-owned draft footer",
+        navigation: [{ label: "Draft link", href: "/draft" }],
+      },
+    };
+    const fake = createFakePayload([existingDraft]);
+
+    const result = await seedPublicContent(fake.payload);
+
+    expect(result.skipped).toBe(1);
+    expect(fake.getSettings()).toEqual({});
+    expect(fake.getGlobalVersions()).toEqual([existingDraft]);
   });
 
   it("creates stable kebab-case identifiers", () => {

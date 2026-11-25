@@ -1,7 +1,7 @@
 import type { CollectionConfig } from "payload";
 
 import { isCmsEditor, publishedOrCmsEditor } from "../access.ts";
-import { validateHttpUrl, validateSlug } from "../fields.ts";
+import { validateRequiredHttpUrl, validateSlug } from "../fields.ts";
 
 export const Posts: CollectionConfig = {
   slug: "posts",
@@ -34,7 +34,7 @@ export const Posts: CollectionConfig = {
       type: "text",
       required: true,
       unique: true,
-      validate: validateHttpUrl,
+      validate: validateRequiredHttpUrl,
     },
     { name: "image", type: "relationship", relationTo: "media" },
   ],
