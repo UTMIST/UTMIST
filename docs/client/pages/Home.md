@@ -224,8 +224,10 @@ wave paths; the buttons, focus order and selected state are shared across layout
 MISTic R&D's four benefit descriptions stack below 375px so narrow phones have
 comfortable reading widths; larger screens retain the two-column benefit grid.
 
-The community statement is selectable HTML with decorative editor annotations,
-edge fading, and selection handles. Clean indigo streaks enter from both viewport
+The default community statement is selectable HTML with decorative editor
+annotations, edge fading, and selection handles. Edited statements wrap in
+solid indigo with the decorative toolbar above the text.
+Clean indigo streaks enter from both viewport
 edges and taper toward the highlighted phrase. Their 5em height adds dark colour
 without crossing the text. A lighter trailing stroke follows each streak;
 both follow the composition's tilt and scale to the side gutters.

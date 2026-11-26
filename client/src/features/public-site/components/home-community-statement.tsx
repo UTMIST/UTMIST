@@ -1,9 +1,14 @@
 import Image from "next/image";
 
+import { homePageContent } from "@/features/public-site/data/home-page";
+import { cn } from "@/shared/lib";
+
 /** Desktop community copy with decorative editor controls and paint streaks. */
 export default function HomeCommunityStatement({ text }: { text: string }) {
+  const hasCustomCopy = text !== homePageContent.events.communityStatement;
+
   return (
-    <div className="home-community-statement">
+    <div className={cn("home-community-statement", hasCustomCopy && "home-community-statement-custom")}>
       <div className="home-community-composition">
         <div className="home-community-meta" aria-hidden="true">
           <span className="home-community-caption">Our community, in focus</span>
@@ -58,11 +63,14 @@ export default function HomeCommunityStatement({ text }: { text: string }) {
           </div>
 
           <p className="home-community-text">
-            {text.split("\n").map((line, index) => (
-              <span key={index} className={line === "projects, research, workshops" ? "home-selection home-community-selection" : "home-community-line"}>
-                <span className={line === "projects, research, workshops" ? "home-community-selected-text" : undefined}>{line}</span>{" "}
-              </span>
-            ))}
+            {text.split("\n").map((line, index) => {
+              const selected = !hasCustomCopy && line === "projects, research, workshops";
+              return (
+                <span key={index} className={selected ? "home-selection home-community-selection" : "home-community-line"}>
+                  <span className={selected ? "home-community-selected-text" : undefined}>{line}</span>{" "}
+                </span>
+              );
+            })}
           </p>
         </div>
       </div>

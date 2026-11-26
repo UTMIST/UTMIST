@@ -260,6 +260,10 @@ html:has(.home-redesign) { position: relative; }
   box-shadow: 0 2px 6px color-mix(in srgb, var(--secondary) 12%, transparent);
   white-space: nowrap;
 }
+.home-community-statement-custom .home-community-toolbar {
+  position: static;
+  margin-bottom: 0.25em;
+}
 .home-community-tool-icon { width: 0.844em; }
 .home-community-tool-icon img,
 .home-community-refine img { max-width: 0.334em; max-height: 0.334em; }
@@ -290,6 +294,11 @@ html:has(.home-redesign) { position: relative; }
     var(--secondary) 63.675%,
     transparent 93.706%
   );
+}
+
+:where(.home-community-statement-custom) .home-community-text {
+  background-image: none;
+  color: var(--secondary);
 }
 
 .home-community-line { display: block; }
