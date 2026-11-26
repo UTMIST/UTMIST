@@ -40,6 +40,8 @@ const logoArtwork: Record<string, LogoArtwork> = {
   "cpsif": { ratio: 1, bounds: [0.12, 0.12, 0.76, 0.76] },
   "engsoc": { ratio: 273 / 399 },
   "compsci": { ratio: 1 },
+  "front-row-ventures": { ratio: 2882 / 1035 },
+  "forum-ventures": { ratio: 1844 / 1038 },
 };
 
 export default function SponsorMosaic({ sponsors }: { sponsors: HomePageContent["sponsors"]["items"] }) {

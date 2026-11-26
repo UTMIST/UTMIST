@@ -83,6 +83,20 @@ it("lists published partners marked for Home and uses their published logos", as
   expect(sponsors.items).toEqual([{ src: "/logo.svg", alt: "Example partner logo", href: "http://example.com/with%20space" }]);
 });
 
+it.each([
+  ["frv-black-logo.png", "front-row-ventures"],
+  ["forum-black-purple-logo.png", "forum-ventures"],
+])("can display a published partner using bundled logo %s", async (file, asset) => {
+  mockFind.mockResolvedValueOnce({ docs: [cmsHome] }).mockResolvedValueOnce({
+    docs: [{
+      ...publishedSponsor,
+      logo: { ...publishedSponsor.logo, source: `src/assets/photos/ventures/${file}` },
+    }],
+  });
+  const { sponsors } = await readHomePage();
+  expect(sponsors.items).toMatchObject([{ asset }]);
+});
+
 it("uses published event fields and omits unavailable event relationships", async () => {
   const page = structuredClone(cmsHome);
   const section = page.sections.find(section => section.items?.some(item => "event" in item));

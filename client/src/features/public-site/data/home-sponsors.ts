@@ -17,6 +17,8 @@ import cpsifLogo from "@/assets/logos/cpsif.svg";
 import engsocLogo from "@/assets/logos/engsoc.svg";
 import compsciLogo from "@/assets/logos/compsci.webp";
 import modalLogo from "@/assets/logos/modal.png";
+import frontRowVenturesLogo from "@/assets/photos/ventures/frv-black-logo.png";
+import forumVenturesLogo from "@/assets/photos/ventures/forum-black-purple-logo.png";
 
 import { homePageContent } from "@/features/public-site/data/home-page";
 
@@ -26,6 +28,7 @@ export const sponsorAssets = {
   tenstorrent: tenstorrentLogo, "aerocoustics-transparent": aerocousticsLogo, wombo: womboLogo,
   google: googleLogo, "pwc-transparent": pwcLogo, rbc: rbcLogo, edgeai: edgeAILogo,
   cgi: cgiLogo, cpsif: cpsifLogo, engsoc: engsocLogo, compsci: compsciLogo,
+  "front-row-ventures": frontRowVenturesLogo, "forum-ventures": forumVenturesLogo,
 };
 
 export const homeSponsors = homePageContent.sponsors.items.flatMap(item => "asset" in item

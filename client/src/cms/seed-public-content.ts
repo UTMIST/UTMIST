@@ -1,4 +1,4 @@
-import { sponsorAssetsBySource } from "../shared/lib/content/page-assets.ts";
+import { defaultHomeSponsorAssetsBySource } from "../shared/lib/content/page-assets.ts";
 
 import {
   featuredEventSeedData,
@@ -136,7 +136,13 @@ export async function seedPublicContent(payload: SeedPayload): Promise<SeedResul
       payload,
       "partners",
       "slug",
-      { name, slug: slugify(name), website, logo: logoId, showOnHome: Object.hasOwn(sponsorAssetsBySource, logoSource) },
+      {
+        name,
+        slug: slugify(name),
+        website,
+        logo: logoId,
+        showOnHome: Object.hasOwn(defaultHomeSponsorAssetsBySource, logoSource),
+      },
       result,
     );
   }
