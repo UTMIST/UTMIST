@@ -287,7 +287,7 @@ export interface Page {
           }
       )[]
     | null;
-  introduction: {
+  introduction?: {
     heading: string;
     description: string;
   };
