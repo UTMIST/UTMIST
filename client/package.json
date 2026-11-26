@@ -24,6 +24,7 @@
     "payload:migrate": "payload migrate",
     "payload:migrate:create": "payload migrate:create",
     "payload:migrate:status": "payload migrate:status",
+    "payload:seed": "payload seed",
     "payload:generate-types": "payload generate:types",
     "payload:generate-importmap": "payload generate:importmap"
   },

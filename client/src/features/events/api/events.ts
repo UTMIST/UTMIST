@@ -31,11 +31,11 @@ export interface FeaturedEvent {
 }
 
 // Mock data
-const upcomingEvents: UpcomingEvent[] = [
+export const upcomingEvents: UpcomingEvent[] = [
 
 ];
 
-const pastEvents: PastEvent[] = [
+export const pastEvents: PastEvent[] = [
   {
     id: 4,
     title: "Intro to RNNs & CNNs – Paper Reading Session",
@@ -443,7 +443,7 @@ const pastEvents: PastEvent[] = [
   
 ];
 
-const featuredEvents: FeaturedEvent[] = [
+export const featuredEvents: FeaturedEvent[] = [
   {
     title: "EigenAI",
     url: "/eigenai",

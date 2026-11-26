@@ -3,6 +3,8 @@
 See [CMS content structure](CMSStructure.md) for the agreed page templates,
 shared collections, editor organization, and publishing model that guide the
 site content migration.
+See [CMS collections and seed](CMSCollections.md) for the implemented slugs,
+field/relationship map, source inventory, media rules, and create-only seed.
 
 Payload 3 is embedded in the existing Next.js application. It provides a
 content dashboard and API backed by Postgres. Issue #346 connects the homepage
@@ -293,9 +295,10 @@ empty database, Payload creates its schema and prompts you to create the first
 editor. The dashboard then exposes the `CMS proofs` collection with required
 `title`, `message`, and `status` fields.
 
-No seed is required: records can be created directly in the dashboard. Use
-synthetic values in `Content Sections` with key `home-impact` for the homepage
-proof, following the [edit recipe](ContentReader.md#local-edit-proof). The
+Records can be created directly in the dashboard. To load the existing public
+content into an empty local database, apply migrations and run
+`npm run payload:seed`; the command is create-only and preserves existing
+editor changes. See the [seed procedure](CMSCollections.md#local-seed). The
 original `CMS proofs` collection is not used by public content readers.
 
 ## Generated files and commands

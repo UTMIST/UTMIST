@@ -70,6 +70,15 @@ export interface Config {
     'cms-users': CmsUser;
     proofs: Proof;
     'content-sections': ContentSection;
+    pages: Page;
+    events: Event;
+    projects: Project;
+    posts: Post;
+    partners: Partner;
+    people: Person;
+    careers: Career;
+    startups: Startup;
+    media: Media;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +89,15 @@ export interface Config {
     'cms-users': CmsUsersSelect<false> | CmsUsersSelect<true>;
     proofs: ProofsSelect<false> | ProofsSelect<true>;
     'content-sections': ContentSectionsSelect<false> | ContentSectionsSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    posts: PostsSelect<false> | PostsSelect<true>;
+    partners: PartnersSelect<false> | PartnersSelect<true>;
+    people: PeopleSelect<false> | PeopleSelect<true>;
+    careers: CareersSelect<false> | CareersSelect<true>;
+    startups: StartupsSelect<false> | StartupsSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -89,8 +107,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'site-settings': SiteSetting;
+  };
+  globalsSelect: {
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -185,6 +207,262 @@ export interface ContentSection {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  /**
+   * Use home for the root route.
+   */
+  slug: string;
+  template:
+    | 'home'
+    | 'departments'
+    | 'sponsors'
+    | 'projects'
+    | 'blog'
+    | 'startups'
+    | 'careers'
+    | 'events'
+    | 'ai2'
+    | 'eigenai'
+    | 'ml-fundamentals';
+  introduction: {
+    heading: string;
+    description: string;
+  };
+  faq?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  featuredEvents?: (number | Event)[] | null;
+  featuredProjects?: (number | Project)[] | null;
+  featuredPosts?: (number | Post)[] | null;
+  careerListings?: (number | Career)[] | null;
+  startupListings?: (number | Startup)[] | null;
+  partners?:
+    | {
+        partner: number | Partner;
+        /**
+         * For example, sponsorship package or tier.
+         */
+        context?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  sponsorshipPackages?:
+    | {
+        name: string;
+        price: number;
+        benefits?:
+          | {
+              benefit: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  people?:
+    | {
+        person: number | Person;
+        role: string;
+        id?: string | null;
+      }[]
+    | null;
+  metadata?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  title: string;
+  slug: string;
+  kind: 'event' | 'workshop' | 'program';
+  summary: string;
+  startsAt?: string | null;
+  endsAt?: string | null;
+  /**
+   * Displayed when the source does not provide a machine-readable date.
+   */
+  dateLabel?: string | null;
+  venue?: string | null;
+  registrationUrl?: string | null;
+  destinationUrl?: string | null;
+  instructor?: string | null;
+  tags?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  learningGoals?:
+    | {
+        goal: string;
+        id?: string | null;
+      }[]
+    | null;
+  resources?:
+    | {
+        title: string;
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  speakers?:
+    | {
+        person: number | Person;
+        role: string;
+        id?: string | null;
+      }[]
+    | null;
+  sponsors?:
+    | {
+        partner: number | Partner;
+        tier?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  schedule?:
+    | {
+        time: string;
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "people".
+ */
+export interface Person {
+  id: number;
+  name: string;
+  slug: string;
+  bio?: string | null;
+  photo?: (number | null) | Media;
+  profileUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  title: string;
+  kind: 'image' | 'document';
+  /**
+   * A repository public path or HTTPS URL. File uploads wait for durable storage work.
+   */
+  source: string;
+  altText?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners".
+ */
+export interface Partner {
+  id: number;
+  name: string;
+  slug: string;
+  website?: string | null;
+  logo?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  category:
+    'aiapps' | 'cvpr' | 'finml' | 'genai' | 'medai' | 'mlhealth' | 'mlops' | 'mlresearch' | 'mlrl' | 'nlp' | 'supvlr';
+  image?: (number | null) | Media;
+  repositoryUrl?: string | null;
+  destinationUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: number;
+  title: string;
+  slug: string;
+  author: string;
+  publishedAt: string;
+  externalUrl: string;
+  image?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "careers".
+ */
+export interface Career {
+  id: number;
+  title: string;
+  slug: string;
+  department: string;
+  division?: string | null;
+  description?: string | null;
+  applicationUrl: string;
+  opensAt?: string | null;
+  closesAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "startups".
+ */
+export interface Startup {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  logo?: (number | null) | Media;
+  website?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -218,6 +496,42 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'content-sections';
         value: number | ContentSection;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'posts';
+        value: number | Post;
+      } | null)
+    | ({
+        relationTo: 'partners';
+        value: number | Partner;
+      } | null)
+    | ({
+        relationTo: 'people';
+        value: number | Person;
+      } | null)
+    | ({
+        relationTo: 'careers';
+        value: number | Career;
+      } | null)
+    | ({
+        relationTo: 'startups';
+        value: number | Startup;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -316,6 +630,233 @@ export interface ContentSectionsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  template?: T;
+  introduction?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+      };
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  featuredEvents?: T;
+  featuredProjects?: T;
+  featuredPosts?: T;
+  careerListings?: T;
+  startupListings?: T;
+  partners?:
+    | T
+    | {
+        partner?: T;
+        context?: T;
+        id?: T;
+      };
+  sponsorshipPackages?:
+    | T
+    | {
+        name?: T;
+        price?: T;
+        benefits?:
+          | T
+          | {
+              benefit?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  people?:
+    | T
+    | {
+        person?: T;
+        role?: T;
+        id?: T;
+      };
+  metadata?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  kind?: T;
+  summary?: T;
+  startsAt?: T;
+  endsAt?: T;
+  dateLabel?: T;
+  venue?: T;
+  registrationUrl?: T;
+  destinationUrl?: T;
+  instructor?: T;
+  tags?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  learningGoals?:
+    | T
+    | {
+        goal?: T;
+        id?: T;
+      };
+  resources?:
+    | T
+    | {
+        title?: T;
+        url?: T;
+        id?: T;
+      };
+  speakers?:
+    | T
+    | {
+        person?: T;
+        role?: T;
+        id?: T;
+      };
+  sponsors?:
+    | T
+    | {
+        partner?: T;
+        tier?: T;
+        id?: T;
+      };
+  schedule?:
+    | T
+    | {
+        time?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  category?: T;
+  image?: T;
+  repositoryUrl?: T;
+  destinationUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  author?: T;
+  publishedAt?: T;
+  externalUrl?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners_select".
+ */
+export interface PartnersSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  website?: T;
+  logo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "people_select".
+ */
+export interface PeopleSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  bio?: T;
+  photo?: T;
+  profileUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "careers_select".
+ */
+export interface CareersSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  department?: T;
+  division?: T;
+  description?: T;
+  applicationUrl?: T;
+  opensAt?: T;
+  closesAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "startups_select".
+ */
+export interface StartupsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  logo?: T;
+  website?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  title?: T;
+  kind?: T;
+  source?: T;
+  altText?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -353,6 +894,58 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  contactEmail: string;
+  navigation?:
+    | {
+        label: string;
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  socialLinks?:
+    | {
+        label: string;
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  footerText: string;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  contactEmail?: T;
+  navigation?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  socialLinks?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+        id?: T;
+      };
+  footerText?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
