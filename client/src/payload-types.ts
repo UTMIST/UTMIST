@@ -239,6 +239,9 @@ export interface Page {
             communityStatement: string;
             listHeading: string;
             items: {
+              /**
+               * The published event supplies its destination or registration link.
+               */
               event: number | Event;
               category: string;
               artwork: 'eigenai' | 'cucai' | 'ai2' | 'genai-genesis';
