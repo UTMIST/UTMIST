@@ -59,7 +59,8 @@ sponsor logos, a public path, or an HTTPS URL. Alt text comes from Media,
 with the partner name as the default.
 
 Home chooses which Events records to feature and their order. The linked
-published record supplies the title, summary, and destination. Editors choose
+published record supplies the title and summary. Cards use the event's
+destination URL or its registration URL when the destination is unavailable. Editors choose
 the existing EigenAI, CUCAI, AI Squared, or GenAI artwork on the Home placement.
 An unavailable event is omitted from the listing. The About photo stays in code
 with editable alt text and caption.

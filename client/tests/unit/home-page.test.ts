@@ -70,7 +70,7 @@ it("reads newly published edits on the next request without caching", async () =
 it("lists published partners marked for Home and uses their published logos", async () => {
   mockFind.mockResolvedValueOnce({ docs: [cmsHome] }).mockResolvedValueOnce({
     docs: [
-      publishedSponsor,
+      { ...publishedSponsor, website: "http://example.com" },
       { ...publishedSponsor, _status: "draft" },
       { ...publishedSponsor, logo: { ...publishedSponsor.logo, _status: "draft" } },
     ],
@@ -80,7 +80,7 @@ it("lists published partners marked for Home and uses their published logos", as
     collection: "partners", where: { showOnHome: { equals: true }, _status: { equals: "published" } },
     overrideAccess: false, draft: false, depth: 1, pagination: false, sort: ["name", "id"],
   });
-  expect(sponsors.items).toEqual([{ src: "/logo.svg", alt: "Example partner logo", href: "https://example.com" }]);
+  expect(sponsors.items).toEqual([{ src: "/logo.svg", alt: "Example partner logo", href: "http://example.com" }]);
 });
 
 it("uses published event fields and omits unavailable event relationships", async () => {
@@ -93,6 +93,30 @@ it("uses published event fields and omits unavailable event relationships", asyn
   mockFind.mockResolvedValueOnce({ docs: [page] });
   const { events } = await readHomePage();
   expect(events.items.map(item => item.title)).toEqual(["Edited event", "AI Squared", "GenAI"]);
+});
+
+it("uses a published event's HTTP destination or registration link", async () => {
+  const page = {
+    sections: document.sections.map(section => section.blockType === "events"
+      ? {
+          ...section,
+          items: homePageContent.events.items.slice(0, 2).map((item, index) => ({
+            ...item,
+            event: {
+              _status: "published", id: index + 1, title: item.title, summary: item.description,
+              destinationUrl: index === 0 ? "http://example.com/event" : null,
+              registrationUrl: "https://example.com/register",
+            },
+          })),
+        }
+      : section),
+  };
+  mockFind.mockResolvedValueOnce({ docs: [page] });
+  const { events } = await readHomePage();
+  expect(events.items.map(item => item.href)).toEqual([
+    "http://example.com/event",
+    "https://example.com/register",
+  ]);
 });
 
 it.each(["off", "production"])("retains static content without querying Pages when %s", async mode => {

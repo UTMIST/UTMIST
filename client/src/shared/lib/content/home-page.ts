@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { statisticSchema } from "./types.ts";
-import { validateContentLink } from "./links.ts";
+import { isPublishedRecordLink, validateContentLink } from "./links.ts";
 import { sponsorAssetsBySource } from "./page-assets.ts";
 
 const bundledSponsorAssets = Object.values(sponsorAssetsBySource);
@@ -10,6 +10,7 @@ const sponsorAsset = z.enum(bundledSponsorAssets as [SponsorAsset, ...SponsorAss
 
 const text = z.string().trim().min(1);
 const href = text.refine(value => validateContentLink(value) === true, "Invalid content link");
+const recordHref = text.refine(isPublishedRecordLink, "Invalid shared record link");
 const link = z.object({ label: text, href });
 const intro = { eyebrow: text, heading: text, description: text };
 const hero = z.object({ blockType: z.literal("hero"), ...intro, links: z.array(link).min(1) });
@@ -26,8 +27,8 @@ const publicImage = text.refine(value =>
   "Use an HTTPS image URL or a public path",
 );
 const sponsorItem = z.union([
-  z.object({ asset: sponsorAsset, alt: text, href }),
-  z.object({ src: publicImage, alt: text, href }),
+  z.object({ asset: sponsorAsset, alt: text, href: recordHref }),
+  z.object({ src: publicImage, alt: text, href: recordHref }),
 ]);
 const sponsors = sponsorCopy.extend({ items: z.array(sponsorItem) });
 const eventCopy = z.object({
@@ -40,7 +41,7 @@ const eventPlacement = z.object({
 });
 const events = eventCopy.extend({
   items: z.array(eventPlacement.extend({
-    id: z.string().nullish(), title: text, description: text, href,
+    id: z.string().nullish(), title: text, description: text, href: recordHref,
   })),
 });
 const startups = z.object({
@@ -94,12 +95,13 @@ const publishedEvent = z.object({
   _status: z.literal("published"),
   title: text,
   summary: text,
-  destinationUrl: href,
+  destinationUrl: z.unknown(),
+  registrationUrl: z.unknown(),
 });
 const publishedPartner = z.object({
   _status: z.literal("published"),
   name: text,
-  website: href,
+  website: recordHref,
   logo: z.object({
     _status: z.literal("published"),
     kind: z.literal("image"),
@@ -135,8 +137,11 @@ export function withHomeRelationships(document: unknown, partners: unknown[]) {
         const items = placements.flatMap(({ event, ...placement }) => {
           const record = publishedEvent.safeParse(event);
           if (!record.success) return [];
-          const { id, title, summary, destinationUrl } = record.data;
-          return [{ ...placement, id: String(id), title, description: summary, href: destinationUrl }];
+          const { id, title, summary, destinationUrl, registrationUrl } = record.data;
+          const destination = recordHref.safeParse(destinationUrl);
+          const link = destination.success ? destination : recordHref.safeParse(registrationUrl);
+          if (!link.success) return [];
+          return [{ ...placement, id: String(id), title, description: summary, href: link.data }];
         });
         return { ...section, items };
       }

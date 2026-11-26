@@ -46,7 +46,10 @@ export const homeSections: Block[] = [
       {
         name: "items", type: "array", required: true, minRows: 1,
         fields: [
-          { name: "event", type: "relationship", relationTo: "events", required: true },
+          {
+            name: "event", type: "relationship", relationTo: "events", required: true,
+            admin: { description: "The published event supplies its destination or registration link." },
+          },
           textField("category"),
           {
             name: "artwork", type: "select", required: true,
