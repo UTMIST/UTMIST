@@ -102,7 +102,7 @@ export default async function RedesignedHome() {
 
       <Section variant="tinted" aria-labelledby="startups-heading" contentClassName="grid items-center gap-12 md:grid-cols-2 md:gap-16">
         <SectionIntro data-home-reveal headingId="startups-heading" label={startups.eyebrow} className="max-w-md"
-          title={<HomeCopy text={startups.heading} />} description={startups.description}>
+          title={<HomeCopy text={startups.heading} breakOnMobile />} description={startups.description}>
           <PillLink href={startups.cta.href}>{startups.cta.label}</PillLink>
         </SectionIntro>
         <div data-home-stagger="row" className="grid grid-cols-1 gap-x-6 gap-y-9 min-[375px]:grid-cols-2">
