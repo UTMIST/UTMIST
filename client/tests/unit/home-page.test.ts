@@ -70,7 +70,11 @@ it("reads newly published edits on the next request without caching", async () =
 it("lists published partners marked for Home and uses their published logos", async () => {
   mockFind.mockResolvedValueOnce({ docs: [cmsHome] }).mockResolvedValueOnce({
     docs: [
-      { ...publishedSponsor, website: "http://example.com/with space" },
+      {
+        ...publishedSponsor,
+        website: "http://example.com/with space",
+        logo: { ...publishedSponsor.logo, source: "HTTPS://example.com/my logo.svg" },
+      },
       { ...publishedSponsor, _status: "draft" },
       { ...publishedSponsor, logo: { ...publishedSponsor.logo, _status: "draft" } },
     ],
@@ -80,7 +84,11 @@ it("lists published partners marked for Home and uses their published logos", as
     collection: "partners", where: { showOnHome: { equals: true }, _status: { equals: "published" } },
     overrideAccess: false, draft: false, depth: 1, pagination: false, sort: ["name", "id"],
   });
-  expect(sponsors.items).toEqual([{ src: "/logo.svg", alt: "Example partner logo", href: "http://example.com/with%20space" }]);
+  expect(sponsors.items).toEqual([{
+    src: "https://example.com/my%20logo.svg",
+    alt: "Example partner logo",
+    href: "http://example.com/with%20space",
+  }]);
 });
 
 it.each([
