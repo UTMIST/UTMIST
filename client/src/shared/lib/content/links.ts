@@ -1,20 +1,37 @@
-function isContentLink(value: unknown, allowHttp: boolean) {
-  if (typeof value !== "string" || /[\s\\]/.test(value)) return false;
+export function validateContentLink(value: unknown): true | string {
+  const message = "Enter a site path, HTTPS URL, or email link";
+  if (typeof value !== "string" || /[\s\\]/.test(value)) return message;
   if (/^\/(?!\/)/.test(value) || /^mailto:[^@]+@[^@]+$/.test(value)) return true;
   try {
     const url = new URL(value);
-    return (url.protocol === "https:" || (allowHttp && url.protocol === "http:"))
-      && Boolean(url.hostname) && !url.username && !url.password;
+    if (url.protocol === "https:" && url.hostname && !url.username && !url.password) return true;
   } catch {
-    return false;
+    return message;
   }
+  return message;
 }
 
-export function validateContentLink(value: unknown): true | string {
-  return isContentLink(value, false) || "Enter a site path, HTTPS URL, or email link";
-}
+const localOrigin = "https://utmist.invalid";
 
-/** Shared records already support HTTP and HTTPS destinations. */
-export function isPublishedRecordLink(value: string): boolean {
-  return isContentLink(value, true);
+/** Normalize shared links to the form a browser will navigate to. */
+export function normalizePublishedRecordLink(value: unknown, allowSitePath = true): string | null {
+  if (typeof value !== "string") return null;
+  const input = value.trim();
+
+  try {
+    if (allowSitePath && input.startsWith("/")) {
+      if (input.startsWith("//") || /[\r\n\t\\]/.test(input)) return null;
+      const url = new URL(input, localOrigin);
+      if (url.origin !== localOrigin || url.pathname.startsWith("//")) return null;
+      return url.href.slice(localOrigin.length);
+    }
+
+    const url = new URL(input);
+    if ((url.protocol === "https:" || url.protocol === "http:") && !url.username && !url.password) {
+      return url.href;
+    }
+  } catch {
+    return null;
+  }
+  return null;
 }

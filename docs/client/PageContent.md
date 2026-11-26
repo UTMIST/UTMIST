@@ -92,6 +92,8 @@ already ran the superseded #518 page migrations, export its editorial content
 and use a clean #521-based testing database before applying this branch’s
 migration. The two migration histories both create `pages`.
 
+Follow [local setup](Payload.md#local-setup), including
+[creating the Payload schema](Payload.md#initialize-the-migration-schema).
 With local Payload environment variables exported, run from `client/`:
 
 ```bash

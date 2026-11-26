@@ -271,6 +271,17 @@ different value in every future hosted environment.
 It contains only development credentials. Do not replace it with
 `NEXT_PUBLIC_SUPABASE_URL` or a Supabase API key.
 
+### Initialize the migration schema
+
+A fresh database needs the `payload` schema before the first checked-in
+migration. From `client/`, create it in the local Compose database as its
+owning user:
+
+```bash
+docker compose -f compose.payload.yml exec -T payload-postgres \
+  psql -v ON_ERROR_STOP=1 -U payload -d utmist_payload -c 'CREATE SCHEMA IF NOT EXISTS payload'
+```
+
 ### Start Payload
 
 With Postgres healthy and the environment variables saved, start the normal

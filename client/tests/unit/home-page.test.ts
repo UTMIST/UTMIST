@@ -70,7 +70,7 @@ it("reads newly published edits on the next request without caching", async () =
 it("lists published partners marked for Home and uses their published logos", async () => {
   mockFind.mockResolvedValueOnce({ docs: [cmsHome] }).mockResolvedValueOnce({
     docs: [
-      { ...publishedSponsor, website: "http://example.com" },
+      { ...publishedSponsor, website: "http://example.com/with space" },
       { ...publishedSponsor, _status: "draft" },
       { ...publishedSponsor, logo: { ...publishedSponsor.logo, _status: "draft" } },
     ],
@@ -80,7 +80,7 @@ it("lists published partners marked for Home and uses their published logos", as
     collection: "partners", where: { showOnHome: { equals: true }, _status: { equals: "published" } },
     overrideAccess: false, draft: false, depth: 1, pagination: false, sort: ["name", "id"],
   });
-  expect(sponsors.items).toEqual([{ src: "/logo.svg", alt: "Example partner logo", href: "http://example.com" }]);
+  expect(sponsors.items).toEqual([{ src: "/logo.svg", alt: "Example partner logo", href: "http://example.com/with%20space" }]);
 });
 
 it("uses published event fields and omits unavailable event relationships", async () => {
@@ -95,17 +95,17 @@ it("uses published event fields and omits unavailable event relationships", asyn
   expect(events.items.map(item => item.title)).toEqual(["Edited event", "AI Squared", "GenAI"]);
 });
 
-it("uses a published event's HTTP destination or registration link", async () => {
+it("normalizes a published event's destination or registration link", async () => {
   const page = {
     sections: document.sections.map(section => section.blockType === "events"
       ? {
           ...section,
-          items: homePageContent.events.items.slice(0, 2).map((item, index) => ({
+          items: homePageContent.events.items.slice(0, 3).map((item, index) => ({
             ...item,
             event: {
               _status: "published", id: index + 1, title: item.title, summary: item.description,
-              destinationUrl: index === 0 ? "http://example.com/event" : null,
-              registrationUrl: "https://example.com/register",
+              destinationUrl: ["http://example.com/my event", "/events/my event?year=2026#info", null][index],
+              registrationUrl: "https://example.com/register here",
             },
           })),
         }
@@ -114,8 +114,9 @@ it("uses a published event's HTTP destination or registration link", async () =>
   mockFind.mockResolvedValueOnce({ docs: [page] });
   const { events } = await readHomePage();
   expect(events.items.map(item => item.href)).toEqual([
-    "http://example.com/event",
-    "https://example.com/register",
+    "http://example.com/my%20event",
+    "/events/my%20event?year=2026#info",
+    "https://example.com/register%20here",
   ]);
 });
 

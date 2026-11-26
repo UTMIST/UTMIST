@@ -1,3 +1,5 @@
+import { normalizePublishedRecordLink } from "../shared/lib/content/links.ts";
+
 export const validateSlug = (value: unknown) =>
   (typeof value === "string" &&
     /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value)) ||
@@ -37,6 +39,16 @@ export const validateRequiredSiteUrl = (value: unknown) => {
 
   return validateSiteUrl(value);
 };
+
+export const validateRecordWebsite = (value: unknown) =>
+  value === null || value === undefined || value === ""
+  || normalizePublishedRecordLink(value, false) !== null
+  || "Enter an HTTP(S) URL without credentials";
+
+export const validateRecordDestination = (value: unknown) =>
+  value === null || value === undefined || value === ""
+  || normalizePublishedRecordLink(value) !== null
+  || "Enter a site path or an HTTP(S) URL without credentials";
 
 export const validatePublicAsset = (value: unknown) => {
   if (typeof value !== "string" || value === "") {

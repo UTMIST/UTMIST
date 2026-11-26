@@ -1,6 +1,7 @@
 import type { AccessArgs, Payload } from "payload";
 
 import { Pages } from "@/cms/collections/Pages";
+import { validateRecordDestination, validateRecordWebsite } from "@/cms/fields";
 import { validateContentLink } from "@/cms/page-fields";
 import { assertLocalSeedTarget, assertTestingSeedTarget, seedHomePage } from "@/cms/seeds/seed-home";
 
@@ -58,6 +59,26 @@ describe("content links", () => {
   it.each(["", "javascript:alert(1)", "data:text/html,test", "//example.com", "/\\example.com", "https://user:pass@example.com", "https://example.com\n", "not a url"])("rejects %s", (href) => {
     expect(validateContentLink(href)).not.toBe(true);
   });
+});
+
+describe("shared record links", () => {
+  it.each(["http://example.com/with space", "https://example.com/event"])("accepts %s for websites and destinations", (href) => {
+    expect(validateRecordWebsite(href)).toBe(true);
+    expect(validateRecordDestination(href)).toBe(true);
+  });
+
+  it("accepts root-relative paths for event destinations", () => {
+    expect(validateRecordDestination("/events/my event#info")).toBe(true);
+    expect(validateRecordWebsite("/events/my event#info")).not.toBe(true);
+  });
+
+  it.each(["//example.com", "/\\example.com", "/path/..//example.com", "https://user:pass@example.com", "javascript:alert(1)"])(
+    "rejects ambiguous or unsafe links such as %s",
+    (href) => {
+      expect(validateRecordDestination(href)).not.toBe(true);
+      expect(validateRecordWebsite(href)).not.toBe(true);
+    },
+  );
 });
 
 describe("homepage seed", () => {

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { statisticSchema } from "./types.ts";
-import { isPublishedRecordLink, validateContentLink } from "./links.ts";
+import { normalizePublishedRecordLink, validateContentLink } from "./links.ts";
 import { sponsorAssetsBySource } from "./page-assets.ts";
 
 const bundledSponsorAssets = Object.values(sponsorAssetsBySource);
@@ -10,7 +10,12 @@ const sponsorAsset = z.enum(bundledSponsorAssets as [SponsorAsset, ...SponsorAss
 
 const text = z.string().trim().min(1);
 const href = text.refine(value => validateContentLink(value) === true, "Invalid content link");
-const recordHref = text.refine(isPublishedRecordLink, "Invalid shared record link");
+const recordHref = text.transform((value, ctx) => {
+  const normalized = normalizePublishedRecordLink(value);
+  if (normalized !== null) return normalized;
+  ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Invalid shared record link" });
+  return z.NEVER;
+});
 const link = z.object({ label: text, href });
 const intro = { eyebrow: text, heading: text, description: text };
 const hero = z.object({ blockType: z.literal("hero"), ...intro, links: z.array(link).min(1) });
@@ -22,8 +27,8 @@ const impact = z.object({
 });
 const mission = z.object({ blockType: z.literal("mission"), ...intro, cta: link });
 const sponsorCopy = z.object({ blockType: z.literal("sponsors"), ...intro, cta: link });
-const publicImage = text.refine(value =>
-  /^(https:\/\/|\/(?!\/))/.test(value) && validateContentLink(value) === true,
+const publicImage = recordHref.refine(value =>
+  value.startsWith("https://") || value.startsWith("/"),
   "Use an HTTPS image URL or a public path",
 );
 const sponsorItem = z.union([
