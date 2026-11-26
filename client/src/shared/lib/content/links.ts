@@ -1,14 +1,13 @@
+export function normalizeContentLink(value: unknown): string | null {
+  if (typeof value !== "string" || /[\s\\]/.test(value)) return null;
+  if (/^mailto:[^@]+@[^@]+$/.test(value)) return value;
+
+  const link = normalizePublishedRecordLink(value);
+  return link && (link.startsWith("/") || link.startsWith("https://")) ? link : null;
+}
+
 export function validateContentLink(value: unknown): true | string {
-  const message = "Enter a site path, HTTPS URL, or email link";
-  if (typeof value !== "string" || /[\s\\]/.test(value)) return message;
-  if (/^\/(?!\/)/.test(value) || /^mailto:[^@]+@[^@]+$/.test(value)) return true;
-  try {
-    const url = new URL(value);
-    if (url.protocol === "https:" && url.hostname && !url.username && !url.password) return true;
-  } catch {
-    return message;
-  }
-  return message;
+  return normalizeContentLink(value) !== null || "Enter a site path, HTTPS URL, or email link";
 }
 
 const localOrigin = "https://utmist.invalid";

@@ -174,6 +174,15 @@ it("rejects unsafe links and unknown assets before rendering", () => {
   }
 });
 
+it("renders an accepted HTTPS CTA as an absolute URL", () => {
+  const sections = document.sections.map(section => section.blockType === "hero"
+    ? { ...section, links: [{ label: "Visit", href: "https:example.com/visit" }] }
+    : section);
+
+  const page = homePageSchema.parse({ sections });
+  expect(page.hero.links[0].href).toBe("https://example.com/visit");
+});
+
 describe("homepage publication structure", () => {
   const field = Pages.fields.find(field => "name" in field && field.name === "sections");
   if (!field || field.type !== "blocks" || !field.validate) throw new Error("Missing section validation");

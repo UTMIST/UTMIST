@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { statisticSchema } from "./types.ts";
-import { normalizePublishedRecordLink, validateContentLink } from "./links.ts";
+import { normalizeContentLink, normalizePublishedRecordLink } from "./links.ts";
 import { sponsorAssetsBySource } from "./page-assets.ts";
 
 const bundledSponsorAssets = Object.values(sponsorAssetsBySource);
@@ -9,13 +9,16 @@ type SponsorAsset = (typeof bundledSponsorAssets)[number];
 const sponsorAsset = z.enum(bundledSponsorAssets as [SponsorAsset, ...SponsorAsset[]]);
 
 const text = z.string().trim().min(1);
-const href = text.refine(value => validateContentLink(value) === true, "Invalid content link");
-const recordHref = text.transform((value, ctx) => {
-  const normalized = normalizePublishedRecordLink(value);
-  if (normalized !== null) return normalized;
-  ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Invalid shared record link" });
-  return z.NEVER;
-});
+function linkSchema(normalize: (value: string) => string | null) {
+  return text.transform((value, ctx) => {
+    const normalized = normalize(value);
+    if (normalized !== null) return normalized;
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Invalid content link" });
+    return z.NEVER;
+  });
+}
+const href = linkSchema(normalizeContentLink);
+const recordHref = linkSchema(normalizePublishedRecordLink);
 const link = z.object({ label: text, href });
 const intro = { eyebrow: text, heading: text, description: text };
 const hero = z.object({ blockType: z.literal("hero"), ...intro, links: z.array(link).min(1) });

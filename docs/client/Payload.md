@@ -300,10 +300,9 @@ the local Toolbar on a frontend page to override `CMS-Access` to On. Clear the
 override when finished. A valid signed override can opt in locally even without
 provider credentials; an arbitrary cookie cannot.
 
-Once enabled, open `http://localhost:3000/cms`. On an
-empty database, Payload creates its schema and prompts you to create the first
-editor. The dashboard then exposes the `CMS proofs` collection with required
-`title`, `message`, and `status` fields.
+Once enabled, open `http://localhost:3000/cms`. Payload prompts you to create
+the first editor when the database has no CMS users. Sign in to open the
+editorial collections from the dashboard.
 
 Records can be created directly in the dashboard. To load the existing public
 content into an empty local database, apply migrations and run
