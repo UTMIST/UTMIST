@@ -1,0 +1,282 @@
+{
+  "title": "Home",
+  "slug": "home",
+  "sections": [
+    {
+      "blockType": "hero",
+      "eyebrow": "North America’s Largest Undergraduate Machine Learning Club",
+      "heading": "University of Toronto\nMachine Intelligence\nStudent Team",
+      "description": "Where students learn, build, research,\nand lead at the University of Toronto.",
+      "links": [
+        {
+          "label": "Join us",
+          "href": "/careers"
+        },
+        {
+          "label": "Contact us",
+          "href": "mailto:utorontomist@gmail.com"
+        }
+      ]
+    },
+    {
+      "blockType": "about",
+      "eyebrow": "Who we are",
+      "heading": "Clear The MIST",
+      "description": "We’re U of T students learning, building, and leading in AI. Through hands-on projects, academic resources, and flagship events, we help the next generation of engineers and researchers find their start.",
+      "cta": {
+        "label": "Our projects",
+        "href": "/projects"
+      },
+      "imageAlt": "UTMIST student team at EigenAI",
+      "caption": "The UTMIST team at EigenAI"
+    },
+    {
+      "blockType": "impact",
+      "heading": "UTMIST is North America's largest student-led organization for Artificial Intelligence and Machine Learning",
+      "statistics": [
+        {
+          "number": "500+",
+          "description": "developers across all teams and departments"
+        },
+        {
+          "number": "50+",
+          "description": "AI/ML projects completed"
+        },
+        {
+          "number": "20+",
+          "description": "industry partners and collaborations"
+        },
+        {
+          "number": "50+",
+          "description": "academic workshops conducted"
+        },
+        {
+          "number": "50+",
+          "description": "articles and notebooks published"
+        },
+        {
+          "number": "10+",
+          "description": "papers published in top-tier conferences"
+        }
+      ]
+    },
+    {
+      "blockType": "mission",
+      "eyebrow": "Our mission",
+      "heading": "Empower students of all skill levels.",
+      "description": "Whatever your background, there’s a place for you here. Build practical skills, explore new ideas, and take your next step in AI through workshops, hackathons, and conferences.",
+      "cta": {
+        "label": "Join us",
+        "href": "/careers"
+      }
+    },
+    {
+      "blockType": "sponsors",
+      "eyebrow": "Our sponsors",
+      "heading": "Scaling machine intelligence, together",
+      "description": "We work with leading companies and startups to deliver hands-on projects, events, mentorship, and career pathways for our community",
+      "cta": {
+        "label": "Learn more",
+        "href": "/sponsors"
+      },
+      "items": [
+        {
+          "asset": "amd",
+          "alt": "AMD Logo",
+          "href": "https://www.amd.com/en"
+        },
+        {
+          "asset": "modal",
+          "alt": "Modal Logo",
+          "href": "https://modal.com/"
+        },
+        {
+          "asset": "qualcomm",
+          "alt": "Qualcomm Logo",
+          "href": "https://www.qualcomm.com/"
+        },
+        {
+          "asset": "vector",
+          "alt": "Vector Institute Logo",
+          "href": "https://vectorinstitute.ai/"
+        },
+        {
+          "asset": "google-cloud",
+          "alt": "Google Cloud Logo",
+          "href": "https://cloud.google.com/"
+        },
+        {
+          "asset": "cohere",
+          "alt": "Cohere Logo",
+          "href": "https://cohere.ai/"
+        },
+        {
+          "asset": "jarvis",
+          "alt": "Jarvis Logo",
+          "href": "https://www.jrvs.ca/"
+        },
+        {
+          "asset": "rotman",
+          "alt": "Rotman School of Management Logo",
+          "href": "https://www.rotman.utoronto.ca/"
+        },
+        {
+          "asset": "tenstorrent",
+          "alt": "Tenstorrent Logo",
+          "href": "https://tenstorrent.com/"
+        },
+        {
+          "asset": "aerocoustics-transparent",
+          "alt": "Aerocoustics Logo",
+          "href": "https://aercoustics.com/"
+        },
+        {
+          "asset": "wombo",
+          "alt": "Wombo Logo",
+          "href": "https://www.wombo.ai/"
+        },
+        {
+          "asset": "google",
+          "alt": "Google Logo",
+          "href": "https://www.google.com/"
+        },
+        {
+          "asset": "pwc-transparent",
+          "alt": "PwC Logo",
+          "href": "https://www.pwc.com/"
+        },
+        {
+          "asset": "rbc",
+          "alt": "RBC Logo",
+          "href": "https://www.rbc.com/"
+        },
+        {
+          "asset": "edgeai",
+          "alt": "Edge AI Logo",
+          "href": "https://www.edgeaiinnovations.com/"
+        },
+        {
+          "asset": "cgi",
+          "alt": "CGI Logo",
+          "href": "https://www.cgi.com/"
+        },
+        {
+          "asset": "cpsif",
+          "alt": "CPSIF Logo",
+          "href": "https://www.engineering.utoronto.ca/current-students/centralized-process-for-student-initiative-funding-cpsif/"
+        },
+        {
+          "asset": "engsoc",
+          "alt": "Engineering Society Logo",
+          "href": "https://skule.ca/"
+        },
+        {
+          "asset": "compsci",
+          "alt": "Department of Computer Science",
+          "href": "https://web.cs.toronto.edu/"
+        }
+      ]
+    },
+    {
+      "blockType": "events",
+      "eyebrow": "Our events",
+      "heading": "A full year of events, built\nentirely by @utmist",
+      "description": "From EigenAI in the fall to GenAI Genesis in the spring, UTMIST runs a full calendar of workshops, hackathons, and conferences, built by students, for students, all year long.",
+      "communityStatement": "We're a community of 500+\nstudents turning curiosity into\ncapability — through hands-on\nprojects, research, workshops\nand conferences that prepare\nthe next generation of AI/ML\nleaders.",
+      "listHeading": "Our flagship events",
+      "items": [
+        {
+          "title": "EigenAI",
+          "description": "A student-led AI conference featuring hands-on workshops, expert talks, and diverse perspectives across fields like fintech, healthcare, and robotics.",
+          "category": "AI conference",
+          "href": "/eigenai",
+          "artwork": "eigenai",
+          "imageAlt": "",
+          "id": "1"
+        },
+        {
+          "title": "CUCAI",
+          "description": "CUCAI (Canadian Undergraduate Conference on AI) is a national conference that showcases undergraduate AI research and connects students with industry leaders through workshops, and networking.",
+          "category": "AI conference",
+          "href": "https://cucai.ca",
+          "artwork": "cucai",
+          "imageAlt": "Speaker beside the CUCAI conference banner",
+          "id": "2"
+        },
+        {
+          "title": "AI Squared",
+          "description": "AI Squared is a machine learning tournament hosted by UTMIST where students build AI agents to compete in a 2D platform fighting game while gaining hands-on experience and mentorship.",
+          "category": "Machine learning tournament",
+          "href": "https://www.utmist.ca/ai2",
+          "artwork": "ai2",
+          "imageAlt": "",
+          "id": "3"
+        },
+        {
+          "title": "GenAI",
+          "description": "GenAI Genesis is Canada's largest AI hackathon, uniting over 700 participants to develop generative AI solutions addressing the U.N Sustainable Development Goals, powered by UTMIST and Google Developers",
+          "category": "AI hackathon",
+          "href": "https://genaigenesis.ca",
+          "artwork": "genai-genesis",
+          "imageAlt": "GenAI Genesis group photo",
+          "id": "4"
+        }
+      ]
+    },
+    {
+      "blockType": "startups",
+      "eyebrow": "MISTic R&D",
+      "heading": "Ready to build\nthe future?",
+      "description": "Building an AI startup? Join MISTic R&D, the incubator where ambitious founders find funding, users, cofounders, and an unstoppable community of builders. Let's turn your idea into impact.",
+      "cta": {
+        "label": "Learn more",
+        "href": "/startups"
+      },
+      "benefits": [
+        {
+          "title": "Funding",
+          "description": "Access to capital and investment opportunities to scale your AI startup"
+        },
+        {
+          "title": "Users",
+          "description": "Connect with early adopters and build your user base through our network"
+        },
+        {
+          "title": "Cofounders",
+          "description": "Find the perfect cofounder to complement your skills and vision"
+        },
+        {
+          "title": "Community",
+          "description": "Join an unstoppable community of builders and innovators"
+        }
+      ]
+    },
+    {
+      "blockType": "faq",
+      "eyebrow": "Get to know UTMIST",
+      "heading": "Frequently asked questions",
+      "items": [
+        {
+          "question": "How do I join UTMIST?",
+          "answer": "You can join UTMIST by signing up through our website and attending our general meetings. We welcome students from all faculties and programs. Watch for membership registration announcements at the beginning of each semester!"
+        },
+        {
+          "question": "I don't know ML, can I still join UTMIST?",
+          "answer": "Of course you can! UTMIST welcomes people of all backgrounds. We offer beginner-friendly workshops and resources to help you get started with machine learning concepts. Many of our members started with zero ML knowledge and have grown their skills through our community."
+        },
+        {
+          "question": "How do I start a project?",
+          "answer": "To start a project with UTMIST, you can either join an existing project team or propose your own idea. We host project pitch sessions at the beginning of each semester where you can share your ideas and form teams. Reach out to our project coordinators for guidance and support."
+        },
+        {
+          "question": "What resources do UTMIST members have access to?",
+          "answer": "UTMIST members have access to computing resources, educational workshops, industry connections, mentorship opportunities, and collaborative project spaces. We also provide access to datasets, technical guides, and specialized software needed for ML/AI development."
+        },
+        {
+          "question": "What are the events that UTMIST hosts?",
+          "answer": "UTMIST hosts a variety of events including technical workshops, research talks by faculty and industry professionals, hackathons, networking events, and our annual AI conference. We also run reading groups and project showcases throughout the year."
+        }
+      ]
+    }
+  ]
+}

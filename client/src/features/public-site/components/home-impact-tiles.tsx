@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { ArrowUpRight, BookOpen, BriefcaseBusiness, Code2, FlaskConical, GraduationCap, Users } from "lucide-react";
 
+import type { HomePageContent } from "@/shared/lib";
 import { CardLink } from "@/shared/ui";
 import logo from "@/assets/logos/utmist-logo-small.svg";
-import type { HomeImpactContent } from "@/features/public-site/data/home-impact";
 
 const statisticPresentation = {
   "developers across all teams and departments": { title: "Developers", icon: Users, href: "/careers" },
@@ -16,7 +16,7 @@ const statisticPresentation = {
 
 const sidebarIcons = ["folder", "upload", "bookmark", "calendar", "people"];
 
-export default function HomeImpactTiles({ impact }: { impact: HomeImpactContent }) {
+export default function HomeImpactTiles({ impact }: { impact: Omit<HomePageContent["impact"], "blockType"> }) {
   // Match destinations by meaning so CMS reordering preserves each tile's link.
   const statistics = impact.statistics.map(stat => ({
     ...stat,
@@ -55,7 +55,7 @@ export default function HomeImpactTiles({ impact }: { impact: HomeImpactContent 
             <div className="bg-[var(--accent)]/25 px-3 pb-6 pt-4 sm:px-4">
               <ul data-home-stagger="row" aria-label="Community impact"
                 className="home-impact-cards grid grid-cols-2 gap-3 md:grid-cols-3 lg:gap-4">
-                {statistics.map((stat) => {
+                {statistics.map((stat, index) => {
                   const { presentation } = stat;
                   const Icon = presentation?.icon ?? Users;
                   const content = (
@@ -70,7 +70,7 @@ export default function HomeImpactTiles({ impact }: { impact: HomeImpactContent 
                   );
                   const tileClass = "flex h-full min-w-0 flex-col p-3 sm:p-4";
                   return (
-                    <li data-home-reveal key={stat.description} className="min-w-0">
+                    <li data-home-reveal key={stat.id ?? index} className="min-w-0">
                       {presentation ? (
                         <CardLink
                           href={presentation.href}

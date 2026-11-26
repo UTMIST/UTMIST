@@ -1,9 +1,14 @@
 import Image from "next/image";
 
+import { homePageContent } from "@/features/public-site/data/home-page";
+import { cn } from "@/shared/lib";
+
 /** Desktop community copy with decorative editor controls and paint streaks. */
-export default function HomeCommunityStatement() {
+export default function HomeCommunityStatement({ text }: { text: string }) {
+  const hasCustomCopy = text !== homePageContent.events.communityStatement;
+
   return (
-    <div className="home-community-statement">
+    <div className={cn("home-community-statement", hasCustomCopy && "home-community-statement-custom")}>
       <div className="home-community-composition">
         <div className="home-community-meta" aria-hidden="true">
           <span className="home-community-caption">Our community, in focus</span>
@@ -58,13 +63,14 @@ export default function HomeCommunityStatement() {
           </div>
 
           <p className="home-community-text">
-            <span className="home-community-line">We&apos;re a community of 500+</span>{" "}
-            <span className="home-community-line">students turning curiosity into</span>{" "}
-            <span className="home-community-line">capability — through hands-on</span>{" "}
-            <span className="home-selection home-community-selection"><span className="home-community-selected-text">projects, research, workshops</span></span>{" "}
-            <span className="home-community-line">and conferences that prepare</span>{" "}
-            <span className="home-community-line">the next generation of AI/ML</span>{" "}
-            <span className="home-community-line">leaders.</span>
+            {text.split("\n").map((line, index) => {
+              const selected = !hasCustomCopy && line === "projects, research, workshops";
+              return (
+                <span key={index} className={selected ? "home-selection home-community-selection" : "home-community-line"}>
+                  <span className={selected ? "home-community-selected-text" : undefined}>{line}</span>{" "}
+                </span>
+              );
+            })}
           </p>
         </div>
       </div>

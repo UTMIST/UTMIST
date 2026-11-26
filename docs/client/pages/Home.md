@@ -11,15 +11,17 @@ defaults Off and fails closed; refresh after changing its value. See
 
 | Source | Responsibility |
 | --- | --- |
-| `data/home-content.ts` | Shared copy and shorter About/mission introductions for the redesigned layout |
+| `data/home-content.ts` | Legacy copy |
 | `data/home-events.ts` | Event IDs, titles, descriptions, destinations, categories, and artwork |
 | `data/home-sponsors.ts` | Sponsor logos and destinations |
 | `data/home-faq.ts` | Questions and answers shared by both layouts |
-| `lib/home-impact.ts` | Typed impact introduction and statistics |
+| `data/home-page.json` | Static fallback and initial CMS content |
+| `lib/home-page.ts` | Published page through the shared CMS policy |
+| `lib/home-impact.ts` | Legacy layout’s impact section from the same page |
 | `components/home-impact-tiles.tsx` | Linked statistic tiles in a dashboard frame cropped at the mission section |
-| `pages/home-redesign.tsx` | Section composition and homepage-specific marketing copy |
+| `pages/home-redesign.tsx` | Section composition using validated page content |
 
-The impact reader supplies the hero's first three statistics and all impact
+The page’s impact section supplies the hero's first three statistics and all impact
 tiles from the same data. Values describe cumulative community impact. It reads
 Payload in explicitly enabled local development and Vercel Preview; Production
 always uses the static source. Once CMS mode is selected, missing or invalid
@@ -222,8 +224,10 @@ wave paths; the buttons, focus order and selected state are shared across layout
 MISTic R&D's four benefit descriptions stack below 375px so narrow phones have
 comfortable reading widths; larger screens retain the two-column benefit grid.
 
-The community statement is selectable HTML with decorative editor annotations,
-edge fading, and selection handles. Clean indigo streaks enter from both viewport
+The default community statement is selectable HTML with decorative editor
+annotations, edge fading, and selection handles. Edited statements wrap in
+solid indigo with the decorative toolbar above the text.
+Clean indigo streaks enter from both viewport
 edges and taper toward the highlighted phrase. Their 5em height adds dark colour
 without crossing the text. A lighter trailing stroke follows each streak;
 both follow the composition's tilt and scale to the side gutters.
@@ -279,3 +283,13 @@ centering, wrapping, contrast, and touch targets. Verify keyboard navigation,
 menu dismissal, network selection, animation pause, reduced motion, and both
 flag states. Behavior tests cover these controls and content propagation;
 marketing copy and visual styling are not pinned by unit tests.
+
+## CMS source
+
+The redesigned homepage reads all eight sections from **Pages → Home** through
+the shared CMS reader in opted-in local development and Preview. The legacy
+layout reads only impact from that page. Production retains static content.
+The import shares the static fallback JSON, and native drafts preserve the
+last published page. See [PageContent](../PageContent.md) for publishing, media
+identities and verification. `HomeCopy` renders plain text with optional line
+breaks and existing emphasis; it never interprets CMS text as HTML.

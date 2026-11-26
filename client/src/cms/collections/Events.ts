@@ -2,15 +2,16 @@ import type { CollectionConfig } from "payload";
 
 import { isCmsEditor, publishedOrCmsEditor } from "../access.ts";
 import {
-  validateHttpUrl,
+  validateRecordDestination,
+  validateRecordWebsite,
   validateRequiredHttpUrl,
-  validateSiteUrl,
   validateSlug,
 } from "../fields.ts";
 
 export const Events: CollectionConfig = {
   slug: "events",
   admin: {
+    group: "Events",
     defaultColumns: ["title", "kind", "startsAt", "dateLabel", "updatedAt"],
     useAsTitle: "title",
   },
@@ -53,8 +54,8 @@ export const Events: CollectionConfig = {
       },
     },
     { name: "venue", type: "text" },
-    { name: "registrationUrl", type: "text", validate: validateHttpUrl },
-    { name: "destinationUrl", type: "text", validate: validateSiteUrl },
+    { name: "registrationUrl", type: "text", validate: validateRecordWebsite },
+    { name: "destinationUrl", type: "text", validate: validateRecordDestination },
     { name: "instructor", type: "text" },
     {
       name: "tags",

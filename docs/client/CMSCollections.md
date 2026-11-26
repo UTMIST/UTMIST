@@ -2,9 +2,8 @@
 
 This is the implementation map for [#512](https://github.com/UTMIST/UTMIST/issues/512).
 It records the current public sources, collection slugs, field ownership, and
-local seed procedure. The public application still reads the listed JSON and
-TypeScript files; creating or seeding CMS records does not switch its source of
-truth.
+local seed procedure. Public routes use the listed static sources until their individual cutovers.
+[Home](PageContent.md) uses the shared reader when CMS is enabled.
 
 ## Source inventory
 
@@ -13,7 +12,7 @@ area responsible for the record, not a code owner or access-control role.
 
 | Current source | Public page(s) | CMS destination | Owner |
 | --- | --- | --- | --- |
-| `src/features/public-site/data/home-content.ts`, `home-faq.ts`, `home-impact.ts`, `home-events.ts`, `home-sponsors.ts` and Home components | `/` | `pages` (`home`) plus relationships to `events`, `partners`, and `content-sections` during transition | Website |
+| `src/features/public-site/data/home-content.ts`, `home-faq.ts`, `home-impact.ts`, `home-events.ts`, `home-sponsors.ts` and Home components | `/` | `pages` (`home`) plus `events` relationships and a published sponsor query | Website |
 | `src/features/public-site/pages/departments.tsx` | `/departments` | `pages` (`departments`) and `people` | Website |
 | `src/assets/sponsors.json`, `src/features/public-site/pages/sponsors.tsx` | `/sponsors` | `pages` (`sponsors`) and `partners` | Website |
 | `src/assets/projects.json` | `/projects` | `projects`; listing configuration in `pages` (`projects`) | Content |
@@ -37,8 +36,7 @@ startup/article routes are not current surfaces and do not get collections.
 
 Every public collection uses Payload drafts and versions. Anonymous reads are
 restricted to published records; authenticated `cms-users` can read drafts and
-write. Role design and admin navigation remain owned by the later access and
-editor-organization work.
+write. See the [admin groups](Payload.md) and [access issue #514](https://github.com/UTMIST/UTMIST/issues/514).
 
 | Slug | Stable identity | Fields and relationships |
 | --- | --- | --- |
@@ -46,7 +44,7 @@ editor-organization work.
 | `events` | `slug` | Kind, summary, machine dates or a legacy display date, venue, registration and card destination links, instructor, tags, learning goals, resources, schedule; speaker role and sponsor tier stay on the relationship |
 | `projects` | `slug` | Name, description, category, image, repository URL, destination URL |
 | `posts` | external URL and `slug` | External article title, author byline, publication date, image; no hosted body |
-| `partners` | `slug` | Organization name, website, logo; tiers and placement stay on page/event relationships |
+| `partners` | `slug` | Organization name, website, logo, **Show on Home**; tiers and placement stay on page/event relationships |
 | `people` | `slug` | Public name, bio, photo, profile URL; team/event roles stay on relationships |
 | `careers` | `slug` | Title, department, division, description, application URL, open/close dates; no applicant fields |
 | `startups` | `slug` | Name, description, logo, website; no individual route |
@@ -54,8 +52,7 @@ editor-organization work.
 | `site-settings` | one global | Contact email, navigation, social links, footer text |
 
 The older `proofs` and `content-sections` slugs remain registered so existing
-foundation data and the Home reader are not broken. Removing or hiding them is
-part of the later content-transfer/editor-navigation work.
+foundation data remains available for review. They are hidden from editor navigation.
 
 ## Media and document rules
 

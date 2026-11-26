@@ -10,7 +10,7 @@ export const Proofs: CollectionConfig = {
     singular: "CMS proof",
     plural: "CMS proofs",
   },
-  admin: {
+  admin: { hidden: true,
     defaultColumns: ["title", "status", "updatedAt"],
     useAsTitle: "title",
   },

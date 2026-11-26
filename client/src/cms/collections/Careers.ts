@@ -6,6 +6,7 @@ import { validateRequiredHttpUrl, validateSlug } from "../fields.ts";
 export const Careers: CollectionConfig = {
   slug: "careers",
   admin: {
+    group: "Careers",
     defaultColumns: ["title", "department", "closesAt", "updatedAt"],
     useAsTitle: "title",
   },

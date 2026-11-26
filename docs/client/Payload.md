@@ -7,20 +7,19 @@ See [CMS collections and seed](CMSCollections.md) for the implemented slugs,
 field/relationship map, source inventory, media rules, and create-only seed.
 
 Payload 3 is embedded in the existing Next.js application. It provides a
-content dashboard and API backed by Postgres. Issue #346 connects the homepage
-introduction and statistics to a reusable typed reader during explicitly
-enabled local development. Issue #495 extends that source selection to Vercel
-Preview only. See the [content reader recipe](ContentReader.md) to create the
-`home-impact` record and verify an edit. The CMS database connection uses the
-existing UTMIST Supabase project. Production continues using the existing
-static content regardless of the CMS flag.
+content dashboard and API backed by the existing UTMIST Supabase project.
+See [homepage content](PageContent.md) for the current Home editing workflow
+and [the content reader](ContentReader.md) for source selection. Production
+continues using static content under the reader policy.
 
-This implementation records the choices requested by
-[the integration decision task (#344)](https://github.com/UTMIST/UTMIST/issues/344):
-Payload is embedded in `client/`, deploys with the existing Vercel app, uses a
-dedicated Postgres schema and editor user collection, and proves the runtime
-through the `proofs` collection. The `content-sections` collection now supplies
-the local homepage example.
+The dashboard groups collections by ownership. **Website** contains Pages,
+Media and Site Settings. **Sponsorship** contains Sponsors and partners.
+**Events** and **Careers** have their own groups. **Content** holds Projects,
+Posts, People and Startups. **Administration** holds CMS users. The foundation
+collections `proofs` and `content-sections` are hidden from the admin navigation.
+
+Group labels organize the dashboard. Existing `cms-users` access applies
+across groups until [#514](https://github.com/UTMIST/UTMIST/issues/514).
 
 ## Routes
 
@@ -272,6 +271,17 @@ different value in every future hosted environment.
 It contains only development credentials. Do not replace it with
 `NEXT_PUBLIC_SUPABASE_URL` or a Supabase API key.
 
+### Initialize the migration schema
+
+A fresh database needs the `payload` schema before the first checked-in
+migration. From `client/`, create it in the local Compose database as its
+owning user:
+
+```bash
+docker compose -f compose.payload.yml exec -T payload-postgres \
+  psql -v ON_ERROR_STOP=1 -U payload -d utmist_payload -c 'CREATE SCHEMA IF NOT EXISTS payload'
+```
+
 ### Start Payload
 
 With Postgres healthy and the environment variables saved, start the normal
@@ -290,10 +300,9 @@ the local Toolbar on a frontend page to override `CMS-Access` to On. Clear the
 override when finished. A valid signed override can opt in locally even without
 provider credentials; an arbitrary cookie cannot.
 
-Once enabled, open `http://localhost:3000/cms`. On an
-empty database, Payload creates its schema and prompts you to create the first
-editor. The dashboard then exposes the `CMS proofs` collection with required
-`title`, `message`, and `status` fields.
+Once enabled, open `http://localhost:3000/cms`. Payload prompts you to create
+the first editor when the database has no CMS users. Sign in to open the
+editorial collections from the dashboard.
 
 Records can be created directly in the dashboard. To load the existing public
 content into an empty local database, apply migrations and run

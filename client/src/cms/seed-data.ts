@@ -8,7 +8,6 @@ import {
   upcomingEvents,
 } from "../features/events/api/events.ts";
 import { homeContent } from "../features/public-site/data/home-content.ts";
-import { homeFaq } from "../features/public-site/data/home-faq.ts";
 import { homeImpactContentData } from "../features/public-site/data/home-impact-content.ts";
 
 export const PUBLIC_SEED_SOURCES = [
@@ -18,7 +17,6 @@ export const PUBLIC_SEED_SOURCES = [
   "src/assets/sponsors.json",
   "src/features/events/api/events.ts",
   "src/features/public-site/data/home-content.ts",
-  "src/features/public-site/data/home-faq.ts",
   "src/features/public-site/data/home-impact.ts",
   "src/features/public-site/data/home-sponsors.ts",
   "src/features/public-site/data/eigenai-redesign.ts",
@@ -29,7 +27,6 @@ export const seedSourceData = {
   careers,
   events: [...upcomingEvents, ...pastEvents],
   homeContent,
-  homeFaq,
   homeImpactContent: homeImpactContentData,
   posts: postsJson.posts,
   projects,
@@ -121,16 +118,6 @@ export const personSeedData = [
 ] as const;
 
 export const pageSeedData = [
-  {
-    title: "Home",
-    slug: "home",
-    template: "home",
-    introduction: {
-      heading: homeContent.title,
-      description: homeContent.about,
-    },
-    faq: homeFaq,
-  },
   {
     title: "Departments",
     slug: "departments",

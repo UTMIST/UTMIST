@@ -10,6 +10,7 @@ import { readHomeImpact } from "@/features/public-site/lib/home-impact";
 import Events from "@/features/public-site/components/events";
 import ValueProps from "@/features/public-site/components/valueprops";
 import StartupsSection from "@/features/public-site/components/startupsSection";
+import { homeFaq } from "@/features/public-site/data/home-faq";
 import FAQ from "@/features/public-site/components/faq";
 import { Button } from "@/shared/ui";
 import Link from "next/link";
@@ -72,7 +73,7 @@ export default async function LegacyHome() {
       <Events />
       <ValueProps />
       <StartupsSection />
-      <FAQ />
+      <FAQ items={homeFaq} />
     </main>
   );
 }

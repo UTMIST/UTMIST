@@ -5,3 +5,4 @@ export * from "./validation";
 export { cn } from "./utils";
 export * from "./content/types";
 export { createFixtureContentReader } from "./content/reader";
+export { homePageSchema, type HomePageContent } from "./content/home-page";

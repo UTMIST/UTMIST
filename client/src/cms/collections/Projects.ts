@@ -6,6 +6,7 @@ import { validateHttpUrl, validateSlug } from "../fields.ts";
 export const Projects: CollectionConfig = {
   slug: "projects",
   admin: {
+    group: "Content",
     defaultColumns: ["name", "category", "updatedAt"],
     useAsTitle: "name",
   },

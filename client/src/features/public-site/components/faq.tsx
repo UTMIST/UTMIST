@@ -4,9 +4,9 @@ import "@/styles/faq.css";
 import Image from "next/image";
 import plusIcon from "@/assets/icons/plus-icon.svg";
 
-import { homeFaq } from "@/features/public-site/data/home-faq";
 
-export default function FAQ() {
+
+export default function FAQ({ items }: { items: { question: string; answer: string }[] }) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const toggleQuestion = (index: number | null) => {
@@ -24,7 +24,7 @@ export default function FAQ() {
         <h2 className="faq-title">UTMIST Has Answers</h2>
       </div>
       <div className="faq-container">
-        {homeFaq.map((item, index) => (
+        {items.map((item, index) => (
           <div key={index}>
             <div
               className="faq-row cursor-pointer"

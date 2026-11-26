@@ -130,6 +130,20 @@ describe("Payload public content seed", () => {
     expect(fake.getGlobalVersions()).toEqual([existingDraft]);
   });
 
+  it("leaves venture partners off Home for an editor to opt in", async () => {
+    const fake = createFakePayload();
+    await seedPublicContent(fake.payload);
+
+    const partners = fake.records
+      .filter(({ collection }) => collection === "partners")
+      .map(({ data }) => data);
+    expect(partners).toEqual(expect.arrayContaining([
+      expect.objectContaining({ slug: "amd", showOnHome: true }),
+      expect.objectContaining({ slug: "front-row-ventures", showOnHome: false }),
+      expect.objectContaining({ slug: "forum-ventures", showOnHome: false }),
+    ]));
+  });
+
   it("creates stable kebab-case identifiers", () => {
     expect(slugify("AI Squared & ML: Research!")).toBe(
       "ai-squared-ml-research",

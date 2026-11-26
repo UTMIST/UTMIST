@@ -1,3 +1,5 @@
+import { defaultHomeSponsorAssetsBySource } from "../shared/lib/content/page-assets.ts";
+
 import {
   featuredEventSeedData,
   pageSeedData,
@@ -134,7 +136,13 @@ export async function seedPublicContent(payload: SeedPayload): Promise<SeedResul
       payload,
       "partners",
       "slug",
-      { name, slug: slugify(name), website, logo: logoId },
+      {
+        name,
+        slug: slugify(name),
+        website,
+        logo: logoId,
+        showOnHome: Object.hasOwn(defaultHomeSponsorAssetsBySource, logoSource),
+      },
       result,
     );
   }
@@ -299,10 +307,10 @@ export async function seedPublicContent(payload: SeedPayload): Promise<SeedResul
       draft: false,
       data: published({
         contactEmail: "utorontomist@gmail.com",
-        navigation: pageSeedData.map((page) => ({
-          label: page.title,
-          href: page.slug === "home" ? "/" : `/${page.slug}`,
-        })),
+        navigation: [
+          { label: "Home", href: "/" },
+          ...pageSeedData.map((page) => ({ label: page.title, href: `/${page.slug}` })),
+        ],
         socialLinks: [
           { label: "LinkedIn", url: "https://www.linkedin.com/company/utmist/" },
           { label: "Instagram", url: "https://www.instagram.com/uoft_utmist/" },

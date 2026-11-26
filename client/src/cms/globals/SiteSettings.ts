@@ -8,6 +8,7 @@ import {
 
 export const SiteSettings: GlobalConfig = {
   slug: "site-settings",
+  admin: { group: "Website" },
   label: "Site settings",
   access: {
     read: publishedOrCmsEditor,
