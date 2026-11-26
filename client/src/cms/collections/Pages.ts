@@ -33,6 +33,28 @@ export const Pages: CollectionConfig = {
     readVersions: isCmsEditor,
     update: isCmsEditor,
   },
+  hooks: {
+    beforeValidate: [
+      async ({ data, originalDoc }) => {
+        const slug = data?.slug === undefined ? originalDoc?.slug : data.slug;
+        const template = data?.template === undefined ? originalDoc?.template : data.template;
+        const isHome = slug === "home" || template === "home"
+          || originalDoc?.slug === "home" || originalDoc?.template === "home";
+
+        if (isHome && (slug !== "home" || template !== "home")) {
+          const { ValidationError } = await import("payload");
+          throw new ValidationError({
+            collection: "pages",
+            errors: [{
+              path: slug === "home" ? "template" : "slug",
+              message: 'The homepage must keep "home" as its slug and template.',
+            }],
+          });
+        }
+        return data;
+      },
+    ],
+  },
   fields: [
     { name: "title", type: "text", required: true },
     {

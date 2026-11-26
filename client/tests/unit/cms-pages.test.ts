@@ -4,6 +4,36 @@ import { Pages } from "@/cms/collections/Pages";
 import { validateContentLink } from "@/cms/page-fields";
 import { assertLocalSeedTarget, assertTestingSeedTarget, seedHomePage } from "@/cms/seeds/seed-home";
 
+jest.mock("payload", () => ({
+  ValidationError: class extends Error {
+    constructor({ errors }: { errors: Array<{ message: string }> }) {
+      super(errors[0].message);
+    }
+  },
+}));
+
+describe("homepage identity", () => {
+  const validate = Pages.hooks?.beforeValidate?.[0];
+  if (!validate) throw new Error("Missing page identity validation");
+  const home = { slug: "home", template: "home" };
+
+  it.each([
+    [{ slug: "home-edited" }, home],
+    [{ template: "departments" }, home],
+    [{ slug: "home-edited", template: "departments" }, home],
+    [{ slug: "home", template: "departments" }, undefined],
+  ])("rejects mismatched Home identifiers in %j", async (data, originalDoc) => {
+    const args = { data, originalDoc } as unknown as Parameters<typeof validate>[0];
+    await expect(validate(args)).rejects.toThrow('The homepage must keep "home" as its slug and template.');
+  });
+
+  it("allows partial content updates to Home", async () => {
+    const data = { title: "Home title" };
+    const args = { data, originalDoc: home } as unknown as Parameters<typeof validate>[0];
+    await expect(validate(args)).resolves.toBe(data);
+  });
+});
+
 describe("page content permissions", () => {
   it.each([null, { id: 1, collection: "members" }])("restricts non-editors to published pages: %j", async (user) => {
     const args = { req: { user } } as AccessArgs;

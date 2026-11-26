@@ -37,14 +37,14 @@ procedure are recorded in [CMS collections and seed](CMSCollections.md).
 | --- | --- | --- |
 | Website | Pages — `pages` | Page copy, fixed sections, metadata, and selections of shared records |
 | Website | Site settings — `site-settings` global | One record for shared contact details, social links, navigation labels/links, and footer content |
-| Content | Events — `events` | Dates, venue, description, registration link, speakers, sponsors, schedule, and recap resources; [event/edition rules remain open](#decisions-still-needed) |
+| Events | Events — `events` | Dates, venue, description, registration link, speakers, sponsors, schedule, and recap resources |
 | Content | Projects — `projects` | Name, description, category, image, repository, and destination links |
 | Content | Article links — `posts` | Listings that link to external articles, currently sourced from [posts.json](../../client/src/assets/posts.json). No hosted article body or individual article route. |
-| Content | Sponsors and Partners — `partners` | Organization name, logo, and website. Sponsorship tier stays with the page/event placement. |
+| Sponsorship | Sponsors and partners — `partners` | Organization name, logo, website, and whether to show the record on Home. Sponsorship tier stays with the page/event placement. |
 | Content | People — `people` | Public name, photo, bio, and profile links. Program/event roles stay with the relevant roster. |
-| Content | Careers — `careers` | Internal opening, department, description, application link, and opening/closing information |
+| Careers | Careers — `careers` | Internal opening, department, description, application link, and opening/closing information |
 | Content | Startup listings — `startups` | Company names, descriptions, and logos currently embedded in the [Startups page](../../client/src/features/public-site/pages/startups.tsx). No individual startup route. |
-| Assets | Media — `media` | Shared images/documents and descriptive metadata |
+| Website | Media — `media` | Shared images/documents and descriptive metadata |
 | Administration | CMS users — `cms-users` | Editor accounts and access configuration |
 
 ## Page records
@@ -96,7 +96,7 @@ Pages → Home
 | Information | Where it belongs |
 | --- | --- |
 | Organization name, logo, website | Sponsors and Partners record |
-| Which sponsors Home shows, and in what order | Home's Sponsors section |
+| Whether a sponsor appears on Home | The partner record's **Show on Home** checkbox. Home sorts published matches by name. |
 | A sponsor's tier for an EigenAI edition | Sponsor reference on that event |
 | Price and benefits of an advertised sponsorship package | Sponsors page |
 

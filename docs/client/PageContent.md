@@ -37,7 +37,8 @@ rebuild or redeploy. Production stays static under the shared policy.
 | Startups | Intro, CTA and benefits |
 | FAQ | Intro and questions/answers |
 
-The `home` document must contain exactly one of each section before publishing.
+The Home document keeps `home` as both its slug and template. It must contain
+exactly one of each section before publishing.
 Public reads validate the same section set and resolve published records. Section order in the editor
 does not change the page layout; presentation stays in code. Drafts may be
 incomplete while an editor works. Array entries use Payload’s row identities;
