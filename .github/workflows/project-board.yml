@@ -1,0 +1,65 @@
+name: Sync project board
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened, assigned, unassigned, labeled, unlabeled, transferred]
+  pull_request_target:
+    types: [opened, edited, reopened, closed, ready_for_review, converted_to_draft, review_requested, review_request_removed, labeled, unlabeled, synchronize]
+  pull_request_review:
+    types: [submitted, edited, dismissed]
+  schedule:
+    # Repairs missed events, native dependency/link edits and fork PR reviews.
+    - cron: '17 * * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Report intended changes without writing
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+concurrency:
+  group: utmist-project-12
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    # Fork review events have no project secret; the scheduled pass covers them.
+    if: github.event_name != 'pull_request_review' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: ${{ github.repository }}
+          # Privileged automation must never execute a PR checkout.
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - name: Reconcile current issues, pull requests and project status
+        uses: actions/github-script@v9
+        env:
+          PROJECTS_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        with:
+          script: |
+            if (!process.env.PROJECTS_TOKEN) {
+              throw new Error('PROJECTS_TOKEN is required; board synchronization is not active.');
+            }
+            const { reconcile } = require('./.github/scripts/project-board.cjs');
+            const result = await reconcile({
+              github,
+              graphql: (query, variables) => github.graphql(query, {
+                ...variables,
+                headers: { authorization: `token ${process.env.PROJECTS_TOKEN}` },
+              }),
+              ...context.repo,
+              dryRun: process.env.DRY_RUN === 'true',
+              log: (message) => core.info(message),
+            });
+            await core.summary.addHeading('Project reconciliation')
+              .addRaw(`Dry run: ${result.dryRun}. Issues: ${result.issues}; PRs: ${result.pullRequests}; changes: ${result.changes.length}.`)
+              .write();

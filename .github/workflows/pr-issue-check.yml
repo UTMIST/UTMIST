@@ -1,0 +1,44 @@
+name: Check PR issue links
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize, ready_for_review, labeled, unlabeled]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Pull request number to inspect
+        type: number
+        required: true
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+concurrency:
+  group: pr-issue-check-${{ github.event.pull_request.number || inputs.pr_number }}
+  cancel-in-progress: false
+
+jobs:
+  advisory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - name: Inspect linking and closure scope
+        uses: actions/github-script@v9
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+        with:
+          script: |
+            const number = Number(process.env.PR_NUMBER);
+            if (!Number.isSafeInteger(number) || number <= 0) throw new Error('Invalid PR number');
+            const { check } = require('./.github/scripts/pr-issue-check.cjs');
+            const result = await check({ github, ...context.repo, number });
+            for (const warning of result.warnings) core.warning(warning);
+            await core.summary.addHeading(`Issue-link advice for PR #${number}`)
+              .addRaw(result.warnings.length ? result.warnings.map((w) => `- ${w}`).join('\n') : 'No issue-link warnings.')
+              .write();

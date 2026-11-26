@@ -56,10 +56,11 @@ drift out of date; the search qualifier is computed when you run it and cannot.
 - **Everything waiting on something else:** [`is:blocked`](https://github.com/UTMIST/UTMIST/issues?q=is%3Aissue+is%3Aopen+is%3Ablocked)
 
 From there,
-[a workflow](.github/workflows/blocked-ready-automation.yml) keeps the `ready`
+[the board workflow](.github/workflows/project-board.yml) keeps the `ready`
 label in sync. Do not set it by hand — the next run will overwrite you.
 
-- Once every blocker on an issue is closed, it gets `ready`. Reopen a blocker
+- Once every blocker is closed, an unassigned Not Started issue gets `ready`
+  unless it is `on hold` or has an open closing-linked PR. Reopen a blocker
   and `ready` comes off again.
 - Claiming an issue (which assigns it to you) drops `ready`, because it is no
   longer up for grabs. Unassigning yourself puts it back on the queue.
@@ -73,14 +74,21 @@ never blocked in the first place.
 
 The [project board](https://github.com/orgs/UTMIST/projects/12) uses **Status**
 only for progress: **Not Started → In Development → In Review → Done**.
-Update it as work progresses. Dependencies and the `ready` label never change
-Status: an issue can be in development and blocked at the same time.
-Use native **Blocked by** relationships and `is:blocked` filters to track
-dependencies. The readiness workflow needs no project credential.
+The board workflow follows closing-linked PRs: drafts/changes requested mean
+In Development; review-ready or approved PRs mean In Review. Closed issues and
+merged/closed PRs become Done. Dependencies and `ready` never change Status:
+work can be in development and blocked simultaneously. Apply `on hold` for an
+explicit pause; held work is Not Started and unavailable to pick up.
+
+Use `Closes #123` only when merging completes the entire issue. For partial
+work, use `Part of #123` and keep remaining acceptance in an open issue. The
+workflow never closes implementation issues or epics. See the
+[automation runbook](.github/PROJECT-BOARD.md) for multiple-PR behavior,
+credentials, rollout and recovery, weekly exception reports and deployment evidence.
 
 One quirk worth knowing: GitHub does not let a workflow trigger on a dependency
 being added or removed, so that one change is picked up by a sweep that runs
-every half hour rather than instantly. Closing a blocker, opening an issue, and
+hourly rather than instantly. Closing a blocker, opening an issue, and
 claiming one all update immediately. If you need it now, run the workflow
 manually from the Actions tab.
 
