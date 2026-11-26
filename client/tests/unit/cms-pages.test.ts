@@ -2,6 +2,7 @@ import type { AccessArgs, Payload } from "payload";
 
 import { Pages } from "@/cms/collections/Pages";
 import { validateRecordDestination, validateRecordWebsite } from "@/cms/fields";
+import { homeSections } from "@/cms/home-sections";
 import { validateContentLink } from "@/cms/page-fields";
 import { assertLocalSeedTarget, assertTestingSeedTarget, seedHomePage } from "@/cms/seeds/seed-home";
 
@@ -62,6 +63,16 @@ it.each(["introduction", "faq", "featuredEvents", "partners", "metadata"])(
     expect(condition?.({}, { template: "events" }, context)).toBe(true);
   },
 );
+
+it("shows an alt text field for image artwork within a Home event placement", () => {
+  const events = homeSections.find(block => block.slug === "events");
+  const placements = events?.fields.find(field => field.type === "array" && field.name === "items");
+  if (placements?.type !== "array") throw new Error("Missing Home event placements");
+  const alt = placements.fields.find(field => "name" in field && field.name === "imageAlt");
+  const context = { user: null, operation: "update" as const, path: ["imageAlt"], blockData: {} };
+  expect(alt?.admin?.condition?.({}, { artwork: "ai2" }, context)).toBe(true);
+  expect(alt?.admin?.condition?.({}, { artwork: "eigenai" }, context)).toBe(false);
+});
 
 describe("content links", () => {
   it.each(["/careers", "/events#upcoming", "https://example.com/event?a=1", "mailto:editor@example.com"])("accepts %s", (href) => {

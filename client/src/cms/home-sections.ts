@@ -60,7 +60,14 @@ export const homeSections: Block[] = [
               { label: "GenAI group photo", value: "genai-genesis" },
             ],
           },
-          { name: "imageAlt", type: "text", admin: { description: "Leave empty for decorative artwork." } },
+          {
+            name: "imageAlt",
+            type: "text",
+            admin: {
+              condition: (_, siblingData) => siblingData.artwork !== "eigenai",
+              description: "Leave empty for decorative artwork.",
+            },
+          },
         ],
       },
     ],

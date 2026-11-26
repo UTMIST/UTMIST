@@ -2,7 +2,7 @@
 import { homePageSchema } from "@/shared/lib";
 import { Pages } from "@/cms/collections/Pages";
 import { readHomePage } from "@/features/public-site/lib/home-page";
-import { homePageContent } from "@/features/public-site/data/home-page";
+import { homePageContent, staticHomeSponsorItems } from "@/features/public-site/data/home-page";
 import document from "@/features/public-site/data/home-page.json";
 
 const mockFind = jest.fn();
@@ -48,6 +48,11 @@ beforeEach(() => {
   }));
 });
 afterEach(() => { process.env = originalEnv; });
+
+it("preserves the source sponsor order for the legacy layout", () => {
+  expect(staticHomeSponsorItems).toEqual(homePageSchema.parse(document).sponsors.items);
+  expect(homePageContent.sponsors.items).not.toBe(staticHomeSponsorItems);
+});
 
 it("uses the shared Preview policy and reads only published page content without editor context", async () => {
   await expect(readHomePage()).resolves.toMatchObject({ hero: homePageContent.hero });

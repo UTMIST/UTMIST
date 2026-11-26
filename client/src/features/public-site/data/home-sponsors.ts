@@ -20,7 +20,7 @@ import modalLogo from "@/assets/logos/modal.png";
 import frontRowVenturesLogo from "@/assets/photos/ventures/frv-black-logo.png";
 import forumVenturesLogo from "@/assets/photos/ventures/forum-black-purple-logo.png";
 
-import { homePageContent } from "@/features/public-site/data/home-page";
+import { staticHomeSponsorItems } from "@/features/public-site/data/home-page";
 
 export const sponsorAssets = {
   amd: amdLogo, modal: modalLogo, qualcomm: qualcommLogo, vector: vectorLogo,
@@ -31,6 +31,6 @@ export const sponsorAssets = {
   "front-row-ventures": frontRowVenturesLogo, "forum-ventures": forumVenturesLogo,
 };
 
-export const homeSponsors = homePageContent.sponsors.items.flatMap(item => "asset" in item
+export const homeSponsors = staticHomeSponsorItems.flatMap(item => "asset" in item
   ? [{ src: sponsorAssets[item.asset], alt: item.alt, link: item.href }]
   : []);
