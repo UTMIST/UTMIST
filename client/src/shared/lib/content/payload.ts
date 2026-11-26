@@ -1,5 +1,6 @@
 import "server-only";
 
+import { withHomeRelationships } from "./home-page";
 import { createContentReader } from "./reader";
 
 /**
@@ -22,4 +23,34 @@ export const payloadContentReader = createContentReader(async (key) => {
     pagination: false,
   });
   return result.docs[0] ?? null;
+});
+
+/** Page drafts never inherit the visitor's editor session or replace published content. */
+export const payloadPageReader = createContentReader(async (slug) => {
+  const [{ getPayload }, { default: config }] = await Promise.all([
+    import("payload"), import("@payload-config"),
+  ]);
+  const payload = await getPayload({ config });
+  const result = await payload.find({
+    collection: "pages",
+    where: { and: [{ slug: { equals: slug } }, { _status: { equals: "published" } }] },
+    draft: false,
+    overrideAccess: false,
+    depth: 1,
+    limit: 1,
+    pagination: false,
+  });
+  const page = result.docs[0];
+  if (!page) return null;
+
+  const partners = await payload.find({
+    collection: "partners",
+    where: { showOnHome: { equals: true }, _status: { equals: "published" } },
+    draft: false,
+    overrideAccess: false,
+    depth: 1,
+    sort: ["name", "id"],
+    pagination: false,
+  });
+  return withHomeRelationships(page, partners.docs);
 });

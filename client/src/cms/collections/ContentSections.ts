@@ -4,7 +4,7 @@ const isEditor: Access = ({ req }) => req.user?.collection === "cms-users";
 
 export const ContentSections: CollectionConfig = {
   slug: "content-sections",
-  admin: { useAsTitle: "key", defaultColumns: ["key", "heading", "status", "updatedAt"] },
+  admin: { hidden: true, useAsTitle: "key", defaultColumns: ["key", "heading", "status", "updatedAt"] },
   access: {
     create: isEditor,
     update: isEditor,

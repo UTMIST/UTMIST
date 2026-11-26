@@ -67,18 +67,18 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    'cms-users': CmsUser;
-    proofs: Proof;
-    'content-sections': ContentSection;
     pages: Page;
+    media: Media;
+    partners: Partner;
     events: Event;
+    careers: Career;
     projects: Project;
     posts: Post;
-    partners: Partner;
     people: Person;
-    careers: Career;
     startups: Startup;
-    media: Media;
+    'cms-users': CmsUser;
+    'content-sections': ContentSection;
+    proofs: Proof;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -86,18 +86,18 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    'cms-users': CmsUsersSelect<false> | CmsUsersSelect<true>;
-    proofs: ProofsSelect<false> | ProofsSelect<true>;
-    'content-sections': ContentSectionsSelect<false> | ContentSectionsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    partners: PartnersSelect<false> | PartnersSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    careers: CareersSelect<false> | CareersSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
-    partners: PartnersSelect<false> | PartnersSelect<true>;
     people: PeopleSelect<false> | PeopleSelect<true>;
-    careers: CareersSelect<false> | CareersSelect<true>;
     startups: StartupsSelect<false> | StartupsSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
+    'cms-users': CmsUsersSelect<false> | CmsUsersSelect<true>;
+    'content-sections': ContentSectionsSelect<false> | ContentSectionsSelect<true>;
+    proofs: ProofsSelect<false> | ProofsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -143,70 +143,6 @@ export interface CmsUserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "cms-users".
- */
-export interface CmsUser {
-  id: number;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  resetPasswordRequestedAt?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
-  collection: 'cms-users';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "proofs".
- */
-export interface Proof {
-  id: number;
-  title: string;
-  message: string;
-  status: 'draft' | 'published';
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "content-sections".
- */
-export interface ContentSection {
-  id: number;
-  /**
-   * Stable identifier used by code, e.g. home-impact. Do not rename a connected section.
-   */
-  key: string;
-  heading: string;
-  description?: string | null;
-  /**
-   * Required for home-impact; rows display in this order.
-   */
-  statistics?:
-    | {
-        number: string;
-        description: string;
-        id?: string | null;
-      }[]
-    | null;
-  status: 'draft' | 'published';
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
 export interface Page {
@@ -228,6 +164,126 @@ export interface Page {
     | 'ai2'
     | 'eigenai'
     | 'ml-fundamentals';
+  sections?:
+    | (
+        | {
+            eyebrow: string;
+            heading: string;
+            description: string;
+            links: {
+              label: string;
+              href: string;
+              id?: string | null;
+            }[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            eyebrow: string;
+            heading: string;
+            description: string;
+            cta: {
+              label: string;
+              href: string;
+              id?: string | null;
+            };
+            imageAlt: string;
+            caption: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'about';
+          }
+        | {
+            heading: string;
+            description?: string | null;
+            statistics: {
+              number: string;
+              description: string;
+              id?: string | null;
+            }[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'impact';
+          }
+        | {
+            eyebrow: string;
+            heading: string;
+            description: string;
+            cta: {
+              label: string;
+              href: string;
+              id?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'mission';
+          }
+        | {
+            eyebrow: string;
+            heading: string;
+            description: string;
+            cta: {
+              label: string;
+              href: string;
+              id?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'sponsors';
+          }
+        | {
+            eyebrow: string;
+            heading: string;
+            description: string;
+            communityStatement: string;
+            listHeading: string;
+            items: {
+              event: number | Event;
+              category: string;
+              artwork: 'eigenai' | 'cucai' | 'ai2' | 'genai-genesis';
+              /**
+               * Leave empty for decorative artwork.
+               */
+              imageAlt?: string | null;
+              id?: string | null;
+            }[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'events';
+          }
+        | {
+            eyebrow: string;
+            heading: string;
+            description: string;
+            cta: {
+              label: string;
+              href: string;
+              id?: string | null;
+            };
+            benefits: {
+              title: string;
+              description: string;
+              id?: string | null;
+            }[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'startups';
+          }
+        | {
+            eyebrow: string;
+            heading: string;
+            items: {
+              question: string;
+              answer: string;
+              id?: string | null;
+            }[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'faq';
+          }
+      )[]
+    | null;
   introduction: {
     heading: string;
     description: string;
@@ -390,6 +446,10 @@ export interface Partner {
   slug: string;
   website?: string | null;
   logo?: (number | null) | Media;
+  /**
+   * Include this published partner in Home → Supported By. Add a website and a published image.
+   */
+  showOnHome?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -463,6 +523,70 @@ export interface Startup {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cms-users".
+ */
+export interface CmsUser {
+  id: number;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  resetPasswordRequestedAt?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+  collection: 'cms-users';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-sections".
+ */
+export interface ContentSection {
+  id: number;
+  /**
+   * Stable identifier used by code, e.g. home-impact. Do not rename a connected section.
+   */
+  key: string;
+  heading: string;
+  description?: string | null;
+  /**
+   * Required for home-impact; rows display in this order.
+   */
+  statistics?:
+    | {
+        number: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  status: 'draft' | 'published';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "proofs".
+ */
+export interface Proof {
+  id: number;
+  title: string;
+  message: string;
+  status: 'draft' | 'published';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -486,24 +610,24 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'cms-users';
-        value: number | CmsUser;
-      } | null)
-    | ({
-        relationTo: 'proofs';
-        value: number | Proof;
-      } | null)
-    | ({
-        relationTo: 'content-sections';
-        value: number | ContentSection;
-      } | null)
-    | ({
         relationTo: 'pages';
         value: number | Page;
       } | null)
     | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'partners';
+        value: number | Partner;
+      } | null)
+    | ({
         relationTo: 'events';
         value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'careers';
+        value: number | Career;
       } | null)
     | ({
         relationTo: 'projects';
@@ -514,24 +638,24 @@ export interface PayloadLockedDocument {
         value: number | Post;
       } | null)
     | ({
-        relationTo: 'partners';
-        value: number | Partner;
-      } | null)
-    | ({
         relationTo: 'people';
         value: number | Person;
-      } | null)
-    | ({
-        relationTo: 'careers';
-        value: number | Career;
       } | null)
     | ({
         relationTo: 'startups';
         value: number | Startup;
       } | null)
     | ({
-        relationTo: 'media';
-        value: number | Media;
+        relationTo: 'cms-users';
+        value: number | CmsUser;
+      } | null)
+    | ({
+        relationTo: 'content-sections';
+        value: number | ContentSection;
+      } | null)
+    | ({
+        relationTo: 'proofs';
+        value: number | Proof;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -577,65 +701,155 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "cms-users_select".
- */
-export interface CmsUsersSelect<T extends boolean = true> {
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  resetPasswordRequestedAt?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "proofs_select".
- */
-export interface ProofsSelect<T extends boolean = true> {
-  title?: T;
-  message?: T;
-  status?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "content-sections_select".
- */
-export interface ContentSectionsSelect<T extends boolean = true> {
-  key?: T;
-  heading?: T;
-  description?: T;
-  statistics?:
-    | T
-    | {
-        number?: T;
-        description?: T;
-        id?: T;
-      };
-  status?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   template?: T;
+  sections?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              description?: T;
+              links?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        about?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              description?: T;
+              cta?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              imageAlt?: T;
+              caption?: T;
+              id?: T;
+              blockName?: T;
+            };
+        impact?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              statistics?:
+                | T
+                | {
+                    number?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        mission?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              description?: T;
+              cta?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        sponsors?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              description?: T;
+              cta?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        events?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              description?: T;
+              communityStatement?: T;
+              listHeading?: T;
+              items?:
+                | T
+                | {
+                    event?: T;
+                    category?: T;
+                    artwork?: T;
+                    imageAlt?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        startups?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              description?: T;
+              cta?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              benefits?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        faq?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              items?:
+                | T
+                | {
+                    question?: T;
+                    answer?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
   introduction?:
     | T
     | {
@@ -688,6 +902,33 @@ export interface PagesSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  title?: T;
+  kind?: T;
+  source?: T;
+  altText?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners_select".
+ */
+export interface PartnersSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  website?: T;
+  logo?: T;
+  showOnHome?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -755,6 +996,23 @@ export interface EventsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "careers_select".
+ */
+export interface CareersSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  department?: T;
+  division?: T;
+  description?: T;
+  applicationUrl?: T;
+  opensAt?: T;
+  closesAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
@@ -786,19 +1044,6 @@ export interface PostsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "partners_select".
- */
-export interface PartnersSelect<T extends boolean = true> {
-  name?: T;
-  slug?: T;
-  website?: T;
-  logo?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "people_select".
  */
 export interface PeopleSelect<T extends boolean = true> {
@@ -807,23 +1052,6 @@ export interface PeopleSelect<T extends boolean = true> {
   bio?: T;
   photo?: T;
   profileUrl?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "careers_select".
- */
-export interface CareersSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  department?: T;
-  division?: T;
-  description?: T;
-  applicationUrl?: T;
-  opensAt?: T;
-  closesAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -844,16 +1072,56 @@ export interface StartupsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
+ * via the `definition` "cms-users_select".
  */
-export interface MediaSelect<T extends boolean = true> {
-  title?: T;
-  kind?: T;
-  source?: T;
-  altText?: T;
+export interface CmsUsersSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  resetPasswordRequestedAt?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-sections_select".
+ */
+export interface ContentSectionsSelect<T extends boolean = true> {
+  key?: T;
+  heading?: T;
+  description?: T;
+  statistics?:
+    | T
+    | {
+        number?: T;
+        description?: T;
+        id?: T;
+      };
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "proofs_select".
+ */
+export interface ProofsSelect<T extends boolean = true> {
+  title?: T;
+  message?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -7,20 +7,19 @@ See [CMS collections and seed](CMSCollections.md) for the implemented slugs,
 field/relationship map, source inventory, media rules, and create-only seed.
 
 Payload 3 is embedded in the existing Next.js application. It provides a
-content dashboard and API backed by Postgres. Issue #346 connects the homepage
-introduction and statistics to a reusable typed reader during explicitly
-enabled local development. Issue #495 extends that source selection to Vercel
-Preview only. See the [content reader recipe](ContentReader.md) to create the
-`home-impact` record and verify an edit. The CMS database connection uses the
-existing UTMIST Supabase project. Production continues using the existing
-static content regardless of the CMS flag.
+content dashboard and API backed by the existing UTMIST Supabase project.
+See [homepage content](PageContent.md) for the current Home editing workflow
+and [the content reader](ContentReader.md) for source selection. Production
+continues using static content under the reader policy.
 
-This implementation records the choices requested by
-[the integration decision task (#344)](https://github.com/UTMIST/UTMIST/issues/344):
-Payload is embedded in `client/`, deploys with the existing Vercel app, uses a
-dedicated Postgres schema and editor user collection, and proves the runtime
-through the `proofs` collection. The `content-sections` collection now supplies
-the local homepage example.
+The dashboard groups collections by ownership. **Website** contains Pages,
+Media and Site Settings. **Sponsorship** contains Sponsors and partners.
+**Events** and **Careers** have their own groups. **Content** holds Projects,
+Posts, People and Startups. **Administration** holds CMS users. The foundation
+collections `proofs` and `content-sections` are hidden from the admin navigation.
+
+Group labels organize the dashboard. Existing `cms-users` access applies
+across groups until [#514](https://github.com/UTMIST/UTMIST/issues/514).
 
 ## Routes
 

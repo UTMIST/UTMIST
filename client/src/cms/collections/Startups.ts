@@ -7,6 +7,7 @@ export const Startups: CollectionConfig = {
   slug: "startups",
   labels: { singular: "Startup listing", plural: "Startup listings" },
   admin: {
+    group: "Content",
     defaultColumns: ["name", "slug", "updatedAt"],
     useAsTitle: "name",
   },

@@ -1,7 +1,9 @@
 import type { CollectionConfig } from "payload";
 
+import { homePagePublishSchema } from "../../shared/lib/content/home-page.ts";
 import { isCmsEditor, publishedOrCmsEditor } from "../access.ts";
 import { validateSlug } from "../fields.ts";
+import { homeSections } from "../home-sections.ts";
 
 const pageTemplates = [
   "home",
@@ -20,6 +22,7 @@ const pageTemplates = [
 export const Pages: CollectionConfig = {
   slug: "pages",
   admin: {
+    group: "Website",
     defaultColumns: ["title", "slug", "template", "updatedAt"],
     useAsTitle: "title",
   },
@@ -47,6 +50,20 @@ export const Pages: CollectionConfig = {
       required: true,
       unique: true,
       options: pageTemplates,
+    },
+    {
+      name: "sections",
+      type: "blocks",
+      blocks: homeSections,
+      admin: { condition: (_, siblingData) => siblingData.template === "home", initCollapsed: true },
+      validate: (value, { data }) => {
+        const isHome = data && (
+          ("template" in data && data.template === "home") || ("slug" in data && data.slug === "home")
+        );
+        if (!isHome) return true;
+        const result = homePagePublishSchema.safeParse({ sections: value });
+        return result.success || result.error.issues.map(issue => issue.message).join(". ");
+      },
     },
     {
       name: "introduction",

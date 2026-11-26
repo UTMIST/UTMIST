@@ -7,6 +7,7 @@ const isAuthenticated: NonNullable<CollectionConfig["access"]>["read"] = ({
 export const PayloadUsers: CollectionConfig = {
   slug: "cms-users",
   admin: {
+    group: "Administration",
     useAsTitle: "email",
   },
   auth: true,

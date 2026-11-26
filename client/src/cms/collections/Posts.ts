@@ -7,6 +7,7 @@ export const Posts: CollectionConfig = {
   slug: "posts",
   labels: { singular: "Article link", plural: "Article links" },
   admin: {
+    group: "Content",
     defaultColumns: ["title", "author", "publishedAt", "updatedAt"],
     useAsTitle: "title",
   },

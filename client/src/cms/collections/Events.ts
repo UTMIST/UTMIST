@@ -11,6 +11,7 @@ import {
 export const Events: CollectionConfig = {
   slug: "events",
   admin: {
+    group: "Events",
     defaultColumns: ["title", "kind", "startsAt", "dateLabel", "updatedAt"],
     useAsTitle: "title",
   },

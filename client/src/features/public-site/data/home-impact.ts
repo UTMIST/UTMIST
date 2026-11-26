@@ -1,7 +1,7 @@
+import { homePageContent } from "@/features/public-site/data/home-page";
 import { z } from "zod";
 
 import { contentSectionSchema, statisticSchema } from "@/shared/lib";
-import { homeImpactContentData } from "@/features/public-site/data/home-impact-content";
 
 export const homeImpactDefinition = {
   key: "home-impact",
@@ -10,4 +10,5 @@ export const homeImpactDefinition = {
 
 export type HomeImpactContent = z.infer<typeof homeImpactDefinition.schema>;
 
-export const homeImpactContent: HomeImpactContent = homeImpactContentData;
+/** Static content also used by the legacy homepage and explicit offline examples. */
+export const homeImpactContent: HomeImpactContent = homeImpactDefinition.schema.parse(homePageContent.impact);

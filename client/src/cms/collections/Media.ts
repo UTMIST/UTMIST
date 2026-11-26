@@ -6,6 +6,7 @@ import { validatePublicAsset } from "../fields.ts";
 export const Media: CollectionConfig = {
   slug: "media",
   admin: {
+    group: "Website",
     defaultColumns: ["title", "kind", "source", "updatedAt"],
     useAsTitle: "title",
   },
