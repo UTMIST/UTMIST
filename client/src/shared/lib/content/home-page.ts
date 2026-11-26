@@ -20,13 +20,14 @@ function linkSchema(normalize: (value: string) => string | null) {
 const href = linkSchema(normalizeContentLink);
 const recordHref = linkSchema(normalizePublishedRecordLink);
 const link = z.object({ label: text, href });
+const rowID = z.string().nullish();
 const intro = { eyebrow: text, heading: text, description: text };
 const hero = z.object({ blockType: z.literal("hero"), ...intro, links: z.array(link).min(1) });
 const about = z.object({ blockType: z.literal("about"), ...intro, cta: link, imageAlt: text, caption: text });
 const impact = z.object({
   blockType: z.literal("impact"), heading: text,
   description: z.string().nullish().transform(value => value || undefined),
-  statistics: z.array(statisticSchema).min(1),
+  statistics: z.array(statisticSchema.extend({ id: rowID })).min(1),
 });
 const mission = z.object({ blockType: z.literal("mission"), ...intro, cta: link });
 const sponsorCopy = z.object({ blockType: z.literal("sponsors"), ...intro, cta: link });
@@ -43,22 +44,23 @@ const eventCopy = z.object({
   blockType: z.literal("events"), ...intro, communityStatement: text, listHeading: text,
 });
 const eventPlacement = z.object({
+  id: rowID,
   category: text,
   artwork: z.enum(["eigenai", "cucai", "ai2", "genai-genesis"]),
   imageAlt: z.string().nullish().transform(value => value ?? ""),
 });
 const events = eventCopy.extend({
   items: z.array(eventPlacement.extend({
-    id: z.string().nullish(), title: text, description: text, href: recordHref,
+    title: text, description: text, href: recordHref,
   })),
 });
 const startups = z.object({
   blockType: z.literal("startups"), ...intro, cta: link,
-  benefits: z.array(z.object({ title: text, description: text })).min(1),
+  benefits: z.array(z.object({ id: rowID, title: text, description: text })).min(1),
 });
 const faq = z.object({
   blockType: z.literal("faq"), eyebrow: text, heading: text,
-  items: z.array(z.object({ question: text, answer: text })).min(1),
+  items: z.array(z.object({ id: rowID, question: text, answer: text })).min(1),
 });
 
 export const homeSectionTypes = ["hero", "about", "impact", "mission", "sponsors", "events", "startups", "faq"] as const;
@@ -145,11 +147,11 @@ export function withHomeRelationships(document: unknown, partners: unknown[]) {
         const items = placements.flatMap(({ event, ...placement }) => {
           const record = publishedEvent.safeParse(event);
           if (!record.success) return [];
-          const { id, title, summary, destinationUrl, registrationUrl } = record.data;
+          const { title, summary, destinationUrl, registrationUrl } = record.data;
           const destination = recordHref.safeParse(destinationUrl);
           const link = destination.success ? destination : recordHref.safeParse(registrationUrl);
           if (!link.success) return [];
-          return [{ ...placement, id: String(id), title, description: summary, href: link.data }];
+          return [{ ...placement, title, description: summary, href: link.data }];
         });
         return { ...section, items };
       }

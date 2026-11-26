@@ -122,6 +122,23 @@ it("uses published event fields and omits unavailable event relationships", asyn
   expect(events.items.map(item => item.title)).toEqual(["Edited event", "AI Squared", "GenAI"]);
 });
 
+it("retains distinct placement IDs for cards linked to the same event", async () => {
+  const card = homePageContent.events.items[0];
+  const event = {
+    id: 1, _status: "published", title: card.title,
+    summary: card.description, destinationUrl: card.href,
+  };
+  const page = {
+    sections: cmsHome.sections.map(section => section.blockType === "events"
+      ? { ...section, items: ["placement-a", "placement-b"].map(id => ({ ...card, id, event })) }
+      : section),
+  };
+  mockFind.mockResolvedValueOnce({ docs: [page] });
+
+  const { events } = await readHomePage();
+  expect(events.items.map(({ id }) => id)).toEqual(["placement-a", "placement-b"]);
+});
+
 it("normalizes a published event's destination or registration link", async () => {
   const page = {
     sections: document.sections.map(section => section.blockType === "events"

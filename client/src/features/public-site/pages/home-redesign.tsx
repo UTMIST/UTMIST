@@ -39,8 +39,8 @@ export default async function RedesignedHome() {
             </div>
           </div>
           <dl className="home-hero-statistics mx-auto grid w-full max-w-[640px] grid-cols-3 gap-4 lg:col-start-1 lg:row-start-1 lg:max-w-none lg:grid-cols-1 lg:gap-7 lg:self-end">
-            {impact.statistics.slice(0, 3).map((stat) => (
-              <div key={stat.description} className="home-stat-marker relative flex flex-col items-center text-center lg:max-w-[190px] lg:items-start lg:pl-6 lg:text-left">
+            {impact.statistics.slice(0, 3).map((stat, index) => (
+              <div key={stat.id ?? index} className="home-stat-marker relative flex flex-col items-center text-center lg:max-w-[190px] lg:items-start lg:pl-6 lg:text-left">
                 <dt className="home-caption order-2 mt-2">{stat.description}</dt>
                 <dd className="home-stat-number text-[clamp(2rem,3.2vw,3rem)] leading-none tracking-[-0.06em]">{stat.number}</dd>
               </div>
@@ -106,15 +106,20 @@ export default async function RedesignedHome() {
           <PillLink href={startups.cta.href}>{startups.cta.label}</PillLink>
         </SectionIntro>
         <div data-home-stagger="row" className="grid grid-cols-1 gap-x-6 gap-y-9 min-[375px]:grid-cols-2">
-          {startups.benefits.map(({title, description}) => <div data-home-reveal key={title} className="border-t border-border pt-5"><h3 className="home-card-heading">{title}</h3><p className="home-body mt-3">{description}</p></div>)}
+          {startups.benefits.map(({ id, title, description }, index) => (
+            <div data-home-reveal key={id ?? index} className="border-t border-border pt-5">
+              <h3 className="home-card-heading">{title}</h3>
+              <p className="home-body mt-3">{description}</p>
+            </div>
+          ))}
         </div>
       </Section>
 
       <Section aria-labelledby="faq-heading" contentClassName="grid gap-8 md:grid-cols-[1fr_1.5fr] md:gap-16">
         <SectionIntro data-home-reveal headingId="faq-heading" label={faq.eyebrow} title={faq.heading} />
         <div>
-          {faq.items.map(({ question, answer }) => (
-            <details data-home-reveal key={question} className="group border-b border-border first:border-t">
+          {faq.items.map(({ id, question, answer }, index) => (
+            <details data-home-reveal key={id ?? index} className="group border-b border-border first:border-t">
               <summary className="home-faq-question flex min-h-16 cursor-pointer list-none items-start justify-between gap-5 py-5"><span>{question}</span><span aria-hidden="true" className="text-2xl leading-5 text-secondary group-open:rotate-45">+</span></summary>
               <p className="home-body pb-5 pr-7">{answer}</p>
             </details>
