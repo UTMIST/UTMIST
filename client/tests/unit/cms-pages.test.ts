@@ -52,6 +52,17 @@ describe("page content permissions", () => {
   });
 });
 
+it.each(["introduction", "faq", "featuredEvents", "partners", "metadata"])(
+  "shows the generic %s field on other templates and uses the Home sections on Home",
+  (name) => {
+    const field = Pages.fields.find(field => "name" in field && field.name === name);
+    const condition = field?.admin?.condition;
+    const context = { user: null, operation: "update" as const, path: [name], blockData: {} };
+    expect(condition?.({}, { template: "home" }, context)).toBe(false);
+    expect(condition?.({}, { template: "events" }, context)).toBe(true);
+  },
+);
+
 describe("content links", () => {
   it.each(["/careers", "/events#upcoming", "https://example.com/event?a=1", "mailto:editor@example.com"])("accepts %s", (href) => {
     expect(validateContentLink(href)).toBe(true);

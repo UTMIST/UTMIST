@@ -1,4 +1,4 @@
-import type { CollectionConfig } from "payload";
+import type { CollectionConfig, Condition } from "payload";
 
 import { homePagePublishSchema } from "../../shared/lib/content/home-page.ts";
 import { isCmsEditor, publishedOrCmsEditor } from "../access.ts";
@@ -18,6 +18,8 @@ const pageTemplates = [
   "eigenai",
   "ml-fundamentals",
 ].map((value) => ({ label: value, value }));
+
+const otherTemplates: Condition = (_, siblingData) => siblingData.template !== "home";
 
 export const Pages: CollectionConfig = {
   slug: "pages",
@@ -89,6 +91,7 @@ export const Pages: CollectionConfig = {
     },
     {
       name: "introduction",
+      admin: { condition: otherTemplates },
       type: "group",
       fields: [
         { name: "heading", type: "text", required: true },
@@ -97,6 +100,7 @@ export const Pages: CollectionConfig = {
     },
     {
       name: "faq",
+      admin: { condition: otherTemplates },
       type: "array",
       fields: [
         { name: "question", type: "text", required: true },
@@ -105,36 +109,42 @@ export const Pages: CollectionConfig = {
     },
     {
       name: "featuredEvents",
+      admin: { condition: otherTemplates },
       type: "relationship",
       relationTo: "events",
       hasMany: true,
     },
     {
       name: "featuredProjects",
+      admin: { condition: otherTemplates },
       type: "relationship",
       relationTo: "projects",
       hasMany: true,
     },
     {
       name: "featuredPosts",
+      admin: { condition: otherTemplates },
       type: "relationship",
       relationTo: "posts",
       hasMany: true,
     },
     {
       name: "careerListings",
+      admin: { condition: otherTemplates },
       type: "relationship",
       relationTo: "careers",
       hasMany: true,
     },
     {
       name: "startupListings",
+      admin: { condition: otherTemplates },
       type: "relationship",
       relationTo: "startups",
       hasMany: true,
     },
     {
       name: "partners",
+      admin: { condition: otherTemplates },
       type: "array",
       fields: [
         {
@@ -166,6 +176,7 @@ export const Pages: CollectionConfig = {
     },
     {
       name: "people",
+      admin: { condition: otherTemplates },
       type: "array",
       fields: [
         {
@@ -179,6 +190,7 @@ export const Pages: CollectionConfig = {
     },
     {
       name: "metadata",
+      admin: { condition: otherTemplates },
       type: "group",
       fields: [
         { name: "title", type: "text" },

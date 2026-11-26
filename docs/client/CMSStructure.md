@@ -88,7 +88,6 @@ Pages → Home
   Events and Community
   Startups
   FAQ
-  Search and sharing metadata
 ```
 
 ### Example: sponsor content
